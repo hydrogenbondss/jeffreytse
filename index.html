@@ -543,6 +543,7 @@
         const PABEPABE_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg";
         const TURBO_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg";
 
+        // UPDATED: Added Feature World as 4th hero video
         const HERO_VIDEOS = [
             {
                 url: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4",
@@ -570,13 +571,26 @@
             {
                 url: CHARACTER_VIDEO,
                 poster: CHARACTER_THUMB,
-                title: "Ash-01",  // CHANGED: Ash to Ash-01
+                title: "Ash-01",
                 subtitle: "Neural Portrait", 
                 category: "Character Design",
                 year: "2026",
                 description: "AI-driven character animation and design exploration",
                 id: "character",
                 isClient: false
+            },
+            // NEW: Feature World as 4th video
+            {
+                url: "FeatureWorldChaosVid.mp4",
+                poster: "FeatureWorldThumbnail.jpg",
+                title: "Feature World",
+                subtitle: "Interactive Chaos Engine",
+                category: "Creative Coding",
+                year: "2026",
+                description: "Physics-based particle chaos experiment with mouse interaction",
+                id: "featureworld",
+                isClient: false,
+                isPersonal: true
             }
         ];
 
@@ -587,11 +601,10 @@
         const MARKGONG_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/markgong.jpg";
         const CARHARTT_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg";
         const BAPE_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/bape-fw24-shanghai-runway-iteshop-top-dt.jpg";
-        const PROFILE_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Gemini_Generated_Image_ngfteingfteingft.jpg";
+        const PROFILE_IMAGE = "JeffreyProfile.jpg";
         const BLOKECORE_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/football-fashion-jersey-iteshop-men-top-dt.jpg";
         const HEART_DECODER_IMAGE = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80";
         const EARTH_HOUR_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg";
-        const FEATURE_WORLD_IMAGE = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80";
         const PANDA_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg";
         const GIANT_PANDA_IMAGE = "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=800&q=80";
         const HALLOWEEN_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ocean-park-halloween-fest-hk.jpg";
@@ -599,7 +612,7 @@
         const allProjects = [
             {
                 title: "Flute Soft Bag",
-                headline: "Flute Soft Bag", // Added headline
+                headline: "Flute Soft Bag",
                 category: "AI Creative Direction / Generative Design",
                 filterCategory: "tech",
                 year: "2026",
@@ -627,8 +640,8 @@
                 isPersonal: true
             },
             {
-                title: "Ash-01", // CHANGED
-                headline: "Ash-01", // CHANGED
+                title: "Ash-01",
+                headline: "Ash-01",
                 category: "Character Design / AI Motion",
                 filterCategory: "tech",
                 year: "2026",
@@ -638,6 +651,22 @@
                 image: CHARACTER_THUMB,
                 video: CHARACTER_VIDEO,
                 isVideo: true,
+                isPersonal: true
+            },
+            // UPDATED: Feature World with local files and link to interactive version
+            {
+                title: "Feature World",
+                headline: "Feature World",
+                category: "Creative Coding / Interactive",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Interactive physics sandbox with chaotic particle systems",
+                fullDescription: "An immersive web experience exploring random chaos through physics-based particle interactions. Move your mouse to disturb the particles, click to create explosions. Built with vanilla JavaScript and HTML5 Canvas.",
+                role: "Creative Developer",
+                image: "FeatureWorldThumbnail.jpg",
+                video: "FeatureWorldChaosVid.mp4",
+                isVideo: true,
+                link: "FeatureWorldChaos.html",
                 isPersonal: true
             },
             {
@@ -652,20 +681,6 @@
                 image: HEART_DECODER_IMAGE,
                 link: "https://hydrogenbondss.github.io/heart-decoder/",
                 github: "https://github.com/hydrogenbondss/heart-decoder",
-                isPersonal: true
-            },
-            {
-                title: "Feature World",
-                headline: "Feature World",
-                category: "Creative Coding / Interactive",
-                filterCategory: "tech",
-                year: "2026",
-                description: "Interactive chaos experiment with randomized effects",
-                fullDescription: "An immersive web experience exploring 'random chaos' through staggered animations and unpredictable interactions. Built with React, Framer Motion, and custom CSS animations.",
-                role: "Creative Developer",
-                image: FEATURE_WORLD_IMAGE,
-                link: "https://hydrogenbondss.github.io/feature-world/",
-                github: "https://github.com/hydrogenbondss/feature-world",
                 isPersonal: true
             },
             {
@@ -996,7 +1011,7 @@
             return isInView;
         }
 
-        // UPDATED: Project Card with prominent headline
+        // UPDATED: Project Card with fixed headline colors for visibility
         const ProjectCard = memo(({ project, index, onSelect, darkMode }) => {
             const ref = useRef(null);
             const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -1053,21 +1068,21 @@
                     </div>
                     
                     <div>
-                        {/* HEADLINE - Now prominent */}
-                        <h3 className={`font-display text-2xl font-bold mb-1 group-hover:opacity-70 transition-opacity ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        {/* HEADLINE - Fixed: Black for light mode, white for dark mode */}
+                        <h3 className="font-display text-2xl font-bold mb-1 group-hover:opacity-70 transition-opacity text-black dark:text-white">
                             {project.headline || project.title}
                         </h3>
                         
                         {/* SUBHEADS - Category and Year */}
                         <div className="flex items-center gap-2 mb-2 flex-wrap">
-                            <span className={`text-xs font-medium uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            <span className="text-xs font-medium uppercase tracking-wider text-gray-600 dark:text-gray-400">
                                 {project.category}
                             </span>
                             <span className="text-xs text-gray-400">•</span>
-                            <span className="text-xs text-gray-400">{project.year}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-500">{project.year}</span>
                         </div>
                         
-                        <p className={`text-sm line-clamp-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className="text-sm line-clamp-2 text-gray-700 dark:text-gray-400">
                             {project.description}
                         </p>
                     </div>
@@ -1172,34 +1187,42 @@
 
             return (
                 <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
-                    {/* Navigation - UPDATED with JT and Available status */}
+                    {/* Navigation - UPDATED: JT/Available on far left, JEFFREY TSE centered */}
                     <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <a href="#" className="font-display text-xl font-bold tracking-tight">JT</a>
-                                {/* AVAILABLE FOR WORK - Top Left */}
-                                <div className="hidden md:flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-3">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
+                            {/* FAR LEFT: JT | Available for work */}
+                            <div className="flex items-center gap-3 flex-shrink-0">
+                                <a href="#" className="font-display text-xl font-bold tracking-tight dark:text-white">JT</a>
+                                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-3">
                                     <span className="status-dot"></span>
-                                    <span>Available for work</span>
+                                    <span className="hidden sm:inline">Available for work</span>
+                                    <span className="sm:hidden">Available</span>
                                 </div>
                             </div>
                             
-                            {/* Desktop Nav */}
-                            <nav className="hidden md:flex items-center gap-8">
-                                <button onClick={() => scrollToSection('selected-works')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Selected Works</button>
-                                <button onClick={() => scrollToSection('services')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Services</button>
-                                <button onClick={() => scrollToSection('about')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">About</button>
-                                <button onClick={() => scrollToSection('contact')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Contact</button>
+                            {/* CENTER: JEFFREY TSE (All Caps) */}
+                            <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:block">
+                                <span className="font-display text-lg font-bold tracking-[0.2em] text-gray-900 dark:text-white">
+                                    JEFFREY TSE
+                                </span>
+                            </div>
+                            
+                            {/* RIGHT: Navigation */}
+                            <nav className="hidden md:flex items-center gap-8 flex-shrink-0">
+                                <button onClick={() => scrollToSection('selected-works')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Selected Works</button>
+                                <button onClick={() => scrollToSection('services')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Services</button>
+                                <button onClick={() => scrollToSection('about')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">About</button>
+                                <button onClick={() => scrollToSection('contact')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Contact</button>
                                 <button 
                                     onClick={() => setDarkMode(!darkMode)}
                                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                 >
-                                    {darkMode ? <i data-lucide="sun" className="w-4 h-4"></i> : <i data-lucide="moon" className="w-4 h-4"></i>}
+                                    {darkMode ? <i data-lucide="sun" className="w-4 h-4 text-gray-300"></i> : <i data-lucide="moon" className="w-4 h-4 text-gray-700"></i>}
                                 </button>
                             </nav>
 
-                            {/* Hamburger */}
-                            <div className="md:hidden flex items-center gap-4">
+                            {/* Mobile: Hamburger */}
+                            <div className="md:hidden flex items-center gap-4 flex-shrink-0">
                                 <button 
                                     onClick={() => setDarkMode(!darkMode)}
                                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -1234,7 +1257,7 @@
                         </p>
                     </div>
 
-                    {/* Hero Grid - REMOVED the awkward center name overlay */}
+                    {/* Hero Grid - UPDATED with 4 videos including Feature World */}
                     <section className="relative bg-black text-white">
                         <div className="grid-hero-container">
                             {HERO_VIDEOS.map((video, index) => (
@@ -1274,7 +1297,7 @@
                     <section id="selected-works" className="sticky top-16 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                             <div className="flex items-center justify-between">
-                                <h2 className="font-display text-lg font-bold hidden md:block">Selected Works</h2>
+                                <h2 className="font-display text-lg font-bold hidden md:block text-gray-900 dark:text-white">Selected Works</h2>
                                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
                                     {[
                                         { id: 'all', label: 'All Work' },
@@ -1317,7 +1340,7 @@
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="grid md:grid-cols-2 gap-12 items-start">
                                 <div>
-                                    <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">Services</h2>
+                                    <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">Services</h2>
                                     <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                                         Combining editorial rigor with cutting-edge AI tools to deliver content that resonates. 
                                         From brand campaigns to interactive experiences.
@@ -1329,14 +1352,14 @@
                                                 <span className="font-display text-2xl font-bold text-gray-300 dark:text-gray-700 group-hover:text-gray-400 transition-colors">
                                                     0{index + 1}
                                                 </span>
-                                                <span className="text-lg font-medium">{role}</span>
+                                                <span className="text-lg font-medium text-gray-900 dark:text-white">{role}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                                 
                                 <div className="space-y-6">
-                                    <h3 className="font-display text-xl font-bold mb-4">Software Stack</h3>
+                                    <h3 className="font-display text-xl font-bold mb-4 text-gray-900 dark:text-white">Software Stack</h3>
                                     <div className="flex flex-wrap gap-2">
                                         {capabilities.software.map((tool) => (
                                             <span 
@@ -1349,7 +1372,7 @@
                                     </div>
                                     
                                     <div className="mt-8 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                                        <h4 className="font-display text-lg font-bold mb-2">Current Focus</h4>
+                                        <h4 className="font-display text-lg font-bold mb-2 text-gray-900 dark:text-white">Current Focus</h4>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                             Available for freelance projects and collaborations. 
                                             Currently exploring AI-driven character design and generative workflows 
@@ -1390,7 +1413,7 @@
                                     </div>
                                 </div>
                                 <div className="md:col-span-2 space-y-6">
-                                    <h2 className="font-display text-4xl font-bold">About</h2>
+                                    <h2 className="font-display text-4xl font-bold text-gray-900 dark:text-white">About</h2>
                                     <div className="prose dark:prose-invert max-w-none">
                                         <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
                                             Former Chief Editor at I.T Apparels, now operating at the intersection of 
@@ -1407,11 +1430,11 @@
                                     
                                     <div className="grid grid-cols-2 gap-4 pt-6">
                                         <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900">
-                                            <div className="font-display text-3xl font-bold mb-1">6+</div>
+                                            <div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">6+</div>
                                             <div className="text-sm text-gray-600 dark:text-gray-400">Years in Fashion Media</div>
                                         </div>
                                         <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900">
-                                            <div className="font-display text-3xl font-bold mb-1">50+</div>
+                                            <div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">50+</div>
                                             <div className="text-sm text-gray-600 dark:text-gray-400">Brand Campaigns</div>
                                         </div>
                                     </div>
@@ -1423,7 +1446,7 @@
                     {/* Contact Section */}
                     <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900/20 border-t border-gray-200 dark:border-gray-800">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                            <h2 className="font-display text-4xl md:text-6xl font-bold mb-6">Let's work together</h2>
+                            <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">Let's work together</h2>
                             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
                                 Open to freelance projects, brand collaborations, and creative partnerships.
                             </p>
@@ -1435,7 +1458,6 @@
                                 <i data-lucide="arrow-right" className="w-4 h-4"></i>
                             </a>
                             
-                            {/* REMOVED LinkedIn from here */}
                             <div className="mt-12 flex justify-center gap-6">
                                 <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
                                     <i data-lucide="github" className="w-6 h-6"></i>
@@ -1608,7 +1630,7 @@
 
                                                 <div className="mb-6">
                                                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{selectedProject.year}</p>
-                                                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-2">{selectedProject.headline || selectedProject.title}</h2>
+                                                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-white">{selectedProject.headline || selectedProject.title}</h2>
                                                     <p className="text-lg text-gray-600 dark:text-gray-400">{selectedProject.category}</p>
                                                 </div>
 
