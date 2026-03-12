@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Jeffrey Tse | Content Strategy, Creative Production & Character Design | Hong Kong</title>
+    <meta name="description" content="Jeffrey Tse - Former Chief Editor at I.T Apparels specializing in Content Strategy, Creative Production, Character Design, and AI-powered creative workflows.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        @keyframes scrollLine {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            50.1% { transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        .scroll-line { animation: scrollLine 2s ease-in-out infinite; }
+
+        /* Desktop Hero - Vertical split */
+        .grid-hero-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            padding-top: 5rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: flex 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 15;
+            flex: 1;
+            background: #111;
+        }
+        
+        .grid-item video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        
+        .grid-item:hover video { transform: scale(1.05); }
+        
+        .grid-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        
+        .grid-item:hover .overlay { opacity: 0.85; }
+        
+        .grid-item .content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: 20;
+        }
+        
+        .grid-item:hover { flex: 2.5; }
+        .grid-container:has(.grid-item:hover) .grid-item:not(:hover) { flex: 0.7; }
+
+        @media (min-width: 769px) {
+            .grid-item .content-text {
+                transform: translateY(20px);
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+            }
+            .grid-item:hover .content-text {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .grid-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 4rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.15);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        /* Mobile Hero - Horizontal scroll */
+        @media (max-width: 768px) {
+            .grid-hero-container {
+                flex-direction: row;
+                height: 60vh;
+                min-height: 400px;
+                padding: 0;
+                padding-top: 5rem;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                gap: 0.5rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            
+            .grid-hero-container::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .grid-item {
+                flex: 0 0 85vw !important;
+                height: 100%;
+                border-radius: 0.75rem;
+                scroll-snap-align: center;
+            }
+            
+            .grid-item:hover { flex: 0 0 85vw !important; }
+            .grid-item:not(:hover) { flex: 0 0 85vw !important; }
+            
+            .grid-item .content {
+                padding: 1.5rem;
+                background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+            }
+            
+            .grid-item .content-text {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .grid-item .content-text p.description {
+                display: none;
+            }
+            
+            .grid-number {
+                font-size: 2.5rem;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .mobile-hero-header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 6rem 1rem 2rem;
+                text-align: center;
+                color: white;
+                background: black;
+            }
+            
+            .mobile-hero-header h1 {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 2.5rem;
+                font-weight: 700;
+                line-height: 1;
+                margin-bottom: 0.5rem;
+            }
+            
+            .mobile-hero-header .subtitle {
+                font-size: 0.9rem;
+                opacity: 0.9;
+                margin: 0;
+                font-weight: 500;
+                padding: 0 1rem;
+            }
+            
+            .mobile-hero-header .subsubtitle {
+                font-size: 0.8rem;
+                opacity: 0.6;
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* Video Loading States */
+        .video-skeleton {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .video-poster {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+        
+        .video-poster.loaded {
+            opacity: 0;
+        }
+
+        .modal-media-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+            min-height: 300px;
+        }
+        
+        .modal-media-container iframe,
+        .modal-media-container video,
+        .modal-media-container img {
+            max-height: 80vh;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        @media (max-width: 768px) {
+            .modal-media-container iframe,
+            .modal-media-container video,
+            .modal-media-container img {
+                max-height: 50vh;
+                width: 100%;
+            }
+        }
+
+        .media-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 20;
+            background: rgba(0,0,0,0.6);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+        }
+        
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            padding: 0;
+        }
+        
+        .carousel-dot.active { background: white; width: 24px; border-radius: 4px; }
+        
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            z-index: 20;
+        }
+        
+        .carousel-arrow:hover { background: rgba(255,255,255,0.25); }
+        .carousel-arrow.prev { left: 1rem; }
+        .carousel-arrow.next { right: 1rem; }
+        
+        @media (max-width: 768px) {
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            .carousel-arrow.prev { left: 0.5rem; }
+            .carousel-arrow.next { right: 0.5rem; }
+        }
+        
+        .instagram-embed {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .capabilities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        
+        .capability-card {
+            border: 1px solid;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .software-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+
+        .spec-badge, .client-badge, .editorial-badge, .personal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .client-badge { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .personal-badge { background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .editorial-badge { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
+        
+        img, video { -webkit-user-drag: none; user-drag: none; }
+        
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .filter-btn.active { background: black; color: white; }
+        .dark .filter-btn.active { background: white; color: black; }
+        .dark .filter-btn:not(.active) { border-color: #374151; color: #9ca3af; }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            padding: 6rem 2rem 2rem;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .mobile-menu .filter-section {
+            margin-top: 2rem;
+        }
+        
+        .mobile-menu .filter-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-menu .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .mobile-menu .filter-btn-mobile {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            background: transparent;
+        }
+        
+        .mobile-menu .filter-btn-mobile.active {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+        
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 60;
+            padding: 5px;
+        }
+        
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+        }
+        
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        @media (min-width: 769px) {
+            .hamburger, .mobile-menu {
+                display: none;
+            }
+        }
+
+        /* Performance optimizations */
+        .will-change-transform {
+            will-change: transform;
+        }
+        
+        .gpu-accelerated {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 dark:bg-black dark:text-white transition-colors duration-300">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, memo } = React;
+        const { motion, AnimatePresence } = window.Motion;
+
+        // Assets
+        const CHARACTER_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg";
+        const CHARACTER_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4";
+        const PABEPABE_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg";
+        const TURBO_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg";
+
+        const HERO_VIDEOS = [
+            {
+                url: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4",
+                poster: PABEPABE_THUMB,
+                title: "Flute Soft Bag",
+                subtitle: "Generative Product Design",
+                category: "AI Creative Direction",
+                year: "2026",
+                description: "Material morphing exploration for luxury accessories",
+                id: "pabepabe",
+                isClient: true,
+                clientName: "PabePabe"
+            },
+            {
+                url: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4",
+                poster: TURBO_THUMB,
+                title: "Turbo-MG21",
+                subtitle: "Futuristic Eyewear Concept",
+                category: "AI Motion Design",
+                year: "2026",
+                description: "Speculative luxury eyewear visualization",
+                id: "turbo",
+                isClient: false
+            },
+            {
+                url: CHARACTER_VIDEO,
+                poster: CHARACTER_THUMB,
+                title: "Ash-01",  // CHANGED: Ash to Ash-01
+                subtitle: "Neural Portrait", 
+                category: "Character Design",
+                year: "2026",
+                description: "AI-driven character animation and design exploration",
+                id: "character",
+                isClient: false
+            }
+        ];
+
+        // Other images
+        const MTR_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg";
+        const DARK_GOTH_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/DarkGoth.jpg";
+        const DOUBLET_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Doublet.jpg";
+        const MARKGONG_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/markgong.jpg";
+        const CARHARTT_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg";
+        const BAPE_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/bape-fw24-shanghai-runway-iteshop-top-dt.jpg";
+        const PROFILE_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Gemini_Generated_Image_ngfteingfteingft.jpg";
+        const BLOKECORE_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/football-fashion-jersey-iteshop-men-top-dt.jpg";
+        const HEART_DECODER_IMAGE = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80";
+        const EARTH_HOUR_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg";
+        const FEATURE_WORLD_IMAGE = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80";
+        const PANDA_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg";
+        const GIANT_PANDA_IMAGE = "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=800&q=80";
+        const HALLOWEEN_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ocean-park-halloween-fest-hk.jpg";
+
+        const allProjects = [
+            {
+                title: "Flute Soft Bag",
+                headline: "Flute Soft Bag", // Added headline
+                category: "AI Creative Direction / Generative Design",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Material morphing exploration for luxury accessories",
+                fullDescription: "Client project exploring material morphing concepts where leather transforms into organic florals. Created using Midjourney v6, Runway, and Photoshop Generative Fill workflows for luxury product visualization.",
+                role: "AI Art Director",
+                image: PABEPABE_THUMB,
+                video: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4",
+                isVideo: true,
+                isClient: true,
+                clientName: "PabePabe"
+            },
+            {
+                title: "Turbo-MG21",
+                headline: "Turbo-MG21",
+                category: "AI Motion Design",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Futuristic luxury eyewear concept visualization",
+                fullDescription: "Personal exploration showcasing AI-driven motion design for luxury accessories. Testing generative video workflows and product cinematography techniques.",
+                role: "AI Motion Designer",
+                image: TURBO_THUMB,
+                video: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4",
+                isVideo: true,
+                isPersonal: true
+            },
+            {
+                title: "Ash-01", // CHANGED
+                headline: "Ash-01", // CHANGED
+                category: "Character Design / AI Motion",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Neural Portrait — AI-driven character study",
+                fullDescription: "Personal project exploring AI-driven character design and animation. Meet Ash-01 — a digital character study testing the boundaries of generative tools for fashion-oriented character creation and storytelling.",
+                role: "Character Designer & AI Director",
+                image: CHARACTER_THUMB,
+                video: CHARACTER_VIDEO,
+                isVideo: true,
+                isPersonal: true
+            },
+            {
+                title: "Heart Decoder",
+                headline: "Heart Decoder",
+                category: "Web Application / Creative Coding",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Interactive relationship assessment tool built with React",
+                fullDescription: "Built an interactive web application that analyzes relationship compatibility through a series of psychological questions. Features React-based state management, Framer Motion animations, and dynamic result generation.",
+                role: "Developer & Designer",
+                image: HEART_DECODER_IMAGE,
+                link: "https://hydrogenbondss.github.io/heart-decoder/",
+                github: "https://github.com/hydrogenbondss/heart-decoder",
+                isPersonal: true
+            },
+            {
+                title: "Feature World",
+                headline: "Feature World",
+                category: "Creative Coding / Interactive",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Interactive chaos experiment with randomized effects",
+                fullDescription: "An immersive web experience exploring 'random chaos' through staggered animations and unpredictable interactions. Built with React, Framer Motion, and custom CSS animations.",
+                role: "Creative Developer",
+                image: FEATURE_WORLD_IMAGE,
+                link: "https://hydrogenbondss.github.io/feature-world/",
+                github: "https://github.com/hydrogenbondss/feature-world",
+                isPersonal: true
+            },
+            {
+                title: "Markgong Fall Winter 2025",
+                headline: "Markgong FW25",
+                category: "Fashion Editorial / NYFW",
+                filterCategory: "fashion",
+                year: "2025",
+                description: "New York Fashion Week runway report and designer interview",
+                fullDescription: "On-the-ground coverage of Markgong's Fall Winter 2025 collection at New York Fashion Week. Interviewed designer backstage and analyzed collection themes.",
+                role: "Fashion Editor",
+                image: MARKGONG_IMAGE,
+                link: "https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",
+                isEditorial: true,
+                imageFit: 'contain'
+            },
+            {
+                title: "Doublet: Masayuki Ino",
+                headline: "Doublet",
+                category: "Fashion Editorial / Interview",
+                filterCategory: "fashion",
+                year: "2025",
+                description: "LVMH Prize winner feature and designer interview",
+                fullDescription: "Exclusive interview with Masayuki Ino of Doublet, following his LVMH Prize win. Discussed Japanese avant-garde techniques and building a global brand from Tokyo.",
+                role: "Interviewer & Fashion Editor",
+                image: DOUBLET_IMAGE,
+                link: "https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",
+                isEditorial: true,
+                imageFit: 'contain'
+            },
+            {
+                title: "Earth Hour 2025",
+                headline: "Earth Hour",
+                category: "Social Campaign / Environmental",
+                filterCategory: "corporate",
+                year: "2025",
+                description: "Samsung x WWF — Give an Hour for Earth campaign copy",
+                fullDescription: "Developed bilingual copy for Samsung Hong Kong's Earth Hour 2025 partnership with WWF. Campaign focused on environmental awareness and conservation messaging.",
+                role: "Copywriter",
+                image: EARTH_HOUR_IMAGE,
+                link: "https://www.linkedin.com/company/samsung-hongkong-macau/posts/?feedView=all&viewAsMember=true",
+                isClient: true,
+                clientName: "Samsung"
+            },
+            {
+                title: "Giant Pandas Campaign",
+                headline: "Giant Pandas",
+                category: "Social Media / Content Strategy",
+                filterCategory: "corporate",
+                year: "2024-2025",
+                sortYear: 2024.5,
+                description: "Ocean Park — Content series for the new Giant Panda arrivals",
+                fullDescription: "Developed content strategy and copy for Ocean Park's Giant Panda arrival campaign, featuring the three new pandas An An, Ke Ke, and Lam Lam. Created engaging social narratives to promote conservation awareness.",
+                role: "Content Strategist & Copywriter",
+                image: GIANT_PANDA_IMAGE,
+                hasMediaCarousel: true,
+                link: "https://www.instagram.com/oceanparkhk/",
+                mediaItems: [
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DE1rhieMWPD/', title: 'An An Arrival' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DE61bNmJFmp/', title: 'Ke Ke Feature' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DFFPKs1voUP/', title: 'Lam Lam Introduction' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DFU2U0SOBHb/', title: 'Panda Update' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DEpGSNQPRPq/', title: 'Behind the Scenes' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DEMw3c3teNu/', title: 'Panda Facts' }
+                ],
+                isClient: true,
+                clientName: "Ocean Park"
+            },
+            {
+                title: "Ocean Park Halloween Fest 2024",
+                headline: "Halloween Fest",
+                category: "Social Campaign / Event",
+                filterCategory: "corporate",
+                year: "2024",
+                description: "Full funnel social campaign for annual Halloween event",
+                fullDescription: "Comprehensive social media campaign for Ocean Park's Halloween Fest 2024, covering character introductions, event highlights, haunted house promotions, and guest experience content.",
+                role: "Social Content Strategist",
+                image: HALLOWEEN_IMAGE,
+                hasMediaCarousel: true,
+                link: "https://www.oceanpark.com.hk/en/park-experience/halloween-fest-2024",
+                imageFit: 'contain',
+                mediaItems: [
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DBtGyTlKg5r/', title: 'Event Kickoff' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DBqlPThhgN8/', title: 'Haunted House' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DBp4rN9iOki/', title: 'Character Feature' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DBiw0-Mv49i/', title: 'Night Atmosphere' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DBYZgdRqFZq/', title: 'Ticket Promo' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DA2YxwssDtK/', title: 'Coming Soon' }
+                ],
+                isClient: true,
+                clientName: "Ocean Park"
+            },
+            {
+                title: "Panda Tourism Campaign",
+                headline: "Panda Tourism",
+                category: "Copywriting / Web",
+                filterCategory: "corporate",
+                year: "2024",
+                description: "Hong Kong Tourism Board — Official panda arrival landing page",
+                fullDescription: "Developed web copy and content strategy for HKTB's official Giant Panda campaign landing page on Discover Hong Kong, promoting Hong Kong as a panda tourism destination.",
+                role: "Copywriter",
+                image: PANDA_IMAGE,
+                link: "https://www.discoverhongkong.com/eng/what-s-new/panda.html",
+                relatedLinks: [
+                    { title: "Campaign Website", url: "https://www.discoverhongkong.com/eng/what-s-new/panda.html" },
+                    { title: "Facebook Video", url: "https://www.facebook.com/DiscoverHongKong/videos/9479861648702562/" }
+                ],
+                isClient: true,
+                clientName: "HKTB"
+            },
+            {
+                title: "SmartThings meets AI Home",
+                headline: "SmartThings AI",
+                category: "Copywriting / Commercial",
+                filterCategory: "tech",
+                year: "2024",
+                description: "Samsung — AI smart home campaign with Instagram stories",
+                fullDescription: "Developed core messaging and copy for Samsung's AI Home ecosystem launch. Focused on translating complex smart home technology into accessible lifestyle benefits.",
+                role: "Copywriter & Content Strategist",
+                image: "https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg",
+                video: "https://www.youtube.com/embed/OXCMEMajyuM",
+                isVideo: true,
+                hasMediaCarousel: true,
+                link: "https://www.youtube.com/watch?v=OXCMEMajyuM",
+                mediaItems: [
+                    { type: 'youtube', url: 'https://www.youtube.com/embed/OXCMEMajyuM', title: 'Main Commercial', thumbnail: 'https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DKJeTmNpLBE/', title: 'Launch Post' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DKJePcZJue5/', title: 'Stories 1' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DKJeIOhJJ2d/', title: 'Stories 2' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DKJeDZdJjlD/', title: 'Stories 3' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DKJd0AYJxZ-/', title: 'Stories 4' },
+                    { type: 'instagram', url: 'https://www.instagram.com/p/DKJdnlXpmu5/', title: 'Stories 5' }
+                ],
+                isClient: true,
+                clientName: "Samsung"
+            },
+            {
+                title: "MTR 45th Anniversary",
+                headline: "MTR 45th",
+                category: "Social Campaign",
+                filterCategory: "corporate",
+                year: "2024",
+                description: "Legacy celebration campaign with girl group Yolica",
+                fullDescription: "Strategic content direction for MTR's 45th anniversary campaign featuring Yolica. Developed narrative connecting Hong Kong's transit history with contemporary culture.",
+                role: "Content Strategy",
+                image: MTR_IMAGE,
+                link: "https://www.marketing-interactive.com/mtr-taps-girl-group-yolica-to-celebrate-45-year-legacy",
+                imageFit: 'contain',
+                isClient: true,
+                clientName: "MTR"
+            },
+            {
+                title: "Carhartt WIP: Subi Subez Yeti",
+                headline: "Carhartt WIP",
+                category: "Fashion Editorial / Interview",
+                filterCategory: "fashion",
+                year: "2024",
+                description: "Artist interview on collaborative project",
+                fullDescription: "In-depth profile of artist Subi Subez Yeti and their collaboration with Carhartt WIP. Explored intersection of street art and workwear heritage in Hong Kong context.",
+                role: "Interviewer & Fashion Editor",
+                image: CARHARTT_IMAGE,
+                link: "https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",
+                isEditorial: true,
+                imageFit: 'contain'
+            },
+            {
+                title: "A BATHING APE® FW24 Runway",
+                headline: "BAPE FW24",
+                category: "Fashion Editorial / Runway",
+                filterCategory: "fashion",
+                year: "2024",
+                description: "Runway coverage and collection analysis",
+                fullDescription: "Comprehensive review of A BATHING APE®'s FW24 runway presentation, analyzing return to archival camo patterns and street luxury silhouettes.",
+                role: "Fashion Editor",
+                image: BAPE_IMAGE,
+                link: "https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",
+                isEditorial: true,
+                imageFit: 'contain'
+            },
+            {
+                title: "Rise of Blokecore",
+                headline: "Rise of Blokecore",
+                category: "Fashion Editorial / Trend Analysis",
+                filterCategory: "fashion",
+                year: "2024",
+                description: "Football jersey fashion movement analysis",
+                fullDescription: "Cultural analysis of the blokecore trend — the intersection of vintage football kits and high fashion. Traced evolution from UK terraces to Hong Kong street style.",
+                role: "Editor & Art Director",
+                image: BLOKECORE_IMAGE,
+                link: "https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",
+                isEditorial: true,
+                imageFit: 'contain'
+            },
+            {
+                title: "Gothic Dark Fashion SS24",
+                headline: "Gothic Dark",
+                category: "Fashion Editorial / Trend Report",
+                filterCategory: "fashion",
+                year: "2024",
+                description: "Spring/Summer 2024 dark aesthetic movement",
+                fullDescription: "Deep dive into the gothic resurgence for Spring/Summer 2024, analyzing how dark romanticism intersected with streetwear and high fashion.",
+                role: "Fashion Editor",
+                image: DARK_GOTH_IMAGE,
+                link: "https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",
+                isEditorial: true,
+                imageFit: 'contain'
+            },
+            {
+                title: "China Mobile 5G E-Sports Cup",
+                headline: "China Mobile 5G",
+                category: "Tech / Corporate",
+                filterCategory: "tech",
+                year: "2021",
+                description: "UTV Live platform launch & gaming tournament",
+                fullDescription: "Press release and launch strategy for China Mobile Hong Kong's UTV Live streaming platform debut at ACGHK 2021.",
+                role: "Press Release Writer & Content Strategist",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+                link: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/china-mobile-full.jpg",
+                isClient: true,
+                clientName: "China Mobile"
+            },
+            {
+                title: "The Offender Behind the Lens",
+                headline: "The Offender",
+                category: "Academic Writing",
+                filterCategory: "corporate",
+                year: "2018",
+                description: "Published symposium paper on photography ethics",
+                fullDescription: "Undergraduate symposium paper examining the ethical legacy of lynching photography. Presented at UBC Undergraduate Journal of Art History 14th Annual Symposium.",
+                role: "Author & Researcher",
+                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80",
+                link: "https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/",
+                isPersonal: true
+            }
+        ];
+
+        const capabilities = {
+            roles: [
+                "Content Strategy",
+                "Creative Production",
+                "Character Design",
+                "Fashion Editor",
+                "Art Direction",
+                "Copywriting",
+                "Brand Collaborations",
+                "AI Creative Direction"
+            ],
+            software: [
+                "Canva Pro",
+                "CapCut Pro",
+                "Midjourney",
+                "ChatGPT / Claude",
+                "ElevenLabs",
+                "Pictory",
+                "Runway ML",
+                "Figma",
+                "VS Code",
+                "GitHub"
+            ]
+        };
+
+        const clients = ["Samsung", "MTR", "Ocean Park", "China Mobile", "HKTB", "I.T Apparels", "PabePabe"];
+
+        // Optimized Video Component with poster image and lazy loading
+        const LazyVideo = memo(({ src, poster, className }) => {
+            const [isLoaded, setIsLoaded] = useState(false);
+            const [isInView, setIsInView] = useState(false);
+            const containerRef = useRef(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsInView(true);
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.1, rootMargin: '50px' });
+                
+                if (containerRef.current) observer.observe(containerRef.current);
+                return () => observer.disconnect();
+            }, []);
+
+            return (
+                <div ref={containerRef} className={`relative ${className}`}>
+                    {!isLoaded && (
+                        <div className="video-skeleton">
+                            <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+                        </div>
+                    )}
+                    
+                    <img 
+                        src={poster} 
+                        alt="Loading"
+                        className={`video-poster ${isLoaded ? 'loaded' : ''}`}
+                    />
+                    
+                    {isInView && (
+                        <video 
+                            src={src}
+                            autoPlay 
+                            muted 
+                            loop 
+                            playsInline
+                            poster={poster}
+                            onLoadedData={() => setIsLoaded(true)}
+                            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                            style={{ willChange: 'transform' }}
+                        />
+                    )}
+                </div>
+            );
+        });
+
+        function useInView(ref, options = {}) {
+            const [isInView, setIsInView] = useState(false);
+            
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsInView(true);
+                        if (options.once !== false) observer.disconnect();
+                    }
+                }, { threshold: 0.1, ...options });
+                
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, [ref, options.once]);
+            
+            return isInView;
+        }
+
+        // UPDATED: Project Card with prominent headline
+        const ProjectCard = memo(({ project, index, onSelect, darkMode }) => {
+            const ref = useRef(null);
+            const isInView = useInView(ref, { once: true, margin: "-50px" });
+            
+            return (
+                <motion.article 
+                    ref={ref}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
+                    className="group cursor-pointer"
+                    onClick={() => onSelect(project)}
+                >
+                    <div className="aspect-[4/3] overflow-hidden rounded-lg mb-4 relative bg-gray-100 dark:bg-gray-800">
+                        {project.isClient && (
+                            <div className="absolute top-3 left-3 z-10">
+                                <span className="client-badge text-xs">
+                                    <i data-lucide="briefcase" className="w-3 h-3"></i>
+                                    {project.clientName}
+                                </span>
+                            </div>
+                        )}
+                        {project.isPersonal && (
+                            <div className="absolute top-3 left-3 z-10">
+                                <span className="personal-badge text-xs">
+                                    <i data-lucide="user" className="w-3 h-3"></i>
+                                    Personal
+                                </span>
+                            </div>
+                        )}
+                        {project.isEditorial && (
+                            <div className="absolute top-3 left-3 z-10">
+                                <span className="editorial-badge text-xs">
+                                    <i data-lucide="pen-tool" className="w-3 h-3"></i>
+                                    Editorial
+                                </span>
+                            </div>
+                        )}
+                        
+                        <img 
+                            src={project.image} 
+                            alt={project.title}
+                            loading="lazy"
+                            className={`w-full h-full ${project.imageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'} transition-transform duration-500 group-hover:scale-105`}
+                            style={{ opacity: isInView ? 1 : 0, transition: 'opacity 0.3s' }}
+                        />
+                        
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                            <span className="text-white font-medium flex items-center gap-2 text-sm">
+                                {project.video ? 'Watch' : project.hasMediaCarousel ? 'Gallery' : 'View'} 
+                                <i data-lucide="arrow-right" className="w-4 h-4"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        {/* HEADLINE - Now prominent */}
+                        <h3 className={`font-display text-2xl font-bold mb-1 group-hover:opacity-70 transition-opacity ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                            {project.headline || project.title}
+                        </h3>
+                        
+                        {/* SUBHEADS - Category and Year */}
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <span className={`text-xs font-medium uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                {project.category}
+                            </span>
+                            <span className="text-xs text-gray-400">•</span>
+                            <span className="text-xs text-gray-400">{project.year}</span>
+                        </div>
+                        
+                        <p className={`text-sm line-clamp-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {project.description}
+                        </p>
+                    </div>
+                </motion.article>
+            );
+        });
+
+        const MobileMenu = ({ isOpen, onClose, darkMode, setDarkMode, filter, setFilter }) => {
+            if (!isOpen) return null;
+            
+            return (
+                <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
+                    <a href="#selected-works" onClick={onClose}>Selected Works</a>
+                    <a href="#services" onClick={onClose}>Services</a>
+                    <a href="#about" onClick={onClose}>About</a>
+                    <a href="#contact" onClick={onClose}>Contact</a>
+                    
+                    <div className="filter-section">
+                        <div className="filter-title">Filter Works</div>
+                        <div className="filter-buttons">
+                            {[
+                                { id: 'all', label: 'All' },
+                                { id: 'fashion', label: 'Fashion' },
+                                { id: 'tech', label: 'Tech / AI' },
+                                { id: 'corporate', label: 'Corporate' }
+                            ].map((btn) => (
+                                <button
+                                    key={btn.id}
+                                    onClick={() => {
+                                        setFilter(btn.id);
+                                        onClose();
+                                    }}
+                                    className={`filter-btn-mobile ${filter === btn.id ? 'active' : ''}`}
+                                >
+                                    {btn.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <button 
+                        onClick={() => setDarkMode(!darkMode)}
+                        className="mt-auto flex items-center gap-3 text-white py-4 border-t border-white/10"
+                    >
+                        {darkMode ? <i data-lucide="sun" className="w-5 h-5"></i> : <i data-lucide="moon" className="w-5 h-5"></i>}
+                        {darkMode ? 'Light Mode' : 'Dark Mode'}
+                    </button>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [darkMode, setDarkMode] = useState(true);
+            const [filter, setFilter] = useState('all');
+            const [selectedProject, setSelectedProject] = useState(null);
+            const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [filter, selectedProject, mobileMenuOpen]);
+
+            useEffect(() => {
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape') {
+                        setSelectedProject(null);
+                        setCurrentMediaIndex(0);
+                    }
+                };
+                window.addEventListener('keydown', handleEscape);
+                return () => window.removeEventListener('keydown', handleEscape);
+            }, []);
+
+            const filteredProjects = filter === 'all' 
+                ? allProjects 
+                : allProjects.filter(p => p.filterCategory === filter);
+
+            const sortedProjects = [...filteredProjects].sort((a, b) => {
+                const yearA = a.sortYear || parseFloat(a.year);
+                const yearB = b.sortYear || parseFloat(b.year);
+                return yearB - yearA;
+            });
+
+            const nextMedia = () => {
+                if (selectedProject?.mediaItems) {
+                    setCurrentMediaIndex((prev) => (prev + 1) % selectedProject.mediaItems.length);
+                }
+            };
+
+            const prevMedia = () => {
+                if (selectedProject?.mediaItems) {
+                    setCurrentMediaIndex((prev) => (prev - 1 + selectedProject.mediaItems.length) % selectedProject.mediaItems.length);
+                }
+            };
+
+            const scrollToSection = (id) => {
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                setMobileMenuOpen(false);
+            };
+
+            return (
+                <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
+                    {/* Navigation - UPDATED with JT and Available status */}
+                    <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <a href="#" className="font-display text-xl font-bold tracking-tight">JT</a>
+                                {/* AVAILABLE FOR WORK - Top Left */}
+                                <div className="hidden md:flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-3">
+                                    <span className="status-dot"></span>
+                                    <span>Available for work</span>
+                                </div>
+                            </div>
+                            
+                            {/* Desktop Nav */}
+                            <nav className="hidden md:flex items-center gap-8">
+                                <button onClick={() => scrollToSection('selected-works')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Selected Works</button>
+                                <button onClick={() => scrollToSection('services')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Services</button>
+                                <button onClick={() => scrollToSection('about')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">About</button>
+                                <button onClick={() => scrollToSection('contact')} className="text-sm font-medium hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Contact</button>
+                                <button 
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                >
+                                    {darkMode ? <i data-lucide="sun" className="w-4 h-4"></i> : <i data-lucide="moon" className="w-4 h-4"></i>}
+                                </button>
+                            </nav>
+
+                            {/* Hamburger */}
+                            <div className="md:hidden flex items-center gap-4">
+                                <button 
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                >
+                                    {darkMode ? <i data-lucide="sun" className="w-4 h-4"></i> : <i data-lucide="moon" className="w-4 h-4"></i>}
+                                </button>
+                                <div className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <MobileMenu 
+                        isOpen={mobileMenuOpen} 
+                        onClose={() => setMobileMenuOpen(false)}
+                        darkMode={darkMode}
+                        setDarkMode={setDarkMode}
+                        filter={filter}
+                        setFilter={setFilter}
+                    />
+
+                    {/* Mobile Hero Header */}
+                    <div className="mobile-hero-header md:hidden">
+                        <h1>Jeffrey Tse</h1>
+                        <p className="subtitle">Content Strategy, Creative Production & Character Design</p>
+                        <p className="subsubtitle flex items-center justify-center gap-2">
+                            <span className="status-dot"></span>
+                            Available for work
+                        </p>
+                    </div>
+
+                    {/* Hero Grid - REMOVED the awkward center name overlay */}
+                    <section className="relative bg-black text-white">
+                        <div className="grid-hero-container">
+                            {HERO_VIDEOS.map((video, index) => (
+                                <div 
+                                    key={video.id}
+                                    className="grid-item group"
+                                    onClick={() => {
+                                        const project = allProjects.find(p => p.id === video.id);
+                                        if (project) setSelectedProject(project);
+                                    }}
+                                >
+                                    <span className="grid-number">0{index + 1}</span>
+                                    <div className="overlay"></div>
+                                    <LazyVideo 
+                                        src={video.url} 
+                                        poster={video.poster}
+                                        className="w-full h-full"
+                                    />
+                                    <div className="content">
+                                        <div className="content-text">
+                                            <div className="flex items-center gap-2 mb-2 text-xs font-medium tracking-wider text-gray-300 uppercase">
+                                                <span>{video.category}</span>
+                                                <span>•</span>
+                                                <span>{video.year}</span>
+                                            </div>
+                                            <h2 className="font-display text-2xl md:text-3xl font-bold mb-1">{video.title}</h2>
+                                            <p className="text-sm text-gray-300 font-medium mb-2">{video.subtitle}</p>
+                                            <p className="description text-sm text-gray-400 line-clamp-2 hidden md:block">{video.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Filter Bar */}
+                    <section id="selected-works" className="sticky top-16 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                            <div className="flex items-center justify-between">
+                                <h2 className="font-display text-lg font-bold hidden md:block">Selected Works</h2>
+                                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
+                                    {[
+                                        { id: 'all', label: 'All Work' },
+                                        { id: 'fashion', label: 'Fashion' },
+                                        { id: 'tech', label: 'Tech / AI' },
+                                        { id: 'corporate', label: 'Corporate' }
+                                    ].map((btn) => (
+                                        <button
+                                            key={btn.id}
+                                            onClick={() => setFilter(btn.id)}
+                                            className={`filter-btn whitespace-nowrap ${filter === btn.id ? 'active' : ''} ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-gray-600'}`}
+                                        >
+                                            {btn.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Projects Grid */}
+                    <section className="py-12 md:py-20 bg-white dark:bg-black">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {sortedProjects.map((project, index) => (
+                                    <ProjectCard 
+                                        key={project.title}
+                                        project={project}
+                                        index={index}
+                                        onSelect={setSelectedProject}
+                                        darkMode={darkMode}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Services Section */}
+                    <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900/20 border-t border-gray-200 dark:border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="grid md:grid-cols-2 gap-12 items-start">
+                                <div>
+                                    <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">Services</h2>
+                                    <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                                        Combining editorial rigor with cutting-edge AI tools to deliver content that resonates. 
+                                        From brand campaigns to interactive experiences.
+                                    </p>
+                                    
+                                    <div className="space-y-4 mb-12">
+                                        {capabilities.roles.map((role, index) => (
+                                            <div key={role} className="flex items-center gap-4 group">
+                                                <span className="font-display text-2xl font-bold text-gray-300 dark:text-gray-700 group-hover:text-gray-400 transition-colors">
+                                                    0{index + 1}
+                                                </span>
+                                                <span className="text-lg font-medium">{role}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                
+                                <div className="space-y-6">
+                                    <h3 className="font-display text-xl font-bold mb-4">Software Stack</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {capabilities.software.map((tool) => (
+                                            <span 
+                                                key={tool}
+                                                className={`software-tag ${darkMode ? 'bg-gray-800 text-gray-300 border border-gray-700' : 'bg-gray-200 text-gray-700'}`}
+                                            >
+                                                {tool}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    
+                                    <div className="mt-8 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                                        <h4 className="font-display text-lg font-bold mb-2">Current Focus</h4>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            Available for freelance projects and collaborations. 
+                                            Currently exploring AI-driven character design and generative workflows 
+                                            for fashion and product visualization.
+                                        </p>
+                                        <div className="mt-4 flex items-center gap-2 text-sm">
+                                            <span className="status-dot"></span>
+                                            <span className="text-green-600 dark:text-green-400 font-medium">Accepting new projects</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Clients Marquee */}
+                    <section className="py-12 bg-black text-white overflow-hidden border-y border-gray-800">
+                        <div className="flex animate-marquee whitespace-nowrap">
+                            {[...clients, ...clients, ...clients].map((client, index) => (
+                                <span key={index} className="mx-8 font-display text-2xl font-bold text-gray-500 hover:text-white transition-colors cursor-default">
+                                    {client}
+                                </span>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="py-20 bg-white dark:bg-black">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="grid md:grid-cols-3 gap-12">
+                                <div className="md:col-span-1">
+                                    <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 sticky top-24">
+                                        <img 
+                                            src={PROFILE_IMAGE} 
+                                            alt="Jeffrey Tse"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="md:col-span-2 space-y-6">
+                                    <h2 className="font-display text-4xl font-bold">About</h2>
+                                    <div className="prose dark:prose-invert max-w-none">
+                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+                                            Former Chief Editor at I.T Apparels, now operating at the intersection of 
+                                            content strategy and AI-powered creative production. I've led editorial teams, 
+                                            directed brand campaigns for Samsung and Ocean Park, and developed interactive 
+                                            web experiences.
+                                        </p>
+                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+                                            Currently focused on character design and generative workflows—exploring how 
+                                            AI tools can augment (not replace) human creativity in fashion and product 
+                                            visualization.
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-2 gap-4 pt-6">
+                                        <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900">
+                                            <div className="font-display text-3xl font-bold mb-1">6+</div>
+                                            <div className="text-sm text-gray-600 dark:text-gray-400">Years in Fashion Media</div>
+                                        </div>
+                                        <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900">
+                                            <div className="font-display text-3xl font-bold mb-1">50+</div>
+                                            <div className="text-sm text-gray-600 dark:text-gray-400">Brand Campaigns</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900/20 border-t border-gray-200 dark:border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h2 className="font-display text-4xl md:text-6xl font-bold mb-6">Let's work together</h2>
+                            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+                                Open to freelance projects, brand collaborations, and creative partnerships.
+                            </p>
+                            <a 
+                                href="mailto:jeffrey@example.com" 
+                                className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity"
+                            >
+                                Get in Touch
+                                <i data-lucide="arrow-right" className="w-4 h-4"></i>
+                            </a>
+                            
+                            {/* REMOVED LinkedIn from here */}
+                            <div className="mt-12 flex justify-center gap-6">
+                                <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                    <i data-lucide="github" className="w-6 h-6"></i>
+                                </a>
+                                <a href="https://www.instagram.com/hydrogenbondss/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                    <i data-lucide="instagram" className="w-6 h-6"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="py-8 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                            <p className="text-sm text-gray-500">© 2026 Jeffrey Tse. All rights reserved.</p>
+                            <p className="text-sm text-gray-500">Built with React, Tailwind & Framer Motion</p>
+                        </div>
+                    </footer>
+
+                    {/* Project Modal */}
+                    <AnimatePresence>
+                        {selectedProject && (
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm overflow-y-auto"
+                                onClick={() => {
+                                    setSelectedProject(null);
+                                    setCurrentMediaIndex(0);
+                                }}
+                            >
+                                <div className="min-h-screen md:flex md:items-center md:justify-center p-4 md:p-8">
+                                    <motion.div 
+                                        initial={{ scale: 0.9, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        exit={{ scale: 0.9, opacity: 0 }}
+                                        className="w-full max-w-6xl bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <div className="grid md:grid-cols-2">
+                                            <div className="bg-black relative min-h-[300px] md:min-h-[600px]">
+                                                {selectedProject.video && !selectedProject.hasMediaCarousel ? (
+                                                    <div className="modal-media-container">
+                                                        {selectedProject.video.includes('youtube') ? (
+                                                            <iframe 
+                                                                src={selectedProject.video} 
+                                                                title={selectedProject.title}
+                                                                className="w-full h-full"
+                                                                frameBorder="0"
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                allowFullScreen
+                                                            ></iframe>
+                                                        ) : (
+                                                            <video 
+                                                                src={selectedProject.video}
+                                                                controls
+                                                                autoPlay
+                                                                className="max-h-full max-w-full"
+                                                                poster={selectedProject.image}
+                                                            ></video>
+                                                        )}
+                                                    </div>
+                                                ) : selectedProject.hasMediaCarousel ? (
+                                                    <div className="media-carousel">
+                                                        <AnimatePresence mode="wait">
+                                                            <motion.div
+                                                                key={currentMediaIndex}
+                                                                initial={{ opacity: 0, x: 100 }}
+                                                                animate={{ opacity: 1, x: 0 }}
+                                                                exit={{ opacity: 0, x: -100 }}
+                                                                transition={{ duration: 0.3 }}
+                                                                className="carousel-slide"
+                                                            >
+                                                                {selectedProject.mediaItems[currentMediaIndex].type === 'youtube' ? (
+                                                                    <iframe 
+                                                                        src={selectedProject.mediaItems[currentMediaIndex].url}
+                                                                        title={selectedProject.mediaItems[currentMediaIndex].title}
+                                                                        className="w-full h-full rounded-lg"
+                                                                        frameBorder="0"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                        allowFullScreen
+                                                                    ></iframe>
+                                                                ) : selectedProject.mediaItems[currentMediaIndex].type === 'instagram' ? (
+                                                                    <div className="instagram-embed">
+                                                                        <i data-lucide="instagram" className="w-12 h-12 mb-4"></i>
+                                                                        <p className="font-medium mb-2">Instagram Content</p>
+                                                                        <a 
+                                                                            href={selectedProject.mediaItems[currentMediaIndex].url}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="text-sm underline hover:no-underline"
+                                                                        >
+                                                                            View on Instagram →
+                                                                        </a>
+                                                                    </div>
+                                                                ) : (
+                                                                    <img 
+                                                                        src={selectedProject.mediaItems[currentMediaIndex].url}
+                                                                        alt={selectedProject.mediaItems[currentMediaIndex].title}
+                                                                        className="max-h-full max-w-full object-contain rounded-lg"
+                                                                    />
+                                                                )}
+                                                            </motion.div>
+                                                        </AnimatePresence>
+                                                        
+                                                        {selectedProject.mediaItems.length > 1 && (
+                                                            <>
+                                                                <button className="carousel-arrow prev" onClick={prevMedia}>
+                                                                    <i data-lucide="chevron-left" className="w-6 h-6"></i>
+                                                                </button>
+                                                                <button className="carousel-arrow next" onClick={nextMedia}>
+                                                                    <i data-lucide="chevron-right" className="w-6 h-6"></i>
+                                                                </button>
+                                                                <div className="carousel-nav">
+                                                                    {selectedProject.mediaItems.map((_, idx) => (
+                                                                        <button
+                                                                            key={idx}
+                                                                            className={`carousel-dot ${idx === currentMediaIndex ? 'active' : ''}`}
+                                                                            onClick={() => setCurrentMediaIndex(idx)}
+                                                                        />
+                                                                    ))}
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="modal-media-container">
+                                                        <img 
+                                                            src={selectedProject.image} 
+                                                            alt={selectedProject.title}
+                                                            className="max-h-full max-w-full object-contain"
+                                                        />
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="p-8 md:p-12 flex flex-col">
+                                                <div className="flex items-center justify-between mb-4">
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        {selectedProject.isClient && (
+                                                            <span className="client-badge">
+                                                                <i data-lucide="briefcase" className="w-3 h-3"></i>
+                                                                {selectedProject.clientName}
+                                                            </span>
+                                                        )}
+                                                        {selectedProject.isPersonal && (
+                                                            <span className="personal-badge">
+                                                                <i data-lucide="user" className="w-3 h-3"></i>
+                                                                Personal
+                                                            </span>
+                                                        )}
+                                                        {selectedProject.isEditorial && (
+                                                            <span className="editorial-badge">
+                                                                <i data-lucide="pen-tool" className="w-3 h-3"></i>
+                                                                Editorial
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <button 
+                                                        onClick={() => {
+                                                            setSelectedProject(null);
+                                                            setCurrentMediaIndex(0);
+                                                        }}
+                                                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                                                    >
+                                                        <i data-lucide="x" className="w-6 h-6"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div className="mb-6">
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{selectedProject.year}</p>
+                                                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-2">{selectedProject.headline || selectedProject.title}</h2>
+                                                    <p className="text-lg text-gray-600 dark:text-gray-400">{selectedProject.category}</p>
+                                                </div>
+
+                                                <div className="prose dark:prose-invert max-w-none mb-8 flex-grow">
+                                                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                                                        {selectedProject.fullDescription}
+                                                    </p>
+                                                    
+                                                    {selectedProject.role && (
+                                                        <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+                                                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">Role</p>
+                                                            <p className="text-gray-600 dark:text-gray-400">{selectedProject.role}</p>
+                                                        </div>
+                                                    )}
+
+                                                    {selectedProject.relatedLinks && (
+                                                        <div className="mt-6 space-y-2">
+                                                            {selectedProject.relatedLinks.map((link) => (
+                                                                <a 
+                                                                    key={link.url}
+                                                                    href={link.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                                                                >
+                                                                    {link.title}
+                                                                    <i data-lucide="external-link" className="w-3 h-3"></i>
+                                                                </a>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                <div className="flex flex-wrap gap-3 mt-auto pt-6 border-t border-gray-200 dark:border-gray-800">
+                                                    {selectedProject.link && (
+                                                        <a 
+                                                            href={selectedProject.link}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity"
+                                                        >
+                                                            View Project
+                                                            <i data-lucide="external-link" className="w-4 h-4"></i>
+                                                        </a>
+                                                    )}
+                                                    {selectedProject.github && (
+                                                        <a 
+                                                            href={selectedProject.github}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                                        >
+                                                            <i data-lucide="github" className="w-4 h-4"></i>
+                                                            Source Code
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <style>{`
+                        @keyframes marquee {
+                            0% { transform: translateX(0); }
+                            100% { transform: translateX(-33.33%); }
+                        }
+                        .animate-marquee {
+                            animation: marquee 30s linear infinite;
+                        }
+                        .no-scrollbar::-webkit-scrollbar {
+                            display: none;
+                        }
+                        .no-scrollbar {
+                            -ms-overflow-style: none;
+                            scrollbar-width: none;
+                        }
+                    `}</style>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
