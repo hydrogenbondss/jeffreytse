@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeffrey Tse | Content Strategy, Creative Production & Character Design | Hong Kong</title>
     <meta name="description" content="Jeffrey Tse - Former Chief Editor at I.T Apparels specializing in Content Strategy, Creative Production, Character Design, and AI-powered creative workflows.">
-    
+
+    <!-- Open Graph Tags for Social Sharing -->
+    <meta property="og:title" content="Jeffrey Tse | Content Strategy & Creative Production">
+    <meta property="og:description" content="Former Chief Editor at I.T Apparels, now creating AI-powered creative experiences. Available for freelance projects.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/JeffreyProfile.jpg">
+    <meta property="og:url" content="https://hydrogenbondss.github.io/jeffreytse/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,7 +28,7 @@
             }
         }
     </script>
-    
+
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -32,7 +40,9 @@
         body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .font-display { font-family: 'Space Grotesk', sans-serif; }
         .status-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; display: inline-block; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .live-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; display: inline-block; animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; box-shadow: 0 0 8px #ef4444; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        @keyframes pulse-red { 0%, 100% { opacity: 1; box-shadow: 0 0 8px #ef4444; } 50% { opacity: .7; box-shadow: 0 0 12px #ef4444; } }
         .grid-hero-container { display: flex; height: 100vh; width: 100%; gap: 0.5rem; padding: 0.5rem; padding-top: 5rem; position: relative; z-index: 10; }
         .grid-item { position: relative; overflow: hidden; border-radius: 0.75rem; cursor: pointer; transition: flex 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 15; flex: 1; background: #111; }
         .grid-item video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
@@ -61,12 +71,16 @@
         .carousel-arrow.prev { left: 1rem; }
         .carousel-arrow.next { right: 1rem; }
         @media (max-width: 768px) { .carousel-arrow { width: 40px; height: 40px; } .carousel-arrow.prev { left: 0.5rem; } .carousel-arrow.next { right: 0.5rem; } }
-        .instagram-embed-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
+        .instagram-embed-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; position: relative; }
         .instagram-embed-container iframe { width: 100%; height: 100%; min-height: 500px; border: none; }
         @media (max-width: 768px) { .instagram-embed-container iframe { min-height: 400px; } }
+        .instagram-skeleton { position: absolute; inset: 0; background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 5; }
         .client-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
         .personal-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
         .editorial-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .back-to-top { position: fixed; bottom: 2rem; right: 2rem; width: 48px; height: 48px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; z-index: 40; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); }
+        .back-to-top:hover { background: rgba(0,0,0,1); transform: translateY(-2px); }
         img, video { -webkit-user-drag: none; user-drag: none; }
         .filter-btn { padding: 0.5rem 1.25rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; transition: all 0.3s; border: 1px solid transparent; }
         .filter-btn.active { background: black; color: white; }
@@ -105,7 +119,7 @@
             { url: FLUTE_BAG_VIDEO, poster: PABEPABE_THUMB, title: "PabePabe Trilogy", subtitle: "Material Metamorphosis", category: "AI Creative Direction", year: "2026", description: "3-part generative luxury series — 2 revealed, 1 loading...", id: "pabepabe", isClient: true, clientName: "PabePabe" },
             { url: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4", poster: TURBO_THUMB, title: "Turbo-MG21", subtitle: "Futuristic Eyewear Concept", category: "AI Motion Design", year: "2026", description: "Speculative luxury eyewear visualization", id: "turbo", isClient: false },
             { url: CHARACTER_VIDEO, poster: CHARACTER_THUMB, title: "Ash-01", subtitle: "Neural Portrait", category: "Character Design", year: "2026", description: "AI-driven character animation and design exploration", id: "character", isClient: false },
-            { url: FEATURE_WORLD_VIDEO, poster: FEATURE_WORLD_THUMB, title: "Feature World", subtitle: "Interactive Chaos Engine", category: "Creative Coding", year: "2026", description: "Physics-based particle chaos experiment with mouse interaction", id: "featureworld", isClient: false, isPersonal: true, playLink: FEATURE_WORLD_LINK }
+            { url: FEATURE_WORLD_VIDEO, poster: FEATURE_WORLD_THUMB, title: "Feature World", subtitle: "Interactive Chaos Engine", category: "Creative Coding", year: "2026", description: "Physics-based particle chaos experiment with mouse interaction", id: "featureworld", isClient: false, isPersonal: true, playLink: FEATURE_WORLD_LINK, isPlayable: true }
         ];
 
         const MTR_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg";
@@ -121,12 +135,20 @@
         const GIANT_PANDA_IMAGE = "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=800&q=80";
         const HALLOWEEN_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ocean-park-halloween-fest-hk.jpg";
 
+        const getButtonText = (project) => {
+            if (project.isPlayable || project.id === 'featureworld') return { text: 'Play Now', icon: 'play' };
+            if (project.video && !project.isVideo) return { text: 'Watch', icon: 'play' };
+            if (project.category?.toLowerCase().includes('editorial')) return { text: 'Read Article', icon: 'external-link' };
+            if (project.category?.toLowerCase().includes('web application') || project.title === 'Heart Decoder') return { text: 'Launch App', icon: 'external-link' };
+            return { text: 'View Project', icon: 'external-link' };
+        };
+
         const allProjects = [
             { title: "PabePabe: The Morphing Trilogy", category: "AI Creative Direction / Generative Design", filterCategory: "tech", year: "2026", description: "Commissioned trilogy exploring material metamorphosis for luxury accessories", fullDescription: "Client commission for PabePabe exploring AI-driven material transformations across three bag designs. A study in generative luxury where leather morphs into unexpected organic forms. Currently showcasing 2 of 3 pieces: Flute Soft Bag (organic florals) and Horn Bag (geometric growth). Ocarina Bag coming soon.", role: "AI Art Director", image: PABEPABE_THUMB, hasMediaCarousel: true, isClient: true, clientName: "PabePabe", link: "https://www.instagram.com/pabepabe/", mediaItems: [{ type: 'video', url: FLUTE_BAG_VIDEO, title: 'Part 1: Flute Soft Bag', thumbnail: PABEPABE_THUMB }, { type: 'video', url: HORN_BAG_VIDEO, title: 'Part 2: Horn Bag', thumbnail: HORN_BAG_THUMB }, { type: 'placeholder', title: 'Part 3: Ocarina Bag', thumbnail: PABEPABE_THUMB }] },
             { title: "Turbo-MG21", category: "AI Motion Design", filterCategory: "tech", year: "2026", description: "Futuristic luxury eyewear concept visualization", fullDescription: "Personal exploration showcasing AI-driven motion design for luxury accessories. Testing generative video workflows and product cinematography techniques.", role: "AI Motion Designer", image: TURBO_THUMB, video: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4", isVideo: true, isPersonal: true },
             { title: "Ash-01", category: "Character Design / AI Motion", filterCategory: "tech", year: "2026", description: "Neural Portrait — AI-driven character study", fullDescription: "Personal project exploring AI-driven character design and animation. Meet Ash-01 — a digital character study testing the boundaries of generative tools for fashion-oriented character creation and storytelling.", role: "Character Designer & AI Director", image: CHARACTER_THUMB, video: CHARACTER_VIDEO, isVideo: true, isPersonal: true },
-            { title: "Feature World", category: "Creative Coding / Interactive", filterCategory: "tech", year: "2026", description: "Interactive physics sandbox with chaotic particle systems", fullDescription: "An immersive web experience exploring random chaos through physics-based particle interactions. Move your mouse to disturb the particles, click to create explosions. Built with vanilla JavaScript and HTML5 Canvas.", role: "Creative Developer", image: FEATURE_WORLD_THUMB, video: FEATURE_WORLD_VIDEO, isVideo: true, link: FEATURE_WORLD_LINK, isPersonal: true },
-            { title: "Heart Decoder", category: "Web Application / Creative Coding", filterCategory: "tech", year: "2026", description: "Interactive relationship assessment tool built with React", fullDescription: "Built an interactive web application that analyzes relationship compatibility through a series of psychological questions. Features React-based state management, Framer Motion animations, and dynamic result generation.", role: "Developer & Designer", image: HEART_DECODER_IMAGE, link: "https://hydrogenbondss.github.io/heart-decoder/", github: "https://github.com/hydrogenbondss/heart-decoder", isPersonal: true },
+            { title: "Feature World", category: "Creative Coding / Interactive", filterCategory: "tech", year: "2026", description: "Interactive physics sandbox with chaotic particle systems", fullDescription: "An immersive web experience exploring random chaos through physics-based particle interactions. Move your mouse to disturb the particles, click to create explosions. Built with vanilla JavaScript and HTML5 Canvas.", role: "Creative Developer", image: FEATURE_WORLD_THUMB, video: FEATURE_WORLD_VIDEO, isVideo: true, link: FEATURE_WORLD_LINK, isPersonal: true, id: "featureworld", isPlayable: true },
+            { title: "Heart Decoder", category: "Web Application / Creative Coding", filterCategory: "tech", year: "2026", description: "Interactive relationship assessment tool built with React", fullDescription: "Built an interactive web application that analyzes relationship compatibility through a series of psychological questions. Features React-based state management, Framer Motion animations, and dynamic result generation.", role: "Developer & Designer", image: HEART_DECODER_IMAGE, link: "https://hydrogenbondss.github.io/heart-decoder/", github: "https://github.com/hydrogenbondss/heart-decoder", isPersonal: true, id: "heartdecoder" },
             { title: "Markgong Fall Winter 2025", category: "Fashion Editorial / NYFW", filterCategory: "fashion", year: "2025", description: "New York Fashion Week runway report and designer interview", fullDescription: "On-the-ground coverage of Markgong's Fall Winter 2025 collection at New York Fashion Week. Interviewed designer backstage and analyzed collection themes.", role: "Fashion Editor", image: MARKGONG_IMAGE, link: "https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025", isEditorial: true, imageFit: 'contain' },
             { title: "Doublet: Masayuki Ino", category: "Fashion Editorial / Interview", filterCategory: "fashion", year: "2025", description: "LVMH Prize winner feature and designer interview", fullDescription: "Exclusive interview with Masayuki Ino of Doublet, following his LVMH Prize win. Discussed Japanese avant-garde techniques and building a global brand from Tokyo.", role: "Interviewer & Fashion Editor", image: DOUBLET_IMAGE, link: "https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview", isEditorial: true, imageFit: 'contain' },
             { title: "Earth Hour 2025", category: "Social Campaign / Environmental", filterCategory: "corporate", year: "2025", description: "Samsung x WWF — Give an Hour for Earth campaign copy", fullDescription: "Developed bilingual copy for Samsung Hong Kong's Earth Hour 2025 partnership with WWF. Campaign focused on environmental awareness and conservation messaging.", role: "Copywriter", image: EARTH_HOUR_IMAGE, link: "https://www.linkedin.com/company/samsung-hongkong-macau/posts/?feedView=all&viewAsMember=true", isClient: true, clientName: "Samsung" },
@@ -178,6 +200,16 @@
             return isInView;
         }
 
+        function useScrollPosition() {
+            const [scrollY, setScrollY] = useState(0);
+            useEffect(() => {
+                const handleScroll = () => setScrollY(window.scrollY);
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+            return scrollY;
+        }
+
         const ProjectCard = memo(({ project, index, onSelect, darkMode }) => {
             const ref = useRef(null);
             const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -189,7 +221,9 @@
                         {project.isEditorial && (<div className="absolute top-3 left-3 z-10"><span className="editorial-badge text-xs"><i data-lucide="pen-tool" className="w-3 h-3"></i>Editorial</span></div>)}
                         <img src={project.image} alt={project.title} loading="lazy" className={`w-full h-full ${project.imageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'} transition-transform duration-500 group-hover:scale-105`} style={{ opacity: isInView ? 1 : 0, transition: 'opacity 0.3s' }} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                            <span className="text-white font-medium flex items-center gap-2 text-sm">{project.video ? 'Watch' : project.hasMediaCarousel ? 'Gallery' : 'View'} <i data-lucide="arrow-right" className="w-4 h-4"></i></span>
+                            <span className="text-white font-medium flex items-center gap-2 text-sm">
+                                {(() => { const btn = getButtonText(project); return <>{btn.text}<i data-lucide={btn.icon} className="w-4 h-4"></i></>; })()}
+                            </span>
                         </div>
                     </div>
                     <div>
@@ -225,13 +259,13 @@
                 </div>
             );
         };
-
-        const App = () => {
+                const App = () => {
             const [darkMode, setDarkMode] = useState(true);
             const [filter, setFilter] = useState('all');
             const [selectedProject, setSelectedProject] = useState(null);
             const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const scrollY = useScrollPosition();
             
             useEffect(() => { if (window.lucide) { window.lucide.createIcons(); } }, [filter, selectedProject, mobileMenuOpen]);
             useEffect(() => {
@@ -247,8 +281,11 @@
             const prevMedia = () => { if (selectedProject?.mediaItems) { setCurrentMediaIndex((prev) => (prev - 1 + selectedProject.mediaItems.length) % selectedProject.mediaItems.length); } };
 
             const scrollToSection = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMobileMenuOpen(false); };
+            const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
             const openFeatureWorld = () => { window.open(FEATURE_WORLD_LINK, '_blank'); };
+
+            const [igLoading, setIgLoading] = useState(true);
 
             return (
                 <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
@@ -303,12 +340,21 @@
                                     <LazyVideo src={video.url} poster={video.poster} className="w-full h-full" />
                                     <div className="content">
                                         <div className="content-text">
-                                            <div className="flex items-center gap-2 mb-2 text-xs font-medium tracking-wider text-gray-300 uppercase"><span>{video.category}</span><span>•</span><span>{video.year}</span></div>
+                                            <div className="flex items-center gap-2 mb-2 text-xs font-medium tracking-wider text-gray-300 uppercase">
+                                                <span>{video.category}</span>
+                                                <span>•</span>
+                                                <span>{video.year}</span>
+                                                {video.isPlayable && (
+                                                    <span className="flex items-center gap-1 text-red-400 font-bold">
+                                                        <span className="live-dot"></span> LIVE
+                                                    </span>
+                                                )}
+                                            </div>
                                             <h2 className="font-display text-2xl md:text-3xl font-bold mb-1">{video.title}</h2>
                                             <p className="text-sm text-gray-300 font-medium mb-2">{video.subtitle}</p>
                                             <p className="description text-sm text-gray-400 line-clamp-2 hidden md:block">{video.description}</p>
-                                            {video.id === 'featureworld' && video.playLink && (
-                                                <span className="inline-flex items-center gap-1 text-xs text-green-400 mt-2 font-medium">
+                                            {video.isPlayable && (
+                                                <span className="inline-flex items-center gap-1 text-xs text-green-400 mt-2 font-medium bg-green-400/10 px-2 py-1 rounded-full">
                                                     <i data-lucide="play" className="w-3 h-3"></i> Click to Play
                                                 </span>
                                             )}
@@ -398,7 +444,7 @@
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                             <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">Let's work together</h2>
                             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Open to freelance projects, brand collaborations, and creative partnerships.</p>
-                            <a href="mailto:jeffrey@example.com" className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity">Get in Touch<i data-lucide="arrow-right" className="w-4 h-4"></i></a>
+                            <a href="mailto:jeffreynicholast@gmail.com" className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity">Get in Touch<i data-lucide="arrow-right" className="w-4 h-4"></i></a>
                             <div className="mt-12 flex justify-center gap-6">
                                 <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"><i data-lucide="github" className="w-6 h-6"></i></a>
                                 <a href="https://www.instagram.com/hydrogenbondss/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"><i data-lucide="instagram" className="w-6 h-6"></i></a>
@@ -412,6 +458,8 @@
                             <p className="text-sm text-gray-500">Built with React, Tailwind & Framer Motion</p>
                         </div>
                     </footer>
+
+                    <button onClick={scrollToTop} className={`back-to-top ${scrollY > 500 ? 'visible' : ''}`} aria-label="Back to top"><i data-lucide="arrow-up" className="w-5 h-5"></i></button>
 
                     <AnimatePresence>
                         {selectedProject && (
@@ -432,12 +480,13 @@
                                                                     <video src={selectedProject.mediaItems[currentMediaIndex].url} controls autoPlay className="max-h-full max-w-full rounded-lg" poster={selectedProject.mediaItems[currentMediaIndex].thumbnail}></video>
                                                                 ) : selectedProject.mediaItems[currentMediaIndex].type === 'instagram' ? (
                                                                     <div className="instagram-embed-container">
-                                                                        <iframe 
-                                                                            src={`${selectedProject.mediaItems[currentMediaIndex].url}embed/`}
-                                                                            title={selectedProject.mediaItems[currentMediaIndex].title}
-                                                                            allowTransparency="true"
-                                                                            allow="encrypted-media"
-                                                                        ></iframe>
+                                                                        {igLoading && (
+                                                                            <div className="instagram-skeleton">
+                                                                                <i data-lucide="instagram" className="w-12 h-12 mb-4 animate-pulse"></i>
+                                                                                <p className="font-medium">Loading Instagram...</p>
+                                                                            </div>
+                                                                        )}
+                                                                        <iframe src={`${selectedProject.mediaItems[currentMediaIndex].url}embed/`} title={selectedProject.mediaItems[currentMediaIndex].title} allowTransparency="true" allow="encrypted-media" onLoad={() => setIgLoading(false)} style={{ opacity: igLoading ? 0 : 1, transition: 'opacity 0.3s' }}></iframe>
                                                                     </div>
                                                                 ) : selectedProject.mediaItems[currentMediaIndex].type === 'placeholder' ? (
                                                                     <div className="flex flex-col items-center justify-center text-white">
@@ -482,7 +531,11 @@
                                                     {selectedProject.relatedLinks && (<div className="mt-6 space-y-2">{selectedProject.relatedLinks.map((link) => (<a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">{link.title}<i data-lucide="external-link" className="w-3 h-3"></i></a>))}</div>)}
                                                 </div>
                                                 <div className="flex flex-wrap gap-3 mt-auto pt-6 border-t border-gray-200 dark:border-gray-800">
-                                                    {selectedProject.link && (<a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity">View Project<i data-lucide="external-link" className="w-4 h-4"></i></a>)}
+                                                    {selectedProject.link && (
+                                                        <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity">
+                                                            {(() => { const btn = getButtonText(selectedProject); return <>{btn.text}<i data-lucide={btn.icon} className="w-4 h-4\"></i></>; })()}
+                                                        </a>
+                                                    )}
                                                     {selectedProject.github && (<a href={selectedProject.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"><i data-lucide="github" className="w-4 h-4"></i>Source Code</a>)}
                                                 </div>
                                             </div>
