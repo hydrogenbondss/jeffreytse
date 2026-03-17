@@ -52,7 +52,7 @@
         .modal-media-container iframe, .modal-media-container video, .modal-media-container img { max-height: 80vh; max-width: 100%; width: auto; height: auto; object-fit: contain; }
         @media (max-width: 768px) { .modal-media-container iframe, .modal-media-container video, .modal-media-container img { max-height: 50vh; width: 100%; } }
         .media-carousel { position: relative; width: 100%; height: 100%; background: #000; overflow: hidden; }
-        .carousel-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .carousel-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0; }
         .carousel-nav { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 20; background: rgba(0,0,0,0.6); padding: 0.5rem 1rem; border-radius: 2rem; }
         .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; border: none; padding: 0; }
         .carousel-dot.active { background: white; width: 24px; border-radius: 4px; }
@@ -61,7 +61,9 @@
         .carousel-arrow.prev { left: 1rem; }
         .carousel-arrow.next { right: 1rem; }
         @media (max-width: 768px) { .carousel-arrow { width: 40px; height: 40px; } .carousel-arrow.prev { left: 0.5rem; } .carousel-arrow.next { right: 0.5rem; } }
-        .instagram-embed { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737); color: white; text-align: center; padding: 2rem; border-radius: 8px; max-width: 400px; margin: 0 auto; }
+        .instagram-embed-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
+        .instagram-embed-container iframe { width: 100%; height: 100%; min-height: 500px; border: none; }
+        @media (max-width: 768px) { .instagram-embed-container iframe { min-height: 400px; } }
         .client-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
         .personal-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
         .editorial-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
@@ -94,7 +96,7 @@
         const TURBO_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg";
         const FEATURE_WORLD_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4";
         const FEATURE_WORLD_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg";
-        const FEATURE_WORLD_LINK = "https://github.com/hydrogenbondss/portfolio-assets/blob/main/FeatureWorldChaos.html";
+        const FEATURE_WORLD_LINK = "https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html";
         const HORN_BAG_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg";
         const HORN_BAG_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4";
         const FLUTE_BAG_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4";
@@ -103,7 +105,7 @@
             { url: FLUTE_BAG_VIDEO, poster: PABEPABE_THUMB, title: "PabePabe Trilogy", subtitle: "Material Metamorphosis", category: "AI Creative Direction", year: "2026", description: "3-part generative luxury series — 2 revealed, 1 loading...", id: "pabepabe", isClient: true, clientName: "PabePabe" },
             { url: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4", poster: TURBO_THUMB, title: "Turbo-MG21", subtitle: "Futuristic Eyewear Concept", category: "AI Motion Design", year: "2026", description: "Speculative luxury eyewear visualization", id: "turbo", isClient: false },
             { url: CHARACTER_VIDEO, poster: CHARACTER_THUMB, title: "Ash-01", subtitle: "Neural Portrait", category: "Character Design", year: "2026", description: "AI-driven character animation and design exploration", id: "character", isClient: false },
-            { url: FEATURE_WORLD_VIDEO, poster: FEATURE_WORLD_THUMB, title: "Feature World", subtitle: "Interactive Chaos Engine", category: "Creative Coding", year: "2026", description: "Physics-based particle chaos experiment with mouse interaction", id: "featureworld", isClient: false, isPersonal: true }
+            { url: FEATURE_WORLD_VIDEO, poster: FEATURE_WORLD_THUMB, title: "Feature World", subtitle: "Interactive Chaos Engine", category: "Creative Coding", year: "2026", description: "Physics-based particle chaos experiment with mouse interaction", id: "featureworld", isClient: false, isPersonal: true, playLink: FEATURE_WORLD_LINK }
         ];
 
         const MTR_IMAGE = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg";
@@ -128,11 +130,11 @@
             { title: "Markgong Fall Winter 2025", category: "Fashion Editorial / NYFW", filterCategory: "fashion", year: "2025", description: "New York Fashion Week runway report and designer interview", fullDescription: "On-the-ground coverage of Markgong's Fall Winter 2025 collection at New York Fashion Week. Interviewed designer backstage and analyzed collection themes.", role: "Fashion Editor", image: MARKGONG_IMAGE, link: "https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025", isEditorial: true, imageFit: 'contain' },
             { title: "Doublet: Masayuki Ino", category: "Fashion Editorial / Interview", filterCategory: "fashion", year: "2025", description: "LVMH Prize winner feature and designer interview", fullDescription: "Exclusive interview with Masayuki Ino of Doublet, following his LVMH Prize win. Discussed Japanese avant-garde techniques and building a global brand from Tokyo.", role: "Interviewer & Fashion Editor", image: DOUBLET_IMAGE, link: "https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview", isEditorial: true, imageFit: 'contain' },
             { title: "Earth Hour 2025", category: "Social Campaign / Environmental", filterCategory: "corporate", year: "2025", description: "Samsung x WWF — Give an Hour for Earth campaign copy", fullDescription: "Developed bilingual copy for Samsung Hong Kong's Earth Hour 2025 partnership with WWF. Campaign focused on environmental awareness and conservation messaging.", role: "Copywriter", image: EARTH_HOUR_IMAGE, link: "https://www.linkedin.com/company/samsung-hongkong-macau/posts/?feedView=all&viewAsMember=true", isClient: true, clientName: "Samsung" },
-            { title: "Giant Pandas Campaign", category: "Social Media / Content Strategy", filterCategory: "corporate", year: "2024-2025", sortYear: 2024.5, description: "Ocean Park — Content series for the new Giant Panda arrivals", fullDescription: "Developed content strategy and copy for Ocean Park's Giant Panda arrival campaign, featuring the three new pandas An An, Ke Ke, and Lam Lam. Created engaging social narratives to promote conservation awareness.", role: "Content Strategist & Copywriter", image: GIANT_PANDA_IMAGE, hasMediaCarousel: true, link: "https://www.instagram.com/oceanparkhk/", mediaItems: [{ type: 'instagram', url: 'https://www.instagram.com/p/DE1rhieMWPD/', title: 'An An Arrival' }, { type: 'instagram', url: 'https://www.instagram.com/p/DE61bNmJFmp/', title: 'Ke Ke Feature' }, { type: 'instagram', url: 'https://www.instagram.com/p/DFFPKs1voUP/', title: 'Lam Lam Introduction' }, { type: 'instagram', url: 'https://www.instagram.com/p/DFU2U0SOBHb/', title: 'Panda Update' }, { type: 'instagram', url: 'https://www.instagram.com/p/DEpGSNQPRPq/', title: 'Behind the Scenes' }, { type: 'instagram', url: 'https://www.instagram.com/p/DEMw3c3teNu/', title: 'Panda Facts' }], isClient: true, clientName: "Ocean Park" },
-            { title: "Ocean Park Halloween Fest 2024", category: "Social Campaign / Event", filterCategory: "corporate", year: "2024", description: "Full funnel social campaign for annual Halloween event", fullDescription: "Comprehensive social media campaign for Ocean Park's Halloween Fest 2024, covering character introductions, event highlights, haunted house promotions, and guest experience content.", role: "Social Content Strategist", image: HALLOWEEN_IMAGE, hasMediaCarousel: true, link: "https://www.oceanpark.com.hk/en/park-experience/halloween-fest-2024", imageFit: 'contain', mediaItems: [{ type: 'instagram', url: 'https://www.instagram.com/p/DBtGyTlKg5r/', title: 'Event Kickoff' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBqlPThhgN8/', title: 'Haunted House' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBp4rN9iOki/', title: 'Character Feature' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBiw0-Mv49i/', title: 'Night Atmosphere' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBYZgdRqFZq/', title: 'Ticket Promo' }, { type: 'instagram', url: 'https://www.instagram.com/p/DA2YxwssDtK/', title: 'Coming Soon' }], isClient: true, clientName: "Ocean Park" },
-            { title: "Panda Tourism Campaign", category: "Copywriting / Web", filterCategory: "corporate", year: "2024", description: "Hong Kong Tourism Board — Official panda arrival landing page", fullDescription: "Developed web copy and content strategy for HKTB's official Giant Panda campaign landing page on Discover Hong Kong, promoting Hong Kong as a panda tourism destination.", role: "Copywriter", image: PANDA_IMAGE, link: "https://www.discoverhongkong.com/eng/what-s-new/panda.html", relatedLinks: [{ title: "Campaign Website", url: "https://www.discoverhongkong.com/eng/what-s-new/panda.html" }, { title: "Facebook Video", url: "https://www.facebook.com/DiscoverHongKong/videos/9479861648702562/" }], isClient: true, clientName: "HKTB" },
-            { title: "SmartThings meets AI Home", category: "Copywriting / Commercial", filterCategory: "tech", year: "2024", description: "Samsung — AI smart home campaign with Instagram stories", fullDescription: "Developed core messaging and copy for Samsung's AI Home ecosystem launch. Focused on translating complex smart home technology into accessible lifestyle benefits.", role: "Copywriter & Content Strategist", image: "https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg", video: "https://www.youtube.com/embed/OXCMEMajyuM", isVideo: true, hasMediaCarousel: true, link: "https://www.youtube.com/watch?v=OXCMEMajyuM", mediaItems: [{ type: 'youtube', url: 'https://www.youtube.com/embed/OXCMEMajyuM', title: 'Main Commercial', thumbnail: 'https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJeTmNpLBE/', title: 'Launch Post' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJePcZJue5/', title: 'Stories 1' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJeIOhJJ2d/', title: 'Stories 2' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJeDZdJjlD/', title: 'Stories 3' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJd0AYJxZ-/', title: 'Stories 4' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJdnlXpmu5/', title: 'Stories 5' }], isClient: true, clientName: "Samsung" },
-            { title: "MTR 45th Anniversary", category: "Social Campaign", filterCategory: "corporate", year: "2024", description: "Legacy celebration campaign with girl group Yolica", fullDescription: "Strategic content direction for MTR's 45th anniversary campaign featuring Yolica. Developed narrative connecting Hong Kong's transit history with contemporary culture.", role: "Content Strategy", image: MTR_IMAGE, link: "https://www.marketing-interactive.com/mtr-taps-girl-group-yolica-to-celebrate-45-year-legacy", imageFit: 'contain', isClient: true, clientName: "MTR" },
+            { title: "Giant Pandas Campaign", category: "Social Media / Content Strategy", filterCategory: "corporate", year: "2024-2025", sortYear: 2024.5, description: "Ocean Park — English social content for Giant Panda arrivals", fullDescription: "Created English-language social content for Ocean Park's Giant Panda arrival campaign featuring An An, Ke Ke, and Lam Lam. Focused on engaging narratives to promote conservation awareness and welcome the new residents.", role: "Social Copywriter", image: GIANT_PANDA_IMAGE, hasMediaCarousel: true, link: "https://www.instagram.com/oceanparkhk/", mediaItems: [{ type: 'instagram', url: 'https://www.instagram.com/p/DE1rhieMWPD/', title: 'An An Arrival' }, { type: 'instagram', url: 'https://www.instagram.com/p/DE61bNmJFmp/', title: 'Ke Ke Feature' }, { type: 'instagram', url: 'https://www.instagram.com/p/DFFPKs1voUP/', title: 'Lam Lam Introduction' }, { type: 'instagram', url: 'https://www.instagram.com/p/DFU2U0SOBHb/', title: 'Panda Update' }, { type: 'instagram', url: 'https://www.instagram.com/p/DEpGSNQPRPq/', title: 'Behind the Scenes' }, { type: 'instagram', url: 'https://www.instagram.com/p/DEMw3c3teNu/', title: 'Panda Facts' }], isClient: true, clientName: "Ocean Park" },
+            { title: "Ocean Park Halloween Fest 2024", category: "Social Campaign", filterCategory: "corporate", year: "2024", description: "Social content for annual Halloween event", fullDescription: "Developed English social copy for Ocean Park's Halloween Fest 2024 campaign, covering character introductions, haunted house promotions, and event highlights across social channels.", role: "Social Copywriter", image: HALLOWEEN_IMAGE, hasMediaCarousel: true, link: "https://www.oceanpark.com.hk/en/park-experience/halloween-fest-2024", imageFit: 'contain', mediaItems: [{ type: 'instagram', url: 'https://www.instagram.com/p/DBtGyTlKg5r/', title: 'Event Kickoff' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBqlPThhgN8/', title: 'Haunted House' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBp4rN9iOki/', title: 'Character Feature' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBiw0-Mv49i/', title: 'Night Atmosphere' }, { type: 'instagram', url: 'https://www.instagram.com/p/DBYZgdRqFZq/', title: 'Ticket Promo' }, { type: 'instagram', url: 'https://www.instagram.com/p/DA2YxwssDtK/', title: 'Coming Soon' }], isClient: true, clientName: "Ocean Park" },
+            { title: "Panda Tourism Campaign", category: "Copywriting / Web", filterCategory: "corporate", year: "2024", description: "Hong Kong Tourism Board — Campaign landing page copy", fullDescription: "Crafted supers and banner copy for HKTB's Giant Panda campaign landing page, supporting Hong Kong's positioning as a panda tourism destination.", role: "Copywriter", image: PANDA_IMAGE, link: "https://www.discoverhongkong.com/eng/what-s-new/panda.html", relatedLinks: [{ title: "Campaign Website", url: "https://www.discoverhongkong.com/eng/what-s-new/panda.html" }, { title: "Facebook Video", url: "https://www.facebook.com/DiscoverHongKong/videos/9479861648702562/" }], isClient: true, clientName: "HKTB" },
+            { title: "SmartThings meets AI Home", category: "Copywriting / Commercial", filterCategory: "tech", year: "2024", description: "Samsung — AI smart home campaign assets", fullDescription: "Developed English social copy and banner content for Samsung's AI Home ecosystem launch, translating smart home technology into accessible lifestyle messaging.", role: "Social Copywriter", image: "https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg", video: "https://www.youtube.com/embed/OXCMEMajyuM", isVideo: true, hasMediaCarousel: true, link: "https://www.youtube.com/watch?v=OXCMEMajyuM", mediaItems: [{ type: 'youtube', url: 'https://www.youtube.com/embed/OXCMEMajyuM', title: 'Main Commercial', thumbnail: 'https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJeTmNpLBE/', title: 'Launch Post' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJePcZJue5/', title: 'Stories 1' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJeIOhJJ2d/', title: 'Stories 2' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJeDZdJjlD/', title: 'Stories 3' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJd0AYJxZ-/', title: 'Stories 4' }, { type: 'instagram', url: 'https://www.instagram.com/p/DKJdnlXpmu5/', title: 'Stories 5' }], isClient: true, clientName: "Samsung" },
+            { title: "MTR 45th Anniversary", category: "Social Campaign", filterCategory: "corporate", year: "2024", description: "Press release for legacy celebration campaign", fullDescription: "Wrote press release for MTR's 45th anniversary campaign featuring girl group Yolica, celebrating Hong Kong's transit history and cultural connection.", role: "Press Release Writer", image: MTR_IMAGE, link: "https://www.marketing-interactive.com/mtr-taps-girl-group-yolica-to-celebrate-45-year-legacy", imageFit: 'contain', isClient: true, clientName: "MTR" },
             { title: "Carhartt WIP: Subi Subez Yeti", category: "Fashion Editorial / Interview", filterCategory: "fashion", year: "2024", description: "Artist interview on collaborative project", fullDescription: "In-depth profile of artist Subi Subez Yeti and their collaboration with Carhartt WIP. Explored intersection of street art and workwear heritage in Hong Kong context.", role: "Interviewer & Fashion Editor", image: CARHARTT_IMAGE, link: "https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview", isEditorial: true, imageFit: 'contain' },
             { title: "A BATHING APE® FW24 Runway", category: "Fashion Editorial / Runway", filterCategory: "fashion", year: "2024", description: "Runway coverage and collection analysis", fullDescription: "Comprehensive review of A BATHING APE®'s FW24 runway presentation, analyzing return to archival camo patterns and street luxury silhouettes.", role: "Fashion Editor", image: BAPE_IMAGE, link: "https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show", isEditorial: true, imageFit: 'contain' },
             { title: "Rise of Blokecore", category: "Fashion Editorial / Trend Analysis", filterCategory: "fashion", year: "2024", description: "Football jersey fashion movement analysis", fullDescription: "Cultural analysis of the blokecore trend — the intersection of vintage football kits and high fashion. Traced evolution from UK terraces to Hong Kong street style.", role: "Editor & Art Director", image: BLOKECORE_IMAGE, link: "https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion", isEditorial: true, imageFit: 'contain' },
@@ -207,9 +209,9 @@
             if (!isOpen) return null;
             return (
                 <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-                    <a href="#selected-works" onClick={onClose}>Selected Works</a>
-                    <a href="#services" onClick={onClose}>Services</a>
                     <a href="#about" onClick={onClose}>About</a>
+                    <a href="#services" onClick={onClose}>Services</a>
+                    <a href="#selected-works" onClick={onClose}>Selected Works</a>
                     <a href="#contact" onClick={onClose}>Contact</a>
                     <div className="mt-8">
                         <div className="text-gray-500 text-sm uppercase tracking-wider mb-4">Filter Works</div>
@@ -246,6 +248,8 @@
 
             const scrollToSection = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMobileMenuOpen(false); };
 
+            const openFeatureWorld = () => { window.open(FEATURE_WORLD_LINK, '_blank'); };
+
             return (
                 <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
                     <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
@@ -262,9 +266,9 @@
                                 <span className="font-display text-lg font-bold tracking-[0.2em] text-gray-900 dark:text-white">JEFFREY TSE</span>
                             </div>
                             <nav className="hidden md:flex items-center gap-8 absolute right-4 lg:right-8">
-                                <button onClick={() => scrollToSection('selected-works')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Selected Works</button>
-                                <button onClick={() => scrollToSection('services')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Services</button>
                                 <button onClick={() => scrollToSection('about')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">About</button>
+                                <button onClick={() => scrollToSection('services')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Services</button>
+                                <button onClick={() => scrollToSection('selected-works')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Selected Works</button>
                                 <button onClick={() => scrollToSection('contact')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Contact</button>
                                 <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">{darkMode ? <i data-lucide="sun" className="w-4 h-4 text-gray-300"></i> : <i data-lucide="moon" className="w-4 h-4 text-gray-700"></i>}</button>
                             </nav>
@@ -286,7 +290,14 @@
                     <section className="relative bg-black text-white">
                         <div className="grid-hero-container">
                             {HERO_VIDEOS.map((video, index) => (
-                                <div key={video.id} className="grid-item group" onClick={() => { const project = allProjects.find(p => p.id === video.id); if (project) setSelectedProject(project); }}>
+                                <div key={video.id} className="grid-item group" onClick={() => { 
+                                    if (video.id === 'featureworld' && video.playLink) {
+                                        openFeatureWorld();
+                                    } else {
+                                        const project = allProjects.find(p => p.id === video.id); 
+                                        if (project) setSelectedProject(project); 
+                                    }
+                                }}>
                                     <span className="grid-number">0{index + 1}</span>
                                     <div className="overlay"></div>
                                     <LazyVideo src={video.url} poster={video.poster} className="w-full h-full" />
@@ -296,6 +307,11 @@
                                             <h2 className="font-display text-2xl md:text-3xl font-bold mb-1">{video.title}</h2>
                                             <p className="text-sm text-gray-300 font-medium mb-2">{video.subtitle}</p>
                                             <p className="description text-sm text-gray-400 line-clamp-2 hidden md:block">{video.description}</p>
+                                            {video.id === 'featureworld' && video.playLink && (
+                                                <span className="inline-flex items-center gap-1 text-xs text-green-400 mt-2 font-medium">
+                                                    <i data-lucide="play" className="w-3 h-3"></i> Click to Play
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -303,23 +319,25 @@
                         </div>
                     </section>
 
-                    <section id="selected-works" className="sticky top-16 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                            <div className="flex items-center justify-between">
-                                <h2 className="font-display text-lg font-bold hidden md:block text-gray-900 dark:text-white">Selected Works</h2>
-                                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
-                                    {[{ id: 'all', label: 'All Work' }, { id: 'fashion', label: 'Fashion' }, { id: 'tech', label: 'Tech / AI' }, { id: 'corporate', label: 'Corporate' }].map((btn) => (
-                                        <button key={btn.id} onClick={() => setFilter(btn.id)} className={`filter-btn whitespace-nowrap ${filter === btn.id ? 'active' : ''} ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-gray-600'}`}>{btn.label}</button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="py-12 md:py-20 bg-white dark:bg-black">
+                    <section id="about" className="py-20 bg-white dark:bg-black">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {sortedProjects.map((project, index) => (<ProjectCard key={project.title} project={project} index={index} onSelect={setSelectedProject} darkMode={darkMode} />))}
+                            <div className="grid md:grid-cols-3 gap-12">
+                                <div className="md:col-span-1">
+                                    <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 sticky top-24">
+                                        <img src={PROFILE_IMAGE} alt="Jeffrey Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
+                                    </div>
+                                </div>
+                                <div className="md:col-span-2 space-y-6">
+                                    <h2 className="font-display text-4xl font-bold text-gray-900 dark:text-white">About</h2>
+                                    <div className="prose dark:prose-invert max-w-none">
+                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Former Chief Editor at I.T Apparels, now operating at the intersection of content strategy and AI-powered creative production. I've led editorial teams, assisted brand campaigns for Samsung and Ocean Park, and developed interactive web experiences.</p>
+                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Currently focused on character design and generative workflows—exploring how AI tools can augment (not replace) human creativity in fashion and product visualization.</p>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4 pt-6">
+                                        <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">6+</div><div className="text-sm text-gray-600 dark:text-gray-400">Years in Fashion Media</div></div>
+                                        <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">50+</div><div className="text-sm text-gray-600 dark:text-gray-400">Brand Campaigns</div></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -355,25 +373,23 @@
                         </div>
                     </section>
 
-                    <section id="about" className="py-20 bg-white dark:bg-black">
+                    <section id="selected-works" className="sticky top-16 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                            <div className="flex items-center justify-between">
+                                <h2 className="font-display text-lg font-bold hidden md:block text-gray-900 dark:text-white">Selected Works</h2>
+                                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
+                                    {[{ id: 'all', label: 'All Work' }, { id: 'fashion', label: 'Fashion' }, { id: 'tech', label: 'Tech / AI' }, { id: 'corporate', label: 'Corporate' }].map((btn) => (
+                                        <button key={btn.id} onClick={() => setFilter(btn.id)} className={`filter-btn whitespace-nowrap ${filter === btn.id ? 'active' : ''} ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-gray-600'}`}>{btn.label}</button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="py-12 md:py-20 bg-white dark:bg-black">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="grid md:grid-cols-3 gap-12">
-                                <div className="md:col-span-1">
-                                    <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 sticky top-24">
-                                        <img src={PROFILE_IMAGE} alt="Jeffrey Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
-                                    </div>
-                                </div>
-                                <div className="md:col-span-2 space-y-6">
-                                    <h2 className="font-display text-4xl font-bold text-gray-900 dark:text-white">About</h2>
-                                    <div className="prose dark:prose-invert max-w-none">
-                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Former Chief Editor at I.T Apparels, now operating at the intersection of content strategy and AI-powered creative production. I've led editorial teams, directed brand campaigns for Samsung and Ocean Park, and developed interactive web experiences.</p>
-                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Currently focused on character design and generative workflows—exploring how AI tools can augment (not replace) human creativity in fashion and product visualization.</p>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4 pt-6">
-                                        <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">6+</div><div className="text-sm text-gray-600 dark:text-gray-400">Years in Fashion Media</div></div>
-                                        <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">50+</div><div className="text-sm text-gray-600 dark:text-gray-400">Brand Campaigns</div></div>
-                                    </div>
-                                </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {sortedProjects.map((project, index) => (<ProjectCard key={project.title} project={project} index={index} onSelect={setSelectedProject} darkMode={darkMode} />))}
                             </div>
                         </div>
                     </section>
@@ -410,12 +426,41 @@
                                                     <div className="media-carousel">
                                                         <AnimatePresence mode="wait">
                                                             <motion.div key={currentMediaIndex} initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.3 }} className="carousel-slide">
-                                                                {selectedProject.mediaItems[currentMediaIndex].type === 'youtube' ? (<iframe src={selectedProject.mediaItems[currentMediaIndex].url} title={selectedProject.mediaItems[currentMediaIndex].title} className="w-full h-full rounded-lg" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>) : selectedProject.mediaItems[currentMediaIndex].type === 'video' ? (<video src={selectedProject.mediaItems[currentMediaIndex].url} controls autoPlay className="max-h-full max-w-full rounded-lg" poster={selectedProject.mediaItems[currentMediaIndex].thumbnail}></video>) : selectedProject.mediaItems[currentMediaIndex].type === 'instagram' ? (<div className="instagram-embed"><i data-lucide="instagram" className="w-12 h-12 mb-4"></i><p className="font-medium mb-2">{selectedProject.mediaItems[currentMediaIndex].title}</p><a href={selectedProject.mediaItems[currentMediaIndex].url} target="_blank" rel="noopener noreferrer" className="text-sm underline hover:no-underline">View on Instagram →</a></div>) : selectedProject.mediaItems[currentMediaIndex].type === 'placeholder' ? (<div className="flex flex-col items-center justify-center text-white"><i data-lucide="clock" className="w-16 h-16 mb-4 opacity-50"></i><p className="text-xl font-bold">{selectedProject.mediaItems[currentMediaIndex].title}</p><p className="text-sm opacity-70 mt-2">Coming soon</p></div>) : (<img src={selectedProject.mediaItems[currentMediaIndex].url} alt={selectedProject.mediaItems[currentMediaIndex].title} className="max-h-full max-w-full object-contain rounded-lg" />)}
+                                                                {selectedProject.mediaItems[currentMediaIndex].type === 'youtube' ? (
+                                                                    <iframe src={selectedProject.mediaItems[currentMediaIndex].url} title={selectedProject.mediaItems[currentMediaIndex].title} className="w-full h-full rounded-lg" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                                                ) : selectedProject.mediaItems[currentMediaIndex].type === 'video' ? (
+                                                                    <video src={selectedProject.mediaItems[currentMediaIndex].url} controls autoPlay className="max-h-full max-w-full rounded-lg" poster={selectedProject.mediaItems[currentMediaIndex].thumbnail}></video>
+                                                                ) : selectedProject.mediaItems[currentMediaIndex].type === 'instagram' ? (
+                                                                    <div className="instagram-embed-container">
+                                                                        <iframe 
+                                                                            src={`${selectedProject.mediaItems[currentMediaIndex].url}embed/`}
+                                                                            title={selectedProject.mediaItems[currentMediaIndex].title}
+                                                                            allowTransparency="true"
+                                                                            allow="encrypted-media"
+                                                                        ></iframe>
+                                                                    </div>
+                                                                ) : selectedProject.mediaItems[currentMediaIndex].type === 'placeholder' ? (
+                                                                    <div className="flex flex-col items-center justify-center text-white">
+                                                                        <i data-lucide="clock" className="w-16 h-16 mb-4 opacity-50"></i>
+                                                                        <p className="text-xl font-bold">{selectedProject.mediaItems[currentMediaIndex].title}</p>
+                                                                        <p className="text-sm opacity-70 mt-2">Coming soon</p>
+                                                                    </div>
+                                                                ) : (
+                                                                    <img src={selectedProject.mediaItems[currentMediaIndex].url} alt={selectedProject.mediaItems[currentMediaIndex].title} className="max-h-full max-w-full object-contain rounded-lg" />
+                                                                )}
                                                             </motion.div>
                                                         </AnimatePresence>
-                                                        {selectedProject.mediaItems.length > 1 && (<><button className="carousel-arrow prev" onClick={prevMedia}><i data-lucide="chevron-left" className="w-6 h-6"></i></button><button className="carousel-arrow next" onClick={nextMedia}><i data-lucide="chevron-right" className="w-6 h-6"></i></button><div className="carousel-nav">{selectedProject.mediaItems.map((_, idx) => (<button key={idx} className={`carousel-dot ${idx === currentMediaIndex ? 'active' : ''}`} onClick={() => setCurrentMediaIndex(idx)} />))}</div></>)}
+                                                        {selectedProject.mediaItems.length > 1 && (
+                                                            <>
+                                                                <button className="carousel-arrow prev" onClick={prevMedia}><i data-lucide="chevron-left" className="w-6 h-6"></i></button>
+                                                                <button className="carousel-arrow next" onClick={nextMedia}><i data-lucide="chevron-right" className="w-6 h-6"></i></button>
+                                                                <div className="carousel-nav">{selectedProject.mediaItems.map((_, idx) => (<button key={idx} className={`carousel-dot ${idx === currentMediaIndex ? 'active' : ''}`} onClick={() => setCurrentMediaIndex(idx)} />))}</div>
+                                                            </>
+                                                        )}
                                                     </div>
-                                                ) : (<div className="modal-media-container"><img src={selectedProject.image} alt={selectedProject.title} className="max-h-full max-w-full object-contain" /></div>)}
+                                                ) : (
+                                                    <div className="modal-media-container"><img src={selectedProject.image} alt={selectedProject.title} className="max-h-full max-w-full object-contain" /></div>
+                                                )}
                                             </div>
                                             <div className="p-8 md:p-12 flex flex-col">
                                                 <div className="flex items-center justify-between mb-4">
