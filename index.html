@@ -1,618 +1,1195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeffrey Nicholas Tse | Portfolio</title>
+    
+    <!-- Favicon - JT Logo (Black background, white text for dark mode aesthetic) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='black'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='50' fill='white'>JT</text></svg>">
+    
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Hero Section - Ocarina Bag */
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 60px;
-            pointer-events: none;
-        }
-
-        .hero-content {
-            pointer-events: auto;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 300;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
-            line-height: 1;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            opacity: 0.8;
-            max-width: 600px;
-        }
-
-        .hero-badge {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            z-index: 3;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.9rem;
-            letter-spacing: 0.05em;
-            pointer-events: auto;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            animation: bounce 2s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-10px);}
-            60% {transform: translateX(-50%) translateY(-5px);}
-        }
-
-        /* Campaigns Section */
-        .campaigns {
-            padding: 100px 60px;
-            background: #0a0a0a;
-        }
-
-        .section-header {
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            opacity: 0.6;
-            font-size: 1rem;
-        }
-
-        .campaigns-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-        }
-
-        .campaign-card {
-            position: relative;
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .campaign-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .thumbnail-wrap {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            background: #222;
-        }
-
-        .thumbnail-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .campaign-card:hover .thumbnail-wrap img {
-            transform: scale(1.05);
-        }
-
-        .play-indicator {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255,255,255,0.95);
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .campaign-card:hover .play-indicator {
-            opacity: 1;
-        }
-
-        .campaign-card h3 {
-            padding: 24px 24px 8px;
-            font-size: 1.25rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-        }
-
-        .campaign-card p {
-            padding: 0 24px 24px;
-            opacity: 0.6;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Feature World Section */
-        .feature-world {
-            padding: 100px 60px;
-            background: #111;
-            border-top: 1px solid #222;
-        }
-
-        .feature-world-card {
-            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-            border: 1px solid #333;
-            border-radius: 16px;
-            padding: 60px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .feature-world-card:hover {
-            border-color: #555;
-            transform: scale(1.02);
-        }
-
-        .feature-world-card h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .feature-world-card p {
-            opacity: 0.6;
-            margin-bottom: 2rem;
-        }
-
-        .chaos-btn {
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
             display: inline-block;
-            padding: 16px 32px;
-            background: #fff;
-            color: #000;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            transition: transform 0.2s ease;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-
-        .chaos-btn:hover {
-            transform: scale(1.05);
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
         }
-
-        /* Modals */
-        .campaign-modal {
-            display: none;
-            position: fixed;
-            top: 0;
+        
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .grid-hero-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            min-height: 100vh;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-hero-container { grid-template-columns: 1fr; min-height: auto; }
+        }
+        
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            min-height: 50vh;
+        }
+        
+        .grid-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%);
+            transition: opacity 0.3s;
+        }
+        
+        .grid-item:hover .overlay { opacity: 0.9; }
+        
+        .grid-number {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.6);
+            z-index: 10;
+        }
+        
+        .grid-item .content {
+            position: absolute;
+            bottom: 0;
             left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: 10;
+        }
+        
+        .grid-item video, .grid-item img {
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            overflow-y: auto;
-            backdrop-filter: blur(10px);
+            object-fit: cover;
+            transition: transform 0.6s ease;
         }
-
-        .modal-content {
-            max-width: 1000px;
-            margin: 60px auto;
-            padding: 40px;
-            position: relative;
+        
+        .grid-item:hover video, .grid-item:hover img { transform: scale(1.05); }
+        
+        .hamburger { cursor: pointer; display: flex; flex-direction: column; gap: 5px; }
+        .hamburger span { width: 24px; height: 2px; background: currentColor; transition: 0.3s; }
+        
+        .mobile-hero-header { padding: 100px 20px 40px; text-align: center; background: black; color: white; }
+        .mobile-hero-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .mobile-hero-header .subtitle { font-size: 1rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .mobile-hero-header .subsubtitle { font-size: 0.875rem; opacity: 0.6; }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid;
+            transition: all 0.2s;
+            white-space: nowrap;
         }
-
-        .close-modal {
-            position: fixed;
-            top: 30px;
-            right: 40px;
-            font-size: 2.5rem;
-            color: #fff;
-            cursor: pointer;
-            z-index: 1001;
-            width: 50px;
-            height: 50px;
+        
+        .filter-btn.active {
+            background: black;
+            color: white;
+            border-color: black;
+        }
+        
+        .dark .filter-btn.active {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+        
+        .modal-media-container {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            transition: background 0.3s ease;
+            padding: 2rem;
         }
-
-        .close-modal:hover {
-            background: rgba(255,255,255,0.2);
+        
+        .modal-media-container video,
+        .modal-media-container iframe {
+            max-width: 100%;
+            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
-
-        .modal-content h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 3rem;
-            letter-spacing: -0.02em;
-        }
-
-        /* Bag Showcase Gallery */
-        .bag-showcase {
-            margin-bottom: 60px;
-            padding-bottom: 60px;
-            border-bottom: 1px solid #333;
-        }
-
-        .bag-showcase:last-child {
-            border-bottom: none;
-        }
-
-        .bag-showcase h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #fff;
-        }
-
-        .bag-media {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            align-items: start;
-        }
-
-        .bag-video-wrap {
+        
+        .media-carousel {
             position: relative;
             width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .carousel-slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s;
+            z-index: 20;
+        }
+        
+        .carousel-arrow:hover { background: rgba(255,255,255,0.2); }
+        .carousel-arrow.prev { left: 1rem; }
+        .carousel-arrow.next { right: 1rem; }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 20;
+        }
+        
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .carousel-dot.active { background: white; }
+        
+        .client-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .dark .client-badge {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+        
+        .personal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: #f3e8ff;
+            color: #6b21a8;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .dark .personal-badge {
+            background: #581c87;
+            color: #d8b4fe;
+        }
+        
+        .editorial-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .dark .editorial-badge {
+            background: #14532d;
+            color: #86efac;
+        }
+        
+        .instagram-embed-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .instagram-embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .instagram-skeleton {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 30;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .dark .back-to-top {
+            background: white;
+            color: black;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .bag-showcase-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .bag-showcase-grid { grid-template-columns: 1fr; }
+        }
+        
+        .bag-video-container {
             background: #000;
-            border-radius: 8px;
+            border-radius: 0.5rem;
             overflow: hidden;
         }
-
-        .bag-video-wrap video {
-            width: 100%;
-            display: block;
-        }
-
-        .bag-still {
-            width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #222;
-        }
-
-        .bag-still img {
+        
+        .bag-still-container img {
             width: 100%;
             height: auto;
-            display: block;
+            border-radius: 0.5rem;
         }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero { height: 80vh; }
-            .hero-overlay { padding: 30px; }
-            .campaigns { padding: 60px 20px; }
-            .campaigns-grid { grid-template-columns: 1fr; }
-            .bag-media { grid-template-columns: 1fr; }
-            .modal-content { margin: 20px; padding: 20px; }
-            .close-modal { top: 20px; right: 20px; }
+        
+        .bag-divider {
+            border-bottom: 1px solid #374151;
+            margin: 2rem 0;
         }
     </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <!-- Hero Section - Clickable to Pabepabe Modal -->
-    <div class="hero" onclick="openCampaignModal('pabepabe')">
-        <video class="hero-video" autoplay muted loop playsinline 
-               poster="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg">
-            <source src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4" 
-                    type="video/mp4">
-        </video>
-        
-        <div class="hero-overlay">
-            <div class="hero-content">
-                <h1>Pabepabe</h1>
-                <p>Bag Collection — Essential, Plus, Ocarina</p>
-            </div>
-        </div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { motion, AnimatePresence } = window.Motion || { motion: 'div', AnimatePresence: ({children}) => children };
 
-        <div class="hero-badge">Available for Commissions</div>
-        
-        <div class="scroll-indicator">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <path d="M12 5v14M19 12l-7 7-7-7"/>
-            </svg>
-        </div>
-    </div>
+        // Data URLs
+        const FEATURE_WORLD_LINK = 'https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html';
+        const PROFILE_IMAGE = 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/JeffreyProfile.jpg';
 
-    <!-- Campaigns Grid -->
-    <section class="campaigns">
-        <div class="section-header">
-            <h2>Selected Work</h2>
-            <p>Campaigns & Collaborations</p>
-        </div>
-
-        <div class="campaigns-grid">
-            <!-- Pabepabe Card -->
-            <div class="campaign-card" onclick="openCampaignModal('pabepabe')">
-                <div class="thumbnail-wrap">
-                    <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg" 
-                         alt="Pabepabe Collection">
-                    <div class="play-indicator">View Collection (3)</div>
-                </div>
-                <h3>Pabepabe</h3>
-                <p>Bag Collection — Essential, Plus, Ocarina</p>
-            </div>
-
-            <!-- Samsung Card -->
-            <div class="campaign-card" onclick="openCampaignModal('samsung')">
-                <div class="thumbnail-wrap">
-                    <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.jpg" 
-                         alt="Samsung SmartThings">
-                    <div class="play-indicator">Watch Video</div>
-                </div>
-                <h3>Samsung</h3>
-                <p>SmartThings meets AI Home</p>
-            </div>
-
-            <!-- Ocean Park Card -->
-            <div class="campaign-card" onclick="openCampaignModal('oceanpark')">
-                <div class="thumbnail-wrap">
-                    <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/OceanParkHalloween.jpg" 
-                         alt="Ocean Park">
-                    <div class="play-indicator">View Campaign</div>
-                </div>
-                <h3>Ocean Park</h3>
-                <p>Halloween Fest 2024</p>
-            </div>
-
-            <!-- HKTB Card -->
-            <div class="campaign-card" onclick="openCampaignModal('hktb')">
-                <div class="thumbnail-wrap">
-                    <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/HKTBPanda.jpg" 
-                         alt="HKTB Panda Tourism">
-                    <div class="play-indicator">View Campaign</div>
-                </div>
-                <h3>HKTB</h3>
-                <p>Panda Tourism Campaign</p>
-            </div>
-
-            <!-- MTR Card -->
-            <div class="campaign-card" onclick="openCampaignModal('mtr')">
-                <div class="thumbnail-wrap">
-                    <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg" 
-                         alt="MTR 45th Anniversary">
-                    <div class="play-indicator">View Campaign</div>
-                </div>
-                <h3>MTR</h3>
-                <p>45th Anniversary</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Feature World Section (Separate - goes to its own page) -->
-    <section class="feature-world">
-        <div class="section-header">
-            <h2>Experiments</h2>
-            <p>Interactive & Generative Works</p>
-        </div>
-        
-        <div class="feature-world-card" onclick="window.location.href='https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html'">
-            <h3>Feature World</h3>
-            <p>An interactive chaos experiment — Click to enter the unexpected</p>
-            <span class="chaos-btn">Enter Feature World</span>
-        </div>
-    </section>
-
-    <!-- Pabepabe Modal with All 3 Bags -->
-    <div id="modal-pabepabe" class="campaign-modal" onclick="closeModalOnBackground(event, 'pabepabe')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeCampaignModal('pabepabe')">&times;</span>
-            <h2>Pabepabe Collection</h2>
-
-            <!-- Bag 1: Essential -->
-            <div class="bag-showcase">
-                <h3>Essential</h3>
-                <div class="bag-media">
-                    <div class="bag-video-wrap">
-                        <video controls poster="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg">
-                            <source src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential_VIDEO_FINAL.mp4" 
-                                    type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="bag-still">
-                        <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg" 
-                             alt="Essential Bag">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bag 2: Plus (Flute) -->
-            <div class="bag-showcase">
-                <h3>Plus (Flute)</h3>
-                <div class="bag-media">
-                    <div class="bag-video-wrap">
-                        <video controls poster="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg">
-                            <source src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBFLUTE_VIDEO_FINAL.mp4" 
-                                    type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="bag-still">
-                        <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg" 
-                             alt="Flute Bag">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bag 3: Ocarina -->
-            <div class="bag-showcase">
-                <h3>Ocarina</h3>
-                <div class="bag-media">
-                    <div class="bag-video-wrap">
-                        <video controls poster="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg">
-                            <source src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4" 
-                                    type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="bag-still">
-                        <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg" 
-                             alt="Ocarina Bag">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Samsung Modal -->
-    <div id="modal-samsung" class="campaign-modal" onclick="closeModalOnBackground(event, 'samsung')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeCampaignModal('samsung')">&times;</span>
-            <h2>Samsung</h2>
-            <div class="bag-media" style="grid-template-columns: 1fr;">
-                <div class="bag-video-wrap">
-                    <video controls poster="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.jpg">
-                        <source src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Placeholder modals for other campaigns -->
-    <div id="modal-oceanpark" class="campaign-modal" onclick="closeModalOnBackground(event, 'oceanpark')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeCampaignModal('oceanpark')">&times;</span>
-            <h2>Ocean Park Halloween Fest 2024</h2>
-            <p>Content loading...</p>
-        </div>
-    </div>
-
-    <div id="modal-hktb" class="campaign-modal" onclick="closeModalOnBackground(event, 'hktb')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeCampaignModal('hktb')">&times;</span>
-            <h2>HKTB Panda Tourism</h2>
-            <p>Content loading...</p>
-        </div>
-    </div>
-
-    <div id="modal-mtr" class="campaign-modal" onclick="closeModalOnBackground(event, 'mtr')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeCampaignModal('mtr')">&times;</span>
-            <h2>MTR 45th Anniversary</h2>
-            <p>Content loading...</p>
-        </div>
-    </div>
-
-    <script>
-        function openCampaignModal(campaign) {
-            const modal = document.getElementById('modal-' + campaign);
-            if (modal) {
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+        // HERO VIDEOS - Ocarina now in position 0 (hero)
+        const HERO_VIDEOS = [
+            {
+                id: 'pabepabe',
+                title: 'Pabepabe',
+                subtitle: 'Bag Collection — Essential, Plus, Ocarina',
+                description: 'AI-powered product visualization for the bag collection featuring three distinct designs.',
+                category: 'Fashion',
+                year: '2026',
+                url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4',
+                poster: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg',
+                isPlayable: false
+            },
+            {
+                id: 'samsung',
+                title: 'Samsung',
+                subtitle: 'SmartThings meets AI Home',
+                description: 'Creative direction for Samsung SmartThings AI integration campaign.',
+                category: 'Tech',
+                year: '2025',
+                url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.mp4',
+                poster: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.jpg',
+                isPlayable: false
+            },
+            {
+                id: 'ash',
+                title: 'Ash-01',
+                subtitle: 'Character Design Study',
+                description: 'Neural-generated character design exploration and visual storytelling.',
+                category: 'Character Design',
+                year: '2026',
+                url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Ash01.mp4',
+                poster: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Ash01.jpg',
+                isPlayable: false
+            },
+            {
+                id: 'featureworld',
+                title: 'Feature World',
+                subtitle: 'Interactive Chaos Experiment',
+                description: 'An interactive web experience exploring generative chaos and randomness.',
+                category: 'Interactive',
+                year: '2026',
+                url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldPreview.mp4',
+                poster: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorld.jpg',
+                isPlayable: true,
+                playLink: FEATURE_WORLD_LINK,
+                isExternal: true
             }
-        }
+        ];
 
-        function closeCampaignModal(campaign) {
-            const modal = document.getElementById('modal-' + campaign);
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                // Pause all videos in this modal
-                const videos = modal.getElementsByTagName('video');
-                for (let video of videos) {
-                    video.pause();
-                }
-            }
-        }
-
-        function closeModalOnBackground(event, campaign) {
-            if (event.target === document.getElementById('modal-' + campaign)) {
-                closeCampaignModal(campaign);
-            }
-        }
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const openModals = document.querySelectorAll('.campaign-modal[style*="block"]');
-                openModals.forEach(modal => {
-                    modal.style.display = 'none';
-                    const videos = modal.getElementsByTagName('video');
-                    for (let video of videos) {
-                        video.pause();
+        // Projects Data with Pabepabe expanded to show all 3 bags
+        const allProjects = [
+            {
+                id: 'pabepabe',
+                title: 'Pabepabe',
+                category: 'Bag Collection — Essential, Plus, Ocarina',
+                year: '2026',
+                filterCategory: 'fashion',
+                isClient: true,
+                clientName: 'Pabepabe',
+                fullDescription: 'AI-powered creative production for Pabepabe bag collection featuring three distinct designs: Essential (the compact everyday bag), Plus/Flute (elongated silhouette), and Ocarina (curved organic form). Each design required unique video treatment and still imagery to highlight structural differences and material qualities.',
+                role: 'Creative Direction, AI Production, Video Editing',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg',
+                hasMediaCarousel: true,
+                mediaItems: [
+                    {
+                        type: 'video',
+                        title: 'Ocarina Bag',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4',
+                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg',
+                        stillImage: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg'
+                    },
+                    {
+                        type: 'image',
+                        title: 'Ocarina Bag Still',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg'
+                    },
+                    {
+                        type: 'video',
+                        title: 'Plus (Flute) Bag',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBFLUTE_VIDEO_FINAL.mp4',
+                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg',
+                        stillImage: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg'
+                    },
+                    {
+                        type: 'image',
+                        title: 'Plus (Flute) Bag Still',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg'
+                    },
+                    {
+                        type: 'video',
+                        title: 'Essential Bag',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential_VIDEO_FINAL.mp4',
+                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg',
+                        stillImage: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg'
+                    },
+                    {
+                        type: 'image',
+                        title: 'Essential Bag Still',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg'
                     }
-                });
-                document.body.style.overflow = 'auto';
+                ],
+                relatedLinks: [
+                    { title: 'View on GitHub', url: 'https://github.com/hydrogenbondss/portfolio-assets' }
+                ]
+            },
+            {
+                id: 'samsung',
+                title: 'Samsung SmartThings',
+                category: 'Tech / AI Campaign',
+                year: '2025',
+                filterCategory: 'tech',
+                isClient: true,
+                clientName: 'Samsung',
+                fullDescription: 'Creative direction and copy development for Samsung SmartThings AI Home campaign. Focused on communicating AI integration benefits for smart home ecosystems.',
+                role: 'Creative Strategy, Copywriting',
+                video: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.mp4',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/SmartThingsAI.jpg'
+            },
+            {
+                id: 'ash',
+                title: 'Ash-01',
+                category: 'Character Design',
+                year: '2026',
+                filterCategory: 'tech',
+                isPersonal: true,
+                fullDescription: 'Neural-generated character design study exploring the intersection of AI tools and traditional design principles. Ash-01 represents a fully realized character with backstory, personality traits, and visual consistency across generated outputs.',
+                role: 'Character Design, AI Art Direction, Prompt Engineering',
+                video: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Ash01.mp4',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Ash01.jpg',
+                github: 'https://github.com/hydrogenbondss'
+            },
+            {
+                id: 'oceanpark',
+                title: 'Ocean Park Halloween Fest',
+                category: 'Corporate Campaign',
+                year: '2024',
+                filterCategory: 'corporate',
+                isClient: true,
+                clientName: 'Ocean Park',
+                fullDescription: 'Campaign development for Ocean Park Halloween Fest 2024, including thematic content strategy and promotional material coordination.',
+                role: 'Content Strategy',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/OceanParkHalloween.jpg'
+            },
+            {
+                id: 'hktb',
+                title: 'HKTB Panda Tourism',
+                category: 'Corporate Campaign',
+                year: '2024',
+                filterCategory: 'corporate',
+                isClient: true,
+                clientName: 'HKTB',
+                fullDescription: 'Tourism campaign highlighting Hong Kong\'s panda attractions. Developed narrative angles and visual direction for international promotion.',
+                role: 'Creative Strategy, Copywriting',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/HKTBPanda.jpg'
+            },
+            {
+                id: 'mtr',
+                title: 'MTR 45th Anniversary',
+                category: 'Corporate Campaign',
+                year: '2024',
+                filterCategory: 'corporate',
+                isClient: true,
+                clientName: 'MTR',
+                fullDescription: 'Commemorative campaign for MTR Corporation\'s 45th anniversary, focusing on heritage storytelling and brand legacy.',
+                role: 'Editorial Direction',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg'
+            },
+            {
+                id: 'featureworld',
+                title: 'Feature World',
+                category: 'Interactive Experiment',
+                year: '2026',
+                filterCategory: 'tech',
+                isPersonal: true,
+                fullDescription: 'An interactive web chaos experiment built with React and Framer Motion. Features particle systems, randomized interactions, and generative visual effects. Click below to enter the experience.',
+                role: 'Creative Development, Frontend Engineering',
+                image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorld.jpg',
+                link: FEATURE_WORLD_LINK,
+                isExternal: true
             }
-        });
-    </script>
+        ];
 
+        const capabilities = {
+            roles: ['Creative Direction', 'AI Production', 'Character Design', 'Content Strategy', 'Video Editing'],
+            software: ['Midjourney', 'Stable Diffusion', 'ComfyUI', 'Runway', 'ElevenLabs', 'CapCut', 'React', 'Tailwind CSS']
+        };
+
+        const clients = ['I.T Apparels', 'Samsung', 'Ocean Park', 'HKTB', 'MTR', 'Pabepabe', 'A Bathing Ape', 'Gentle Monster'];
+
+        // Hook for scroll position
+        const useScrollPosition = () => {
+            const [scrollY, setScrollY] = useState(0);
+            useEffect(() => {
+                const handleScroll = () => setScrollY(window.scrollY);
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+            return scrollY;
+        };
+
+        // Lazy Video Component
+        const LazyVideo = ({ src, poster, className }) => {
+            const [isLoaded, setIsLoaded] = useState(false);
+            const videoRef = useRef(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && videoRef.current) {
+                            videoRef.current.load();
+                            setIsLoaded(true);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                if (videoRef.current) observer.observe(videoRef.current);
+                return () => observer.disconnect();
+            }, []);
+
+            return (
+                <video 
+                    ref={videoRef}
+                    className={className}
+                    autoPlay 
+                    muted 
+                    loop 
+                    playsInline
+                    poster={poster}
+                    preload="none"
+                >
+                    <source src={src} type="video/mp4" />
+                </video>
+            );
+        };
+
+        // Project Card Component
+        const ProjectCard = ({ project, index, onSelect, darkMode }) => {
+            return (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className={`group cursor-pointer rounded-2xl overflow-hidden ${darkMode ? 'bg-gray-900' : 'bg-white'} border ${darkMode ? 'border-gray-800' : 'border-gray-200'} hover:shadow-xl transition-all duration-300`}
+                    onClick={() => onSelect(project)}
+                >
+                    <div className="aspect-video relative overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        {project.video ? (
+                            <video 
+                                src={project.video} 
+                                muted 
+                                loop 
+                                playsInline
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                poster={project.image}
+                            />
+                        ) : (
+                            <img 
+                                src={project.image} 
+                                alt={project.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                onError={(e) => {
+                                    e.target.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80';
+                                }}
+                            />
+                        )}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-black text-black dark:text-white rounded-full text-sm font-medium">
+                                View Project
+                                <i data-lucide="arrow-up-right" className="w-4 h-4"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="p-6">
+                        <div className="flex items-center gap-2 mb-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            <span>{project.category}</span>
+                            <span>•</span>
+                            <span>{project.year}</span>
+                            {project.isClient && (
+                                <span className="ml-auto inline-flex items-center gap-1 text-blue-600 dark:text-blue-400">
+                                    <i data-lucide="briefcase" className="w-3 h-3"></i>
+                                    {project.clientName}
+                                </span>
+                            )}
+                        </div>
+                        <h3 className="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">{project.title}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{project.fullDescription}</p>
+                    </div>
+                </motion.div>
+            );
+        };
+
+        // Mobile Menu Component
+        const MobileMenu = ({ isOpen, onClose, darkMode, setDarkMode, filter, setFilter }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-50 bg-white dark:bg-black md:hidden">
+                    <div className="p-4 pt-20 space-y-6">
+                        <button onClick={() => { setFilter('all'); onClose(); }} className="block w-full text-left text-lg font-medium py-3 border-b border-gray-200 dark:border-gray-800">All Work</button>
+                        <button onClick={() => { setFilter('fashion'); onClose(); }} className="block w-full text-left text-lg font-medium py-3 border-b border-gray-200 dark:border-gray-800">Fashion</button>
+                        <button onClick={() => { setFilter('tech'); onClose(); }} className="block w-full text-left text-lg font-medium py-3 border-b border-gray-200 dark:border-gray-800">Tech / AI</button>
+                        <button onClick={() => { setFilter('corporate'); onClose(); }} className="block w-full text-left text-lg font-medium py-3 border-b border-gray-200 dark:border-gray-800">Corporate</button>
+                        <button onClick={() => { setDarkMode(!darkMode); }} className="flex items-center gap-2 w-full py-3 text-lg font-medium">
+                            {darkMode ? <i data-lucide="sun" className="w-5 h-5"></i> : <i data-lucide="moon" className="w-5 h-5"></i>}
+                            {darkMode ? 'Light Mode' : 'Dark Mode'}
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // Helper for button text
+        const getButtonText = (project) => {
+            if (project.isExternal) return { text: 'Visit Site', icon: 'external-link' };
+            if (project.github) return { text: 'View Project', icon: 'github' };
+            return { text: 'Learn More', icon: 'arrow-right' };
+        };
+
+        // Main App Component
+        const App = () => {
+            const [darkMode, setDarkMode] = useState(true);
+            const [filter, setFilter] = useState('all');
+            const [selectedProject, setSelectedProject] = useState(null);
+            const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [igLoading, setIgLoading] = useState(true);
+            const scrollY = useScrollPosition();
+            
+            useEffect(() => { 
+                if (window.lucide) { window.lucide.createIcons(); } 
+            }, [filter, selectedProject, mobileMenuOpen, currentMediaIndex]);
+            
+            useEffect(() => {
+                const handleEscape = (e) => { 
+                    if (e.key === 'Escape') { 
+                        setSelectedProject(null); 
+                        setCurrentMediaIndex(0); 
+                    } 
+                };
+                window.addEventListener('keydown', handleEscape);
+                return () => window.removeEventListener('keydown', handleEscape);
+            }, []);
+
+            const filteredProjects = filter === 'all' ? allProjects : allProjects.filter(p => p.filterCategory === filter);
+            const sortedProjects = [...filteredProjects].sort((a, b) => { 
+                const yearA = a.sortYear || parseFloat(a.year); 
+                const yearB = b.sortYear || parseFloat(b.year); 
+                return yearB - yearA; 
+            });
+
+            const nextMedia = () => { 
+                if (selectedProject?.mediaItems) { 
+                    setCurrentMediaIndex((prev) => (prev + 1) % selectedProject.mediaItems.length); 
+                } 
+            };
+            
+            const prevMedia = () => { 
+                if (selectedProject?.mediaItems) { 
+                    setCurrentMediaIndex((prev) => (prev - 1 + selectedProject.mediaItems.length) % selectedProject.mediaItems.length); 
+                } 
+            };
+
+            const scrollToSection = (id) => { 
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); 
+                setMobileMenuOpen(false); 
+            };
+            
+            const scrollToTop = () => { 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            };
+
+            const openFeatureWorld = () => { 
+                window.open(FEATURE_WORLD_LINK, '_blank'); 
+            };
+
+            // Handle hero video clicks
+            const handleHeroClick = (video) => {
+                if (video.id === 'featureworld' && video.isExternal) {
+                    openFeatureWorld();
+                } else {
+                    const project = allProjects.find(p => p.id === video.id);
+                    if (project) {
+                        setSelectedProject(project);
+                        setCurrentMediaIndex(0);
+                    }
+                }
+            };
+
+            return (
+                <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+                    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
+                        <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex items-center gap-3">
+                                <a href="#" onClick={(e) => { e.preventDefault(); scrollToTop(); }} className="font-display text-xl font-bold tracking-tight dark:text-white">JT</a>
+                                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-700 pl-3">
+                                    <span className="status-dot"></span>
+                                    <span className="hidden sm:inline">Available for work</span>
+                                    <span className="sm:hidden">Available</span>
+                                </div>
+                            </div>
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-center relative">
+                                <div className="hidden md:block">
+                                    <span className="font-display text-lg font-bold tracking-[0.2em] text-gray-900 dark:text-white">JEFFREY TSE</span>
+                                </div>
+                                <nav className="hidden md:flex items-center gap-8 absolute right-4 lg:right-8">
+                                    <button onClick={() => scrollToSection('about')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">About</button>
+                                    <button onClick={() => scrollToSection('services')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Services</button>
+                                    <button onClick={() => scrollToSection('selected-works')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Selected Works</button>
+                                    <button onClick={() => scrollToSection('contact')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Contact</button>
+                                    <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                        {darkMode ? <i data-lucide="sun" className="w-4 h-4 text-gray-300"></i> : <i data-lucide="moon" className="w-4 h-4 text-gray-700"></i>}
+                                    </button>
+                                </nav>
+                                <div className="md:hidden flex items-center gap-4 absolute right-4">
+                                    <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                        {darkMode ? <i data-lucide="sun" className="w-4 h-4"></i> : <i data-lucide="moon" className="w-4 h-4"></i>}
+                                    </button>
+                                    <div className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                                        <span></span><span></span><span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+
+                        <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} darkMode={darkMode} setDarkMode={setDarkMode} filter={filter} setFilter={setFilter} />
+
+                        <div className="mobile-hero-header md:hidden">
+                            <h1>Jeffrey Tse</h1>
+                            <p className="subtitle">Content Strategy, Creative Production & Character Design</p>
+                            <p className="subsubtitle flex items-center justify-center gap-2"><span className="status-dot"></span>Available for work</p>
+                        </div>
+
+                        <section className="relative bg-black text-white">
+                            <div className="grid-hero-container">
+                                {HERO_VIDEOS.map((video, index) => (
+                                    <div key={video.id} className="grid-item group" onClick={() => handleHeroClick(video)}>
+                                        <span className="grid-number">0{index + 1}</span>
+                                        <div className="overlay"></div>
+                                        <LazyVideo src={video.url} poster={video.poster} className="w-full h-full" />
+                                        <div className="content">
+                                            <div className="content-text">
+                                                <div className="flex items-center gap-2 mb-2 text-xs font-medium tracking-wider text-gray-300 uppercase">
+                                                    <span>{video.category}</span>
+                                                    <span>•</span>
+                                                    <span>{video.year}</span>
+                                                    {video.isPlayable && (
+                                                        <span className="flex items-center gap-1 text-red-400 font-bold">
+                                                            <span className="live-dot"></span> LIVE
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <h2 className="font-display text-2xl md:text-3xl font-bold mb-1">{video.title}</h2>
+                                                <p className="text-sm text-gray-300 font-medium mb-2">{video.subtitle}</p>
+                                                <p className="description text-sm text-gray-400 line-clamp-2 hidden md:block">{video.description}</p>
+                                                {video.isPlayable && (
+                                                    <span className="inline-flex items-center gap-1 text-xs text-green-400 mt-2 font-medium bg-green-400/10 px-2 py-1 rounded-full">
+                                                        <i data-lucide="play" className="w-3 h-3"></i> Click to Play
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        <section id="about" className="py-20 bg-white dark:bg-black">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div className="grid md:grid-cols-3 gap-12">
+                                    <div className="md:col-span-1">
+                                        <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 sticky top-24">
+                                            <img src={PROFILE_IMAGE} alt="Jeffrey Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
+                                        </div>
+                                    </div>
+                                    <div className="md:col-span-2 space-y-6">
+                                        <h2 className="font-display text-4xl font-bold text-gray-900 dark:text-white">About</h2>
+                                        <div className="prose dark:prose-invert max-w-none">
+                                            <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Former Chief Editor at I.T Apparels, now operating at the intersection of content strategy and AI-powered creative production. I've led editorial teams, assisted brand campaigns for Samsung and Ocean Park, and developed interactive web experiences.</p>
+                                            <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Currently focused on character design and generative workflows—exploring how AI tools can augment (not replace) human creativity in fashion and product visualization.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4 pt-6">
+                                            <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">6+</div><div className="text-sm text-gray-600 dark:text-gray-400">Years in Fashion Media</div></div>
+                                            <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">50+</div><div className="text-sm text-gray-600 dark:text-gray-400">Brand Campaigns</div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900/20 border-t border-gray-200 dark:border-gray-800">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div className="grid md:grid-cols-2 gap-12 items-start">
+                                    <div>
+                                        <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">Services</h2>
+                                        <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">Combining editorial rigor with cutting-edge AI tools to deliver content that resonates. From brand campaigns to interactive experiences.</p>
+                                        <div className="space-y-4 mb-12">
+                                            {capabilities.roles.map((role, index) => (
+                                                <div key={role} className="flex items-center gap-4 group">
+                                                    <span className="font-display text-2xl font-bold text-gray-300 dark:text-gray-700 group-hover:text-gray-400 transition-colors">0{index + 1}</span>
+                                                    <span className="text-lg font-medium text-gray-900 dark:text-white">{role}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="space-y-6">
+                                        <h3 className="font-display text-xl font-bold mb-4 text-gray-900 dark:text-white">Software Stack</h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            {capabilities.software.map((tool) => (
+                                                <span key={tool} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${darkMode ? 'bg-gray-800 text-gray-300 border border-gray-700' : 'bg-gray-200 text-gray-700'}`}>
+                                                    {tool}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <div className="mt-8 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                                            <h4 className="font-display text-lg font-bold mb-2 text-gray-900 dark:text-white">Current Focus</h4>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">Available for freelance projects and collaborations. Currently exploring AI-driven character design and generative workflows for fashion and product visualization.</p>
+                                            <div className="mt-4 flex items-center gap-2 text-sm">
+                                                <span className="status-dot"></span>
+                                                <span className="text-green-600 dark:text-green-400 font-medium">Accepting new projects</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="py-12 bg-black text-white overflow-hidden border-y border-gray-800">
+                            <div className="flex animate-marquee whitespace-nowrap">
+                                {[...clients, ...clients, ...clients].map((client, index) => (
+                                    <span key={index} className="mx-8 font-display text-2xl font-bold text-gray-500 hover:text-white transition-colors cursor-default">
+                                        {client}
+                                    </span>
+                                ))}
+                            </div>
+                        </section>
+
+                        <section id="selected-works" className="sticky top-16 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="font-display text-lg font-bold hidden md:block text-gray-900 dark:text-white">Selected Works</h2>
+                                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
+                                        {[{ id: 'all', label: 'All Work' }, { id: 'fashion', label: 'Fashion' }, { id: 'tech', label: 'Tech / AI' }, { id: 'corporate', label: 'Corporate' }].map((btn) => (
+                                            <button key={btn.id} onClick={() => setFilter(btn.id)} className={`filter-btn ${filter === btn.id ? 'active' : ''} ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-gray-600'}`}>
+                                                {btn.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="py-12 md:py-20 bg-white dark:bg-black">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {sortedProjects.map((project, index) => (
+                                        <ProjectCard key={project.title} project={project} index={index} onSelect={(p) => { setSelectedProject(p); setCurrentMediaIndex(0); }} darkMode={darkMode} />
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900/20 border-t border-gray-200 dark:border-gray-800">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                                <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">Let's work together</h2>
+                                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">Open to freelance projects, brand collaborations, and creative partnerships.</p>
+                                <a href="mailto:jeffreynicholast@gmail.com" className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity">
+                                    Get in Touch
+                                    <i data-lucide="arrow-right" className="w-4 h-4"></i>
+                                </a>
+                                <div className="mt-12 flex justify-center gap-6">
+                                    <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                        <i data-lucide="github" className="w-6 h-6"></i>
+                                    </a>
+                                    <a href="https://www.instagram.com/hydrogenbondss/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                        <i data-lucide="instagram" className="w-6 h-6"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <footer className="py-8 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                                <p className="text-sm text-gray-500">© 2026 Jeffrey Tse. All rights reserved.</p>
+                                <p className="text-sm text-gray-500">Built with React, Tailwind & Lucide</p>
+                            </div>
+                        </footer>
+
+                        <button onClick={scrollToTop} className={`back-to-top ${scrollY > 500 ? 'visible' : ''}`} aria-label="Back to top">
+                            <i data-lucide="arrow-up" className="w-5 h-5"></i>
+                        </button>
+
+                        <AnimatePresence>
+                            {selectedProject && (
+                                <motion.div 
+                                    initial={{ opacity: 0 }} 
+                                    animate={{ opacity: 1 }} 
+                                    exit={{ opacity: 0 }} 
+                                    className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm overflow-y-auto"
+                                    onClick={() => { setSelectedProject(null); setCurrentMediaIndex(0); }}
+                                >
+                                    <div className="min-h-screen md:flex md:items-center md:justify-center p-4 md:p-8">
+                                        <motion.div 
+                                            initial={{ scale: 0.9, opacity: 0 }} 
+                                            animate={{ scale: 1, opacity: 1 }} 
+                                            exit={{ scale: 0.9, opacity: 0 }} 
+                                            className="w-full max-w-6xl bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <div className="grid md:grid-cols-2">
+                                                <div className="bg-black relative min-h-[300px] md:min-h-[600px]">
+                                                    {selectedProject.hasMediaCarousel ? (
+                                                        <div className="media-carousel">
+                                                            <AnimatePresence mode="wait">
+                                                                <motion.div 
+                                                                    key={currentMediaIndex} 
+                                                                    initial={{ opacity: 0, x: 100 }} 
+                                                                    animate={{ opacity: 1, x: 0 }} 
+                                                                    exit={{ opacity: 0, x: -100 }} 
+                                                                    transition={{ duration: 0.3 }} 
+                                                                    className="carousel-slide"
+                                                                >
+                                                                    {selectedProject.mediaItems[currentMediaIndex].type === 'video' ? (
+                                                                        <video 
+                                                                            src={selectedProject.mediaItems[currentMediaIndex].url} 
+                                                                            controls 
+                                                                            autoPlay 
+                                                                            className="max-h-full max-w-full rounded-lg"
+                                                                            poster={selectedProject.mediaItems[currentMediaIndex].thumbnail}
+                                                                        />
+                                                                    ) : selectedProject.mediaItems[currentMediaIndex].type === 'image' ? (
+                                                                        <img 
+                                                                            src={selectedProject.mediaItems[currentMediaIndex].url} 
+                                                                            alt={selectedProject.mediaItems[currentMediaIndex].title}
+                                                                            className="max-h-full max-w-full object-contain rounded-lg"
+                                                                        />
+                                                                    ) : selectedProject.mediaItems[currentMediaIndex].type === 'youtube' ? (
+                                                                        <iframe 
+                                                                            src={selectedProject.mediaItems[currentMediaIndex].url} 
+                                                                            title={selectedProject.mediaItems[currentMediaIndex].title}
+                                                                            className="w-full h-full rounded-lg"
+                                                                            frameBorder="0"
+                                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                            allowFullScreen
+                                                                        />
+                                                                    ) : null}
+                                                                </motion.div>
+                                                            </AnimatePresence>
+                                                            
+                                                            {selectedProject.mediaItems.length > 1 && (
+                                                                <>
+                                                                    <button className="carousel-arrow prev" onClick={prevMedia}>
+                                                                        <i data-lucide="chevron-left" className="w-6 h-6"></i>
+                                                                    </button>
+                                                                    <button className="carousel-arrow next" onClick={nextMedia}>
+                                                                        <i data-lucide="chevron-right" className="w-6 h-6"></i>
+                                                                    </button>
+                                                                    <div className="carousel-nav">
+                                                                        {selectedProject.mediaItems.map((_, idx) => (
+                                                                            <button 
+                                                                                key={idx} 
+                                                                                className={`carousel-dot ${idx === currentMediaIndex ? 'active' : ''}`}
+                                                                                onClick={() => setCurrentMediaIndex(idx)}
+                                                                            />
+                                                                        ))}
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    ) : selectedProject.video ? (
+                                                        <div className="modal-media-container">
+                                                            {selectedProject.video.includes('youtube') ? (
+                                                                <iframe 
+                                                                    src={selectedProject.video} 
+                                                                    title={selectedProject.title}
+                                                                    className="w-full h-full"
+                                                                    frameBorder="0"
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                    allowFullScreen
+                                                                />
+                                                            ) : (
+                                                                <video 
+                                                                    src={selectedProject.video} 
+                                                                    controls 
+                                                                    autoPlay 
+                                                                    className="max-h-full max-w-full" 
+                                                                    poster={selectedProject.image}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="modal-media-container">
+                                                            <img src={selectedProject.image} alt={selectedProject.title} className="max-h-full max-w-full object-contain" />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="p-8 md:p-12 flex flex-col">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <div className="flex items-center gap-2 flex-wrap">
+                                                            {selectedProject.isClient && (
+                                                                <span className="client-badge">
+                                                                    <i data-lucide="briefcase" className="w-3 h-3"></i>
+                                                                    {selectedProject.clientName}
+                                                                </span>
+                                                            )}
+                                                            {selectedProject.isPersonal && (
+                                                                <span className="personal-badge">
+                                                                    <i data-lucide="user" className="w-3 h-3"></i>
+                                                                    Personal
+                                                                </span>
+                                                            )}
+                                                            {selectedProject.isEditorial && (
+                                                                <span className="editorial-badge">
+                                                                    <i data-lucide="pen-tool" className="w-3 h-3"></i>
+                                                                    Editorial
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <button 
+                                                            onClick={() => { setSelectedProject(null); setCurrentMediaIndex(0); }} 
+                                                            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                                                        >
+                                                            <i data-lucide="x" className="w-6 h-6"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div className="mb-6">
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{selectedProject.year}</p>
+                                                        <h2 className="font-display text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-white">{selectedProject.title}</h2>
+                                                        <p className="text-lg text-gray-600 dark:text-gray-400">{selectedProject.category}</p>
+                                                    </div>
+                                                    <div className="prose dark:prose-invert max-w-none mb-8 flex-grow">
+                                                        <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{selectedProject.fullDescription}</p>
+                                                        {selectedProject.role && (
+                                                            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+                                                                <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">Role</p>
+                                                                <p className="text-gray-600 dark:text-gray-400">{selectedProject.role}</p>
+                                                            </div>
+                                                        )}
+                                                        {selectedProject.relatedLinks && (
+                                                            <div className="mt-6 space-y-2">
+                                                                {selectedProject.relatedLinks.map((link) => (
+                                                                    <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                                                                        {link.title}
+                                                                        <i data-lucide="external-link" className="w-3 h-3"></i>
+                                                                    </a>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-3 mt-auto pt-6 border-t border-gray-200 dark:border-gray-800">
+                                                        {selectedProject.link && (
+                                                            <a 
+                                                                href={selectedProject.link} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer" 
+                                                                className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity"
+                                                            >
+                                                                {(() => { 
+                                                                    const btn = getButtonText(selectedProject); 
+                                                                    return (
+                                                                        <>{btn.text}<i data-lucide={btn.icon} className="w-4 h-4"></i></>
+                                                                    ); 
+                                                                })()}
+                                                            </a>
+                                                        )}
+                                                        {selectedProject.github && (
+                                                            <a 
+                                                                href={selectedProject.github} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer" 
+                                                                className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                                            >
+                                                                <i data-lucide="github" className="w-4 h-4"></i>
+                                                                Source Code
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        <style>{`
+                            @keyframes marquee { 
+                                0% { transform: translateX(0); } 
+                                100% { transform: translateX(-33.33%); } 
+                            } 
+                            .animate-marquee { 
+                                animation: marquee 30s linear infinite; 
+                            } 
+                            .no-scrollbar::-webkit-scrollbar { 
+                                display: none; 
+                            } 
+                            .no-scrollbar { 
+                                -ms-overflow-style: none; 
+                                scrollbar-width: none; 
+                            }
+                        `}</style>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
