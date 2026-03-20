@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeffrey Nicholas Tse | Portfolio</title>
+    <title>Jeffrey N. Tse | Portfolio</title>
     
-    <!-- Favicon - JT Logo (Black background, white text for dark mode aesthetic) -->
+    <!-- Favicon - JT Logo -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='black'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='50' fill='white'>JT</text></svg>">
     
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -180,6 +181,13 @@
             justify-content: center;
         }
         
+        .carousel-slide video,
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
         .carousel-arrow {
             position: absolute;
             top: 50%;
@@ -259,49 +267,6 @@
             color: #d8b4fe;
         }
         
-        .editorial-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.25rem 0.75rem;
-            background: #dcfce7;
-            color: #166534;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .dark .editorial-badge {
-            background: #14532d;
-            color: #86efac;
-        }
-        
-        .instagram-embed-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .instagram-embed-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
-        }
-        
-        .instagram-skeleton {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        
         .back-to-top {
             position: fixed;
             bottom: 2rem;
@@ -340,33 +305,8 @@
             overflow: hidden;
         }
         
-        .bag-showcase-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        @media (max-width: 768px) {
-            .bag-showcase-grid { grid-template-columns: 1fr; }
-        }
-        
-        .bag-video-container {
-            background: #000;
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        
-        .bag-still-container img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.5rem;
-        }
-        
-        .bag-divider {
-            border-bottom: 1px solid #374151;
-            margin: 2rem 0;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
@@ -374,18 +314,16 @@
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
-        const { motion, AnimatePresence } = window.Motion || { motion: 'div', AnimatePresence: ({children}) => children };
+        const { motion, AnimatePresence } = window.Motion;
 
-        // Data URLs
         const FEATURE_WORLD_LINK = 'https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html';
         const PROFILE_IMAGE = 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/JeffreyProfile.jpg';
 
-        // HERO VIDEOS - Ocarina now in position 0 (hero)
         const HERO_VIDEOS = [
             {
                 id: 'pabepabe',
                 title: 'Pabepabe',
-                subtitle: 'Bag Collection — Essential, Plus, Ocarina',
+                subtitle: 'Bag Collection — Ocarina, Flute, Horn',
                 description: 'AI-powered product visualization for the bag collection featuring three distinct designs.',
                 category: 'Fashion',
                 year: '2026',
@@ -430,17 +368,16 @@
             }
         ];
 
-        // Projects Data with Pabepabe expanded to show all 3 bags
         const allProjects = [
             {
                 id: 'pabepabe',
                 title: 'Pabepabe',
-                category: 'Bag Collection — Essential, Plus, Ocarina',
+                category: 'Bag Collection — Ocarina, Flute, Horn',
                 year: '2026',
                 filterCategory: 'fashion',
                 isClient: true,
                 clientName: 'Pabepabe',
-                fullDescription: 'AI-powered creative production for Pabepabe bag collection featuring three distinct designs: Essential (the compact everyday bag), Plus/Flute (elongated silhouette), and Ocarina (curved organic form). Each design required unique video treatment and still imagery to highlight structural differences and material qualities.',
+                fullDescription: 'AI-powered creative production for Pabepabe bag collection featuring three distinct designs: Ocarina (curved organic form), Flute (elongated silhouette), and Horn (sculptural shape). Each design required unique video treatment and still imagery to highlight structural differences and material qualities.',
                 role: 'Creative Direction, AI Production, Video Editing',
                 image: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg',
                 hasMediaCarousel: true,
@@ -449,8 +386,7 @@
                         type: 'video',
                         title: 'Ocarina Bag',
                         url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4',
-                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg',
-                        stillImage: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg'
+                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg'
                     },
                     {
                         type: 'image',
@@ -459,31 +395,26 @@
                     },
                     {
                         type: 'video',
-                        title: 'Plus (Flute) Bag',
+                        title: 'Flute Bag',
                         url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBFLUTE_VIDEO_FINAL.mp4',
-                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg',
-                        stillImage: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg'
+                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg'
                     },
                     {
                         type: 'image',
-                        title: 'Plus (Flute) Bag Still',
+                        title: 'Flute Bag Still',
                         url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBflute.jpg'
                     },
                     {
                         type: 'video',
-                        title: 'Essential Bag',
-                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential_VIDEO_FINAL.mp4',
-                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg',
-                        stillImage: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg'
+                        title: 'Horn Bag',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHORN_VIDEO_FINAL.mp4',
+                        thumbnail: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBhorn.jpg'
                     },
                     {
                         type: 'image',
-                        title: 'Essential Bag Still',
-                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBEssential.jpg'
+                        title: 'Horn Bag Still',
+                        url: 'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBhorn.jpg'
                     }
-                ],
-                relatedLinks: [
-                    { title: 'View on GitHub', url: 'https://github.com/hydrogenbondss/portfolio-assets' }
                 ]
             },
             {
@@ -570,7 +501,6 @@
 
         const clients = ['I.T Apparels', 'Samsung', 'Ocean Park', 'HKTB', 'MTR', 'Pabepabe', 'A Bathing Ape', 'Gentle Monster'];
 
-        // Hook for scroll position
         const useScrollPosition = () => {
             const [scrollY, setScrollY] = useState(0);
             useEffect(() => {
@@ -581,7 +511,6 @@
             return scrollY;
         };
 
-        // Lazy Video Component
         const LazyVideo = ({ src, poster, className }) => {
             const [isLoaded, setIsLoaded] = useState(false);
             const videoRef = useRef(null);
@@ -617,7 +546,6 @@
             );
         };
 
-        // Project Card Component
         const ProjectCard = ({ project, index, onSelect, darkMode }) => {
             return (
                 <motion.div
@@ -675,7 +603,6 @@
             );
         };
 
-        // Mobile Menu Component
         const MobileMenu = ({ isOpen, onClose, darkMode, setDarkMode, filter, setFilter }) => {
             if (!isOpen) return null;
             return (
@@ -694,21 +621,18 @@
             );
         };
 
-        // Helper for button text
         const getButtonText = (project) => {
             if (project.isExternal) return { text: 'Visit Site', icon: 'external-link' };
             if (project.github) return { text: 'View Project', icon: 'github' };
             return { text: 'Learn More', icon: 'arrow-right' };
         };
 
-        // Main App Component
         const App = () => {
             const [darkMode, setDarkMode] = useState(true);
             const [filter, setFilter] = useState('all');
             const [selectedProject, setSelectedProject] = useState(null);
             const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-            const [igLoading, setIgLoading] = useState(true);
             const scrollY = useScrollPosition();
             
             useEffect(() => { 
@@ -758,7 +682,6 @@
                 window.open(FEATURE_WORLD_LINK, '_blank'); 
             };
 
-            // Handle hero video clicks
             const handleHeroClick = (video) => {
                 if (video.id === 'featureworld' && video.isExternal) {
                     openFeatureWorld();
@@ -785,7 +708,7 @@
                             </div>
                             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-center relative">
                                 <div className="hidden md:block">
-                                    <span className="font-display text-lg font-bold tracking-[0.2em] text-gray-900 dark:text-white">JEFFREY TSE</span>
+                                    <span className="font-display text-lg font-bold tracking-[0.2em] text-gray-900 dark:text-white">JEFFREY N. TSE</span>
                                 </div>
                                 <nav className="hidden md:flex items-center gap-8 absolute right-4 lg:right-8">
                                     <button onClick={() => scrollToSection('about')} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">About</button>
@@ -810,7 +733,7 @@
                         <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} darkMode={darkMode} setDarkMode={setDarkMode} filter={filter} setFilter={setFilter} />
 
                         <div className="mobile-hero-header md:hidden">
-                            <h1>Jeffrey Tse</h1>
+                            <h1>Jeffrey N. Tse</h1>
                             <p className="subtitle">Content Strategy, Creative Production & Character Design</p>
                             <p className="subsubtitle flex items-center justify-center gap-2"><span className="status-dot"></span>Available for work</p>
                         </div>
@@ -854,7 +777,7 @@
                                 <div className="grid md:grid-cols-3 gap-12">
                                     <div className="md:col-span-1">
                                         <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 sticky top-24">
-                                            <img src={PROFILE_IMAGE} alt="Jeffrey Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
+                                            <img src={PROFILE_IMAGE} alt="Jeffrey N. Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
                                         </div>
                                     </div>
                                     <div className="md:col-span-2 space-y-6">
@@ -965,7 +888,7 @@
 
                         <footer className="py-8 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
                             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                                <p className="text-sm text-gray-500">© 2026 Jeffrey Tse. All rights reserved.</p>
+                                <p className="text-sm text-gray-500">© 2026 Jeffrey Nicholas Tse. All rights reserved.</p>
                                 <p className="text-sm text-gray-500">Built with React, Tailwind & Lucide</p>
                             </div>
                         </footer>
@@ -1012,22 +935,13 @@
                                                                             className="max-h-full max-w-full rounded-lg"
                                                                             poster={selectedProject.mediaItems[currentMediaIndex].thumbnail}
                                                                         />
-                                                                    ) : selectedProject.mediaItems[currentMediaIndex].type === 'image' ? (
+                                                                    ) : (
                                                                         <img 
                                                                             src={selectedProject.mediaItems[currentMediaIndex].url} 
                                                                             alt={selectedProject.mediaItems[currentMediaIndex].title}
                                                                             className="max-h-full max-w-full object-contain rounded-lg"
                                                                         />
-                                                                    ) : selectedProject.mediaItems[currentMediaIndex].type === 'youtube' ? (
-                                                                        <iframe 
-                                                                            src={selectedProject.mediaItems[currentMediaIndex].url} 
-                                                                            title={selectedProject.mediaItems[currentMediaIndex].title}
-                                                                            className="w-full h-full rounded-lg"
-                                                                            frameBorder="0"
-                                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                                            allowFullScreen
-                                                                        />
-                                                                    ) : null}
+                                                                    )}
                                                                 </motion.div>
                                                             </AnimatePresence>
                                                             
@@ -1093,12 +1007,6 @@
                                                                     Personal
                                                                 </span>
                                                             )}
-                                                            {selectedProject.isEditorial && (
-                                                                <span className="editorial-badge">
-                                                                    <i data-lucide="pen-tool" className="w-3 h-3"></i>
-                                                                    Editorial
-                                                                </span>
-                                                            )}
                                                         </div>
                                                         <button 
                                                             onClick={() => { setSelectedProject(null); setCurrentMediaIndex(0); }} 
@@ -1118,16 +1026,6 @@
                                                             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
                                                                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">Role</p>
                                                                 <p className="text-gray-600 dark:text-gray-400">{selectedProject.role}</p>
-                                                            </div>
-                                                        )}
-                                                        {selectedProject.relatedLinks && (
-                                                            <div className="mt-6 space-y-2">
-                                                                {selectedProject.relatedLinks.map((link) => (
-                                                                    <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                                                                        {link.title}
-                                                                        <i data-lucide="external-link" className="w-3 h-3"></i>
-                                                                    </a>
-                                                                ))}
                                                             </div>
                                                         )}
                                                     </div>
@@ -1175,13 +1073,6 @@
                             .animate-marquee { 
                                 animation: marquee 30s linear infinite; 
                             } 
-                            .no-scrollbar::-webkit-scrollbar { 
-                                display: none; 
-                            } 
-                            .no-scrollbar { 
-                                -ms-overflow-style: none; 
-                                scrollbar-width: none; 
-                            }
                         `}</style>
                     </div>
                 </div>
