@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeffrey N. Tse | Content Strategy, Creative Production & Character Design | Hong Kong</title>
-    <meta name="description" content="Jeffrey N. Tse - Former Chief Editor at I.T Apparels specializing in Content Strategy, Creative Production, Character Design, and AI-powered creative workflows.">
+    <title>Jeffrey Tse | Content Strategy, Creative Production & Character Design | Hong Kong</title>
+    <meta name="description" content="Jeffrey Tse - Former Chief Editor at I.T Apparels specializing in Content Strategy, Creative Production, Character Design, and AI-powered creative workflows.">
+
+    <!-- Favicon - JT Logo (Light version for dark mode aesthetic) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='white'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='50' fill='black'>JT</text></svg>">
 
     <!-- Open Graph Tags for Social Sharing -->
-    <meta property="og:title" content="Jeffrey N. Tse | Content Strategy & Creative Production">
+    <meta property="og:title" content="Jeffrey Tse | Content Strategy & Creative Production">
     <meta property="og:description" content="Former Chief Editor at I.T Apparels, now creating AI-powered creative experiences. Available for freelance projects.">
     <meta property="og:image" content="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/JeffreyProfile.jpg">
     <meta property="og:url" content="https://hydrogenbondss.github.io/jeffreytse/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    
-    <!-- Favicon - JT Logo -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='black'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='50' fill='white'>JT</text></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -118,12 +118,13 @@
         const HORN_BAG_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4";
         const FLUTE_BAG_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4";
         
-        // Ocarina files (new hero)
+        // New Ocarina Bag Assets
         const OCARINA_VIDEO = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4";
         const OCARINA_THUMB = "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg";
 
+        // Updated HERO_VIDEOS - Ocarina is now the hero video
         const HERO_VIDEOS = [
-            { url: OCARINA_VIDEO, poster: OCARINA_THUMB, title: "PabePabe Trilogy", subtitle: "Material Metamorphosis", category: "AI Creative Direction", year: "2026", description: "3-part generative luxury series — Ocarina, Flute, Horn", id: "pabepabe", isClient: true, clientName: "PabePabe" },
+            { url: OCARINA_VIDEO, poster: OCARINA_THUMB, title: "PabePabe Trilogy", subtitle: "Material Metamorphosis", category: "AI Creative Direction", year: "2026", description: "3-part generative luxury series — Ocarina, Flute & Horn bags", id: "pabepabe", isClient: true, clientName: "PabePabe" },
             { url: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4", poster: TURBO_THUMB, title: "Turbo-MG21", subtitle: "Futuristic Eyewear Concept", category: "AI Motion Design", year: "2026", description: "Speculative luxury eyewear visualization", id: "turbo", isClient: false },
             { url: CHARACTER_VIDEO, poster: CHARACTER_THUMB, title: "Ash-01", subtitle: "Neural Portrait", category: "Character Design", year: "2026", description: "AI-driven character animation and design exploration", id: "character", isClient: false },
             { url: FEATURE_WORLD_VIDEO, poster: FEATURE_WORLD_THUMB, title: "Feature World", subtitle: "Interactive Chaos Engine", category: "Creative Coding", year: "2026", description: "Physics-based particle chaos experiment with mouse interaction", id: "featureworld", isClient: false, isPersonal: true, playLink: FEATURE_WORLD_LINK, isPlayable: true }
@@ -157,7 +158,7 @@
                 filterCategory: "tech", 
                 year: "2026", 
                 description: "Commissioned trilogy exploring material metamorphosis for luxury accessories", 
-                fullDescription: "Client commission for PabePabe exploring AI-driven material transformations across three bag designs. A study in generative luxury where leather morphs into unexpected organic forms. Showcasing all three pieces: Ocarina Bag (curved organic form), Flute Soft Bag (elongated silhouette), and Horn Bag (sculptural shape).", 
+                fullDescription: "Client commission for PabePabe exploring AI-driven material transformations across three bag designs. A study in generative luxury where leather morphs into unexpected organic forms. The trilogy features: Ocarina Bag (mystical resonance), Flute Soft Bag (organic florals), and Horn Bag (geometric growth).", 
                 role: "AI Art Director", 
                 image: OCARINA_THUMB, 
                 hasMediaCarousel: true, 
@@ -165,12 +166,9 @@
                 clientName: "PabePabe", 
                 link: "https://www.instagram.com/pabepabe/", 
                 mediaItems: [
-                    { type: 'video', url: OCARINA_VIDEO, title: 'Ocarina Bag', thumbnail: OCARINA_THUMB }, 
-                    { type: 'image', url: OCARINA_THUMB, title: 'Ocarina Bag Still' },
-                    { type: 'video', url: FLUTE_BAG_VIDEO, title: 'Flute Bag', thumbnail: PABEPABE_THUMB }, 
-                    { type: 'image', url: PABEPABE_THUMB, title: 'Flute Bag Still' },
-                    { type: 'video', url: HORN_BAG_VIDEO, title: 'Horn Bag', thumbnail: HORN_BAG_THUMB },
-                    { type: 'image', url: HORN_BAG_THUMB, title: 'Horn Bag Still' }
+                    { type: 'video', url: OCARINA_VIDEO, title: 'Part 1: Ocarina Bag', thumbnail: OCARINA_THUMB }, 
+                    { type: 'video', url: FLUTE_BAG_VIDEO, title: 'Part 2: Flute Soft Bag', thumbnail: PABEPABE_THUMB }, 
+                    { type: 'video', url: HORN_BAG_VIDEO, title: 'Part 3: Horn Bag', thumbnail: HORN_BAG_THUMB }
                 ] 
             },
             { title: "Turbo-MG21", category: "AI Motion Design", filterCategory: "tech", year: "2026", description: "Futuristic luxury eyewear concept visualization", fullDescription: "Personal exploration showcasing AI-driven motion design for luxury accessories. Testing generative video workflows and product cinematography techniques.", role: "AI Motion Designer", image: TURBO_THUMB, video: "https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4", isVideo: true, isPersonal: true },
@@ -348,7 +346,7 @@
                     <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} darkMode={darkMode} setDarkMode={setDarkMode} filter={filter} setFilter={setFilter} />
 
                     <div className="mobile-hero-header md:hidden">
-                        <h1>Jeffrey N. Tse</h1>
+                        <h1>Jeffrey Tse</h1>
                         <p className="subtitle">Content Strategy, Creative Production & Character Design</p>
                         <p className="subsubtitle flex items-center justify-center gap-2"><span className="status-dot"></span>Available for work</p>
                     </div>
@@ -399,7 +397,7 @@
                             <div className="grid md:grid-cols-3 gap-12">
                                 <div className="md:col-span-1">
                                     <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 sticky top-24">
-                                        <img src={PROFILE_IMAGE} alt="Jeffrey N. Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
+                                        <img src={PROFILE_IMAGE} alt="Jeffrey Tse" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'; }} />
                                     </div>
                                 </div>
                                 <div className="md:col-span-2 space-y-6">
@@ -424,13 +422,13 @@
                                     <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">Services</h2>
                                     <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">Combining editorial rigor with cutting-edge AI tools to deliver content that resonates. From brand campaigns to interactive experiences.</p>
                                     <div className="space-y-4 mb-12">
-                                        {capabilities.roles.map((role, index) => (<div key={role} className="flex items-center gap-4 group"><span className="font-display text-2xl font-bold text-gray-300 dark:text-gray-700 group-hover:text-gray-400 transition-colors">0{index + 1}</span><span className="text-lg font-medium text-gray-900 dark:text-white">{role}</span></div>)}
+                                        {capabilities.roles.map((role, index) => (<div key={role} className="flex items-center gap-4 group"><span className="font-display text-2xl font-bold text-gray-300 dark:text-gray-700 group-hover:text-gray-400 transition-colors">0{index + 1}</span><span className="text-lg font-medium text-gray-900 dark:text-white">{role}</span></div>))}
                                     </div>
                                 </div>
                                 <div className="space-y-6">
                                     <h3 className="font-display text-xl font-bold mb-4 text-gray-900 dark:text-white">Software Stack</h3>
                                     <div className="flex flex-wrap gap-2">
-                                        {capabilities.software.map((tool) => (<span key={tool} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${darkMode ? 'bg-gray-800 text-gray-300 border border-gray-700' : 'bg-gray-200 text-gray-700'}`}>{tool}</span>)}
+                                        {capabilities.software.map((tool) => (<span key={tool} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${darkMode ? 'bg-gray-800 text-gray-300 border border-gray-700' : 'bg-gray-200 text-gray-700'}`}>{tool}</span>))}
                                     </div>
                                     <div className="mt-8 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                         <h4 className="font-display text-lg font-bold mb-2 text-gray-900 dark:text-white">Current Focus</h4>
@@ -483,7 +481,7 @@
 
                     <footer className="py-8 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <p className="text-sm text-gray-500">© 2026 Jeffrey N. Tse. All rights reserved.</p>
+                            <p className="text-sm text-gray-500">© 2026 Jeffrey Tse. All rights reserved.</p>
                             <p className="text-sm text-gray-500">Built with React, Tailwind & Framer Motion</p>
                         </div>
                     </footer>
@@ -562,7 +560,7 @@
                                                 <div className="flex flex-wrap gap-3 mt-auto pt-6 border-t border-gray-200 dark:border-gray-800">
                                                     {selectedProject.link && (
                                                         <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:opacity-80 transition-opacity">
-                                                            {(() => { const btn = getButtonText(selectedProject); return <>{btn.text}<i data-lucide={btn.icon} className="w-4 h-4\"></i></>; })()}
+                                                            {(() => { const btn = getButtonText(selectedProject); return <>{btn.text}<i data-lucide={btn.icon} className="w-4 h-4"></i></>; })()}
                                                         </a>
                                                     )}
                                                     {selectedProject.github && (<a href={selectedProject.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"><i data-lucide="github" className="w-4 h-4"></i>Source Code</a>)}
