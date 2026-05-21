@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeffrey Tse | Content Strategy, Creative Production & Character Design | Hong Kong</title>
-    <meta name="description" content="Jeffrey Tse - Former Chief Editor at I.T Apparels specializing in Content Strategy, Creative Production, Character Design, and AI-powered creative workflows.">
+    <title>Jeffrey Tse | Creative Strategist & Brand Developer | Hong Kong</title>
+    <meta name="description" content="Jeffrey Tse — Co-Founder & CTO of PawsAid, creator of RE/SENSE, and creative strategist with 7+ years in fashion media, AI-powered production, and interactive experiences.">
 
     <!-- Favicon - JT Logo (Light version for dark mode aesthetic) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='white'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='50' fill='black'>JT</text></svg>">
 
     <!-- Open Graph Tags for Social Sharing -->
-    <meta property="og:title" content="Jeffrey Tse | Content Strategy & Creative Production">
-    <meta property="og:description" content="Former Chief Editor at I.T Apparels, now creating AI-powered creative experiences. Available for freelance projects.">
+    <meta property="og:title" content="Jeffrey Tse | Creative Strategist & Brand Developer">
+    <meta property="og:description" content="Co-Founder & CTO of PawsAid. Creator of RE/SENSE. Editorial-led creative with 7+ years in fashion media and AI-powered production.">
     <meta property="og:image" content="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg">
     <meta property="og:url" content="https://hydrogenbondss.github.io/jeffreytse/">
     <meta property="og:type" content="website">
@@ -152,7 +152,74 @@
         };
 
         const allProjects = [
-            { 
+            {
+                title: "RE/SENSE",
+                category: "Game Development / Narrative Design",
+                filterCategory: "tech",
+                year: "2025",
+                description: "Interactive narrative dating simulation featuring 19 characters and AI companion app NECTAR",
+                fullDescription: "Creator and lead developer of RE/SENSE — an interactive narrative dating simulation game featuring 19 characters with customisable player gender and sexuality. Built on Ren'Py with AI-assisted asset pipeline using ComfyUI and LoRA training. Includes NECTAR, an in-game AI relationship-advisor companion app planned for standalone release. Tentative Q2 2027 launch.",
+                role: "Creator & Lead Developer",
+                image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
+                link: "https://github.com/hydrogenbondss",
+                isPersonal: true,
+                id: "resense"
+            },
+            {
+                title: "PawsAid",
+                category: "Product / Brand Development",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Pet first-aid kit brand built on a bilingual full-stack React/TypeScript platform",
+                fullDescription: "Co-founded PawsAid — a pet first-aid kit brand targeting Hong Kong pet owners. As Co-Founder & CTO, built the full-stack bilingual (EN/Traditional Chinese) e-commerce platform in React and TypeScript with integrated AI chat support, WhatsApp fulfillment, product listings, and first-aid instructions. Led brand identity, packaging architecture, and digital presence from zero to launch.",
+                role: "Co-Founder & CTO",
+                image: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&q=80",
+                link: "https://pawsaid.hk",
+                github: "https://github.com/hydrogenbondss/pawsaidv2",
+                isPersonal: true,
+                id: "pawsaid"
+            },
+            {
+                title: "Roll Call",
+                category: "Curatorial / Archive",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Material culture archive — 43 toilet paper specimens from 21 countries across contemporary Asia",
+                fullDescription: "Founder and curator of Roll Call — a material culture archive documenting toilet paper specimens from 21 countries across contemporary Asia. 43 verified specimens catalogued with museum-standard methodology. An ongoing study in consumer goods, regional identity, and everyday material culture.",
+                role: "Founder & Curator",
+                image: "https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=800&q=80",
+                link: "https://hydrogenbondss.github.io/Rollcall/",
+                isPersonal: true,
+                id: "rollcall"
+            },
+            {
+                title: "Garden of Returning",
+                category: "Creative Coding / Generative Art",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Living browser sanctuary — plants grow, bloom, die, and return with procedural audio and generative poetry",
+                fullDescription: "A living, browser-based sanctuary where plants grow, bloom, die, and return. Built entirely in HTML/Canvas with procedural audio, generative poetry, and no external assets. An exploration of cyclical systems, digital nature, and contemplative interaction.",
+                role: "Creative Developer",
+                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
+                link: "https://hydrogenbondss.github.io/garden-of-returning/",
+                github: "https://github.com/hydrogenbondss/garden-of-returning",
+                isPersonal: true,
+                id: "garden"
+            },
+            {
+                title: "Cathedral of Small Hours",
+                category: "Creative Coding / Interactive",
+                filterCategory: "tech",
+                year: "2026",
+                description: "Human silhouettes resolve from streams of falling words — 3D parallax with synthesized sound",
+                fullDescription: "A mood study for a digital cathedral where human silhouettes resolve from streams of falling words. Built in a single HTML file with 3D parallax, generative figures, and synthesized sound. Scroll to explore. An atmospheric meditation on language, form, and digital space.",
+                role: "Creative Developer",
+                image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&q=80",
+                link: "https://hydrogenbondss.github.io/cathedral-of-small-hours/",
+                github: "https://github.com/hydrogenbondss/cathedral-of-small-hours",
+                isPersonal: true,
+                id: "cathedral"
+            },
                 title: "PabePabe: The Morphing Trilogy", 
                 category: "AI Creative Direction / Generative Design", 
                 filterCategory: "tech", 
@@ -192,11 +259,11 @@
         ];
 
         const capabilities = {
-            roles: ["Content Strategy", "Creative Production", "Character Design", "Fashion Editor", "Art Direction", "Copywriting", "Brand Collaborations", "AI Creative Direction"],
-            software: ["Canva Pro", "CapCut Pro", "Midjourney", "ChatGPT / Claude", "ElevenLabs", "Pictory", "Runway ML", "Figma", "VS Code", "GitHub"]
+            roles: ["Content Strategy", "Creative Direction", "Brand Development", "AI Creative Production", "Product Design", "Game Development", "Fashion Editorial", "Copywriting"],
+            software: ["Canva Pro", "CapCut Pro", "Midjourney", "ComfyUI", "LoRA Training", "ChatGPT / Claude", "ElevenLabs", "Runway ML", "React / TypeScript", "Ren'Py", "Figma", "VS Code", "GitHub"]
         };
 
-        const clients = ["Samsung", "MTR", "Ocean Park", "China Mobile", "HKTB", "I.T Apparels", "PabePabe"];
+        const clients = ["Samsung", "MTR", "Ocean Park", "China Mobile", "HKTB", "I.T Apparels", "PabePabe", "PawsAid"];
 
         const LazyVideo = memo(({ src, poster, className }) => {
             const [isLoaded, setIsLoaded] = useState(false);
@@ -347,7 +414,7 @@
 
                     <div className="mobile-hero-header md:hidden">
                         <h1>Jeffrey Tse</h1>
-                        <p className="subtitle">Content Strategy, Creative Production & Character Design</p>
+                        <p className="subtitle">Creative Strategist · Co-Founder & CTO, PawsAid · Creator, RE/SENSE</p>
                         <p className="subsubtitle flex items-center justify-center gap-2"><span className="status-dot"></span>Available for work</p>
                     </div>
 
@@ -403,8 +470,8 @@
                                 <div className="md:col-span-2 space-y-6">
                                     <h2 className="font-display text-4xl font-bold text-gray-900 dark:text-white">About</h2>
                                     <div className="prose dark:prose-invert max-w-none">
-                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Former Chief Editor at I.T Apparels, now operating at the intersection of content strategy and AI-powered creative production. I've led editorial teams, assisted brand campaigns for Samsung and Ocean Park, and developed interactive web experiences.</p>
-                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Currently focused on character design and generative workflows—exploring how AI tools can augment (not replace) human creativity in fashion and product visualization.</p>
+                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Creative strategist and brand developer with 7+ years spanning fashion media, AI-powered production, and product development. Former Chief Editor at I.T Apparels leading a bilingual editorial team; previously lead storyteller for Hong Kong Tourism Board's Hello Hong Kong campaign.</p>
+                                        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">Currently Co-Founder & CTO of PawsAid — a pet first-aid brand built on a full-stack React/TypeScript platform — and creator of RE/SENSE, a narrative dating simulation game with 19 characters and an AI companion app, NECTAR. Also running Roll Call, a material culture archive documenting consumer goods across contemporary Asia.</p>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4 pt-6">
                                         <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900"><div className="font-display text-3xl font-bold mb-1 text-gray-900 dark:text-white">7+</div><div className="text-sm text-gray-600 dark:text-gray-400">Years in Fashion Media</div></div>
@@ -432,7 +499,7 @@
                                     </div>
                                     <div className="mt-8 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                         <h4 className="font-display text-lg font-bold mb-2 text-gray-900 dark:text-white">Current Focus</h4>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">Available for freelance projects and collaborations. Currently exploring AI-driven character design and generative workflows for fashion and product visualization.</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Co-Founder & CTO at PawsAid. Developing RE/SENSE — a narrative dating sim with 19 characters and AI companion app NECTAR (tentative Q2 2027). Running Roll Call, a material culture archive across contemporary Asia. Available for freelance and creative collaborations.</p>
                                         <div className="mt-4 flex items-center gap-2 text-sm"><span className="status-dot"></span><span className="text-green-600 dark:text-green-400 font-medium">Accepting new projects</span></div>
                                     </div>
                                 </div>
