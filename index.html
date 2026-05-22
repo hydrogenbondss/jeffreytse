@@ -3,658 +3,836 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jeffrey Nicholas Tse</title>
-<meta name="description" content="Jeffrey Nicholas Tse — interdisciplinary artist, curator, and systems designer. Hong Kong.">
-<meta property="og:title" content="Jeffrey Nicholas Tse">
-<meta property="og:description" content="Interdisciplinary artist, curator, and systems designer investigating how human presence is reshaped through systems of observation, classification, memory, and mediation.">
+<title>Jeffrey N. Tse</title>
+<meta name="description" content="Jeffrey N. Tse — interdisciplinary artist, curator, and systems designer. Hong Kong.">
+<meta property="og:title" content="Jeffrey N. Tse">
+<meta property="og:description" content="Interdisciplinary artist, curator, and systems designer. Hong Kong.">
 <meta property="og:image" content="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text x='50%' y='55%' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='52' fill='white'>JT</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23080808'/><text x='50%25' y='56%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='46' fill='%23F4F0E8'>JT</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
+/* ── RESET & BASE ────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box}
 :root{
   --black:#080808;
-  --white:#F4F0E8;
-  --grey:#9a9a8e;
-  --grey-dark:#2a2a28;
-  --accent:#C8B89A;
+  --off-white:#F2EDE4;
+  --dim:#7a7870;
+  --accent:#B8A88A;
   --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'DM Sans',system-ui,sans-serif;
   --mono:'DM Mono',monospace;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --col:min(1100px,92vw);
 }
-*{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{
+  background:var(--black);color:var(--off-white);
+  font-family:var(--sans);font-weight:300;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
 
-/* ── GRAIN overlay ─────────────────────────────── */
-body::before{content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
-  opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:200px 200px}
+/* ── GRAIN ───────────────────────────────────────── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:900;pointer-events:none;
+  opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
 
-/* ── GATE ──────────────────────────────────────── */
+/* ── GATE ────────────────────────────────────────── */
 #gate{
-  position:fixed;inset:0;z-index:200;background:var(--black);
+  position:fixed;inset:0;z-index:500;
+  background:var(--black);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   cursor:pointer;
+  transition:opacity 1.4s cubic-bezier(.4,0,.2,1);
 }
+#gate.out{opacity:0;pointer-events:none}
 #gate-name{
-  font-family:var(--serif);font-size:clamp(3rem,8vw,7rem);font-weight:300;
-  color:var(--white);letter-spacing:.08em;text-align:center;line-height:1;
-  margin-bottom:1rem;
-  /* letter split for animation */
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(2.8rem,6.5vw,5.8rem);
+  color:var(--off-white);letter-spacing:.1em;
+  line-height:1;margin-bottom:.5rem;
+  overflow:hidden;
 }
-#gate-name span{display:inline-block;transition:transform .8s cubic-bezier(.16,1,.3,1),opacity .8s ease}
-#gate.leaving #gate-name span{opacity:0}
-#gate-rule{width:1px;height:0;background:var(--accent);margin:.5rem auto 2rem;transition:height 1s ease .2s}
-#gate.loaded #gate-rule{height:60px}
+/* letters animate up on load */
+#gate-name .l{
+  display:inline-block;
+  transform:translateY(110%);
+  transition:transform .9s cubic-bezier(.16,1,.3,1);
+}
+#gate.ready .l{transform:translateY(0)}
+#gate-line{
+  width:0;height:1px;background:var(--accent);
+  margin:.8rem auto 1.6rem;
+  transition:width 1s ease .6s;
+}
+#gate.ready #gate-line{width:48px}
 #gate-sub{
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(154,168,130,.4);text-align:center;line-height:2.2;
-  opacity:0;transition:opacity 1s ease .5s;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(178,168,138,.4);
+  opacity:0;transition:opacity .8s ease .9s;
+  margin-bottom:2.8rem;
 }
-#gate.loaded #gate-sub{opacity:1}
-#gate-enter{
-  margin-top:3rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.32em;
-  text-transform:uppercase;color:rgba(200,184,154,.5);
-  border:1px solid rgba(200,184,154,.18);padding:14px 48px;
+#gate.ready #gate-sub{opacity:1}
+#gate-btn{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(178,168,138,.45);
+  border:1px solid rgba(178,168,138,.18);padding:13px 44px;
   background:transparent;cursor:pointer;
-  transition:all .5s;
-  opacity:0;transition:opacity 1s ease .8s,color .4s,border-color .4s,background .4s;
+  opacity:0;transition:opacity .8s ease 1.1s, color .35s, border-color .35s, background .35s;
 }
-#gate.loaded #gate-enter{opacity:1}
-#gate-enter:hover{color:rgba(244,240,232,.9);border-color:rgba(200,184,154,.45);background:rgba(200,184,154,.06)}
-#gate.leaving{opacity:0;transition:opacity 1s ease .2s;pointer-events:none}
+#gate.ready #gate-btn{opacity:1}
+#gate-btn:hover{color:rgba(242,237,228,.88);border-color:rgba(178,168,138,.42);background:rgba(178,168,138,.05)}
 
-/* ── NAV ───────────────────────────────────────── */
+/* ── NAV ─────────────────────────────────────────── */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
-  padding:1.6rem 3rem;
-  background:linear-gradient(to bottom,rgba(8,8,8,.95) 0%,transparent 100%);
-  transition:padding .4s;
+  padding:1.8rem 3rem;
+  transition:padding .4s,background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
 }
-#nav.compact{padding:1rem 3rem;background:rgba(8,8,8,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04)}
-.nav-logo{font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:.12em;color:var(--white);text-decoration:none}
-.nav-links{display:flex;align-items:center;gap:2.5rem}
-.nav-links a{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--grey);text-decoration:none;transition:color .3s}
-.nav-links a:hover{color:var(--white)}
-.nav-avail{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.52rem;
-  letter-spacing:.16em;text-transform:uppercase;color:rgba(154,168,130,.5)}
-.nav-dot{width:5px;height:5px;border-radius:50%;background:#5a8a5a;animation:blink 3s ease infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+#nav.scrolled{
+  padding:1rem 3rem;
+  background:rgba(8,8,8,.94);
+  border-bottom-color:rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.1rem;font-weight:300;
+  letter-spacing:.14em;color:var(--off-white);
+}
+.nav-links{
+  display:flex;align-items:center;gap:2.8rem;
+  list-style:none;
+}
+.nav-links a{
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);
+  transition:color .25s;
+}
+.nav-links a:hover{color:var(--off-white)}
 
-/* ── HERO ──────────────────────────────────────── */
+/* mobile nav */
+#nav-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:4px;
+}
+#nav-toggle span{width:22px;height:1px;background:var(--off-white);transition:all .3s}
+#nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+#nav-toggle.open span:nth-child(2){opacity:0}
+#nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+#mobile-menu{
+  display:none;position:fixed;inset:0;z-index:99;
+  background:rgba(8,8,8,.98);
+  flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
+}
+#mobile-menu.open{display:flex}
+#mobile-menu a{
+  font-family:var(--serif);font-size:2.2rem;font-weight:300;
+  color:var(--off-white);letter-spacing:.06em;
+}
+
+@media(max-width:768px){
+  #nav{padding:1.2rem 1.5rem}
+  #nav.scrolled{padding:.8rem 1.5rem}
+  .nav-links{display:none}
+  #nav-toggle{display:flex}
+}
+
+/* ── HERO ────────────────────────────────────────── */
 #hero{
-  min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 3rem 6rem;position:relative;overflow:hidden;
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 3rem 5rem;
+  position:relative;
 }
-#hero-bg{
-  position:absolute;inset:0;z-index:0;
-  background:radial-gradient(ellipse at 65% 40%,rgba(200,184,154,.04) 0%,transparent 65%);
-}
-/* large background text */
-#hero-ghost{
-  position:absolute;top:50%;left:-2%;transform:translateY(-50%);
-  font-family:var(--serif);font-size:clamp(10rem,18vw,18rem);font-weight:300;
-  color:rgba(255,255,255,.022);letter-spacing:-.02em;white-space:nowrap;
-  pointer-events:none;will-change:transform;line-height:1;
-  transition:transform .1s linear;
+/* subtle vignette at bottom */
+#hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(to top,rgba(8,8,8,.35),transparent);
+  pointer-events:none;
 }
 .hero-eyebrow{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(200,184,154,.45);margin-bottom:1.5rem;position:relative;z-index:1;
-  opacity:0;transform:translateY(12px);
-  transition:opacity .9s ease .1s,transform .9s ease .1s;
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(178,168,138,.4);
+  margin-bottom:1.2rem;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .9s ease .2s,transform .9s ease .2s;
 }
 body.entered .hero-eyebrow{opacity:1;transform:translateY(0)}
 #hero-name{
   font-family:var(--serif);font-weight:300;
-  font-size:clamp(3.5rem,7.5vw,7rem);
-  color:var(--white);letter-spacing:.03em;line-height:1.05;
-  position:relative;z-index:1;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 1s ease .25s,transform 1s ease .25s;
+  font-size:clamp(3.8rem,8.5vw,8rem);
+  line-height:.95;letter-spacing:.02em;
+  color:var(--off-white);
+  opacity:0;transform:translateY(18px);
+  transition:opacity 1s ease .35s,transform 1s ease .35s;
 }
 body.entered #hero-name{opacity:1;transform:translateY(0)}
-#hero-practice{
-  margin-top:1.2rem;font-family:var(--serif);font-style:italic;
-  font-size:clamp(1rem,2vw,1.4rem);font-weight:300;
-  color:rgba(200,184,154,.55);line-height:1.6;max-width:560px;
-  position:relative;z-index:1;
-  opacity:0;transform:translateY(16px);
-  transition:opacity 1s ease .45s,transform 1s ease .45s;
+#hero-statement{
+  margin-top:1.4rem;
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(1rem,1.8vw,1.3rem);
+  color:rgba(178,168,138,.55);line-height:1.65;
+  max-width:480px;
+  opacity:0;transform:translateY(12px);
+  transition:opacity 1s ease .55s,transform 1s ease .55s;
 }
-body.entered #hero-practice{opacity:1;transform:translateY(0)}
-.hero-scroll-hint{
-  position:absolute;right:3rem;bottom:5rem;
-  display:flex;flex-direction:column;align-items:center;gap:.75rem;
-  opacity:0;transition:opacity 1s ease 1.2s;
+body.entered #hero-statement{opacity:1;transform:translateY(0)}
+
+/* scroll cue */
+.scroll-cue{
+  position:absolute;right:3rem;bottom:4.5rem;
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  opacity:0;transition:opacity 1s ease 1.4s;
 }
-body.entered .hero-scroll-hint{opacity:.4}
-.scroll-line{width:1px;height:48px;background:var(--accent);
-  transform-origin:top;animation:scrollPulse 2s ease infinite}
-@keyframes scrollPulse{0%{transform:scaleY(0);opacity:0}50%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
-.scroll-text{font-family:var(--mono);font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);writing-mode:vertical-rl}
-
-/* ── VIDEO GRID ────────────────────────────────── */
-#video-section{padding:0 1rem 1rem;position:relative}
-.video-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;height:56vh;min-height:380px}
-.vg-item{
-  position:relative;overflow:hidden;border-radius:4px;cursor:pointer;
-  background:#111;transition:flex .5s cubic-bezier(.16,1,.3,1);
+body.entered .scroll-cue{opacity:.35}
+.scroll-cue-line{
+  width:1px;height:40px;background:var(--accent);
+  transform-origin:top;
+  animation:scrollDrop 2.2s ease infinite;
 }
-.vg-item video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.vg-item:hover video{transform:scale(1.04)}
-.vg-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 50%,transparent 100%);opacity:.55;transition:opacity .35s}
-.vg-item:hover .vg-overlay{opacity:.88}
-.vg-content{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;z-index:2}
-.vg-label{font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,240,232,.45);margin-bottom:.35rem}
-.vg-title{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--white);line-height:1.2;
-  transform:translateY(8px);opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1) .05s}
-.vg-item:hover .vg-title{transform:translateY(0);opacity:1}
-.vg-num{position:absolute;top:1.2rem;right:1.2rem;font-family:var(--serif);font-size:3rem;font-weight:300;
-  color:rgba(255,255,255,.08);line-height:1;pointer-events:none}
-
-/* ── SECTION COMMON ────────────────────────────── */
-.section{padding:8rem 3rem}
-.section-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(200,184,154,.4);margin-bottom:4rem;display:flex;align-items:center;gap:1.5rem}
-.section-label::after{content:'';flex:1;height:1px;background:rgba(200,184,154,.1);max-width:80px}
-.section-title{font-family:var(--serif);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;
-  color:var(--white);letter-spacing:.02em;line-height:1.1}
-
-/* reveal on scroll */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-/* ── ABOUT ─────────────────────────────────────── */
-#about{background:var(--black);position:relative;overflow:hidden}
-#about-ghost{
-  position:absolute;right:-5%;top:50%;transform:translateY(-50%);
-  font-family:var(--serif);font-size:clamp(8rem,14vw,14rem);font-weight:300;
-  color:rgba(255,255,255,.018);letter-spacing:-.02em;pointer-events:none;line-height:1;
-  will-change:transform;
+@keyframes scrollDrop{
+  0%{transform:scaleY(0);opacity:0}
+  40%{transform:scaleY(1);opacity:1}
+  100%{transform:scaleY(1);opacity:0;transform-origin:bottom}
 }
-.about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;align-items:start}
-.about-photo{aspect-ratio:3/4;overflow:hidden;border-radius:2px}
-.about-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%) contrast(1.05)}
-.about-text{padding-top:2rem}
-.about-body{font-family:var(--serif);font-size:clamp(1.05rem,1.6vw,1.25rem);font-weight:300;
-  color:rgba(244,240,232,.72);line-height:1.85;margin-bottom:1.5rem}
-.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;
-  border:1px solid rgba(255,255,255,.06)}
-.stat{padding:1.5rem;border-right:1px solid rgba(255,255,255,.06)}
-.stat:last-child{border-right:none}
-.stat-n{font-family:var(--serif);font-size:2.8rem;font-weight:300;color:var(--accent);line-height:1}
-.stat-l{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--grey);margin-top:.5rem}
+.scroll-cue-label{
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);writing-mode:vertical-rl;
+}
 
-/* ── WORKS ─────────────────────────────────────── */
-#works{background:var(--black);border-top:1px solid rgba(255,255,255,.05)}
-.works-filter{display:flex;gap:.25rem;margin-bottom:4rem;flex-wrap:wrap}
-.wf-btn{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;
-  padding:.55rem 1.2rem;border:1px solid rgba(255,255,255,.1);background:transparent;
-  color:var(--grey);cursor:pointer;border-radius:2px;transition:all .3s}
-.wf-btn:hover,.wf-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(200,184,154,.06)}
-.works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.work-card{
+@media(max-width:768px){
+  #hero{padding:0 1.5rem 4rem}
+  .scroll-cue{display:none}
+}
+
+/* ── SECTION SHELL ───────────────────────────────── */
+.section{
+  width:var(--col);margin:0 auto;
+  padding:7rem 0;
+}
+.section-head{
+  display:flex;align-items:baseline;gap:1.2rem;
+  margin-bottom:4rem;
+}
+.section-head::after{
+  content:'';flex:1;height:1px;background:rgba(255,255,255,.06);max-width:60px;
+}
+.section-tag{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(178,168,138,.38);
+}
+.section-divider{
+  border:none;border-top:1px solid rgba(255,255,255,.05);
+  width:100%;margin:0;
+}
+
+/* ── WORKS GRID ──────────────────────────────────── */
+#works-wrap{padding:5rem 0 0}
+.works-filter{
+  width:var(--col);margin:0 auto 2.5rem;
+  display:flex;gap:.25rem;flex-wrap:wrap;
+}
+.wf{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;
+  text-transform:uppercase;padding:.5rem 1rem;
+  border:1px solid rgba(255,255,255,.08);
+  background:transparent;color:var(--dim);
+  cursor:pointer;border-radius:2px;transition:all .25s;
+}
+.wf:hover,.wf.on{border-color:var(--accent);color:var(--accent);background:rgba(184,168,138,.06)}
+
+.works-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+.wc{
   position:relative;overflow:hidden;cursor:pointer;
-  background:#0e0e0c;aspect-ratio:4/3;
-  transition:opacity .3s;
+  background:#0c0c0a;aspect-ratio:4/3;
 }
-.work-card:hover{opacity:.9}
-.work-card img{width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .6s cubic-bezier(.16,1,.3,1);filter:grayscale(15%) contrast(1.02)}
-.work-card:hover img{transform:scale(1.04)}
-.work-card-overlay{
+.wc img,.wc video{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .65s cubic-bezier(.16,1,.3,1),filter .4s;
+  filter:grayscale(8%) contrast(1.02) brightness(.95);
+}
+.wc:hover img,.wc:hover video{transform:scale(1.04);filter:grayscale(0%) contrast(1.04) brightness(1)}
+.wc-hover{
   position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(8,8,8,.9) 0%,rgba(8,8,8,.2) 45%,transparent 100%);
+  background:linear-gradient(to top,rgba(8,8,8,.88) 0%,rgba(8,8,8,.22) 50%,transparent 100%);
   opacity:0;transition:opacity .35s;
-  display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:1.4rem;
 }
-.work-card:hover .work-card-overlay{opacity:1}
-.wc-cat{font-family:var(--mono);font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
-.wc-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--white);line-height:1.2}
+.wc:hover .wc-hover{opacity:1}
+.wc-cat{
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:.35rem;
+}
+.wc-title{
+  font-family:var(--serif);font-size:1.15rem;font-weight:400;
+  color:var(--off-white);line-height:1.2;
+}
 .wc-badge{
   position:absolute;top:.9rem;left:.9rem;
-  font-family:var(--mono);font-size:.42rem;letter-spacing:.16em;text-transform:uppercase;
-  padding:.25rem .6rem;border-radius:2px;
+  font-family:var(--mono);font-size:.4rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.2rem .55rem;border-radius:2px;
 }
-.badge-founder{background:rgba(200,130,60,.15);color:rgba(220,150,80,.8);border:1px solid rgba(200,130,60,.25)}
-.badge-dev{background:rgba(200,180,60,.12);color:rgba(210,190,80,.7);border:1px solid rgba(200,180,60,.2)}
-.badge-editorial{background:rgba(160,100,200,.12);color:rgba(170,120,210,.7);border:1px solid rgba(160,100,200,.2)}
-.badge-client{background:rgba(60,160,100,.12);color:rgba(80,170,120,.7);border:1px solid rgba(60,160,100,.2)}
+.b-founder{background:rgba(184,120,50,.14);color:rgba(210,145,80,.75);border:1px solid rgba(184,120,50,.22)}
+.b-dev{background:rgba(180,165,50,.11);color:rgba(200,185,70,.65);border:1px solid rgba(180,165,50,.18)}
+.b-editorial{background:rgba(140,90,185,.12);color:rgba(160,110,200,.65);border:1px solid rgba(140,90,185,.18)}
+.b-client{background:rgba(55,145,90,.11);color:rgba(75,160,105,.65);border:1px solid rgba(55,145,90,.18)}
 
-/* ── CURATORIAL ────────────────────────────────── */
-#curatorial{background:#0c0c0a;border-top:1px solid rgba(255,255,255,.05)}
-.cur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04)}
-.cur-card{
-  background:#0c0c0a;padding:2.5rem;
-  transition:background .3s;
+@media(max-width:900px){.works-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.works-grid{grid-template-columns:1fr}}
+
+/* ── ABOUT ───────────────────────────────────────── */
+#about-wrap{border-top:1px solid rgba(255,255,255,.05)}
+.about-inner{
+  display:grid;grid-template-columns:1fr 1.5fr;
+  gap:5rem;align-items:start;
 }
-.cur-card:hover{background:#121210}
-.cur-year{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:rgba(200,184,154,.4);margin-bottom:.75rem}
-.cur-title{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--white);margin-bottom:.4rem;line-height:1.2}
-.cur-venue{font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;color:var(--grey);margin-bottom:1rem;text-transform:uppercase}
-.cur-desc{font-family:var(--sans);font-size:.85rem;color:rgba(244,240,232,.45);line-height:1.7;margin-bottom:1.2rem}
-.cur-role-tag{display:inline-block;font-family:var(--mono);font-size:.42rem;letter-spacing:.14em;text-transform:uppercase;
-  padding:.2rem .55rem;border:1px solid rgba(200,184,154,.18);color:rgba(200,184,154,.5);border-radius:2px;margin-right:.35rem;margin-bottom:.35rem}
-.cur-artists{font-family:var(--sans);font-size:.75rem;color:rgba(244,240,232,.3);margin-top:.75rem}
-.cur-artists span{color:rgba(244,240,232,.5)}
+.about-photo{
+  aspect-ratio:3/4;overflow:hidden;border-radius:2px;position:sticky;top:7rem;
+}
+.about-photo img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(15%) contrast(1.04);
+}
+.about-body p{
+  font-family:var(--serif);font-size:clamp(1rem,1.5vw,1.18rem);font-weight:300;
+  color:rgba(242,237,228,.68);line-height:1.9;
+  margin-bottom:1.4rem;
+}
+.about-body p:last-child{margin-bottom:0}
+@media(max-width:900px){
+  .about-inner{grid-template-columns:1fr;gap:2.5rem}
+  .about-photo{max-height:55vw;position:static}
+}
 
-/* ── RESEARCH ──────────────────────────────────── */
-#research{background:var(--black);border-top:1px solid rgba(255,255,255,.05)}
-.pub-list{border-top:1px solid rgba(255,255,255,.06)}
+/* ── CURATORIAL — plain text list ────────────────── */
+#cur-wrap{border-top:1px solid rgba(255,255,255,.05)}
+.cur-list{list-style:none}
+.cur-item{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:2rem;
+  padding:1.6rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  transition:background .2s;
+}
+.cur-item:first-child{border-top:1px solid rgba(255,255,255,.05)}
+.cur-year{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;
+  color:var(--dim);padding-top:.25rem;
+  text-transform:uppercase;
+}
+.cur-main{}
+.cur-title{
+  font-family:var(--serif);font-size:1.25rem;font-weight:400;
+  color:var(--off-white);margin-bottom:.25rem;line-height:1.2;
+}
+.cur-venue{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.55rem;
+}
+.cur-desc{
+  font-family:var(--sans);font-size:.85rem;font-weight:300;
+  color:rgba(242,237,228,.42);line-height:1.7;
+}
+.cur-roles{
+  margin-top:.55rem;
+  display:flex;gap:.5rem;flex-wrap:wrap;
+}
+.cur-role{
+  font-family:var(--mono);font-size:.4rem;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(184,168,138,.4);
+  border:1px solid rgba(184,168,138,.14);padding:.18rem .45rem;border-radius:2px;
+}
+
+/* ── RESEARCH — plain text list ──────────────────── */
+#res-wrap{border-top:1px solid rgba(255,255,255,.05)}
+.pub-list{list-style:none}
 .pub-item{
-  display:grid;grid-template-columns:120px 1fr;gap:3rem;
-  padding:3rem 0;border-bottom:1px solid rgba(255,255,255,.06);
-  transition:background .3s;
+  display:grid;grid-template-columns:80px 1fr;
+  gap:2rem;padding:2rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
-.pub-item:hover{background:rgba(255,255,255,.01)}
-.pub-meta{padding-top:.2rem}
-.pub-year{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;color:rgba(200,184,154,.4);margin-bottom:.6rem;text-transform:uppercase}
-.pub-type-tag{display:inline-block;font-family:var(--mono);font-size:.42rem;letter-spacing:.14em;text-transform:uppercase;
-  padding:.2rem .5rem;border-radius:2px;margin-bottom:.4rem}
-.pt-research{background:rgba(150,100,200,.1);color:rgba(170,120,210,.65);border:1px solid rgba(150,100,200,.2)}
-.pt-thesis{background:rgba(60,120,200,.1);color:rgba(80,140,210,.65);border:1px solid rgba(60,120,200,.2)}
-.pt-press{background:rgba(60,160,100,.1);color:rgba(80,170,120,.65);border:1px solid rgba(60,160,100,.2)}
-.pub-presented{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;color:rgba(200,184,154,.35);text-transform:uppercase;margin-top:.4rem}
-.pub-title{font-family:var(--serif);font-size:clamp(1.1rem,1.8vw,1.4rem);font-weight:400;color:var(--white);
-  line-height:1.3;margin-bottom:.5rem}
-.pub-venue{font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;color:var(--grey);text-transform:uppercase;margin-bottom:.8rem}
-.pub-desc{font-family:var(--sans);font-size:.875rem;color:rgba(244,240,232,.45);line-height:1.7;margin-bottom:1rem}
-.pub-link{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.52rem;
-  letter-spacing:.14em;text-transform:uppercase;color:rgba(200,184,154,.5);text-decoration:none;
-  border-bottom:1px solid rgba(200,184,154,.2);padding-bottom:.1rem;transition:color .3s,border-color .3s}
+.pub-item:first-child{border-top:1px solid rgba(255,255,255,.05)}
+.pub-left{}
+.pub-year{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.5rem;
+}
+.pub-type{
+  display:inline-block;font-family:var(--mono);font-size:.4rem;
+  letter-spacing:.12em;text-transform:uppercase;padding:.18rem .45rem;border-radius:2px;
+}
+.pt-research{background:rgba(130,80,185,.1);color:rgba(155,105,205,.6);border:1px solid rgba(130,80,185,.18)}
+.pt-thesis{background:rgba(50,100,185,.1);color:rgba(75,125,205,.6);border:1px solid rgba(50,100,185,.18)}
+.pt-press{background:rgba(50,145,85,.1);color:rgba(75,165,105,.6);border:1px solid rgba(50,145,85,.18)}
+.pub-presented{
+  font-family:var(--mono);font-size:.4rem;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(184,168,138,.35);margin-top:.35rem;
+}
+.pub-title{
+  font-family:var(--serif);font-size:clamp(1rem,1.6vw,1.25rem);font-weight:400;
+  color:var(--off-white);line-height:1.3;margin-bottom:.4rem;
+}
+.pub-venue{
+  font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;
+}
+.pub-desc{
+  font-family:var(--sans);font-size:.85rem;font-weight:300;
+  color:rgba(242,237,228,.42);line-height:1.72;margin-bottom:.9rem;
+}
+.pub-link{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(184,168,138,.5);
+  border-bottom:1px solid rgba(184,168,138,.2);padding-bottom:1px;
+  transition:color .25s,border-color .25s;
+}
 .pub-link:hover{color:var(--accent);border-color:var(--accent)}
-.pub-link::after{content:'↗';font-size:.7rem}
+.pub-link::after{content:' ↗'}
 
-/* ── CONTACT ───────────────────────────────────── */
-#contact{
-  min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;padding:8rem 3rem;
-  background:#0a0a08;border-top:1px solid rgba(255,255,255,.05);
-  position:relative;overflow:hidden;
+/* ── CONTACT ─────────────────────────────────────── */
+#contact-wrap{border-top:1px solid rgba(255,255,255,.05)}
+.contact-inner{
+  padding:8rem 0 6rem;
+  display:flex;flex-direction:column;align-items:flex-start;
 }
-#contact-ghost{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  font-family:var(--serif);font-size:clamp(8rem,18vw,18rem);font-weight:300;
-  color:rgba(255,255,255,.015);letter-spacing:-.02em;pointer-events:none;white-space:nowrap;
-  will-change:transform;
+.contact-pre{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(184,168,138,.35);
+  margin-bottom:1.8rem;
 }
-.contact-label{font-family:var(--mono);font-size:.55rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(200,184,154,.35);margin-bottom:2rem;position:relative;z-index:1}
-.contact-line{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5.5rem);font-weight:300;
-  color:var(--white);line-height:1.1;margin-bottom:3rem;position:relative;z-index:1}
+.contact-line{
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(3rem,7vw,6.5rem);
+  line-height:.95;color:var(--off-white);
+  margin-bottom:3rem;
+}
 .contact-email{
-  font-family:var(--mono);font-size:.75rem;letter-spacing:.2em;
-  color:rgba(200,184,154,.55);text-decoration:none;
-  border-bottom:1px solid rgba(200,184,154,.22);padding-bottom:.2rem;
-  transition:color .3s,border-color .3s;position:relative;z-index:1;text-transform:lowercase;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
+  text-transform:lowercase;color:rgba(184,168,138,.5);
+  border-bottom:1px solid rgba(184,168,138,.2);padding-bottom:2px;
+  transition:color .3s,border-color .3s;
 }
 .contact-email:hover{color:var(--accent);border-color:var(--accent)}
-.social-row{display:flex;gap:2.5rem;margin-top:3rem;position:relative;z-index:1}
-.soc-link{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--grey);text-decoration:none;transition:color .3s}
-.soc-link:hover{color:var(--white)}
+.social{
+  display:flex;gap:2rem;margin-top:2.5rem;
+}
+.social a{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);
+  transition:color .25s;
+}
+.social a:hover{color:var(--off-white)}
 
-/* ── FOOTER ────────────────────────────────────── */
-footer{padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;
-  border-top:1px solid rgba(255,255,255,.05)}
-.footer-copy,.footer-built{font-family:var(--mono);font-size:.48rem;letter-spacing:.14em;
-  text-transform:uppercase;color:rgba(154,154,142,.35)}
+/* ── FOOTER ──────────────────────────────────────── */
+footer{
+  border-top:1px solid rgba(255,255,255,.04);
+  width:var(--col);margin:0 auto;
+  padding:1.8rem 0;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-copy,.footer-r{
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(122,120,112,.35);
+}
 
-/* ── MODAL ─────────────────────────────────────── */
+/* ── MODAL ───────────────────────────────────────── */
 #modal{
-  position:fixed;inset:0;z-index:150;background:rgba(8,8,8,.97);
-  display:none;overflow-y:auto;backdrop-filter:blur(4px);
+  position:fixed;inset:0;z-index:400;
+  background:rgba(8,8,8,.96);
+  backdrop-filter:blur(6px);
+  display:none;overflow-y:auto;
 }
 #modal.open{display:block}
-.modal-inner{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:4rem 2rem}
-.modal-box{width:100%;max-width:1100px;background:#0e0e0c;border:1px solid rgba(255,255,255,.06);display:grid;grid-template-columns:1.1fr 1fr}
-.modal-media{background:#000;min-height:520px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.modal-media img,.modal-media video{max-width:100%;max-height:70vh;object-fit:contain}
-.modal-media iframe{width:100%;height:100%;min-height:520px;border:none}
-.modal-info{padding:3rem;display:flex;flex-direction:column}
-.modal-year{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,184,154,.4);margin-bottom:.75rem}
-.modal-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;color:var(--white);line-height:1.15;margin-bottom:.5rem}
-.modal-cat{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);margin-bottom:2rem}
-.modal-desc{font-family:var(--sans);font-size:.9rem;color:rgba(244,240,232,.55);line-height:1.8;flex-grow:1}
-.modal-role-wrap{margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.06)}
-.modal-role-label{font-family:var(--mono);font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,184,154,.4);margin-bottom:.35rem}
-.modal-role-val{font-family:var(--sans);font-size:.875rem;color:rgba(244,240,232,.7)}
-.modal-actions{margin-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap}
-.modal-btn-primary{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.18em;text-transform:uppercase;padding:.8rem 1.8rem;
-  background:var(--white);color:var(--black);text-decoration:none;transition:opacity .3s}
-.modal-btn-primary:hover{opacity:.85}
-.modal-btn-ghost{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.18em;text-transform:uppercase;padding:.8rem 1.8rem;
-  border:1px solid rgba(255,255,255,.12);color:var(--grey);text-decoration:none;transition:all .3s}
-.modal-btn-ghost:hover{border-color:rgba(255,255,255,.3);color:var(--white)}
-.modal-close{position:fixed;top:2rem;right:2rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--grey);background:transparent;border:1px solid rgba(255,255,255,.1);
-  padding:.6rem 1.2rem;cursor:pointer;transition:all .3s;z-index:10}
-.modal-close:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
-
-/* carousel inside modal */
-.carousel-wrap{position:relative;width:100%;height:100%}
-.carousel-frame{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
-.carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:2px;
-  color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;
-  font-size:1rem;transition:background .2s}
-.carousel-arrow:hover{background:rgba(255,255,255,.18)}
-.carousel-arrow.prev{left:.75rem}.carousel-arrow.next{right:.75rem}
-.carousel-dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);
-  display:flex;gap:.4rem;z-index:5}
-.cdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s;border:none;padding:0}
-.cdot.active{background:white;width:16px;border-radius:3px}
-
-/* ── RESPONSIVE ────────────────────────────────── */
-@media(max-width:900px){
-  #nav{padding:1.2rem 1.5rem}
-  #nav.compact{padding:.8rem 1.5rem}
-  .nav-links{gap:1.5rem}
-  .nav-links .nav-avail{display:none}
-  .section{padding:5rem 1.5rem}
-  #hero{padding:0 1.5rem 5rem}
-  .video-grid{grid-template-columns:1fr 1fr;height:auto}
-  .about-grid{grid-template-columns:1fr;gap:3rem}
-  .about-photo{max-height:50vh}
-  .cur-grid{grid-template-columns:1fr}
-  .works-grid{grid-template-columns:1fr 1fr;gap:1px}
-  .pub-item{grid-template-columns:1fr;gap:.75rem}
-  .modal-box{grid-template-columns:1fr;max-width:600px}
-  .modal-media{min-height:280px}
-  footer{flex-direction:column;gap:.75rem;text-align:center}
+.modal-wrap{
+  min-height:100vh;display:flex;
+  align-items:center;justify-content:center;
+  padding:5rem 2rem;
 }
-@media(max-width:600px){
-  #gate-name{font-size:2.4rem}
-  .works-grid{grid-template-columns:1fr}
-  .video-grid{grid-template-columns:1fr;height:auto}
-  .about-stats{grid-template-columns:1fr;gap:1px}
-  .stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
-  .stat:last-child{border-bottom:none}
-  #video-section{padding:0 .5rem .5rem}
-  .video-grid{gap:.35rem}
+.modal-box{
+  width:100%;max-width:1080px;
+  display:grid;grid-template-columns:1.05fr 1fr;
+  border:1px solid rgba(255,255,255,.06);
+  background:#0c0c0a;
 }
+.modal-media{
+  background:#000;
+  min-height:480px;position:relative;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.modal-media img,.modal-media video{
+  max-width:100%;max-height:75vh;
+  object-fit:contain;
+}
+.modal-media iframe{width:100%;height:100%;min-height:480px;border:none}
+.modal-info{
+  padding:2.8rem;display:flex;flex-direction:column;
+}
+.mi-year{
+  font-family:var(--mono);font-size:.48rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.6rem;
+}
+.mi-title{
+  font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);
+  font-weight:300;color:var(--off-white);line-height:1.15;margin-bottom:.4rem;
+}
+.mi-cat{
+  font-family:var(--mono);font-size:.48rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:2rem;
+}
+.mi-desc{
+  font-family:var(--sans);font-size:.9rem;font-weight:300;
+  color:rgba(242,237,228,.52);line-height:1.8;flex-grow:1;
+}
+.mi-role-wrap{margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.06)}
+.mi-role-label{
+  font-family:var(--mono);font-size:.42rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;
+}
+.mi-role{font-family:var(--sans);font-size:.9rem;font-weight:300;color:rgba(242,237,228,.65)}
+.mi-actions{margin-top:2rem;display:flex;gap:.6rem;flex-wrap:wrap}
+.mi-btn{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;
+  text-transform:uppercase;padding:.75rem 1.6rem;
+  transition:opacity .25s;
+}
+.mi-btn-primary{background:var(--off-white);color:var(--black)}
+.mi-btn-primary:hover{opacity:.82}
+.mi-btn-ghost{
+  border:1px solid rgba(255,255,255,.12);color:var(--dim);
+  transition:border-color .25s,color .25s;
+}
+.mi-btn-ghost:hover{border-color:rgba(255,255,255,.3);color:var(--off-white)}
+.modal-close-btn{
+  position:fixed;top:1.8rem;right:2rem;z-index:10;
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dim);
+  background:transparent;border:1px solid rgba(255,255,255,.08);
+  padding:.55rem 1.1rem;cursor:pointer;
+  transition:all .25s;
+}
+.modal-close-btn:hover{color:var(--off-white);border-color:rgba(255,255,255,.25)}
+
+/* carousel */
+.car-wrap{position:relative;width:100%;height:100%}
+.car-slide{
+  position:absolute;inset:0;display:flex;
+  align-items:center;justify-content:center;
+  background:#000;
+}
+.car-slide.hidden{display:none}
+.car-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:38px;height:38px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;z-index:5;transition:background .2s;border-radius:2px;
+}
+.car-arrow:hover{background:rgba(255,255,255,.18)}
+.car-prev{left:.75rem}.car-next{right:.75rem}
+.car-dots{
+  position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);
+  display:flex;gap:.35rem;z-index:5;
+}
+.car-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(255,255,255,.22);cursor:pointer;
+  border:none;padding:0;transition:all .25s;
+}
+.car-dot.on{background:white;width:14px;border-radius:3px}
+
+@media(max-width:860px){
+  .modal-box{grid-template-columns:1fr}
+  .modal-media{min-height:260px}
+  .modal-wrap{padding:2rem 1rem}
+}
+
+/* ── SCROLL REVEAL ───────────────────────────────── */
+.reveal{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .75s ease,transform .75s ease;
+}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── BACK TO TOP ─────────────────────────────────── */
+#btt{
+  position:fixed;bottom:2rem;right:2rem;z-index:200;
+  width:42px;height:42px;
+  background:rgba(8,8,8,.85);border:1px solid rgba(255,255,255,.1);
+  color:var(--dim);font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border-radius:2px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .35s,transform .35s,color .2s,border-color .2s;
+  pointer-events:none;
+}
+#btt.show{opacity:1;transform:translateY(0);pointer-events:auto}
+#btt:hover{color:var(--off-white);border-color:rgba(255,255,255,.28)}
 </style>
 </head>
 <body>
 
-<!-- GATE -->
+<!-- ── GATE ── -->
 <div id="gate">
-  <div id="gate-name">
-    <span>J</span><span>e</span><span>f</span><span>f</span><span>r</span><span>e</span><span>y</span>
-    <span>&nbsp;</span>
-    <span>N</span><span>i</span><span>c</span><span>h</span><span>o</span><span>l</span><span>a</span><span>s</span>
-    <span>&nbsp;</span>
-    <span>T</span><span>s</span><span>e</span>
-  </div>
-  <div id="gate-rule"></div>
-  <div id="gate-sub">
-    Artist &nbsp;·&nbsp; Curator &nbsp;·&nbsp; Systems Designer<br>
-    Hong Kong
-  </div>
-  <button id="gate-enter">Enter</button>
+  <div id="gate-name"></div>
+  <div id="gate-line"></div>
+  <div id="gate-sub">Artist &nbsp;·&nbsp; Curator &nbsp;·&nbsp; Systems Designer &nbsp;·&nbsp; Hong Kong</div>
+  <button id="gate-btn">Enter</button>
 </div>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav id="nav">
   <a href="#" class="nav-logo">JNT</a>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#works">Works</a>
-    <a href="#curatorial">Curatorial</a>
-    <a href="#research">Research</a>
-    <a href="#contact">Contact</a>
-    <div class="nav-avail"><span class="nav-dot"></span>Available</div>
-  </div>
+  <ul class="nav-links">
+    <li><a href="#about-wrap">About</a></li>
+    <li><a href="#works-wrap">Works</a></li>
+    <li><a href="#cur-wrap">Curatorial</a></li>
+    <li><a href="#res-wrap">Research</a></li>
+    <li><a href="#contact-wrap">Contact</a></li>
+  </ul>
+  <button id="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
+<div id="mobile-menu">
+  <a href="#about-wrap">About</a>
+  <a href="#works-wrap">Works</a>
+  <a href="#cur-wrap">Curatorial</a>
+  <a href="#res-wrap">Research</a>
+  <a href="#contact-wrap">Contact</a>
+</div>
+
+<!-- ── HERO ── -->
 <section id="hero">
-  <div id="hero-bg"></div>
-  <div id="hero-ghost">THINKER</div>
   <div class="hero-eyebrow">Hong Kong &nbsp;·&nbsp; Est. 2017</div>
-  <div id="hero-name">Jeffrey<br>Nicholas Tse</div>
-  <div id="hero-practice">
-    Investigating how human presence is reshaped through systems<br>
-    of observation, classification, memory, and mediation.
+  <div id="hero-name">Jeffrey N. Tse</div>
+  <div id="hero-statement">
+    Investigating how human presence is reshaped<br>
+    through systems of observation, classification,<br>
+    memory, and mediation.
   </div>
-  <div class="hero-scroll-hint">
-    <div class="scroll-line"></div>
-    <div class="scroll-text">Scroll</div>
+  <div class="scroll-cue">
+    <div class="scroll-cue-line"></div>
+    <div class="scroll-cue-label">Scroll</div>
   </div>
 </section>
 
-<!-- VIDEO GRID -->
-<div id="video-section">
-  <div class="video-grid" id="videoGrid"></div>
+<!-- ── WORKS ── -->
+<div id="works-wrap">
+  <div class="works-filter" id="worksFilter"></div>
+  <div class="works-grid" id="worksGrid"></div>
 </div>
 
-<!-- ABOUT -->
-<section id="about" class="section">
-  <div id="about-ghost">ABOUT</div>
-  <div class="section-label">Practice</div>
-  <div class="about-grid">
-    <div class="about-photo reveal">
-      <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg"
-           alt="Jeffrey Nicholas Tse"
-           onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'">
-    </div>
-    <div class="about-text">
-      <p class="about-body reveal">
-        Interdisciplinary artist, systems designer, and researcher whose work investigates how human presence is reshaped through systems of observation, classification, memory, and mediation. Working across archival interfaces, curatorial practice, AI-assisted interaction systems, writing, and interactive media.
-      </p>
-      <p class="about-body reveal" style="transition-delay:.1s">
-        His practice began through curatorial and research-based investigations into intimacy, belonging, and spectatorship — across five exhibitions in Vancouver and Hong Kong. Published research has examined the ethics of documentary violence and how dating platforms reshape identity through systems of visibility and behavioral feedback.
-      </p>
-      <p class="about-body reveal" style="transition-delay:.2s">
-        Current works — including ROLL CALL, RE/SENSE, and PawsAid — involve archives, AI-assisted interaction, and longitudinal memory structures. Systems are approached not as neutral tools, but as environments that shape how people understand themselves and others.
-      </p>
-      <div class="about-stats reveal" style="transition-delay:.3s">
-        <div class="stat"><div class="stat-n">5</div><div class="stat-l">Exhibitions</div></div>
-        <div class="stat"><div class="stat-n">3</div><div class="stat-l">Ventures</div></div>
-        <div class="stat"><div class="stat-n">7+</div><div class="stat-l">Years Practice</div></div>
+<!-- ── ABOUT ── -->
+<div id="about-wrap">
+  <div class="section">
+    <div class="section-head"><span class="section-tag">Practice</span></div>
+    <div class="about-inner">
+      <div class="about-photo reveal">
+        <img
+          src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg"
+          alt="Jeffrey N. Tse"
+          onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80'">
+      </div>
+      <div class="about-body">
+        <p class="reveal">Interdisciplinary artist, systems designer, and researcher whose work investigates how human presence is reshaped through systems of observation, classification, memory, and mediation. Working across archival interfaces, curatorial practice, AI-assisted interaction systems, writing, and interactive media.</p>
+        <p class="reveal" style="transition-delay:.1s">His practice began through curatorial and research-based investigations into intimacy, belonging, and spectatorship — across five exhibitions in Vancouver and Hong Kong. Published research has examined the ethics of documentary violence and how dating platforms reshape identity through systems of visibility and behavioural feedback.</p>
+        <p class="reveal" style="transition-delay:.2s">Current works — including ROLL CALL, RE/SENSE, and PawsAid — involve archives, AI-assisted interaction, and longitudinal memory structures. Systems are approached not as neutral tools, but as environments that shape how people understand themselves and others.</p>
       </div>
     </div>
   </div>
-</section>
+</div>
+<hr class="section-divider">
 
-<!-- WORKS -->
-<section id="works" class="section">
-  <div class="section-label">Selected Works</div>
-  <div class="works-filter" id="worksFilter"></div>
-  <div class="works-grid" id="worksGrid"></div>
-</section>
-
-<!-- CURATORIAL -->
-<section id="curatorial" class="section">
-  <div class="section-label">Curatorial Practice</div>
-  <div class="section-title reveal" style="margin-bottom:3rem">Five exhibitions<br>across Vancouver<br>& Hong Kong</div>
-  <div class="cur-grid" id="curGrid"></div>
-</section>
-
-<!-- RESEARCH -->
-<section id="research" class="section">
-  <div class="section-label">Research & Publications</div>
-  <div class="section-title reveal" style="margin-bottom:3rem">Writing &<br>Research</div>
-  <div class="pub-list" id="pubList"></div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div id="contact-ghost">TOGETHER</div>
-  <div class="contact-label">Get in Touch</div>
-  <div class="contact-line">Let's work<br>together.</div>
-  <a href="mailto:jeffreynicholast@gmail.com" class="contact-email">jeffreynicholast@gmail.com</a>
-  <div class="social-row">
-    <a href="https://github.com/hydrogenbondss" target="_blank" class="soc-link">GitHub</a>
-    <a href="https://www.instagram.com/hydrogenbondss/" target="_blank" class="soc-link">Instagram</a>
+<!-- ── CURATORIAL ── -->
+<div id="cur-wrap">
+  <div class="section">
+    <div class="section-head"><span class="section-tag">Curatorial Practice</span></div>
+    <ul class="cur-list" id="curList"></ul>
   </div>
-</section>
+</div>
+<hr class="section-divider">
 
-<footer>
-  <div class="footer-copy">© 2026 Jeffrey Nicholas Tse</div>
-  <div class="footer-built">Hong Kong</div>
-</footer>
-
-<!-- MODAL -->
-<div id="modal">
-  <div class="modal-inner">
-    <div class="modal-box" id="modalBox"></div>
+<!-- ── RESEARCH ── -->
+<div id="res-wrap">
+  <div class="section">
+    <div class="section-head"><span class="section-tag">Research & Publications</span></div>
+    <ul class="pub-list" id="pubList"></ul>
   </div>
-  <button class="modal-close" id="modalClose">Close ✕</button>
+</div>
+<hr class="section-divider">
+
+<!-- ── CONTACT ── -->
+<div id="contact-wrap">
+  <div class="section">
+    <div class="contact-inner">
+      <div class="contact-pre">Get in touch</div>
+      <div class="contact-line reveal">Let's work<br>together.</div>
+      <a href="mailto:jeffreynicholast@gmail.com" class="contact-email">jeffreynicholast@gmail.com</a>
+      <div class="social">
+        <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.instagram.com/hydrogenbondss/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
 </div>
 
-<script>
-/* ═══════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════ */
-const ASSETS='https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/';
-const PA=n=>ASSETS+n;
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="footer-copy">© 2026 Jeffrey Nicholas Tse</span>
+  <span class="footer-r">Hong Kong</span>
+</footer>
 
-const HERO_VIDEOS=[
-  {id:'pabepabe',title:'PabePabe Trilogy',sub:'Material Metamorphosis',cat:'AI Creative Direction',year:'2026',
-   src:PA('PBPBOCARINA_VIDEO_FINAL.mp4'),poster:PA('PBPBocarina.jpg')},
-  {id:'turbo',title:'Turbo-MG21',sub:'Futuristic Eyewear',cat:'AI Motion Design',year:'2026',
-   src:PA('0310(4)%20(online-video-cutter.com)%20(3).mp4'),poster:PA('AIgentleMon.jpg')},
-  {id:'character',title:'Ash-01',sub:'Neural Portrait',cat:'Character Design',year:'2026',
-   src:PA('CharacterFINAL.mp4'),poster:PA('0311.jpg')},
-  {id:'featureworld',title:'Feature World',sub:'Interactive Chaos Engine',cat:'Creative Coding',year:'2026',
-   src:PA('FeatureWorldChaosVid.mp4'),poster:PA('FeatureWorldThumbnail.jpg'),
-   link:'https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html'},
-];
+<!-- ── MODAL ── -->
+<div id="modal">
+  <div class="modal-wrap">
+    <div class="modal-box" id="modalBox"></div>
+  </div>
+  <button class="modal-close-btn" id="modalClose">Close ✕</button>
+</div>
+
+<button id="btt" aria-label="Back to top">↑</button>
+
+<script>
+/* ═══════════════════════════════════
+   DATA
+═══════════════════════════════════ */
+const A='https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/';
+const RC='https://raw.githubusercontent.com/hydrogenbondss/Rollcall/main/public/';
 
 const PROJECTS=[
   {id:'resense',title:'RE/SENSE',cat:'Interactive Narrative',filter:'ventures',year:'2025',
-   badge:'dev',badgeLabel:'In Development',
-   img:'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/resense-thumb.jpg',
-   desc:'Interactive narrative dating simulation featuring 19 characters — examining digital intimacy, emotional persistence, and relational memory through adaptive systems.',
-   fullDesc:'Creator and lead developer of RE/SENSE — an interactive narrative simulation examining digital intimacy, emotional persistence, and relational memory through adaptive systems that observe and remember player behavior across time. Features 19 characters with customisable player gender and sexuality. Built on Ren\'Py with an AI-assisted asset pipeline using ComfyUI and LoRA training. Includes NECTAR, an in-game AI relationship-advisor planned for standalone release. Tentative Q2 2027 launch.',
+   badge:'dev',bl:'In Development',
+   img:A+'resense-thumb-real.jpg',
+   video:A+'resense-opening.mp4',
+   desc:'Interactive narrative dating simulation — 19 characters, adaptive memory systems, AI companion app NECTAR. Examining digital intimacy, emotional persistence, and relational memory.',
    role:'Creator & Lead Developer',link:'https://github.com/hydrogenbondss'},
+
   {id:'pawsaid',title:'PawsAid',cat:'Product / Brand',filter:'ventures',year:'2026',
-   badge:'founder',badgeLabel:'Founder',
+   badge:'founder',bl:'Founder',
    img:'https://d2xsxph8kpxj0f.cloudfront.net/310519663476722505/PsVu42HKuP9jWBEFMA6xfb/pawsaid-og-hero-v10b_d549e236.png',
-   desc:'Pet first-aid kit brand — bilingual full-stack React/TypeScript e-commerce with AI chat and WhatsApp fulfillment.',
-   fullDesc:'Co-founded PawsAid — a pet first-aid kit brand targeting Hong Kong pet owners. As Co-Founder & CTO, built the full-stack bilingual (EN/Traditional Chinese) e-commerce platform in React and TypeScript with integrated AI chat support, WhatsApp fulfillment, product listings, and first-aid instructions. Led brand identity, packaging, and digital presence from zero to launch.',
-   role:'Co-Founder & CTO',link:'https://pawsaid.hk',github:'https://github.com/hydrogenbondss/pawsaidv2'},
+   imgFit:'cover',
+   desc:'Pet first-aid kit brand — bilingual full-stack React/TypeScript e-commerce with AI chat support and WhatsApp fulfillment. Led brand, product, and engineering from zero to launch.',
+   role:'Co-Founder & CTO',link:'https://pawsaid.hk',gh:'https://github.com/hydrogenbondss/pawsaidv2'},
+
   {id:'rollcall',title:'ROLL CALL',cat:'Archival Interface',filter:'ventures',year:'2026',
-   badge:'founder',badgeLabel:'Founder',
-   img:'https://raw.githubusercontent.com/hydrogenbondss/Rollcall/main/public/images/og-image.jpg',
-   desc:'Material culture archive — 43 toilet paper specimens from 21 countries across contemporary Asia, catalogued with museum-standard methodology.',
-   fullDesc:'Founder and curator of ROLL CALL — a digital archival system cataloguing disposable domestic objects through institutional preservation aesthetics, metadata structures, and conversational AI. Documents 43 specimens from 21 countries across contemporary Asia. An ongoing study in consumer goods, regional identity, and everyday material culture.',
+   badge:'founder',bl:'Founder',
+   img:RC+'images/og-image.jpg',
+   desc:'Material culture archive — 43 toilet paper specimens from 21 countries across contemporary Asia, catalogued with museum-standard methodology. An ongoing study in consumer goods, regional identity, and the disposable.',
    role:'Founder & Curator',link:'https://hydrogenbondss.github.io/Rollcall/'},
+
   {id:'pabepabe',title:'PabePabe: The Morphing Trilogy',cat:'AI Creative Direction',filter:'ai',year:'2026',
-   badge:'client',badgeLabel:'PabePabe',
-   img:PA('PBPBocarina.jpg'),
-   desc:'Commissioned trilogy exploring material metamorphosis across three luxury bag designs — Ocarina, Flute Soft Bag, and Horn Bag.',
-   fullDesc:'Client commission for PabePabe exploring AI-driven material transformations across three bag designs. A study in generative luxury where leather morphs into unexpected organic forms.',
+   badge:'client',bl:'PabePabe',
+   img:A+'PBPBocarina.jpg',
+   desc:'Commissioned trilogy exploring material metamorphosis across three luxury bag designs — Ocarina, Flute Soft Bag, and Horn Bag. AI-driven generative luxury.',
    role:'AI Art Director',
    carousel:[
-     {type:'video',src:PA('PBPBOCARINA_VIDEO_FINAL.mp4'),thumb:PA('PBPBocarina.jpg'),label:'Part 1: Ocarina Bag'},
-     {type:'video',src:PA('PBPB_flutebagmotion.mp4'),thumb:PA('pabepabeflutebag.jpg'),label:'Part 2: Flute Soft Bag'},
-     {type:'video',src:PA('pbpbhornbagv2.mp4'),thumb:PA('PBPBHornBag.jpg'),label:'Part 3: Horn Bag'},
+     {type:'video',src:A+'PBPBOCARINA_VIDEO_FINAL.mp4',thumb:A+'PBPBocarina.jpg',label:'Part 1: Ocarina Bag'},
+     {type:'video',src:A+'PBPB_flutebagmotion.mp4',thumb:A+'pabepabeflutebag.jpg',label:'Part 2: Flute Soft Bag'},
+     {type:'video',src:A+'pbpbhornbagv2.mp4',thumb:A+'PBPBHornBag.jpg',label:'Part 3: Horn Bag'},
    ]},
+
   {id:'garden',title:'Garden of Returning',cat:'Generative Art',filter:'ai',year:'2026',
-   badge:'personal',badgeLabel:'Personal',
-   img:'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg',
-   desc:'Living browser sanctuary — plants grow, bloom, die, and return. Procedural audio, generative poetry, and seasonal cycles.',
-   fullDesc:'A living, browser-based sanctuary where plants grow, bloom, die, and return. Built entirely in HTML/Canvas with procedural audio, generative poetry, and no external assets. An exploration of cyclical systems, digital nature, and contemplative interaction.',
+   badge:'personal',bl:'Personal',
+   img:A+'garden-thumb.jpg',
+   desc:'Living browser sanctuary — plants grow, bloom, die, and return. Procedural audio, generative poetry, and seasonal cycles. Built entirely in HTML/Canvas.',
    role:'Creative Developer',link:'https://hydrogenbondss.github.io/garden-of-returning/'},
+
   {id:'cathedral',title:'Cathedral of Small Hours',cat:'Interactive / Generative',filter:'ai',year:'2026',
-   badge:'personal',badgeLabel:'Personal',
-   img:'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg',
-   desc:'Human silhouettes resolve from streams of falling words — 3D parallax depth system with synthesized drone sound.',
-   fullDesc:'A mood study where human silhouettes resolve from streams of falling words. Built in vanilla HTML/Canvas with full DPR-aware crisp text rendering, multi-layer parallax depth, SDF figure generation, and synthesized drone audio.',
+   badge:'personal',bl:'Personal',
+   img:A+'cathedral-thumb.jpg',
+   desc:'Human silhouettes resolve from streams of falling words. Multi-layer parallax depth system, DPR-crisp text rendering, SDF figure generation, synthesized drone audio.',
    role:'Creative Developer',link:'https://hydrogenbondss.github.io/cathedral-of-small-hours/'},
-  {id:'turbo',title:'Turbo-MG21',cat:'AI Motion Design',filter:'ai',year:'2026',
-   badge:'personal',badgeLabel:'Personal',
-   img:PA('AIgentleMon.jpg'),video:PA('0310(4)%20(online-video-cutter.com)%20(3).mp4'),
-   desc:'Futuristic luxury eyewear concept — AI-driven motion design and product cinematography.',
-   fullDesc:'Personal exploration showcasing AI-driven motion design for luxury accessories. Testing generative video workflows and product cinematography techniques.',
-   role:'AI Motion Designer'},
+
   {id:'ash01',title:'Ash-01',cat:'Character Design',filter:'ai',year:'2026',
-   badge:'personal',badgeLabel:'Personal',
-   img:PA('0311.jpg'),video:PA('CharacterFINAL.mp4'),
-   desc:'Neural Portrait — AI-driven character design with full motion graphics sequence and voice synthesis.',
-   fullDesc:'Personal project exploring AI-driven character design and animation. A digital character study testing the boundaries of generative tools for fashion-oriented character creation and storytelling.',
+   badge:'personal',bl:'Personal',
+   img:A+'0311.jpg',video:A+'CharacterFINAL.mp4',
+   desc:'Neural Portrait — original character design with full motion graphics sequence and voice synthesis.',
    role:'Character Designer & AI Director'},
+
   {id:'featureworld',title:'Feature World: Chaos',cat:'Creative Coding',filter:'ai',year:'2026',
-   badge:'personal',badgeLabel:'Personal',
-   img:PA('FeatureWorldThumbnail.jpg'),video:PA('FeatureWorldChaosVid.mp4'),
-   desc:'Interactive 3D physics sandbox — particle chaos engine with mouse-driven interaction.',
-   fullDesc:'An immersive web experience exploring random chaos through physics-based particle interactions. Built with vanilla JavaScript and HTML5 Canvas.',
+   badge:'personal',bl:'Personal',
+   img:A+'FeatureWorldThumbnail.jpg',video:A+'FeatureWorldChaosVid.mp4',
+   desc:'Interactive physics sandbox — 3D touch-based web game with particle chaos engine.',
    role:'Creative Developer',link:'https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html'},
+
   {id:'markgong',title:'Markgong FW25',cat:'Fashion Editorial',filter:'fashion',year:'2025',
-   badge:'editorial',badgeLabel:'Editorial',
-   img:PA('markgong.jpg'),imageFit:'contain',
+   badge:'editorial',bl:'Editorial',
+   img:A+'markgong.jpg',imgFit:'contain',
    desc:'New York Fashion Week runway report and designer interview — Fall/Winter 2025.',
-   fullDesc:'On-the-ground coverage of Markgong\'s Fall Winter 2025 collection at New York Fashion Week. Interviewed designer backstage and analyzed collection themes.',
    role:'Fashion Editor',link:'https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025'},
+
   {id:'doublet',title:'Doublet: Masayuki Ino',cat:'Fashion Editorial',filter:'fashion',year:'2025',
-   badge:'editorial',badgeLabel:'Editorial',
-   img:PA('Doublet.jpg'),imageFit:'contain',
+   badge:'editorial',bl:'Editorial',
+   img:A+'Doublet.jpg',imgFit:'contain',
    desc:'LVMH Prize winner feature and designer interview.',
-   fullDesc:'Exclusive interview with Masayuki Ino of Doublet, following his LVMH Prize win.',
    role:'Interviewer & Fashion Editor',link:'https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview'},
+
   {id:'bape',title:'A BATHING APE® FW24',cat:'Fashion Editorial',filter:'fashion',year:'2024',
-   badge:'editorial',badgeLabel:'Editorial',
-   img:PA('bape-fw24-shanghai-runway-iteshop-top-dt.jpg'),imageFit:'contain',
-   desc:'Runway coverage and collection analysis — FW24.',
-   fullDesc:'Comprehensive review of A BATHING APE®\'s FW24 runway presentation.',
-   role:'Fashion Editor',link:'https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show'},
+   badge:'editorial',bl:'Editorial',
+   img:A+'bape-fw24-shanghai-runway-iteshop-top-dt.jpg',imgFit:'contain',
+   desc:'Runway coverage and collection analysis.',
+   role:'Fashion Editor'},
+
   {id:'blokecore',title:'Rise of Blokecore',cat:'Fashion Editorial',filter:'fashion',year:'2024',
-   badge:'editorial',badgeLabel:'Editorial',
-   img:PA('football-fashion-jersey-iteshop-men-top-dt.jpg'),imageFit:'contain',
-   desc:'Cultural analysis of the football jersey fashion movement.',
-   fullDesc:'Cultural analysis of the blokecore trend — the intersection of vintage football kits and high fashion.',
-   role:'Editor & Art Director',link:'https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion'},
+   badge:'editorial',bl:'Editorial',
+   img:A+'football-fashion-jersey-iteshop-men-top-dt.jpg',imgFit:'contain',
+   desc:'Cultural analysis of the football jersey fashion movement — from UK terraces to Hong Kong street style.',
+   role:'Editor & Art Director'},
+
   {id:'carhartt',title:'Carhartt WIP: Subi Subez Yeti',cat:'Fashion Editorial',filter:'fashion',year:'2024',
-   badge:'editorial',badgeLabel:'Editorial',
-   img:PA('carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg'),imageFit:'contain',
-   desc:'Artist interview on collaborative project.',
-   fullDesc:'In-depth profile of artist Subi Subez Yeti and their collaboration with Carhartt WIP.',
-   role:'Interviewer & Fashion Editor',link:'https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview'},
+   badge:'editorial',bl:'Editorial',
+   img:A+'carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg',imgFit:'contain',
+   desc:'Artist interview on collaborative project — street art meets workwear heritage.',
+   role:'Interviewer & Fashion Editor'},
+
   {id:'samsung',title:'Samsung AI Home',cat:'Social Campaign',filter:'commercial',year:'2024',
-   badge:'client',badgeLabel:'Samsung',
+   badge:'client',bl:'Samsung',
    img:'https://img.youtube.com/vi/OXCMEMajyuM/maxresdefault.jpg',
-   desc:'SmartThings meets AI Home — English social copies and banner content for Samsung HK.',
-   fullDesc:'Developed English social copy and banner content for Samsung\'s AI Home ecosystem launch.',
+   desc:'SmartThings meets AI Home — English social copies and banner content for Samsung HK launch.',
    role:'Social Copywriter',link:'https://www.youtube.com/watch?v=OXCMEMajyuM'},
+
   {id:'mtr',title:'MTR 45th Anniversary',cat:'Press Release',filter:'commercial',year:'2024',
-   badge:'client',badgeLabel:'MTR',
-   img:PA('MTR45.jpg'),imageFit:'contain',
+   badge:'client',bl:'MTR',
+   img:A+'MTR45.jpg',imgFit:'contain',
    desc:'Press release for legacy celebration campaign featuring girl group Yolica.',
-   fullDesc:'Wrote press release for MTR\'s 45th anniversary campaign.',
    role:'Press Release Writer',link:'https://www.marketing-interactive.com/mtr-taps-girl-group-yolica-to-celebrate-45-year-legacy'},
 ];
 
 const CURATORIAL=[
-  {title:'Welcome Home',venue:'Wil Aballe Art Projects',city:'Vancouver',year:'2019',type:'lead',
+  {year:'2019',title:'Welcome Home',venue:'Wil Aballe Art Projects',city:'Vancouver',type:'Curator',
    desc:'Group exhibition examining home, belonging, superdiversity, and shifting constructions of identity through sculpture, performance, sound, and installation.',
-   artists:['Logan Kenler','Tingting Niu','Olivia Qiu'],
-   roles:['Curator','Curatorial writer','Exhibition development']},
-  {title:'Finite Appearances',venue:'Wil Aballe Art Projects',city:'Vancouver',year:'2018',type:'co',
+   roles:['Curator','Curatorial writer','Exhibition development'],
+   artists:['Logan Kenler','Tingting Niu','Olivia Qiu']},
+  {year:'2018',title:'Finite Appearances',venue:'Wil Aballe Art Projects',city:'Vancouver',type:'Co-Curator',
    desc:'Research-driven exhibition exploring bodily traces, intimacy, ephemerality, and the documentation of presence through performance remnants and archival gestures.',
-   artists:['Kelly Holmes','Alexandra Bischoff'],
-   roles:['Co-curator','Gallery coordination','Funding research','Curatorial writing']},
-  {title:'Undergrowth',venue:'Audain Gallery',city:'Vancouver',year:'2018',type:'lead',
+   roles:['Co-curator','Gallery coordination','Funding research','Curatorial writing'],
+   artists:['Kelly Holmes','Alexandra Bischoff']},
+  {year:'2018',title:'Undergrowth',venue:'Audain Gallery',city:'Vancouver',type:'Curator',
    desc:'Exhibition exploring displacement, intimacy, belonging, and everyday rituals as sites of meaning-making.',
-   artists:[],roles:['Curator']},
-  {title:'Resonance',venue:'JCCAC',city:'Hong Kong',year:'2017',type:'lead',
+   roles:['Curator'],artists:[]},
+  {year:'2017',title:'Resonance',venue:'JCCAC',city:'Hong Kong',type:'Curator',
    desc:'Exhibition investigating memory, identity, emotional traces, and relational experience as persistent, evolving structures.',
-   artists:[],roles:['Curator']},
-  {title:'Unseen Unheard',venue:'Hatch Gallery',city:'Vancouver',year:'2017',type:'lead',
+   roles:['Curator'],artists:[]},
+  {year:'2017',title:'Unseen Unheard',venue:'Hatch Gallery',city:'Vancouver',type:'Curator',
    desc:'Exhibition foregrounding invisible presences, marginalised voices, and the politics of visibility.',
-   artists:[],roles:['Curator']},
+   roles:['Curator'],artists:[]},
 ];
 
-const PUBLICATIONS=[
+const PUBS=[
   {type:'research',year:'2019',presented:true,
    title:'The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler\'s Lynching Photograph',
    venue:'UBC Undergraduate Journal of Art History — 14th Annual Symposium',
@@ -663,7 +841,7 @@ const PUBLICATIONS=[
   {type:'thesis',year:'2023',
    title:'Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder',
    venue:'MSc Marketing Management — Hong Kong Polytechnic University',
-   desc:'Investigates mediated intimacy, identity performance, and dating platform systems — how visibility and digital evaluation structures reshape self-presentation and relational behavior.',
+   desc:'Investigates mediated intimacy, identity performance, and dating platform systems — how visibility and digital evaluation structures reshape self-presentation and relational behaviour.',
    links:[]},
   {type:'press',year:'2020',
    title:'Research cited: The Crushing Emotional Strain of Seeing Images and Videos of Anti-Black Violence',
@@ -672,102 +850,6 @@ const PUBLICATIONS=[
    links:[{label:'Read Article',url:'https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/'}]},
 ];
 
-/* ═══════════════════════════════════════════════
-   GATE
-═══════════════════════════════════════════════ */
-const gate=document.getElementById('gate');
-const gateEnter=document.getElementById('gate-enter');
-let gateOpen=false;
-
-// stagger-in letters
-setTimeout(()=>gate.classList.add('loaded'),400);
-
-function openGate(){
-  if(gateOpen)return; gateOpen=true;
-  gate.classList.add('leaving');
-  document.body.classList.add('entered');
-  setTimeout(()=>gate.remove(),1200);
-}
-gate.addEventListener('click',openGate);
-gateEnter.addEventListener('click',e=>{e.stopPropagation();openGate()});
-
-/* ═══════════════════════════════════════════════
-   NAV COMPACT ON SCROLL
-═══════════════════════════════════════════════ */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>{
-  nav.classList.toggle('compact',window.scrollY>80);
-},{ passive:true });
-
-/* ═══════════════════════════════════════════════
-   PARALLAX
-═══════════════════════════════════════════════ */
-function initParallax(){
-  const heroGhost=document.getElementById('hero-ghost');
-  const aboutGhost=document.getElementById('about-ghost');
-  const contactGhost=document.getElementById('contact-ghost');
-
-  function onScroll(){
-    const sy=window.scrollY;
-    // hero ghost moves at 0.25x scroll
-    if(heroGhost) heroGhost.style.transform=`translateY(calc(-50% + ${sy*0.22}px))`;
-    // about ghost floats up slowly
-    if(aboutGhost){
-      const about=document.getElementById('about');
-      const rel=sy-about.offsetTop;
-      aboutGhost.style.transform=`translateY(calc(-50% + ${rel*0.15}px))`;
-    }
-    // contact ghost
-    if(contactGhost){
-      const contact=document.getElementById('contact');
-      const rel=sy-contact.offsetTop;
-      contactGhost.style.transform=`translate(-50%,calc(-50% + ${rel*0.12}px))`;
-    }
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  onScroll();
-}
-
-/* ═══════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════ */
-function initReveal(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-}
-
-/* ═══════════════════════════════════════════════
-   VIDEO GRID
-═══════════════════════════════════════════════ */
-function buildVideoGrid(){
-  const grid=document.getElementById('videoGrid');
-  HERO_VIDEOS.forEach((v,i)=>{
-    const item=document.createElement('div');
-    item.className='vg-item';
-    item.innerHTML=`
-      <span class="vg-num">0${i+1}</span>
-      <div class="vg-overlay"></div>
-      <video src="${v.src}" poster="${v.poster}" muted loop playsinline preload="none"></video>
-      <div class="vg-content">
-        <div class="vg-label">${v.cat} · ${v.year}</div>
-        <div class="vg-title">${v.title}</div>
-      </div>`;
-    item.addEventListener('mouseenter',()=>item.querySelector('video').play());
-    item.addEventListener('mouseleave',()=>item.querySelector('video').pause());
-    item.addEventListener('click',()=>{
-      if(v.link){window.open(v.link,'_blank');return}
-      const p=PROJECTS.find(p=>p.id===v.id);
-      if(p)openModal(p);
-    });
-    grid.appendChild(item);
-  });
-}
-
-/* ═══════════════════════════════════════════════
-   WORKS GRID
-═══════════════════════════════════════════════ */
 const FILTERS=[
   {id:'all',label:'All Work'},
   {id:'ventures',label:'Ventures'},
@@ -775,89 +857,147 @@ const FILTERS=[
   {id:'ai',label:'Tech / AI'},
   {id:'commercial',label:'Commercial'},
 ];
+
+/* ═══════════════════════════════════
+   GATE
+═══════════════════════════════════ */
+const gate=document.getElementById('gate');
+const gateBtn=document.getElementById('gate-btn');
+let entered=false;
+
+// Animate name letter by letter
+const NAME='Jeffrey N. Tse';
+const nameEl=document.getElementById('gate-name');
+[...NAME].forEach(ch=>{
+  const s=document.createElement('span');
+  s.className='l';
+  s.textContent=ch==' '?'\u00a0':ch;
+  nameEl.appendChild(s);
+});
+setTimeout(()=>gate.classList.add('ready'),120);
+
+function enter(){
+  if(entered)return; entered=true;
+  gate.classList.add('out');
+  document.body.classList.add('entered');
+  setTimeout(()=>gate.remove(),1600);
+}
+gate.addEventListener('click',enter);
+gateBtn.addEventListener('click',e=>{e.stopPropagation();enter()});
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+const toggle=document.getElementById('nav-toggle');
+const mobileMenu=document.getElementById('mobile-menu');
+toggle.addEventListener('click',()=>{
+  toggle.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  toggle.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}));
+
+/* ═══════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════ */
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.12});
+function observeReveals(){document.querySelectorAll('.reveal:not(.in)').forEach(el=>revealObs.observe(el))}
+
+/* ═══════════════════════════════════
+   BACK TO TOP
+═══════════════════════════════════ */
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>btt.classList.toggle('show',scrollY>600),{passive:true});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ═══════════════════════════════════
+   WORKS GRID
+═══════════════════════════════════ */
 let activeFilter='all';
 
-function badgeHTML(p){
-  if(!p.badge)return'';
-  const cls=`badge-${p.badge}`;
-  return`<div class="wc-badge ${cls}">${p.badgeLabel}</div>`;
+function badgeClass(b){
+  return{founder:'b-founder',dev:'b-dev',editorial:'b-editorial',client:'b-client',personal:''}[b]||'';
 }
 
-function buildWorksGrid(){
-  // filter buttons
-  const fWrap=document.getElementById('worksFilter');
-  fWrap.innerHTML='';
+function buildWorks(){
+  // filters
+  const fw=document.getElementById('worksFilter');
+  fw.innerHTML='';
   FILTERS.forEach(f=>{
     const btn=document.createElement('button');
-    btn.className='wf-btn'+(f.id===activeFilter?' active':'');
+    btn.className='wf'+(f.id===activeFilter?' on':'');
     btn.textContent=f.label;
-    btn.addEventListener('click',()=>{
-      activeFilter=f.id;
-      buildWorksGrid();
-    });
-    fWrap.appendChild(btn);
+    btn.addEventListener('click',()=>{activeFilter=f.id;buildWorks()});
+    fw.appendChild(btn);
   });
 
   // grid
   const grid=document.getElementById('worksGrid');
   grid.innerHTML='';
-  const filtered=activeFilter==='all'?PROJECTS:PROJECTS.filter(p=>p.filter===activeFilter);
-  filtered.forEach((p,i)=>{
+  const list=activeFilter==='all'?PROJECTS:PROJECTS.filter(p=>p.filter===activeFilter);
+  list.forEach(p=>{
     const card=document.createElement('div');
-    card.className='work-card reveal';
-    card.style.transitionDelay=`${Math.min(i*0.04,0.3)}s`;
+    card.className='wc reveal';
+    const fit=p.imgFit==='contain'?'object-fit:contain;background:#000':'';
+    const badgeCls=badgeClass(p.badge);
     card.innerHTML=`
-      ${badgeHTML(p)}
-      <img src="${p.img}" alt="${p.title}" loading="lazy" style="${p.imageFit==='contain'?'object-fit:contain;background:#000':''}">
-      <div class="work-card-overlay">
-        <div class="wc-cat">${p.cat} · ${p.year}</div>
+      ${badgeCls?`<div class="wc-badge ${badgeCls}">${p.bl}</div>`:''}
+      <img src="${p.img}" alt="${p.title}" loading="lazy" style="${fit}">
+      <div class="wc-hover">
+        <div class="wc-cat">${p.cat} &nbsp;·&nbsp; ${p.year}</div>
         <div class="wc-title">${p.title}</div>
       </div>`;
     card.addEventListener('click',()=>openModal(p));
     grid.appendChild(card);
   });
-
-  // re-observe new reveals
-  initReveal();
+  observeReveals();
 }
 
-/* ═══════════════════════════════════════════════
-   CURATORIAL SECTION
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════
+   CURATORIAL LIST
+═══════════════════════════════════ */
 function buildCuratorial(){
-  const grid=document.getElementById('curGrid');
+  const list=document.getElementById('curList');
   CURATORIAL.forEach((ex,i)=>{
-    const card=document.createElement('div');
-    card.className='cur-card reveal';
-    card.style.transitionDelay=`${i*0.07}s`;
-    const artistsHTML=ex.artists.length
-      ?`<div class="cur-artists">With <span>${ex.artists.join(', ')}</span></div>`:'';
-    const rolesHTML=ex.roles.map(r=>`<span class="cur-role-tag">${r}</span>`).join('');
-    card.innerHTML=`
-      <div class="cur-year">${ex.year} · ${ex.type==='co'?'Co-Curator':'Curator'}</div>
-      <div class="cur-title">${ex.title}</div>
-      <div class="cur-venue">${ex.venue}, ${ex.city}</div>
-      <div class="cur-desc">${ex.desc}</div>
-      ${rolesHTML}
-      ${artistsHTML}`;
-    grid.appendChild(card);
+    const li=document.createElement('li');
+    li.className='cur-item reveal';
+    li.style.transitionDelay=`${i*0.07}s`;
+    const artistStr=ex.artists.length?`<div style="font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.28);margin-top:.5rem">${ex.artists.join(' · ')}</div>`:'';
+    const rolesHTML=ex.roles.map(r=>`<span class="cur-role">${r}</span>`).join('');
+    li.innerHTML=`
+      <div class="cur-year">${ex.year}<br><span style="font-size:.42rem;color:rgba(122,120,112,.55)">${ex.type}</span></div>
+      <div class="cur-main">
+        <div class="cur-title">${ex.title}</div>
+        <div class="cur-venue">${ex.venue} &nbsp;·&nbsp; ${ex.city}</div>
+        <div class="cur-desc">${ex.desc}</div>
+        <div class="cur-roles">${rolesHTML}</div>
+        ${artistStr}
+      </div>`;
+    list.appendChild(li);
   });
 }
 
-/* ═══════════════════════════════════════════════
-   PUBLICATIONS
-═══════════════════════════════════════════════ */
-function buildPublications(){
+/* ═══════════════════════════════════
+   PUBLICATIONS LIST
+═══════════════════════════════════ */
+function buildPubs(){
   const list=document.getElementById('pubList');
-  PUBLICATIONS.forEach((pub,i)=>{
-    const item=document.createElement('div');
-    item.className='pub-item reveal';
-    item.style.transitionDelay=`${i*0.08}s`;
-    const linksHTML=pub.links.map(l=>`<a href="${l.url}" target="_blank" class="pub-link">${l.label}</a>`).join('');
-    item.innerHTML=`
-      <div class="pub-meta">
+  PUBS.forEach((pub,i)=>{
+    const li=document.createElement('li');
+    li.className='pub-item reveal';
+    li.style.transitionDelay=`${i*0.08}s`;
+    const linksHTML=pub.links.map(l=>`<a href="${l.url}" target="_blank" rel="noopener" class="pub-link">${l.label}</a>`).join('');
+    li.innerHTML=`
+      <div class="pub-left">
         <div class="pub-year">${pub.year}</div>
-        <span class="pub-type-tag pt-${pub.type}">${pub.type.charAt(0).toUpperCase()+pub.type.slice(1)}</span>
+        <span class="pub-type pt-${pub.type}">${pub.type.charAt(0).toUpperCase()+pub.type.slice(1)}</span>
         ${pub.presented?'<div class="pub-presented">Presented</div>':''}
       </div>
       <div>
@@ -866,104 +1006,106 @@ function buildPublications(){
         <div class="pub-desc">${pub.desc}</div>
         ${linksHTML}
       </div>`;
-    list.appendChild(item);
+    list.appendChild(li);
   });
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════
    MODAL
-═══════════════════════════════════════════════ */
+═══════════════════════════════════ */
 const modal=document.getElementById('modal');
 const modalBox=document.getElementById('modalBox');
-let carouselIdx=0;
+let carIdx=0;
 
 function openModal(p){
   modal.classList.add('open');
   document.body.style.overflow='hidden';
-  carouselIdx=0;
+  carIdx=0;
   renderModal(p);
 }
 function closeModal(){
   modal.classList.remove('open');
   document.body.style.overflow='';
+  // pause any playing videos
+  modalBox.querySelectorAll('video').forEach(v=>v.pause());
   modalBox.innerHTML='';
 }
 
 document.getElementById('modalClose').addEventListener('click',closeModal);
-modal.addEventListener('click',e=>{if(e.target===modal||e.target===modal.querySelector('.modal-inner'))closeModal()});
+modal.addEventListener('click',e=>{
+  if(e.target===modal||e.target.classList.contains('modal-wrap'))closeModal();
+});
 window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
-function renderModal(p){
-  let mediaHTML='';
-
+function mediaHTML(p){
+  // video (single)
+  if(p.video&&!p.carousel){
+    return`<video src="${p.video}" poster="${p.img}" controls autoplay muted loop style="max-width:100%;max-height:75vh;object-fit:contain"></video>`;
+  }
+  // carousel
   if(p.carousel){
     const slides=p.carousel.map((s,i)=>`
-      <div class="carousel-frame" style="${i===0?'':'display:none'}" data-idx="${i}">
+      <div class="car-slide${i>0?' hidden':''}" data-idx="${i}">
         ${s.type==='video'
-          ?`<video src="${s.src}" poster="${s.thumb}" controls autoplay muted loop style="max-width:100%;max-height:70vh;object-fit:contain"></video>`
-          :`<img src="${s.src}" style="max-width:100%;max-height:70vh;object-fit:contain">`}
+          ?`<video src="${s.src}" poster="${s.thumb}" controls ${i===0?'autoplay':''} muted loop style="max-width:100%;max-height:75vh;object-fit:contain"></video>`
+          :`<img src="${s.src}" style="max-width:100%;max-height:75vh;object-fit:contain">`
+        }
       </div>`).join('');
-    const dots=p.carousel.map((_,i)=>`<button class="cdot${i===0?' active':''}" data-dot="${i}"></button>`).join('');
-    mediaHTML=`<div class="carousel-wrap">
+    const dots=p.carousel.map((_,i)=>`<button class="car-dot${i===0?' on':''}" data-dot="${i}"></button>`).join('');
+    return`<div class="car-wrap">
       ${slides}
-      <button class="carousel-arrow prev">&#8592;</button>
-      <button class="carousel-arrow next">&#8594;</button>
-      <div class="carousel-dots">${dots}</div>
+      <button class="car-arrow car-prev">&#8592;</button>
+      <button class="car-arrow car-next">&#8594;</button>
+      <div class="car-dots">${dots}</div>
     </div>`;
-  } else if(p.video){
-    mediaHTML=`<video src="${p.video}" poster="${p.img}" controls autoplay muted loop style="max-width:100%;max-height:70vh;object-fit:contain"></video>`;
-  } else {
-    mediaHTML=`<img src="${p.img}" alt="${p.title}" style="max-width:100%;max-height:70vh;object-fit:${p.imageFit||'cover'};width:100%;height:100%">`;
   }
+  // image
+  const fit=p.imgFit==='contain'?'object-fit:contain;width:100%;height:100%':'max-width:100%;max-height:75vh;object-fit:contain';
+  return`<img src="${p.img}" alt="${p.title}" style="${fit}">`;
+}
 
+function renderModal(p){
   const btns=[
-    p.link?`<a href="${p.link}" target="_blank" class="modal-btn-primary">View Project ↗</a>`:'',
-    p.github?`<a href="${p.github}" target="_blank" class="modal-btn-ghost">Source Code</a>`:'',
+    p.link?`<a href="${p.link}" target="_blank" rel="noopener" class="mi-btn mi-btn-primary">View Project</a>`:'',
+    p.gh?`<a href="${p.gh}" target="_blank" rel="noopener" class="mi-btn mi-btn-ghost">Source Code</a>`:'',
   ].filter(Boolean).join('');
 
   modalBox.innerHTML=`
-    <div class="modal-media">${mediaHTML}</div>
+    <div class="modal-media">${mediaHTML(p)}</div>
     <div class="modal-info">
-      <div class="modal-year">${p.year}</div>
-      <div class="modal-title">${p.title}</div>
-      <div class="modal-cat">${p.cat}</div>
-      <div class="modal-desc">${p.fullDesc||p.desc}</div>
-      ${p.role?`<div class="modal-role-wrap"><div class="modal-role-label">Role</div><div class="modal-role-val">${p.role}</div></div>`:''}
-      <div class="modal-actions">${btns}</div>
+      <div class="mi-year">${p.year}</div>
+      <div class="mi-title">${p.title}</div>
+      <div class="mi-cat">${p.cat}</div>
+      <div class="mi-desc">${p.desc}</div>
+      ${p.role?`<div class="mi-role-wrap"><div class="mi-role-label">Role</div><div class="mi-role">${p.role}</div></div>`:''}
+      <div class="mi-actions">${btns}</div>
     </div>`;
 
   // carousel events
   if(p.carousel){
-    const frames=modalBox.querySelectorAll('.carousel-frame');
-    const dots=modalBox.querySelectorAll('.cdot');
-    function goTo(idx){
-      frames.forEach((f,i)=>f.style.display=i===idx?'flex':'none');
-      dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
-      // pause/play videos
-      frames.forEach(f=>{const v=f.querySelector('video');if(v)v.pause()});
-      const cv=frames[idx].querySelector('video');
-      if(cv)cv.play();
-      carouselIdx=idx;
+    const slides=[...modalBox.querySelectorAll('.car-slide')];
+    const dots=[...modalBox.querySelectorAll('.car-dot')];
+    function goTo(i){
+      slides.forEach((s,j)=>s.classList.toggle('hidden',j!==i));
+      dots.forEach((d,j)=>d.classList.toggle('on',j===i));
+      // pause all, play current
+      slides.forEach(s=>{const v=s.querySelector('video');if(v)v.pause()});
+      const cv=slides[i].querySelector('video');if(cv)cv.play();
+      carIdx=i;
     }
-    modalBox.querySelector('.carousel-arrow.prev').addEventListener('click',e=>{
-      e.stopPropagation();goTo((carouselIdx-1+p.carousel.length)%p.carousel.length);
-    });
-    modalBox.querySelector('.carousel-arrow.next').addEventListener('click',e=>{
-      e.stopPropagation();goTo((carouselIdx+1)%p.carousel.length);
-    });
+    modalBox.querySelector('.car-prev').addEventListener('click',e=>{e.stopPropagation();goTo((carIdx-1+p.carousel.length)%p.carousel.length)});
+    modalBox.querySelector('.car-next').addEventListener('click',e=>{e.stopPropagation();goTo((carIdx+1)%p.carousel.length)});
     dots.forEach(d=>d.addEventListener('click',e=>{e.stopPropagation();goTo(+d.dataset.dot)}));
   }
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════
    INIT
-═══════════════════════════════════════════════ */
-buildVideoGrid();
-buildWorksGrid();
+═══════════════════════════════════ */
+buildWorks();
 buildCuratorial();
-buildPublications();
-initParallax();
-initReveal();
+buildPubs();
+observeReveals();
 </script>
 </body>
 </html>
