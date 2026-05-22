@@ -377,6 +377,7 @@ body.entered .scroll-cue{opacity:.35}
 .pt-research{background:rgba(130,80,185,.1);color:rgba(155,105,205,.6);border:1px solid rgba(130,80,185,.18)}
 .pt-thesis{background:rgba(50,100,185,.1);color:rgba(75,125,205,.6);border:1px solid rgba(50,100,185,.18)}
 .pt-press{background:rgba(50,145,85,.1);color:rgba(75,165,105,.6);border:1px solid rgba(50,145,85,.18)}
+.pt-essay{background:rgba(184,155,90,.1);color:rgba(200,172,110,.65);border:1px solid rgba(184,155,90,.18)}
 .pub-presented{
   font-family:var(--mono);font-size:.4rem;letter-spacing:.1em;
   text-transform:uppercase;color:rgba(184,168,138,.35);margin-top:.35rem;
@@ -719,12 +720,11 @@ const PROJECTS=[
    img:A+'resense-thumb-real.jpg',
    video:A+'resense-opening.mp4',
    desc:'Interactive narrative dating simulation — 19 characters, adaptive memory systems, AI companion app NECTAR. Examining digital intimacy, emotional persistence, and relational memory.',
-   role:'Creator & Lead Developer',link:'https://github.com/hydrogenbondss'},
+   role:'Creator & Lead Developer',comingSoon:true,platforms:'Steam · Itch.io'},
 
   {id:'pawsaid',title:'PawsAid',cat:'Product / Brand',filter:'ventures',year:'2026',
    badge:'founder',bl:'Founder',
-   img:'https://d2xsxph8kpxj0f.cloudfront.net/310519663476722505/PsVu42HKuP9jWBEFMA6xfb/pawsaid-og-hero-v10b_d549e236.png',
-   imgFit:'cover',
+   img:'https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pawsaid-thumb.jpg',
    desc:'Pet first-aid kit brand — bilingual full-stack React/TypeScript e-commerce with AI chat support and WhatsApp fulfillment. Led brand, product, and engineering from zero to launch.',
    role:'Co-Founder & CTO',link:'https://pawsaid.hk',gh:'https://github.com/hydrogenbondss/pawsaidv2'},
 
@@ -848,6 +848,11 @@ const PUBS=[
    venue:'Milwaukee Independent',
    desc:'External citation of research on spectatorship ethics in discourse around anti-Black violence, image circulation, and the ethics of witnessing.',
    links:[{label:'Read Article',url:'https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/'}]},
+  {type:'essay',year:'2026',
+   title:'One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure',
+   venue:'ROLL CALL — Material Culture Archive',
+   desc:'Critical essay examining 43 specimens across 21 countries as a study in infrastructure, purchasing power, and intimate politics. Argues that toilet paper is not a consumer product but a material index of the invisible systems that shape daily life.',
+   links:[{label:'Read Essay',url:'https://hydrogenbondss.github.io/Rollcall/essay'}]}
 ];
 
 const FILTERS=[
@@ -1066,7 +1071,7 @@ function mediaHTML(p){
 
 function renderModal(p){
   const btns=[
-    p.link?`<a href="${p.link}" target="_blank" rel="noopener" class="mi-btn mi-btn-primary">View Project</a>`:'',
+    p.comingSoon?`<span class="mi-btn" style="border:1px solid rgba(255,255,255,.1);color:var(--dim);cursor:default;opacity:.7">Coming to ${p.platforms}</span>`:p.link?`<a href="${p.link}" target="_blank" rel="noopener" class="mi-btn mi-btn-primary">View Project</a>`:'',
     p.gh?`<a href="${p.gh}" target="_blank" rel="noopener" class="mi-btn mi-btn-ghost">Source Code</a>`:'',
   ].filter(Boolean).join('');
 
