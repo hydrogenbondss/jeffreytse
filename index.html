@@ -139,6 +139,7 @@ body::after{
 }
 
 @media(max-width:768px){
+  #hero-name{word-break:keep-all;hyphens:none}
   #nav{padding:1.2rem 1.5rem}
   #nav.scrolled{padding:.8rem 1.5rem}
   .nav-links{display:none}
@@ -227,7 +228,7 @@ body.entered .scroll-cue{opacity:.35}
 }
 .section-tag{
   font-family:var(--mono);font-size:.5rem;letter-spacing:.26em;
-  text-transform:uppercase;color:rgba(178,168,138,.38);
+  text-transform:uppercase;color:rgba(178,168,138,.55);
 }
 .section-divider{
   border:none;border-top:1px solid rgba(255,255,255,.05);
@@ -252,7 +253,7 @@ body.entered .scroll-cue{opacity:.35}
 .works-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:2px;
+  gap:3px;
 }
 .wc{
   position:relative;overflow:hidden;cursor:pointer;
@@ -325,8 +326,9 @@ body.entered .scroll-cue{opacity:.35}
   gap:2rem;
   padding:1.6rem 0;
   border-bottom:1px solid rgba(255,255,255,.05);
-  transition:background .2s;
+  transition:opacity .2s;
 }
+.cur-item:hover{opacity:.82}
 .cur-item:first-child{border-top:1px solid rgba(255,255,255,.05)}
 .cur-year{
   font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;
@@ -363,7 +365,9 @@ body.entered .scroll-cue{opacity:.35}
   display:grid;grid-template-columns:80px 1fr;
   gap:2rem;padding:2rem 0;
   border-bottom:1px solid rgba(255,255,255,.05);
+  transition:opacity .2s;
 }
+.pub-item:hover{opacity:.8}
 .pub-item:first-child{border-top:1px solid rgba(255,255,255,.05)}
 .pub-left{}
 .pub-year{
@@ -516,7 +520,7 @@ footer{
 }
 .mi-btn-ghost:hover{border-color:rgba(255,255,255,.3);color:var(--off-white)}
 .modal-close-btn{
-  position:fixed;top:1.8rem;right:2rem;z-index:10;
+  position:fixed;top:1.8rem;right:2rem;z-index:410;
   font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;
   text-transform:uppercase;color:var(--dim);
   background:transparent;border:1px solid rgba(255,255,255,.08);
@@ -565,6 +569,12 @@ footer{
   transition:opacity .75s ease,transform .75s ease;
 }
 .reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── FEATURED CARD ───────────────────────────────────── */
+.wc.featured{grid-column:span 2;aspect-ratio:16/7}
+.wc.featured .wc-title{font-size:1.55rem}
+@media(max-width:900px){.wc.featured{aspect-ratio:16/8}}
+@media(max-width:600px){.wc.featured{grid-column:span 1;aspect-ratio:4/3}.wc.featured .wc-title{font-size:1.15rem}}
 
 /* ── BACK TO TOP ─────────────────────────────────── */
 #btt{
@@ -684,7 +694,7 @@ footer{
       <a href="mailto:jeffreynicholast@gmail.com" class="contact-email">jeffreynicholast@gmail.com</a>
       <div class="social">
         <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.instagram.com/hydrogenbondss/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.instagram.com/hydrogenbonds/" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
   </div>
@@ -733,7 +743,7 @@ const PROJECTS=[
    img:'https://d2xsxph8kpxj0f.cloudfront.net/310519663476722505/PsVu42HKuP9jWBEFMA6xfb/pawsaid-og-hero-v10b_d549e236.png',
    imgFit:'cover',
    desc:'Pet first-aid kit brand — bilingual full-stack React/TypeScript e-commerce with AI chat support and WhatsApp fulfillment. Led brand, product, and engineering from zero to launch.',
-   role:'Co-Founder & CTO',link:'https://pawsaid.hk',gh:'https://github.com/hydrogenbondss/pawsaidv2'},
+   role:'Co-Founder & CTO',link:'https://pawsaid.hk'},
 
   {id:'rollcall',title:'ROLL CALL',cat:'Archival Interface',filter:'ventures',year:'2026',
    badge:'founder',bl:'Founder',
@@ -949,9 +959,10 @@ function buildWorks(){
   const grid=document.getElementById('worksGrid');
   grid.innerHTML='';
   const list=activeFilter==='all'?PROJECTS:PROJECTS.filter(p=>p.filter===activeFilter);
-  list.forEach(p=>{
+  list.forEach((p,idx)=>{
     const card=document.createElement('div');
-    card.className='wc reveal';
+    const isFeatured=idx===0&&(activeFilter==='ventures'||(activeFilter==='all'&&p.filter==='ventures'));
+    card.className='wc reveal'+(isFeatured?' featured':'');
     const fit=p.imgFit==='contain'?'object-fit:contain;background:#000':'';
     const badgeCls=badgeClass(p.badge);
     card.innerHTML=`
