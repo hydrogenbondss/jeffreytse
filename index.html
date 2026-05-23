@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jeffrey N. Tse</title>
 <meta name="description" content="Jeffrey N. Tse — Artist, Curator, Systems Designer. Hong Kong.">
+<meta property="og:title" content="Jeffrey N. Tse">
+<meta property="og:description" content="Artist, curator, and systems designer based in Hong Kong.">
+<meta property="og:image" content="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/resense-thumb-real.jpg">
+<meta property="og:url" content="https://hydrogenbondss.github.io/jeffreytse/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23060810'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='38' letter-spacing='-2' fill='%23F2EDE4'>JNT</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23060810'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='38' letter-spacing='-2' fill='%23F2EDE4'>JNT</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -244,6 +250,75 @@ footer span{font-family:'DM Mono',monospace;font-size:.44rem;letter-spacing:.12e
   .proj-right{display:none}
   .cur-row,.res-row{grid-template-columns:1fr;gap:.8rem}
 }
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #nav{padding:1rem 1.2rem}
+  .nav-links{display:none}
+  .nav-logo{font-size:.88rem}
+  #hkclock{top:1rem;right:1.2rem;font-size:.46rem}
+
+  /* Video hero mobile — vertical stack, scrollable */
+  #zhero{height:100vh}
+  .vgrid{flex-direction:column;gap:2px;padding:2px}
+  .vg-item{flex:none!important;height:25vh!important;min-height:160px}
+  .vg-item:hover{flex:none!important}
+  .vh-top{padding:4.5rem 1.2rem 1rem}
+  .vh-name{font-size:clamp(2.8rem,8vw,5rem)}
+  .vh-stmt{font-size:.9rem;max-width:100%}
+
+  /* About mobile */
+  #zabout .zi > div{grid-template-columns:1fr!important;gap:2rem!important}
+  #zabout img{aspect-ratio:4/3!important;max-height:280px}
+
+  /* Projects mobile */
+  .proj-row{grid-template-columns:36px 1fr!important;gap:.8rem;padding:1.6rem 0}
+  .proj-right{display:none}
+  .proj-thumb{display:none}
+  .proj-title{font-size:clamp(1.5rem,5vw,2rem)}
+
+  /* Creative grid mobile */
+  .cgrid{grid-template-columns:1fr!important;gap:2px}
+  .ccard{aspect-ratio:16/9}
+  .ccard-info{opacity:1!important;transform:none!important}
+  .ccard-veil{opacity:1!important}
+
+  /* Curatorial + Research mobile */
+  .cur-row{grid-template-columns:1fr!important;gap:.5rem;padding:1.4rem 0}
+  .res-row{grid-template-columns:1fr!important;gap:.5rem;padding:1.6rem 0}
+  .cr-yr,.rr-yr{margin-bottom:.3rem}
+
+  /* Marquee */
+  .marquee-track{animation-duration:12s}
+
+  /* Contact */
+  .ct-big{font-size:clamp(2.5rem,8vw,4rem)}
+  .ct-links{gap:1.2rem}
+
+  /* Zone inner */
+  .zi{width:92vw}
+  .zone{padding:9vh 0}
+  .zone-tag{margin-bottom:2.4rem;font-size:.52rem}
+
+  /* Modal mobile */
+  .mbox{grid-template-columns:1fr!important}
+  .mmedia{min-height:200px!important}
+  .minfo{padding:1.6rem!important}
+  .mtitle{font-size:1.3rem!important}
+  .mwrap{padding:1rem}
+  .mclose{top:1rem;right:1rem;padding:.4rem .8rem;font-size:.42rem}
+
+  /* Gate mobile */
+  .gate-name{font-size:clamp(2.8rem,10vw,5rem)}
+  .gate-sub{font-size:.46rem;letter-spacing:.16em}
+}
+
+@media(max-width:400px){
+  .vh-name{font-size:2.6rem}
+  .proj-title{font-size:1.4rem}
+  .ct-big{font-size:2.2rem}
+}
+
 </style>
 </head>
 <body>
@@ -284,7 +359,7 @@ footer span{font-family:'DM Mono',monospace;font-size:.44rem;letter-spacing:.12e
   <section id="zhero">
     <div class="vh-top">
       <h1 class="vh-name">Jeffrey<br>N. Tse</h1>
-      <p class="vh-stmt">Investigating how human presence is reshaped through systems of observation, classification, memory, and mediation.</p>
+      <p class="vh-stmt">Artist, curator, and systems designer based in Hong Kong. Building worlds, archiving the overlooked, and designing for human connection.</p>
     </div>
     <div class="vgrid" id="vgrid"></div>
     <div class="scue" id="scue"><div class="scue-line"></div><div class="scue-txt">Scroll</div></div>
@@ -363,6 +438,9 @@ footer span{font-family:'DM Mono',monospace;font-size:.44rem;letter-spacing:.12e
       <div class="ct-pre">Get in touch</div>
       <div class="ct-big rv">Let's work<br>together.</div>
       <a href="mailto:jeffreynicholast@gmail.com" class="ct-email">jeffreynicholast@gmail.com</a>
+      <div style="margin-top:1.5rem">
+        <a href="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_TSE_CV_2026.pdf" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,237,228,.38);text-decoration:none;border:1px solid rgba(242,237,228,.12);padding:.7rem 1.6rem;display:inline-block;transition:all .3s" onmouseenter="this.style.color='#F2EDE4';this.style.borderColor='rgba(184,168,138,.5)'" onmouseleave="this.style.color='rgba(242,237,228,.38)';this.style.borderColor='rgba(242,237,228,.12)'">Download CV ↓</a>
+      </div>
       <div class="ct-links">
         <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.instagram.com/hydrogenbonds/" target="_blank" rel="noopener">Instagram</a>
