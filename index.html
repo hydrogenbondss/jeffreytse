@@ -383,6 +383,22 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 .pj-role{font-family:var(--mono);font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(184,168,138,.45);margin-top:.3rem}
 .pj-bg-n{color:rgba(184,168,138,.06)}
 
+
+/* TOOLS */
+.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3rem 5rem}
+@media(max-width:700px){.tools-grid{grid-template-columns:1fr;gap:2rem}}
+.tool-group{}
+.tg-label{font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(184,168,138,.6);margin-bottom:1rem}
+.tg-items{display:flex;flex-wrap:wrap;gap:.5rem}
+.tg-items span{
+  font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;
+  color:rgba(242,237,228,.55);
+  border:1px solid rgba(242,237,228,.1);
+  padding:.28rem .7rem;
+  transition:color .25s,border-color .25s;
+}
+.tg-items span:hover{color:var(--fg);border-color:rgba(184,168,138,.45)}
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .m-box{grid-template-columns:1fr}.m-media{min-height:220px}
@@ -463,7 +479,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
       <span class="h-line">N. Tse</span>
     </h1>
     <div class="h-bottom">
-      <div class="h-eye">Hong Kong &nbsp;·&nbsp; Est. 2017 &nbsp;·&nbsp; Artist &nbsp;·&nbsp; Creative Technologist &nbsp;·&nbsp; Founder</div>
+      <div class="h-eye">Hong Kong &nbsp;·&nbsp; Artist &nbsp;·&nbsp; Creative Technologist &nbsp;·&nbsp; Founder</div>
       <p class="h-stmt">Building worlds, archiving the overlooked, designing for human connection.</p>
     </div>
     <div class="h-scroll"><div class="h-scroll-line"></div><div class="h-scroll-txt">Scroll</div></div>
@@ -485,14 +501,52 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
             <div><span class="ab-stat-n" data-count="3">0</span><span class="ab-stat-l">Ventures</span></div>
             <div><span class="ab-stat-n" data-count="7">0</span><span class="ab-stat-l">Years</span></div>
           </div>
-          <div class="ab-h">Making things that<br>ask questions.</div>
-          <p class="ab-p">Jeffrey N. Tse is an artist and creative technologist based in Hong Kong. He builds interactive worlds, designs products, and directs generative work — moving between code, image, and concept without treating any of them as separate disciplines.</p>
+          <div class="ab-h">I make things that<br>ask questions.</div>
+          <p class="ab-p">I'm an artist and creative technologist based in Hong Kong. I build interactive worlds, design products from scratch, and direct AI-led creative work — moving between code, image, and concept without treating any of them as separate things.</p>
           <p class="ab-p">Trained in Art History at UBC and Marketing at PolyU Hong Kong. Currently building RE/SENSE — an interactive narrative game — co-founding PawsAid, and directing AI-led creative projects across fashion, character design, and generative art.</p>
           <div class="ab-links">
-            <a href="mailto:jeffreynicholast@gmail.com">Email</a>
+            <a href="mailto:jeffreynicholast@gmail.com">Email ↗</a>
             <a href="https://www.instagram.com/hydrogenbonds/" target="_blank" rel="noopener">Instagram</a>
             <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener">GitHub</a>
             <a href="https://www.kaggle.com/jeffreyntse" target="_blank" rel="noopener">Kaggle</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TOOLS -->
+  <section class="sec" id="tools">
+    <div class="si">
+      <div class="sec-hd"><span class="sec-n">—</span><span class="sec-lbl">Tools & Technologies</span><span class="sec-line"></span></div>
+      <div class="tools-grid">
+        <div class="tool-group">
+          <div class="tg-label">Languages & Frameworks</div>
+          <div class="tg-items">
+            <span>React</span><span>TypeScript</span><span>JavaScript</span>
+            <span>Python</span><span>Ren'Py</span><span>HTML / CSS</span><span>Node.js</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <div class="tg-label">AI & Generative</div>
+          <div class="tg-items">
+            <span>ComfyUI</span><span>LoRA Training</span><span>Midjourney</span>
+            <span>Claude</span><span>GPT-4</span><span>ElevenLabs</span><span>Runway Gen-2</span><span>Adobe Firefly</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <div class="tg-label">Design & Motion</div>
+          <div class="tg-items">
+            <span>Figma</span><span>After Effects</span><span>Premiere Pro</span>
+            <span>Photoshop</span><span>Illustrator</span><span>CapCut</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <div class="tg-label">Platforms & Tools</div>
+          <div class="tg-items">
+            <span>GitHub</span><span>Vercel</span><span>Drizzle ORM</span>
+            <span>PostgreSQL</span><span>WhatsApp API</span><span>Kaggle</span>
           </div>
         </div>
       </div>
@@ -515,7 +569,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 
   <section class="sec" id="curatorial"><div class="sec-accent"></div>
     <div class="si">
-      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-lbl">Curatorial Practice</span><span class="sec-line"></span></div>
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-lbl">Curatorial</span><span class="sec-line"></span></div>
       <div class="cur-list" id="curList"></div>
     </div>
   </section>
@@ -541,7 +595,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
     </div>
   </section>
 
-  <footer><span>© 2026 Jeffrey Nicholas Tse</span><span>🇭🇰 Hong Kong</span></footer>
+  <footer><span>© 2026 Jeffrey Nicholas Tse</span><span style="display:flex;gap:1.8rem;align-items:center"><a href="https://hydrogenbondss.github.io/nectar-storyboard/" target="_blank" style="font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.22);text-decoration:none;transition:color .25s" onmouseenter="this.style.color='rgba(242,237,228,.7)'" onmouseleave="this.style.color='rgba(242,237,228,.22)'">NECTAR Storyboard ↗</a><span style="font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.18)">🇭🇰 Hong Kong</span></span></footer>
 </div>
 
 <!-- MODAL -->
@@ -902,7 +956,7 @@ function buildVideoPanels(){
 
 /* ── BUILD MARQUEE ── */
 function buildMarquee(){
-  const items=['Artist','Fashion Editor','Game Developer','Creative Technologist','Founder','AI Director','Editorial Director','Generative Art','React / TypeScript','Python / Ren\'Py','ComfyUI / LoRA','Midjourney','After Effects','Figma','Hong Kong'];
+  const items=['Artist','Creative Technologist','Founder','Fashion Editor','Game Developer','AI Director','Editorial Director','Creative Coder','Generative Artist','Brand Designer','Researcher','Curator'];
   const inner=document.getElementById('mqInner');
   // Build once then duplicate for seamless loop via CSS
   const all=[...items,...items];
