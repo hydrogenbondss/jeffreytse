@@ -39,7 +39,7 @@ body{background:#060810;color:#F2EDE4;font-family:'Space Grotesk',sans-serif;fon
 #nav.stuck{padding:1rem 2.4rem;background:rgba(6,8,16,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(242,237,228,.06)}
 .nav-logo{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F2EDE4;text-decoration:none}
 .nav-links{display:flex;gap:2.4rem;list-style:none}
-.nav-links a{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.45);text-decoration:none;transition:color .25s}
+.nav-links a{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.65);text-decoration:none;transition:color .25s}
 .nav-links a:hover{color:#F2EDE4}
 
 /* ── SKY (fixed, behind everything) ── */
@@ -59,11 +59,11 @@ body{background:#060810;color:#F2EDE4;font-family:'Space Grotesk',sans-serif;fon
 /* ── GATE ── */
 #gate{position:fixed;inset:0;z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#060810;overflow:hidden}
 #gate.out{opacity:0;pointer-events:none;transition:opacity 1.8s cubic-bezier(.4,0,.2,1)}
-.gate-pre{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(242,237,228,.28);margin-bottom:2.2rem;opacity:0;animation:gup .7s ease .8s forwards}
+.gate-pre{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(242,237,228,.65);margin-bottom:2.2rem;opacity:0;animation:gup .7s ease .8s forwards}
 .gate-name-wrap{overflow:hidden;margin-bottom:.4rem}
-.gate-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(3.8rem,9vw,9.5rem);letter-spacing:-.03em;color:#F2EDE4;line-height:.9;opacity:0;transform:translateY(100%);animation:slideUp 1s cubic-bezier(.16,1,.3,1) .6s forwards}
-.gate-sub{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(184,168,138,.55);margin-bottom:3.5rem;opacity:0;animation:gup .8s ease 1.2s forwards}
-.gate-btn{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,237,228,.32);background:none;border:1px solid rgba(184,168,138,.2);padding:13px 48px;cursor:none;opacity:0;animation:gup .7s ease 1.5s forwards;transition:all .4s}
+.gate-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(3rem,6.5vw,7rem);letter-spacing:-.03em;color:#F2EDE4;line-height:.9;opacity:0;transform:translateY(100%);animation:slideUp 1s cubic-bezier(.16,1,.3,1) .6s forwards}
+.gate-sub{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(184,168,138,.85);margin-bottom:3.5rem;opacity:0;animation:gup .8s ease 1.2s forwards}
+.gate-btn{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(242,237,228,.6);background:none;border:1px solid rgba(184,168,138,.4);padding:14px 52px;cursor:none;opacity:0;animation:gup .7s ease 1.5s forwards;transition:all .4s}
 .gate-btn:hover{color:#F2EDE4;border-color:rgba(184,168,138,.6);background:rgba(184,168,138,.06)}
 #gate-stars{position:absolute;inset:0;pointer-events:none}
 
@@ -79,7 +79,7 @@ body{background:#060810;color:#F2EDE4;font-family:'Space Grotesk',sans-serif;fon
 .vh-top{position:absolute;top:0;left:0;right:0;z-index:20;padding:6rem 2.4rem 2rem;display:flex;flex-direction:column;gap:.8rem}
 .vh-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(4rem,10vw,10rem);letter-spacing:-.04em;line-height:.88;color:#F2EDE4;opacity:0;transform:translateY(20px);transition:opacity 1s ease,transform 1s ease}
 .vh-name.in{opacity:1;transform:none}
-.vh-stmt{font-family:'Space Grotesk',sans-serif;font-size:clamp(1rem,1.6vw,1.25rem);font-weight:300;color:rgba(242,237,228,.75);line-height:1.65;max-width:480px;opacity:0;transform:translateY(14px);transition:opacity 1s ease .2s,transform 1s ease .2s}
+.vh-stmt{font-family:'Space Grotesk',sans-serif;font-size:clamp(1rem,1.6vw,1.25rem);font-weight:400;color:rgba(242,237,228,.92);line-height:1.65;max-width:480px;opacity:0;transform:translateY(14px);transition:opacity 1s ease .2s,transform 1s ease .2s}
 .vh-stmt.in{opacity:1;transform:none}
 
 /* Grid */
@@ -122,7 +122,7 @@ body{background:#060810;color:#F2EDE4;font-family:'Space Grotesk',sans-serif;fon
 .proj-mid{}
 .proj-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.2vw,3rem);letter-spacing:-.03em;color:#ffffff;line-height:1;margin-bottom:.3rem;transition:color .3s}
 .proj-row:hover .proj-title{color:#B8A88A}
-.proj-cat{font-family:'DM Mono',monospace;font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,237,228,.3)}
+.proj-cat{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,237,228,.58)}
 .proj-right{display:flex;flex-direction:column;align-items:flex-end;gap:.4rem;min-width:110px}
 .proj-yr{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;color:rgba(184,168,138,.45)}
 .proj-badge{font-family:'DM Mono',monospace;font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .55rem}
@@ -142,7 +142,7 @@ body{background:#060810;color:#F2EDE4;font-family:'Space Grotesk',sans-serif;fon
 .ccard:hover .ccard-veil{opacity:1}
 .ccard-info{position:absolute;bottom:0;left:0;right:0;padding:1.3rem;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
 .ccard:hover .ccard-info{opacity:1;transform:none}
-.ccard-cat{font-family:'DM Mono',monospace;font-size:.42rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,237,228,.42);margin-bottom:.28rem}
+.ccard-cat{font-family:'DM Mono',monospace;font-size:.46rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,237,228,.72);margin-bottom:.28rem}
 .ccard-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:#F2EDE4;line-height:1.2}
 
 /* ── CURATORIAL ── */
@@ -176,7 +176,7 @@ body{background:#060810;color:#F2EDE4;font-family:'Space Grotesk',sans-serif;fon
 .marquee-wrap{overflow:hidden;border-top:1px solid rgba(242,237,228,.06);border-bottom:1px solid rgba(242,237,228,.06);padding:.7rem 0;margin:2rem 0}
 .marquee-track{display:flex;gap:3rem;white-space:nowrap;animation:marquee 18s linear infinite}
 .marquee-track:hover{animation-play-state:paused}
-.marquee-item{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,237,228,.22)}
+.marquee-item{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,237,228,.45)}
 .marquee-dot{color:rgba(184,168,138,.4)}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -601,12 +601,12 @@ function updateSky(){
 const cloudsCont=document.getElementById('clouds');
 // Build actual cloud shapes using stacked ellipses
 const CLOUD_DEFS=[
-  {x:3,y:6,scale:1.4,flip:false,op:.82,dur:38,del:0},
-  {x:48,y:3,scale:1.1,flip:true,op:.7,dur:46,del:-12},
-  {x:68,y:10,scale:.9,flip:false,op:.65,dur:30,del:-20},
-  {x:20,y:18,scale:.75,flip:true,op:.58,dur:42,del:-8},
-  {x:80,y:5,scale:.65,flip:false,op:.6,dur:26,del:-30},
-  {x:38,y:22,scale:.85,flip:true,op:.5,dur:50,del:-16},
+  {x:0,y:4,scale:2.0,op:.88,dur:38,del:0},
+  {x:42,y:1,scale:1.6,op:.78,dur:46,del:-12},
+  {x:65,y:8,scale:1.4,op:.72,dur:30,del:-20},
+  {x:15,y:16,scale:1.1,op:.65,dur:42,del:-8},
+  {x:78,y:3,scale:.95,op:.68,dur:26,del:-30},
+  {x:30,y:20,scale:1.25,op:.58,dur:50,del:-16},
 ];
 const cloudEls=[];
 CLOUD_DEFS.forEach((d,i)=>{
@@ -625,7 +625,7 @@ CLOUD_DEFS.forEach((d,i)=>{
   wrap.style.width=baseW+'px';wrap.style.height=baseH+'px';
   puffs.forEach(pu=>{
     const el=document.createElement('div');
-    el.style.cssText=`position:absolute;left:${pu.x}px;top:${pu.y}px;width:${pu.w}px;height:${pu.h}px;border-radius:50%;background:radial-gradient(ellipse at 40% 38%,rgba(255,255,255,${d.op}) 0%,rgba(255,255,255,${d.op*.55}) 52%,transparent 78%);filter:blur(${Math.round(8*d.scale)}px)`;
+    el.style.cssText=`position:absolute;left:${pu.x}px;top:${pu.y}px;width:${pu.w}px;height:${pu.h}px;border-radius:50%;background:radial-gradient(ellipse at 40% 38%,rgba(255,255,255,${d.op}) 0%,rgba(255,255,255,${d.op*.7}) 45%,rgba(255,255,255,${d.op*.3}) 65%,transparent 80%);filter:blur(${Math.round(8*d.scale)}px)`;
     wrap.appendChild(el);
   });
   cloudsCont.appendChild(wrap);
@@ -633,13 +633,16 @@ CLOUD_DEFS.forEach((d,i)=>{
 });
 
 function updateClouds(p){
-  // Clouds visible only when sky is light enough (dawn through dusk)
-  const visible=p>.08&&p<.88;
-  const brightness=p<.25?(p-.08)/.17:p>.75?(1-(p-.75)/.13):1;
-  cloudEls.forEach(({el,d,phase,baseY},i)=>{
-    const drift=Math.sin(Date.now()*.00018+phase)*22;
-    const parallax=(p-.5)*-innerHeight*.08;
-    el.style.transform=`translate(${drift}px,${parallax}px)`;
+  const visible=p>.06&&p<.90;
+  const brightness=p<.2?(p-.06)/.14:p>.78?(1-(p-.78)/.12):1;
+  const scrollPx=p*(document.documentElement.scrollHeight-innerHeight);
+  cloudEls.forEach(({el,d,phase},i)=>{
+    const drift=Math.sin(Date.now()*.00015+phase)*28;
+    const vdrift=Math.cos(Date.now()*.0001+phase)*8;
+    // Each cloud layer moves at different parallax speed — depth illusion
+    const parallaxRate=[.06,.10,.04,.14,.18,.08][i]||.08;
+    const parallax=-scrollPx*parallaxRate;
+    el.style.transform=`translate(${drift}px,${parallax+vdrift}px)`;
     el.style.opacity=visible?Math.min(d.op,brightness*d.op):0;
   });
 }
