@@ -38,7 +38,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 #nav.scrolled{padding:1rem 2.4rem;background:rgba(6,8,16,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(242,237,228,.05)}
 .n-logo{font-family:var(--sg);font-size:.9rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg);text-decoration:none}
 .n-links{display:flex;align-items:center;gap:2rem;list-style:none}
-.n-links a{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.5);text-decoration:none;transition:color .2s}
+.n-links a{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,237,228,.65);text-decoration:none;transition:color .2s}
 .n-links a:hover{color:var(--fg)}
 /* Clock inside nav — RIGHT of links */
 #nav-clock{font-family:var(--mono);font-size:.48rem;letter-spacing:.14em;color:rgba(242,237,228,.32);text-align:right;line-height:1.65;white-space:nowrap;margin-left:2rem}
@@ -63,6 +63,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 
 /* SKY */
 #sky{position:fixed;inset:0;z-index:0;pointer-events:none}
+#stars-layer{position:fixed;inset:0;z-index:1;pointer-events:none;transition:opacity .8s ease}
+.cloud-el{position:fixed;pointer-events:none;z-index:2;will-change:transform;transition:opacity 1.5s ease}
 
 /* WORLD */
 #world{position:relative;z-index:10;display:none}
@@ -182,7 +184,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 .ab-stat-n{font-family:var(--sg);font-weight:700;font-size:clamp(2.2rem,3.5vw,3.5rem);letter-spacing:-.04em;color:#fff;line-height:1;display:block}
 .ab-stat-l{font-family:var(--mono);font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(184,168,138,.6);display:block;margin-top:.25rem}
 .ab-h{font-family:var(--sg);font-weight:700;font-size:clamp(1.6rem,2.8vw,2.6rem);letter-spacing:-.03em;line-height:1.1;color:#fff;margin-bottom:1.6rem}
-.ab-p{font-family:var(--sg);font-size:clamp(.88rem,1.2vw,1rem);font-weight:300;color:rgba(242,237,228,.72);line-height:1.82;margin-bottom:1rem}
+.ab-p{font-family:var(--sg);font-size:clamp(.95rem,1.3vw,1.08rem);font-weight:300;color:rgba(242,237,228,.85);line-height:1.82;margin-bottom:1rem}
 .ab-links{display:flex;gap:1.6rem;margin-top:2rem;flex-wrap:wrap}
 .ab-links a{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,237,228,.4);text-decoration:none;border-bottom:1px solid rgba(184,168,138,.18);padding-bottom:2px;transition:color .25s,border-color .25s}
 .ab-links a:hover{color:var(--fg);border-color:var(--gold)}
@@ -193,15 +195,15 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 .pj-row::before{content:'';position:absolute;inset:0;background:rgba(184,168,138,.04);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
 .pj-row:hover::before{transform:scaleX(1)}
 .pj-row:hover{padding-left:1rem}
-.pj-n{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;color:rgba(184,168,138,.3)}
+.pj-n{font-family:var(--mono);font-size:.48rem;letter-spacing:.16em;color:rgba(184,168,138,.55)}
 
 .pj-row:hover 
 .pj-title{font-family:var(--sg);font-weight:700;font-size:clamp(2.2rem,4vw,3.8rem);letter-spacing:-.04em;color:#fff;line-height:.96;margin-bottom:.3rem;transition:color .3s;cursor:none}
 .pj-row:hover .pj-title{color:var(--gold)}
 @media(max-width:600px){.pj-title{font-size:clamp(1.5rem,5vw,2rem)}}
-.pj-cat{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,237,228,.45)}
+.pj-cat{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,237,228,.65)}
 .pj-meta{display:flex;flex-direction:column;align-items:flex-end;gap:.4rem}
-.pj-yr{font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;color:rgba(184,168,138,.45)}
+.pj-yr{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;color:rgba(184,168,138,.72)}
 .pj-badge{font-family:var(--mono);font-size:.36rem;letter-spacing:.1em;text-transform:uppercase;padding:.18rem .5rem}
 .b-dev{border:1px solid rgba(184,168,138,.2);color:rgba(184,168,138,.65)}
 .b-live{border:1px solid rgba(100,210,130,.2);color:rgba(100,210,130,.75)}
@@ -229,8 +231,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 .cur-row:hover{background:rgba(184,168,138,.03)}
 .cur-yr{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;color:rgba(184,168,138,.6);text-transform:uppercase;padding-top:.2rem}
 .cur-title{font-family:var(--sg);font-weight:600;font-size:1.25rem;color:#fff;margin-bottom:.2rem}
-.cur-venue{font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.45);margin-bottom:.5rem}
-.cur-desc{font-family:var(--sg);font-size:.88rem;font-weight:300;color:rgba(242,237,228,.65);line-height:1.72}
+.cur-venue{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,237,228,.65);margin-bottom:.5rem}
+.cur-desc{font-family:var(--sg);font-size:.92rem;font-weight:300;color:rgba(242,237,228,.82);line-height:1.72}
 
 /* RESEARCH */
 .res-list{border-top:1px solid rgba(242,237,228,.08)}
@@ -244,8 +246,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 .t-press{border:1px solid rgba(80,190,110,.22);color:rgba(80,190,110,.72)}
 .res-flag{font-family:var(--mono);font-size:.36rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(184,168,138,.38);margin-top:.28rem}
 .res-title{font-family:var(--sg);font-weight:600;font-size:clamp(1rem,1.5vw,1.25rem);color:#fff;line-height:1.3;margin-bottom:.3rem}
-.res-venue{font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,237,228,.44);margin-bottom:.6rem}
-.res-desc{font-family:var(--sg);font-size:.88rem;font-weight:300;color:rgba(242,237,228,.68);line-height:1.72;margin-bottom:.7rem}
+.res-venue{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,237,228,.62);margin-bottom:.6rem}
+.res-desc{font-family:var(--sg);font-size:.92rem;font-weight:300;color:rgba(242,237,228,.82);line-height:1.72;margin-bottom:.7rem}
 .res-a{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(184,168,138,.58);text-decoration:none;border-bottom:1px solid rgba(184,168,138,.18);padding-bottom:1px;transition:color .25s,border-color .25s}
 .res-a:hover{color:var(--gold);border-color:var(--gold)}
 .res-a::after{content:' ↗'}
@@ -323,17 +325,9 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
   color:rgba(242,237,228,.22);pointer-events:none;
   display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;
 }
-#scroll-pct-n{font-size:.9rem;font-weight:700;font-family:var(--sg);letter-spacing:-.02em;color:rgba(242,237,228,.12)}
+#scroll-pct-n{font-size:.9rem;font-weight:700;font-family:var(--sg);letter-spacing:-.02em;color:rgba(242,237,228,.22)}
 
-/* ── FULL BLEED HOVER IMAGE ── */
-.pj-hover-img{
-  position:fixed;pointer-events:none;z-index:50;
-  width:320px;height:200px;overflow:hidden;
-  opacity:0;transition:opacity .35s ease;
-  transform:translate(-50%,-50%);
-  will-change:left,top;
-}
-.pj-hover-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.8)}
+
 
 /* ── SECTION ACCENT LINES ── */
 .sec-accent{
@@ -372,7 +366,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 
 /* ── PROJECT ROW number becomes huge bg ── */
 .pj-row{position:relative}
-.pj-tagline{font-family:var(--sg);font-size:.88rem;font-weight:300;color:rgba(242,237,228,.58);margin-top:.5rem;max-width:520px;line-height:1.55}
+.pj-tagline{font-family:var(--sg);font-size:.88rem;font-weight:300;color:rgba(242,237,228,.75);margin-top:.5rem;max-width:520px;line-height:1.55}
 .pj-role{font-family:var(--mono);font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(184,168,138,.45);margin-top:.3rem}
 .pj-bg-n{
   position:absolute;right:0;top:50%;transform:translateY(-50%);
@@ -420,7 +414,6 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 
 <div id="cur"></div>
 <div id="grain"></div>
-<div class="pj-hover-img" id="pjHoverImg"><img id="pjHoverImgEl" src="" alt=""></div>
 <div id="scroll-pct"><span id="scroll-pct-n">00</span><span>%</span></div>
 <div id="cur-r"></div>
 <div id="prog"></div>
@@ -433,7 +426,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 </div>
 
 <!-- SKY -->
-<canvas id="sky"></canvas>
+<div id="sky"></div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -492,9 +485,9 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
             <div><span class="ab-stat-n" data-count="3">0</span><span class="ab-stat-l">Ventures</span></div>
             <div><span class="ab-stat-n" data-count="7">0</span><span class="ab-stat-l">Years</span></div>
           </div>
-          <div class="ab-h">Work that moves between<br>disciplines without apology.</div>
-          <p class="ab-p">Jeffrey N. Tse is an artist and creative technologist based in Hong Kong whose practice spans interactive narrative, product design, generative systems, and editorial work. He moves between code, image, and concept — building things that are simultaneously functional and interrogative.</p>
-          <p class="ab-p">Trained in Art History at UBC and Marketing at PolyU Hong Kong. Currently building RE/SENSE — an interactive narrative game — co-founding PawsAid, and directing AI-led creative projects across fashion, character design, and generative art.</p>
+          <div class="ab-h">Artist. Builder.<br>Creative Technologist.</div>
+          <p class="ab-p">Jeffrey N. Tse is a Hong Kong-based artist and creative technologist. He builds games, designs brands, directs AI-generated visuals, and writes about material culture — often at the same time.</p>
+          <p class="ab-p">Trained in Art History (UBC) and Marketing (PolyU HK). Has directed editorial content for I.T Apparels, curated exhibitions across Vancouver and Hong Kong, and shipped products from concept to launch. Currently focused on RE/SENSE, PawsAid, and ROLL CALL.</p>
           <div class="ab-links">
             <a href="mailto:jeffreynicholast@gmail.com">Email ↗</a>
             <a href="https://www.instagram.com/hydrogenbonds/" target="_blank" rel="noopener">Instagram</a>
@@ -567,7 +560,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
   <section class="sec" id="curatorial"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">03</span><span class="sec-lbl">Curatorial</span><span class="sec-line"></span></div>
-      <p style="font-family:var(--sg);font-size:clamp(.88rem,1.2vw,1rem);font-weight:300;color:rgba(242,237,228,.45);line-height:1.75;max-width:600px;margin-bottom:3.5rem">Five exhibitions across Vancouver and Hong Kong, 2017–2019. Group and solo shows spanning identity, belonging, memory, and the politics of visibility.</p>
+      <p style="font-family:var(--sg);font-size:clamp(.88rem,1.2vw,1rem);font-weight:300;color:rgba(242,237,228,.72);line-height:1.75;max-width:600px;margin-bottom:3.5rem">Five exhibitions across Vancouver and Hong Kong, 2017–2019. Group and solo shows spanning identity, belonging, memory, and the politics of visibility.</p>
       <div class="cur-list" id="curList"></div>
     </div>
   </section>
@@ -575,7 +568,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
   <section class="sec" id="research"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">04</span><span class="sec-lbl">Research & Writing</span><span class="sec-line"></span></div>
-      <p style="font-family:'Space Grotesk',sans-serif;font-size:clamp(.88rem,1.2vw,1rem);font-weight:300;color:rgba(242,237,228,.45);line-height:1.75;max-width:600px;margin-bottom:3.5rem">Academic research, critical essays, and press citations spanning spectatorship ethics, mediated intimacy, and material culture.</p><div class="res-list" id="resList"></div>
+      <p style="font-family:'Space Grotesk',sans-serif;font-size:clamp(.88rem,1.2vw,1rem);font-weight:300;color:rgba(242,237,228,.72);line-height:1.75;max-width:600px;margin-bottom:3.5rem">Academic research, critical essays, and press citations spanning spectatorship ethics, mediated intimacy, and material culture.</p><div class="res-list" id="resList"></div>
     </div>
   </section>
 
@@ -617,11 +610,10 @@ const VPANELS=[
 ];
 
 const PROJECTS=[
-  {n:'01',title:'RE/SENSE',cat:'Interactive Narrative · Game',year:'2026',badge:'dev',bl:'Vertical Slice Available',img:A+'resense-thumb-real.jpg',tagline:'19 characters. Adaptive memory. An AI companion who remembers everything.',role:'Creator & Lead Developer',
-   desc:'Interactive narrative dating simulation — 19 characters, adaptive memory systems, AI companion NECTAR. Examining digital intimacy, emotional persistence, and relational memory.',
-   role:'Creator & Lead Developer',comingSoon:true,platforms:'Steam · Itch.io'},
-  {n:'02',title:'PawsAid',cat:'Product · Brand · E-commerce',year:'2026',badge:'live',bl:'Live',img:A+'pawsaid-hero.jpg',tagline:'Designed the products. Built the platform. Launched the brand.',role:'Co-Founder, CTO & Head of Product',
-   desc:'Pet first-aid kit brand — designed all three kits (Essential, Plus, Pro) from scratch, built the bilingual React/TypeScript e-commerce platform with AI chat and WhatsApp fulfillment, and led brand identity from zero to launch. Every visual, every product, every line of code.',
+  {n:'01',title:'RE/SENSE',cat:'Interactive Narrative · Game',year:'2026',badge:'dev',bl:'Vertical Slice Available',img:A+'resense-thumb-real.jpg',tagline:'A game about intimacy, memory, and what happens when the AI knows you better than you know yourself.',role:'Creator & Lead Developer',
+   desc:'RE/SENSE is an interactive narrative game about digital intimacy and emotional memory. You build relationships with a cast of characters while NECTAR — an embedded AI companion — tracks every choice, adapts to your behaviour, and never forgets. Built in Ren'Py with original art direction, character design, and an adaptive memory architecture.'},
+  {n:'02',title:'PawsAid',cat:'Product · Brand · E-commerce',year:'2026',badge:'live',bl:'Live',img:A+'pawsaid-kit-pro.jpg',modalImg:A+'pawsaid-hero.jpg',tagline:'Designed the products. Built the platform. Launched the brand.',role:'Co-Founder, CTO & Head of Product',
+   desc:'Pet first-aid kit brand — designed all three kits (Essential, Plus, Pro) from scratch. The kits are available at pawsaid.hk, built the bilingual React/TypeScript e-commerce platform with AI chat and WhatsApp fulfillment, and led brand identity from zero to launch. Every visual, every product, every line of code.',
    role:'Co-Founder, CTO & Head of Product',link:'https://pawsaid.hk'},
   {n:'03',title:'ROLL CALL',cat:'Archival Interface · Material Culture',year:'2026',badge:'live',bl:'Live',img:RC+'images/og-image.jpg',tagline:'43 specimens. 21 countries. One question about what we throw away.',role:'Founder & Curator',
    desc:'Material culture archive cataloguing 43 toilet paper specimens from 21 countries across Asia — applying museum-standard methodology to the disposable and overlooked.',
@@ -636,6 +628,7 @@ const CREATIVE=[
   {title:'Cathedral of Small Hours',cat:'Interactive · Generative',year:'2026',img:A+'cathedral-thumb.jpg',desc:'Human silhouettes resolve from streams of falling words. Move your cursor to summon presence.',role:'Creative Developer',link:'https://hydrogenbondss.github.io/cathedral-of-small-hours/'},
   {title:'Ash-01',cat:'Character Design · AI',year:'2026',img:A+'0311.jpg',video:A+'CharacterFINAL.mp4',desc:'Neural Portrait — original character design with full motion sequence and voice synthesis.',role:'Character Designer & AI Director'},
   {title:'Feature World: Chaos',cat:'Creative Coding',year:'2026',img:A+'FeatureWorldThumbnail.jpg',video:A+'FeatureWorldChaosVid.mp4',desc:'Interactive physics sandbox — touch-based web experience with particle chaos engine.',role:'Creative Developer',link:'https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html'},
+  {title:'Gentle Monster — AIgentleMon',cat:'AI Creative Direction',year:'2024',img:A+'AIgentleMon.jpg',desc:'AI-directed visual campaign for Gentle Monster — sunglasses editorial blending generative imagery with fashion photography.',role:'AI Creative Director'},
   {title:'Fashion Editorials',cat:'Fashion Editorial',year:'2023–2025',img:A+'markgong.jpg',desc:'Editor and interviewer at I.T Apparels — Markgong FW25, Doublet, A BATHING APE®, Carhartt WIP across New York and Hong Kong.',role:'Fashion Editor · Interviewer'},
 ];
 
@@ -741,8 +734,7 @@ function enterSite(e){
 document.getElementById('g-btn').addEventListener('click',enterSite);
 
 /* ── SKY ── */
-const skyC=document.getElementById('sky');
-const skyCtx=skyC.getContext('2d');
+
 const SKYP=[
   {t:0,  top:[6,8,18],   bot:[4,6,14]},
   {t:.15,top:[22,28,58], bot:[12,16,38]},
@@ -754,7 +746,7 @@ const SKYP=[
   {t:.92,top:[35,18,44],  bot:[16,8,26]},
   {t:1,  top:[6,8,18],   bot:[4,6,14]},
 ];
-const STARS=Array.from({length:240},()=>({x:Math.random(),y:Math.random(),r:.3+Math.random()*1.1,a:.1+Math.random()*.55}));
+
 function lp(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')}
 function skyAt(p){
   let i=0;for(;i<SKYP.length-2;i++)if(p<=SKYP[i+1].t)break;
@@ -772,84 +764,148 @@ const CLOUDS=[
   {x:.35,y:.21,w:350,h:134,op:.62,par:.07,ph:5.2},
 ];
 
-let lastP=-1,scY=0;
-function drawSky(){
-  const max=document.documentElement.scrollHeight-innerHeight;
-  const p=max>0?Math.min(scY/max,1):0;
-  if(Math.abs(p-lastP)<.002&&p===lastP)return;
-  lastP=p;
-  const W=skyC.width=innerWidth,H=skyC.height=innerHeight;
-  const{top,bot}=skyAt(p);
-  const g=skyCtx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,`rgb(${top})`);g.addColorStop(1,`rgb(${bot})`);
-  skyCtx.fillStyle=g;skyCtx.fillRect(0,0,W,H);
+/* ══ SKY — CSS ONLY, GPU accelerated ══ */
+const skyEl2=document.getElementById('sky');
+const sunEl=document.createElement('div');
+sunEl.id='sun-el';
+sunEl.style.cssText='position:fixed;border-radius:50%;pointer-events:none;z-index:2;will-change:transform;transition:none';
+document.body.appendChild(sunEl);
 
-  // Sun arc
+let lastP=-1,scY=0,ticking=false;
+
+function updateSkyCSS(p){
+  // Sky gradient via CSS background
+  const{top,bot}=skyAt(p);
+  skyEl2.style.background=`linear-gradient(180deg,rgb(${top}) 0%,rgb(${bot}) 100%)`;
+
+  // Sun — positioned absolutely, GPU composited
   if(p>.07&&p<.90){
     const t=(p-.07)/.83;
     const ang=t*Math.PI*.9;
+    const W=innerWidth,H=innerHeight;
     const sx=W*.68+Math.cos(Math.PI*.1-ang)*W*.44;
     const sy=H*.5-Math.sin(Math.PI*.1-ang)*H*.58;
-    let r,gg,b,sz;
-    if(p<.3){r=255;gg=248;b=215;sz=270}
-    else if(p<.52){const tt=(p-.3)/.22;r=255;gg=Math.round(240-tt*92);b=Math.round(205-tt*162);sz=Math.round(270+tt*28)}
-    else if(p<.70){const tt=(p-.52)/.18;r=255;gg=Math.round(148-tt*72);b=Math.round(43-tt*26);sz=Math.round(298-tt*88)}
-    else{const tt=(p-.70)/.20;r=Math.round(255-tt*172);gg=Math.round(76-tt*62);b=Math.round(17-tt*14);sz=Math.round(210-tt*148)}
+    let r,gg,b,sz,glow;
+    if(p<.3){r=255;gg=248;b=215;sz=260;glow='rgba(255,248,200,.3)'}
+    else if(p<.52){const tt=(p-.3)/.22;r=255;gg=Math.round(240-tt*92);b=Math.round(205-tt*162);sz=Math.round(260+tt*28);glow='rgba(255,200,80,.35)'}
+    else if(p<.70){const tt=(p-.52)/.18;r=255;gg=Math.round(148-tt*72);b=Math.round(43-tt*26);sz=Math.round(288-tt*88);glow='rgba(255,110,40,.3)'}
+    else{const tt=(p-.70)/.20;r=Math.round(255-tt*172);gg=Math.round(76-tt*62);b=Math.round(17-tt*14);sz=Math.round(200-tt*148);glow=`rgba(210,45,18,.25)`}
     const op=Math.min(1,(p-.07)/.1)*Math.min(1,(.90-p)/.08);
-    if(sz>8&&op>0){
-      const sg=skyCtx.createRadialGradient(sx,sy,0,sx,sy,sz*1.8);
-      sg.addColorStop(0,`rgba(${r},${gg},${b},${op})`);
-      sg.addColorStop(.35,`rgba(${r},${gg},${b},${op*.5})`);
-      sg.addColorStop(.65,`rgba(${r},${gg},${b},${op*.15})`);
-      sg.addColorStop(1,'rgba(0,0,0,0)');
-      skyCtx.fillStyle=sg;
-      skyCtx.beginPath();skyCtx.arc(sx,sy,sz*1.8,0,Math.PI*2);skyCtx.fill();
-    }
+    sunEl.style.cssText=`
+      position:fixed;left:${sx}px;top:${sy}px;
+      width:${sz}px;height:${sz}px;
+      transform:translate(-50%,-50%);
+      border-radius:50%;pointer-events:none;z-index:2;
+      background:radial-gradient(circle at 38% 36%,rgba(${r},${gg},${b},${op}) 0%,rgba(${r},${gg},${b},${op*.45}) 42%,rgba(${r},${gg},${b},0) 70%);
+      box-shadow:0 0 ${sz*.7}px ${sz*.28}px ${glow};
+      opacity:${Math.max(0,Math.min(1,op))};
+    `;
+  } else {
+    sunEl.style.opacity='0';
   }
 
-  // Stars
-  const sOp=p<.18?(p<.08?.75:(.18-p)/.10*.75):p>.80?((p-.80)/.12*.75):0;
-  if(sOp>.01){
-    STARS.forEach(s=>{
-      skyCtx.beginPath();skyCtx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
-      skyCtx.fillStyle=`rgba(242,237,228,${s.a*sOp})`;skyCtx.fill();
-    });
+  // Clouds — CSS transform only (no repaint)
+  const cloudVis=p>.08&&p<.88;
+  const cloudBright=p<.22?(p-.08)/.14:p>.76?(1-(p-.76)/.12):1;
+  document.querySelectorAll('.cloud-el').forEach((el,i)=>{
+    const par=-scY*[.05,.09,.04,.13,.17,.07][i];
+    el.style.transform=`translateY(${par}px)`;
+    el.style.opacity=cloudVis?String(Math.min(parseFloat(el.dataset.op),cloudBright*parseFloat(el.dataset.op))):'0';
+  });
+
+  // Stars opacity
+  const starsEl=document.getElementById('stars-layer');
+  if(starsEl){
+    const sOp=p<.18?(p<.08?.7:(.18-p)/.10*.7):p>.80?((p-.80)/.12*.7):0;
+    starsEl.style.opacity=String(sOp);
   }
 
-  // Clouds
-  const cv=p>.08&&p<.88;
-  const cb=p<.22?(p-.08)/.14:p>.76?(1-(p-.76)/.12):1;
-  if(cv){
-    CLOUDS.forEach(cl=>{
-      const drift=Math.sin(Date.now()*.00013+cl.ph)*26;
-      const par=-scY*cl.par;
-      const cx=(cl.x*W+drift);
-      const cy=cl.y*H+par;
-      const co=Math.min(cl.op,cb*cl.op);
-      // 5-puff cluster
-      [[0,.35,.55,.65],[.22,0,.50,.82],[.48,.2,.46,.72],[.14,.28,.62,.58],[.34,.08,.40,.68]]
-        .forEach(([ox,oy,pw,ph])=>{
-          const px=cx+ox*cl.w,py=cy+oy*cl.h;
-          const cg=skyCtx.createRadialGradient(px+pw*cl.w*.4,py+ph*cl.h*.38,0,px+pw*cl.w*.5,py+ph*cl.h*.5,Math.max(pw*cl.w,ph*cl.h)*.6);
-          cg.addColorStop(0,`rgba(255,255,255,${co})`);
-          cg.addColorStop(.42,`rgba(255,255,255,${co*.65})`);
-          cg.addColorStop(.68,`rgba(255,255,255,${co*.25})`);
-          cg.addColorStop(1,'rgba(255,255,255,0)');
-          skyCtx.fillStyle=cg;
-          skyCtx.beginPath();skyCtx.ellipse(px+pw*cl.w*.5,py+ph*cl.h*.5,pw*cl.w*.52,ph*cl.h*.5,0,0,Math.PI*2);
-          skyCtx.fill();
-        });
-    });
-  }
   document.getElementById('prog').style.width=(p*100)+'%';
 }
 
-window.addEventListener('scroll',()=>{scY=window.scrollY;drawSky();document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)},{passive:true});
-window.addEventListener('resize',drawSky);
+function onScroll(){
+  scY=window.scrollY;
+  const max=document.documentElement.scrollHeight-innerHeight;
+  const p=max>0?Math.min(scY/max,1):0;
+  if(Math.abs(p-lastP)<.003)return;
+  lastP=p;
+  if(!ticking){
+    ticking=true;
+    requestAnimationFrame(()=>{updateSkyCSS(p);ticking=false});
+  }
+  document.getElementById('nav').classList.toggle('scrolled',scY>50);
+}
+
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',()=>{updateSkyCSS(lastP<0?0:lastP)});
+
+
+/* ══ INIT CLOUDS + STARS (DOM elements, GPU composited) ══ */
+function initCloudsAndStars(){
+  // Stars layer
+  const starsLayer=document.createElement('div');
+  starsLayer.id='stars-layer';
+  const starsCanvas=document.createElement('canvas');
+  starsCanvas.style.cssText='width:100%;height:100%;position:absolute;inset:0';
+  starsCanvas.width=innerWidth;starsCanvas.height=innerHeight;
+  const sCtx=starsCanvas.getContext('2d');
+  for(let i=0;i<220;i++){
+    sCtx.beginPath();
+    sCtx.arc(Math.random()*starsCanvas.width,Math.random()*starsCanvas.height,
+      .3+Math.random()*1.1,0,Math.PI*2);
+    sCtx.fillStyle=`rgba(242,237,228,${.1+Math.random()*.55})`;
+    sCtx.fill();
+  }
+  starsLayer.appendChild(starsCanvas);
+  document.body.insertBefore(starsLayer,document.getElementById('sky').nextSibling);
+
+  // Cloud elements — CSS positioned, move via transform only
+  const CLOUD_DATA=[
+    {left:'2%', top:'5%', w:520,h:195,op:.85,blur:42,par:.05},
+    {left:'44%',top:'2%', w:430,h:162,op:.78,blur:48,par:.09},
+    {left:'70%',top:'8%', w:385,h:148,op:.72,blur:38,par:.04},
+    {left:'20%',top:'17%',w:305,h:118,op:.66,blur:44,par:.13},
+    {left:'82%',top:'4%', w:265,h:105,op:.70,blur:32,par:.17},
+    {left:'35%',top:'21%',w:345,h:130,op:.60,blur:50,par:.07},
+  ];
+  CLOUD_DATA.forEach((cl,i)=>{
+    const el=document.createElement('div');
+    el.className='cloud-el';
+    el.dataset.op=cl.op;
+    // Build multi-puff cloud from stacked divs
+    const W=cl.w,H=cl.h;
+    [[0,.35,.55,.65],[.22,0,.50,.82],[.48,.2,.46,.72],[.14,.28,.62,.58],[.34,.08,.40,.68]]
+      .forEach(([ox,oy,pw,ph])=>{
+        const puff=document.createElement('div');
+        puff.style.cssText=`
+          position:absolute;
+          left:${ox*W}px;top:${oy*H}px;
+          width:${pw*W}px;height:${ph*H}px;
+          border-radius:50%;
+          background:radial-gradient(ellipse at 40% 38%,
+            rgba(255,255,255,${cl.op}) 0%,
+            rgba(255,255,255,${cl.op*.65}) 45%,
+            rgba(255,255,255,${cl.op*.25}) 68%,
+            transparent 82%);
+          filter:blur(${Math.round(cl.blur*.6)}px);
+        `;
+        el.appendChild(puff);
+      });
+    el.style.cssText=`
+      position:fixed;left:${cl.left};top:${cl.top};
+      width:${W}px;height:${H}px;
+      z-index:2;pointer-events:none;
+      will-change:transform;opacity:0;
+      transition:opacity 1.5s ease;
+    `;
+    document.body.appendChild(el);
+  });
+}
 
 /* ── INIT WORLD ── */
 function initWorld(){
-  drawSky();
+  updateSkyCSS(0);
+  initCloudsAndStars();
   // Hero animations
   // Hero — lines slide up with stagger, then bottom bar fades
   gsap.to('.h-line',{y:'0%',duration:1.2,ease:'power4.out',stagger:.1,delay:.1});
@@ -998,10 +1054,6 @@ function magnetic(el,strength=0.35){
 }
 
 /* ── BUILD PROJECTS ── */
-const hoverImg=document.getElementById('pjHoverImg');
-const hoverImgEl=document.getElementById('pjHoverImgEl');
-let hoverActive=false;
-
 function buildProjects(){
   const list=document.getElementById('pjList');
   PROJECTS.forEach((p,i)=>{
@@ -1021,24 +1073,12 @@ function buildProjects(){
     const original=p.title;
     row.addEventListener('mouseenter',()=>{
       scramble(titleEl,original,500);
-      // Show floating image
-      hoverImgEl.src=p.img;
-      hoverImg.style.opacity='1';
-      hoverActive=true;
-    });
-    row.addEventListener('mouseleave',()=>{
-      hoverImg.style.opacity='0';
-      hoverActive=false;
     });
     row.addEventListener('click',()=>openModal(p));
     list.appendChild(row);
   });
 
-  // Float hover image with cursor
-  document.addEventListener('mousemove',e=>{
-    if(!hoverActive)return;
-    gsap.to(hoverImg,{left:e.clientX+30,top:e.clientY-20,duration:.25,ease:'power2.out'});
-  });
+
 }
 
 /* ── BUILD CREATIVE ── */
@@ -1097,8 +1137,9 @@ function mMediaHTML(p){
     return`<div class="car-w">${slides}<button class="car-a p">&#8592;</button><button class="car-a n">&#8594;</button><div class="car-ds">${dots}</div></div>`;
   }
   if(p.video)return`<video src="${p.video}" poster="${p.img}" controls autoplay muted loop style="max-width:100%;max-height:66vh;object-fit:contain"></video>`;
+  const src=p.modalImg||p.img;
   const style=p.imgFit?'max-width:100%;max-height:66vh;object-fit:contain;width:100%;height:100%;background:#0a0a12;padding:2.5rem':'max-width:100%;max-height:66vh;object-fit:cover;width:100%;height:100%';
-  return`<img src="${p.img}" alt="${p.title}" style="${style}">`;
+  return`<img src="${src}" alt="${p.title}" style="${style}">`;
 }
 
 function renderModal(p){
