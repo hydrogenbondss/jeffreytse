@@ -737,7 +737,7 @@ const PROJECTS=[
    img:A+'resense-thumb-real.jpg',
    desc:'Relationship AI originally developed as an in-game companion for RE/SENSE — now being actualized as a standalone web and mobile application. REMY maintains persistent memory of user interactions, adapts its responses over time, and explores the boundaries between designed intimacy and emergent emotional connection.',
    role:'Creator & Systems Designer',
-   comingSoon:true,platforms:'Web · Mobile'},
+   comingSoon:true,platforms:'Web · Mobile',storyboard:'https://hydrogenbondss.github.io/nectar-storyboard/'},
   {id:'pawsaid',title:'PawsAid',cat:'Product / Brand',filter:'ventures',year:'2026',
    badge:'founder',bl:'Founder',
    img:'https://d2xsxph8kpxj0f.cloudfront.net/310519663476722505/PsVu42HKuP9jWBEFMA6xfb/pawsaid-og-hero-v10b_d549e236.png',
@@ -1084,7 +1084,9 @@ function mediaHTML(p){
 
 function renderModal(p){
   const btns=[
+    p.comingSoon?`<span class="mi-btn" style="border:1px solid rgba(255,255,255,.1);color:var(--dim);cursor:default;opacity:.7">Coming to ${p.platforms}</span>`:
     p.link?`<a href="${p.link}" target="_blank" rel="noopener" class="mi-btn mi-btn-primary">View Project</a>`:'',
+    p.storyboard?`<a href="${p.storyboard}" target="_blank" rel="noopener" class="mi-btn mi-btn-ghost">Process Doc ↗</a>`:'',
     p.gh?`<a href="${p.gh}" target="_blank" rel="noopener" class="mi-btn mi-btn-ghost">Source Code</a>`:'',
   ].filter(Boolean).join('');
 
