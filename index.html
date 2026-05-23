@@ -306,6 +306,79 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
   mix-blend-mode:overlay;
 }
 
+
+/* ── MAGNETIC ── */
+.mag{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+
+/* ── CURSOR TRAIL ── */
+.trail-dot{position:fixed;width:4px;height:4px;border-radius:50%;background:rgba(184,168,138,.5);pointer-events:none;z-index:9990;transform:translate(-50%,-50%);transition:opacity .8s ease}
+
+/* ── SCROLL PERCENT ── */
+#scroll-pct{
+  position:fixed;bottom:2rem;right:2rem;z-index:400;
+  font-family:var(--mono);font-size:.48rem;letter-spacing:.14em;
+  color:rgba(242,237,228,.22);pointer-events:none;
+  display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;
+}
+#scroll-pct-n{font-size:.9rem;font-weight:700;font-family:var(--sg);letter-spacing:-.02em;color:rgba(242,237,228,.12)}
+
+/* ── FULL BLEED HOVER IMAGE ── */
+.pj-hover-img{
+  position:fixed;pointer-events:none;z-index:50;
+  width:320px;height:200px;overflow:hidden;
+  opacity:0;transition:opacity .35s ease;
+  transform:translate(-50%,-50%);
+  will-change:left,top;
+}
+.pj-hover-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.8)}
+
+/* ── SECTION ACCENT LINES ── */
+.sec-accent{
+  position:absolute;left:0;top:0;bottom:0;width:1px;
+  opacity:0;transition:opacity .6s;
+}
+#about .sec-accent{background:linear-gradient(to bottom,transparent,rgba(100,149,237,.4),transparent)}
+#projects .sec-accent{background:linear-gradient(to bottom,transparent,rgba(184,168,138,.5),transparent)}
+#creative .sec-accent{background:linear-gradient(to bottom,transparent,rgba(180,100,120,.4),transparent)}
+#curatorial .sec-accent{background:linear-gradient(to bottom,transparent,rgba(100,180,140,.35),transparent)}
+#research .sec-accent{background:linear-gradient(to bottom,transparent,rgba(140,100,200,.4),transparent)}
+
+/* ── SCRAMBLE ── */
+.pj-title{cursor:none}
+
+/* ── HORIZONTAL RULE separator ── */
+.sec-rule{
+  width:min(1100px,90vw);margin:0 auto;
+  height:1px;background:rgba(242,237,228,.06);
+}
+
+/* ── VIDEO PANEL overlay text ── */
+.vp-year{
+  position:absolute;top:1.2rem;left:1.4rem;
+  font-family:var(--mono);font-size:.44rem;letter-spacing:.14em;
+  color:rgba(242,237,228,.3);opacity:0;transition:opacity .4s;
+}
+.vp:hover .vp-year{opacity:1}
+
+/* ── ABOUT parallax wrapper ── */
+.ab-img-wrap{position:relative;overflow:hidden}
+.ab-img-wrap img{transform-origin:center;will-change:transform}
+
+/* ── CONTACT — add thin line above ── */
+#contact .si{border-top:1px solid rgba(242,237,228,.08);padding-top:4rem}
+
+/* ── PROJECT ROW number becomes huge bg ── */
+.pj-row{position:relative}
+.pj-bg-n{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  font-family:var(--sg);font-weight:700;
+  font-size:8rem;letter-spacing:-.05em;
+  color:rgba(242,237,228,.03);line-height:1;
+  pointer-events:none;transition:color .4s;
+  user-select:none;
+}
+.pj-row:hover .pj-bg-n{color:rgba(184,168,138,.06)}
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .m-box{grid-template-columns:1fr}.m-media{min-height:220px}
@@ -337,6 +410,8 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 
 <div id="cur"></div>
 <div id="grain"></div>
+<div class="pj-hover-img" id="pjHoverImg"><img id="pjHoverImgEl" src="" alt=""></div>
+<div id="scroll-pct"><span id="scroll-pct-n">00</span><span>%</span></div>
 <div id="cur-r"></div>
 <div id="prog"></div>
 
@@ -394,7 +469,7 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
 
   <div class="mq"><div class="mq-inner" id="mqInner"></div></div>
 
-  <section class="sec" id="about">
+  <section class="sec" id="about"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">00</span><span class="sec-lbl">About</span><span class="sec-line"></span></div>
       <div class="ab-grid">
@@ -420,28 +495,28 @@ footer span{font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;text-t
     </div>
   </section>
 
-  <section class="sec" id="projects">
+  <section class="sec" id="projects"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">01</span><span class="sec-lbl">Selected Projects</span><span class="sec-line"></span></div>
       <div class="pj-list" id="pjList"></div>
     </div>
   </section>
 
-  <section class="sec" id="creative">
+  <section class="sec" id="creative"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">02</span><span class="sec-lbl">Creative & AI Work</span><span class="sec-line"></span></div>
       <div class="cg" id="cg"></div>
     </div>
   </section>
 
-  <section class="sec" id="curatorial">
+  <section class="sec" id="curatorial"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">03</span><span class="sec-lbl">Curatorial Practice</span><span class="sec-line"></span></div>
       <div class="cur-list" id="curList"></div>
     </div>
   </section>
 
-  <section class="sec" id="research">
+  <section class="sec" id="research"><div class="sec-accent"></div>
     <div class="si">
       <div class="sec-hd"><span class="sec-n">04</span><span class="sec-lbl">Research & Writing</span><span class="sec-line"></span></div>
       <div class="res-list" id="resList"></div>
@@ -765,6 +840,65 @@ function initWorld(){
   buildCuratorial();
   buildResearch();
   addH('button,a,.pj-row,.cc,.vp');
+
+  // Cursor trail
+  const trailDots=[];
+  for(let i=0;i<8;i++){
+    const d=document.createElement('div');
+    d.className='trail-dot';
+    d.style.opacity='0';
+    document.body.appendChild(d);
+    trailDots.push({el:d,x:0,y:0,delay:i*2});
+  }
+  let trailMx=0,trailMy=0;
+  document.addEventListener('mousemove',e=>{trailMx=e.clientX;trailMy=e.clientY});
+  (function trailLoop(){
+    trailDots.forEach((t,i)=>{
+      t.x+=(trailMx-t.x)/(4+i*2.5);
+      t.y+=(trailMy-t.y)/(4+i*2.5);
+      t.el.style.left=t.x+'px';t.el.style.top=t.y+'px';
+      t.el.style.opacity=String(.35-i*.038);
+      t.el.style.width=(4-i*.35)+'px';
+      t.el.style.height=(4-i*.35)+'px';
+    });
+    requestAnimationFrame(trailLoop);
+  })();
+
+  // Scroll percentage display
+  const spn=document.getElementById('scroll-pct-n');
+  window.addEventListener('scroll',()=>{
+    const max=document.documentElement.scrollHeight-innerHeight;
+    const p=max>0?Math.round(window.scrollY/max*100):0;
+    spn.textContent=String(p).padStart(2,'0');
+  },{passive:true});
+
+  // Section accent lines appear on scroll
+  document.querySelectorAll('.sec-accent').forEach(el=>{
+    ScrollTrigger.create({trigger:el.parentElement,start:'top 80%',
+      onEnter:()=>el.style.opacity='1',onLeaveBack:()=>el.style.opacity='0'});
+  });
+
+  // Magnetic on gate button and nav logo
+  document.querySelectorAll('.g-btn,.n-logo').forEach(el=>magnetic(el,0.3));
+
+  // About image parallax
+  ScrollTrigger.create({
+    trigger:'#about',start:'top bottom',end:'bottom top',scrub:true,
+    onUpdate:self=>{
+      const img=document.querySelector('.ab-img');
+      if(img)gsap.set(img,{y:self.progress*-40});
+    }
+  });
+
+  // Marquee speed reacts to scroll velocity
+  let lastScY=0,mqSpeed=1;
+  window.addEventListener('scroll',()=>{
+    const vel=Math.abs(window.scrollY-lastScY);
+    mqSpeed=1+vel*.04;
+    lastScY=window.scrollY;
+    const mq=document.querySelector('.mq-inner');
+    if(mq)mq.style.animationDuration=Math.max(8,22/mqSpeed)+'s';
+  },{passive:true});
 }
 
 /* ── BUILD VIDEO PANELS ── */
@@ -775,6 +909,7 @@ function buildVideoPanels(){
     d.innerHTML=`<video src="${p.video}" poster="${p.thumb}" muted loop playsinline preload="none"></video>
       <div class="vp-scrim"></div>
       <div class="vp-n">${String(i+1).padStart(2,'0')}</div>
+      <div class="vp-year">2026</div>
       <div class="vp-info"><div class="vp-cat">${p.cat}</div><div class="vp-title">${p.title}</div><div class="vp-sub">${p.sub}</div></div>`;
     const v=d.querySelector('video');
     d.addEventListener('mouseenter',()=>{v.play();curR.classList.add('big')});
@@ -795,20 +930,80 @@ function buildMarquee(){
   });
 }
 
+/* ── TEXT SCRAMBLE ── */
+const CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/.-_';
+function scramble(el,original,duration=600){
+  let start=null,frame;
+  const chars=original.split('');
+  function step(ts){
+    if(!start)start=ts;
+    const p=Math.min((ts-start)/duration,1);
+    el.textContent=chars.map((ch,i)=>{
+      if(ch===' ')return ' ';
+      if(p>(i/chars.length)+.15)return ch;
+      return CHARS[Math.floor(Math.random()*CHARS.length)];
+    }).join('');
+    if(p<1)frame=requestAnimationFrame(step);
+    else el.textContent=original;
+  }
+  cancelAnimationFrame(frame);
+  requestAnimationFrame(step);
+}
+
+/* ── MAGNETIC EFFECT ── */
+function magnetic(el,strength=0.35){
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const cx=r.left+r.width/2,cy=r.top+r.height/2;
+    const dx=(e.clientX-cx)*strength,dy=(e.clientY-cy)*strength;
+    gsap.to(el,{x:dx,y:dy,duration:.4,ease:'power2.out'});
+  });
+  el.addEventListener('mouseleave',()=>{
+    gsap.to(el,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'});
+  });
+}
+
 /* ── BUILD PROJECTS ── */
+const hoverImg=document.getElementById('pjHoverImg');
+const hoverImgEl=document.getElementById('pjHoverImgEl');
+let hoverActive=false;
+
 function buildProjects(){
   const list=document.getElementById('pjList');
-  PROJECTS.forEach(p=>{
+  PROJECTS.forEach((p,i)=>{
     const row=document.createElement('div');row.className='pj-row';
     const bg=p.imgFit?'#0a0a12':'transparent';
     const fit=p.imgFit?'contain':'cover';
     const pad=p.imgFit?'8px':'0';
-    row.innerHTML=`<div class="pj-n">${p.n}</div>
+    row.innerHTML=`
+      <div class="pj-n">${p.n}</div>
       <div><div class="pj-title">${p.title}</div><div class="pj-cat">${p.cat}</div></div>
       <div class="pj-meta"><div class="pj-yr">${p.year}</div><span class="pj-badge ${p.badge==='dev'?'b-dev':'b-live'}">${p.bl}</span></div>
-      <div class="pj-peek" style="background:${bg}"><img src="${p.img}" alt="${p.title}" loading="lazy" style="object-fit:${fit};padding:${pad}"></div>`;
+      <div class="pj-peek" style="background:${bg}"><img src="${p.img}" alt="${p.title}" loading="lazy" style="object-fit:${fit};padding:${pad}"></div>
+      <div class="pj-bg-n">${String(i+1).padStart(2,'0')}</div>`;
+
+    // Scramble title on hover
+    const titleEl=row.querySelector('.pj-title');
+    const original=p.title;
+    row.addEventListener('mouseenter',()=>{
+      scramble(titleEl,original,500);
+      // Show floating image
+      hoverImgEl.src=p.img;
+      hoverImg.style.opacity='1';
+      hoverActive=true;
+    });
+    row.addEventListener('mouseleave',()=>{
+      hoverImg.style.opacity='0';
+      hoverActive=false;
+    });
     row.addEventListener('click',()=>openModal(p));
     list.appendChild(row);
+  });
+
+  // Float hover image with cursor
+  document.addEventListener('mousemove',e=>{
+    if(!hoverActive)return;
+    gsap.to(hoverImg,{left:e.clientX+30,top:e.clientY-20,duration:.25,ease:'power2.out'});
   });
 }
 
