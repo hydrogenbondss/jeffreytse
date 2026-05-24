@@ -33,7 +33,7 @@ import{n as e,t}from"./gsap-B2JeSRMT.js";import{t as n}from"./lenis-DIx8pWKM.js"
     <div class="g-wrap">
       <div class="g-time" id="g-time"></div>
       <div class="g-name"><span class="g-name-i">Jeffrey N. Tse</span></div>
-      <div class="g-role">Artist &nbsp;·&nbsp; Creative Technologist &nbsp;·&nbsp; Founder</div>
+      <div class="g-role">Code &nbsp;·&nbsp; Image &nbsp;·&nbsp; Object &nbsp;·&nbsp; Text</div>
       <button class="g-btn" id="g-btn">Enter</button>
     </div>
   </div>
@@ -66,7 +66,7 @@ import{n as e,t}from"./gsap-B2JeSRMT.js";import{t as n}from"./lenis-DIx8pWKM.js"
               <div><span class="ab-stat-n" data-count="3">0</span><span class="ab-stat-l">Ventures</span></div>
               <div><span class="ab-stat-n" data-count="7">0</span><span class="ab-stat-l">Years</span></div>
             </div>
-            <div class="ab-h">Artist &middot; Creative Technologist &middot; Founder.</div>
+            <div class="ab-h">Code &middot; Image &middot; Object &middot; Text.</div>
             <p class="ab-p">Jeffrey N. Tse is a Hong Kong-based artist and creative technologist whose work sits at the intersection of interactive narrative, product design, generative systems, and editorial work. He is drawn to the places where technology becomes intimate — where a system stops feeling like a tool and starts feeling like a presence.</p>
             <p class="ab-p">Trained in Art History at UBC and Marketing at PolyU Hong Kong. Former Chief Editor at I.T Apparels — responsible for editorial strategy, brand voice, content calendars, trend forecasts, fashion interviews, SEO, social copy, EDMs, and managing a team of writers and editors. Has curated five exhibitions across Vancouver and Hong Kong.</p>
             <p class="ab-p">That range is not accidental. Tse treats every medium — code, image, object, text — as a way of asking the same set of questions about memory, observation, and what it means to be seen.</p>
