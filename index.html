@@ -513,38 +513,138 @@ window.addEventListener("scroll",function(){
   if(nav) nav.classList.toggle("scrolled",window.scrollY>50);
 },{passive:true});
 
-// ── GATE CANVAS ──
+// ── GATE: GALAXY STAR SYSTEM ──
 var gc_el=document.getElementById("gate-c");
 if(gc_el){
-  gc_el.width=window.innerWidth; gc_el.height=window.innerHeight;
+  var gW=gc_el.width=window.innerWidth;
+  var gH=gc_el.height=window.innerHeight;
   var gc=gc_el.getContext("2d");
-  if(gc){
-    var pts=[];
-    for(var i=0;i<180;i++) pts.push({
-      x:Math.random()*gc_el.width,y:Math.random()*gc_el.height,
-      r:.2+Math.random()*1.2,a:.04+Math.random()*.35,
-      dx:(Math.random()-.5)*.18,dy:(Math.random()-.5)*.12,
-      pa:Math.random()*Math.PI*2,ps:.003+Math.random()*.008
+  var gmx=-1,gmy=-1; // gate mouse
+  var explosions=[];
+
+  // Galaxy stars — 3 layers: far (small,dim), mid, close (large,bright)
+  var gStars=[];
+  function makeGalaxy(){
+    gStars=[];
+    // Far layer — dense
+    for(var i=0;i<320;i++) gStars.push({
+      x:Math.random()*gW, y:Math.random()*gH,
+      r:.3+Math.random()*.5, a:.08+Math.random()*.18,
+      twPhase:Math.random()*Math.PI*2, twSpeed:.4+Math.random()*.8,
+      layer:0, ox:0, oy:0
     });
-    function drawGate(){
-      gc.clearRect(0,0,gc_el.width,gc_el.height);
-      var t=performance.now()*.001;
-      pts.forEach(function(p){
-        // Subtle gravity toward name position (bottom-left)
-        var targetX=gc_el.width*0.18, targetY=gc_el.height*0.82;
-        p.dx+=(targetX-p.x)*0.00008;
-        p.dy+=(targetY-p.y)*0.00006;
-        p.dx*=0.995; p.dy*=0.995;
-        p.x=(p.x+p.dx+gc_el.width)%gc_el.width;
-        p.y=(p.y+p.dy+gc_el.height)%gc_el.height;
-        var pulse=p.a*(.5+.5*Math.sin(t*p.ps*60+p.pa));
-        gc.beginPath(); gc.arc(p.x,p.y,p.r,0,Math.PI*2);
-        gc.fillStyle="rgba(220,210,195,"+pulse+")"; gc.fill();
-      });
-      requestAnimationFrame(drawGate);
-    }
-    drawGate();
+    // Mid layer
+    for(var i=0;i<120;i++) gStars.push({
+      x:Math.random()*gW, y:Math.random()*gH,
+      r:.5+Math.random()*.8, a:.15+Math.random()*.3,
+      twPhase:Math.random()*Math.PI*2, twSpeed:.3+Math.random()*.6,
+      layer:1, ox:0, oy:0
+    });
+    // Close layer — fewer, larger, brighter
+    for(var i=0;i<45;i++) gStars.push({
+      x:Math.random()*gW, y:Math.random()*gH,
+      r:.8+Math.random()*1.4, a:.3+Math.random()*.55,
+      twPhase:Math.random()*Math.PI*2, twSpeed:.2+Math.random()*.4,
+      layer:2, ox:0, oy:0
+    });
+    // A few bright foreground stars
+    for(var i=0;i<12;i++) gStars.push({
+      x:Math.random()*gW, y:Math.random()*gH,
+      r:1.2+Math.random()*1.8, a:.6+Math.random()*.4,
+      twPhase:Math.random()*Math.PI*2, twSpeed:.15+Math.random()*.3,
+      layer:3, ox:0, oy:0, bright:true
+    });
   }
+  makeGalaxy();
+
+  // Mouse tracking on gate
+  gc_el.addEventListener("mousemove",function(e){
+    gmx=e.clientX; gmy=e.clientY;
+  });
+  gc_el.addEventListener("mouseleave",function(){
+    gmx=-1; gmy=-1;
+  });
+
+  // Click explosion
+  gc_el.addEventListener("click",function(e){
+    var burst=[];
+    for(var i=0;i<60;i++){
+      var angle=Math.random()*Math.PI*2;
+      var speed=1+Math.random()*4;
+      burst.push({
+        x:e.clientX, y:e.clientY,
+        vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed,
+        r:.4+Math.random()*1.2, a:1, decay:.015+Math.random()*.025,
+        color:Math.random()>.5?"rgba(237,232,224,":"rgba(196,168,130,"
+      });
+    }
+    explosions.push(burst);
+  });
+
+  function drawGate(){
+    gc.clearRect(0,0,gW,gH);
+    var t=performance.now()*.001;
+    var parallaxLayers=[.0,.015,.03,.06]; // how much each layer follows mouse
+
+    gStars.forEach(function(s){
+      // Parallax toward cursor
+      var px=0,py=0;
+      if(gmx>0){
+        var pull=parallaxLayers[s.layer]||0;
+        px=(gmx-gW/2)*pull;
+        py=(gmy-gH/2)*pull;
+      }
+      // Smooth follow
+      s.ox+=(px-s.ox)*.04;
+      s.oy+=(py-s.oy)*.04;
+
+      var sx=s.x+s.ox, sy=s.y+s.oy;
+      var twinkle=.5+.5*Math.sin(t*s.twSpeed+s.twPhase);
+      var alpha=s.a*(.6+.4*twinkle);
+
+      gc.beginPath();
+      gc.arc(sx,sy,s.r,0,Math.PI*2);
+
+      if(s.bright){
+        // Bright stars get a soft glow
+        var g=gc.createRadialGradient(sx,sy,0,sx,sy,s.r*4);
+        g.addColorStop(0,"rgba(237,232,224,"+alpha+")");
+        g.addColorStop(.4,"rgba(210,205,195,"+(alpha*.3)+")");
+        g.addColorStop(1,"rgba(210,205,195,0)");
+        gc.fillStyle=g;
+        gc.arc(sx,sy,s.r*4,0,Math.PI*2);
+      } else {
+        gc.fillStyle="rgba(220,215,205,"+alpha+")";
+      }
+      gc.fill();
+    });
+
+    // Draw explosions
+    explosions.forEach(function(burst,bi){
+      var alive=false;
+      burst.forEach(function(p){
+        if(p.a<=0) return;
+        p.x+=p.vx; p.y+=p.vy;
+        p.vy+=.05; // gravity
+        p.vx*=.97; p.vy*=.97;
+        p.a-=p.decay;
+        gc.beginPath();
+        gc.arc(p.x,p.y,p.r,0,Math.PI*2);
+        gc.fillStyle=p.color+Math.max(0,p.a)+")";
+        gc.fill();
+        if(p.a>0) alive=true;
+      });
+      if(!alive) explosions.splice(bi,1);
+    });
+
+    requestAnimationFrame(drawGate);
+  }
+  drawGate();
+  window.addEventListener("resize",function(){
+    gW=gc_el.width=window.innerWidth;
+    gH=gc_el.height=window.innerHeight;
+    makeGalaxy();
+  });
 }
 
 // ── GATE ANIMATION ──
@@ -651,7 +751,8 @@ function buildSections(){
     var card=document.createElement("div");
     // Video items are wide (2 cols), static items are square (1 col)
     var hasVideo = item.video || (item.carousel && item.carousel.some(function(s){return s.type==="video";}));
-    card.className="cc"+(hasVideo?" cc-wide":"");
+    var isWide = hasVideo || item.link; // videos AND linked pieces get wide treatment
+    card.className="cc"+(isWide?" cc-wide":"");
 
     // For PabePabe (carousel), use first video as the card video
     var cardVideo = item.video;
