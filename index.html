@@ -683,7 +683,7 @@ if(gc_el){
       s.life-=s.decay;
       var al=s.life*s.a;
       gc.beginPath();
-      gc.arc(s.x,s.y,s.r*s.life,0,Math.PI*2);
+      gc.arc(s.x,s.y,Math.max(0.01,s.r*s.life),0,Math.PI*2);
       if(s.hue===42){
         gc.fillStyle="rgba(210,175,100,"+al+")"; // gold
       } else {
@@ -703,9 +703,9 @@ if(gc_el){
         p.a-=p.decay;
         var al=Math.max(0,p.a);
         gc.beginPath();
-        gc.arc(p.x,p.y,p.r,0,Math.PI*2);
+        if(p.r>0){gc.arc(p.x,p.y,Math.max(0.01,p.r),0,Math.PI*2);
         gc.fillStyle=p.gold?"rgba(210,175,100,"+al+")":"rgba(230,225,215,"+al+")";
-        gc.fill();
+        gc.fill();}
         if(p.a>0) alive=true;
       });
       if(!alive) explosions.splice(bi,1);
