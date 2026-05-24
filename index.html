@@ -26,13 +26,22 @@ a{color:inherit;text-decoration:none}
 .ld-pct{font-family:var(--mono);font-size:.7rem;color:rgba(242,237,228,.4);letter-spacing:.1em}
 
 /* GATE */
-#gate{position:fixed;inset:0;z-index:700;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:1.4rem;background:var(--bg);padding:0 3rem 4.5rem}
+#gate{position:fixed;inset:0;z-index:700;display:grid;grid-template-rows:1fr auto;background:var(--bg);padding:0}
+.g-center{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;gap:1rem}
+.g-center-name{font-family:var(--sg);font-size:clamp(1.8rem,4vw,3.2rem);font-weight:600;letter-spacing:-.02em;color:rgba(237,232,224,.08);text-align:center;line-height:1}
+.g-center-role{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,232,224,.06);text-align:center}
+.g-bottom{display:grid;grid-template-columns:1fr 1fr;align-items:flex-end;padding:0 3rem 4rem;gap:4rem;position:relative;z-index:2}
+.g-bottom-left{display:flex;flex-direction:column;gap:1.2rem}
+.g-bottom-right{display:flex;align-items:flex-end;justify-content:flex-end}
+.g-desc{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:rgba(237,232,224,.22);line-height:1.8;text-align:right}
+.g-rule{width:38%;height:1px;background:rgba(242,237,228,.1);position:relative;z-index:2;margin-bottom:.4rem}
+.g-year{position:fixed;top:1.8rem;right:3rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(237,232,224,.2);z-index:2}
 #gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(237,232,224,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,224,.018) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
 #gate-c{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .g-rule{width:38%;height:1px;background:rgba(242,237,228,.1);position:relative;z-index:2;margin-bottom:.4rem}
 .g-time{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(242,237,228,.25);position:relative;z-index:2}
 .g-year{position:fixed;bottom:4.5rem;right:3rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(242,237,228,.2);z-index:2}
-.g-name{overflow:hidden;position:relative;z-index:1}
+.g-name{overflow:hidden;position:relative;z-index:2}
 .g-name-i{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:700;letter-spacing:-.025em;color:var(--fg);transform:translateY(110%);transition:transform 1s cubic-bezier(.16,1,.3,1);position:relative;z-index:2}
 .g-name-i.visible{transform:translateY(0)}
 .g-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,237,228,.35);background:none;border:none;padding:0;cursor:pointer;position:relative;z-index:2;transition:color .5s;display:flex;align-items:center;gap:.8rem}
@@ -111,11 +120,10 @@ section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
 .pj-row:hover .pj-peek{opacity:.15}
 
 /* CREATIVE */
-.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
-.cc{position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;background:#0d0f1a}
-.cc:last-child:nth-child(4n-1){grid-column:span 2}
-.cc:last-child:nth-child(4n-2){grid-column:span 2}
-.cc:last-child:nth-child(4n){grid-column:span 1}
+.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;align-items:start}
+.cc{position:relative;aspect-ratio:1/1;overflow:hidden;cursor:pointer;background:#0d0f1a}
+.cc.cc-wide{grid-column:span 2;aspect-ratio:16/9}
+.cc.cc-tall{aspect-ratio:3/4}
 .cc-m{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .cc:hover .cc-m{transform:scale(1.04)}
 .cc-veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,16,.9) 0%,rgba(6,8,16,.2) 50%,transparent 100%);opacity:0;transition:opacity .4s}
@@ -201,7 +209,7 @@ section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
 
 @media(max-width:768px){
   .cc-grid{grid-template-columns:repeat(2,1fr)}
-  .cc:last-child:nth-child(4n-1),.cc:last-child:nth-child(4n-2){grid-column:span 1}
+  .cc.cc-wide{grid-column:span 2;aspect-ratio:16/9}
   .ab-grid{grid-template-columns:1fr}
   .m-inner{grid-template-columns:1fr}
   .n-links{
@@ -247,10 +255,20 @@ section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
 
   <div id="gate">
     <canvas id="gate-c"></canvas>
-    <div class="g-rule"></div>
-    <div class="g-time" id="g-time"></div>
-    <div class="g-name"><div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div></div>
-    <button class="g-btn" id="g-btn" onclick="enterSite()">ENTER</button>
+    <div class="g-center">
+      <div class="g-center-name">Jeffrey N. Tse</div>
+      <div class="g-center-role">Creative Technologist &nbsp;·&nbsp; Hong Kong</div>
+    </div>
+    <div class="g-bottom">
+      <div class="g-bottom-left">
+        <div class="g-time" id="g-time"></div>
+        <div class="g-name"><div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div></div>
+        <button class="g-btn" id="g-btn" onclick="enterSite()">ENTER</button>
+      </div>
+      <div class="g-bottom-right">
+        <div class="g-desc">Interactive narrative · Generative systems<br>Product design · Editorial direction</div>
+      </div>
+    </div>
     <div class="g-year">— 2026</div>
   </div>
 
@@ -624,13 +642,25 @@ function buildSections(){
   var cg=document.getElementById("cg");
   if(cg) x.forEach(function(item){
     var card=document.createElement("div");
-    card.className="cc";
-    card.innerHTML=(item.video?
-      "<video class='cc-m' src='"+item.video+"' poster='"+item.img+"' muted loop playsinline preload='metadata'></video>":
+    // Video items are wide (2 cols), static items are square (1 col)
+    var hasVideo = item.video || (item.carousel && item.carousel.some(function(s){return s.type==="video";}));
+    card.className="cc"+(hasVideo?" cc-wide":"");
+
+    // For PabePabe (carousel), use first video as the card video
+    var cardVideo = item.video;
+    var cardPoster = item.img;
+    if(!cardVideo && item.carousel){
+      var firstVid = item.carousel.find(function(s){return s.type==="video";});
+      if(firstVid){ cardVideo=firstVid.src; cardPoster=firstVid.thumb||item.img; }
+    }
+
+    card.innerHTML=(cardVideo?
+      "<video class='cc-m' src='"+cardVideo+"' poster='"+cardPoster+"' muted loop playsinline preload='metadata'></video>":
       "<img class='cc-m' src='"+item.img+"' loading='lazy' alt='"+item.title+"'>")+
       "<div class='cc-veil'></div>"+
       "<div class='cc-info'><div class='cc-cat'>"+item.cat+" · "+item.year+"</div><div class='cc-title'>"+item.title+"</div></div>";
-    if(item.video){
+
+    if(cardVideo){
       var v=card.querySelector("video");
       card.addEventListener("mouseenter",function(){v.play();});
       card.addEventListener("mouseleave",function(){v.pause();});
