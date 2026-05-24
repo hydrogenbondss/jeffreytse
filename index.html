@@ -573,7 +573,9 @@ if(gc_el){
       r:.2+Math.random()*.7,
       a:.06+Math.random()*.3,
       phase:Math.random()*Math.PI*2,
-      speed:.3+Math.random()*.7
+      speed:.3+Math.random()*.7,
+      dx:(Math.random()-.5)*.15,
+      dy:(Math.random()-.5)*.1
     });
     for(var i=0;i<15;i++) gStars.push({
       x:Math.random()*gW, y:Math.random()*gH,
@@ -581,6 +583,8 @@ if(gc_el){
       a:.4+Math.random()*.5,
       phase:Math.random()*Math.PI*2,
       speed:.15+Math.random()*.3,
+      dx:(Math.random()-.5)*.08,
+      dy:(Math.random()-.5)*.05,
       bright:true
     });
   }
@@ -592,19 +596,19 @@ if(gc_el){
     gmx=e.clientX; gmy=e.clientY;
     var dist=Math.hypot(gmx-lastSpawnX,gmy-lastSpawnY);
     // Spawn trail stars based on movement speed
-    if(dist>4){
-      var count=Math.min(4,Math.floor(dist/8));
+    if(dist>2){
+      var count=Math.min(6,Math.floor(dist/5));
       for(var i=0;i<count;i++){
         var t=i/count;
         trailStars.push({
           x:lastSpawnX+(gmx-lastSpawnX)*t + (Math.random()-.5)*6,
           y:lastSpawnY+(gmy-lastSpawnY)*t + (Math.random()-.5)*6,
-          r:.3+Math.random()*1.4,
-          a:0.8+Math.random()*.2,
-          vx:(Math.random()-.5)*.6,
-          vy:(Math.random()-.5)*.6 - .3,
+          r:.8+Math.random()*2.2,
+          a:0.9+Math.random()*.1,
+          vx:(Math.random()-.5)*.8,
+          vy:(Math.random()-.5)*.8 - .5,
           life:1,
-          decay:.018+Math.random()*.025,
+          decay:.012+Math.random()*.018,
           hue:Math.random()>.7?42:0 // mostly white, some gold
         });
       }
@@ -652,24 +656,22 @@ if(gc_el){
 
   // ── RENDER ──
   function drawGate(){
-    gc.clearRect(0,0,gW,gH);
+    // Fade trail instead of full clear — creates motion blur effect
+    gc.fillStyle="rgba(12,11,10,0.15)";
+    gc.fillRect(0,0,gW,gH);
     var t=performance.now()*.001;
 
-    // Background stars
+    // Background stars — slowly drift
     gStars.forEach(function(s){
+      // Slow drift
+      s.x+=s.dx||0; s.y+=s.dy||0;
+      if(s.x<0)s.x=gW; if(s.x>gW)s.x=0;
+      if(s.y<0)s.y=gH; if(s.y>gH)s.y=0;
       var tw=.5+.5*Math.sin(t*s.speed+s.phase);
       var al=s.a*(.5+.5*tw);
       gc.beginPath();
       gc.arc(s.x,s.y,s.r,0,Math.PI*2);
-      if(s.bright){
-        var grad=gc.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*5);
-        grad.addColorStop(0,"rgba(230,225,215,"+al+")");
-        grad.addColorStop(1,"rgba(230,225,215,0)");
-        gc.fillStyle=grad;
-        gc.arc(s.x,s.y,s.r*5,0,Math.PI*2);
-      } else {
-        gc.fillStyle="rgba(215,210,200,"+al+")";
-      }
+      gc.fillStyle="rgba(215,210,200,"+al+")";
       gc.fill();
     });
 
