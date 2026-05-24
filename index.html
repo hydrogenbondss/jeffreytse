@@ -472,7 +472,7 @@ var sl=document.getElementById("stars-layer");
 var wStars=[];
 if(sl){
   var wsc=document.createElement("canvas");
-  wsc.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2";
+  wsc.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:15";
   wsc.width=window.innerWidth; wsc.height=window.innerHeight;
   var wctx=wsc.getContext("2d");
   for(var wi=0;wi<180;wi++) wStars.push({
@@ -597,15 +597,15 @@ if(gc_el){
   makeGalaxy();
 
   // Mouse tracking on gate
-  gc_el.addEventListener("mousemove",function(e){
+  document.getElementById("gate").addEventListener("mousemove",function(e){
     gmx=e.clientX; gmy=e.clientY;
   });
-  gc_el.addEventListener("mouseleave",function(){
+  document.getElementById("gate").addEventListener("mouseleave",function(){
     gmx=-1; gmy=-1;
   });
 
   // Click explosion
-  gc_el.addEventListener("click",function(e){
+  document.getElementById("gate").addEventListener("click",function(e){
     var burst=[];
     for(var i=0;i<60;i++){
       var angle=Math.random()*Math.PI*2;
