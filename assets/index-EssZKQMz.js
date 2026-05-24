@@ -245,6 +245,16 @@ gsap.timeline({delay:.3})
   .to('.g-name-i',{y:'0%',duration:1,ease:'power4.out'},'-=.3')
   .to('.g-btn',{opacity:1,duration:.7,ease:'power3.out'},'-=.4');
 
+/* ── ENSURE GATE VISIBLE ── */
+setTimeout(()=>{
+  const btn=document.getElementById('g-btn');
+  if(btn) btn.style.opacity='1';
+  const gtime=document.querySelector('.g-time');
+  if(gtime) gtime.style.opacity='1';
+  const gname=document.querySelector('.g-name-i');
+  if(gname) gname.style.transform='translateY(0)';
+},1500);
+
 /* ── LOADER ── */
 (function(){
   const bar=document.getElementById('ld-bar');
