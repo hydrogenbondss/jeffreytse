@@ -15,6 +15,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{overflow-x:hidden}
 body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:256px 256px}
 a{color:inherit;text-decoration:none}
 
 /* LOADER */
@@ -27,12 +28,15 @@ a{color:inherit;text-decoration:none}
 /* GATE */
 #gate{position:fixed;inset:0;z-index:700;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:1.4rem;background:var(--bg);padding:0 3rem 4.5rem}
 #gate-c{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-.g-time{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;color:rgba(242,237,228,.3);position:relative;z-index:2;order:-1}
+.g-rule{width:38%;height:1px;background:rgba(242,237,228,.1);position:relative;z-index:2;margin-bottom:.4rem}
+.g-time{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(242,237,228,.25);position:relative;z-index:2}
+.g-year{position:fixed;bottom:4.5rem;right:3rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(242,237,228,.2);z-index:2}
 .g-name{overflow:hidden;position:relative;z-index:1}
 .g-name-i{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:700;letter-spacing:-.025em;color:var(--fg);transform:translateY(110%);transition:transform 1s cubic-bezier(.16,1,.3,1);position:relative;z-index:2}
 .g-name-i.visible{transform:translateY(0)}
-.g-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,237,228,.5);background:none;border:1px solid rgba(184,168,138,.25);padding:12px 44px;cursor:pointer;position:relative;z-index:2;transition:color .35s,border-color .35s,background .35s}
-.g-btn:hover{color:var(--fg);border-color:rgba(184,168,138,.8);background:rgba(184,168,138,.07)}
+.g-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,237,228,.35);background:none;border:none;padding:0;cursor:pointer;position:relative;z-index:2;transition:color .5s;display:flex;align-items:center;gap:.8rem}
+.g-btn::after{content:'→';opacity:0;transform:translateX(-6px);transition:opacity .5s,transform .5s;display:inline-block}
+.g-btn:hover{color:rgba(242,237,228,.9)}.g-btn:hover::after{opacity:1;transform:translateX(0)}
 
 /* NAV */
 #nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 2.4rem;transition:background .4s}
@@ -51,9 +55,11 @@ a{color:inherit;text-decoration:none}
 .h-name{font-size:clamp(3.8rem,10vw,11rem);font-weight:700;line-height:.88;letter-spacing:-.03em;overflow:hidden}
 .h-line{display:block;transform:translateY(110%);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
 .h-line.visible{transform:translateY(0)}
-.h-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(242,237,228,.1)}
+.h-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:3rem;padding-top:0}
 .h-eye{font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(242,237,228,.45)}
-.h-stmt{font-size:.95rem;color:rgba(242,237,228,.6);max-width:420px;line-height:1.6}
+.h-scroll-ind{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);width:1px;height:48px;background:linear-gradient(to bottom,rgba(242,237,228,.0),rgba(242,237,228,.25));animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:translateX(-50%) scaleY(.6)}50%{opacity:1;transform:translateX(-50%) scaleY(1)}}
+.h-stmt{font-size:.92rem;color:rgba(242,237,228,.55);max-width:420px;line-height:1.6;font-style:italic}
 
 /* SECTIONS */
 section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
@@ -64,10 +70,12 @@ section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
 
 /* ABOUT */
 .ab-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;align-items:start}
-.ab-img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(20%)}
+.ab-img-wrap{display:flex;align-items:flex-start;justify-content:center;padding-top:.5rem}
+.ab-img{width:220px;height:220px;object-fit:cover;object-position:center top;border-radius:50%;filter:grayscale(15%);border:1px solid rgba(242,237,228,.08)}
 .ab-stats{display:flex;gap:3rem;margin-bottom:2.5rem}
 .ab-stat-n{display:block;font-size:3.5rem;font-weight:700;line-height:1;color:var(--fg)}
 .ab-stat-l{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(242,237,228,.4)}
+.ab-focus{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:rgba(242,237,228,.4);margin-bottom:2rem;text-transform:uppercase}
 .ab-p{font-size:1rem;line-height:1.75;color:rgba(242,237,228,.75);margin-bottom:1.2rem}
 .ab-links{display:flex;flex-direction:column;gap:.6rem;margin-top:2rem}
 .ab-links a{font-family:var(--mono);font-size:.72rem;color:var(--gold);letter-spacing:.05em;transition:opacity .3s}
@@ -194,9 +202,11 @@ section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
 
   <div id="gate">
     <canvas id="gate-c"></canvas>
+    <div class="g-rule"></div>
     <div class="g-time" id="g-time">--:-- HKT</div>
     <div class="g-name"><div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div></div>
     <button class="g-btn" id="g-btn" onclick="enterSite()">ENTER</button>
+    <div class="g-year">— 2026</div>
   </div>
 
   <nav id="nav">
@@ -223,19 +233,16 @@ section{padding:8rem 2.4rem;border-top:1px solid rgba(242,237,228,.07)}
         <div class="h-eye">Hong Kong</div>
         <p class="h-stmt">Interactive narrative · Generative systems · Product design.</p>
       </div>
+      <div class="h-scroll-ind" id="h-scroll-ind"></div>
     </section>
 
     <section id="vgrid" style="padding:0;border:none;height:70vh;display:flex;gap:3px"></section>
 
     <section id="about">
       <div class="ab-grid">
-        <img class="ab-img" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse" loading="lazy">
+        <div class="ab-img-wrap"><img class="ab-img" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse" loading="lazy"></div>
         <div>
-          <div class="ab-stats">
-            <div><span class="ab-stat-n">5</span><span class="ab-stat-l">Exhibitions</span></div>
-            <div><span class="ab-stat-n">3</span><span class="ab-stat-l">Ventures</span></div>
-            <div><span class="ab-stat-n">7</span><span class="ab-stat-l">Years</span></div>
-          </div>
+          <div class="ab-focus">Hong Kong &nbsp;—&nbsp; Currently building RE/SENSE, PawsAid, ROLL CALL</div>
           <p class="ab-p">Jeffrey N. Tse is a Hong Kong-based creative technologist whose work sits at the intersection of interactive narrative, product design, generative systems, and editorial work. He is drawn to the places where technology becomes intimate — where a system stops feeling like a tool and starts feeling like a presence.</p>
           <p class="ab-p">That range is not accidental. Tse treats every medium — code, image, object, text — as a way of asking the same set of questions about memory, observation, and what it means to be seen.</p>
           <div class="ab-links">
@@ -423,6 +430,11 @@ if(gc_el){
       gc.clearRect(0,0,gc_el.width,gc_el.height);
       var t=performance.now()*.001;
       pts.forEach(function(p){
+        // Subtle gravity toward name position (bottom-left)
+        var targetX=gc_el.width*0.18, targetY=gc_el.height*0.82;
+        p.dx+=(targetX-p.x)*0.00008;
+        p.dy+=(targetY-p.y)*0.00006;
+        p.dx*=0.995; p.dy*=0.995;
         p.x=(p.x+p.dx+gc_el.width)%gc_el.width;
         p.y=(p.y+p.dy+gc_el.height)%gc_el.height;
         var pulse=p.a*(.5+.5*Math.sin(t*p.ps*60+p.pa));
