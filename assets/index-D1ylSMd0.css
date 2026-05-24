@@ -127,8 +127,8 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sg);font-weight:300;
 }
 
 /* VIDEO GRID */
-#vgrid{height:100vh;display:flex;gap:3px;padding:3px;position:relative;z-index:10;overflow:hidden}
-.vp{position:relative;flex:1;overflow:hidden;cursor:none;transition:flex .55s cubic-bezier(.16,1,.3,1);min-width:0}
+#vgrid{height:70vh;display:flex;gap:3px;padding:3px;position:relative;z-index:10;overflow:hidden}
+.vp{position:relative;flex:1;overflow:hidden;cursor:none;transition:flex .55s cubic-bezier(.16,1,.3,1);min-width:0;background:#0d0f1a}
 .vp:hover{flex:3}
 .vp video,.vp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.16,1,.3,1)}
 .vp:hover video,.vp:hover img{transform:scale(1.04)}
