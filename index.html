@@ -26,28 +26,28 @@ a{color:inherit;text-decoration:none}
 .ld-pct{font-family:var(--mono);font-size:.7rem;color:rgba(242,237,228,.4);letter-spacing:.1em}
 
 /* GATE */
-#gate{position:fixed;inset:0;z-index:700;display:grid;grid-template-rows:1fr auto;background:var(--bg);padding:0;user-select:none;-webkit-user-select:none}
-.g-bottom{display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 4.5rem;position:relative;z-index:2;gap:1.2rem}
-.g-bottom-left{display:flex;flex-direction:column;gap:1.2rem}
-.g-rule{width:38%;height:1px;background:rgba(242,237,228,.1);position:relative;z-index:2;margin-bottom:.4rem}
-.g-year{position:fixed;top:1.8rem;right:3rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(237,232,224,.2);z-index:2}
+#gate{position:fixed;inset:0;z-index:700;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);padding:2rem 3rem 3.5rem;user-select:none;-webkit-user-select:none}
+.g-top-bar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+.g-bottom{display:flex;flex-direction:column;gap:1rem;position:relative;z-index:2}
+.g-year{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;color:rgba(237,232,224,.25)}
+.g-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,232,224,.3);margin-top:-.3rem}
 #gate::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(237,232,224,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,224,.015) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
 #gate::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 50% 48%,rgba(237,232,224,.04) 0%,rgba(237,232,224,.01) 40%,transparent 70%);pointer-events:none;z-index:0}
-.g-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:1px;height:1px;z-index:1;pointer-events:none}
+.g-pulse{position:absolute;top:42%;left:30%;transform:translate(-50%,-50%);width:1px;height:1px;z-index:1;pointer-events:none}
 .g-pulse::before,.g-pulse::after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(237,232,224,.06);transform:translate(-50%,-50%)}
 .g-pulse::before{width:340px;height:340px;animation:gpulse 4s ease-in-out infinite}
 .g-pulse::after{width:220px;height:220px;animation:gpulse 4s ease-in-out infinite .8s}
 @keyframes gpulse{0%,100%{opacity:.3;transform:translate(-50%,-50%) scale(.95)}50%{opacity:.7;transform:translate(-50%,-50%) scale(1.05)}}
 #gate-c{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .g-rule{width:38%;height:1px;background:rgba(242,237,228,.1);position:relative;z-index:2;margin-bottom:.4rem}
-.g-time{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(242,237,228,.25);position:relative;z-index:2}
-.g-year{position:fixed;bottom:4.5rem;right:3rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(242,237,228,.2);z-index:2}
+.g-time{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;color:rgba(237,232,224,.3)}
+
 .g-name{overflow:hidden;position:relative;z-index:2}
-.g-name-i{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:700;letter-spacing:-.025em;color:var(--fg);transform:translateY(110%);transition:transform 1s cubic-bezier(.16,1,.3,1);position:relative;z-index:2}
+.g-name-i{font-size:clamp(3rem,6.5vw,5.5rem);font-weight:700;letter-spacing:-.03em;color:var(--fg);transform:translateY(110%);transition:transform 1s cubic-bezier(.16,1,.3,1)}
 .g-name-i.visible{transform:translateY(0)}
-.g-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,237,228,.35);background:none;border:none;padding:0;cursor:pointer;position:relative;z-index:2;transition:color .5s;display:flex;align-items:center;gap:.8rem}
+.g-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(237,232,224,.55);background:none;border:none;padding:0;cursor:pointer;transition:color .4s;display:inline-flex;align-items:center;gap:.6rem;margin-top:.5rem}
 .g-btn::after{content:'→';opacity:0;transform:translateX(-6px);transition:opacity .5s,transform .5s;display:inline-block}
-.g-btn:hover{color:rgba(242,237,228,.9)}.g-btn:hover::after{opacity:1;transform:translateX(0)}
+.g-btn:hover{color:rgba(237,232,224,1)}.g-btn:hover::after{opacity:1;transform:translateX(0)}
 
 /* NAV */
 #nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2.4rem;transition:background .4s;}
@@ -246,7 +246,10 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
   .ab-img{width:160px;height:160px}
   .ct-big{font-size:clamp(2rem,8vw,3.5rem)}
   #vgrid{height:50vh}
-  .g-name-i{font-size:clamp(2rem,8vw,3.5rem)}
+  .g-name-i{font-size:clamp(2.2rem,9vw,4rem)}
+  #gate{padding:1.5rem 1.5rem 3rem}
+  .g-pulse::before{width:220px;height:220px}
+  .g-pulse::after{width:140px;height:140px}
 }
 </style>
 </head>
@@ -267,15 +270,15 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
     <canvas id="gate-c" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
     <div class="g-pulse"></div>
 
-    <div class="g-bottom">
-      <div class="g-bottom-left">
-        <div class="g-time" id="g-time"></div>
-        <div class="g-name"><div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div></div>
-        <button class="g-btn" id="g-btn" onclick="enterSite()">ENTER</button>
-      </div>
-
+    <div class="g-top-bar">
+      <div class="g-time" id="g-time"></div>
+      <div class="g-year">2026</div>
     </div>
-    <div class="g-year">— 2026</div>
+    <div class="g-bottom">
+      <div class="g-name"><div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div></div>
+      <div class="g-sub">Creative Technologist</div>
+      <button class="g-btn" id="g-btn" onclick="enterSite()">Enter</button>
+    </div>
   </div>
 
   <nav id="nav">
@@ -374,7 +377,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
     </section>
 
     <section id="contact">
-      <div class="ct-big">Get in touch.</div>
+      <div class="ct-big">Let's build<br>something.</div>
       <div class="ct-links">
         <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
         <a href="https://instagram.com/hydrogenbonds" target="_blank">Instagram</a>
@@ -386,7 +389,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
   <footer id="footer">
     <div class="ft-left">
       <span class="ft-logo">JNT</span>
-      <span class="ft-copy">© 2026 Jeffrey N. Tse</span>
+      <span class="ft-copy">© 2026 Jeffrey N. Tse &nbsp;·&nbsp; Hong Kong</span>
     </div>
     <div class="ft-right">
       <a href="mailto:jeffreynicholast@gmail.com">Email</a>
