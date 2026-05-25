@@ -127,7 +127,9 @@ a{color:inherit;text-decoration:none}
 
 /* HERO */
 #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 4.5rem;position:relative;overflow:hidden}
-.h-name{font-size:clamp(4rem,11.5vw,13rem);font-weight:700;line-height:.85;letter-spacing:-.04em;overflow:hidden}
+#hero::after{content:'';position:absolute;top:0;right:0;width:1px;height:40%;background:linear-gradient(to bottom,transparent,rgba(237,232,224,.08),transparent);pointer-events:none}
+.h-name{font-size:clamp(4rem,11.5vw,13rem);font-weight:700;line-height:.85;letter-spacing:-.04em;overflow:hidden;position:relative;z-index:2}
+.h-name-glass{position:absolute;left:-2rem;bottom:-1rem;right:20%;top:-1rem;background:linear-gradient(135deg,rgba(237,232,224,.03) 0%,rgba(140,180,220,.02) 100%);backdrop-filter:blur(0px);border:1px solid rgba(237,232,224,.04);border-radius:2px;pointer-events:none;z-index:1}
 .h-line{display:block;transform:translateY(110%);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
 .h-line.visible{transform:translateY(0)}
 #h2{font-weight:200;letter-spacing:-.01em;opacity:.88}
@@ -137,7 +139,8 @@ a{color:inherit;text-decoration:none}
 .h-right-label{position:absolute;right:3rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.5rem;align-items:flex-end}
 .h-right-label span{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(237,232,224,.15);writing-mode:horizontal-tb}
 .h-stmt{font-size:.9rem;color:rgba(237,232,224,.45);max-width:320px;line-height:1.65;text-align:right}
-.h-ticker{overflow:hidden;margin-top:2rem;border-top:1px solid rgba(237,232,224,.08);border-bottom:1px solid rgba(237,232,224,.08);padding:.7rem 0}
+.h-ticker{overflow:hidden;margin-top:2rem;background:linear-gradient(90deg,rgba(140,180,220,.04),rgba(196,168,130,.03),rgba(140,180,220,.04));border-top:1px solid rgba(237,232,224,.08);border-bottom:1px solid rgba(237,232,224,.06);padding:.8rem 0;position:relative}
+.h-ticker::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 8%,transparent 92%,var(--bg) 100%);z-index:2;pointer-events:none}
 .h-ticker-inner{display:flex;white-space:nowrap;animation:tickerScroll 25s linear infinite;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(237,232,224,.5)}
 @keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .h-scroll-ind{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);width:1px;height:48px;background:linear-gradient(to bottom,rgba(242,237,228,.0),rgba(242,237,228,.25));animation:scrollPulse 2s ease-in-out infinite}
@@ -221,13 +224,14 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 
 /* CONTACT */
 #contact{text-align:center;padding:10rem 2.4rem 6rem}
-.ed-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
-.ed-card{position:relative;aspect-ratio:4/3;overflow:hidden;cursor:pointer;background:#0c0b0a}
-.ed-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.ed-card:hover img{transform:scale(1.04)}
-.ed-card-info{position:absolute;bottom:0;left:0;right:0;padding:1.2rem 1.4rem;background:linear-gradient(to top,rgba(10,9,8,.92) 0%,rgba(10,9,8,.4) 60%,transparent 100%);transition:opacity .35s}
-.ed-card-title{font-size:.9rem;font-weight:500;color:var(--fg);margin-bottom:.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ed-card-sub{font-family:var(--mono);font-size:.55rem;color:rgba(237,232,224,.45);letter-spacing:.1em;text-transform:uppercase}
+.ed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.ed-grid .ed-card:first-child{grid-column:span 2}
+.ed-card{position:relative;aspect-ratio:3/2;overflow:hidden;cursor:pointer;background:#0c0b0a}
+.ed-card img{width:100%;height:100%;object-fit:cover;object-position:center center;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.ed-card:hover img{transform:scale(1.03)}
+.ed-card-info{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.2rem 1.1rem;background:linear-gradient(to top,rgba(8,7,6,.95) 0%,rgba(8,7,6,.5) 55%,transparent 100%)}
+.ed-card-title{font-size:.82rem;font-weight:500;color:var(--fg);margin-bottom:.25rem;line-height:1.3}
+.ed-card-sub{font-family:var(--mono);font-size:.5rem;color:rgba(237,232,224,.4);letter-spacing:.1em;text-transform:uppercase}
 #footer{padding:2rem 2.4rem;border-top:1px solid rgba(237,232,224,.06);display:flex;align-items:center;justify-content:space-between}
 .ft-left{display:flex;align-items:center;gap:1.5rem}
 .ft-logo{font-family:var(--mono);font-size:.65rem;font-weight:400;letter-spacing:.25em;color:rgba(237,232,224,.25)}
@@ -324,11 +328,12 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 #gate{position:fixed;inset:0;z-index:700;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);padding:2.2rem 3rem 3.8rem;user-select:none;-webkit-user-select:none}
 #gate::before{content:'';position:absolute;inset:0;
   background:
+    radial-gradient(ellipse 60% 30% at 50% 110%,rgba(100,180,240,.06) 0%,transparent 70%),
     radial-gradient(ellipse 80% 70% at 30% 80%,rgba(196,168,130,.04) 0%,transparent 60%),
     radial-gradient(ellipse 50% 40% at 80% 20%,rgba(140,180,220,.03) 0%,transparent 50%),
-    linear-gradient(rgba(237,232,224,.012) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(237,232,224,.012) 1px,transparent 1px);
-  background-size:100% 100%,100% 100%,60px 60px,60px 60px;
+    linear-gradient(rgba(237,232,224,.01) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(237,232,224,.01) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,100% 100%,60px 60px,60px 60px;
   pointer-events:none;z-index:0}
 #gate-c{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .g-top-bar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
@@ -401,6 +406,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
   <div id="world">
     <section id="hero">
       <div class="h-bg-text">Observed</div>
+      <div class="h-name-glass"></div>
       <h1 class="h-name">
         <span class="h-line" id="h1">Jeffrey</span>
         <span class="h-line" id="h2">N.&thinsp;Tse</span>
@@ -523,14 +529,14 @@ var b=[
    video:`${T}resense-opening.mp4`,
    desc:`Hong Kong-set interactive narrative examining digital intimacy and longitudinal memory. Presents as a dating simulation. Tracks behavioural patterns across sessions. Visually draws from early 1990s shoujo anime aesthetics. Developed through AI-assisted pipelines.`,
    link:null},
-  {n:`02`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2024`,badge:`live`,bl:`Live`,
+  {n:`02`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`Pet first aid kits designed and built from the ground up.`,
    role:`Co-Founder · Brand · Product Design · Engineering`,
    img:`${T}pawsaid-campaign.png`,
    video:null,
    desc:`Essential, Plus, and Pro first aid kits for pets. Jeffrey led brand identity, product design, engineering, and go-to-market strategy. Bilingual React/TypeScript e-commerce platform.`,
    link:`https://pawsaid.hk`},
-  {n:`03`,title:`ROLL CALL`,cat:`Archival Interface · Material Culture`,year:`2024`,badge:`live`,bl:`Live`,
+  {n:`03`,title:`ROLL CALL`,cat:`Archival Interface · Material Culture`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`43 specimens. 21 Asian countries. Museum-standard methodology.`,
    role:`Founder · Researcher · Curator`,
    img:`${T}rollcall-thumb.jpg`,
@@ -552,9 +558,9 @@ desc:"Undergrowth was the 2018 BFA and BA graduating exhibition at UBC. The titl
 {year:"2017",title:"Resonance",venue:"JCCAC · Hong Kong",role:"Curator",
 artists:"Group Exhibition",
 desc:"Presented at the Jockey Club Creative Arts Centre, Hong Kong, Resonance brought together works exploring memory, identity, and emotional trace — the ways in which experience leaves marks that persist, evolve, and resurface. Working across abstract painting on circular canvases, the exhibition investigated relational experience as a structure rather than an event: something that accumulates, distorts, and continues."},
-{year:"2017",title:"Unseen Unheard",venue:"Hatch Gallery · Vancouver",role:"Curator",
+{year:"2017",title:"Unseen, Unheard",venue:"The Hatch · Vancouver",role:"Artist",
 artists:"Group Exhibition",
-desc:"Unseen Unheard foregrounded what is systematically made invisible — voices and presences at the margins of dominant cultural narratives. The exhibition engaged the politics of visibility directly, staging encounters between viewers and works that refused easy legibility, demanding sustained attention rather than passive consumption."}
+desc:"Unseen, Unheard was a group exhibition at The Hatch in Vancouver examining what is systematically made invisible — presences rendered silent not by absence but by the structures of attention that surround them. Works interrogated the dynamics of audibility and visibility as they relate to marginalised experience. Jeffrey participated as an exhibiting artist."}
 ];
 var R=[
   {type:"essay",year:"2026",title:"One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure",venue:"ROLL CALL — Material Culture Archive",desc:"Critical essay examining 43 specimens across 21 countries. Argues toilet paper is a material index of invisible systems shaping daily life.",links:[{label:"Read Essay",url:"https://hydrogenbondss.github.io/Rollcall/#/essay"}]},
@@ -1023,12 +1029,12 @@ function buildSections(){
 
   // Editorial
   var editorialItems=[
-    {title:"Markgong FW25",sub:"Fashion Editorial · New York · 2025",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/markgong.jpg",desc:"Markgong Fall/Winter 2025. Editorial direction and interview for I.T Apparels. Shot in New York."},
-    {title:"Doublet",sub:"Fashion Editorial · Hong Kong · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Doublet.jpg",desc:"Doublet editorial for I.T Apparels Hong Kong. Art direction and interview."},
-    {title:"A BATHING APE® x Carhartt WIP",sub:"Fashion Editorial · Hong Kong · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg",desc:"BAPE x Carhartt WIP collaboration editorial. Interview and editorial direction for I.T Apparels."},
-    {title:"BAPE FW24 Shanghai",sub:"Fashion Editorial · Shanghai · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/bape-fw24-shanghai-runway-iteshop-top-dt.jpg",desc:"A BATHING APE® Fall/Winter 2024 Shanghai runway coverage. Editorial direction for I.T Apparels."},
-    {title:"Football × Fashion",sub:"Fashion Editorial · Hong Kong · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/football-fashion-jersey-iteshop-men-top-dt.jpg",desc:"Fashion editorial exploring the intersection of football culture and contemporary menswear. I.T Apparels."},
-    {title:"DarkGoth",sub:"Fashion Editorial · Hong Kong · 2023",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/DarkGoth.jpg",desc:"Dark gothic aesthetic editorial for I.T Apparels Hong Kong. Editorial direction and creative concept."}
+    {title:"Markgong FW25 — Rebellion Through Contrast",sub:"Chief Editor · I.T Apparels · New York · 2025",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/markgong.jpg",desc:"Markgong Fall/Winter 2025. Editorial direction and interview for I.T Apparels, shot in New York. Jeffrey served as Chief Editor overseeing creative direction and the accompanying interview with the designer."},
+    {title:"Doublet — Masayuki Ino: Turning Dreams into Reality",sub:"Chief Editor · I.T Apparels · Hong Kong · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Doublet.jpg",desc:"An interview and editorial on Doublet's Masayuki Ino for I.T Apparels Hong Kong. Art direction, editorial concept, and interview by Jeffrey N. Tse."},
+    {title:"A BATHING APE® × Carhartt WIP",sub:"Chief Editor · I.T Apparels · Hong Kong · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg",desc:"Editorial covering the BAPE × Carhartt WIP collaboration. Interview and editorial direction for I.T Apparels Hong Kong."},
+    {title:"BAPE FW24 — Shanghai Runway",sub:"Chief Editor · I.T Apparels · Shanghai · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/bape-fw24-shanghai-runway-iteshop-top-dt.jpg",desc:"A BATHING APE® Fall/Winter 2024 Shanghai runway coverage and editorial for I.T Apparels."},
+    {title:"Football × Fashion",sub:"Chief Editor · I.T Apparels · Hong Kong · 2024",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/football-fashion-jersey-iteshop-men-top-dt.jpg",desc:"Editorial exploring the intersection of football culture and contemporary menswear for I.T Apparels Hong Kong."},
+    {title:"DarkGoth",sub:"Chief Editor · I.T Apparels · Hong Kong · 2023",role:"Chief Editor",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/DarkGoth.jpg",desc:"Dark gothic aesthetic fashion editorial for I.T Apparels Hong Kong. Editorial concept and creative direction by Jeffrey N. Tse."}
   ];
   var eg=document.getElementById("editorialGrid");
   if(eg) editorialItems.forEach(function(item){
@@ -1050,14 +1056,34 @@ function buildSections(){
   if(rl) R.forEach(function(r){
     var row=document.createElement("div");
     row.className="res-row";
+    row.style.cursor="pointer";
     var links=r.links&&r.links.length?r.links.map(function(l){
       return "<a href='"+l.url+"' target='_blank' class='res-link'>"+l.label+"</a>";
     }).join(""):"";
+    var typeIcon=r.type==="thesis"?"THESIS":r.type==="press"?"PRESS CITATION →":r.type==="essay"?"ESSAY":"PAPER";
     row.innerHTML="<div class='res-yr'>"+r.year+"</div>"+
-      "<div class='res-title'>"+r.title+"</div>"+
+      "<div class='res-main'>"+
+      "<div class='res-type'>"+typeIcon+"</div>"+
+      "<div class='res-title'>"+r.title+" <span style='color:rgba(237,232,224,.18);font-size:.7em'>↗</span></div>"+
       "<div class='res-venue'>"+r.venue+"</div>"+
-      (r.desc?"<div class='res-desc'>"+r.desc+"</div>":"")+
-      (links?"<div>"+links+"</div>":"");
+      (links?"<div class='res-links'>"+links+"</div>":"")+
+      "</div>";
+    row.addEventListener("click",function(e){
+      if(e.target.classList.contains("res-link")||e.target.tagName==="A") return;
+      var modal=document.getElementById("modal");
+      var mi=document.getElementById("mInner");
+      if(!modal||!mi) return;
+      mi.innerHTML="<div class='m-close' onclick='closeModal()'>✕</div>"+
+        "<div class='m-detail'>"+
+        "<div class='m-cat' style='color:var(--gold);font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.8rem'>"+typeIcon+"</div>"+
+        "<div style='font-size:1.4rem;font-weight:700;margin-bottom:.6rem;letter-spacing:-.02em;line-height:1.2'>"+r.title+"</div>"+
+        "<div style='font-family:var(--mono);font-size:.6rem;color:rgba(237,232,224,.4);letter-spacing:.08em;margin-bottom:1.8rem'>"+r.venue+" · "+r.year+"</div>"+
+        (r.desc?"<div style='font-size:.95rem;line-height:1.85;color:rgba(237,232,224,.7);max-width:560px'>"+r.desc+"</div>":"")+
+        (links?"<div style='margin-top:2rem'>"+links+"</div>":"")+
+        "</div>";
+      modal.classList.add("open");
+      document.body.style.overflow="hidden";
+    });
     rl.appendChild(row);
   });
 }
