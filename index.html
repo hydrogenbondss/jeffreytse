@@ -133,7 +133,7 @@ a{color:inherit;text-decoration:none}
 #h2{font-weight:200;letter-spacing:-.01em;opacity:.88}
 .h-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:2.5rem;padding-top:0}
 .h-eye{font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(237,232,224,.35)}
-.h-bg-text{position:absolute;right:-2rem;top:50%;transform:translateY(-52%);font-size:clamp(8rem,20vw,22rem);font-weight:700;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(237,232,224,.04);pointer-events:none;user-select:none;line-height:1;white-space:nowrap}
+.h-bg-text{position:absolute;right:-1rem;top:48%;transform:translateY(-50%);font-size:clamp(7rem,18vw,20rem);font-weight:700;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(237,232,224,.045);pointer-events:none;user-select:none;line-height:1;white-space:nowrap;z-index:0}
 .h-right-label{position:absolute;right:3rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.5rem;align-items:flex-end}
 .h-right-label span{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(237,232,224,.15);writing-mode:horizontal-tb}
 .h-stmt{font-size:.9rem;color:rgba(237,232,224,.45);max-width:320px;line-height:1.65;text-align:right}
@@ -322,7 +322,14 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 }
 
 #gate{position:fixed;inset:0;z-index:700;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);padding:2.2rem 3rem 3.8rem;user-select:none;-webkit-user-select:none}
-#gate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 30% 80%,rgba(196,168,130,.04) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 20%,rgba(237,232,224,.02) 0%,transparent 50%);pointer-events:none;z-index:0}
+#gate::before{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 70% at 30% 80%,rgba(196,168,130,.04) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%,rgba(140,180,220,.03) 0%,transparent 50%),
+    linear-gradient(rgba(237,232,224,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(237,232,224,.012) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,60px 60px,60px 60px;
+  pointer-events:none;z-index:0}
 #gate-c{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .g-top-bar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
 .g-time{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;color:rgba(237,232,224,.28)}
@@ -453,7 +460,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 
     <section id="curatorial">
       <div class="sec-hd"><span class="sec-n">03</span><span class="sec-t">Curatorial</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Group and solo exhibitions exploring how identity, memory, and belonging are constructed, contested, and made visible.</p>
+      <p class="cur-desc">Group and solo exhibitions exploring how identity, memory, and belonging are constructed, contested, and made visible. Click any exhibition to read the curatorial text.</p>
       <div id="curList"></div>
     </section>
 
@@ -531,7 +538,7 @@ var b=[
    desc:`43 specimens. 21 countries. Museum-standard cataloguing applied to the most ordinary object most people never think about. ROLL CALL asks what infrastructure reveals about the people who depend on it — and what it means to take something seriously that the world treats as disposable. Accompanied by a critical essay on material culture, invisibility, and classification.`,
    link:`https://hydrogenbondss.github.io/Rollcall/`}
 ];
-var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe: The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy exploring material metamorphosis across three luxury bag designs — Ocarina, Flute Soft Bag, and Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Neural Portrait — original character design with full motion sequence and voice synthesis.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`}];
+var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe: The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy exploring material metamorphosis across three luxury bag designs — Ocarina, Flute Soft Bag, and Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Neural Portrait — original character design with full motion sequence and voice synthesis.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`}];
 var S=[
 {year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Curator",
 artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
@@ -989,9 +996,28 @@ function buildSections(){
   if(cl) S.forEach(function(ex){
     var row=document.createElement("div");
     row.className="cur-row";
+    row.style.cursor="pointer";
     row.innerHTML="<div class='cur-yr'>"+ex.year+"</div>"+
-      "<div><div class='cur-title'>"+ex.title+"</div><div class='cur-venue'>"+ex.venue+"</div></div>"+
-      "<div class='cur-role'>"+ex.role+"</div>";
+      "<div><div class='cur-title'>"+ex.title+"</div>"+
+      "<div class='cur-venue'>"+ex.venue+"</div>"+
+      (ex.artists?"<div class='cur-artists'>"+ex.artists+"</div>":"")+
+      "</div>"+
+      "<div class='cur-role'>"+ex.role+" <span class='cur-expand'>↗</span></div>";
+    row.addEventListener("click",function(){
+      var mi=document.getElementById("mInner");
+      if(!mi)return;
+      var modal=document.getElementById("modal");
+      mi.innerHTML="<div class='m-close' onclick='closeModal()'>✕</div>"+
+        "<div class='m-detail'>"+
+        "<div class='m-cat' style='color:var(--gold);font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.8rem'>Curatorial</div>"+
+        "<div class='m-title' style='font-size:2rem;font-weight:700;margin-bottom:.4rem;letter-spacing:-.02em'>"+ex.title+"</div>"+
+        "<div style='font-family:var(--mono);font-size:.62rem;color:rgba(237,232,224,.45);letter-spacing:.08em;margin-bottom:.3rem'>"+ex.venue+" · "+ex.year+"</div>"+
+        (ex.artists?"<div style='font-family:var(--mono);font-size:.6rem;color:rgba(237,232,224,.35);letter-spacing:.06em;margin-bottom:1.8rem'>"+ex.artists+"</div>":"<div style='margin-bottom:1.8rem'></div>")+
+        "<div style='font-size:.95rem;line-height:1.82;color:rgba(237,232,224,.72);max-width:520px'>"+ex.desc+"</div>"+
+        "</div>";
+      modal.classList.add("open");
+      document.body.style.overflow="hidden";
+    });
     cl.appendChild(row);
   });
 
