@@ -225,13 +225,13 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 
 /* CONTACT */
 #contact{text-align:center;padding:10rem 2.4rem 6rem}
-.ed-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.ed-card{position:relative;overflow:hidden;cursor:pointer;background:#080808}
-.ed-card img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.ed-card:hover img{transform:scale(1.03)}
-.ed-card-info{position:absolute;bottom:0;left:0;right:0;padding:1.2rem 1.4rem 1.3rem;background:linear-gradient(to top,rgba(5,5,8,.96) 0%,rgba(5,5,8,.6) 50%,transparent 100%)}
-.ed-card-title{font-size:.88rem;font-weight:500;color:var(--fg);margin-bottom:.3rem;line-height:1.35;word-wrap:break-word}
-.ed-card-sub{font-family:var(--mono);font-size:.48rem;color:rgba(237,232,224,.38);letter-spacing:.12em;text-transform:uppercase;line-height:1.6}
+.ed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.ed-card{position:relative;aspect-ratio:16/9;overflow:hidden;cursor:pointer;background:#060608}
+.ed-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s}
+.ed-card:hover img{transform:scale(1.04);filter:brightness(1.08)}
+.ed-card-info{position:absolute;bottom:0;left:0;right:0;padding:.9rem 1rem 1rem;background:linear-gradient(to top,rgba(4,5,12,.95) 0%,rgba(4,5,12,.55) 55%,transparent 100%);transition:opacity .3s}
+.ed-card-title{font-size:.78rem;font-weight:600;color:rgba(232,238,244,.95);margin-bottom:.2rem;line-height:1.25;letter-spacing:.01em}
+.ed-card-sub{font-family:var(--mono);font-size:.44rem;color:rgba(82,201,181,.6);letter-spacing:.1em;text-transform:uppercase;line-height:1.5}
 #footer{padding:2rem 2.4rem;border-top:1px solid rgba(82,201,181,.12);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,rgba(82,201,181,.03),transparent)}
 .ft-left{display:flex;align-items:center;gap:1.5rem}
 .ft-logo{font-family:var(--mono);font-size:.65rem;font-weight:400;letter-spacing:.25em;color:rgba(237,232,224,.25)}
@@ -1056,36 +1056,71 @@ function buildSections(){
 
   // Editorial
   var editorialItems=[
-    {title:"Markgong FW25",sub:"Chief Editor · I.T Apparels · New York · 2025",role:"Chief Editor",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/markgong.jpg",
+    {title:"MARKGONG FALL 2025",sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia",role:"Chief Editor · I.T Apparels",year:"2025",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-markgong-fw25.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",
      desc:"Markgong Fall/Winter 2025. Editorial direction and interview for I.T Apparels. Shot in New York."},
-    {title:"Doublet — Masayuki Ino",sub:"Chief Editor · I.T Apparels · Hong Kong · 2024",role:"Chief Editor",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Doublet.jpg",
-     desc:"Doublet designer Masayuki Ino. Interview and editorial for I.T Apparels Hong Kong."},
-    {title:"A BATHING APE®",sub:"Chief Editor · I.T Apparels · Hong Kong · 2024",role:"Chief Editor",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/carhartt-wip-subi-interview-top-nov-iteshop-dt.jpg",
-     desc:"A BATHING APE® editorial and interview for I.T Apparels Hong Kong."},
-    {title:"BAPE FW24 — Shanghai",sub:"Chief Editor · I.T Apparels · Shanghai · 2024",role:"Chief Editor",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/bape-fw24-shanghai-runway-iteshop-top-dt.jpg",
-     desc:"A BATHING APE® Fall/Winter 2024 Shanghai runway editorial for I.T Apparels."},
-    {title:"Football × Fashion",sub:"Chief Editor · I.T Apparels · Hong Kong · 2024",role:"Chief Editor",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/football-fashion-jersey-iteshop-men-top-dt.jpg",
-     desc:"Fashion editorial for I.T Apparels Hong Kong."},
-    {title:"DarkGoth",sub:"Chief Editor · I.T Apparels · Hong Kong · 2023",role:"Chief Editor",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/DarkGoth.jpg",
-     desc:"Dark gothic aesthetic fashion editorial for I.T Apparels Hong Kong."}
+    {title:"NO ZIPPERS, NO APOLOGIES",sub:"Renaissance Renaissance: Cynthia Merhej's Craft of Resistance",role:"Chief Editor · I.T Apparels",year:"2025",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-no-zippers.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",
+     desc:"Interview and editorial with Cynthia Merhej on craft, resistance, and the refusal of convenience in contemporary fashion design."},
+    {title:"MASAYUKI INO",sub:"Crafting Dreams into Reality",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-masayuki-ino.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",
+     desc:"Interview with Doublet designer Masayuki Ino. Editorial direction and interview for I.T Apparels Hong Kong."},
+    {title:"*A BATHING APE®",sub:"Fall/Winter 2024 in Shanghai — Runway Show",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-bape-fw24-shanghai.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",
+     desc:"A BATHING APE® Fall/Winter 2024 runway show in Shanghai. Editorial coverage for I.T Apparels."},
+    {title:"THE RISE OF BLOKECORE",sub:"Celebrating Football-Inspired Fashion",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-blokecore.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",
+     desc:"Editorial on the rise of Blokecore — football-inspired fashion moving from the pitch to the street. I.T Apparels."},
+    {title:"DISCOVER THE MEANING OF LOVE",sub:"Love is...",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-discover-love.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love",
+     desc:"A Valentine's Day editorial for I.T Apparels Hong Kong exploring different forms of love through portraiture."},
+    {title:"THE GOTHIC REALM OF DARK FASHION",sub:"Obsidian Elegance",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-dark-goth.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",
+     desc:"Dark gothic aesthetic editorial for I.T Apparels Hong Kong. Editorial concept and creative direction."},
+    {title:"MOUNTWOOD",sub:"Adventure in the Great Outdoors",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-mountwood.jpg",
+     link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",
+     desc:"MOUNTWOOD outdoor gear editorial for I.T Apparels. Adventure and outdoor lifestyle direction."},
+    {title:"SUBI (SUBEZ YETI)",sub:"Crafting Community and Sound in Hong Kong's Music Scene",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-subi.jpg",
+     link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",
+     desc:"Interview with Subi (Subez Yeti) on building community and sound in Hong Kong's independent music scene. Featuring Carhartt WIP."},
+    {title:"IN THE STUDIO WITH TAKU",sub:"Beyond the Brush — ft. Carhartt WIP SS24",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-carhartt-taku.jpg",
+     link:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush",
+     desc:"Studio visit and interview with artist Taku, featuring the Carhartt WIP SS24 Collection. Editorial direction and interview."},
+    {title:"SS24' PONDER.ER",sub:"Road Trip to Heaven",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-ponderer.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",
+     desc:"PONDER.ER Spring/Summer 2024 editorial for I.T Apparels. Editorial direction and art direction."},
+    {title:"WESTFALL",sub:"California Punk Culture",role:"Chief Editor · I.T Apparels",year:"2024",
+     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-westfall.jpg",
+     link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",
+     desc:"WESTFALL SS24 editorial for I.T Apparels. California punk culture and art direction."}
   ];
   var eg=document.getElementById("editorialGrid");
   if(eg) editorialItems.forEach(function(item){
     var card=document.createElement("div");
     card.className="ed-card";
     card.innerHTML="<img src='"+item.img+"' alt='"+item.title+"' loading='lazy'>"+
-      "<div class='ed-card-info'><div class='ed-card-title'>"+item.title+"</div><div class='ed-card-sub'>"+item.sub+"</div></div>";
+      "<div class='ed-card-info'>"+
+      "<div class='ed-card-title'>"+item.title+"</div>"+
+      "<div class='ed-card-sub'>"+item.sub+"</div>"+
+      "</div>";
     card.addEventListener("click",function(){
-      openModal({
-        title:item.title,cat:"Fashion Editorial",year:item.sub.split("·").pop().trim(),
-        role:item.role||"Chief Editor",img:item.img,desc:item.desc||"",link:null
-      });
+      if(item.link){
+        window.open(item.link,"_blank");
+      } else {
+        openModal({title:item.title,cat:"Fashion Editorial",year:item.year||"2024",
+          role:item.role||"Chief Editor",img:item.img,desc:item.desc||"",link:null});
+      }
     });
     eg.appendChild(card);
   });
