@@ -356,6 +356,342 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 .g-pulse::before{width:380px;height:380px;animation:gpulse 5s ease-in-out infinite}
 .g-pulse::after{width:240px;height:240px;animation:gpulse 5s ease-in-out infinite 1.2s}
 @keyframes gpulse{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(.94)}50%{opacity:.5;transform:translate(-50%,-50%) scale(1.06)}}
+
+/* ═══════════════════════════════════════════
+   FRUTIGER AERO / TECHNO GEOMETRY SYSTEM
+   ═══════════════════════════════════════════ */
+
+/* Core palette shift */
+:root {
+  --fa-teal: #4ECDC4;
+  --fa-blue: #74B9E0;
+  --fa-cyan: #A8E6CF;
+  --fa-glow: rgba(78,205,196,.15);
+  --fa-glass: rgba(255,255,255,.04);
+  --fa-glass-border: rgba(255,255,255,.08);
+}
+
+/* Background organism — large organic blobs */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 50% at -10% 110%, rgba(78,205,196,.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 110% -10%, rgba(116,185,224,.06) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 60% 50%, rgba(168,230,207,.03) 0%, transparent 60%);
+}
+
+/* Geometric corner accent — top right */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; right: 0;
+  width: 320px; height: 320px;
+  background: conic-gradient(from 200deg at 100% 0%,
+    rgba(78,205,196,.08) 0deg,
+    rgba(116,185,224,.06) 60deg,
+    transparent 120deg);
+  pointer-events: none;
+  z-index: 0;
+  /* override the noise from before */
+  opacity: 1;
+}
+
+/* Noise override — make it more visible, warmer */
+body::after {
+  /* use a separate element for geometric accent — noise stays as body::after */
+  /* actually let noise stay, we'll add geometry to world */
+}
+
+/* ── NAV: actual glass ── */
+#nav {
+  background: linear-gradient(135deg,
+    rgba(7,9,15,.75) 0%,
+    rgba(10,14,22,.65) 100%) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  border-bottom: 1px solid rgba(78,205,196,.12) !important;
+}
+#nav.scrolled {
+  background: linear-gradient(135deg,
+    rgba(7,9,18,.88) 0%,
+    rgba(10,14,24,.85) 100%) !important;
+  border-bottom: 1px solid rgba(78,205,196,.2) !important;
+  box-shadow: 0 1px 0 rgba(116,185,224,.06), 0 8px 32px rgba(0,0,0,.4) !important;
+}
+
+.n-logo {
+  color: rgba(78,205,196,.9) !important;
+  border: 1px solid rgba(78,205,196,.25) !important;
+  border-radius: 6px !important;
+}
+.n-links a:hover { color: rgba(78,205,196,.9) !important; }
+
+/* ── HERO: geometric overlay elements ── */
+#hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Large circle outline — Frutiger Aero signature shape */
+#hero .h-geo-circle {
+  position: absolute;
+  right: -8vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 55vw;
+  height: 55vw;
+  border-radius: 50%;
+  border: 1px solid rgba(78,205,196,.08);
+  pointer-events: none;
+  z-index: 0;
+}
+#hero .h-geo-circle::before {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px solid rgba(116,185,224,.06);
+}
+#hero .h-geo-circle::after {
+  content: '';
+  position: absolute;
+  inset: 26%;
+  border-radius: 50%;
+  border: 1px solid rgba(78,205,196,.04);
+}
+
+/* Small accent dot cluster */
+#hero .h-geo-dots {
+  position: absolute;
+  right: 3rem;
+  top: 35%;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+#hero .h-geo-dots::before,
+#hero .h-geo-dots::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(78,205,196,.25);
+}
+#hero .h-geo-dots::before {
+  width: 6px; height: 6px;
+  top: 0; right: 0;
+  box-shadow:
+    -18px 12px 0 rgba(116,185,224,.2),
+    -36px 4px 0 rgba(78,205,196,.15),
+    -8px 28px 0 rgba(168,230,207,.18),
+    -30px 32px 0 rgba(116,185,224,.12);
+}
+#hero .h-geo-dots::after {
+  width: 3px; height: 3px;
+  top: 50px; right: 20px;
+  box-shadow:
+    -12px -6px 0 rgba(78,205,196,.2),
+    -24px 4px 0 rgba(116,185,224,.15);
+}
+
+/* Ticker: glass pill */
+.h-ticker {
+  background: linear-gradient(90deg,
+    rgba(78,205,196,.06),
+    rgba(116,185,224,.1),
+    rgba(78,205,196,.06)) !important;
+  border-top: 1px solid rgba(78,205,196,.2) !important;
+  border-bottom: 1px solid rgba(78,205,196,.12) !important;
+  border-radius: 0 !important;
+}
+.h-ticker-inner {
+  color: rgba(168,230,207,.75) !important;
+}
+
+/* Name glass panel */
+.h-name-glass {
+  background: linear-gradient(135deg,
+    rgba(78,205,196,.06) 0%,
+    rgba(116,185,224,.03) 60%,
+    transparent 100%) !important;
+  border-top: 1px solid rgba(78,205,196,.1) !important;
+  border-left: 1px solid rgba(116,185,224,.06) !important;
+}
+
+/* ── SECTIONS: glass card treatment ── */
+section {
+  position: relative;
+}
+
+/* Section number: teal */
+.sec-n { color: rgba(78,205,196,.6) !important; }
+
+/* Section line: teal gradient */
+.sec-line {
+  background: linear-gradient(to right,
+    rgba(78,205,196,.4),
+    rgba(116,185,224,.2),
+    transparent) !important;
+}
+
+/* ── PROJECT ROWS: glass hover ── */
+.pj-row {
+  border-radius: 8px;
+  transition: background .3s, padding-left .25s, box-shadow .3s !important;
+}
+.pj-row:hover {
+  background: linear-gradient(90deg,
+    rgba(78,205,196,.07),
+    rgba(116,185,224,.04),
+    transparent) !important;
+  padding-left: 1rem !important;
+  box-shadow: inset 3px 0 0 rgba(78,205,196,.4) !important;
+}
+.pj-row:hover .pj-n { color: var(--fa-teal) !important; }
+
+/* ── CREATIVE CARDS: teal veil ── */
+.cc-veil {
+  background: linear-gradient(to top,
+    rgba(5,12,22,.96) 0%,
+    rgba(10,20,35,.4) 55%,
+    transparent 100%) !important;
+}
+.cc:hover .cc-m { transform: scale(1.025); transition: transform .6s cubic-bezier(.16,1,.3,1); }
+
+/* ── EDITORIAL CARDS: glass title bar ── */
+.ed-card-info {
+  background: linear-gradient(to top,
+    rgba(4,8,18,.96) 0%,
+    rgba(4,8,18,.7) 50%,
+    transparent 100%) !important;
+  border-top: none;
+}
+.ed-card-title { color: rgba(232,242,252,.95) !important; }
+.ed-card-sub { color: rgba(78,205,196,.65) !important; }
+
+/* ── CURATORIAL ROWS: teal accent ── */
+.cur-row {
+  border-bottom: 1px solid rgba(78,205,196,.1) !important;
+  border-radius: 4px;
+  transition: background .3s, padding-left .25s !important;
+}
+.cur-row:hover {
+  background: linear-gradient(90deg,
+    rgba(78,205,196,.05),
+    transparent) !important;
+  padding-left: .8rem !important;
+}
+.cur-expand { color: rgba(78,205,196,.35) !important; }
+.cur-row:hover .cur-expand { color: rgba(78,205,196,.9) !important; }
+
+/* ── RESEARCH ROWS: teal border ── */
+.res-row {
+  border-bottom: 1px solid rgba(116,185,224,.1) !important;
+}
+.res-type { color: rgba(78,205,196,.85) !important; }
+
+/* ── ABOUT PHOTO: teal glow ring ── */
+.ab-img {
+  border: 2px solid rgba(78,205,196,.25) !important;
+  box-shadow: 0 0 0 4px rgba(78,205,196,.06), 0 0 32px rgba(78,205,196,.08) !important;
+  border-radius: 50% !important;
+}
+.ab-links a:hover { color: rgba(78,205,196,.9) !important; }
+
+/* ── GATE: Frutiger Aero horizon glow ── */
+#gate::before {
+  background:
+    radial-gradient(ellipse 100% 45% at 50% 120%, rgba(78,205,196,.12) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(116,185,224,.07) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 85% 15%, rgba(78,205,196,.04) 0%, transparent 50%),
+    linear-gradient(rgba(78,205,196,.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78,205,196,.012) 1px, transparent 1px) !important;
+  background-size: 100%, 100%, 100%, 55px 55px, 55px 55px !important;
+}
+
+.g-time { color: rgba(116,185,224,.5) !important; }
+.g-coords { color: rgba(78,205,196,.4) !important; }
+.g-divider {
+  background: linear-gradient(to right,
+    rgba(78,205,196,.7),
+    rgba(116,185,224,.3),
+    transparent) !important;
+}
+.g-sub { color: rgba(78,205,196,.45) !important; }
+.g-btn { color: rgba(78,205,196,.65) !important; }
+.g-btn:hover { color: rgba(78,205,196,1) !important; }
+
+/* Pulse rings: teal */
+.g-pulse::before, .g-pulse::after {
+  border: 1px solid rgba(78,205,196,.12) !important;
+}
+
+/* ── MODAL: deep glass ── */
+#modal {
+  background: rgba(4,6,14,.9) !important;
+  backdrop-filter: blur(16px) saturate(1.3) !important;
+}
+
+/* ── FOOTER: teal border ── */
+#footer {
+  border-top: 1px solid rgba(78,205,196,.15) !important;
+  background: linear-gradient(to right,
+    rgba(78,205,196,.04),
+    transparent 40%) !important;
+}
+.ft-right a:hover { color: rgba(78,205,196,.9) !important; }
+
+/* ── SCROLL INDICATOR: teal ── */
+.h-scroll-ind {
+  background: linear-gradient(to bottom,
+    rgba(78,205,196,.0),
+    rgba(78,205,196,.55)) !important;
+}
+
+/* ── CONTACT: teal accent ── */
+.ct-eyebrow { color: rgba(78,205,196,.5) !important; }
+.ct-links a:hover { color: rgba(78,205,196,.9) !important; }
+
+/* ── BADGE: teal for live ── */
+.b-live {
+  background: rgba(78,205,196,.15) !important;
+  color: rgba(78,205,196,1) !important;
+  border: 1px solid rgba(78,205,196,.3) !important;
+}
+
+/* ── RESEARCH LINK: teal ── */
+.res-link { color: rgba(78,205,196,.8) !important; }
+.res-link:hover { opacity: .7; }
+
+/* ── EDITORIAL SECTION: glass container ── */
+#editorial {
+  position: relative;
+}
+#editorial::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -2.4rem; right: -2.4rem; bottom: 0;
+  background: linear-gradient(180deg,
+    rgba(78,205,196,.02) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(116,185,224,.02) 100%);
+  pointer-events: none;
+}
+
+/* ── NAV CLOCK: teal ── */
+#nav-clock {
+  color: rgba(78,205,196,.5) !important;
+}
+
+/* ── SECTION INTRO: teal italic ── */
+.sec-intro { color: rgba(78,205,196,.45) !important; }
+.cur-desc { color: rgba(168,230,207,.45) !important; }
+
 </style>
 </head>
 <body>
@@ -407,6 +743,8 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
   <div id="world">
     <section id="hero">
       <div class="h-bg-text">Observed</div>
+      <div class="h-geo-circle"></div>
+      <div class="h-geo-dots"></div>
       <div class="h-name-glass"></div>
       <h1 class="h-name">
         <span class="h-line" id="h1">Jeffrey</span>
