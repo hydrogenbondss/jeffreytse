@@ -320,6 +320,29 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
   .g-pulse::before{width:220px;height:220px}
   .g-pulse::after{width:140px;height:140px}
 }
+
+#gate{position:fixed;inset:0;z-index:700;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);padding:2.2rem 3rem 3.8rem;user-select:none;-webkit-user-select:none}
+#gate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(237,232,224,.025) 0%,transparent 70%);pointer-events:none;z-index:0}
+#gate-c{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.g-top-bar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+.g-time{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;color:rgba(237,232,224,.28)}
+.g-coords{font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;color:rgba(237,232,224,.2)}
+.g-mid{display:flex;align-items:center;justify-content:center;flex:1;position:relative;z-index:2;pointer-events:none}
+.g-mid-hint{font-family:var(--mono);font-size:.42rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(237,232,224,.16);text-align:center;animation:hintFade 2.8s ease-in-out infinite}
+@keyframes hintFade{0%,100%{opacity:.4}50%{opacity:1}}
+.g-bottom{display:flex;flex-direction:column;gap:.8rem;position:relative;z-index:2}
+.g-divider{width:40px;height:1px;background:linear-gradient(to right,rgba(237,232,224,.3),rgba(237,232,224,.04));margin-bottom:.3rem}
+.g-name{overflow:hidden;line-height:1}
+.g-name-i{font-size:clamp(3.2rem,7.5vw,6.5rem);font-weight:700;letter-spacing:-.035em;color:var(--fg);transform:translateY(105%);transition:transform 1.2s cubic-bezier(.16,1,.3,1);display:block}
+.g-name-i.visible{transform:translateY(0)}
+.g-sub{font-family:var(--mono);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(237,232,224,.32);margin-top:.1rem}
+.g-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(237,232,224,.5);background:none;border:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;margin-top:.6rem;transition:color .4s,gap .4s}
+.g-btn:hover{color:rgba(237,232,224,.9);gap:.9rem}
+.g-pulse{position:absolute;top:40%;left:25%;transform:translate(-50%,-50%);width:1px;height:1px;z-index:1;pointer-events:none}
+.g-pulse::before,.g-pulse::after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(237,232,224,.06);transform:translate(-50%,-50%)}
+.g-pulse::before{width:380px;height:380px;animation:gpulse 5s ease-in-out infinite}
+.g-pulse::after{width:240px;height:240px;animation:gpulse 5s ease-in-out infinite 1.2s}
+@keyframes gpulse{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(.94)}50%{opacity:.5;transform:translate(-50%,-50%) scale(1.06)}}
 </style>
 </head>
 <body>
@@ -774,18 +797,27 @@ if(gc_el){
     gc.fillRect(0,0,gW,gH);
     var t=performance.now()*.001;
 
-    // Background stars — slowly drift
+    // Background stars — drift + twinkle + glow
     gStars.forEach(function(s){
-      // Slow drift
-      s.x+=s.dx||0; s.y+=s.dy||0;
-      if(s.x<0)s.x=gW; if(s.x>gW)s.x=0;
-      if(s.y<0)s.y=gH; if(s.y>gH)s.y=0;
+      s.x=(s.x+(s.dx||0)+gW)%gW;
+      s.y=(s.y+(s.dy||0)+gH)%gH;
       var tw=.5+.5*Math.sin(t*s.speed+s.phase);
-      var al=s.a*(.5+.5*tw);
-      gc.beginPath();
-      gc.arc(s.x,s.y,s.r,0,Math.PI*2);
-      gc.fillStyle="rgba(215,210,200,"+al+")";
-      gc.fill();
+      var al=s.a*(.55+.45*tw);
+      if(s.bright){
+        // Halo glow for bright stars
+        var grd=gc.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*6);
+        grd.addColorStop(0,"rgba(228,222,210,"+al+")");
+        grd.addColorStop(.4,"rgba(210,205,195,"+(al*.35)+")");
+        grd.addColorStop(1,"rgba(0,0,0,0)");
+        gc.fillStyle=grd;
+        gc.beginPath();gc.arc(s.x,s.y,s.r*6,0,Math.PI*2);gc.fill();
+        // Core
+        gc.fillStyle="rgba(242,238,230,"+Math.min(1,al*1.5)+")";
+        gc.beginPath();gc.arc(s.x,s.y,s.r,0,Math.PI*2);gc.fill();
+      } else {
+        gc.fillStyle="rgba(210,206,198,"+al+")";
+        gc.beginPath();gc.arc(s.x,s.y,s.r,0,Math.PI*2);gc.fill();
+      }
     });
 
     // Cursor trail stars
