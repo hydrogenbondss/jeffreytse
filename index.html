@@ -1018,7 +1018,70 @@ section {
 
   <div id="world">
     <section id="hero">
-      <div class="h-bg-text">Observed</div>
+      <div 
+      <div class="h-geo-circle"></div>
+      <div class="h-geo-dots"></div>
+      <div class="h-name-glass"></div>
+      <h1 class="h-name">
+        <span class="h-line" id="h1">Jeffrey</span>
+        <span class="h-line" id="h2">N.&thinsp;Tse</span>
+      </h1>
+      <div class="h-right-label">
+        <span>What does it mean</span>
+        <span>to be observed</span>
+      </div>
+      <div class="h-bottom">
+        <div class="h-eye">Hong Kong</div>
+        <p class="h-stmt"><em>Interactive narrative · Generative systems · Product design.</em></p>
+      </div>
+      <div class="h-ticker">
+        <div class="h-ticker-inner">
+          Creative Technology &nbsp;·&nbsp; Interactive Narrative &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Brand Direction &nbsp;·&nbsp; Character Design &nbsp;·&nbsp; Research &nbsp;·&nbsp; Writing &nbsp;·&nbsp;
+          Creative Technology &nbsp;·&nbsp; Interactive Narrative &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Brand Direction &nbsp;·&nbsp; Character Design &nbsp;·&nbsp; Research &nbsp;·&nbsp; Writing &nbsp;·&nbsp;
+        </div>
+      </div>
+
+  <div id="loader">
+    <div class="ld-name">Jeffrey N. Tse</div>
+  </div>
+
+  <div id="gate">
+    <canvas id="gate-c"></canvas>
+
+    <div class="g-top-bar">
+      <div class="g-time" id="g-time"></div>
+      <div class="g-coords">22.3193° N &nbsp;114.1694° E</div>
+    </div>
+
+    <div class="g-mid"></div>
+
+    <div class="g-bottom">
+      <div class="g-divider"></div>
+      <div class="g-name"><div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div></div>
+      <div class="g-sub">Creative Technologist &nbsp;·&nbsp; Hong Kong</div>
+      <button class="g-btn" id="g-btn" onclick="enterSite()">Enter →</button>
+    </div>
+  </div></div>
+
+  <nav id="nav">
+    <a href="#" class="n-logo">JNT</a>
+    <ul class="n-links" id="n-links">
+      <li><a href="#projects" onclick="closeMenu()">Work</a></li>
+      <li><a href="#creative" onclick="closeMenu()">Creative</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
+      <li><a href="#curatorial" onclick="closeMenu()">Curatorial</a></li>
+      <li><a href="#research" onclick="closeMenu()">Research</a></li>
+      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+    </ul>
+    <div id="nav-clock"></div>
+    <button class="n-burger" id="n-burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="n-mobile-overlay" id="n-mobile-overlay" onclick="closeMenu()"></div>
+
+  <div id="world">
+    <section id="hero">
       <div class="h-geo-circle"></div>
       <div class="h-geo-dots"></div>
       <div class="h-name-glass"></div>
@@ -1112,13 +1175,12 @@ section {
   <footer id="footer">
     <div class="ft-left">
       <span class="ft-logo">JNT</span>
-      <span class="ft-copy">© 2026 Jeffrey N. Tse &nbsp;·&nbsp; Hong Kong</span>
+      <span class="ft-copy">© 2026 Jeffrey N. Tse</span>
     </div>
     <div class="ft-right">
       <a href="mailto:jeffreynicholast@gmail.com">Email</a>
       <a href="https://instagram.com/hydrogenbonds" target="_blank">Instagram</a>
       <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
-      <a href="https://www.kaggle.com/hydrogenbondss" target="_blank">Kaggle</a>
     </div>
   </footer>
   </div>
@@ -1151,13 +1213,13 @@ var b=[
      {src:`${T}pawsaid-logo.jpg`,caption:`PawsAid — Brand Identity`},
      {src:`${T}pawsaid-campaign.png`,caption:`PawsAid — Campaign`},
      {src:`${T}pawsaid-kit-mini.jpg`,caption:`Essential Kit`},
-     {src:`${T}pawsaid-kit-plus.jpg`,caption:`Plus Kit`},
      {src:`${T}pawsaid-kit-pro.jpg`,caption:`Pro Kit`},
+     {src:`${T}pawsaid-kit-plus.jpg`,caption:`Plus Kit`},
      {src:`${T}pawsaid-hero.jpg`,caption:`PawsAid — Product Range`}
    ],
    img:`${T}pawsaid-logo.jpg`,
    video:null,
-   desc:`PawsAid started from a gap — there were no pet first aid kits that were actually good. Three tiers, each designed for a different situation: the Essential for basics, the Plus for more prepared owners, the Pro for working animals and professionals. The brand, the packaging, and the platform were all built from scratch. Bilingual (English and Traditional Chinese). Live and shipping.`,
+   desc:`PawsAid started from a gap — there were no pet first aid kits that were actually good. Three tiers, each designed for a different situation: the Essential for basics, the Pro for more prepared owners, and the Plus for working animals and professionals. The brand, the packaging, and the platform were all built from scratch. Bilingual (English and Traditional Chinese). Live and shipping.`,
    link:`https://pawsaid.hk`},
   {n:`03`,title:`ROLL CALL`,cat:`Archival Interface · Material Culture`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A museum-quality archive of toilet paper specimens from across Asia — catalogued with the same rigour you'd give any material culture object.`,
@@ -1165,20 +1227,67 @@ var b=[
    img:`${T}rollcall-thumb.jpg`,
    video:null,
    images:[
-     {src:`${T}rollcall-scatter.jpg`,caption:`Exhibition Layout — Wil Aballe Art Projects, Vancouver`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,caption:`Material Anatomy — Deconstructed specimen, each layer separated and identified by material composition, ply, and process`},
-     {src:`${T}rollcall-thumb.jpg`,caption:`Specimen view — Kleenex Ultra Soft Cottony Clean 3-Ply, Singapore`}
+     {src:`${T}rollcall-scatter.jpg`,caption:`ROLL CALL — Exhibition install view`},
+     {src:`${T}rollcall-thumb.jpg`,caption:`Specimen — each piece catalogued with ply count, material composition, scent profile, and distribution network`}
    ],
    desc:`ROLL CALL is a material culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects — not just what it is, but who makes it, what it costs, where it ends up, what it's made of, and what that material actually means. Scent profiles. Distribution networks. The difference between a regional brand and a global one. The political geography of what gets called clean.
 
 The project is also a critical essay in physical form. Its argument is that toilet paper encodes the invisible — supply chains, hygiene politics, colonial inheritance, and the economics of who gets what standard of living by default. The archive makes that argument the only way an archive can: through accumulation, through the patient insistence that each specimen matters, and through the formal weight of treating the mundane as evidence.`,
-   link:`https://hydrogenbondss.github.io/Rollcall/`}
+   link:`https://hydrogenbondss.github.io/Rollcall/`},
+  // ─── CORPORATE / CLIENT WORK ─────────────────────────────────────────
+  {n:`04`,title:`Samsung`,cat:`Copywriting · Social`,year:`2024–2025`,badge:`live`,bl:`Client Work`,
+   tagline:`AI Home ecosystem launch and Earth Hour campaign — bilingual social copy and banner content.`,
+   role:`Social Copywriter`,
+   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg`,
+   images:[
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg`,caption:`Earth Hour 2025 — Samsung x WWF bilingual campaign`},
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,caption:`SmartThings AI Home — campaign assets`}
+   ],
+   desc:`Developed bilingual English and Chinese social copy and banner content for two Samsung Hong Kong campaigns.\n\nEarth Hour 2025: campaign copy for the Samsung x WWF "Give an Hour for Earth" partnership, focused on environmental messaging. SmartThings meets AI Home: translated smart home technology into accessible lifestyle copy for Samsung's AI Home ecosystem launch.`,
+   link:`https://www.linkedin.com/company/samsung-hongkong-macau/posts/?feedView=all&viewAsMember=true`},
+  {n:`05`,title:`Ocean Park`,cat:`Copywriting · Social`,year:`2024`,badge:`live`,bl:`Client Work`,
+   tagline:`Giant Panda arrivals and Halloween Fest 2024 — English social content.`,
+   role:`Social Copywriter`,
+   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,
+   images:[
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,caption:`Giant Pandas Campaign — An An, Ke Ke, and Lam Lam arrival`},
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ocean-park-halloween-fest-hk.jpg`,caption:`Halloween Fest 2024 — haunted house promotions and character introductions`}
+   ],
+   desc:`Created English social content for two Ocean Park campaigns.\n\nGiant Pandas: narrative social copy for the arrival of An An, Ke Ke, and Lam Lam, focused on conservation storytelling. Halloween Fest 2024: social copy for haunted house promotions, character introductions, and event highlights across Ocean Park's platforms.`,
+   link:`https://www.instagram.com/oceanparkhk/`},
+  {n:`06`,title:`Hong Kong Tourism Board`,cat:`Copywriting · Campaign`,year:`2024`,badge:`live`,bl:`Client Work`,
+   tagline:`Giant Panda campaign landing page — supers and banner copy.`,
+   role:`Copywriter`,
+   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,
+   images:[
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,caption:`HKTB Giant Panda Campaign — landing page`}
+   ],
+   desc:`Crafted supers and banner copy for the Hong Kong Tourism Board's Giant Panda campaign landing page. The work supported Hong Kong's positioning as a panda tourism destination, translating conservation themes into tourism-facing language.\n\nThe campaign ran across HKTB's digital platforms, including the Discover Hong Kong landing page and Facebook video assets.`,
+   link:`https://www.discoverhongkong.com/eng/what-s-new/panda.html`},
+  {n:`07`,title:`MTR`,cat:`Press Release · Social`,year:`2024`,badge:`live`,bl:`Client Work`,
+   tagline:`45th Anniversary campaign — press release for girl group Yolica celebration.`,
+   role:`Press Release Writer`,
+   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg`,
+   images:[
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg`,caption:`MTR 45th Anniversary — Yolica campaign`}
+   ],
+   desc:`Wrote the press release for MTR's 45th Anniversary campaign featuring girl group Yolica, celebrating Hong Kong's transit history and its cultural connection to the city's identity.\n\nThe campaign positioned MTR not just as infrastructure but as a shared public space woven into everyday Hong Kong life.`,
+   link:`https://www.marketing-interactive.com/mtr-taps-girl-group-yolica-to-celebrate-45-year-legacy`},
+  {n:`08`,title:`China Mobile`,cat:`Press Release · Strategy`,year:`2021`,badge:`live`,bl:`Client Work`,
+   tagline:`5G E-Sports Cup — UTV Live launch strategy and press release.`,
+   role:`Press Release Writer · Content Strategist`,
+   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/china-mobile-full.jpg`,
+   images:[
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/china-mobile-full.jpg`,caption:`China Mobile — 5G E-Sports Cup at ACGHK 2021`}
+   ],
+   desc:`Developed the press release and launch strategy for China Mobile Hong Kong's UTV Live streaming platform debut at ACGHK 2021.\n\nThe project positioned UTV Live within the 5G gaming and esports ecosystem at one of Asia's largest comic and game conventions, framing it as infrastructure for a new era of live competitive gaming.`,
+   link:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/china-mobile-full.jpg`}
 ];
-var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe — The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material metamorphosis across three bag designs. Each film transforms the bag — Ocarina Bag, Flute Soft Bag, Horn Bag — into something that feels alive. AI art direction across generative video pipelines.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Original character design with full motion sequence. Generative portrait exploring AI-assisted character creation and cinematic motion.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`},{title:`Heart Decoder`,cat:`Interactive · Narrative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/heart-decoder-thumb.jpg`,desc:`A 16-chapter narrative quiz that maps your romantic architecture. Move through scenarios — the quiet apartment, the 2AM text, the first fight — and meet the archetype beneath the surface. Built with Remy, a character guide through your own emotional logic.`,role:`Writer · Creative Developer`,link:`https://hydrogenbondss.github.io/heart-decoder/`}];
+var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe — The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material metamorphosis across three bag designs. Each film transforms the bag — Ocarina Bag, Flute Soft Bag, Horn Bag — into something that feels alive. AI art direction across generative video pipelines.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Original character design with full motion sequence. Generative portrait exploring AI-assisted character creation and cinematic motion.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`},{title:`Heart Decoder`,cat:`Interactive · Narrative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/heart-decoder-thumb.jpg`,desc:`An interactive personality test that maps how you approach romance. Answer through real scenarios and situations — and at the end, meet your archetype: a lens on how you love, what you protect, and what you want from the people you choose.`,role:`Writer · Creative Developer`,link:`https://hydrogenbondss.github.io/heart-decoder/`}];
 var S=[
 {year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Curator",
 artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
-img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-thumb.jpg",
+img:null,
 desc:"How does our sense of self come to inform the spaces we occupy — and how do the spaces we occupy inform our sense of self? Building on Steven Vertovec's concept of superdiversity, Welcome Home examined home as a fluid essence capable of shifting alongside ourselves. Three artists working in sculpture, performance, found objects, and sound installation reflected on their relationships to home: cycles of identity and self-acceptance, remembrance and belonging across cultural influences, and abstracted representations of interior and exterior space."},
 {year:"2018",title:"Finite Appearances",venue:"Wil Aballe Art Projects · Vancouver",role:"Co-Curator",
 artists:"Kelly Holmes",
@@ -1196,7 +1305,11 @@ links:[{label:"↗ View Exhibition Catalogue",url:"https://ahva.ubc.ca/wp-conten
 {year:"2017",title:"Insights Unseen and Unheard",venue:"Hatch Art Gallery · Vancouver",role:"Artist",
 artists:"Group Exhibition",
 img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
-desc:"Sight Unseen and Unheard was a group exhibition at The Hatch gallery in Vancouver. Jeffrey contributed a photographic series — Untitled, 2017 — a sequence of images documenting a figure in relation to space and environment, printed and installed in a horizontal line across the gallery wall. The work examined how the body is placed, displaced, and recorded within physical settings — the photograph as both evidence and distance."},
+images:[
+  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017 — Jeffrey Tse"},
+  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 — Jeffrey Tse (installation view, Hatch Art Gallery)"}
+],
+desc:"Insights Unseen and Unheard was a group exhibition at Hatch Art Gallery in Vancouver, bringing together works that engaged questions of visibility, perception, and the limits of what can be known or communicated.\n\nJeffrey Tse contributed Untitled, 2017 — a photographic series printed and installed in a horizontal sequence across the gallery wall. The work documents a figure moving through and in relation to space, treating photography as a form of displacement: the image as both record and distance, presence that arrives only after the fact."},
 {year:"2017",title:"Resonance",venue:"JCCAC · Hong Kong",role:"Curator",
 artists:"Group Exhibition",
 img:null,
@@ -1633,7 +1746,7 @@ function buildSections(){
     }
     card.addEventListener("click",function(){
       if((item.title==="Cathedral of Small Hours"||item.title==="Garden of Returning") && item.link){
-        window.open(item.link,"_blank");
+        openModal(item);
       } else {
         openModal(item);
       }
