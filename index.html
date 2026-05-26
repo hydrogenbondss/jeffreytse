@@ -230,7 +230,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 .ed-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s}
 .ed-card:hover img{transform:scale(1.04);filter:brightness(1.08)}
 .ed-card-info{position:absolute;bottom:0;left:0;right:0;padding:.9rem 1rem 1rem;background:linear-gradient(to top,rgba(4,5,12,.95) 0%,rgba(4,5,12,.55) 55%,transparent 100%);transition:opacity .3s}
-.ed-card-title{font-size:.78rem;font-weight:600;color:rgba(232,238,244,.95);margin-bottom:.2rem;line-height:1.25;letter-spacing:.01em}
+.ed-card-title{font-size:.72rem;font-weight:600;color:rgba(232,238,244,.95);margin-bottom:.2rem;line-height:1.25;letter-spacing:.01em;word-break:break-word}
 .ed-card-sub{font-family:var(--mono);font-size:.44rem;color:rgba(82,201,181,.6);letter-spacing:.1em;text-transform:uppercase;line-height:1.5}
 #footer{padding:2rem 2.4rem;border-top:1px solid rgba(82,201,181,.12);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,rgba(82,201,181,.03),transparent)}
 .ft-left{display:flex;align-items:center;gap:1.5rem}
@@ -260,7 +260,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 .m-role{font-size:.85rem;color:rgba(242,237,228,.6);margin-bottom:1rem}
 .m-desc{font-size:.88rem;line-height:1.7;color:rgba(242,237,228,.65);margin-bottom:1.5rem}
 .m-link{font-family:var(--mono);font-size:.7rem;color:var(--gold);letter-spacing:.08em}
-.m-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:rgba(242,237,228,.5);cursor:pointer;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em}
+.m-close{position:sticky;top:0;display:flex;justify-content:flex-end;padding:.8rem 1rem .3rem;background:rgba(13,14,20,.95);border:none;color:rgba(237,232,224,.5);cursor:pointer;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;z-index:10;transition:color .3s;width:100%}
 .m-close:hover{color:var(--fg)}
 .carousel{position:relative;width:100%}
 .car-slide{display:none;align-items:center;justify-content:center}
@@ -760,8 +760,8 @@ section {
       </div>
       <div class="h-ticker">
         <div class="h-ticker-inner">
-          What does it mean to be observed &nbsp;·&nbsp; Technology becoming intimate &nbsp;·&nbsp; Memory as system &nbsp;·&nbsp; The ethics of being seen &nbsp;·&nbsp; Code image object text &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp; 2026 &nbsp;·&nbsp;
-          What does it mean to be observed &nbsp;·&nbsp; Technology becoming intimate &nbsp;·&nbsp; Memory as system &nbsp;·&nbsp; The ethics of being seen &nbsp;·&nbsp; Code image object text &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp; 2026 &nbsp;·&nbsp;
+          Interactive Narrative &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Creative Technology &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp;
+          Interactive Narrative &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Creative Technology &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp;
         </div>
       </div>
       <div class="h-scroll-ind" id="h-scroll-ind"></div>
@@ -811,7 +811,7 @@ section {
 
     <section id="editorial">
       <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Editorial</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Chief Editor at I.T Apparels — fashion editorial direction across New York and Hong Kong.</p>
+      <p class="cur-desc">Selected editorials written and directed as Chief Editor at I.T Apparels.</p>
       <div id="editorialGrid" class="ed-grid"></div>
     </section>
 
@@ -871,19 +871,33 @@ var b=[
   {n:`02`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`Pet first aid kits designed and built from the ground up.`,
    role:`Co-Founder · Brand · Product Design · Engineering`,
-   img:`${T}pawsaid-campaign.png`,
+   images:[
+     {src:`${T}pawsaid-logo.jpg`,caption:`PawsAid — Brand Identity`},
+     {src:`${T}pawsaid-campaign.png`,caption:`PawsAid — Campaign`},
+     {src:`${T}pawsaid-kit-mini.jpg`,caption:`Essential Kit`},
+     {src:`${T}pawsaid-kit-plus.jpg`,caption:`Plus Kit`},
+     {src:`${T}pawsaid-kit-pro.jpg`,caption:`Pro Kit`},
+     {src:`${T}pawsaid-hero.jpg`,caption:`PawsAid — Product Range`}
+   ],
+   img:`${T}pawsaid-logo.jpg`,
    video:null,
-   desc:`Essential, Plus, and Pro first aid kits for pets. Jeffrey led brand identity, product design, engineering, and go-to-market strategy. Bilingual React/TypeScript e-commerce platform.`,
+   desc:`PawsAid started from a gap — pet first aid kits that actually exist, are bilingual, and are designed to be used under pressure. Three tiers built for different needs: Essential, Plus, and Pro. Every decision from the packaging to the platform was made in-house — brand identity, product design, the bilingual React/TypeScript e-commerce site. It is live and shipping.`,
    link:`https://pawsaid.hk`},
   {n:`03`,title:`ROLL CALL`,cat:`Archival Interface · Material Culture`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`43 specimens. 21 Asian countries. Museum-standard methodology.`,
    role:`Founder · Researcher · Curator`,
    img:`${T}rollcall-thumb.jpg`,
    video:null,
-   desc:`43 specimens. 21 countries. Museum-standard cataloguing applied to the most ordinary object most people never think about. ROLL CALL asks what infrastructure reveals about the people who depend on it — and what it means to take something seriously that the world treats as disposable. Accompanied by a critical essay on material culture, invisibility, and classification.`,
+   images:[
+     {src:`${T}rollcall-scatter.jpg`,caption:`ROLL CALL — Exhibition Layout`},
+     {src:`${T}rollcall-thumb.jpg`,caption:`ROLL CALL — Specimen Display`}
+   ],
+   desc:`ROLL CALL is a material culture archive. Each entry in the collection is catalogued with the same rigour you would apply to any museum object — ply count, material composition, country of origin, scent profile, texture notation, distribution network, price point, and any cultural or contextual notes worth keeping. The project asks what you learn about a place when you take its most overlooked infrastructure seriously.
+
+The accompanying critical essay argues that toilet paper is not a trivial object but a material index — a thing that encodes invisible systems of supply chain, hygiene politics, colonial legacy, and economic geography. Every roll tells you where it was made, who made it affordable, and whose standard of living it was designed for. ROLL CALL makes that argument through accumulation: specimen by specimen, country by country.`,
    link:`https://hydrogenbondss.github.io/Rollcall/`}
 ];
-var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe: The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy exploring material metamorphosis across three luxury bag designs — Ocarina, Flute Soft Bag, and Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Neural Portrait — original character design with full motion sequence and voice synthesis.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`}];
+var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe — The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material metamorphosis across three bag designs. Each film transforms the bag — Ocarina Bag, Flute Soft Bag, Horn Bag — into something that feels alive. AI art direction across generative video pipelines.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Original character design with full motion sequence. Generative portrait exploring AI-assisted character creation and cinematic motion.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`}];
 var S=[
 {year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Curator",
 artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
@@ -902,7 +916,7 @@ artists:"2018 BFA/BA Visual Art Graduating Exhibition · UBC",
 img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/undergrowth-poster.jpg",
 desc:"UNDERGROWTH was the 2018 BFA and BA graduating exhibition at the University of British Columbia, presented at the Audain Gallery. The title referenced the layered, often overlooked growth that occurs beneath the visible surface — everyday rituals, personal geographies, and the slow accumulation of experience that constitutes a life. Works across painting, sculpture, video, and installation examined displacement, intimacy, and belonging as sites of ongoing meaning-making.",
 links:[{label:"↗ View Exhibition Catalogue",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf"}]},
-{year:"2017",title:"Insights Unseen and Unheard",venue:"The Hatch · Vancouver",role:"Artist",
+{year:"2017",title:"Insights Unseen and Unheard",venue:"Hatch Art Gallery · Vancouver",role:"Artist",
 artists:"Group Exhibition",
 img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
 desc:"Sight Unseen and Unheard was a group exhibition at The Hatch gallery in Vancouver. Jeffrey contributed a photographic series — Untitled, 2017 — a sequence of images documenting a figure in relation to space and environment, printed and installed in a horizontal line across the gallery wall. The work examined how the body is placed, displaced, and recorded within physical settings — the photograph as both evidence and distance."},
