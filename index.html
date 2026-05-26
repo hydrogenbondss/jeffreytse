@@ -225,9 +225,12 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 
 /* CONTACT */
 #contact{text-align:center;padding:10rem 2.4rem 6rem}
-.ed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
-.ed-card{position:relative;aspect-ratio:16/9;overflow:hidden;cursor:pointer;background:#060608}
-.ed-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s}
+.ed-carousel-wrap{position:relative;overflow:hidden}
+.ed-carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:1rem;cursor:grab;user-select:none}
+.ed-carousel::-webkit-scrollbar{display:none}
+.ed-carousel.grabbing{cursor:grabbing}
+.ed-card{position:relative;flex:0 0 420px;height:280px;overflow:hidden;cursor:pointer;background:#060608;scroll-snap-align:start;border-radius:4px;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s}
+.ed-card img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s}
 .ed-card:hover img{transform:scale(1.04);filter:brightness(1.08)}
 .ed-card-info{position:absolute;bottom:0;left:0;right:0;padding:.9rem 1rem 1rem;background:linear-gradient(to top,rgba(4,5,12,.95) 0%,rgba(4,5,12,.55) 55%,transparent 100%);transition:opacity .3s}
 .ed-card-title{font-size:.72rem;font-weight:600;color:rgba(232,238,244,.95);margin-bottom:.2rem;line-height:1.25;letter-spacing:.01em;word-break:break-word}
@@ -260,7 +263,7 @@ section{padding:6rem 2.4rem;border-top:1px solid rgba(237,232,224,.06)}
 .m-role{font-size:.85rem;color:rgba(242,237,228,.6);margin-bottom:1rem}
 .m-desc{font-size:.88rem;line-height:1.7;color:rgba(242,237,228,.65);margin-bottom:1.5rem}
 .m-link{font-family:var(--mono);font-size:.7rem;color:var(--gold);letter-spacing:.08em}
-.m-close{position:sticky;top:0;display:flex;justify-content:flex-end;padding:.8rem 1rem .3rem;background:rgba(13,14,20,.95);border:none;color:rgba(237,232,224,.5);cursor:pointer;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;z-index:10;transition:color .3s;width:100%}
+.m-close{position:sticky;top:0;display:flex;justify-content:flex-start;align-items:center;gap:.5rem;padding:.9rem 1.2rem;background:rgba(6,8,18,.98);border:none;border-bottom:1px solid rgba(78,205,196,.15);color:rgba(78,205,196,.8);cursor:pointer;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;z-index:999;transition:color .3s,background .3s;width:100%}
 .m-close:hover{color:var(--fg)}
 .carousel{position:relative;width:100%}
 .car-slide{display:none;align-items:center;justify-content:center}
@@ -948,6 +951,23 @@ section {
   margin-top: .8rem !important;
 }
 
+.ed-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(7,9,15,.85);border:1px solid rgba(78,205,196,.25);color:rgba(78,205,196,.8);width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(8px)}
+.ed-arrow:hover{background:rgba(78,205,196,.15);border-color:rgba(78,205,196,.6);color:rgba(78,205,196,1)}
+.ed-arrow-l{left:-22px}
+.ed-arrow-r{right:-22px}
+
+/* ── 1-AT-A-TIME MEDIA VIEWER ── */
+.m-viewer{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.m-viewer img,.m-viewer video{max-width:100%;max-height:48vh;object-fit:contain;display:block}
+.m-caption{font-family:var(--mono);font-size:.6rem;color:rgba(242,237,228,.4);letter-spacing:.08em;margin-top:.8rem;text-align:center;padding:0 1rem}
+.m-nav{display:flex;align-items:center;gap:1.2rem;margin-top:1rem;justify-content:center}
+.m-nav-btn{background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.3);color:rgba(78,205,196,.9);padding:.4rem 1rem;cursor:pointer;font-family:var(--mono);font-size:.8rem;border-radius:3px;transition:all .2s}
+.m-nav-btn:hover{background:rgba(78,205,196,.2);border-color:rgba(78,205,196,.7)}
+.m-nav-ct{font-family:var(--mono);font-size:.65rem;color:rgba(242,237,228,.4)}
+.m-tagline{font-size:.9rem;color:rgba(78,205,196,.75);margin-bottom:.8rem;line-height:1.5;font-style:italic}
+.m-desc{font-size:.88rem;line-height:1.75;color:rgba(242,237,228,.65);margin-bottom:.8rem}
+.m-desc p{margin-bottom:.8rem}
+
 </style>
 </head>
 <body>
@@ -1016,8 +1036,8 @@ section {
       </div>
       <div class="h-ticker">
         <div class="h-ticker-inner">
-          Interactive Narrative &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Creative Technology &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp;
-          Interactive Narrative &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Creative Technology &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp;
+          Creative Technology &nbsp;·&nbsp; Interactive Narrative &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp; What does it mean to be seen &nbsp;·&nbsp; Technology becoming intimate &nbsp;·&nbsp; Memory as system &nbsp;·&nbsp;
+          Creative Technology &nbsp;·&nbsp; Interactive Narrative &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp; Editorial Direction &nbsp;·&nbsp; Generative Systems &nbsp;·&nbsp; Hong Kong &nbsp;·&nbsp; What does it mean to be seen &nbsp;·&nbsp; Technology becoming intimate &nbsp;·&nbsp; Memory as system &nbsp;·&nbsp;
         </div>
       </div>
       <div class="h-scroll-ind" id="h-scroll-ind"></div>
@@ -1067,8 +1087,8 @@ section {
 
     <section id="editorial">
       <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Editorial</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Selected editorials written and directed as Chief Editor at I.T Apparels.</p>
-      <div id="editorialGrid" class="ed-grid"></div>
+      <p class="cur-desc">Selected editorials directed during tenure as Chief Editor at I.T Apparels Hong Kong.</p>
+      <div class="ed-carousel-wrap"><button class="ed-arrow ed-arrow-l" id="edPrev" onclick="edScroll(-1)">←</button><div id="editorialGrid" class="ed-carousel"></div><button class="ed-arrow ed-arrow-r" id="edNext" onclick="edScroll(1)">→</button></div>
     </section>
 
     <section id="research">
@@ -1107,8 +1127,8 @@ section {
 
   <div class="modal" id="modal">
     <div class="m-wrap">
+      <button class="m-close" id="mClose" onclick="closeModal()">← Back</button>
       <div class="m-inner" id="mInner"></div>
-      <button class="m-close" onclick="closeModal()">Close ✕</button>
     </div>
   </div>
 </div>
@@ -1125,7 +1145,7 @@ var b=[
    desc:`Hong Kong-set interactive narrative examining digital intimacy and longitudinal memory. Presents as a dating simulation. Tracks behavioural patterns across sessions. Visually draws from early 1990s shoujo anime aesthetics. Developed through AI-assisted pipelines.`,
    link:null},
   {n:`02`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`Pet first aid kits designed and built from the ground up.`,
+   tagline:`Three tiers of pet first aid — designed, branded, and shipped from scratch.`,
    role:`Co-Founder · Brand · Product Design · Engineering`,
    images:[
      {src:`${T}pawsaid-logo.jpg`,caption:`PawsAid — Brand Identity`},
@@ -1137,23 +1157,24 @@ var b=[
    ],
    img:`${T}pawsaid-logo.jpg`,
    video:null,
-   desc:`PawsAid started from a gap — pet first aid kits that actually exist, are bilingual, and are designed to be used under pressure. Three tiers built for different needs: Essential, Plus, and Pro. Every decision from the packaging to the platform was made in-house — brand identity, product design, the bilingual React/TypeScript e-commerce site. It is live and shipping.`,
+   desc:`PawsAid started from a gap — there were no pet first aid kits that were actually good. Three tiers, each designed for a different situation: the Essential for basics, the Plus for more prepared owners, the Pro for working animals and professionals. The brand, the packaging, and the platform were all built from scratch. Bilingual (English and Traditional Chinese). Live and shipping.`,
    link:`https://pawsaid.hk`},
   {n:`03`,title:`ROLL CALL`,cat:`Archival Interface · Material Culture`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`43 specimens. 21 Asian countries. Museum-standard methodology.`,
+   tagline:`A museum-quality archive of toilet paper specimens from across Asia — catalogued with the same rigour you'd give any material culture object.`,
    role:`Founder · Researcher · Curator`,
    img:`${T}rollcall-thumb.jpg`,
    video:null,
    images:[
-     {src:`${T}rollcall-scatter.jpg`,caption:`ROLL CALL — Exhibition Layout`},
-     {src:`${T}rollcall-thumb.jpg`,caption:`ROLL CALL — Specimen Display`}
+     {src:`${T}rollcall-scatter.jpg`,caption:`Exhibition Layout — Wil Aballe Art Projects, Vancouver`},
+     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,caption:`Material Anatomy — Deconstructed specimen, each layer separated and identified by material composition, ply, and process`},
+     {src:`${T}rollcall-thumb.jpg`,caption:`Specimen view — Kleenex Ultra Soft Cottony Clean 3-Ply, Singapore`}
    ],
-   desc:`ROLL CALL is a material culture archive. Each entry in the collection is catalogued with the same rigour you would apply to any museum object — ply count, material composition, country of origin, scent profile, texture notation, distribution network, price point, and any cultural or contextual notes worth keeping. The project asks what you learn about a place when you take its most overlooked infrastructure seriously.
+   desc:`ROLL CALL is a material culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects — not just what it is, but who makes it, what it costs, where it ends up, what it's made of, and what that material actually means. Scent profiles. Distribution networks. The difference between a regional brand and a global one. The political geography of what gets called clean.
 
-The accompanying critical essay argues that toilet paper is not a trivial object but a material index — a thing that encodes invisible systems of supply chain, hygiene politics, colonial legacy, and economic geography. Every roll tells you where it was made, who made it affordable, and whose standard of living it was designed for. ROLL CALL makes that argument through accumulation: specimen by specimen, country by country.`,
+The project is also a critical essay in physical form. Its argument is that toilet paper encodes the invisible — supply chains, hygiene politics, colonial inheritance, and the economics of who gets what standard of living by default. The archive makes that argument the only way an archive can: through accumulation, through the patient insistence that each specimen matters, and through the formal weight of treating the mundane as evidence.`,
    link:`https://hydrogenbondss.github.io/Rollcall/`}
 ];
-var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe — The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material metamorphosis across three bag designs. Each film transforms the bag — Ocarina Bag, Flute Soft Bag, Horn Bag — into something that feels alive. AI art direction across generative video pipelines.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Original character design with full motion sequence. Generative portrait exploring AI-assisted character creation and cinematic motion.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`},{title:`Heart Decoder`,cat:`Interactive · Narrative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/remy_full_matte.png`,desc:`A 16-chapter narrative quiz that maps your romantic architecture. Move through scenarios — the quiet apartment, the 2AM text, the first fight — and meet the archetype beneath the surface. Built with Remy, a character guide through your own emotional logic.`,role:`Writer · Creative Developer`,link:`https://hydrogenbondss.github.io/heart-decoder/`}];
+var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/cathedral-of-small-hours/`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/garden-of-returning/`},{title:`PabePabe — The Morphing Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material metamorphosis across three bag designs. Each film transforms the bag — Ocarina Bag, Flute Soft Bag, Horn Bag — into something that feels alive. AI art direction across generative video pipelines.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0310(4)%20(online-video-cutter.com)%20(3).mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Original character design with full motion sequence. Generative portrait exploring AI-assisted character creation and cinematic motion.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`,link:`https://hydrogenbondss.github.io/portfolio-assets/FeatureWorldChaos.html`},{title:`Heart Decoder`,cat:`Interactive · Narrative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/heart-decoder-thumb.jpg`,desc:`A 16-chapter narrative quiz that maps your romantic architecture. Move through scenarios — the quiet apartment, the 2AM text, the first fight — and meet the archetype beneath the surface. Built with Remy, a character guide through your own emotional logic.`,role:`Writer · Creative Developer`,link:`https://hydrogenbondss.github.io/heart-decoder/`}];
 var S=[
 {year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Curator",
 artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
@@ -1182,10 +1203,14 @@ img:null,
 desc:"Presented at the Jockey Club Creative Arts Centre in Hong Kong, Resonance brought together works exploring memory, identity, and emotional trace — the ways in which experience leaves marks that persist, evolve, and resurface. The exhibition featured abstract acrylic paintings on circular canvases, examining relational experience as a structure rather than an event: something that accumulates, distorts, and continues long after its origin."}
 ];
 var R=[
-  {type:"essay",year:"2026",title:"One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure",venue:"ROLL CALL — Material Culture Archive",desc:"Critical essay examining 43 specimens across 21 countries. Argues toilet paper is a material index of invisible systems shaping daily life.",links:[{label:"Read Essay",url:"https://hydrogenbondss.github.io/Rollcall/#/essay"}]},
-  {type:"thesis",year:"2023",title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder",venue:"MSc Marketing Management · The Hong Kong Polytechnic University",desc:"Investigates how visibility and digital evaluation structures reshape self-presentation and relational behaviour on digital platforms. Supervised by Dr Vincent Leung.",links:[]},
-  {type:"press",year:"2020",title:"Research cited: The Crushing Emotional Strain of Seeing Images of Anti-Black Violence",venue:"Milwaukee Independent",desc:"Milwaukee Independent cited Tse's undergraduate research in a piece on the psychological burden of witnessing images of anti-Black violence. Tse was an undergraduate student at UBC at the time of publication.",links:[]},
-  {type:"research",year:"2019",title:"The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler's Lynching Photograph",venue:"UBC Undergraduate Journal of Art History · 14th Annual Symposium",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/beitler-symposium.jpg",desc:"Examines Lawrence Beitler's 1930 photograph of the Marion, Indiana lynching of Thomas Shipp and Abner Smith. Argues the photograph normalised rather than documented racial violence, and that the photographer — not merely the perpetrators of the lynching — must be understood as complicit in its spectacularisation. Presented at the 14th Annual UBC Art History Symposium. Draws on Sontag, Wood, Reinhardt.",links:[{label:"↗ Symposium",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/"}]}
+  {type:"essay",year:"2026",title:"One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure",venue:"ROLL CALL — Material Culture Archive",
+  desc:"This essay takes the most mundane object in a hotel bathroom and refuses to let it be mundane. It follows toilet paper through supply chains, across borders, into the logic of ply counts and scent profiles, and asks what it means that we have normalised access to something that is, globally, still not guaranteed. The argument is infrastructural: that the object encodes decisions made far upstream — about whose bodies are default, what clean means, and who gets to assume.\n\nThe essay is also an argument about method. It insists that material culture research belongs in the bathroom as much as in the archive. The evidence is in the thing itself, if you know how to read the thing.",links:[{label:"Read Essay",url:"https://hydrogenbondss.github.io/Rollcall/#/essay"}]},
+  {type:"thesis",year:"2023",title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder",venue:"MSc Marketing Management · The Hong Kong Polytechnic University",
+  desc:"This thesis examines whether Tinder is a dating platform or a marketing system — and concludes it is both, in ways that are mutually reinforcing and rarely examined together. It looks at how the platform constructs visibility, encodes desirability as a metric, and incentivises self-presentation behaviours that are inseparable from product logic. The research maps the gap between what users believe they are doing and what the platform is structurally designed for.\n\nSupervised by Dr Vincent Leung. The broader question underneath the Tinder case is about how digital platforms reshape relational behaviour at scale — and what that means for the marketing disciplines that study and enable them.",links:[]},
+  {type:"press",year:"2020",title:"Research cited: The Crushing Emotional Strain of Seeing Images of Anti-Black Violence",venue:"Milwaukee Independent",
+  desc:"Milwaukee Independent cited undergraduate research by Jeffrey Tse in an article on the psychological and emotional burden borne by Black viewers who encounter images of anti-Black violence in news media and social media feeds. The research examined spectatorship ethics and the question of who bears the cost of visual documentation — the people harmed, or the public imagined as its audience.\n\nTse was an undergraduate student at UBC at the time of publication. The citation placed this work in conversation with broader discourse on media ethics, vicarious trauma, and the politics of bearing witness.",links:[]},
+  {type:"research",year:"2019",title:"The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler's Lynching Photograph",venue:"UBC Undergraduate Journal of Art History · 14th Annual Symposium",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/beitler-symposium.jpg",
+  desc:"This paper examines Lawrence Beitler's 1930 photograph of the Marion, Indiana lynching of Thomas Shipp and Abner Smith — one of the most widely reproduced lynching photographs in American history — and argues that the photographer himself cannot be separated from the violence the image depicts. The prevailing framing positions the photograph as documentation. This paper argues it was also participation: that Beitler's presence, his choices of framing and timing, and the subsequent commercial reproduction of the image constitute a form of spectacularisation that extended the harm.\n\nPresented at the 14th Annual UBC Art History Symposium. The paper draws on Susan Sontag's writing on photography and suffering, Robin Wood's frameworks for complicity, and Fred Ritchin on the ethics of the image. It concludes by asking whether any photograph of atrocity can be ethically reproduced — and whether that question is ever actually answered.",links:[{label:"↗ Symposium",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/"}]}
 ];
 
 var tools=[
@@ -1806,39 +1831,66 @@ function openModal(item){
   var modal=document.getElementById("modal");
   var inner=document.getElementById("mInner");
   if(!modal||!inner) return;
-  var media="";
-  if(item.carousel){
-    var slides=item.carousel.map(function(s,i){
-      return "<div class='car-slide"+(i===0?" on":"")+"'>"+
-        (s.type==="video"?"<video src='"+s.src+"' "+(s.thumb?"poster='"+s.thumb+"'":"")+" muted loop playsinline autoplay style='max-width:100%;max-height:55vh;object-fit:contain'></video>":
-        "<img src='"+s.src+"' style='max-width:100%;max-height:55vh'>")+
-        "</div>";
-    }).join("");
-    var dots=item.carousel.map(function(_,i){
-      return "<button class='car-dot"+(i===0?" on":"")+" ' data-i='"+i+"'></button>";
-    }).join("");
-    media="<div class='carousel' id='car'>"+slides+
-      "<button class='car-a p' onclick='carGo(-1)'>&#8592;</button>"+
-      "<button class='car-a n' onclick='carGo(1)'>&#8594;</button>"+
-      "<div class='car-ds'>"+dots+"</div></div>";
+
+  // Build unified media array (images[] > carousel[] > video+img)
+  var mediaItems=[];
+  if(item.images && item.images.length){
+    item.images.forEach(function(im){
+      mediaItems.push({type:"img", src:im.src, caption:im.caption||""});
+    });
+    // if there's also a video, prepend it or append
+    if(item.video) mediaItems.unshift({type:"video",src:item.video,poster:item.img,caption:"Video"});
+  } else if(item.carousel && item.carousel.length){
+    item.carousel.forEach(function(s){
+      mediaItems.push({type:s.type,src:s.src,poster:s.thumb||item.img,caption:s.caption||""});
+    });
   } else if(item.video){
-    media="<video src='"+item.video+"' "+(item.img?"poster='"+item.img+"'":"")+" controls autoplay muted loop playsinline style='max-width:100%;max-height:55vh;object-fit:contain'></video>";
+    mediaItems.push({type:"video",src:item.video,poster:item.img,caption:""});
+    if(item.img) mediaItems.push({type:"img",src:item.img,caption:""});
   } else if(item.img){
-    media="<img src='"+item.img+"' style='max-width:100%;max-height:55vh;object-fit:contain'>";
+    mediaItems.push({type:"img",src:item.img,caption:""});
   }
+
+  window._mItems=mediaItems;
+  window._mIdx=0;
+
+  function renderMedia(idx){
+    var m=mediaItems[idx];
+    if(!m) return "";
+    var el=m.type==="video"
+      ?"<video src='"+m.src+"' "+(m.poster?"poster='"+m.poster+"'":"")+" controls autoplay muted loop playsinline></video>"
+      :"<img src='"+m.src+"' alt='"+m.caption+"'>";
+    var cap=m.caption?"<div class='m-caption'>"+m.caption+"</div>":"";
+    var nav=mediaItems.length>1
+      ?"<div class='m-nav'>"
+        +"<button class='m-nav-btn' onclick='mGo(-1)'>←</button>"
+        +"<span class='m-nav-ct'>"+(idx+1)+" / "+mediaItems.length+"</span>"
+        +"<button class='m-nav-btn' onclick='mGo(1)'>→</button>"
+        +"</div>"
+      :"";
+    return "<div class='m-viewer'>"+el+cap+nav+"</div>";
+  }
+
+  window.mGo=function(dir){
+    window._mIdx=(window._mIdx+dir+window._mItems.length)%window._mItems.length;
+    var viewer=document.querySelector(".m-viewer");
+    var area=document.querySelector(".m-media");
+    if(area) area.innerHTML=renderMedia(window._mIdx);
+  };
+
   inner.innerHTML=
-    "<div class='m-media'>"+media+"</div>"+
+    "<div class='m-media'>"+renderMedia(0)+"</div>"+
     "<div class='m-info'>"+
     "<div class='m-cat'>"+(item.cat||"")+"</div>"+
     "<h2 class='m-title'>"+item.title+"</h2>"+
     (item.sub?"<div class='m-sub'>"+item.sub+"</div>":"")+
+    (item.tagline?"<div class='m-tagline'>"+item.tagline+"</div>":"")+
     (item.role?"<div class='m-role'>"+item.role+"</div>":"")+
-    (item.desc?"<p class='m-desc'>"+item.desc+"</p>":"")+
-    (item.link?"<a href='"+item.link+"' target='_blank' class='m-link'>Visit →</a>":"")+
+    (item.desc?"<div class='m-desc'>"+item.desc.replace(/\n\n/g,"</p><p class='m-desc'>")+"</div>":"")+
+    (item.link?"<a href='"+item.link+"' target='_blank' class='m-link'>View Project →</a>":"")+
     "</div>";
   modal.classList.add("open");
   document.body.style.overflow="hidden";
-  window._carIdx=0;
 }
 function carGo(dir){
   var car=document.getElementById("car");
@@ -1878,6 +1930,7 @@ function closeMenu(){
   document.body.style.overflow="";
 }
 document.addEventListener("keydown",function(e){if(e.key==="Escape") closeModal();});
+document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal();});
 
 // Scroll reveal
 function revealOnScroll(){
@@ -1903,6 +1956,32 @@ function revealOnScroll(){
 <script>
 /* ─── ZINE / SCRAPBOOK STRUCTURAL INIT ───────────────────── */
 (function() {
+
+  // ── EDITORIAL CAROUSEL ─────────────────────────────────────────
+  var edCar = document.getElementById('editorialGrid');
+  if (edCar) {
+    // Drag to scroll
+    var isDown = false, startX, scrollL;
+    edCar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      edCar.classList.add('grabbing');
+      startX = e.pageX - edCar.offsetLeft;
+      scrollL = edCar.scrollLeft;
+    });
+    edCar.addEventListener('mouseleave', function() { isDown = false; edCar.classList.remove('grabbing'); });
+    edCar.addEventListener('mouseup', function() { isDown = false; edCar.classList.remove('grabbing'); });
+    edCar.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      e.preventDefault();
+      var x = e.pageX - edCar.offsetLeft;
+      edCar.scrollLeft = scrollL - (x - startX) * 1.5;
+    });
+  }
+
+  window.edScroll = function(dir) {
+    var car = document.getElementById('editorialGrid');
+    if (car) car.scrollBy({ left: dir * 440, behavior: 'smooth' });
+  };
 
   // 1. Add geometric circle accent to every section header
   document.querySelectorAll('.sec-hd').forEach(function(hd) {
