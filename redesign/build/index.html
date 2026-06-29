@@ -116,6 +116,10 @@ video{display:none}
 .pm-role{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.16em;color:#b9ad93;border-top:1px solid rgba(236,234,227,.14);padding-top:12px}
 .pm-needs{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#6f6552;margin-top:10px}
 .pm-needs:not(:empty):before{content:'PENDING — '}
+.pm-media{display:grid;gap:12px;margin:2px 0 18px}
+.pm-media figure{margin:0}
+.pm-media video,.pm-media img{display:block;width:100%;border-radius:4px;background:#0a0a0c}
+.pm-media figcaption{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.18em;color:#9296a4;margin-top:5px}
 @media(prefers-reduced-motion:reduce){.pm-card{transition:none}}
 
 /* ============ 7 · ARCHIVE (typewriter) ============ */
@@ -129,18 +133,76 @@ video{display:none}
 .arch-index{margin-top:34px;border-top:1px solid rgba(216,210,196,.18);padding-top:16px;font-size:.72rem;letter-spacing:.06em;color:#6a6253}
 @media(prefers-reduced-motion:reduce){.arch-caret{animation:none}}
 
-/* ============ 8 · ABOUT (shoebox + polaroid) ============ */
-#about{background:#0d1310;color:#e8efe6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10vh 6vw}
-.about-wrap{display:flex;gap:clamp(24px,5vw,70px);align-items:center;flex-wrap:wrap;max-width:1000px;justify-content:center}
-.polaroid{background:#f6f3ea;padding:14px 14px 54px;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:rotate(-4deg);width:min(340px,72vw);flex:0 0 auto}
-.polaroid .photo{aspect-ratio:1/1;background:#1b211d;display:flex;align-items:center;justify-content:center;color:#5b6b60;font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.18em;text-align:center;padding:0 12%;line-height:1.8}
-.polaroid .cap{font-family:'Caveat',cursive;font-size:1.6rem;color:#2a2a28;text-align:center;margin-top:14px}
-.about-text{flex:1 1 320px;max-width:460px}
-.about-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.4em;color:#7f8c82;margin-bottom:14px}
-.about-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3rem);margin-bottom:.5em;line-height:1}
-.about-bio{font-size:.98rem;line-height:1.75;color:#cdd6cd}
-.about-bio .pend{display:block;margin-top:14px;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#5f6b61}
-@media(max-width:760px){.polaroid{transform:none}}
+/* ============ 8 · ABOUT (scrapbook — loop bookend) ============ */
+#about{position:relative;min-height:100vh;overflow:hidden;background:#E0D8C6;color:#16120b;display:flex;align-items:center;justify-content:center;padding:8vh 6vw}
+#about .ab-grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+#about .ab-htone{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none;background-image:radial-gradient(circle,#000 26%,transparent 27%);background-size:6px 6px}
+#about .ab-wrap{position:relative;z-index:2;display:flex;gap:clamp(24px,5vw,64px);align-items:center;flex-wrap:wrap;max-width:980px;justify-content:center}
+#about .polaroid{position:relative;background:#fbf8ef;padding:13px 13px 50px;box-shadow:4px 8px 0 rgba(0,0,0,.10),0 26px 60px rgba(0,0,0,.32);transform:rotate(-5deg);width:min(330px,72vw);flex:0 0 auto}
+#about .polaroid .photo{aspect-ratio:1/1;background:#d7cdb4;display:flex;align-items:center;justify-content:center;color:#8a7f64;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.2em;text-align:center;padding:0 14%;line-height:2}
+#about .polaroid .cap{font-family:'Caveat',cursive;font-size:1.75rem;color:#222;text-align:center;margin-top:12px;transform:rotate(-1.5deg)}
+#about .ab-tape{position:absolute;width:120px;height:30px;background:rgba(225,210,140,.5);box-shadow:0 1px 3px rgba(0,0,0,.18);mix-blend-mode:multiply;left:50%;margin-left:-60px;top:-15px;transform:rotate(-3deg)}
+#about .ab-note{flex:1 1 320px;max-width:460px;position:relative}
+#about .ab-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.36em;color:#6f6552;margin-bottom:12px}
+#about .ab-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3rem);margin-bottom:.45em;line-height:1}
+#about .ab-bio{font-size:.98rem;line-height:1.72;color:#2a2418}
+#about .ab-bio .pend{display:block;margin-top:14px;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.08em;color:#8a7f68}
+#about .ab-loop{display:inline-block;margin-top:22px;font-family:'Caveat',cursive;font-size:1.6rem;color:#a01f1f;text-decoration:none;transform:rotate(-2deg)}
+#about .ab-loop:hover{color:#16120b}
+#about .ab-doodle{position:absolute;font-family:'Caveat',cursive;color:#16120b;opacity:.45;pointer-events:none}
+@media(max-width:760px){#about .polaroid{transform:none}}
+
+/* ============ 4 · THE LAB (console) ============ */
+#lab{background:#070a14;color:#cfd6e6;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw;position:relative;overflow:hidden}
+#lab .lab-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);background-size:30px 30px}
+#lab .lab-in{position:relative;z-index:2;max-width:920px;margin:0 auto;width:100%}
+#lab .lab-status{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.34em;color:#5fd08a;margin-bottom:12px}
+#lab .lab-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.4em;color:#6f7ba0;margin-bottom:8px}
+#lab h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;color:#eaf0ff;margin-bottom:6px}
+#lab .lab-intro{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.06em;color:#8a93b5;max-width:54ch;line-height:1.9;margin-bottom:26px}
+#lab .rack{border-top:1px solid rgba(140,160,210,.18)}
+#lab .row{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:baseline;padding:13px 6px;border-bottom:1px solid rgba(140,160,210,.14);transition:.25s}
+#lab .row:hover{background:rgba(120,160,255,.06);padding-left:14px}
+#lab .row .n{font-family:'Courier Prime',monospace;font-size:.74rem;color:#5f6a8c}
+#lab .row .lbl{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(1rem,2vw,1.3rem);color:#eaf0ff;letter-spacing:.01em}
+#lab .row .lbl small{display:block;font-weight:400;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:#9aa3c4;letter-spacing:0;margin-top:2px}
+#lab .row .tag{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.16em;color:#6f7ba0;text-align:right;white-space:nowrap;line-height:1.7}
+#lab .row .tag .dev{color:#e0a23a}
+@media(max-width:680px){#lab .row{grid-template-columns:34px 1fr}#lab .row .tag{grid-column:2;text-align:left;margin-top:4px}}
+
+/* ============ 7 · ARCHIVE (anti-design / anti-AI) ============ */
+#archive{position:relative;min-height:100vh;overflow:hidden;background:#cfc3a8;color:#16120b;padding:0}
+#archive .ax-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(20,30,80,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(20,30,80,.10) 1px,transparent 1px);background-size:26px 26px;mix-blend-mode:multiply;opacity:.7}
+#archive .ax-grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+#archive .ax-stain{position:absolute;width:46vmin;height:46vmin;border-radius:50%;background:radial-gradient(circle,rgba(120,70,30,.22),transparent 62%);filter:blur(6px);pointer-events:none}
+#archive .scrap{position:absolute;transform-origin:center}
+#archive .note{background:#efe7d2;padding:14px 16px;box-shadow:3px 6px 0 rgba(0,0,0,.18),0 14px 30px rgba(0,0,0,.25);max-width:300px;border:1px solid rgba(0,0,0,.08)}
+#archive .note.torn{clip-path:polygon(0 4%,7% 0,22% 5%,40% 1%,62% 6%,82% 1%,100% 5%,98% 96%,80% 100%,55% 96%,33% 100%,12% 96%,0 99%)}
+#archive .tape{position:absolute;width:96px;height:26px;background:rgba(225,210,140,.55);box-shadow:0 1px 3px rgba(0,0,0,.2);mix-blend-mode:multiply}
+#archive .stamp{font-family:'Courier Prime',monospace;font-weight:700;letter-spacing:.04em;color:#a01f1f;border:2px solid #a01f1f;padding:3px 9px;font-size:.74rem;text-transform:uppercase;opacity:.82;background:rgba(255,255,255,.15)}
+#archive .redact{background:#16120b;color:#16120b;padding:1px 6px;user-select:none}
+#archive .mono{font-family:'Courier Prime',monospace}
+#archive .hand{font-family:'Caveat',cursive;color:#16120b}
+#archive .clash{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;color:#132FAE}
+#archive .ax-title{position:absolute;left:3vw;top:6vh;z-index:8;line-height:.82}
+#archive .ax-title b{display:block;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:clamp(3.6rem,11vw,8.5rem);letter-spacing:-.03em;color:#16120b;text-transform:uppercase}
+#archive .ax-title b.ghost{position:absolute;top:5px;left:6px;color:#EC0A6A;mix-blend-mode:multiply;z-index:-1;opacity:.85}
+#archive .ax-title em{display:block;font-family:'Courier Prime',monospace;font-style:normal;font-size:.7rem;letter-spacing:.5em;color:#3a3322;margin-top:8px;transform:translateX(4px)}
+#archive .ax-sub{position:absolute;right:4vw;top:9vh;max-width:230px;text-align:right;font-family:'Courier Prime',monospace;font-size:.64rem;line-height:1.9;letter-spacing:.04em;color:#2a2418;z-index:8}
+#archive .blue{background:#0c2a6e;color:#cdd7f0;font-family:'Courier Prime',monospace;font-size:.6rem;line-height:1.7;padding:14px;max-width:230px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
+#archive .blue .bh{color:#fff;letter-spacing:.2em;border-bottom:1px solid rgba(205,215,240,.4);padding-bottom:5px;margin-bottom:7px}
+#archive .pin{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff6b6b,#9a1f1f);box-shadow:0 2px 3px rgba(0,0,0,.4);position:absolute;top:-5px;left:50%;margin-left:-6px}
+#archive .arrow{position:absolute;font-family:'Caveat',cursive;font-size:1.4rem;color:#a01f1f}
+#archive .ax-foot{position:absolute;left:0;right:0;bottom:2vh;text-align:center;font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.3em;color:#5a5240;z-index:9}
+#archive .s1{left:4vw;top:34vh;transform:rotate(-5deg);z-index:5}
+#archive .s2{left:22vw;top:54vh;transform:rotate(3deg);z-index:6;max-width:260px}
+#archive .s3{right:6vw;top:30vh;transform:rotate(4deg);z-index:7}
+#archive .s4{left:42vw;top:24vh;transform:rotate(-2.4deg);z-index:6}
+#archive .s5{right:20vw;top:58vh;transform:rotate(-6deg);z-index:5}
+#archive .s6{left:13vw;top:78vh;transform:rotate(2deg);z-index:7}
+#archive .s7{right:9vw;top:74vh;transform:rotate(-3deg);z-index:6}
+#archive .s8{left:55vw;top:62vh;transform:rotate(6deg);z-index:8}
+@media(max-width:760px){#archive .s3,#archive .s5,#archive .s8,#archive .ax-sub{display:none}#archive .scrap{position:relative;display:inline-block;margin:10px;left:auto!important;right:auto!important;top:auto!important}}
 </style>
 </head>
 <body>
@@ -217,21 +279,82 @@ video{display:none}
 </section>
 
 <!-- ============ SCAFFOLD: remaining sections ============ -->
-<section id="lab" class="scaffold"><div class="num">04</div><h2>The Lab</h2><div class="desc">Generative · AI · interactive. Seven enterable pieces.</div><div class="tag">IN PROGRESS</div></section>
+<section id="lab">
+  <div class="lab-grid"></div>
+  <div class="lab-in">
+    <div class="lab-status">LAB · SYSTEM ONLINE — 07 PROCESSES</div>
+    <div class="lab-eyebrow">GENERATIVE · AI · INTERACTIVE</div>
+    <h2>The Lab</h2>
+    <p class="lab-intro">Seven pieces, each built to be run — not just looked at.</p>
+    <div class="rack">
+      <div class="row"><span class="n">01</span><span class="lbl">Cathedral of Small Hours<small>a cathedral of binary — walk in as far as you can, it stays code, forever</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>INTERACTIVE · GENERATIVE</span></div>
+      <div class="row"><span class="n">02</span><span class="lbl">Garden of Returning<small>a real, overgrown ruin you move through — nature taking the city back</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>GENERATIVE ART</span></div>
+      <div class="row"><span class="n">03</span><span class="lbl">Feature World: Chaos<small>order is the boring middle of a system that wants to fall apart</small></span><span class="tag">CREATIVE CODING</span></div>
+      <div class="row"><span class="n">04</span><span class="lbl">Heart Decoder<small>feed it a feeling, watch it try — and fail — to read you back</small></span><span class="tag">INTERACTIVE · NARRATIVE</span></div>
+      <div class="row"><span class="n">05</span><span class="lbl">Turbo MG21<small>a machine that only exists for the half-second it's already moving</small></span><span class="tag">AI MOTION STUDY</span></div>
+      <div class="row"><span class="n">06</span><span class="lbl">PabePabe — The Trilogy<small>three states of one creature, each refusing to settle</small></span><span class="tag">AI CREATIVE DIRECTION</span></div>
+      <div class="row"><span class="n">07</span><span class="lbl">Ash-01<small>a character built to be photographed, not explained</small></span><span class="tag">CHARACTER DESIGN · AI</span></div>
+    </div>
+  </div>
+</section>
 <section id="client" class="scaffold"><div class="num">05</div><h2>Client Work</h2><div class="desc">Wild West stop-motion.</div><div class="tag">IN PROGRESS</div></section>
 <section id="editorial" class="scaffold"><div class="num">06</div><h2>Editorial</h2><div class="desc">Photo-first · three.js record viewer.</div><div class="tag">IN PROGRESS</div></section>
-<section id="archive" class="scaffold"><div class="num">07</div><h2>Archive</h2><div class="desc">Anti-AI — built your way. (Not a typewriter.)</div><div class="tag">AWAITING YOUR DIRECTION</div></section>
+<section id="archive">
+  <div class="ax-grid"></div>
+  <svg class="ax-grain" xmlns="http://www.w3.org/2000/svg"><filter id="axg"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .18 0 0 0 0 .14 0 0 0 0 .09 0 0 0 .09 0"/></filter><rect width="100%" height="100%" filter="url(#axg)"/></svg>
+  <div class="ax-stain" style="left:-9vw;top:48vh"></div>
+  <div class="ax-stain" style="right:-7vw;top:-8vh"></div>
+
+  <div class="ax-title"><b class="ghost">ARCHIVE</b><b>ARCHIVE</b><em>SET BY HAND · N&deg; 07</em></div>
+  <div class="ax-sub">drafts / dead ends / the work that earned its place. nothing here pretends to be effortless.</div>
+
+  <div class="scrap note torn s1"><div class="pin"></div>
+    <div class="stamp" style="display:inline-block;transform:rotate(-3deg)">OCT 2024</div>
+    <p class="mono" style="font-size:.66rem;line-height:1.8;margin-top:9px">FRAGMENT // <span class="redact">████████ ████</span><br>kept for the texture, not the outcome.</p>
+    <span class="hand" style="font-size:1.3rem;display:block;margin-top:4px">keep this one ↗</span>
+  </div>
+
+  <div class="scrap blue s3"><div class="bh">FIG. 02 — SYSTEM</div>nodes / edges / the structure under the surface.<br>—— ╱╲╱╲ ——<br><span style="color:#9fb0e0">[ NEEDS JEFFREY: real entry ]</span></div>
+
+  <div class="scrap note s2"><div class="tape" style="top:-12px;left:34px;transform:rotate(-8deg)"></div>
+    <span class="clash" style="font-size:1.5rem">DEAD&nbsp;END</span>
+    <p class="mono" style="font-size:.64rem;line-height:1.8;margin-top:6px">v3 — abandoned. the good idea was hiding three drafts later.</p>
+  </div>
+
+  <div class="scrap hand s4" style="font-size:1.7rem;max-width:250px">&ldquo;the machine makes it clean. i&rsquo;d rather it be <u>true</u>.&rdquo;</div>
+
+  <div class="scrap stamp s5" style="font-size:.95rem">DO&nbsp;NOT&nbsp;GENERATE</div>
+
+  <div class="scrap note torn s6"><div class="stamp" style="display:inline-block;transform:rotate(2deg)">2023 — &#9608;&#9608;</div>
+    <p class="mono" style="font-size:.66rem;line-height:1.8;margin-top:9px">[ NEEDS JEFFREY: older / experimental / personal pieces, dated, one line each ]</p>
+  </div>
+
+  <div class="scrap clash s7" style="font-size:.92rem;letter-spacing:-.02em;line-height:1.05">RAW<br>UNEVEN<br>HUMAN</div>
+
+  <div class="scrap mono s8" style="font-size:.62rem;color:#2a2418;border:1px dashed #6a5a3a;padding:10px 12px;max-width:210px;background:rgba(239,231,210,.5)">redaction is a kind of editing. so is keeping the mess.</div>
+
+  <div class="arrow" style="left:36vw;top:46vh;transform:rotate(18deg)">&#10551;</div>
+  <div class="arrow" style="right:27vw;top:50vh;transform:rotate(-28deg)">&#10550;</div>
+
+  <div class="ax-foot">— ARCHIVE · ANTI&#8209;AI · KEPT BY HAND · INDEX PENDING —</div>
+</section>
 <section id="about">
-  <div class="about-wrap">
+  <svg class="ab-grain" xmlns="http://www.w3.org/2000/svg"><filter id="abg"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .35 0 0 0 .06 0"/></filter><rect width="100%" height="100%" filter="url(#abg)"/></svg>
+  <div class="ab-htone"></div>
+  <div class="ab-wrap">
     <figure class="polaroid">
-      <div class="photo">POLAROID PENDING<br>your photo drops in here</div>
+      <div class="ab-tape"></div>
+      <div class="photo">YOUR PHOTO<br>HERE</div>
       <figcaption class="cap">still building —</figcaption>
     </figure>
-    <div class="about-text">
-      <div class="about-eyebrow">ABOUT · ONE LAST PICTURE</div>
-      <h2 class="about-h">Jeffrey N. Tse</h2>
-      <p class="about-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.
+    <div class="ab-note">
+      <div class="ab-eyebrow">ABOUT · ONE LAST PAGE</div>
+      <h2 class="ab-h">Jeffrey N. Tse</h2>
+      <p class="ab-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.
       <span class="pend">PENDING — your bio in your words · the polaroid photo + caption</span></p>
+      <a class="ab-loop" href="#gate">↩ back to where we started</a>
+      <span class="ab-doodle" style="right:-4%;top:-10%;font-size:1.7rem;transform:rotate(12deg)">✦</span>
+      <span class="ab-doodle" style="left:-7%;bottom:-6%;font-size:1.3rem;transform:rotate(-8deg)">✧</span>
     </div>
   </div>
 </section>
@@ -245,6 +368,7 @@ video{display:none}
     <div class="pm-tag" id="pm-tag"></div>
     <h3 class="pm-name" id="pm-name"></h3>
     <p class="pm-lede" id="pm-lede"></p>
+    <div class="pm-media" id="pm-media"></div>
     <p class="pm-body" id="pm-body"></p>
     <div class="pm-role" id="pm-role"></div>
     <div class="pm-needs" id="pm-needs"></div>
@@ -409,7 +533,8 @@ void main(){
       lede:"A visual novel about two people, two crafts, and what a room remembers.",
       body:"ECHO is a branching, hand-authored story built in Ren’Py, carried by its rooms. Nia works in ceramics; Neo works in photography, and the world is staged in real lit spaces — a darkroom holding under a breathing red safelight, an apartment kept warm and close. The interface is part of the fiction. I directed the look, the rooms, and the narrative system end to end.",
       role:"Systems Architect · Art Director · Editorial Strategist",
-      needs:"new in-game app name · which scene stills to surface · demo/play link"},
+      needs:"new in-game app name · which scene stills to surface · demo/play link",
+      media:[{type:"video",src:"assets/echo/darkroom.mp4",poster:"assets/echo/darkroom_poster.jpg",cap:"the darkroom — Neo"},{type:"img",src:"assets/echo/blake_apartment_day.png",cap:"the apartment"}]},
     rollcall:{name:"ROLL CALL",tag:"BRAND · IDENTITY",
       lede:"An identity built around a chrome wordmark — confident, a little deadpan.",
       body:"ROLL CALL is an identity project anchored by a polished chrome wordmark built to stand on its own. The supporting language stays dry and unsentimental, the mark machined and bright against the hand-kept page. I directed the wordmark, its finish, and how it sits within the wider system.",
@@ -434,8 +559,15 @@ void main(){
   const m=document.getElementById('pmodal');
   const set=(id,v)=>{document.getElementById(id).textContent=v;};
   let lastFocus=null;
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   function open(k){const d=P[k];if(!d)return;
     set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-body',d.body);set('pm-role',d.role);set('pm-needs',d.needs);
+    const mm=document.getElementById('pm-media');mm.innerHTML='';
+    (d.media||[]).forEach(it=>{const fig=document.createElement('figure');
+      if(it.type==='video'){const v=document.createElement('video');v.src=it.src;if(it.poster)v.poster=it.poster;v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('preload','metadata');fig.appendChild(v);if(!reduce)v.play().catch(()=>{});}
+      else{const im=document.createElement('img');im.src=it.src;im.loading='lazy';im.alt=it.cap||'';fig.appendChild(im);}
+      if(it.cap){const c=document.createElement('figcaption');c.textContent=it.cap;fig.appendChild(c);}
+      mm.appendChild(fig);});
     lastFocus=document.activeElement;m.hidden=false;requestAnimationFrame(()=>m.classList.add('open'));
     m.querySelector('.pm-x').focus();}
   function close(){m.classList.remove('open');setTimeout(()=>{m.hidden=true;if(lastFocus)lastFocus.focus();},320);}
