@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jeffrey N. Tse — Systems Architect · Art Director · Editorial Strategist</title>
+<meta name="description" content="Jeffrey N. Tse — Systems Architect, Art Director, Editorial Strategist. Hong Kong.">
+<meta property="og:title" content="Jeffrey N. Tse">
+<meta property="og:description" content="Systems Architect · Art Director · Editorial Strategist. Hong Kong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,600&family=Courier+Prime:wght@400;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============ GLOBAL ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#03040a;color:#ECEAE3;font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+section{position:relative}
+:root{--paper:#E0D8C6;--paper2:#D7CEBA;--ink:#16120b;--blu:#132FAE;--mag:#EC0A6A;--mut:#6f6552;--helv:"Helvetica Neue",Arial,sans-serif}
+video{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+/* ============ 1 · GATE (koi) ============ */
+#gate{height:100vh;background:#03040a;cursor:none;overflow:hidden}
+#gate #c{position:absolute;inset:0;width:100%;height:100%;display:block}
+#gate .ui{position:absolute;color:#ECEAE3;font-family:'Cormorant Garamond',serif;z-index:5;pointer-events:none;text-shadow:0 2px 40px rgba(0,0,0,.96)}
+#gate #name{top:2.6vh;left:3.2vw;font-size:8.4vw;line-height:.9;font-weight:400;letter-spacing:.03em}
+#gate #topr{top:3.4vh;right:3.2vw;text-align:right;font-size:.82vw;letter-spacing:.34em;color:#9A9DA8;font-family:'Courier Prime',monospace}
+#gate #tl{bottom:3.2vh;left:3.2vw;font-size:1.05vw;letter-spacing:.36em;line-height:2;color:#d4d7df;font-family:'Courier Prime',monospace;text-transform:uppercase}
+#gate #seq{bottom:3vh;right:3.2vw;font-size:.8vw;letter-spacing:.3em;color:#9296a4;font-family:'Courier Prime',monospace}
+#gate #date{top:50%;left:1.5vw;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:'Courier Prime',monospace;font-size:.72vw;letter-spacing:.34em;color:#9296a4}
+#gate #break{position:absolute;left:50%;bottom:3.4vh;transform:translateX(-50%);z-index:6;font-family:'Courier Prime',monospace;letter-spacing:.42em;font-size:.82vw;color:#ECEAE3;padding:.95em 2.3em;border:1px solid rgba(236,234,227,.45);background:rgba(5,7,13,.4);backdrop-filter:blur(3px);cursor:pointer;transition:.4s;text-shadow:0 1px 10px #000}
+#gate #break:hover{background:rgba(236,234,227,.12);border-color:rgba(236,234,227,.85);letter-spacing:.5em}
+#gate #hint{position:absolute;left:50%;bottom:10vh;transform:translateX(-50%);z-index:6;font-family:'Courier Prime',monospace;letter-spacing:.34em;font-size:.66vw;color:#5a5e6c;transition:opacity 1s;opacity:.85;pointer-events:none}
+#gate .sc{position:absolute;z-index:1;pointer-events:none}
+#gate #scTL{top:-14vh;left:-12vw;width:62vw;height:56vh;background:radial-gradient(ellipse at 26% 36%,rgba(2,3,7,.96),rgba(2,3,7,.6) 42%,transparent 70%)}
+#gate #scBL{bottom:-12vh;left:-10vw;width:46vw;height:38vh;background:radial-gradient(ellipse at 30% 70%,rgba(2,3,7,.92),rgba(2,3,7,.4) 48%,transparent 74%)}
+#gate #vig{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 54%,transparent 38%,rgba(2,3,7,.5) 84%,rgba(2,3,7,.94) 100%);animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.82}50%{opacity:1}}
+#gate #fade{position:absolute;inset:0;z-index:20;background:#03040a;opacity:0;pointer-events:none;transition:opacity 1.1s ease}
+
+/* ============ 2 · HERO (masthead) ============ */
+#hero .stage{position:relative;min-height:100vh;overflow:hidden;color:var(--ink);font-family:var(--helv);background:var(--paper)}
+#hero .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+#hero .htone{position:absolute;inset:0;z-index:1;opacity:.06;mix-blend-mode:multiply;pointer-events:none;background-image:radial-gradient(circle,#000 26%,transparent 27%);background-size:6px 6px}
+#hero .wrap{position:relative;z-index:2}
+#hero .crop{position:absolute;width:22px;height:22px;z-index:5;opacity:.6}
+#hero .crop::before,#hero .crop::after{content:"";position:absolute;background:var(--ink)}
+#hero .crop::before{width:100%;height:1.3px;top:0}#hero .crop::after{height:100%;width:1.3px;left:0}
+#hero .crop.tl{left:14px;top:12px}#hero .crop.tr{right:14px;top:12px;transform:scaleX(-1)}
+#hero .top{display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,3.2vw,46px) 8px;font-size:clamp(.6rem,1vw,.72rem);letter-spacing:.2em;font-weight:700}
+#hero .rule{height:2px;background:var(--ink);margin:0 clamp(16px,3.2vw,46px)}
+#hero .plate{display:block;width:100%;height:auto}
+#hero .state{text-align:center;font-weight:800;color:var(--blu);font-size:clamp(15px,2.7vw,38px);letter-spacing:.01em;line-height:1;padding:18px 16px 12px;text-transform:uppercase}
+#hero .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,30px);padding:4px clamp(16px,3.2vw,46px) 0;position:relative}
+#hero .col-3{grid-column:span 3}
+#hero .mod{margin-bottom:18px}
+#hero .mod h3{display:flex;align-items:baseline;gap:.45em;border-bottom:2px solid var(--ink);padding-bottom:5px;margin-bottom:9px}
+#hero .mod h3 .n{font-weight:800;font-size:clamp(20px,2.4vw,32px);color:var(--blu);line-height:.8}
+#hero .mod h3 .t{font-weight:700;font-size:clamp(12px,1.3vw,16px)}
+#hero .mod ul{list-style:none}
+#hero .mod li{font-size:clamp(10.5px,1.02vw,12.5px);line-height:1.45;color:#241c12;padding:2.5px 0;border-bottom:1px dotted rgba(70,58,40,.4)}
+#hero .cap{font-size:9px;letter-spacing:.2em;color:var(--mut);margin-top:7px}
+#hero .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:2px solid var(--ink);margin:16px clamp(16px,3.2vw,46px) 0;padding:10px 0 14px;font-size:.6rem;letter-spacing:.2em;font-weight:700}
+#hero .foot .mid{display:flex;gap:5px}#hero .foot .mid i{width:9px;height:9px;border-radius:50%}
+#hero .cue{text-align:center;padding:2px 0 24px;font-size:.64rem;letter-spacing:.3em}
+#hero .cue b{display:inline-block;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+#hero .topr{display:flex;align-items:center;gap:9px}
+#hero .burst{height:30px;width:auto;display:block}
+#hero .sketch{position:absolute;z-index:5;pointer-events:none}
+#hero .sketch img{display:block;width:100%;height:auto}
+#hero .sketch.noru{left:8%;top:50%;width:23%;transform:rotate(-4.5deg)}
+#hero .sketch.eye{left:55%;top:66%;width:14.5%}
+@media (max-width:880px){#hero .col-3{grid-column:span 6}#hero .sketch{display:none}}
+@media (max-width:560px){#hero .col-3{grid-column:1/-1}}
+
+/* ============ 3 · WORKS (scrapbook) ============ */
+#works{min-height:100vh;background:#241c12;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6vh 4vw;gap:2.4vh}
+#works .eyebrow{font-family:'Courier Prime',monospace;letter-spacing:.4em;font-size:.7rem;color:#b9ad93;text-transform:uppercase}
+#works .works-spread{max-width:min(1200px,92vw);width:100%;box-shadow:0 40px 120px rgba(0,0,0,.6);border-radius:4px;overflow:hidden;position:relative}
+#works .works-spread img{display:block;width:100%;height:auto}
+#works .works-spread.pending{aspect-ratio:1376/768;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(45deg,#2e2418,#2e2418 22px,#332a1c 22px,#332a1c 44px);border:1px dashed #6f6552}
+#works .works-spread.pending::after{content:'SCRAPBOOK SPREAD · echo-page_works.png — attach the file to drop it in';font-family:'Courier Prime',monospace;font-size:.8rem;letter-spacing:.18em;color:#b9ad93;text-align:center;padding:0 8%}
+
+/* ============ SCAFFOLD SECTIONS ============ */
+.scaffold{min-height:78vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:8vh 6vw}
+.scaffold .num{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.42em;color:rgba(255,255,255,.35)}
+.scaffold h2{font-weight:300;font-size:clamp(2.4rem,6vw,5rem);letter-spacing:.02em;line-height:1}
+.scaffold .desc{font-family:'Courier Prime',monospace;font-size:.74rem;letter-spacing:.18em;color:rgba(255,255,255,.5);max-width:42ch;line-height:1.9}
+.scaffold .tag{margin-top:6px;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.34em;color:rgba(255,255,255,.32);border:1px solid rgba(255,255,255,.22);padding:.5em 1.4em;border-radius:40px}
+#lab{background:#070a14}
+#client{background:#160d08;color:#f0e2d4}
+#editorial{background:#0b0b0d}
+#archive{background:#11100c;color:#d8d2c4}
+#about{background:#0d1310}
+#loop{min-height:30vh;display:flex;align-items:center;justify-content:center;background:#03040a}
+#loop a{font-family:'Courier Prime',monospace;letter-spacing:.4em;font-size:.78rem;color:#9296a4;text-decoration:none;border:1px solid rgba(236,234,227,.3);padding:1em 2.4em;border-radius:40px;transition:.4s}
+#loop a:hover{color:#ECEAE3;border-color:rgba(236,234,227,.7);letter-spacing:.5em}
+
+/* ============ WORKS · project index + detail modal ============ */
+#works .works-index{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
+.proj-chip{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.18em;color:#e9e2d2;background:rgba(0,0,0,.28);border:1px solid rgba(233,226,210,.32);padding:.62em 1.25em;border-radius:40px;cursor:pointer;transition:.3s}
+.proj-chip:hover{border-color:#e9e2d2;letter-spacing:.26em;background:rgba(0,0,0,.5)}
+#pmodal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:5vh 5vw}
+#pmodal[hidden]{display:none}
+.pm-backdrop{position:absolute;inset:0;background:rgba(3,4,10,.86);backdrop-filter:blur(3px)}
+.pm-card{position:relative;max-width:640px;width:100%;max-height:86vh;overflow:auto;background:#15110b;color:#ECEAE3;border:1px solid rgba(236,234,227,.18);border-radius:6px;box-shadow:0 40px 120px rgba(0,0,0,.7);padding:clamp(28px,4vw,48px);transform:translateY(10px) scale(.99);opacity:0;transition:.32s ease}
+#pmodal.open .pm-card{transform:none;opacity:1}
+.pm-x{position:absolute;top:14px;right:16px;background:none;border:none;color:#9296a4;font-size:1rem;cursor:pointer;font-family:'Courier Prime',monospace}
+.pm-x:hover{color:#ECEAE3}
+.pm-tag{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.34em;color:#9296a4;margin-bottom:10px}
+.pm-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,5vw,3.2rem);line-height:1;margin-bottom:.32em}
+.pm-lede{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.05rem,2vw,1.35rem);color:#cdc7bb;margin-bottom:1em;line-height:1.42}
+.pm-body{font-size:.96rem;line-height:1.72;color:#d8d2c6;margin-bottom:1.3em}
+.pm-role{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.16em;color:#b9ad93;border-top:1px solid rgba(236,234,227,.14);padding-top:12px}
+.pm-needs{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#6f6552;margin-top:10px}
+.pm-needs:not(:empty):before{content:'PENDING — '}
+.pm-media{display:grid;gap:12px;margin:2px 0 18px}
+.pm-media figure{margin:0}
+.pm-media video,.pm-media img{display:block;width:100%;border-radius:4px;background:#0a0a0c}
+.pm-media figcaption{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.18em;color:#9296a4;margin-top:5px}
+@media(prefers-reduced-motion:reduce){.pm-card{transition:none}}
+
+/* ============ 7 · ARCHIVE (typewriter) ============ */
+#archive{background:#11100c;color:#d8d2c4;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10vh 6vw}
+.arch-paper{max-width:62ch;width:100%;font-family:'Courier Prime',monospace}
+.arch-eyebrow{font-size:.62rem;letter-spacing:.42em;color:#7d7563;margin-bottom:18px}
+.arch-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,5vw,3.4rem);color:#e8e2d4;letter-spacing:.02em;margin-bottom:22px;line-height:1}
+.arch-body{font-size:clamp(.82rem,1.3vw,.96rem);line-height:2;color:#cfc8b8;min-height:9em;white-space:pre-wrap;display:inline}
+.arch-caret{display:inline-block;width:.5em;height:1.05em;background:#cfc8b8;vertical-align:-2px;margin-left:1px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.arch-index{margin-top:34px;border-top:1px solid rgba(216,210,196,.18);padding-top:16px;font-size:.72rem;letter-spacing:.06em;color:#6a6253}
+@media(prefers-reduced-motion:reduce){.arch-caret{animation:none}}
+
+/* ============ 8 · ABOUT (scrapbook — loop bookend) ============ */
+#about{position:relative;min-height:100vh;overflow:hidden;background:#E0D8C6;color:#16120b;display:flex;align-items:center;justify-content:center;padding:8vh 6vw}
+#about .ab-grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+#about .ab-htone{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none;background-image:radial-gradient(circle,#000 26%,transparent 27%);background-size:6px 6px}
+#about .ab-wrap{position:relative;z-index:2;display:flex;gap:clamp(24px,5vw,64px);align-items:center;flex-wrap:wrap;max-width:980px;justify-content:center}
+#about .polaroid{position:relative;background:#fbf8ef;padding:13px 13px 50px;box-shadow:4px 8px 0 rgba(0,0,0,.10),0 26px 60px rgba(0,0,0,.32);transform:rotate(-5deg);width:min(330px,72vw);flex:0 0 auto}
+#about .polaroid .photo{aspect-ratio:1/1;background:#d7cdb4;display:flex;align-items:center;justify-content:center;color:#8a7f64;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.2em;text-align:center;padding:0 14%;line-height:2}
+#about .polaroid .cap{font-family:'Caveat',cursive;font-size:1.75rem;color:#222;text-align:center;margin-top:12px;transform:rotate(-1.5deg)}
+#about .ab-tape{position:absolute;width:120px;height:30px;background:rgba(225,210,140,.5);box-shadow:0 1px 3px rgba(0,0,0,.18);mix-blend-mode:multiply;left:50%;margin-left:-60px;top:-15px;transform:rotate(-3deg)}
+#about .ab-note{flex:1 1 320px;max-width:460px;position:relative}
+#about .ab-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.36em;color:#6f6552;margin-bottom:12px}
+#about .ab-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3rem);margin-bottom:.45em;line-height:1}
+#about .ab-bio{font-size:.98rem;line-height:1.72;color:#2a2418}
+#about .ab-bio .pend{display:block;margin-top:14px;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.08em;color:#8a7f68}
+#about .ab-loop{display:inline-block;margin-top:22px;font-family:'Caveat',cursive;font-size:1.6rem;color:#a01f1f;text-decoration:none;transform:rotate(-2deg)}
+#about .ab-loop:hover{color:#16120b}
+#about .ab-doodle{position:absolute;font-family:'Caveat',cursive;color:#16120b;opacity:.45;pointer-events:none}
+@media(max-width:760px){#about .polaroid{transform:none}}
+
+/* ============ 6 · EDITORIAL ============ */
+#editorial{background:#0b0b0d;color:#eae6df;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw;position:relative}
+#editorial .ed-in{max-width:1000px;margin:0 auto;width:100%}
+#editorial .ed-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.4em;color:#8a8578;margin-bottom:8px}
+#editorial h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;margin-bottom:8px}
+#editorial .ed-role{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.08em;color:#b3ab9a;line-height:1.8;margin-bottom:30px;max-width:60ch}
+#editorial .ed-role b{color:#eae6df}
+#editorial .tracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+#editorial .track{position:relative}
+#editorial .track .cover{aspect-ratio:1/1;background:#16161a;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#56544e;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.16em;text-align:center;line-height:2;transition:.4s}
+#editorial .track:hover .cover{border-color:rgba(255,255,255,.26)}
+#editorial .track .no{position:absolute;top:9px;left:9px;font-family:'Courier Prime',monospace;font-size:.56rem;color:#b3ab9a;z-index:2}
+#editorial .track .cl{font-family:'Cormorant Garamond',serif;font-size:1.25rem;margin-top:10px}
+#editorial .track .ssn{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.18em;color:#8a8578;margin-top:2px}
+#editorial .ed-note{margin-top:26px;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.06em;color:#6a6558}
+
+/* ============ 4 · THE LAB (console) ============ */
+#lab{background:#070a14;color:#cfd6e6;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw;position:relative;overflow:hidden}
+#lab .lab-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);background-size:30px 30px}
+#lab .lab-in{position:relative;z-index:2;max-width:920px;margin:0 auto;width:100%}
+#lab .lab-status{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.34em;color:#5fd08a;margin-bottom:12px}
+#lab .lab-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.4em;color:#6f7ba0;margin-bottom:8px}
+#lab h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;color:#eaf0ff;margin-bottom:6px}
+#lab .lab-intro{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.06em;color:#8a93b5;max-width:54ch;line-height:1.9;margin-bottom:26px}
+#lab .rack{border-top:1px solid rgba(140,160,210,.18)}
+#lab .row{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:baseline;padding:13px 6px;border-bottom:1px solid rgba(140,160,210,.14);transition:.25s}
+#lab .row:hover{background:rgba(120,160,255,.06);padding-left:14px}
+#lab .row .n{font-family:'Courier Prime',monospace;font-size:.74rem;color:#5f6a8c}
+#lab .row .lbl{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(1rem,2vw,1.3rem);color:#eaf0ff;letter-spacing:.01em}
+#lab .row .lbl small{display:block;font-weight:400;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:#9aa3c4;letter-spacing:0;margin-top:2px}
+#lab .row .tag{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.16em;color:#6f7ba0;text-align:right;white-space:nowrap;line-height:1.7}
+#lab .row .tag .dev{color:#e0a23a}
+@media(max-width:680px){#lab .row{grid-template-columns:34px 1fr}#lab .row .tag{grid-column:2;text-align:left;margin-top:4px}}
+
+/* ============ 7 · ARCHIVE (anti-design / anti-AI) ============ */
+#archive{position:relative;min-height:100vh;overflow:hidden;background:#cfc3a8;color:#16120b;padding:0}
+#archive .ax-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(20,30,80,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(20,30,80,.10) 1px,transparent 1px);background-size:26px 26px;mix-blend-mode:multiply;opacity:.7}
+#archive .ax-grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+#archive .ax-stain{position:absolute;width:46vmin;height:46vmin;border-radius:50%;background:radial-gradient(circle,rgba(120,70,30,.22),transparent 62%);filter:blur(6px);pointer-events:none}
+#archive .scrap{position:absolute;transform-origin:center}
+#archive .note{background:#efe7d2;padding:14px 16px;box-shadow:3px 6px 0 rgba(0,0,0,.18),0 14px 30px rgba(0,0,0,.25);max-width:300px;border:1px solid rgba(0,0,0,.08)}
+#archive .note.torn{clip-path:polygon(0 4%,7% 0,22% 5%,40% 1%,62% 6%,82% 1%,100% 5%,98% 96%,80% 100%,55% 96%,33% 100%,12% 96%,0 99%)}
+#archive .tape{position:absolute;width:96px;height:26px;background:rgba(225,210,140,.55);box-shadow:0 1px 3px rgba(0,0,0,.2);mix-blend-mode:multiply}
+#archive .stamp{font-family:'Courier Prime',monospace;font-weight:700;letter-spacing:.04em;color:#a01f1f;border:2px solid #a01f1f;padding:3px 9px;font-size:.74rem;text-transform:uppercase;opacity:.82;background:rgba(255,255,255,.15)}
+#archive .redact{background:#16120b;color:#16120b;padding:1px 6px;user-select:none}
+#archive .mono{font-family:'Courier Prime',monospace}
+#archive .hand{font-family:'Caveat',cursive;color:#16120b}
+#archive .clash{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;color:#132FAE}
+#archive .ax-title{position:absolute;left:3vw;top:6vh;z-index:8;line-height:.82}
+#archive .ax-title b{display:block;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:clamp(3.6rem,11vw,8.5rem);letter-spacing:-.03em;color:#16120b;text-transform:uppercase}
+#archive .ax-title b.ghost{position:absolute;top:5px;left:6px;color:#EC0A6A;mix-blend-mode:multiply;z-index:-1;opacity:.85}
+#archive .ax-title em{display:block;font-family:'Courier Prime',monospace;font-style:normal;font-size:.7rem;letter-spacing:.5em;color:#3a3322;margin-top:8px;transform:translateX(4px)}
+#archive .ax-sub{position:absolute;right:4vw;top:9vh;max-width:230px;text-align:right;font-family:'Courier Prime',monospace;font-size:.64rem;line-height:1.9;letter-spacing:.04em;color:#2a2418;z-index:8}
+#archive .blue{background:#0c2a6e;color:#cdd7f0;font-family:'Courier Prime',monospace;font-size:.6rem;line-height:1.7;padding:14px;max-width:230px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
+#archive .blue .bh{color:#fff;letter-spacing:.2em;border-bottom:1px solid rgba(205,215,240,.4);padding-bottom:5px;margin-bottom:7px}
+#archive .pin{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff6b6b,#9a1f1f);box-shadow:0 2px 3px rgba(0,0,0,.4);position:absolute;top:-5px;left:50%;margin-left:-6px}
+#archive .arrow{position:absolute;font-family:'Caveat',cursive;font-size:1.4rem;color:#a01f1f}
+#archive .ax-foot{position:absolute;left:0;right:0;bottom:2vh;text-align:center;font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.3em;color:#5a5240;z-index:9}
+#archive .s1{left:4vw;top:34vh;transform:rotate(-5deg);z-index:5}
+#archive .s2{left:22vw;top:54vh;transform:rotate(3deg);z-index:6;max-width:260px}
+#archive .s3{right:6vw;top:30vh;transform:rotate(4deg);z-index:7}
+#archive .s4{left:42vw;top:24vh;transform:rotate(-2.4deg);z-index:6}
+#archive .s5{right:20vw;top:58vh;transform:rotate(-6deg);z-index:5}
+#archive .s6{left:13vw;top:78vh;transform:rotate(2deg);z-index:7}
+#archive .s7{right:9vw;top:74vh;transform:rotate(-3deg);z-index:6}
+#archive .s8{left:55vw;top:62vh;transform:rotate(6deg);z-index:8}
+@media(max-width:760px){#archive .s3,#archive .s5,#archive .s8,#archive .ax-sub{display:none}#archive .scrap{position:relative;display:inline-block;margin:10px;left:auto!important;right:auto!important;top:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ 1 · GATE ============ -->
+<section id="gate">
+  <canvas id="c"></canvas>
+  <div class="sc" id="scTL"></div><div class="sc" id="scBL"></div><div id="vig"></div>
+  <div class="ui" id="name">JEFFREY<br>N. TSE</div>
+  <div class="ui" id="topr">A PORTFOLIO OF<br>SYSTEMS &amp; OBJECTS</div>
+  <div class="ui" id="tl">Systems Architect<br>Art Director<br>Editorial Strategist</div>
+  <div class="ui" id="date">— · HONG KONG</div>
+  <div class="ui" id="seq">N&deg; 001</div>
+  <button id="break" aria-label="Enter the portfolio">TAP THE GLASS</button>
+  <div id="hint">GRAIN 1 · 2 · 3 &nbsp;&nbsp; PULL 4 · 5 · 6</div>
+  <div id="fade"></div>
+  <video id="v" muted loop playsinline crossorigin="anonymous"></video>
+</section>
+
+<!-- ============ 2 · HERO ============ -->
+<section id="hero">
+  <div class="stage">
+    <svg class="grain" xmlns="http://www.w3.org/2000/svg"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .35 0 0 0 .06 0"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg>
+    <div class="htone"></div>
+    <div class="crop tl"></div><div class="crop tr"></div>
+    <div class="wrap">
+      <div class="top"><div>JEFFREY&nbsp;N.&nbsp;TSE</div><div class="topr"><span id="clk">--:--:--&nbsp;·&nbsp;HONG&nbsp;KONG</span><img class="burst" alt="" src="assets/hero_burst.png"></div></div>
+      <div class="rule"></div>
+      <img class="plate" alt="Welcome" src="assets/hero_welcome.png">
+      <div class="state">Systems Architect · Art Director · Editorial Strategist</div>
+      <div class="grid">
+        <figure class="sketch noru"><img alt="Noru" src="assets/hero_noru.png"></figure>
+        <figure class="sketch eye"><img alt="eye" src="assets/hero_eye.png"></figure>
+        <div class="col-3"><div class="mod"><h3><span class="n">01</span><span class="t">SELECTED WORK</span></h3>
+          <ul><li>ECHO</li><li>ROLL CALL</li><li>SPECTOR</li><li>Noru</li><li>PawsAid</li></ul>
+          <div class="cap">BRAND · DESIGN · NARRATIVE</div></div></div>
+        <div class="col-3"><div class="mod"><h3><span class="n">02</span><span class="t">THE LAB</span></h3>
+          <ul><li>Cathedral of Small Hours</li><li>Garden of Returning</li><li>Heart Decoder</li><li>Feature World: Chaos</li><li>Turbo MG21</li><li>Ash-01</li></ul>
+          <div class="cap">GENERATIVE · AI · INTERACTIVE</div></div></div>
+        <div class="col-3"><div class="mod"><h3><span class="n">03</span><span class="t">TOOLS &amp; SOFTWARE</span></h3>
+          <ul><li>React · TypeScript · JavaScript</li><li>Python · Ren'Py · Node · Bash</li><li>ComfyUI · LoRA · Midjourney</li><li>Runway · Higgsfield · ElevenLabs</li><li>After Effects · Premiere · Photoshop</li><li>Illustrator · Figma · CapCut</li><li>Vercel · Cloudflare · PostgreSQL</li></ul></div></div>
+        <div class="col-3">
+          <div class="mod"><h3><span class="n">04</span><span class="t">DISCIPLINES</span></h3>
+          <ul><li>Generative / creative coding</li><li>AI art direction &amp; motion</li><li>Character design</li><li>Editorial &amp; fashion</li><li>Brand &amp; identity systems</li><li>Visual-novel / narrative</li><li>Curatorial</li></ul></div>
+          <div class="mod"><h3><span class="n">05</span><span class="t">EDITORIAL</span></h3>
+          <ul><li>Markgong FW25</li><li>Doublet</li><li>A BATHING APE®</li><li>Carhartt WIP</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <div>JEFFREY&nbsp;N.&nbsp;TSE&nbsp;·&nbsp;HONG&nbsp;KONG&nbsp;·&nbsp;2026</div>
+        <div class="mid"><i style="background:var(--blu)"></i><i style="background:var(--mag)"></i><i style="background:var(--ink)"></i></div>
+        <div>GITHUB.COM/HYDROGENBONDSS</div>
+      </div>
+      <div class="cue">↓&nbsp;ENTER&nbsp;THE&nbsp;WORK&nbsp;<b>↓</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · WORKS ============ -->
+<section id="works">
+  <div class="eyebrow">Selected Work · Scrapbook</div>
+  <figure class="works-spread">
+    <img src="assets/echo-page_works.png" alt="Selected work — ECHO · ROLL CALL · SPECTOR · Noru · PawsAid"
+         onerror="this.style.display='none';this.closest('.works-spread').classList.add('pending')">
+  </figure>
+  <nav class="works-index" aria-label="Selected projects">
+    <button class="proj-chip" data-proj="echo">ECHO</button>
+    <button class="proj-chip" data-proj="rollcall">ROLL CALL</button>
+    <button class="proj-chip" data-proj="spector">SPECTOR</button>
+    <button class="proj-chip" data-proj="noru">Noru</button>
+    <button class="proj-chip" data-proj="pawsaid">PawsAid</button>
+  </nav>
+</section>
+
+<!-- ============ SCAFFOLD: remaining sections ============ -->
+<section id="lab">
+  <div class="lab-grid"></div>
+  <div class="lab-in">
+    <div class="lab-status">LAB · SYSTEM ONLINE — 07 PROCESSES</div>
+    <div class="lab-eyebrow">GENERATIVE · AI · INTERACTIVE</div>
+    <h2>The Lab</h2>
+    <p class="lab-intro">Seven pieces, each built to be run — not just looked at.</p>
+    <div class="rack">
+      <div class="row"><span class="n">01</span><span class="lbl">Cathedral of Small Hours<small>a cathedral of binary — walk in as far as you can, it stays code, forever</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>INTERACTIVE · GENERATIVE</span></div>
+      <div class="row"><span class="n">02</span><span class="lbl">Garden of Returning<small>a real, overgrown ruin you move through — nature taking the city back</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>GENERATIVE ART</span></div>
+      <div class="row"><span class="n">03</span><span class="lbl">Feature World: Chaos<small>an interactive physics sandbox — a touch-based particle chaos engine</small></span><span class="tag">CREATIVE CODING</span></div>
+      <div class="row"><span class="n">04</span><span class="lbl">Heart Decoder<small>feed it a feeling, watch it try — and fail — to read you back</small></span><span class="tag">INTERACTIVE · NARRATIVE</span></div>
+      <div class="row"><span class="n">05</span><span class="lbl">Turbo MG21<small>the Gentle Monster Turbo MG21 goggle-frame — generative video for luxury product film</small></span><span class="tag">AI MOTION STUDY</span></div>
+      <div class="row"><span class="n">06</span><span class="lbl">PabePabe — The Trilogy<small>commissioned trilogy — material transformation across three luxury bags: Ocarina, Flute Soft, Horn</small></span><span class="tag">AI CREATIVE DIRECTION</span></div>
+      <div class="row"><span class="n">07</span><span class="lbl">Ash-01<small>neural portrait — original character with full motion sequence + voice synthesis</small></span><span class="tag">CHARACTER DESIGN · AI</span></div>
+    </div>
+  </div>
+</section>
+<section id="client" class="scaffold"><div class="num">05</div><h2>Client Work</h2><div class="desc">Wild West stop-motion.</div><div class="tag">IN PROGRESS</div></section>
+<section id="editorial">
+  <div class="ed-in">
+    <div class="ed-eyebrow">EDITORIAL · NOW SPINNING</div>
+    <h2>On the Record</h2>
+    <p class="ed-role"><b>Chief Editor · Interviewer</b> at I.T Apparels — fashion editorial across New York &amp; Hong Kong, 2023–2025.</p>
+    <div class="tracks">
+      <div class="track"><span class="no">A1</span><div class="cover">MARKGONG FW25<br>— image pending —</div><div class="cl">Markgong</div><div class="ssn">FW25</div></div>
+      <div class="track"><span class="no">A2</span><div class="cover">DOUBLET<br>— image pending —</div><div class="cl">Doublet</div><div class="ssn">EDITORIAL</div></div>
+      <div class="track"><span class="no">B1</span><div class="cover">A BATHING APE&reg;<br>— image pending —</div><div class="cl">A BATHING APE&reg;</div><div class="ssn">EDITORIAL</div></div>
+      <div class="track"><span class="no">B2</span><div class="cover">CARHARTT WIP<br>— image pending —</div><div class="cl">Carhartt WIP</div><div class="ssn">EDITORIAL</div></div>
+    </div>
+    <div class="ed-note">[ NEEDS JEFFREY: editorial photography per title — drops into the covers above ]</div>
+  </div>
+</section>
+<section id="archive">
+  <div class="ax-grid"></div>
+  <svg class="ax-grain" xmlns="http://www.w3.org/2000/svg"><filter id="axg"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .18 0 0 0 0 .14 0 0 0 0 .09 0 0 0 .09 0"/></filter><rect width="100%" height="100%" filter="url(#axg)"/></svg>
+  <div class="ax-stain" style="left:-9vw;top:48vh"></div>
+  <div class="ax-stain" style="right:-7vw;top:-8vh"></div>
+
+  <div class="ax-title"><b class="ghost">ARCHIVE</b><b>ARCHIVE</b><em>SET BY HAND · N&deg; 07</em></div>
+  <div class="ax-sub">drafts / dead ends / the work that earned its place. nothing here pretends to be effortless.</div>
+
+  <div class="scrap note torn s1"><div class="pin"></div>
+    <div class="stamp" style="display:inline-block;transform:rotate(-3deg)">OCT 2024</div>
+    <p class="mono" style="font-size:.66rem;line-height:1.8;margin-top:9px">FRAGMENT // <span class="redact">████████ ████</span><br>kept for the texture, not the outcome.</p>
+    <span class="hand" style="font-size:1.3rem;display:block;margin-top:4px">keep this one ↗</span>
+  </div>
+
+  <div class="scrap blue s3"><div class="bh">FIG. 02 — SYSTEM</div>nodes / edges / the structure under the surface.<br>—— ╱╲╱╲ ——<br><span style="color:#9fb0e0">[ NEEDS JEFFREY: real entry ]</span></div>
+
+  <div class="scrap note s2"><div class="tape" style="top:-12px;left:34px;transform:rotate(-8deg)"></div>
+    <span class="clash" style="font-size:1.5rem">DEAD&nbsp;END</span>
+    <p class="mono" style="font-size:.64rem;line-height:1.8;margin-top:6px">v3 — abandoned. the good idea was hiding three drafts later.</p>
+  </div>
+
+  <div class="scrap hand s4" style="font-size:1.7rem;max-width:250px">&ldquo;the machine makes it clean. i&rsquo;d rather it be <u>true</u>.&rdquo;</div>
+
+  <div class="scrap stamp s5" style="font-size:.95rem">DO&nbsp;NOT&nbsp;GENERATE</div>
+
+  <div class="scrap note torn s6"><div class="stamp" style="display:inline-block;transform:rotate(2deg)">2023 — &#9608;&#9608;</div>
+    <p class="mono" style="font-size:.66rem;line-height:1.8;margin-top:9px">[ NEEDS JEFFREY: older / experimental / personal pieces, dated, one line each ]</p>
+  </div>
+
+  <div class="scrap clash s7" style="font-size:.92rem;letter-spacing:-.02em;line-height:1.05">RAW<br>UNEVEN<br>HUMAN</div>
+
+  <div class="scrap mono s8" style="font-size:.62rem;color:#2a2418;border:1px dashed #6a5a3a;padding:10px 12px;max-width:210px;background:rgba(239,231,210,.5)">redaction is a kind of editing. so is keeping the mess.</div>
+
+  <div class="arrow" style="left:36vw;top:46vh;transform:rotate(18deg)">&#10551;</div>
+  <div class="arrow" style="right:27vw;top:50vh;transform:rotate(-28deg)">&#10550;</div>
+
+  <div class="ax-foot">— ARCHIVE · ANTI&#8209;AI · KEPT BY HAND · INDEX PENDING —</div>
+</section>
+<section id="about">
+  <svg class="ab-grain" xmlns="http://www.w3.org/2000/svg"><filter id="abg"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .35 0 0 0 .06 0"/></filter><rect width="100%" height="100%" filter="url(#abg)"/></svg>
+  <div class="ab-htone"></div>
+  <div class="ab-wrap">
+    <figure class="polaroid">
+      <div class="ab-tape"></div>
+      <div class="photo">YOUR PHOTO<br>HERE</div>
+      <figcaption class="cap">still building —</figcaption>
+    </figure>
+    <div class="ab-note">
+      <div class="ab-eyebrow">ABOUT · ONE LAST PAGE</div>
+      <h2 class="ab-h">Jeffrey N. Tse</h2>
+      <p class="ab-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.
+      <span class="pend">PENDING — your bio in your words · the polaroid photo + caption</span></p>
+      <a class="ab-loop" href="#gate">↩ back to where we started</a>
+      <span class="ab-doodle" style="right:-4%;top:-10%;font-size:1.7rem;transform:rotate(12deg)">✦</span>
+      <span class="ab-doodle" style="left:-7%;bottom:-6%;font-size:1.3rem;transform:rotate(-8deg)">✧</span>
+    </div>
+  </div>
+</section>
+<section id="loop"><a href="#gate">↑ RETURN TO THE GATE</a></section>
+
+<!-- ============ WORKS · project detail modal ============ -->
+<div id="pmodal" hidden role="dialog" aria-modal="true" aria-label="Project detail">
+  <div class="pm-backdrop" data-close></div>
+  <div class="pm-card" role="document">
+    <button class="pm-x" data-close aria-label="Close">✕</button>
+    <div class="pm-tag" id="pm-tag"></div>
+    <h3 class="pm-name" id="pm-name"></h3>
+    <p class="pm-lede" id="pm-lede"></p>
+    <div class="pm-media" id="pm-media"></div>
+    <p class="pm-body" id="pm-body"></p>
+    <div class="pm-role" id="pm-role"></div>
+    <div class="pm-needs" id="pm-needs"></div>
+  </div>
+</div>
+
+<!-- ============ GATE ENGINE ============ -->
+<script>
+(function(){
+  const V=document.getElementById('v');
+  V.src="assets/koi_tank_from_gatev13.mp4";
+  const cv=document.getElementById('c');
+  const gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
+  const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const fs=`
+precision highp float;
+uniform sampler2D uT; uniform vec2 uRes; uniform vec2 uVid;
+uniform vec2 uMouse; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uForce; uniform float uRadius;
+float ign(vec2 p){return fract(52.9829189*fract(0.06711056*p.x+0.00583715*p.y));}
+vec3 adjust(vec3 c){
+  c.r*=0.985; c.b*=1.02;
+  float l=dot(c,vec3(0.299,0.587,0.114));
+  c=l+(c-l)*1.98;
+  c=(c-0.5)*1.40+0.5;
+  return clamp(c,0.0,1.0);
+}
+vec2 cover(vec2 uv){
+  float ca=uRes.x/uRes.y, ia=uVid.x/uVid.y; vec2 s=vec2(1.0);
+  if(ca>ia){s.y=ia/ca;} else {s.x=ca/ia;}
+  vec2 o=(uv-0.5)*s+0.5;
+  o.y-=0.05;
+  return o;
+}
+vec3 sampleAt(vec2 px){
+  vec2 uv=cover(px/uRes); uv.y=1.0-uv.y;
+  return adjust(texture2D(uT,uv).rgb);
+}
+void main(){
+  vec2 frag=gl_FragCoord.xy;
+  vec2 cid=floor(frag/uCell);
+  vec2 cpx=(cid+0.5)*uCell;
+  // cursor interaction: gentle radial gather toward the (eased) cursor — no waves
+  vec2 toM=uMouse-cpx;
+  float md=length(toM);
+  float prox=smoothstep(uRadius,0.0,md)*uMon;
+  vec2 dir = md>0.001 ? toM/md : vec2(0.0);
+  vec2 disp = dir*prox*prox*uForce*uCell;   // prox^2 keeps the pull tight & calm
+  vec3 col=sampleAt(cpx+disp);
+  col += col*prox*0.30;                       // soft light bloom under the cursor
+  float L=dot(col,vec3(0.299,0.587,0.114));
+  float th=ign(cid);
+  float Ld=clamp(L+(th-0.5)*0.12,0.0,1.0);
+  float d=length((frag-cpx)/(uCell*0.5));
+  float gap=0.92;
+  float sz=gap*(0.48+0.52*Ld);
+  float tile=smoothstep(sz+0.12, sz-0.12, d);
+  vec3 bg=vec3(0.008,0.012,0.024);
+  vec3 flr=mix(bg, col, 0.08);
+  vec3 outc=mix(flr, col, tile);
+  outc += col*tile*pow(Ld,1.5)*0.85;
+  float cen=smoothstep(0.95,0.0,distance(frag/uRes,vec2(0.5)));
+  outc += outc*cen*0.05;
+  gl_FragColor=vec4(outc,1.0);
+}`;
+  function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+    if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o;}
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));
+  gl.linkProgram(pr);gl.useProgram(pr);
+  const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+  const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  const U={t:gl.getUniformLocation(pr,'uT'),res:gl.getUniformLocation(pr,'uRes'),
+    vid:gl.getUniformLocation(pr,'uVid'),mouse:gl.getUniformLocation(pr,'uMouse'),
+    t2:gl.getUniformLocation(pr,'uT2'),
+    mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),force:gl.getUniformLocation(pr,'uForce'),radius:gl.getUniformLocation(pr,'uRadius')};
+  let DPR=Math.min(window.devicePixelRatio||1,2);
+  let mouse=[-999,-999],smouse=[-999,-999],mon=0,t0=performance.now();
+  let cellCSS=7.5;
+  let forceI=2.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
+  function resize(){DPR=Math.min(window.devicePixelRatio||1,2);
+    const w=cv.clientWidth||innerWidth, h=cv.clientHeight||innerHeight;
+    cv.width=w*DPR;cv.height=h*DPR;gl.viewport(0,0,cv.width,cv.height);}
+  addEventListener('resize',resize);resize();
+  addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();
+    const nx=(e.clientX-r.left)*DPR,ny=(r.height-(e.clientY-r.top))*DPR;
+    if(smouse[0]<-900){smouse=[nx,ny];}mouse=[nx,ny];mon=1;});
+  addEventListener('pointerleave',()=>mon=0);
+  const hint=document.getElementById('hint');let hideHint;
+  function flashHint(){hint.style.opacity='.85';clearTimeout(hideHint);hideHint=setTimeout(()=>hint.style.opacity='0',2600);}
+  addEventListener('keydown',e=>{
+    if(e.key==='1')cellCSS=6;else if(e.key==='2')cellCSS=7.5;else if(e.key==='3')cellCSS=10;
+    else if(e.key==='4')forceI=0.0;else if(e.key==='5')forceI=2.0;else if(e.key==='6')forceI=4.0;
+    else return;
+    hint.textContent=(e.key==='1'?'FINE GRAIN':e.key==='2'?'MEDIUM GRAIN':e.key==='3'?'COARSE GRAIN':e.key==='4'?'PULL OFF':e.key==='5'?'PULL SUBTLE':'PULL STRONG');
+    flashHint();});
+  setTimeout(()=>hint.style.opacity='0',4000);
+  function loop(){
+    if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);}
+    if(smouse[0]>-900){smouse[0]+=(mouse[0]-smouse[0])*0.14;smouse[1]+=(mouse[1]-smouse[1])*0.14;} // ease/settle
+    gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
+    gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
+    gl.uniform2f(U.mouse,smouse[0],smouse[1]);
+    gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
+    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,170.0*DPR);
+    gl.drawArrays(gl.TRIANGLES,0,3);requestAnimationFrame(loop);}
+  V.play().catch(()=>{});loop();
+
+  // gate date · seq clock
+  function tick(){const d=new Date();
+    const mm=String(d.getMonth()+1).padStart(2,'0');
+    const hh=String(d.getHours()).padStart(2,'0'),mn=String(d.getMinutes()).padStart(2,'0'),ss=String(d.getSeconds()).padStart(2,'0');
+    document.getElementById('date').textContent=mm+' / '+d.getFullYear()+'  ·  HONG KONG';
+    document.getElementById('seq').textContent=hh+':'+mn+':'+ss;}
+  tick();setInterval(tick,1000);
+
+  // ambient water audio
+  let AC,started=false,nodes=[];
+  function startAudio(){if(started)return;started=true;
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    const bs=AC.sampleRate*2,buf=AC.createBuffer(1,bs,AC.sampleRate),d=buf.getChannelData(0);
+    let last=0;for(let i=0;i<bs;i++){const w=Math.random()*2-1;last=(last+0.02*w)/1.02;d[i]=last*3.2;}
+    const src=AC.createBufferSource();src.buffer=buf;src.loop=true;
+    const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=420;
+    const g=AC.createGain();g.gain.value=0.05;src.connect(f);f.connect(g);g.connect(AC.destination);src.start();nodes.push(src,g);
+    function bubble(){if(!started)return;const o=AC.createOscillator(),bg=AC.createGain();
+      o.frequency.setValueAtTime(220+Math.random()*500,AC.currentTime);
+      o.frequency.exponentialRampToValueAtTime(80+Math.random()*120,AC.currentTime+0.12);
+      bg.gain.setValueAtTime(0,AC.currentTime);bg.gain.linearRampToValueAtTime(0.04,AC.currentTime+0.01);
+      bg.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+0.18);
+      o.connect(bg);bg.connect(AC.destination);o.start();o.stop(AC.currentTime+0.2);
+      setTimeout(bubble,400+Math.random()*1600);}
+    bubble();
+  }
+  function stopAudio(){if(!AC)return;try{nodes.forEach(n=>n.disconnect&&n.disconnect());AC.close();}catch(e){}started=false;}
+  ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,startAudio,{once:true}));
+  document.getElementById('break').addEventListener('click',()=>{
+    stopAudio();
+    document.getElementById('hero').scrollIntoView({behavior:'smooth'});
+  });
+})();
+</script>
+
+<!-- ============ HERO CLOCK ============ -->
+<script>
+(function(){
+  function tick(){try{var t=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Hong_Kong'}).format(new Date());document.getElementById('clk').innerHTML=t.replace(/ /g,'')+' · HONG KONG';}catch(e){}}
+  tick();setInterval(tick,1000);
+})();
+</script>
+
+<!-- ============ WORKS · project click-through ============ -->
+<script>
+(function(){
+  const P={
+    echo:{name:"ECHO",tag:"REN'PY VISUAL NOVEL",
+      lede:"A visual novel about two people, two crafts, and what a room remembers.",
+      body:"ECHO is a branching, hand-authored story built in Ren’Py, carried by its rooms. Nia works in ceramics; Neo works in photography, and the world is staged in real lit spaces — a darkroom holding under a breathing red safelight, an apartment kept warm and close. The interface is part of the fiction. I directed the look, the rooms, and the narrative system end to end.",
+      role:"Systems Architect · Art Director · Editorial Strategist",
+      needs:"new in-game app name · which scene stills to surface · demo/play link",
+      media:[{type:"video",src:"assets/echo/darkroom.mp4",poster:"assets/echo/darkroom_poster.jpg",cap:"the darkroom — Neo"},{type:"img",src:"assets/echo/blake_apartment_day.png",cap:"the apartment"}]},
+    rollcall:{name:"ROLL CALL",tag:"ARCHIVE · MATERIAL CULTURE",
+      lede:"A museum for the overlooked — toilet-paper specimens from 21 countries, catalogued like artifacts.",
+      body:"ROLL CALL is a material-culture archive cataloguing toilet-paper specimens from 21 countries across contemporary Asia. It applies museum-standard methodology — specimen numbers, provenance records, material classifications — to one of the most overlooked categories of consumer goods, paired with an original critical essay on what disposable objects reveal about the cultures, economies, and infrastructures that produce them. Live at rollcall.asia.",
+      role:"Systems Architect · Art Director — archive, methodology, essay",
+      needs:"specimen / archive screenshots to surface"},
+    spector:{name:"SPECTOR",tag:"BRAND · IDENTITY",
+      lede:"A purple aperture and a wordmark — an identity that looks through the lens, not at it.",
+      body:"SPECTOR is a brand identity organized around a single idea: a purple aperture that doubles as the dot of the mark, reading as a lens iris — precise, optical, deliberately cool. I directed the mark, the color, and the system it implies.",
+      role:"Art Director · Systems Architect",
+      needs:"what SPECTOR is for (product / studio / service)"},
+    noru:{name:"Noru",tag:"CHARACTER · STICKER BRAND",
+      lede:"A red panda you can stick anywhere — a character built to travel.",
+      body:"Noru is a red-panda character and sticker brand: a warm, simple, instantly readable mascot designed to live as die-cut stickers and small goods, built to hold up at thumbnail size. I handled the character design and the sticker-first identity around it.",
+      role:"Art Director — character design, illustration",
+      needs:"scope (sticker pack vs wider line) · shop / drop link"},
+    pawsaid:{name:"PawsAid",tag:"PRODUCT · BRAND · E-COMMERCE",
+      lede:"Pet first-aid, properly kept. You don’t prepare because you expect emergencies — you prepare because they happen.",
+      body:"PawsAid is a pet first-aid kit brand built from scratch — every element designed, engineered, and launched by the founding team. The line covers three kits — Essential → Pro → Plus — for dogs and cats, each developed with veterinary input and manufactured to professional standard. Its storefront is a bilingual React/TypeScript platform with chat support and a full CMS. I led brand identity, product design, engineering, and go-to-market from zero to launch. Live at pawsaid.hk.",
+      role:"Systems Architect · Art Director · Editorial Strategist — brand, product, engineering, GTM",
+      needs:"per-SKU contents / pricing · pure-white product plates"}
+  };
+  const m=document.getElementById('pmodal');
+  const set=(id,v)=>{document.getElementById(id).textContent=v;};
+  let lastFocus=null;
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function open(k){const d=P[k];if(!d)return;
+    set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-body',d.body);set('pm-role',d.role);set('pm-needs',d.needs);
+    const mm=document.getElementById('pm-media');mm.innerHTML='';
+    (d.media||[]).forEach(it=>{const fig=document.createElement('figure');
+      if(it.type==='video'){const v=document.createElement('video');v.src=it.src;if(it.poster)v.poster=it.poster;v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('preload','metadata');fig.appendChild(v);if(!reduce)v.play().catch(()=>{});}
+      else{const im=document.createElement('img');im.src=it.src;im.loading='lazy';im.alt=it.cap||'';fig.appendChild(im);}
+      if(it.cap){const c=document.createElement('figcaption');c.textContent=it.cap;fig.appendChild(c);}
+      mm.appendChild(fig);});
+    lastFocus=document.activeElement;m.hidden=false;requestAnimationFrame(()=>m.classList.add('open'));
+    m.querySelector('.pm-x').focus();}
+  function close(){m.classList.remove('open');setTimeout(()=>{m.hidden=true;if(lastFocus)lastFocus.focus();},320);}
+  document.querySelectorAll('.proj-chip').forEach(b=>b.addEventListener('click',()=>open(b.dataset.proj)));
+  m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close();});
+})();
+</script>
+
+<!-- ============ ARCHIVE typewriter ============ -->
+<script>
+(function(){
+  const el=document.getElementById('archBody'); if(!el)return;
+  const TXT="Some things are kept by hand. This is the analogue drawer — drafts, dead ends, and the work that earned its place. Set in Courier, one key at a time. Nothing here pretends to be effortless.";
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let started=false;
+  function type(){if(started)return;started=true;
+    if(reduce){el.textContent=TXT;return;}
+    let i=0;(function step(){if(i<=TXT.length){el.textContent=TXT.slice(0,i);i++;setTimeout(step,18+Math.random()*30);}})();}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)type();}),{threshold:.35});
+  io.observe(document.getElementById('archive'));
+})();
+</script>
+</body>
+</html>
