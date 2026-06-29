@@ -9,7 +9,7 @@
 <meta property="og:description" content="Systems Architect · Art Director · Editorial Strategist. Hong Kong.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,600&family=Courier+Prime:wght@400;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
 <style>
 /* ============ GLOBAL ============ */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -97,6 +97,26 @@ video{display:none}
 #loop{min-height:30vh;display:flex;align-items:center;justify-content:center;background:#03040a}
 #loop a{font-family:'Courier Prime',monospace;letter-spacing:.4em;font-size:.78rem;color:#9296a4;text-decoration:none;border:1px solid rgba(236,234,227,.3);padding:1em 2.4em;border-radius:40px;transition:.4s}
 #loop a:hover{color:#ECEAE3;border-color:rgba(236,234,227,.7);letter-spacing:.5em}
+
+/* ============ WORKS · project index + detail modal ============ */
+#works .works-index{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
+.proj-chip{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.18em;color:#e9e2d2;background:rgba(0,0,0,.28);border:1px solid rgba(233,226,210,.32);padding:.62em 1.25em;border-radius:40px;cursor:pointer;transition:.3s}
+.proj-chip:hover{border-color:#e9e2d2;letter-spacing:.26em;background:rgba(0,0,0,.5)}
+#pmodal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:5vh 5vw}
+#pmodal[hidden]{display:none}
+.pm-backdrop{position:absolute;inset:0;background:rgba(3,4,10,.86);backdrop-filter:blur(3px)}
+.pm-card{position:relative;max-width:640px;width:100%;max-height:86vh;overflow:auto;background:#15110b;color:#ECEAE3;border:1px solid rgba(236,234,227,.18);border-radius:6px;box-shadow:0 40px 120px rgba(0,0,0,.7);padding:clamp(28px,4vw,48px);transform:translateY(10px) scale(.99);opacity:0;transition:.32s ease}
+#pmodal.open .pm-card{transform:none;opacity:1}
+.pm-x{position:absolute;top:14px;right:16px;background:none;border:none;color:#9296a4;font-size:1rem;cursor:pointer;font-family:'Courier Prime',monospace}
+.pm-x:hover{color:#ECEAE3}
+.pm-tag{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.34em;color:#9296a4;margin-bottom:10px}
+.pm-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,5vw,3.2rem);line-height:1;margin-bottom:.32em}
+.pm-lede{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.05rem,2vw,1.35rem);color:#cdc7bb;margin-bottom:1em;line-height:1.42}
+.pm-body{font-size:.96rem;line-height:1.72;color:#d8d2c6;margin-bottom:1.3em}
+.pm-role{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.16em;color:#b9ad93;border-top:1px solid rgba(236,234,227,.14);padding-top:12px}
+.pm-needs{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#6f6552;margin-top:10px}
+.pm-needs:not(:empty):before{content:'PENDING — '}
+@media(prefers-reduced-motion:reduce){.pm-card{transition:none}}
 </style>
 </head>
 <body>
@@ -111,7 +131,7 @@ video{display:none}
   <div class="ui" id="date">— · HONG KONG</div>
   <div class="ui" id="seq">N&deg; 001</div>
   <button id="break" aria-label="Enter the portfolio">TAP THE GLASS</button>
-  <div id="hint">GRAIN 1 · 2 · 3 &nbsp;&nbsp; SMEAR 4 · 5 · 6</div>
+  <div id="hint">GRAIN 1 · 2 · 3 &nbsp;&nbsp; PULL 4 · 5 · 6</div>
   <div id="fade"></div>
   <video id="v" muted loop playsinline crossorigin="anonymous"></video>
 </section>
@@ -163,6 +183,13 @@ video{display:none}
     <img src="assets/echo-page_works.png" alt="Selected work — ECHO · ROLL CALL · SPECTOR · Noru · PawsAid"
          onerror="this.style.display='none';this.closest('.works-spread').classList.add('pending')">
   </figure>
+  <nav class="works-index" aria-label="Selected projects">
+    <button class="proj-chip" data-proj="echo">ECHO</button>
+    <button class="proj-chip" data-proj="rollcall">ROLL CALL</button>
+    <button class="proj-chip" data-proj="spector">SPECTOR</button>
+    <button class="proj-chip" data-proj="noru">Noru</button>
+    <button class="proj-chip" data-proj="pawsaid">PawsAid</button>
+  </nav>
 </section>
 
 <!-- ============ SCAFFOLD: remaining sections ============ -->
@@ -172,6 +199,20 @@ video{display:none}
 <section id="archive" class="scaffold"><div class="num">07</div><h2>Archive</h2><div class="desc">Anti-AI analogue · typewriter · Courier.</div><div class="tag">IN PROGRESS</div></section>
 <section id="about" class="scaffold"><div class="num">08</div><h2>About</h2><div class="desc">Shoebox · polaroid · handwritten caption.</div><div class="tag">IN PROGRESS</div></section>
 <section id="loop"><a href="#gate">↑ RETURN TO THE GATE</a></section>
+
+<!-- ============ WORKS · project detail modal ============ -->
+<div id="pmodal" hidden role="dialog" aria-modal="true" aria-label="Project detail">
+  <div class="pm-backdrop" data-close></div>
+  <div class="pm-card" role="document">
+    <button class="pm-x" data-close aria-label="Close">✕</button>
+    <div class="pm-tag" id="pm-tag"></div>
+    <h3 class="pm-name" id="pm-name"></h3>
+    <p class="pm-lede" id="pm-lede"></p>
+    <p class="pm-body" id="pm-body"></p>
+    <div class="pm-role" id="pm-role"></div>
+    <div class="pm-needs" id="pm-needs"></div>
+  </div>
+</div>
 
 <!-- ============ GATE ENGINE ============ -->
 <script>
@@ -184,7 +225,7 @@ video{display:none}
   const fs=`
 precision highp float;
 uniform sampler2D uT; uniform vec2 uRes; uniform vec2 uVid;
-uniform vec2 uMouse; uniform vec2 uVel; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uSmear;
+uniform vec2 uMouse; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uForce; uniform float uRadius;
 float ign(vec2 p){return fract(52.9829189*fract(0.06711056*p.x+0.00583715*p.y));}
 vec3 adjust(vec3 c){
   c.r*=0.985; c.b*=1.02;
@@ -208,18 +249,14 @@ void main(){
   vec2 frag=gl_FragCoord.xy;
   vec2 cid=floor(frag/uCell);
   vec2 cpx=(cid+0.5)*uCell;
-  float md=distance(cpx,uMouse);
-  float prox=smoothstep(220.0,0.0,md)*uMon;
-  float vlen=length(uVel);
-  vec2 vdir = vlen>0.5 ? uVel/vlen : vec2(1.0,0.0);
-  float amt = prox*uSmear*(0.5 + min(vlen/30.0,1.0));
-  vec3 col=sampleAt(cpx);
-  for(int i=1;i<=3;i++){
-    float t=float(i)/3.0;
-    vec3 c2=sampleAt(cpx - vdir*uCell*4.0*amt*t);
-    col=max(col, c2*(1.0-t*0.5));
-  }
-  col += col*prox*uSmear*0.55;
+  // cursor interaction: gentle radial gather toward the (eased) cursor — no waves
+  vec2 toM=uMouse-cpx;
+  float md=length(toM);
+  float prox=smoothstep(uRadius,0.0,md)*uMon;
+  vec2 dir = md>0.001 ? toM/md : vec2(0.0);
+  vec2 disp = dir*prox*prox*uForce*uCell;   // prox^2 keeps the pull tight & calm
+  vec3 col=sampleAt(cpx+disp);
+  col += col*prox*0.30;                       // soft light bloom under the cursor
   float L=dot(col,vec3(0.299,0.587,0.114));
   float th=ign(cid);
   float Ld=clamp(L+(th-0.5)*0.12,0.0,1.0);
@@ -249,38 +286,38 @@ void main(){
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
   const U={t:gl.getUniformLocation(pr,'uT'),res:gl.getUniformLocation(pr,'uRes'),
     vid:gl.getUniformLocation(pr,'uVid'),mouse:gl.getUniformLocation(pr,'uMouse'),
-    vel:gl.getUniformLocation(pr,'uVel'),t2:gl.getUniformLocation(pr,'uT2'),
-    mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),smear:gl.getUniformLocation(pr,'uSmear')};
+    t2:gl.getUniformLocation(pr,'uT2'),
+    mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),force:gl.getUniformLocation(pr,'uForce'),radius:gl.getUniformLocation(pr,'uRadius')};
   let DPR=Math.min(window.devicePixelRatio||1,2);
-  let mouse=[-999,-999],vel=[0,0],mon=0,t0=performance.now();
+  let mouse=[-999,-999],smouse=[-999,-999],mon=0,t0=performance.now();
   let cellCSS=7.5;
-  let smearI=0.6;
+  let forceI=2.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
   function resize(){DPR=Math.min(window.devicePixelRatio||1,2);
     const w=cv.clientWidth||innerWidth, h=cv.clientHeight||innerHeight;
     cv.width=w*DPR;cv.height=h*DPR;gl.viewport(0,0,cv.width,cv.height);}
   addEventListener('resize',resize);resize();
   addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();
     const nx=(e.clientX-r.left)*DPR,ny=(r.height-(e.clientY-r.top))*DPR;
-    vel=[nx-mouse[0],ny-mouse[1]];if(mouse[0]<-900)vel=[0,0];mouse=[nx,ny];mon=1;});
+    if(smouse[0]<-900){smouse=[nx,ny];}mouse=[nx,ny];mon=1;});
   addEventListener('pointerleave',()=>mon=0);
   const hint=document.getElementById('hint');let hideHint;
   function flashHint(){hint.style.opacity='.85';clearTimeout(hideHint);hideHint=setTimeout(()=>hint.style.opacity='0',2600);}
   addEventListener('keydown',e=>{
     if(e.key==='1')cellCSS=6;else if(e.key==='2')cellCSS=7.5;else if(e.key==='3')cellCSS=10;
-    else if(e.key==='4')smearI=0.0;else if(e.key==='5')smearI=0.6;else if(e.key==='6')smearI=1.3;
+    else if(e.key==='4')forceI=0.0;else if(e.key==='5')forceI=2.0;else if(e.key==='6')forceI=4.0;
     else return;
-    hint.textContent=(e.key==='1'?'FINE GRAIN':e.key==='2'?'MEDIUM GRAIN':e.key==='3'?'COARSE GRAIN':e.key==='4'?'SMEAR OFF':e.key==='5'?'SMEAR SUBTLE':'SMEAR STRONG');
+    hint.textContent=(e.key==='1'?'FINE GRAIN':e.key==='2'?'MEDIUM GRAIN':e.key==='3'?'COARSE GRAIN':e.key==='4'?'PULL OFF':e.key==='5'?'PULL SUBTLE':'PULL STRONG');
     flashHint();});
   setTimeout(()=>hint.style.opacity='0',4000);
   function loop(){
     if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,tex);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);}
-    vel=[vel[0]*0.88,vel[1]*0.88];
+    if(smouse[0]>-900){smouse[0]+=(mouse[0]-smouse[0])*0.14;smouse[1]+=(mouse[1]-smouse[1])*0.14;} // ease/settle
     gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
     gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
-    gl.uniform2f(U.mouse,mouse[0],mouse[1]);gl.uniform2f(U.vel,vel[0],vel[1]);
+    gl.uniform2f(U.mouse,smouse[0],smouse[1]);
     gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
-    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.smear,smearI);
+    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,170.0*DPR);
     gl.drawArrays(gl.TRIANGLES,0,3);requestAnimationFrame(loop);}
   V.play().catch(()=>{});loop();
 
@@ -324,6 +361,50 @@ void main(){
 (function(){
   function tick(){try{var t=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Hong_Kong'}).format(new Date());document.getElementById('clk').innerHTML=t.replace(/ /g,'')+' · HONG KONG';}catch(e){}}
   tick();setInterval(tick,1000);
+})();
+</script>
+
+<!-- ============ WORKS · project click-through ============ -->
+<script>
+(function(){
+  const P={
+    echo:{name:"ECHO",tag:"REN'PY VISUAL NOVEL",
+      lede:"A visual novel about two people, two crafts, and what a room remembers.",
+      body:"ECHO is a branching, hand-authored story built in Ren’Py, carried by its rooms. Nia works in ceramics; Neo works in photography, and the world is staged in real lit spaces — a darkroom holding under a breathing red safelight, an apartment kept warm and close. The interface is part of the fiction. I directed the look, the rooms, and the narrative system end to end.",
+      role:"Systems Architect · Art Director · Editorial Strategist",
+      needs:"new in-game app name · which scene stills to surface · demo/play link"},
+    rollcall:{name:"ROLL CALL",tag:"BRAND · IDENTITY",
+      lede:"An identity built around a chrome wordmark — confident, a little deadpan.",
+      body:"ROLL CALL is an identity project anchored by a polished chrome wordmark built to stand on its own. The supporting language stays dry and unsentimental, the mark machined and bright against the hand-kept page. I directed the wordmark, its finish, and how it sits within the wider system.",
+      role:"Art Director · Systems Architect",
+      needs:"one line on what ROLL CALL is (product / event / label)"},
+    spector:{name:"SPECTOR",tag:"BRAND · IDENTITY",
+      lede:"A purple aperture and a wordmark — an identity that looks through the lens, not at it.",
+      body:"SPECTOR is a brand identity organized around a single idea: a purple aperture that doubles as the dot of the mark, reading as a lens iris — precise, optical, deliberately cool. I directed the mark, the color, and the system it implies.",
+      role:"Art Director · Systems Architect",
+      needs:"what SPECTOR is for (product / studio / service)"},
+    noru:{name:"Noru",tag:"CHARACTER · STICKER BRAND",
+      lede:"A red panda you can stick anywhere — a character built to travel.",
+      body:"Noru is a red-panda character and sticker brand: a warm, simple, instantly readable mascot designed to live as die-cut stickers and small goods, built to hold up at thumbnail size. I handled the character design and the sticker-first identity around it.",
+      role:"Art Director — character design, illustration",
+      needs:"scope (sticker pack vs wider line) · shop / drop link"},
+    pawsaid:{name:"PawsAid",tag:"BRAND · PRODUCT LINE",
+      lede:"Pet first-aid, properly kept. You don’t prepare because you expect emergencies — you prepare because they happen.",
+      body:"PawsAid is a pet first-aid brand built on a clear three-tier system — Essential → Pro → Plus — so an owner can reach for the right level without overthinking it. The identity is calm and clinical: a red mark, the kit as hero, pure-white product plates. I directed the brand, the tiering, and the product presentation.",
+      role:"Art Director · Systems Architect · Editorial Strategist",
+      needs:"per-SKU contents / pricing · retail link"}
+  };
+  const m=document.getElementById('pmodal');
+  const set=(id,v)=>{document.getElementById(id).textContent=v;};
+  let lastFocus=null;
+  function open(k){const d=P[k];if(!d)return;
+    set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-body',d.body);set('pm-role',d.role);set('pm-needs',d.needs);
+    lastFocus=document.activeElement;m.hidden=false;requestAnimationFrame(()=>m.classList.add('open'));
+    m.querySelector('.pm-x').focus();}
+  function close(){m.classList.remove('open');setTimeout(()=>{m.hidden=true;if(lastFocus)lastFocus.focus();},320);}
+  document.querySelectorAll('.proj-chip').forEach(b=>b.addEventListener('click',()=>open(b.dataset.proj)));
+  m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close();});
 })();
 </script>
 </body>
