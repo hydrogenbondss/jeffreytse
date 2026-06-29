@@ -219,6 +219,23 @@ video{display:none}
 #archive .s7{right:9vw;top:74vh;transform:rotate(-3deg);z-index:6}
 #archive .s8{left:55vw;top:62vh;transform:rotate(6deg);z-index:8}
 @media(max-width:760px){#archive .s3,#archive .s5,#archive .s8,#archive .ax-sub{display:none}#archive .scrap{position:relative;display:inline-block;margin:10px;left:auto!important;right:auto!important;top:auto!important}}
+
+/* ===== SIMPLE / MODERN / MINIMAL (overrides the heavy section styles above) ===== */
+#lab,#editorial,#archive,#about,#client{background:#f5f2ec;color:#1a1714;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 7vw;position:static;overflow:visible}
+.min-in{max-width:920px;width:100%}
+.min-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#9a8f7a;margin-bottom:16px}
+.min-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:.01em;margin:0 0 12px}
+.min-lead{font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(1rem,1.5vw,1.18rem);line-height:1.6;color:#5a5145;max-width:56ch;margin:0 0 40px}
+.min-list{border-top:1px solid rgba(26,23,20,.14)}
+.min-row{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:baseline;padding:19px 2px;border-bottom:1px solid rgba(26,23,20,.12)}
+.min-row .t{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);color:#1a1714}
+.min-row .t small{display:block;font-weight:400;font-size:.95rem;color:#7a7060;margin-top:4px;font-family:'Cormorant Garamond',serif;font-style:italic}
+.min-row .meta{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.16em;color:#9a8f7a;text-align:right;white-space:nowrap}
+.min-bio{font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.7;color:#3a342c;max-width:56ch}
+.min-contact{margin-top:28px;font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.16em;color:#9a8f7a}
+.min-contact a{color:#1a1714;text-decoration:none;border-bottom:1px solid rgba(26,23,20,.3)}
+#lab .min-h,#editorial .min-h,#archive .min-h,#about .min-h,#client .min-h{color:#1a1714}
+@media(max-width:640px){.min-row{grid-template-columns:1fr}.min-row .meta{text-align:left;margin-top:4px}}
 </style>
 </head>
 <body>
@@ -295,98 +312,48 @@ video{display:none}
 </section>
 
 <!-- ============ SCAFFOLD: remaining sections ============ -->
-<section id="lab">
-  <div class="lab-grid"></div>
-  <div class="lab-in">
-    <div class="lab-status">LAB · SYSTEM ONLINE — 07 PROCESSES</div>
-    <div class="lab-eyebrow">GENERATIVE · AI · INTERACTIVE</div>
-    <h2>The Lab</h2>
-    <p class="lab-intro">Seven pieces, each built to be run — not just looked at.</p>
-    <div class="rack">
-      <div class="row"><span class="n">01</span><span class="lbl">Cathedral of Small Hours<small>a cathedral of binary — walk in as far as you can, it stays code, forever</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>INTERACTIVE · GENERATIVE</span></div>
-      <div class="row"><span class="n">02</span><span class="lbl">Garden of Returning<small>a real, overgrown ruin you move through — nature taking the city back</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>GENERATIVE ART</span></div>
-      <div class="row"><span class="n">03</span><span class="lbl">Feature World: Chaos<small>an interactive physics sandbox — a touch-based particle chaos engine</small></span><span class="tag">CREATIVE CODING</span></div>
-      <div class="row"><span class="n">04</span><span class="lbl">Heart Decoder<small>feed it a feeling, watch it try — and fail — to read you back</small></span><span class="tag">INTERACTIVE · NARRATIVE</span></div>
-      <div class="row"><span class="n">05</span><span class="lbl">Turbo MG21<small>the Gentle Monster Turbo MG21 goggle-frame — generative video for luxury product film</small></span><span class="tag">AI MOTION STUDY</span></div>
-      <div class="row"><span class="n">06</span><span class="lbl">PabePabe — The Trilogy<small>commissioned trilogy — material transformation across three luxury bags: Ocarina, Flute Soft, Horn</small></span><span class="tag">AI CREATIVE DIRECTION</span></div>
-      <div class="row"><span class="n">07</span><span class="lbl">Ash-01<small>neural portrait — original character with full motion sequence + voice synthesis</small></span><span class="tag">CHARACTER DESIGN · AI</span></div>
-    </div>
+<section id="lab"><div class="min-in">
+  <div class="min-eyebrow">The Lab — Generative · AI · Interactive</div>
+  <h2 class="min-h">The Lab</h2>
+  <p class="min-lead">Generative, AI, and interactive systems — seven pieces, each built to be run.</p>
+  <div class="min-list">
+    <div class="min-row"><span class="t">Cathedral of Small Hours<small>a cathedral of binary you can walk into — it stays code, forever</small></span><span class="meta">INTERACTIVE · GENERATIVE</span></div>
+    <div class="min-row"><span class="t">Garden of Returning<small>a realistic, overgrown ruin you move through</small></span><span class="meta">GENERATIVE ART</span></div>
+    <div class="min-row"><span class="t">Feature World: Chaos<small>an interactive physics sandbox — a particle chaos engine</small></span><span class="meta">CREATIVE CODING</span></div>
+    <div class="min-row"><span class="t">Heart Decoder<small>feed it a feeling, watch it try to read you back</small></span><span class="meta">INTERACTIVE · NARRATIVE</span></div>
+    <div class="min-row"><span class="t">Turbo MG21<small>the Gentle Monster goggle-frame — generative video for luxury product film</small></span><span class="meta">AI MOTION STUDY</span></div>
+    <div class="min-row"><span class="t">PabePabe — The Trilogy<small>material transformation across three luxury bags: Ocarina, Flute Soft, Horn</small></span><span class="meta">AI CREATIVE DIRECTION</span></div>
+    <div class="min-row"><span class="t">Ash-01<small>neural portrait — original character with full motion + voice synthesis</small></span><span class="meta">CHARACTER DESIGN · AI</span></div>
   </div>
-</section>
-<section id="client" class="scaffold"><div class="num">05</div><h2>Client Work</h2><div class="desc">Wild West stop-motion.</div><div class="tag">IN PROGRESS</div></section>
-<section id="editorial">
-  <div class="ed-in">
-    <div class="ed-eyebrow">EDITORIAL · NOW SPINNING</div>
-    <h2>On the Record</h2>
-    <p class="ed-role"><b>Chief Editor · Interviewer</b> at I.T Apparels — fashion editorial across New York &amp; Hong Kong, 2023–2025.</p>
-    <div class="tracks">
-      <div class="track"><span class="no">A1</span><div class="cover">MARKGONG FW25<br>— image pending —</div><div class="cl">Markgong</div><div class="ssn">FW25</div></div>
-      <div class="track"><span class="no">A2</span><div class="cover">DOUBLET<br>— image pending —</div><div class="cl">Doublet</div><div class="ssn">EDITORIAL</div></div>
-      <div class="track"><span class="no">B1</span><div class="cover">A BATHING APE&reg;<br>— image pending —</div><div class="cl">A BATHING APE&reg;</div><div class="ssn">EDITORIAL</div></div>
-      <div class="track"><span class="no">B2</span><div class="cover">CARHARTT WIP<br>— image pending —</div><div class="cl">Carhartt WIP</div><div class="ssn">EDITORIAL</div></div>
-    </div>
-    <div class="ed-note">[ NEEDS JEFFREY: editorial photography per title — drops into the covers above ]</div>
+</div></section>
+<section id="client"><div class="min-in">
+  <div class="min-eyebrow">Client Work</div>
+  <h2 class="min-h">Client Work</h2>
+  <p class="min-lead">Selected commissioned brand and design work. [ Add the client projects to list here. ]</p>
+</div></section>
+<section id="editorial"><div class="min-in">
+  <div class="min-eyebrow">Editorial</div>
+  <h2 class="min-h">Editorial</h2>
+  <p class="min-lead">Chief Editor &amp; Interviewer at I.T Apparels — fashion editorial across New York &amp; Hong Kong, 2023–2025.</p>
+  <div class="min-list">
+    <div class="min-row"><span class="t">Markgong</span><span class="meta">FW25</span></div>
+    <div class="min-row"><span class="t">Doublet</span><span class="meta">EDITORIAL</span></div>
+    <div class="min-row"><span class="t">A BATHING APE&reg;</span><span class="meta">EDITORIAL</span></div>
+    <div class="min-row"><span class="t">Carhartt WIP</span><span class="meta">EDITORIAL</span></div>
   </div>
-</section>
-<section id="archive">
-  <div class="ax-grid"></div>
-  <svg class="ax-grain" xmlns="http://www.w3.org/2000/svg"><filter id="axg"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .18 0 0 0 0 .14 0 0 0 0 .09 0 0 0 .09 0"/></filter><rect width="100%" height="100%" filter="url(#axg)"/></svg>
-  <div class="ax-stain" style="left:-9vw;top:48vh"></div>
-  <div class="ax-stain" style="right:-7vw;top:-8vh"></div>
-
-  <div class="ax-title"><b class="ghost">ARCHIVE</b><b>ARCHIVE</b><em>SET BY HAND · N&deg; 07</em></div>
-  <div class="ax-sub">drafts / dead ends / the work that earned its place. nothing here pretends to be effortless.</div>
-
-  <div class="scrap note torn s1"><div class="pin"></div>
-    <div class="stamp" style="display:inline-block;transform:rotate(-3deg)">OCT 2024</div>
-    <p class="mono" style="font-size:.66rem;line-height:1.8;margin-top:9px">FRAGMENT // <span class="redact">████████ ████</span><br>kept for the texture, not the outcome.</p>
-    <span class="hand" style="font-size:1.3rem;display:block;margin-top:4px">keep this one ↗</span>
-  </div>
-
-  <div class="scrap blue s3"><div class="bh">FIG. 02 — SYSTEM</div>nodes / edges / the structure under the surface.<br>—— ╱╲╱╲ ——<br><span style="color:#9fb0e0">[ NEEDS JEFFREY: real entry ]</span></div>
-
-  <div class="scrap note s2"><div class="tape" style="top:-12px;left:34px;transform:rotate(-8deg)"></div>
-    <span class="clash" style="font-size:1.5rem">DEAD&nbsp;END</span>
-    <p class="mono" style="font-size:.64rem;line-height:1.8;margin-top:6px">v3 — abandoned. the good idea was hiding three drafts later.</p>
-  </div>
-
-  <div class="scrap hand s4" style="font-size:1.7rem;max-width:250px">&ldquo;the machine makes it clean. i&rsquo;d rather it be <u>true</u>.&rdquo;</div>
-
-  <div class="scrap stamp s5" style="font-size:.95rem">DO&nbsp;NOT&nbsp;GENERATE</div>
-
-  <div class="scrap note torn s6"><div class="stamp" style="display:inline-block;transform:rotate(2deg)">2023 — &#9608;&#9608;</div>
-    <p class="mono" style="font-size:.66rem;line-height:1.8;margin-top:9px">[ NEEDS JEFFREY: older / experimental / personal pieces, dated, one line each ]</p>
-  </div>
-
-  <div class="scrap clash s7" style="font-size:.92rem;letter-spacing:-.02em;line-height:1.05">RAW<br>UNEVEN<br>HUMAN</div>
-
-  <div class="scrap mono s8" style="font-size:.62rem;color:#2a2418;border:1px dashed #6a5a3a;padding:10px 12px;max-width:210px;background:rgba(239,231,210,.5)">redaction is a kind of editing. so is keeping the mess.</div>
-
-  <div class="arrow" style="left:36vw;top:46vh;transform:rotate(18deg)">&#10551;</div>
-  <div class="arrow" style="right:27vw;top:50vh;transform:rotate(-28deg)">&#10550;</div>
-
-  <div class="ax-foot">— ARCHIVE · ANTI&#8209;AI · KEPT BY HAND · INDEX PENDING —</div>
-</section>
-<section id="about">
-  <svg class="ab-grain" xmlns="http://www.w3.org/2000/svg"><filter id="abg"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .35 0 0 0 .06 0"/></filter><rect width="100%" height="100%" filter="url(#abg)"/></svg>
-  <div class="ab-htone"></div>
-  <div class="ab-wrap">
-    <figure class="polaroid">
-      <div class="ab-tape"></div>
-      <div class="photo">YOUR PHOTO<br>HERE</div>
-      <figcaption class="cap">still building —</figcaption>
-    </figure>
-    <div class="ab-note">
-      <div class="ab-eyebrow">ABOUT · ONE LAST PAGE</div>
-      <h2 class="ab-h">Jeffrey N. Tse</h2>
-      <p class="ab-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.
-      <span class="pend">PENDING — your bio in your words · the polaroid photo + caption</span></p>
-      <a class="ab-loop" href="#gate">↩ back to where we started</a>
-      <span class="ab-doodle" style="right:-4%;top:-10%;font-size:1.7rem;transform:rotate(12deg)">✦</span>
-      <span class="ab-doodle" style="left:-7%;bottom:-6%;font-size:1.3rem;transform:rotate(-8deg)">✧</span>
-    </div>
-  </div>
-</section>
+</div></section>
+<section id="archive"><div class="min-in">
+  <div class="min-eyebrow">Archive</div>
+  <h2 class="min-h">Archive</h2>
+  <p class="min-lead">Drafts, dead ends, and the work that earned its place — kept by hand. [ Add dated archive entries here. ]</p>
+</div></section>
+<section id="about"><div class="min-in">
+  <div class="min-eyebrow">About</div>
+  <h2 class="min-h">Jeffrey N. Tse</h2>
+  <p class="min-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.</p>
+  <div class="min-contact">github.com/hydrogenbondss</div>
+  <p style="margin-top:30px"><a class="min-contact" href="#gate" style="border:0">↑ back to the top</a></p>
+</div></section>
 <section id="loop"><a href="#gate">↑ RETURN TO THE GATE</a></section>
 
 <!-- ============ WORKS · project detail modal ============ -->
