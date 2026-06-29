@@ -152,6 +152,22 @@ video{display:none}
 #about .ab-doodle{position:absolute;font-family:'Caveat',cursive;color:#16120b;opacity:.45;pointer-events:none}
 @media(max-width:760px){#about .polaroid{transform:none}}
 
+/* ============ 6 · EDITORIAL ============ */
+#editorial{background:#0b0b0d;color:#eae6df;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw;position:relative}
+#editorial .ed-in{max-width:1000px;margin:0 auto;width:100%}
+#editorial .ed-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.4em;color:#8a8578;margin-bottom:8px}
+#editorial h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;margin-bottom:8px}
+#editorial .ed-role{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.08em;color:#b3ab9a;line-height:1.8;margin-bottom:30px;max-width:60ch}
+#editorial .ed-role b{color:#eae6df}
+#editorial .tracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+#editorial .track{position:relative}
+#editorial .track .cover{aspect-ratio:1/1;background:#16161a;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#56544e;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.16em;text-align:center;line-height:2;transition:.4s}
+#editorial .track:hover .cover{border-color:rgba(255,255,255,.26)}
+#editorial .track .no{position:absolute;top:9px;left:9px;font-family:'Courier Prime',monospace;font-size:.56rem;color:#b3ab9a;z-index:2}
+#editorial .track .cl{font-family:'Cormorant Garamond',serif;font-size:1.25rem;margin-top:10px}
+#editorial .track .ssn{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.18em;color:#8a8578;margin-top:2px}
+#editorial .ed-note{margin-top:26px;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.06em;color:#6a6558}
+
 /* ============ 4 · THE LAB (console) ============ */
 #lab{background:#070a14;color:#cfd6e6;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 6vw;position:relative;overflow:hidden}
 #lab .lab-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);background-size:30px 30px}
@@ -298,7 +314,20 @@ video{display:none}
   </div>
 </section>
 <section id="client" class="scaffold"><div class="num">05</div><h2>Client Work</h2><div class="desc">Wild West stop-motion.</div><div class="tag">IN PROGRESS</div></section>
-<section id="editorial" class="scaffold"><div class="num">06</div><h2>Editorial</h2><div class="desc">Photo-first · three.js record viewer.</div><div class="tag">IN PROGRESS</div></section>
+<section id="editorial">
+  <div class="ed-in">
+    <div class="ed-eyebrow">EDITORIAL · NOW SPINNING</div>
+    <h2>On the Record</h2>
+    <p class="ed-role"><b>Chief Editor · Interviewer</b> at I.T Apparels — fashion editorial across New York &amp; Hong Kong, 2023–2025.</p>
+    <div class="tracks">
+      <div class="track"><span class="no">A1</span><div class="cover">MARKGONG FW25<br>— image pending —</div><div class="cl">Markgong</div><div class="ssn">FW25</div></div>
+      <div class="track"><span class="no">A2</span><div class="cover">DOUBLET<br>— image pending —</div><div class="cl">Doublet</div><div class="ssn">EDITORIAL</div></div>
+      <div class="track"><span class="no">B1</span><div class="cover">A BATHING APE&reg;<br>— image pending —</div><div class="cl">A BATHING APE&reg;</div><div class="ssn">EDITORIAL</div></div>
+      <div class="track"><span class="no">B2</span><div class="cover">CARHARTT WIP<br>— image pending —</div><div class="cl">Carhartt WIP</div><div class="ssn">EDITORIAL</div></div>
+    </div>
+    <div class="ed-note">[ NEEDS JEFFREY: editorial photography per title — drops into the covers above ]</div>
+  </div>
+</section>
 <section id="archive">
   <div class="ax-grid"></div>
   <svg class="ax-grain" xmlns="http://www.w3.org/2000/svg"><filter id="axg"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .18 0 0 0 0 .14 0 0 0 0 .09 0 0 0 .09 0"/></filter><rect width="100%" height="100%" filter="url(#axg)"/></svg>
