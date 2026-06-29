@@ -289,11 +289,11 @@ video{display:none}
     <div class="rack">
       <div class="row"><span class="n">01</span><span class="lbl">Cathedral of Small Hours<small>a cathedral of binary — walk in as far as you can, it stays code, forever</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>INTERACTIVE · GENERATIVE</span></div>
       <div class="row"><span class="n">02</span><span class="lbl">Garden of Returning<small>a real, overgrown ruin you move through — nature taking the city back</small></span><span class="tag"><span class="dev">▮ IN DEV</span><br>GENERATIVE ART</span></div>
-      <div class="row"><span class="n">03</span><span class="lbl">Feature World: Chaos<small>order is the boring middle of a system that wants to fall apart</small></span><span class="tag">CREATIVE CODING</span></div>
+      <div class="row"><span class="n">03</span><span class="lbl">Feature World: Chaos<small>an interactive physics sandbox — a touch-based particle chaos engine</small></span><span class="tag">CREATIVE CODING</span></div>
       <div class="row"><span class="n">04</span><span class="lbl">Heart Decoder<small>feed it a feeling, watch it try — and fail — to read you back</small></span><span class="tag">INTERACTIVE · NARRATIVE</span></div>
-      <div class="row"><span class="n">05</span><span class="lbl">Turbo MG21<small>a machine that only exists for the half-second it's already moving</small></span><span class="tag">AI MOTION STUDY</span></div>
-      <div class="row"><span class="n">06</span><span class="lbl">PabePabe — The Trilogy<small>three states of one creature, each refusing to settle</small></span><span class="tag">AI CREATIVE DIRECTION</span></div>
-      <div class="row"><span class="n">07</span><span class="lbl">Ash-01<small>a character built to be photographed, not explained</small></span><span class="tag">CHARACTER DESIGN · AI</span></div>
+      <div class="row"><span class="n">05</span><span class="lbl">Turbo MG21<small>the Gentle Monster Turbo MG21 goggle-frame — generative video for luxury product film</small></span><span class="tag">AI MOTION STUDY</span></div>
+      <div class="row"><span class="n">06</span><span class="lbl">PabePabe — The Trilogy<small>commissioned trilogy — material transformation across three luxury bags: Ocarina, Flute Soft, Horn</small></span><span class="tag">AI CREATIVE DIRECTION</span></div>
+      <div class="row"><span class="n">07</span><span class="lbl">Ash-01<small>neural portrait — original character with full motion sequence + voice synthesis</small></span><span class="tag">CHARACTER DESIGN · AI</span></div>
     </div>
   </div>
 </section>
@@ -535,11 +535,11 @@ void main(){
       role:"Systems Architect · Art Director · Editorial Strategist",
       needs:"new in-game app name · which scene stills to surface · demo/play link",
       media:[{type:"video",src:"assets/echo/darkroom.mp4",poster:"assets/echo/darkroom_poster.jpg",cap:"the darkroom — Neo"},{type:"img",src:"assets/echo/blake_apartment_day.png",cap:"the apartment"}]},
-    rollcall:{name:"ROLL CALL",tag:"BRAND · IDENTITY",
-      lede:"An identity built around a chrome wordmark — confident, a little deadpan.",
-      body:"ROLL CALL is an identity project anchored by a polished chrome wordmark built to stand on its own. The supporting language stays dry and unsentimental, the mark machined and bright against the hand-kept page. I directed the wordmark, its finish, and how it sits within the wider system.",
-      role:"Art Director · Systems Architect",
-      needs:"one line on what ROLL CALL is (product / event / label)"},
+    rollcall:{name:"ROLL CALL",tag:"ARCHIVE · MATERIAL CULTURE",
+      lede:"A museum for the overlooked — toilet-paper specimens from 21 countries, catalogued like artifacts.",
+      body:"ROLL CALL is a material-culture archive cataloguing toilet-paper specimens from 21 countries across contemporary Asia. It applies museum-standard methodology — specimen numbers, provenance records, material classifications — to one of the most overlooked categories of consumer goods, paired with an original critical essay on what disposable objects reveal about the cultures, economies, and infrastructures that produce them. Live at rollcall.asia.",
+      role:"Systems Architect · Art Director — archive, methodology, essay",
+      needs:"specimen / archive screenshots to surface"},
     spector:{name:"SPECTOR",tag:"BRAND · IDENTITY",
       lede:"A purple aperture and a wordmark — an identity that looks through the lens, not at it.",
       body:"SPECTOR is a brand identity organized around a single idea: a purple aperture that doubles as the dot of the mark, reading as a lens iris — precise, optical, deliberately cool. I directed the mark, the color, and the system it implies.",
@@ -550,11 +550,11 @@ void main(){
       body:"Noru is a red-panda character and sticker brand: a warm, simple, instantly readable mascot designed to live as die-cut stickers and small goods, built to hold up at thumbnail size. I handled the character design and the sticker-first identity around it.",
       role:"Art Director — character design, illustration",
       needs:"scope (sticker pack vs wider line) · shop / drop link"},
-    pawsaid:{name:"PawsAid",tag:"BRAND · PRODUCT LINE",
+    pawsaid:{name:"PawsAid",tag:"PRODUCT · BRAND · E-COMMERCE",
       lede:"Pet first-aid, properly kept. You don’t prepare because you expect emergencies — you prepare because they happen.",
-      body:"PawsAid is a pet first-aid brand built on a clear three-tier system — Essential → Pro → Plus — so an owner can reach for the right level without overthinking it. The identity is calm and clinical: a red mark, the kit as hero, pure-white product plates. I directed the brand, the tiering, and the product presentation.",
-      role:"Art Director · Systems Architect · Editorial Strategist",
-      needs:"per-SKU contents / pricing · retail link"}
+      body:"PawsAid is a pet first-aid kit brand built from scratch — every element designed, engineered, and launched by the founding team. The line covers three kits — Essential → Pro → Plus — for dogs and cats, each developed with veterinary input and manufactured to professional standard. Its storefront is a bilingual React/TypeScript platform with chat support and a full CMS. I led brand identity, product design, engineering, and go-to-market from zero to launch. Live at pawsaid.hk.",
+      role:"Systems Architect · Art Director · Editorial Strategist — brand, product, engineering, GTM",
+      needs:"per-SKU contents / pricing · pure-white product plates"}
   };
   const m=document.getElementById('pmodal');
   const set=(id,v)=>{document.getElementById(id).textContent=v;};
