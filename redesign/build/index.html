@@ -117,6 +117,30 @@ video{display:none}
 .pm-needs{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#6f6552;margin-top:10px}
 .pm-needs:not(:empty):before{content:'PENDING — '}
 @media(prefers-reduced-motion:reduce){.pm-card{transition:none}}
+
+/* ============ 7 · ARCHIVE (typewriter) ============ */
+#archive{background:#11100c;color:#d8d2c4;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10vh 6vw}
+.arch-paper{max-width:62ch;width:100%;font-family:'Courier Prime',monospace}
+.arch-eyebrow{font-size:.62rem;letter-spacing:.42em;color:#7d7563;margin-bottom:18px}
+.arch-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,5vw,3.4rem);color:#e8e2d4;letter-spacing:.02em;margin-bottom:22px;line-height:1}
+.arch-body{font-size:clamp(.82rem,1.3vw,.96rem);line-height:2;color:#cfc8b8;min-height:9em;white-space:pre-wrap;display:inline}
+.arch-caret{display:inline-block;width:.5em;height:1.05em;background:#cfc8b8;vertical-align:-2px;margin-left:1px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.arch-index{margin-top:34px;border-top:1px solid rgba(216,210,196,.18);padding-top:16px;font-size:.72rem;letter-spacing:.06em;color:#6a6253}
+@media(prefers-reduced-motion:reduce){.arch-caret{animation:none}}
+
+/* ============ 8 · ABOUT (shoebox + polaroid) ============ */
+#about{background:#0d1310;color:#e8efe6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10vh 6vw}
+.about-wrap{display:flex;gap:clamp(24px,5vw,70px);align-items:center;flex-wrap:wrap;max-width:1000px;justify-content:center}
+.polaroid{background:#f6f3ea;padding:14px 14px 54px;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:rotate(-4deg);width:min(340px,72vw);flex:0 0 auto}
+.polaroid .photo{aspect-ratio:1/1;background:#1b211d;display:flex;align-items:center;justify-content:center;color:#5b6b60;font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.18em;text-align:center;padding:0 12%;line-height:1.8}
+.polaroid .cap{font-family:'Caveat',cursive;font-size:1.6rem;color:#2a2a28;text-align:center;margin-top:14px}
+.about-text{flex:1 1 320px;max-width:460px}
+.about-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.4em;color:#7f8c82;margin-bottom:14px}
+.about-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3rem);margin-bottom:.5em;line-height:1}
+.about-bio{font-size:.98rem;line-height:1.75;color:#cdd6cd}
+.about-bio .pend{display:block;margin-top:14px;font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#5f6b61}
+@media(max-width:760px){.polaroid{transform:none}}
 </style>
 </head>
 <body>
@@ -196,8 +220,21 @@ video{display:none}
 <section id="lab" class="scaffold"><div class="num">04</div><h2>The Lab</h2><div class="desc">Generative · AI · interactive. Seven enterable pieces.</div><div class="tag">IN PROGRESS</div></section>
 <section id="client" class="scaffold"><div class="num">05</div><h2>Client Work</h2><div class="desc">Wild West stop-motion.</div><div class="tag">IN PROGRESS</div></section>
 <section id="editorial" class="scaffold"><div class="num">06</div><h2>Editorial</h2><div class="desc">Photo-first · three.js record viewer.</div><div class="tag">IN PROGRESS</div></section>
-<section id="archive" class="scaffold"><div class="num">07</div><h2>Archive</h2><div class="desc">Anti-AI analogue · typewriter · Courier.</div><div class="tag">IN PROGRESS</div></section>
-<section id="about" class="scaffold"><div class="num">08</div><h2>About</h2><div class="desc">Shoebox · polaroid · handwritten caption.</div><div class="tag">IN PROGRESS</div></section>
+<section id="archive" class="scaffold"><div class="num">07</div><h2>Archive</h2><div class="desc">Anti-AI — built your way. (Not a typewriter.)</div><div class="tag">AWAITING YOUR DIRECTION</div></section>
+<section id="about">
+  <div class="about-wrap">
+    <figure class="polaroid">
+      <div class="photo">POLAROID PENDING<br>your photo drops in here</div>
+      <figcaption class="cap">still building —</figcaption>
+    </figure>
+    <div class="about-text">
+      <div class="about-eyebrow">ABOUT · ONE LAST PICTURE</div>
+      <h2 class="about-h">Jeffrey N. Tse</h2>
+      <p class="about-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.
+      <span class="pend">PENDING — your bio in your words · the polaroid photo + caption</span></p>
+    </div>
+  </div>
+</section>
 <section id="loop"><a href="#gate">↑ RETURN TO THE GATE</a></section>
 
 <!-- ============ WORKS · project detail modal ============ -->
@@ -405,6 +442,21 @@ void main(){
   document.querySelectorAll('.proj-chip').forEach(b=>b.addEventListener('click',()=>open(b.dataset.proj)));
   m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
   addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close();});
+})();
+</script>
+
+<!-- ============ ARCHIVE typewriter ============ -->
+<script>
+(function(){
+  const el=document.getElementById('archBody'); if(!el)return;
+  const TXT="Some things are kept by hand. This is the analogue drawer — drafts, dead ends, and the work that earned its place. Set in Courier, one key at a time. Nothing here pretends to be effortless.";
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let started=false;
+  function type(){if(started)return;started=true;
+    if(reduce){el.textContent=TXT;return;}
+    let i=0;(function step(){if(i<=TXT.length){el.textContent=TXT.slice(0,i);i++;setTimeout(step,18+Math.random()*30);}})();}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)type();}),{threshold:.35});
+  io.observe(document.getElementById('archive'));
 })();
 </script>
 </body>
