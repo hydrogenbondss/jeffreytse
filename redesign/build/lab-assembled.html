@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>The Lab — Jeffrey N. Tse</title>
+<title>The City — Jeffrey N. Tse</title>
 <meta name="description" content="A night-city street you explore. Each piece a diegetic object: a billboard, a boutique window, a neon machine, a figure, fireworks, and two doorways.">
 <meta name="theme-color" content="#05060a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -496,15 +496,19 @@
 <body>
 
 <!-- ====================== THE STREET ====================== -->
-<main id="street" aria-label="The Lab — a night street to explore">
+<main id="street" aria-label="The City — a night street to explore">
   <div id="streetBg" aria-hidden="true"></div>
+  <video id="streetVid" autoplay muted loop playsinline aria-hidden="true"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_050900_6e426f4f-9f82-4f64-af0b-a73289eac8b4.mp4" type="video/mp4">
+  </video>
   <div id="atmos" aria-hidden="true"></div>
   <div id="grain" aria-hidden="true"></div>
 
   <header id="masthead">
     <div>
-      <div class="eyebrow">Roll Call &middot; The Lab</div>
-      <h1 class="title">The <em>Lab</em></h1>
+      <div class="eyebrow">Generative &middot; AI &middot; Interactive</div>
+      <h1 class="title">The <em>City</em></h1>
     </div>
     <p class="hint">Explore the street.<br>Hover a light, enter a door.</p>
   </header>

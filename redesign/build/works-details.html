@@ -156,6 +156,30 @@ body{
 
 @media(max-width:760px){.detail .meta{gap:20px 28px}.detail .blurb{max-width:46ch}}
 
+/* ============ TEXT-FIRST PANEL (ROLL CALL) ============ */
+.detail.text-first{background:
+  radial-gradient(130% 100% at 14% 0%,rgba(201,194,178,.07),transparent 60%),
+  radial-gradient(120% 120% at 100% 100%,var(--tint),transparent 64%),
+  #050608;}
+.detail .tf-stage{position:absolute;inset:7.4vh 0;z-index:1;display:flex;align-items:center;overflow-y:auto;
+  padding:clamp(28px,7vh,90px) clamp(22px,7vw,120px);
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 16px,transparent 16px 32px);}
+@media(max-width:640px){.detail .tf-stage{inset:42px 0}}
+.detail .tf-in{max-width:1100px;margin:0 auto;width:100%}
+.detail .tf-title{font-family:var(--serif);font-weight:300;font-size:clamp(4rem,17vw,13rem);line-height:.84;
+  letter-spacing:.01em;text-transform:uppercase;color:#fff;margin:.12em 0 .34em;
+  text-shadow:0 2px 60px rgba(0,0,0,.7)}
+.detail .tf-lede{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2.6vw,2.05rem);line-height:1.42;
+  color:#e7e2d6;max-width:34ch;margin-bottom:1.5em}
+.detail .tf-lede em{font-style:italic;color:#fff}
+.detail .tf-figures{display:flex;flex-wrap:wrap;gap:clamp(24px,5vw,72px);margin-bottom:2em;
+  padding-top:1.4em;border-top:1px solid var(--accent-soft)}
+.detail .tf-fig{display:flex;flex-direction:column;gap:6px}
+.detail .tf-fig b{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,6vw,4rem);line-height:1;color:var(--accent)}
+.detail .tf-fig span{font-family:var(--mono);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:#8c8678}
+.detail .tf-meta{display:flex;flex-wrap:wrap;gap:26px 56px;align-items:flex-start}
+@media(max-width:760px){.detail .tf-meta{gap:20px 28px}.detail .tf-lede{max-width:30ch}}
+
 /* reduced motion */
 @media(prefers-reduced-motion:reduce){
   .detail .track{transition:none}
@@ -328,7 +352,7 @@ body{
 
   <div class="stage">
     <div class="track" data-track>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/01.png</div><div class="ph-note">Hero — the three kits lined up, pure-white product plate.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/62075ff3-0443-4aad-9c2a-58c4b537ddf2.png" alt="PawsAid hero — the three kits lined up on a pure-white product plate"></div>
       <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/02.png</div><div class="ph-note">Essential kit — HK$168 — contents flat-lay on white.</div><div class="ph-tag">Placeholder</div></div></div>
       <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/03.png</div><div class="ph-note">Bilingual storefront — Sora + Noto Sans TC, "Because every second matters".</div><div class="ph-tag">Placeholder</div></div></div>
       <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/04.png</div><div class="ph-note">Packaging system — PawsAid Red on Canvas, the three tiers.</div><div class="ph-tag">Placeholder</div></div></div>
@@ -381,37 +405,25 @@ body{
 
 <div class="demo-sep">— 04 / 05 —</div>
 
-<!-- ================= ROLL CALL ================= -->
-<section class="detail" id="rollcall"
+<!-- ================= ROLL CALL — text-first / typographic ================= -->
+<section class="detail text-first" id="rollcall"
   style="--accent:#C9C2B2;--accent-soft:rgba(201,194,178,.22);--tint:rgba(150,142,126,.08)"
   aria-label="ROLL CALL detail view" data-roll="ROLL CALL">
   <div class="bar top"></div>
-  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> ROLL CALL <span class="frame" data-frame>01 / 04</span></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> ROLL CALL <span class="frame">ARCHIVE</span></div>
   <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
 
-  <div class="stage">
-    <div class="track" data-track>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/01.png</div><div class="ph-note">Specimen grid — toilet-paper samples catalogued by country.</div><div class="ph-tag">Placeholder</div></div></div>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/02.png</div><div class="ph-note">Single specimen plate — macro of texture, perforation, label.</div><div class="ph-tag">Placeholder</div></div></div>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/03.png</div><div class="ph-note">Archive interface — 21 countries, taxonomy and provenance.</div><div class="ph-tag">Placeholder</div></div></div>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/04.png</div><div class="ph-note">World map of specimen origins.</div><div class="ph-tag">Placeholder</div></div></div>
-    </div>
-  </div>
-
-  <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-
-  <div class="ribbon">
-    <div class="label">Plate <b data-idx>01</b> — <span data-label>Specimen grid</span></div>
-    <div class="dots" data-dots role="tablist" aria-label="ROLL CALL media"></div>
-  </div>
-
-  <div class="lower">
-    <div class="lt-in">
+  <div class="tf-stage">
+    <div class="tf-in">
       <div class="eyebrow">Material-Culture Archive</div>
-      <h1 class="title">ROLL CALL</h1>
-      <p class="blurb">A material-culture archive cataloguing toilet-paper specimens from <em>21 countries</em> — provenance, texture and taxonomy treated with curatorial seriousness.</p>
-      <div class="meta">
+      <h1 class="tf-title">ROLL<br>CALL</h1>
+      <p class="tf-lede">A material-culture archive cataloguing <em>toilet-paper specimens</em> from twenty-one countries — provenance, texture and taxonomy treated with curatorial seriousness.</p>
+      <div class="tf-figures" aria-hidden="true">
+        <div class="tf-fig"><b>21</b><span>Countries</span></div>
+        <div class="tf-fig"><b>1</b><span>Specimen Per Origin</span></div>
+        <div class="tf-fig"><b>∞</b><span>Field Catalogue</span></div>
+      </div>
+      <div class="tf-meta">
         <div class="meta-block">
           <div class="meta-k">Discipline</div>
           <div class="chips">
@@ -439,14 +451,17 @@ body{
   style="--accent:#36C99B;--accent-soft:rgba(54,201,155,.24);--tint:rgba(40,180,140,.14)"
   aria-label="Noru detail view" data-roll="NORU">
   <div class="bar top"></div>
-  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> NORU <span class="frame" data-frame>01 / 03</span></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> NORU <span class="frame" data-frame>01 / 06</span></div>
   <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
 
   <div class="stage">
     <div class="track" data-track>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/noru/01.png</div><div class="ph-note">Mascot — the red panda in glasses, full character sheet.</div><div class="ph-tag">Placeholder</div></div></div>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/noru/02.png</div><div class="ph-note">Brand system — logotype, palette (mint / orange), "Knowledge | Fun".</div><div class="ph-tag">Placeholder</div></div></div>
-      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/noru/03.png</div><div class="ph-note">Edutainment in use — content frame / lesson card with the mascot.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/79a0b568-f1ad-4a61-a443-065785fc7faf.png" alt="Noru main visual — the red-panda twins in glasses"></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/320ec6e5-2ba3-4f8a-a879-fcb85c753dcc.png" alt="Noru app — welcome screen UI"></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/461e815c-296d-4f87-9cf8-e8027e0be88d.png" alt="Noru mascot — thinking pose"></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/0a7400bf-662c-484f-a8cb-cbf9d5b893ba.png" alt="Noru mascot — sad expression"></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/4cc90877-d2da-4b77-93ce-73e89220d6b1.png" alt="Noru mascot — happy expression"></div>
+      <div class="slide"><div class="wash"></div><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/e7c4f767-00cc-4f67-acfd-c71c56088fd5.png" alt="Noru mascot — cool expression"></div>
     </div>
   </div>
 
@@ -492,7 +507,29 @@ body{
   var reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
   document.querySelectorAll('.detail').forEach(function(detail){
+    var closeBtn = detail.querySelector('.close');
+
+    // close — in this preview, scroll the panel out of the way; in production this hides the fixed overlay
+    function doClose(){
+      var nextEl = detail.nextElementSibling;
+      while (nextEl && !nextEl.classList.contains('detail') && nextEl.tagName !== 'HEADER') {
+        nextEl = nextEl.nextElementSibling;
+      }
+      (nextEl || document.body).scrollIntoView({behavior: reduceMotion ? 'auto':'smooth', block:'start'});
+    }
+    if (closeBtn) closeBtn.addEventListener('click', doClose);
+    // make the panel focusable for keyboard nav
+    detail.tabIndex = -1;
+
     var track  = detail.querySelector('[data-track]');
+    // text-first panels (e.g. ROLL CALL) have no media gallery — only wire Esc-to-close.
+    if (!track){
+      detail.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && closeBtn) closeBtn.click();
+      });
+      return;
+    }
+
     var slides = Array.prototype.slice.call(track.children);
     var total  = slides.length;
     var prev   = detail.querySelector('.nav.prev');
@@ -501,7 +538,6 @@ body{
     var idxEl  = detail.querySelector('[data-idx]');
     var labelEl= detail.querySelector('[data-label]');
     var dotsWrap = detail.querySelector('[data-dots]');
-    var closeBtn = detail.querySelector('.close');
     var i = 0;
 
     // labels pulled from each placeholder note / explicit data
@@ -551,23 +587,12 @@ body{
     prev.addEventListener('click', function(){ go(i-1); });
     next.addEventListener('click', function(){ go(i+1); });
 
-    // close — in this preview, scroll the panel out of the way; in production this hides the fixed overlay
-    closeBtn.addEventListener('click', function(){
-      var nextEl = detail.nextElementSibling;
-      while (nextEl && !nextEl.classList.contains('detail') && nextEl.tagName !== 'HEADER') {
-        nextEl = nextEl.nextElementSibling;
-      }
-      (nextEl || document.body).scrollIntoView({behavior: reduceMotion ? 'auto':'smooth', block:'start'});
-    });
-
     // keyboard: arrows + Esc when this detail is the one in view
     detail.addEventListener('keydown', function(e){
       if (e.key === 'ArrowLeft')  { go(i-1); e.preventDefault(); }
       if (e.key === 'ArrowRight') { go(i+1); e.preventDefault(); }
-      if (e.key === 'Escape')     { closeBtn.click(); }
+      if (e.key === 'Escape' && closeBtn) { closeBtn.click(); }
     });
-    // make the panel focusable for keyboard nav
-    detail.tabIndex = -1;
 
     // touch swipe
     var x0 = null;
