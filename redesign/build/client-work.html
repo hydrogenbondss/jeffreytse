@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Client Work — Jeffrey N. Tse</title>
-<meta name="description" content="Client Work — commissioned brand and campaign copywriting by Jeffrey N. Tse, presented as an old western cartoon. Samsung · Ocean Park · Hong Kong Tourism Board · MTR · China Mobile.">
+<meta name="description" content="Client Work — Jeffrey N. Tse, presented as an old western cartoon where the cowboy Ash captures each client. Samsung · China Mobile · MTR · Disneyland · Ocean Park · Hong Kong Tourism Board · Heimtextil.">
 <meta property="og:title" content="Client Work — Jeffrey N. Tse">
-<meta property="og:description" content="Commissioned brand and campaign work, staged as a 1930s western cartoon. Samsung, Ocean Park, Hong Kong Tourism Board, MTR, China Mobile.">
+<meta property="og:description" content="A 1930s western cartoon: the cowboy Ash wrangles each client. Samsung, China Mobile, MTR, Disneyland, Ocean Park, Hong Kong Tourism Board, Heimtextil.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- wood-type / slab display (Rye, Smokum), title-card typewriter (Special Elite) + the site's Courier Prime / Cormorant -->
@@ -339,49 +339,40 @@ html{scroll-behavior:smooth}
 #client .cw-list .lrow .yr{font-family:'Special Elite',monospace;font-size:.56rem;color:#5a4528;letter-spacing:.1em}
 
 /* ============================================================
-   LOBBY-CARD DETAIL MODAL (reuses the Works/boardwalk pattern:
-   focus-trap-lite, Esc-close, focus-return, [data-close])
+   ENLARGE-THE-NAME OVERLAY — just the captured sign, made big.
+   Reuses the Works/boardwalk dialog pattern: focus-trap-lite,
+   Esc-close, focus-return, [data-close]. No detail copy.
    ============================================================ */
-#cwmodal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:5vh 5vw}
+#cwmodal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:6vh 6vw}
 #cwmodal[hidden]{display:none}
 .cwm-backdrop{position:absolute;inset:0;background:rgba(10,6,3,.86);backdrop-filter:blur(4px)}
-.cwm-card{position:relative;max-width:560px;width:100%;max-height:88vh;overflow:auto;
+.cwm-card{position:relative;max-width:640px;width:100%;max-height:88vh;overflow:hidden;
   background:linear-gradient(165deg,#efe2c4,#ddc9a0);color:var(--ink);
   border:1px solid rgba(36,20,5,.35);border-radius:6px;
   box-shadow:0 40px 120px rgba(8,4,1,.75),inset 0 0 0 1px rgba(255,247,225,.4);
   transform:translateY(10px) scale(.99);opacity:0;transition:.34s ease}
 #cwmodal.open .cwm-card{transform:none;opacity:1}
-.cwm-card::-webkit-scrollbar{width:0}
 .cwm-x{position:absolute;top:12px;right:14px;z-index:5;width:32px;height:32px;border-radius:50%;
   border:1px solid rgba(36,20,5,.4);background:rgba(244,234,208,.75);color:var(--ink);cursor:pointer;
   font-family:'Special Elite',monospace;font-size:1rem;display:flex;align-items:center;justify-content:center}
 .cwm-x:hover{background:var(--rust);color:#f4ead0}
 .cwm-x:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
-/* lobby-card header band */
-.cwm-stage{position:relative;aspect-ratio:16/9;border-radius:6px 6px 0 0;overflow:hidden;
+/* the enlarged sign — a captured wood-type plate */
+.cwm-stage-big{position:relative;min-height:clamp(200px,42vh,360px);border-radius:6px;overflow:hidden;
   background:
-    radial-gradient(80% 70% at 50% 24%,rgba(255,238,206,.6),transparent 60%),
+    radial-gradient(80% 70% at 50% 30%,rgba(255,238,206,.6),transparent 62%),
     linear-gradient(160deg,#cdab78,#9c6a3a);
   background-image:radial-gradient(rgba(36,20,5,.4) 1px,transparent 1.3px),
-    radial-gradient(80% 70% at 50% 24%,rgba(255,238,206,.6),transparent 60%),
+    radial-gradient(80% 70% at 50% 30%,rgba(255,238,206,.6),transparent 62%),
     linear-gradient(160deg,#cdab78,#9c6a3a);
   background-size:5px 5px,100% 100%,100% 100%;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  box-shadow:inset 0 0 0 1px rgba(36,20,5,.4),inset 0 -36px 70px rgba(58,32,12,.45)}
-.cwm-stage .lobbytag{position:absolute;top:10px;left:12px;font-family:'Special Elite',monospace;
-  font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:#3a2412}
-.cwm-stage .nm{font-family:'Smokum',serif;font-size:clamp(2.4rem,10vw,4.2rem);color:#23140a;line-height:.85;
-  text-shadow:0 1px 0 rgba(255,247,225,.4)}
-.cwm-stage .gag-strip{position:absolute;bottom:10px;left:0;right:0;text-align:center;
-  font-family:'Special Elite',monospace;font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:#3a2412}
-.cwm-body{padding:20px clamp(18px,4vw,32px) 26px}
-.cwm-tag{font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
-.cwm-client{font-family:'Smokum',serif;font-size:clamp(2rem,7vw,3rem);line-height:.9;color:var(--ink);margin-bottom:2px}
-.cwm-role{font-family:'Rye',serif;font-size:clamp(.95rem,2.4vw,1.25rem);color:var(--rust);letter-spacing:.03em;margin-bottom:13px}
-.cwm-blurb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.4rem);
-  color:#3a2c1c;line-height:1.5;margin-bottom:1em}
-.cwm-year{font-family:'Special Elite',monospace;font-size:.62rem;letter-spacing:.12em;color:#5a4528;
-  border-top:1px solid rgba(36,20,5,.22);padding-top:12px}
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:14% 8%;
+  box-shadow:inset 0 0 0 2px rgba(36,20,5,.45),inset 0 -36px 70px rgba(58,32,12,.45)}
+.cwm-stage-big::before{content:"";position:absolute;inset:14px;border:2px double rgba(36,20,5,.4);border-radius:3px;pointer-events:none}
+.cwm-stage-big .lobbytag{position:absolute;top:16px;left:0;right:0;text-align:center;font-family:'Special Elite',monospace;
+  font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:#3a2412}
+.cwm-stage-big .nm{position:relative;font-family:'Smokum',serif;font-size:clamp(2.8rem,13vw,6rem);color:#23140a;line-height:.85;
+  text-shadow:0 1px 0 rgba(255,247,225,.45),0 3px 0 rgba(58,32,12,.18)}
 
 /* ============================================================
    REDUCED MOTION — kill the show, present the finished reel
@@ -494,32 +485,24 @@ html{scroll-behavior:smooth}
       <div class="reel-meta" id="cwMeta">Reel ready</div>
     </div>
 
-    <!-- MOBILE / TIGHT-SCREEN FALLBACK: tap-through captured cards -->
+    <!-- MOBILE / TIGHT-SCREEN FALLBACK: tap-through captured signs -->
     <div class="cw-list" id="cwListView">
-      <div class="lhead">The Captured Roster — tap a card to read the job</div>
+      <div class="lhead">The Captured Roster — tap a name to enlarge the sign</div>
       <!-- rows injected by JS -->
     </div>
 
-    <p class="cw-foot">Tap a captured card for the job &nbsp;·&nbsp; <a href="#gate">↑ back to the Gate</a></p>
+    <p class="cw-foot">Tap a captured sign to enlarge it &nbsp;·&nbsp; <a href="#gate">↑ back to the Gate</a></p>
   </div>
 </section>
 
-<!-- ============ LOBBY-CARD DETAIL MODAL ============ -->
-<div id="cwmodal" hidden role="dialog" aria-modal="true" aria-labelledby="cwmClient">
+<!-- ============ ENLARGE-THE-NAME OVERLAY (name only, no detail copy) ============ -->
+<div id="cwmodal" hidden role="dialog" aria-modal="true" aria-label="Enlarged client sign">
   <div class="cwm-backdrop" data-close></div>
   <div class="cwm-card" role="document">
     <button class="cwm-x" data-close aria-label="Close">&times;</button>
-    <div class="cwm-stage" id="cwmStage">
+    <div class="cwm-stage cwm-stage-big" id="cwmStage">
       <span class="lobbytag" id="cwmLobbyTag"></span>
       <span class="nm" id="cwmStageName"></span>
-      <span class="gag-strip" id="cwmGagStrip"></span>
-    </div>
-    <div class="cwm-body">
-      <div class="cwm-tag" id="cwmTag"></div>
-      <h3 class="cwm-client" id="cwmClient"></h3>
-      <div class="cwm-role" id="cwmRole"></div>
-      <p class="cwm-blurb" id="cwmBlurb"></p>
-      <div class="cwm-year" id="cwmYear"></div>
     </div>
   </div>
 </div>
