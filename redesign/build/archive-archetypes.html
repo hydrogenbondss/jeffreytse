@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — archetype range test (3 distinct layouts)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE — RANGE TEST.  Three records, three DIFFERENT
+     compositions (not one skeleton recoloured):
+       P1 Finite Appearances  -> CRIMSON FLORA  (centered specimen)
+       P2 Insights U&U         -> MARGOT sheet   (headline + scan)
+       P3 Resonance            -> DIVE / GLOW     (dark, minimal)
+     Shared DNA only: real mono codes, a handmade mark, barcode,
+     specimen framing, ink discipline.  No generation.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+    --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive; --serif:'Cormorant Garamond',Georgia,serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{color:#1a1814;font-family:var(--sans);min-height:100vh;padding:clamp(16px,4vw,52px) clamp(14px,4vw,52px) 90px;
+    background-color:#9b978c;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.016' numOctaves='5' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.5'/%3E%3C/svg%3E"),
+      radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.10),transparent 60%),
+      radial-gradient(120% 120% at 50% 120%,rgba(0,0,0,.32),transparent 60%),
+      linear-gradient(180deg,#a6a297,#8f8b80);
+    background-blend-mode:multiply,screen,multiply,normal}
+  .head-note{max-width:1200px;margin:0 auto clamp(24px,5vw,44px);border-bottom:2px solid rgba(26,24,20,.5);padding-bottom:16px}
+  .head-note h1{font-family:var(--anton);font-size:clamp(2rem,6vw,3.4rem);text-transform:uppercase;color:#1a1814;mix-blend-mode:multiply;line-height:.9}
+  .head-note p{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#403b32;margin-top:10px;max-width:70ch;line-height:1.6}
+
+  .row{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(26px,4vw,48px);align-items:start}
+
+  /* shared pasted-up shell */
+  .paste{position:relative;transform:rotate(var(--rot,0deg))}
+  .tape{position:absolute;z-index:12;width:66px;height:21px;pointer-events:none;background:rgba(222,210,176,.5);
+    box-shadow:0 1px 3px rgba(0,0,0,.22);mix-blend-mode:multiply;border-left:1px dashed rgba(0,0,0,.1);border-right:1px dashed rgba(0,0,0,.1)}
+  .tape.tl{top:-10px;left:-9px;transform:rotate(-24deg)} .tape.tr{top:-8px;right:-9px;transform:rotate(20deg)}
+  .poster{position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;box-shadow:0 18px 40px -18px rgba(0,0,0,.72),0 2px 6px rgba(0,0,0,.4)}
+  .grain::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:9;opacity:.15;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .barcode{height:24px;background:repeating-linear-gradient(90deg,currentColor 0 1.5px,transparent 1.5px 3px,currentColor 3px 4px,transparent 4px 7px,currentColor 7px 9px,transparent 9px 11px)}
+  .cap{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:#2c281f;text-transform:uppercase;text-align:center;margin-top:14px;line-height:1.5}
+  .cap b{color:#7a2e22}
+
+  /* ============== P1 — CRIMSON FLORA (centered specimen) ============== */
+  .p1{background:#c6e21a;color:#0e0e0a}
+  .p1 .codes{position:absolute;top:12px;left:12px;right:12px;z-index:6;display:flex;justify-content:space-between;
+    font-family:var(--mono);font-size:.5rem;line-height:1.5;letter-spacing:.04em;text-transform:uppercase}
+  .p1 .codes .r{text-align:right}
+  .p1 .bignum{position:absolute;top:34px;right:8px;z-index:3;font-family:var(--anton);font-size:clamp(4rem,17vw,6.4rem);
+    color:#e8275f;line-height:.8}
+  .p1 .title{position:absolute;left:12px;top:64px;z-index:3;font-family:var(--anton);font-size:clamp(2.6rem,11vw,4rem);
+    line-height:.82;text-transform:uppercase;color:#0e0e0a}
+  .p1 .title em{display:block;font-family:var(--serif);font-style:italic;font-weight:500;color:#e8275f;
+    font-size:.62em;text-transform:none;margin-top:2px}
+  .p1 .subj{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:66%;aspect-ratio:4/5;z-index:4}
+  .p1 .subj img{width:100%;height:100%;object-fit:cover;filter:url(#duoMag) contrast(1.45) brightness(1.05)}
+  .p1 .subj .gl{position:absolute;left:-6%;width:112%;height:6%;mix-blend-mode:multiply;opacity:.9;
+    background:repeating-linear-gradient(90deg,#e8275f 0 7px,transparent 7px 14px),repeating-linear-gradient(90deg,#0e0e0a 0 3px,transparent 3px 18px)}
+  .p1 .subj svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .p1 .subj svg polyline{fill:none;stroke:#0e0e0a;stroke-width:1.3} .p1 .subj svg circle{fill:#e8275f;stroke:#0e0e0a;stroke-width:1}
+  .p1 .stmt{position:absolute;left:12px;bottom:96px;z-index:6;font-family:var(--mono);font-weight:700;color:#e8275f;
+    font-size:clamp(.7rem,2.8vw,1rem);line-height:1.04;text-transform:uppercase}
+  .p1 .stmt small{display:block;color:#0e0e0a;font-weight:400;font-size:.52rem;letter-spacing:.06em;margin-top:3px}
+  .p1 .vyear{position:absolute;left:8px;bottom:120px;z-index:2;font-family:var(--anton);font-size:clamp(2.4rem,10vw,3.6rem);
+    color:#0e0e0a;line-height:.8;writing-mode:vertical-rl;opacity:.16}
+  .p1 .foot{position:absolute;left:12px;right:12px;bottom:12px;z-index:6;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;color:#0e0e0a}
+  .p1 .foot .barcode{width:78px;color:#0e0e0a;flex:none}
+  .p1 .foot .ser{font-family:var(--mono);font-size:.46rem;letter-spacing:.05em;text-align:right;line-height:1.5}
+
+  /* ============== P2 — MARGOT sheet (headline + scan) ============== */
+  .p2{background:#ece7da;color:#141210}
+  .p2 .masthead{position:absolute;top:0;left:0;right:0;z-index:6;padding:9px 12px 0;font-family:var(--mono)}
+  .p2 .masthead .a{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:.46rem;letter-spacing:.08em;
+    text-transform:uppercase;border-top:1.4px solid #141210;border-bottom:1.4px solid #141210;padding:4px 0}
+  .p2 .hl{position:absolute;left:12px;top:40px;z-index:5;font-family:var(--anton);text-transform:uppercase;line-height:.82;color:#141210}
+  .p2 .hl .pre{display:block;font-family:var(--serif);font-style:italic;font-size:.9rem;text-transform:none;color:#2536d8;margin-bottom:2px}
+  .p2 .hl .big{display:block;font-size:clamp(2.4rem,10vw,3.5rem)}
+  .p2 .ask{position:absolute;right:12px;top:88px;z-index:5;width:42%;font-family:var(--sans);font-weight:800;
+    font-size:.66rem;line-height:1.12;text-transform:uppercase;text-align:left}
+  .p2 .ask small{display:block;font-weight:400;font-size:.52rem;letter-spacing:.02em;margin-top:5px;text-transform:none;color:#4a463c}
+  .p2 .thumb{position:absolute;left:12px;top:160px;z-index:5;width:38%}
+  .p2 .thumb .fr{position:relative;background:#141210;padding:5px}
+  .p2 .thumb img{width:100%;display:block;filter:grayscale(1) contrast(1.3) brightness(.95)}
+  .p2 .thumb .rbox{position:absolute;right:-6px;top:-6px;width:34%;height:42%;border:2.5px solid #e5332a;z-index:2}
+  .p2 .thumb .hand{font-family:var(--mark);font-size:1.25rem;color:#141210;line-height:.9;margin-top:4px;transform:rotate(-3deg)}
+  .p2 .thumb svg{position:absolute;right:-22px;bottom:6px;width:60px;height:46px;overflow:visible}
+  .p2 .thumb svg path{fill:none;stroke:#141210;stroke-width:2.2;stroke-linecap:round}
+  .p2 .scan{position:absolute;right:6px;bottom:64px;z-index:4;width:60%;aspect-ratio:3/4}
+  .p2 .scan img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.25)}
+  .p2 .scan svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .p2 .scan svg polyline{fill:none;stroke:#2536d8;stroke-width:1.6} .p2 .scan svg circle{fill:#2536d8;stroke:#ece7da;stroke-width:1.2}
+  .p2 .sq{position:absolute;z-index:5;width:11px;height:11px;background:#2536d8}
+  .p2 .foot{position:absolute;left:0;right:0;bottom:0;z-index:6;border-top:1.5px solid #141210;margin:0 12px;padding:6px 0 12px;
+    font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+
+  /* ============== P3 — DIVE / GLOW (dark, minimal) ============== */
+  .p3{background:#14121c;color:#ece6d6}
+  .p3 .glow{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:90%;aspect-ratio:1/1;z-index:1;
+    background:radial-gradient(circle at 50% 50%,rgba(255,77,157,.55),rgba(255,77,157,.12) 40%,transparent 62%)}
+  .p3 .rings{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:74%;aspect-ratio:1/1;z-index:2;border-radius:50%;
+    background:repeating-radial-gradient(circle at 50% 50%,transparent 0 13px,rgba(255,77,157,.22) 13px 14.5px)}
+  .p3 .star{position:absolute;z-index:3;color:#9ef01a;font-weight:900;font-family:var(--sans)}
+  .p3 .dot{position:absolute;z-index:2;width:3px;height:3px;border-radius:50%;background:rgba(236,230,214,.7)}
+  .p3 .top{position:absolute;top:14px;left:12px;right:12px;z-index:4;font-family:var(--mono);font-size:.5rem;
+    letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;color:#bdb8d0}
+  .p3 .hand{position:absolute;left:12px;top:40%;z-index:4;font-family:var(--mark);font-size:clamp(1.4rem,5.4vw,2rem);
+    color:#ff4d9d;line-height:.92;transform:rotate(-3deg);width:64%}
+  .p3 .title{position:absolute;left:12px;right:12px;bottom:74px;z-index:4;font-family:var(--anton);
+    font-size:clamp(2.6rem,12vw,4.4rem);text-transform:uppercase;letter-spacing:.04em;line-height:.86;color:#ece6d6}
+  .p3 .foot{position:absolute;left:12px;right:12px;bottom:14px;z-index:4;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;color:#ece6d6}
+  .p3 .foot .barcode{width:74px;color:#ece6d6;flex:none;opacity:.85}
+  .p3 .foot .ser{font-family:var(--mono);font-size:.46rem;letter-spacing:.06em;text-align:right;line-height:1.5;color:#bdb8d0}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="duoMag"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.05 0.91"/><feFuncG type="table" tableValues="0.05 0.15"/><feFuncB type="table" tableValues="0.05 0.37"/></feComponentTransfer></filter>
+</svg>
+
+<div class="head-note">
+  <h1>Range test — 3 layouts</h1>
+  <p>Same archive, three different compositions. If these read as three distinct posters (not one recoloured three times), the approach is proven and I convert the other five.</p>
+</div>
+
+<div class="row">
+
+  <!-- ============ P1 — FINITE APPEARANCES / CRIMSON FLORA ============ -->
+  <div>
+    <div class="paste" style="--rot:-2deg">
+      <span class="tape tl"></span><span class="tape tr"></span>
+      <article class="poster p1 grain">
+        <div class="codes">
+          <div class="l">ARCHIVE · SPECIMEN<br>EX-02 · CO-CURATED<br>PLASTER / SOAP / VIDEO</div>
+          <div class="r">WAAP<br>VANCOUVER<br>2018</div>
+        </div>
+        <div class="bignum">02</div>
+        <h2 class="title">Finite<em>appearances — Kelly Holmes</em></h2>
+        <div class="vyear">2018</div>
+        <div class="subj">
+          <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/00c952ca-9eca-4873-869c-bb18d048c53f.png" alt="">
+          <div class="gl" style="top:36%"></div><div class="gl" style="top:64%;height:4%;opacity:.8"></div>
+          <svg viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="24,42 52,28 76,46 66,74 40,84 24,42 50,57 76,46 40,84 50,57 66,74"/>
+            <circle cx="24" cy="42" r="2.4"/><circle cx="52" cy="28" r="2.4"/><circle cx="76" cy="46" r="2.4"/>
+            <circle cx="66" cy="74" r="2.4"/><circle cx="40" cy="84" r="2.4"/><circle cx="50" cy="57" r="2.4"/>
+          </svg>
+        </div>
+        <div class="stmt">Intimacy<br>not archivable<small>— the cast keeps the shape, never the feeling.</small></div>
+        <div class="foot">
+          <span class="barcode" aria-hidden="true"></span>
+          <span class="ser">© ARCHIVE · J. N. TSE<br>№ EX-02 / 2018</span>
+        </div>
+      </article>
+    </div>
+    <p class="cap">P1 · <b>cloned from CRIMSON FLORA</b> — centered specimen, big number, orbiting codes</p>
+  </div>
+
+  <!-- ============ P2 — INSIGHTS UNSEEN & UNHEARD / MARGOT ============ -->
+  <div>
+    <div class="paste" style="--rot:1.6deg">
+      <span class="tape tl"></span><span class="tape tr"></span>
+      <article class="poster p2 grain">
+        <div class="masthead"><div class="a"><span>Archive</span><span>Record</span><span>EX-04</span><span>Hatch Art Gallery</span><span>2017</span></div></div>
+        <h2 class="hl"><span class="pre">Insights —</span><span class="big">Unseen<br>&amp; Unheard</span></h2>
+        <div class="ask">What stays at the edge of what you can see?<small>Photography · sound · installation. Hatch Art Gallery, Vancouver.</small></div>
+        <div class="thumb">
+          <div class="fr"><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/1714a2f0-4d19-4f77-9cd9-c4de7baed614.png" alt=""><span class="rbox"></span></div>
+          <div class="hand">Impulsive Fragments</div>
+          <svg viewBox="0 0 60 46" aria-hidden="true"><path d="M4 8 C 22 20, 26 40, 52 36"/><path d="M52 36 l-13 -2 M52 36 l-4 -12"/></svg>
+        </div>
+        <span class="sq" style="left:54%;top:46px"></span>
+        <span class="sq" style="left:16%;top:128px;background:#e5332a"></span>
+        <div class="scan">
+          <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/075172b6-c5a5-4b4f-8b19-e19f7d1b0442.png" alt="">
+          <svg viewBox="0 0 100 130" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="20,30 58,18 84,40 70,70 80,104 44,118 18,86 30,52 20,30 58,18 70,70 44,118 30,52 80,104"/>
+            <circle cx="20" cy="30" r="2.6"/><circle cx="58" cy="18" r="2.6"/><circle cx="84" cy="40" r="2.6"/>
+            <circle cx="70" cy="70" r="2.6"/><circle cx="80" cy="104" r="2.6"/><circle cx="44" cy="118" r="2.6"/>
+            <circle cx="18" cy="86" r="2.6"/><circle cx="30" cy="52" r="2.6"/>
+          </svg>
+        </div>
+        <div class="foot"><span>Jeffrey Tse — Impulsive Fragments</span><span>one contribution among several →</span></div>
+      </article>
+    </div>
+    <p class="cap">P2 · <b>cloned from the MARGOT sheet</b> — giant headline, scan + connect-dots, handwriting</p>
+  </div>
+
+  <!-- ============ P3 — RESONANCE / DIVE INTO THE UNKNOWN ============ -->
+  <div>
+    <div class="paste" style="--rot:-1.3deg">
+      <span class="tape tl"></span><span class="tape tr"></span>
+      <article class="poster p3 grain">
+        <div class="glow"></div>
+        <div class="rings"></div>
+        <span class="dot" style="left:18%;top:20%"></span><span class="dot" style="left:78%;top:16%"></span>
+        <span class="dot" style="left:30%;top:30%"></span><span class="dot" style="left:84%;top:40%"></span>
+        <span class="dot" style="left:12%;top:48%"></span><span class="dot" style="left:66%;top:54%"></span>
+        <span class="dot" style="left:24%;top:62%"></span><span class="dot" style="left:88%;top:62%"></span>
+        <span class="star" style="left:70%;top:24%;font-size:1.2rem">✦</span>
+        <span class="star" style="left:20%;top:70%;font-size:.8rem">✦</span>
+        <div class="top"><span>Archive · EX-05</span><span>JCCAC · Hong Kong · 2017</span></div>
+        <div class="hand">a feeling that keeps coming back.</div>
+        <h2 class="title">Reson-<br>ance</h2>
+        <div class="foot">
+          <span class="barcode" aria-hidden="true"></span>
+          <span class="ser">© ARCHIVE · J. N. TSE<br>DAILY RECORD № EX-05</span>
+        </div>
+      </article>
+    </div>
+    <p class="cap">P3 · <b>cloned from DIVE INTO THE UNKNOWN</b> — dark, glow + rings, minimal type</p>
+  </div>
+
+</div>
+</body>
+</html>
