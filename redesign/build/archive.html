@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — Selected exhibitions, writing &amp; scholarship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- UNION of every Google Fonts family used across all 8 posters.
+     Fonts loaded in the document head ARE inherited into shadow roots. -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&family=Permanent+Marker&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE WALL — light/normal DOM only. Each poster lives in its
+     own shadow root (see templates + script below) so its CSS can
+     never leak or collide with this page or with sibling posters.
+     ============================================================ */
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:#1a1a1d;color:#e9e6df;min-height:100vh;
+    font-family:'Space Mono',monospace;
+    padding:clamp(28px,5vw,72px) clamp(16px,4vw,56px) clamp(60px,8vw,120px);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* --- header --- */
+  .wall-head{max-width:1180px;margin:0 auto clamp(34px,6vw,68px)}
+  .wall-head h1{
+    font-family:'Anton',Impact,sans-serif;
+    font-size:clamp(3.4rem,13vw,7.5rem);line-height:.9;
+    text-transform:uppercase;letter-spacing:.005em;color:#f4f1e9}
+  .wall-head .strap{
+    margin-top:clamp(12px,2vw,18px);max-width:60ch;
+    font-size:clamp(.72rem,1.4vw,.86rem);letter-spacing:.04em;line-height:1.6;
+    color:#a3a097}
+
+  /* --- section labels --- */
+  .section-label{
+    max-width:1180px;margin:clamp(40px,6vw,72px) auto clamp(18px,2.6vw,26px);
+    display:flex;align-items:center;gap:16px;
+    font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:#cfccc2}
+  .section-label::after{content:"";flex:1;height:1px;background:rgba(233,230,223,.16)}
+  .section-label:first-of-type{margin-top:0}
+
+  /* --- the grid wall --- */
+  .wall{
+    max-width:1180px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:clamp(26px,3.4vw,48px)}
+
+  .cell{display:flex;flex-direction:column;gap:14px}
+
+  /* the shadow host — holds one poster, keeps its 848/1264 shape */
+  .host{
+    display:block;width:100%;aspect-ratio:848/1264;
+    border-radius:3px;overflow:hidden;
+    box-shadow:0 22px 48px -22px rgba(0,0,0,.72);
+    transition:transform .35s ease, box-shadow .35s ease}
+  .cell:hover .host{transform:translateY(-5px);box-shadow:0 30px 60px -22px rgba(0,0,0,.82)}
+
+  .cell figcaption{
+    font-size:.74rem;letter-spacing:.05em;line-height:1.4;color:#cbc8be;text-align:center}
+
+  @media (max-width:560px){
+    .wall{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .host{transition:none}
+    .cell:hover .host{transform:none}
+  }
+</style>
+</head>
+<body>
+
+  <header class="wall-head">
+    <h1>Archive</h1>
+    <p class="strap">Selected exhibitions, writing &amp; scholarship — the human, analogue record.</p>
+  </header>
+
+  <h2 class="section-label">Exhibitions</h2>
+  <section class="wall" id="wall-exhibitions">
+    <figure class="cell"><div class="host" data-poster="welcome-home"></div><figcaption>Welcome Home</figcaption></figure>
+    <figure class="cell"><div class="host" data-poster="finite-appearances"></div><figcaption>Finite Appearances</figcaption></figure>
+    <figure class="cell"><div class="host" data-poster="undergrowth"></div><figcaption>UNDERGROWTH</figcaption></figure>
+    <figure class="cell"><div class="host" data-poster="insights"></div><figcaption>Insights Unseen &amp; Unheard</figcaption></figure>
+    <figure class="cell"><div class="host" data-poster="resonance"></div><figcaption>Resonance</figcaption></figure>
+  </section>
+
+  <h2 class="section-label">Writing &amp; Scholarship</h2>
+  <section class="wall" id="wall-writing">
+    <figure class="cell"><div class="host" data-poster="beitler"></div><figcaption>The Offender Behind the Lens</figcaption></figure>
+    <figure class="cell"><div class="host" data-poster="one-ply"></div><figcaption>One-Ply Realism</figcaption></figure>
+    <figure class="cell"><div class="host" data-poster="tinder"></div><figcaption>Online Dating &amp; Tinder</figcaption></figure>
+  </section>
+
+
+  <!-- ============================================================
+       POSTER TEMPLATES — one per poster. Each holds the poster's own
+       CSS (transformed: :root -> :host, body{} & .cap{} removed,
+       .poster width -> 100%) followed by the .poster markup only.
+       The script below clones each into its host's shadow root.
+       ============================================================ -->
+
+  <!-- WELCOME HOME -->
+  <template data-poster="welcome-home">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --ink:#16140d; --crimson:#d8265a;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;color:var(--ink);
+        background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_170455_11804830-04b8-4c57-bf7b-ad2f7805c7d7.png");
+        background-size:cover;background-position:center;
+        box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+
+      /* --- handwriting, top --- */
+      .hand{position:absolute;top:16px;right:15px;z-index:3;font-family:var(--mark);
+        font-size:clamp(1.3rem,5vw,1.9rem);line-height:.95;width:52%;text-align:right;color:var(--crimson);
+        transform:rotate(-2deg)}
+
+      /* --- bottom flat-green zone --- */
+      .title{position:absolute;left:15px;bottom:46px;z-index:3;font-family:var(--anton);
+        font-size:clamp(2.8rem,12vw,4.4rem);line-height:.8;text-transform:uppercase;letter-spacing:-.01em;color:var(--ink)}
+      .title span{color:var(--crimson)}
+      .credit{position:absolute;left:16px;bottom:22px;z-index:3;font-family:var(--mono);font-size:.56rem;
+        letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
+    </style>
+    <article class="poster">
+      <div class="hand">what makes a room yours?</div>
+
+      <h1 class="title">Welcome<br><span>Home</span></h1>
+      <div class="credit">Cube in Cube — Olivia Qiu, 2017</div>
+    </article>
+  </template>
+
+  <!-- FINITE APPEARANCES -->
+  <template data-poster="finite-appearances">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --bone:#f1ece0; --red:#ef4a2e;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;color:var(--bone);
+        background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_172035_10d1c702-6008-4631-a873-122b93bb0e53.png");
+        background-size:cover;background-position:center;
+        box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+
+      /* credit, top-left */
+      .credit{position:absolute;top:15px;left:15px;z-index:3;font-family:var(--mono);font-size:.56rem;
+        letter-spacing:.06em;text-transform:uppercase;line-height:1.5;color:var(--bone)}
+
+      /* TITLE — vertical, up the right edge */
+      .title{position:absolute;right:8px;top:18px;bottom:18px;z-index:3;font-family:var(--anton);
+        writing-mode:vertical-rl;text-orientation:mixed;font-size:clamp(1.8rem,6.4vw,2.7rem);
+        line-height:1;text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
+      .title span{color:var(--red)}
+
+      /* curatorial line, lower-left */
+      .hand{position:absolute;left:15px;bottom:18px;z-index:3;font-family:var(--mark);
+        font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:62%;color:var(--bone);transform:rotate(-1.5deg)}
+      .hand em{color:var(--red);font-style:normal}
+    </style>
+    <article class="poster">
+      <div class="credit">Kelly Holmes<br>Wil Aballe Art Projects · 2018</div>
+      <h1 class="title">Finite <span>Appearances</span></h1>
+      <div class="hand">can a cast hold the feeling — <em>or only the shape it left?</em></div>
+    </article>
+  </template>
+
+  <!-- UNDERGROWTH -->
+  <template data-poster="undergrowth">
+    <style>
+      :host{
+        --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Space Mono',monospace; --brush:'Permanent Marker',cursive;
+        --lime:#c6f032; --red:#e8281f; --cream:#f2eee2; --ink:#16210f;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;color:var(--lime);
+        background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_180554_ecd8fdd7-e8e2-40e0-8f88-f1b3a6d95910.png");
+        background-size:cover;background-position:center;box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+
+      /* red perspective outline around the base */
+      .outline{position:absolute;inset:0;z-index:1;pointer-events:none}
+      .outline polygon,.outline polyline{fill:none;stroke:var(--red);stroke-width:1.2;stroke-linejoin:miter;stroke-linecap:round}
+      .dot{position:absolute;z-index:2;width:14px;height:14px;border-radius:50%;background:var(--red)}
+
+      /* scattered lime labels (real content) */
+      .lab{position:absolute;z-index:3;font-family:var(--sans);font-weight:700;font-size:.66rem;line-height:1.05;
+        color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
+      .lab.s{font-weight:600;font-size:.56rem;color:var(--cream)}
+      .ll1{left:8%;top:44%} .ll2{right:9%;top:50%;text-align:right} .ll3{right:12%;top:62%;text-align:right} .ll4{left:10%;top:70%}
+      .free{position:absolute;right:9%;top:26%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.62rem;color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
+
+      /* big brush-handwritten line + printed echo */
+      .brush{position:absolute;left:6%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8vw,3rem);
+        line-height:.96;color:var(--lime);width:64%;text-shadow:0 2px 7px rgba(0,0,0,.4)}
+      .echo{position:absolute;left:34%;bottom:31%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.56rem;
+        color:var(--cream);transform:rotate(-2deg);text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+      /* brand mark, bottom-right */
+      .brand{position:absolute;right:6%;bottom:6%;z-index:3;text-align:right}
+      .brand b{display:block;font-family:var(--sans);font-weight:900;font-size:clamp(1.3rem,5vw,1.9rem);letter-spacing:.01em;
+        color:var(--lime);text-shadow:0 1px 5px rgba(0,0,0,.45);text-transform:uppercase}
+      .brand span{display:block;font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);
+        margin-top:3px;line-height:1.4;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+    </style>
+    <article class="poster">
+      <svg class="outline" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true">
+        <!-- ground-plane frame; back edge stops at the trunk (gap 28-72) so it reads as going behind the stump -->
+        <polyline points="28,96 14,96 2,138 98,138 86,96 72,96"/>
+      </svg>
+      <span class="dot" style="left:12%;top:63%"></span>
+      <span class="dot" style="right:12%;top:63%"></span>
+      <span class="dot" style="left:1%;top:91%"></span>
+      <span class="dot" style="right:1%;top:91%"></span>
+      <span class="dot" style="left:28%;top:92%"></span>
+      <span class="dot" style="right:28%;top:92%"></span>
+
+      <div class="free">(co-curated)</div>
+      <div class="lab ll1">Record—<br>the cohort</div>
+      <div class="lab ll2">Audain<br>Gallery</div>
+      <div class="lab ll3 s">2018</div>
+      <div class="lab ll4 s">BFA / BA<br>graduating show</div>
+
+      <div class="echo">what grows in the year everyone graduates</div>
+      <div class="brush">what grows in the<br>year everyone graduates?</div>
+
+      <div class="brand"><b>Undergrowth</b><span>Audain Gallery · Vancouver</span></div>
+    </article>
+  </template>
+
+  <!-- INSIGHTS UNSEEN & UNHEARD -->
+  <template data-poster="insights">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive; --serif:'Cormorant Garamond',Georgia,serif;
+        --paper:#ece7da; --ink:#141210; --blue:#2536d8; --red:#e5332a;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;background:var(--paper);
+        color:var(--ink);box-shadow:0 30px 70px -24px rgba(0,0,0,.7);
+        display:flex;flex-direction:column;padding:14px 15px 12px;gap:9px;
+        background-image:repeating-linear-gradient(0deg,rgba(20,18,16,.015) 0 1px,transparent 1px 3px)}
+
+      /* masthead rule — real info only, no accession chrome */
+      .mast{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-weight:700;
+        font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;
+        border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:4px 0;flex:none}
+
+      /* headline */
+      .head{flex:none}
+      .head .pre{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--blue);line-height:1;margin-bottom:1px}
+      .head h1{font-family:var(--anton);font-size:clamp(2.3rem,9.4vw,3.5rem);line-height:.82;
+        text-transform:uppercase;letter-spacing:-.005em;color:var(--ink)}
+      .head h1 .sq{display:inline-block;width:.5em;height:.5em;background:var(--red);vertical-align:.04em;margin-left:.06em}
+
+      /* subhead — its own row, clear of the headline */
+      .ask{flex:none;width:72%;margin-left:auto;text-align:right;font-weight:800;font-size:.66rem;
+        line-height:1.14;text-transform:uppercase}
+      .ask small{display:block;font-weight:400;font-size:.54rem;letter-spacing:.02em;margin-top:4px;text-transform:none;color:#4a463c}
+
+      /* media row */
+      .media{flex:1;display:grid;grid-template-columns:37% 1fr;gap:10px;min-height:0}
+      .left{display:flex;flex-direction:column;gap:6px;min-height:0}
+      .thumb{position:relative;background:var(--ink);padding:5px}
+      .thumb img{width:100%;display:block;filter:grayscale(1) contrast(1.3) brightness(.96)}
+      .thumb .rbox{position:absolute;right:-5px;top:-5px;width:38%;height:46%;border:2.5px solid var(--red)}
+      .left .hand{font-family:var(--mark);font-size:1.3rem;color:var(--ink);line-height:.92;transform:rotate(-3deg)}
+      .main{position:relative;min-height:0}
+      .main img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.22);display:block}
+      .main svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+      .main svg polyline{fill:none;stroke:var(--blue);stroke-width:2}
+      .main svg circle{fill:var(--blue);stroke:var(--paper);stroke-width:1.6}
+
+      /* footer line */
+      .foot{flex:none;border-top:1.5px solid var(--ink);padding-top:6px;display:flex;justify-content:space-between;gap:10px;
+        font-family:var(--mono);font-size:.5rem;letter-spacing:.07em;text-transform:uppercase;line-height:1.4}
+    </style>
+    <article class="poster">
+      <div class="mast"><span>Group Exhibition</span><span>Hatch Art Gallery</span><span>Vancouver</span><span>2017</span></div>
+
+      <div class="head">
+        <div class="pre">Insights —</div>
+        <h1>Unseen<br>&amp; Unheard<span class="sq"></span></h1>
+      </div>
+
+      <div class="ask">What stays at the edge of what you can see?
+        <small>Photography · sound · installation. Jeffrey Tse — Impulsive Fragments.</small></div>
+
+      <div class="media">
+        <div class="left">
+          <figure class="thumb">
+            <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/1714a2f0-4d19-4f77-9cd9-c4de7baed614.png" alt="Installation view, Insights Unseen and Unheard">
+            <span class="rbox"></span>
+          </figure>
+          <div class="hand">Impulsive Fragments</div>
+        </div>
+        <figure class="main">
+          <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/075172b6-c5a5-4b4f-8b19-e19f7d1b0442.png" alt="Jeffrey Tse, Impulsive Fragments">
+          <svg viewBox="0 0 100 130" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="20,30 58,18 84,40 70,70 80,104 44,118 18,86 30,52 20,30 58,18 70,70 44,118 30,52 80,104"/>
+            <circle cx="20" cy="30" r="2.6"/><circle cx="58" cy="18" r="2.6"/><circle cx="84" cy="40" r="2.6"/>
+            <circle cx="70" cy="70" r="2.6"/><circle cx="80" cy="104" r="2.6"/><circle cx="44" cy="118" r="2.6"/>
+            <circle cx="18" cy="86" r="2.6"/><circle cx="30" cy="52" r="2.6"/>
+          </svg>
+        </figure>
+      </div>
+
+      <div class="foot"><span>Jeffrey Tse — Impulsive Fragments</span><span>one contribution among several →</span></div>
+    </article>
+  </template>
+
+  <!-- RESONANCE -->
+  <template data-poster="resonance">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --mag:#c0246a; --cream:#f3efe2; --lime:#d6f02a; --ink:#2a0f1a; --orange:#ff7a1a;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;background:var(--mag);
+        color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+      .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.18;mix-blend-mode:multiply;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+      /* faint tiled type-texture */
+      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+        line-height:1.7;letter-spacing:.34em;word-spacing:.5em;text-transform:uppercase;color:rgba(243,239,226,.1);overflow:hidden}
+
+      /* ripple rings — the resonance motif */
+      .glow{position:absolute;left:52%;top:40%;transform:translate(-50%,-50%);width:78%;aspect-ratio:1/1;z-index:1;
+        background:radial-gradient(circle at 50% 50%,rgba(243,239,226,.5),rgba(243,239,226,.12) 38%,transparent 60%)}
+      .rings{position:absolute;left:52%;top:40%;transform:translate(-50%,-50%);width:96%;aspect-ratio:1/1;z-index:2;border-radius:50%;
+        background:repeating-radial-gradient(circle at 50% 50%,transparent 0 15px,rgba(243,239,226,.55) 15px 16.5px)}
+      .rings.r2{left:22%;top:74%;width:52%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 11px,rgba(214,240,42,.6) 11px 12.5px)}
+
+      /* focal title, bottom */
+      .title{position:absolute;left:14px;bottom:54px;z-index:3;font-family:var(--anton);
+        font-size:clamp(2.4rem,10.5vw,3.8rem);line-height:.84;text-transform:uppercase;letter-spacing:.04em;color:var(--cream)}
+
+      /* scattered labels */
+      .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.62rem;line-height:1.12;
+        text-transform:uppercase;color:var(--cream)}
+      .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(243,239,226,.85)}
+      .lab.lime{color:var(--lime)}
+      .l1{left:15px;top:14px} .l2{right:15px;top:14px;text-align:right}
+      .l3{right:15px;bottom:54px;text-align:right} .l4{left:15px;bottom:16px}
+      .mark{position:absolute;right:15px;top:30%;z-index:4;font-family:var(--mark);
+        font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:56%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
+      .mark em{color:var(--lime);font-style:normal}
+
+      .dot{position:absolute;z-index:4;width:13px;height:13px;border-radius:50%;background:var(--lime)}
+    </style>
+    <article class="poster">
+      <div class="tile">RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE</div>
+
+      <div class="glow"></div>
+      <div class="rings"></div>
+      <div class="rings r2"></div>
+
+      <h1 class="title">Reson&shy;ance</h1>
+
+      <div class="lab l1">Curator<br>2017</div>
+      <div class="lab l2 lime">JCCAC<br>Hong Kong</div>
+      <div class="lab s l3">abstract acrylic<br>on circular canvas</div>
+      <div class="lab s l4">memory · identity · trace</div>
+
+      <div class="mark">a feeling that <em>keeps coming back.</em></div>
+
+      <span class="dot" style="left:20%;top:26%"></span>
+      <span class="dot" style="right:24%;top:60%;background:var(--orange)"></span>
+      <span class="dot" style="left:64%;bottom:26%"></span>
+    </article>
+  </template>
+
+  <!-- THE OFFENDER BEHIND THE LENS -->
+  <template data-poster="beitler">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --serif:'Cormorant Garamond',Georgia,serif; --mono:'Space Mono',monospace;
+        --bg:#16182e; --cream:#e9e3d4; --dim:#8d8aa0; --ox:#c0563b;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;background:var(--bg);
+        color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.75);
+        display:flex;flex-direction:column;padding:clamp(22px,5.5vw,34px) clamp(20px,5vw,30px)}
+      .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:soft-light;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+      .eyebrow{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.56rem;
+        letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+        border-bottom:1px solid rgba(233,227,212,.16);padding-bottom:10px;flex:none;position:relative;z-index:3}
+
+      .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5vw,4.6rem);line-height:.9;text-transform:uppercase;
+        letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7vw,46px);position:relative;z-index:3}
+      .title span{color:var(--ox)}
+      .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2vw,1.35rem);
+        color:var(--dim);line-height:1.25;margin-top:14px;position:relative;z-index:3}
+
+      .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.4;
+        color:var(--cream);margin-top:auto;max-width:30ch;position:relative;z-index:3}
+
+      .withheld{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);
+        border-top:1px solid rgba(192,86,59,.5);padding-top:11px;margin-top:clamp(20px,5vw,30px);line-height:1.5;position:relative;z-index:3}
+      .withheld b{color:var(--cream)}
+
+      .foot{font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;color:var(--dim);line-height:1.6;
+        margin-top:12px;flex:none;position:relative;z-index:3}
+      .foot a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(192,86,59,.5)}
+      .foot a:hover,.foot a:focus-visible{color:var(--ox)}
+    </style>
+    <article class="poster">
+      <div class="eyebrow"><span>Essay · UJAH · 2019</span><span>Jeffrey N. Tse</span></div>
+
+      <h1 class="title">The Offender<br>Behind the<br><span>Lens</span></h1>
+      <div class="subtitle">The ethical legacy of Beitler&rsquo;s lynching photograph.</div>
+
+      <p class="grave">What does it mean to circulate an image whose origin was the very crime it documents?</p>
+
+      <div class="withheld"><b>Photograph withheld.</b> To reproduce it would repeat the act the writing interrogates.</div>
+      <div class="foot"><a href="https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/" target="_blank" rel="noopener">Cited — Milwaukee Independent, 2020</a> &nbsp;·&nbsp; <a href="https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/" target="_blank" rel="noopener">UJAH Symposium, AHVA UBC</a></div>
+    </article>
+  </template>
+
+  <!-- ONE-PLY REALISM -->
+  <template data-poster="one-ply">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --tang:#e8642a; --paper:#f6f1e6; --ink:#1c1208; --blue:#2536d8;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;background:var(--tang);
+        color:var(--ink);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+      .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:multiply;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+        line-height:1.7;letter-spacing:.32em;word-spacing:.5em;text-transform:uppercase;color:rgba(28,18,8,.1);overflow:hidden}
+
+      /* unspooling paper strip + perforations */
+      .strip{position:absolute;top:-5%;left:44%;width:23%;height:88%;z-index:1;background:var(--paper);
+        transform:rotate(4deg);box-shadow:0 0 0 1px rgba(28,18,8,.12),6px 0 14px rgba(0,0,0,.12);
+        background-image:repeating-linear-gradient(180deg,transparent 0 42px,rgba(28,18,8,.22) 42px 43px)}
+      /* the roll at the top of the strip */
+      .roll{position:absolute;top:6%;left:42%;width:27%;aspect-ratio:1/1;z-index:2;border-radius:50%;transform:rotate(4deg);
+        background:radial-gradient(circle at 50% 50%,var(--ink) 0 12%,var(--paper) 12% 20%,var(--ink) 20% 22%,var(--paper) 22%);
+        box-shadow:0 0 0 2px rgba(28,18,8,.2)}
+
+      /* focal title, top-left */
+      .title{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--anton);
+        font-size:clamp(2.4rem,10.5vw,3.8rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+      .title b{font-weight:400;color:var(--paper)}
+
+      .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.6rem;line-height:1.12;
+        text-transform:uppercase;color:var(--ink)}
+      .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(28,18,8,.8)}
+      .lab.pap{color:var(--paper)}
+      .l1{right:15px;top:16px;text-align:right} .l2{left:15px;top:38%} .l3{right:15px;top:54%;text-align:right} .l4{left:15px;bottom:74px}
+      .mark{position:absolute;right:14px;bottom:44px;z-index:4;font-family:var(--mark);
+        font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:54%;text-align:right;color:var(--ink);transform:rotate(-2deg)}
+      .mark em{color:var(--blue);font-style:normal}
+
+      .readlink{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-weight:700;font-size:.56rem;
+        letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);padding-bottom:1px}
+      .readlink:hover,.readlink:focus-visible{color:var(--blue)}
+
+      .dot{position:absolute;z-index:4;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+    </style>
+    <article class="poster">
+      <div class="tile">ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM</div>
+
+      <div class="strip"></div>
+      <div class="roll"></div>
+
+      <h1 class="title">One-Ply<br><b>Realism</b></h1>
+
+      <div class="lab l1 pap">Author<br>ROLL CALL · 2026</div>
+      <div class="lab s l2">supply chains<br>hygiene politics</div>
+      <div class="lab s l3 pap">colonial inheritance<br>economics of default</div>
+      <div class="lab l4">Material Culture<br>Archive</div>
+
+      <div class="mark">the most ignored <em>object in the room.</em></div>
+      <a class="readlink" href="https://hydrogenbondss.github.io/Rollcall/#/essay" target="_blank" rel="noopener">read the full essay →</a>
+
+      <span class="dot" style="left:24%;top:28%"></span>
+      <span class="dot" style="right:30%;top:46%;background:var(--ink)"></span>
+      <span class="dot" style="left:30%;bottom:32%"></span>
+    </article>
+  </template>
+
+  <!-- ONLINE DATING & TINDER -->
+  <template data-poster="tinder">
+    <style>
+      :host{
+        --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --red:#e5332a; --cream:#f6efe2; --ink:#1a0e0c; --blue:#2536d8;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+
+      .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;background:var(--red);
+        color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+      .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.17;mix-blend-mode:multiply;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+        line-height:1.7;letter-spacing:.3em;word-spacing:.5em;text-transform:uppercase;color:rgba(246,239,226,.1);overflow:hidden}
+
+      /* soft spray heart */
+      .heart{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:66%;z-index:1;
+        filter:blur(2px)}
+      .heart svg{width:100%;display:block}
+      .heart svg path{fill:var(--cream)}
+
+      /* focal title */
+      .title{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--anton);
+        font-size:clamp(2.6rem,11.5vw,4.2rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--cream)}
+
+      /* swipe cues */
+      .swipe{position:absolute;z-index:4;font-family:var(--mono);font-weight:700;font-size:.56rem;
+        letter-spacing:.12em;text-transform:uppercase;color:var(--cream)}
+      .swipe.l{left:14px;top:50%} .swipe.r{right:14px;top:50%;text-align:right;color:var(--blue)}
+
+      .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.6rem;line-height:1.12;
+        text-transform:uppercase;color:var(--cream)}
+      .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(246,239,226,.85)}
+      .l1{right:15px;top:16px;text-align:right} .l2{left:15px;top:40%} .l3{right:15px;top:62%;text-align:right} .l4{left:15px;bottom:74px}
+
+      .mark{position:absolute;right:14px;bottom:44px;z-index:4;font-family:var(--mark);
+        font-size:clamp(1.4rem,5.4vw,2.05rem);line-height:.96;width:60%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
+      .mark em{color:var(--blue);font-style:normal}
+
+      .credit{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-size:.52rem;
+        letter-spacing:.06em;text-transform:uppercase;color:rgba(246,239,226,.85)}
+
+      .dot{position:absolute;z-index:4;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+    </style>
+    <article class="poster">
+      <div class="tile">TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER</div>
+
+      <div class="heart" aria-hidden="true">
+        <svg viewBox="0 0 100 92"><path d="M50 84 C 18 60, 3 41, 17 21 C 27 7, 46 9, 50 25 C 54 9, 73 7, 83 21 C 97 41, 82 60, 50 84 Z"/></svg>
+      </div>
+
+      <h1 class="title">Online<br>Dating</h1>
+
+      <span class="swipe l">← nope</span>
+      <span class="swipe r">like →</span>
+
+      <div class="lab l1">MSc Thesis<br>2023</div>
+      <div class="lab s l2">marketing<br>legitimacy</div>
+      <div class="lab s l3">consumer<br>perception</div>
+      <div class="lab l4">A study on<br>Tinder</div>
+
+      <div class="mark">does the market <em>believe in love?</em></div>
+      <div class="credit">Hong Kong Polytechnic University · supervisor Dr Vincent Leung</div>
+
+      <span class="dot" style="left:26%;top:30%"></span>
+      <span class="dot" style="right:28%;top:50%;background:var(--cream)"></span>
+      <span class="dot" style="left:34%;bottom:30%"></span>
+    </article>
+  </template>
+
+
+  <script>
+    // For each host div, attach a shadow root and clone its matching
+    // template's content into it. Each poster's CSS is thereby fully
+    // isolated — :host scopes the custom props per poster, and no
+    // selector can leak in or out.
+    (function () {
+      var hosts = document.querySelectorAll('.host[data-poster]');
+      hosts.forEach(function (host) {
+        var key = host.getAttribute('data-poster');
+        var tpl = document.querySelector('template[data-poster="' + key + '"]');
+        if (!tpl) return;
+        var root = host.attachShadow({ mode: 'open' });
+        root.appendChild(tpl.content.cloneNode(true));
+      });
+    })();
+  </script>
+
+</body>
+</html>
