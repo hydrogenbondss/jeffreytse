@@ -3,79 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Offender Behind the Lens — HEADACHE-style</title>
+<title>The Offender Behind the Lens — words as the image</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,600;0,700;0,800;1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     THE OFFENDER BEHIND THE LENS — built directly on the
-     "A DOUCHEBAG'S HEADACHE" pick: deep blue, a soft peach
-     SPRAY-BLOB, scattered justified type, title spread across
-     the bottom. Sober member of the set; the withheld image is
-     spoken by the type, not shown. No generation.
+     THE OFFENDER BEHIND THE LENS — words as the image.
+     No motif, no blob, no box. The title carries the poster;
+     restraint is the design. Same family fonts (Anton + mono) +
+     grain so it belongs to the set, plus a serif for gravity.
+     Deep indigo ground ties softly to the HEADACHE-blue family.
      ============================================================ */
   :root{
-    --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Space Mono',monospace;
-    --blue:#262a86; --peach:#f0a47a; --cream:#efe7d6; --gold:#e8c84a;
+    --anton:'Anton',Impact,sans-serif; --serif:'Cormorant Garamond',Georgia,serif; --mono:'Space Mono',monospace;
+    --bg:#16182e; --cream:#e9e3d4; --dim:#8d8aa0; --ox:#c0563b;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
-    padding:clamp(16px,4vw,52px);font-family:var(--sans)}
+  body{background:#0c0c12;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
 
-  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--blue);
-    color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
-  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.26;mix-blend-mode:multiply;
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--bg);
+    color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.75);
+    display:flex;flex-direction:column;padding:clamp(22px,5.5vw,34px) clamp(20px,5vw,30px)}
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:soft-light;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-  /* soft amorphous spray-blob (abstract, non-figurative) */
-  .blob{position:absolute;left:49%;top:47%;transform:translate(-50%,-50%);width:60%;height:48%;z-index:1;filter:blur(3px)}
-  .blob i{position:absolute;inset:0;background:radial-gradient(closest-side,var(--peach),rgba(240,164,122,.62) 58%,transparent 78%);
-    border-radius:46% 54% 61% 39% / 53% 44% 56% 47%}
-  .blob i.two{left:24%;top:22%;width:64%;height:62%;background:radial-gradient(closest-side,var(--peach),rgba(240,164,122,.5) 60%,transparent 80%);
-    border-radius:60% 40% 43% 57% / 41% 57% 43% 59%}
+  .eyebrow{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.56rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+    border-bottom:1px solid rgba(233,227,212,.16);padding-bottom:10px;flex:none;position:relative;z-index:3}
 
-  /* scattered justified type */
-  .block{position:absolute;z-index:3;font-family:var(--sans);font-weight:700;font-style:italic;font-size:.58rem;line-height:1.34;
-    text-transform:uppercase;text-align:justify;color:var(--peach)}
-  .block.b1{left:15px;top:50px;width:42%}
-  .block.b2{right:15px;bottom:120px;width:38%;text-align:right}
+  .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5vw,4.6rem);line-height:.9;text-transform:uppercase;
+    letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7vw,46px);position:relative;z-index:3}
+  .title span{color:var(--ox)}
+  .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2vw,1.35rem);
+    color:var(--dim);line-height:1.25;margin-top:14px;position:relative;z-index:3}
 
-  .lab{position:absolute;z-index:3;font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(239,231,214,.85)}
-  .l1{left:15px;top:16px} .l2{right:15px;top:16px;text-align:right}
-  .wh{position:absolute;left:49%;top:47%;transform:translate(-50%,-50%);z-index:4;text-align:center;width:34%}
-  .wh .mk{font-family:var(--mono);font-weight:700;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:#2a1408}
+  .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.4;
+    color:var(--cream);margin-top:auto;max-width:30ch;position:relative;z-index:3}
 
-  /* title spread across the bottom (HEADACHE) */
-  .title{position:absolute;left:15px;right:15px;bottom:40px;z-index:3;font-family:var(--sans);font-weight:800;
-    font-size:clamp(1.5rem,5.6vw,2.1rem);line-height:1;text-transform:uppercase;letter-spacing:.01em;
-    color:var(--gold);display:flex;justify-content:space-between;gap:8px}
-  .sub{position:absolute;left:15px;right:15px;bottom:26px;z-index:3;font-family:var(--mono);font-size:.5rem;
-    letter-spacing:.04em;text-transform:uppercase;color:var(--peach);display:flex;justify-content:space-between;gap:8px}
-  .foot{position:absolute;left:15px;right:15px;bottom:12px;z-index:3;font-family:var(--mono);font-size:.46rem;
-    letter-spacing:.04em;color:rgba(239,231,214,.7);line-height:1.5}
-  .foot a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(240,164,122,.6)}
-  .foot a:hover,.foot a:focus-visible{color:var(--peach)}
+  .withheld{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);
+    border-top:1px solid rgba(192,86,59,.5);padding-top:11px;margin-top:clamp(20px,5vw,30px);line-height:1.5;position:relative;z-index:3}
+  .withheld b{color:var(--cream)}
+
+  .foot{font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;color:var(--dim);line-height:1.6;
+    margin-top:12px;flex:none;position:relative;z-index:3}
+  .foot a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(192,86,59,.5)}
+  .foot a:hover,.foot a:focus-visible{color:var(--ox)}
 
   .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
 </style>
 </head>
 <body>
   <article class="poster">
-    <div class="lab l1">Essay · UJAH<br>2019</div>
-    <div class="lab l2">Jeffrey N. Tse</div>
+    <div class="eyebrow"><span>Essay · UJAH · 2019</span><span>Jeffrey N. Tse</span></div>
 
-    <div class="block b1">A study of the ethical legacy of the photographic record of racial violence — the position of the lens, the responsibilities of looking, and what it means to circulate an image whose original act was the crime it documents.</div>
+    <h1 class="title">The Offender<br>Behind the<br><span>Lens</span></h1>
+    <div class="subtitle">The ethical legacy of Beitler&rsquo;s lynching photograph.</div>
 
-    <div class="blob" aria-hidden="true"><i></i><i class="two"></i></div>
-    <div class="wh"><span class="mk">photograph withheld</span></div>
+    <p class="grave">What does it mean to circulate an image whose origin was the very crime it documents?</p>
 
-    <div class="block b2">The photograph is not reproduced. To show it would repeat the act the writing interrogates. The lens does not look away — the question is whether we should.</div>
-
-    <div class="title"><span>The</span><span>Offender</span><span>Behind the Lens</span></div>
-    <div class="sub"><span>The ethical legacy of Beitler&rsquo;s lynching photograph</span></div>
+    <div class="withheld"><b>Photograph withheld.</b> To reproduce it would repeat the act the writing interrogates.</div>
     <div class="foot"><a href="https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/" target="_blank" rel="noopener">Cited — Milwaukee Independent, 2020</a> &nbsp;·&nbsp; <a href="https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/" target="_blank" rel="noopener">UJAH Symposium, AHVA UBC</a></div>
   </article>
-  <p class="cap">THE OFFENDER BEHIND THE LENS · built on the HEADACHE pick — soft spray-blob, scattered justified type, title across the bottom · no generation.</p>
+  <p class="cap">THE OFFENDER BEHIND THE LENS · words as the image — no motif, restraint carries it · same family fonts + grain, serif for gravity · no generation.</p>
 </body>
 </html>

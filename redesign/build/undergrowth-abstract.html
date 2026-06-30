@@ -28,7 +28,7 @@
 
   /* red perspective outline around the base */
   .outline{position:absolute;inset:0;z-index:1;pointer-events:none}
-  .outline polygon{fill:none;stroke:var(--red);stroke-width:1.1}
+  .outline polygon,.outline polyline{fill:none;stroke:var(--red);stroke-width:1.2;stroke-linejoin:miter;stroke-linecap:round}
   .dot{position:absolute;z-index:2;width:14px;height:14px;border-radius:50%;background:var(--red)}
 
   /* scattered lime labels (real content) */
@@ -57,14 +57,15 @@
 <body>
   <article class="poster">
     <svg class="outline" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true">
-      <polygon points="13,98 87,98 97,137 3,137"/>
+      <!-- ground-plane frame; back edge stops at the trunk (gap 28-72) so it reads as going behind the stump -->
+      <polyline points="28,96 14,96 2,138 98,138 86,96 72,96"/>
     </svg>
-    <span class="dot" style="left:11%;top:64%"></span>
-    <span class="dot" style="right:11%;top:64%"></span>
-    <span class="dot" style="left:2%;top:90%"></span>
-    <span class="dot" style="right:2%;top:90%"></span>
-    <span class="dot" style="left:32%;top:91%"></span>
-    <span class="dot" style="right:32%;top:91%"></span>
+    <span class="dot" style="left:12%;top:63%"></span>
+    <span class="dot" style="right:12%;top:63%"></span>
+    <span class="dot" style="left:1%;top:91%"></span>
+    <span class="dot" style="right:1%;top:91%"></span>
+    <span class="dot" style="left:28%;top:92%"></span>
+    <span class="dot" style="right:28%;top:92%"></span>
 
     <div class="free">(co-curated)</div>
     <div class="lab ll1">Record—<br>the cohort</div>
