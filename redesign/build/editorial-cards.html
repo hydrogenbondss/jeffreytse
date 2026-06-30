@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Editorials — Jeffrey N. Tse</title>
+<meta name="description" content="Fashion editorial as an animated card stack. Chief Editor & Interviewer at I.T Apparels, New York / Hong Kong, 2023–2025.">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0c;--panel:#141418;--card:#16161b;
+    --ink:#f2efe9;--ink-soft:rgba(242,239,233,.62);--ink-faint:rgba(242,239,233,.38);
+    --hair:rgba(242,239,233,.12);--accent:#e6c79a;
+    --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
+    --spring:cubic-bezier(.22,.68,.28,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:radial-gradient(120% 80% at 50% -10%,rgba(110,90,150,.16),transparent 55%),var(--bg);color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh}
+  #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,52px)}
+  .ed-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:clamp(10px,2vw,22px)}
+  .ed-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+  .ed-title{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.95}
+  .ed-title em{font-style:italic;color:var(--accent)}
+  .ed-credit{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--ink-soft);line-height:1.9;text-align:right}
+  .ed-credit b{color:var(--ink)}
+
+  /* stage */
+  .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+  .deck{position:relative;width:min(520px,92vw);height:430px;overflow:hidden}
+  .card{position:absolute;left:50%;bottom:24px;width:min(512px,90vw);height:300px;
+    background:var(--card);border:1px solid var(--hair);border-radius:16px 16px 0 0;
+    box-shadow:0 30px 60px -24px rgba(0,0,0,.8);padding:8px;
+    transform:translateX(-50%) translateY(0) scale(1);transform-origin:center bottom;
+    transition:transform .72s var(--spring),opacity .72s var(--spring);will-change:transform,opacity}
+  .card .img{height:198px;border-radius:11px;overflow:hidden;background:#1b1b20 center/cover no-repeat;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;text-align:center}
+  .card .img img{width:100%;height:100%;object-fit:cover;display:block;user-select:none}
+  .card .img .plate{padding:0 12%}
+  .card .img .plate .pt{font-family:var(--serif);font-size:1.5rem;line-height:1.05;color:var(--ink)}
+  .card .img .plate .pn{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:10px}
+  .card .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 10px 6px}
+  .card .row .meta{min-width:0}
+  .card .row .nm{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .row .ds{font-size:.84rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+  .read{flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;height:38px;padding:0 12px 0 16px;border-radius:40px;
+    background:var(--ink);color:var(--bg);font:600 .8rem/1 var(--ui);text-decoration:none;cursor:pointer;transition:.2s var(--spring)}
+  .read:hover{background:var(--accent)}
+  .read svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+  /* controls */
+  .controls{display:flex;align-items:center;gap:16px;border-top:1px solid var(--hair);width:min(520px,92vw);justify-content:center;padding-top:16px;margin-top:2px}
+  .nextbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;border-radius:9px;border:1px solid var(--hair);
+    background:rgba(255,255,255,.03);color:var(--ink);font:500 .82rem var(--ui);cursor:pointer;transition:.2s var(--spring)}
+  .nextbtn:hover{background:rgba(255,255,255,.08)}
+  .nextbtn:active{transform:scale(.98)}
+  .count{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--ink-faint);min-width:5em;text-align:center}
+  .hint{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint);margin-top:18px;text-align:center}
+
+  @media(max-width:600px){.ed-credit{text-align:left}.card{height:280px}.card .img{height:178px}.deck{height:400px}}
+  @media(prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<section id="editorial" aria-label="Editorials — fashion editorial card stack">
+  <div class="ed-head">
+    <div>
+      <div class="ed-eyebrow">Chief Editor &amp; Interviewer &middot; I.T Apparels</div>
+      <h1 class="ed-title"><em>Editorials</em></h1>
+    </div>
+    <p class="ed-credit"><b>Fashion Editorial</b><br>New York / Hong Kong<br>2023&ndash;2025</p>
+  </div>
+
+  <div class="stage">
+    <div class="deck" id="deck" aria-live="polite"></div>
+    <div class="controls">
+      <span class="count" id="count">01 / 10</span>
+      <button class="nextbtn" id="next">Next editorial
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M9.5 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="hint">Tap “Next” to flip through the collection &mdash; “Read” opens the full editorial.</div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+  var CDN="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
+  function u(id){return CDN+id+".png";}
+  var ED=[
+    {name:"NO ZIPPERS, NO APOLOGIES",sub:"Renaissance Renaissance — Cynthia Merhej’s Craft of Resistance",link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",cover:u("fe2a6de7-22ee-4151-baf8-894b1ab7bec0")},
+    {name:"MARKGONG FALL 2025",sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia",link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",cover:u("958a7f37-45e7-4b17-8b74-f88b2b35eab5")},
+    {name:"MASAYUKI INO",sub:"Doublet — Crafting Dreams into Reality",link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",cover:null,plate:"#2b2b33"},
+    {name:"A BATHING APE®",sub:"Fall / Winter 2024 in Shanghai",link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",cover:null,plate:"#243036"},
+    {name:"THE RISE OF BLOKECORE",sub:"Celebrating Football-Inspired Fashion",link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",cover:u("3d9d5a6e-cd0d-416b-a637-0b200b33ae4b")},
+    {name:"THE GOTHIC REALM OF DARK FASHION",sub:"Obsidian Elegance",link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",cover:null,plate:"#191920"},
+    {name:"PONDER.ER SS24",sub:"Road Trip to Heaven",link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",cover:u("3a1d91aa-e798-4736-8d20-d9d7a91237eb")},
+    {name:"WESTFALL",sub:"California Punk Culture",link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",cover:u("22963cb0-dcd4-4720-a4e7-d45deef942e1")},
+    {name:"MOUNTWOOD",sub:"Adventure in the Great Outdoors",link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",cover:u("213d5de9-fc35-4828-aac3-0b7d6e33eb35")},
+    {name:"SUBI · SUBEZ YETI",sub:"Carhartt WIP — Crafting Community and Sound in Hong Kong’s Music Scene",link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",cover:u("5d96aa7f-39f3-4918-bdb3-18d1f2c03edd")}
+  ];
+  // stack geometry: position 0 = front (lowest), behind = scaled + pushed up
+  var POS=[{s:1,y:12},{s:.95,y:-16},{s:.9,y:-44}];
+  var HIDDEN={s:.88,y:-58};
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var deck=ED.map(function(_,i){return i;}), els={}, busy=false, start=0;
+
+  var deckEl=document.getElementById("deck");
+  function chevron(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M9.5 18l6-6-6-6"/></svg>';}
+  function makeEl(i){
+    var e=ED[i], el=document.createElement("article");el.className="card";
+    var img = e.cover
+      ? '<div class="img"><img src="'+e.cover+'" alt="'+e.name+'" loading="lazy"></div>'
+      : '<div class="img" style="background:'+(e.plate||"#1c1c22")+'"><div class="plate"><div class="pt">'+e.name+'</div><div class="pn">cover image pending</div></div></div>';
+    el.innerHTML=img+
+      '<div class="row"><div class="meta"><div class="nm">'+e.name+'</div><div class="ds">'+e.sub+'</div></div>'+
+      '<a class="read" href="'+e.link+'" target="_blank" rel="noopener">Read'+chevron()+'</a></div>';
+    deckEl.appendChild(el);els[i]=el;return el;
+  }
+  function place(el,p,anim){
+    el.style.transition = anim?"":"none";
+    if(p<3){el.style.transform="translateX(-50%) translateY("+POS[p].y+"px) scale("+POS[p].s+")";el.style.opacity="1";el.style.zIndex=String(30-p);}
+    else{el.style.transform="translateX(-50%) translateY("+HIDDEN.y+"px) scale("+HIDDEN.s+")";el.style.opacity="0";el.style.zIndex="1";}
+    if(!anim){void el.offsetWidth;el.style.transition="";}
+  }
+  function layout(){deck.forEach(function(idx,p){var el=els[idx]||makeEl(idx);place(el,p,true);});}
+  function setCount(){document.getElementById("count").textContent=String(start+1).padStart(2,"0")+" / "+String(ED.length).padStart(2,"0");}
+
+  function next(){
+    if(busy)return;busy=true;
+    var frontIdx=deck[0], fel=els[frontIdx];
+    // entering back card starts from a low, faded position (no transition), then eases up
+    deck.push(deck.shift());
+    var backIdx=deck[2], bel=els[backIdx]||makeEl(backIdx);
+    place(bel,99,false); // hidden-ish
+    bel.style.transition="none";bel.style.transform="translateX(-50%) translateY(-16px) scale(.9)";bel.style.opacity="0";void bel.offsetWidth;
+    // front slides down and out
+    fel.style.transition="transform .72s var(--spring),opacity .72s var(--spring)";
+    fel.style.zIndex="40";
+    fel.style.transform="translateX(-50%) translateY(340px) scale(1)";
+    fel.style.opacity="0";
+    bel.style.transition="";
+    layout();
+    start=(start+1)%ED.length;setCount();
+    setTimeout(function(){ place(fel,99,false); busy=false; }, reduce?0:680);
+  }
+
+  // build initial 3 + tuck rest
+  deck.forEach(function(idx,p){var el=makeEl(idx);place(el,p<3?p:99,false);});
+  setCount();
+  document.getElementById("next").addEventListener("click",next);
+  // click the stack (but not the Read link) to advance
+  deckEl.addEventListener("click",function(ev){ if(ev.target.closest(".read"))return; next(); });
+})();
+</script>
+</body>
+</html>
