@@ -7,27 +7,44 @@
 <meta name="description" content="An interactive narrative that decodes how you love. A quiet, private piece of self-reflection — nothing saved, nothing shared.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* muted, soothing palette — dusk over still water */
-    --ink:#2a2d3a;
-    --ink-soft:#4c5063;
-    --ink-faint:#7b7f92;
-    --paper:#f4f1ec;
-    --paper-2:#efeae3;
-    --line:rgba(42,45,58,0.10);
-    --line-soft:rgba(42,45,58,0.06);
-    --rose:#c69a92;
-    --rose-deep:#a8736c;
-    --sage:#8a9a8f;
-    --mauve:#8f8398;
-    --gold:#c8a96a;
-    --glow:rgba(198,154,146,0.55);
-    --card:rgba(255,255,255,0.55);
-    --shadow:0 24px 60px -28px rgba(42,45,58,0.35);
+    /* Headspace spirit — warm, optimistic, orange-forward with soft pastels */
+    --ink:#3a2a22;            /* warm deep brown-ink for body */
+    --ink-soft:#6b5347;       /* soft warm brown */
+    --ink-faint:#a08474;      /* faint warm taupe */
+    --paper:#fffaf3;          /* warm cream */
+    --paper-2:#fff3e4;
+
+    /* lead orange + supporting pastels */
+    --orange:#ff8c42;         /* confident warm orange lead */
+    --orange-deep:#f26a3f;    /* deeper orange */
+    --orange-soft:#ffb877;    /* light apricot */
+    --coral:#ff7e6b;          /* warm coral */
+    --peach:#ffd9bd;          /* soft peach */
+    --blush:#ffc9d4;          /* soft pink */
+    --butter:#ffe1a8;         /* warm butter yellow */
+    --sky:#bfe3e8;            /* soft teal-sky */
+    --lilac:#d8c6f0;          /* gentle lilac */
+    --mint:#c4e8cf;           /* soft mint */
+
+    --line:rgba(58,42,34,0.10);
+    --line-soft:rgba(58,42,34,0.06);
+    --glow:rgba(255,140,66,0.42);
+    --card:rgba(255,255,255,0.62);
+    --shadow:0 26px 64px -30px rgba(120,70,40,0.42);
+    --shadow-soft:0 18px 44px -28px rgba(150,90,55,0.40);
     --ease:cubic-bezier(.22,.61,.36,1);
     --ease-soft:cubic-bezier(.4,0,.2,1);
+    --ease-bounce:cubic-bezier(.34,1.56,.64,1);
+
+    /* legacy aliases kept so nothing breaks */
+    --rose:var(--orange-soft);
+    --rose-deep:var(--orange-deep);
+    --sage:var(--mint);
+    --mauve:var(--lilac);
+    --gold:var(--butter);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -37,9 +54,11 @@
     font-family:'Inter',system-ui,-apple-system,sans-serif;
     color:var(--ink);
     background:
-      radial-gradient(1200px 800px at 18% -10%, #faf4ee 0%, rgba(250,244,238,0) 55%),
-      radial-gradient(1100px 900px at 92% 110%, #ece6f0 0%, rgba(236,230,240,0) 55%),
-      linear-gradient(160deg, #f4f1ec 0%, #efe9e4 45%, #ece7ee 100%);
+      radial-gradient(1300px 900px at 12% -12%, #fff0dc 0%, rgba(255,240,220,0) 56%),
+      radial-gradient(1200px 1000px at 96% 8%, #ffe6ea 0%, rgba(255,230,234,0) 52%),
+      radial-gradient(1100px 1000px at 88% 112%, #e6f0ef 0%, rgba(230,240,239,0) 55%),
+      radial-gradient(1000px 900px at 8% 108%, #f1e6fb 0%, rgba(241,230,251,0) 55%),
+      linear-gradient(165deg, #fff7ee 0%, #fff1e3 45%, #ffece0 100%);
     background-attachment:fixed;
     min-height:100%;
     overflow-x:hidden;
@@ -48,24 +67,41 @@
     line-height:1.6;
   }
 
-  /* slow living aurora behind everything */
+  /* soft organic blobs drifting behind everything */
   .aura{
-    position:fixed;inset:-20vmax;z-index:0;pointer-events:none;
-    filter:blur(60px);opacity:.5;
-    background:
-      radial-gradient(38vmax 38vmax at 30% 30%, rgba(198,154,146,0.30), transparent 60%),
-      radial-gradient(34vmax 34vmax at 72% 64%, rgba(143,131,152,0.26), transparent 62%),
-      radial-gradient(30vmax 30vmax at 50% 88%, rgba(138,154,143,0.22), transparent 60%);
-    animation:drift 34s ease-in-out infinite alternate;
+    position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
   }
-  @keyframes drift{
-    0%{transform:translate3d(-2%, -1%, 0) scale(1);}
-    50%{transform:translate3d(2%, 2%, 0) scale(1.06);}
-    100%{transform:translate3d(-1%, 1%, 0) scale(1.02);}
+  .blob{
+    position:absolute;will-change:transform;
+    filter:blur(8px);opacity:.55;
+  }
+  .blob svg{display:block;width:100%;height:100%;}
+  .blob.b1{width:42vmax;height:42vmax;top:-12vmax;left:-10vmax;animation:floatA 26s ease-in-out infinite;}
+  .blob.b2{width:34vmax;height:34vmax;top:8vmax;right:-12vmax;animation:floatB 32s ease-in-out infinite;}
+  .blob.b3{width:30vmax;height:30vmax;bottom:-10vmax;left:14vmax;animation:floatC 30s ease-in-out infinite;}
+  .blob.b4{width:24vmax;height:24vmax;bottom:6vmax;right:6vmax;animation:floatA 36s ease-in-out infinite reverse;}
+  @keyframes floatA{
+    0%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1);}
+    50%{transform:translate3d(3%, -4%, 0) rotate(8deg) scale(1.06);}
+  }
+  @keyframes floatB{
+    0%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1);}
+    50%{transform:translate3d(-4%, 3%, 0) rotate(-7deg) scale(1.07);}
+  }
+  @keyframes floatC{
+    0%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1);}
+    50%{transform:translate3d(2%, -3%, 0) rotate(6deg) scale(1.05);}
+  }
+
+  /* faint warm glow vignette to keep center luminous */
+  .glow-veil{
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(70vmax 60vmax at 50% 42%, rgba(255,255,255,0.42), rgba(255,255,255,0) 70%);
+    mix-blend-mode:soft-light;
   }
 
   .grain{
-    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.025;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
@@ -74,33 +110,65 @@
     position:relative;z-index:2;
     min-height:100dvh;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:clamp(28px,5vw,72px) clamp(20px,5vw,40px);
+    padding:clamp(24px,5vw,64px) clamp(16px,5vw,40px);
   }
-  .frame{width:min(640px,100%);position:relative;}
+  .frame{
+    width:min(680px,100%);position:relative;
+    background:linear-gradient(165deg, rgba(255,255,255,0.78), rgba(255,250,243,0.62));
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius:clamp(28px,4vw,40px);
+    box-shadow:
+      var(--shadow),
+      0 2px 0 rgba(255,255,255,0.7) inset,
+      0 -40px 80px -60px rgba(255,140,66,0.5) inset;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    padding:clamp(26px,5vw,52px) clamp(22px,5vw,52px);
+    overflow:hidden;
+  }
+  /* warm gradient glow hugging the card top */
+  .frame::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 70% at 50% -8%, rgba(255,176,120,0.28), rgba(255,176,120,0) 60%);
+  }
+  .frame > *{position:relative;z-index:1;}
 
   /* progress bar */
   .progress{
-    margin-bottom:clamp(30px,5vh,52px);
+    margin-bottom:clamp(26px,4vh,40px);
     opacity:0;animation:fadeIn 1.2s var(--ease) .3s forwards;
   }
   .progress.hidden{display:none;}
   .progress-meta{
-    display:flex;justify-content:space-between;align-items:baseline;
+    display:flex;justify-content:space-between;align-items:center;
     margin-bottom:.7rem;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--ink-faint);font-weight:400;
+    font-family:'Inter',sans-serif;
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:600;
   }
-  .progress-meta .count{color:var(--rose-deep);}
+  .progress-meta .count{
+    color:var(--orange-deep);
+    background:rgba(255,140,66,0.12);
+    padding:.28em .7em;border-radius:100px;letter-spacing:.1em;
+    font-family:'IBM Plex Mono',monospace;font-weight:400;
+  }
   .progress-track{
-    height:2px;width:100%;border-radius:2px;
-    background:var(--line);overflow:hidden;position:relative;
+    height:8px;width:100%;border-radius:100px;
+    background:rgba(255,140,66,0.14);
+    overflow:hidden;position:relative;
+    box-shadow:inset 0 1px 2px rgba(150,90,55,0.12);
   }
   .progress-fill{
     position:absolute;inset:0 auto 0 0;height:100%;width:0%;
-    background:linear-gradient(90deg,var(--rose),var(--mauve));
-    border-radius:2px;
-    transition:width .8s var(--ease);
+    background:linear-gradient(90deg,var(--orange-soft),var(--orange),var(--coral));
+    border-radius:100px;
+    box-shadow:0 0 14px rgba(255,140,66,0.5);
+    transition:width .9s var(--ease);
+  }
+  .progress-fill::after{
+    content:"";position:absolute;right:0;top:50%;transform:translate(40%,-50%);
+    width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 0 0 4px rgba(255,140,66,0.35),0 2px 6px rgba(150,90,55,0.4);
   }
 
   /* panels */
@@ -119,211 +187,286 @@
   @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
   .eyebrow{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
-    color:var(--ink-faint);font-weight:400;
-    margin-bottom:1.4rem;text-align:center;
+    display:inline-flex;align-items:center;gap:.55em;
+    font-family:'Inter',sans-serif;
+    font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--orange-deep);font-weight:700;
+    margin-bottom:1.3rem;
+    background:rgba(255,140,66,0.12);
+    padding:.5em 1.1em;border-radius:100px;
+    border:1px solid rgba(255,140,66,0.22);
   }
+  .eyebrow-wrap{text-align:center;}
   .eyebrow .blink{
-    display:inline-block;width:.55em;height:1em;
-    margin-left:.15em;vertical-align:-.12em;
-    background:var(--rose-deep);
-    animation:blink 1.15s steps(1) infinite;
+    display:inline-block;width:.5em;height:.5em;border-radius:50%;
+    background:var(--orange);
+    box-shadow:0 0 0 0 rgba(255,140,66,0.5);
+    animation:pulseDot 2s var(--ease-soft) infinite;
   }
-  @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+  @keyframes pulseDot{
+    0%{box-shadow:0 0 0 0 rgba(255,140,66,0.45);}
+    70%{box-shadow:0 0 0 7px rgba(255,140,66,0);}
+    100%{box-shadow:0 0 0 0 rgba(255,140,66,0);}
+  }
 
   h1,h2{
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:300;line-height:1.08;letter-spacing:.005em;color:var(--ink);
+    font-weight:400;line-height:1.06;letter-spacing:.004em;color:var(--ink);
   }
-  h1{font-size:clamp(2.8rem,8vw,4.4rem);}
+  h1{font-size:clamp(2.7rem,8vw,4.2rem);}
   h2{font-size:clamp(1.9rem,5vw,2.8rem);}
 
   .lede{
     font-size:clamp(1rem,2.4vw,1.16rem);
-    color:var(--ink-soft);font-weight:300;max-width:38ch;
-    margin:1.5rem auto 0;text-align:center;
+    color:var(--ink-soft);font-weight:400;max-width:40ch;
+    margin:1.4rem auto 0;text-align:center;line-height:1.66;
   }
   .center{text-align:center;}
 
-  /* heart mark */
-  .mark{width:88px;height:88px;margin:0 auto clamp(20px,4vh,34px);display:block;overflow:visible;}
-  .mark path{
-    fill:none;stroke:url(#hg);stroke-width:3.2;
-    stroke-linecap:round;stroke-linejoin:round;
-    filter:drop-shadow(0 0 10px var(--glow));
+  /* hero illustration */
+  .hero-art{
+    width:clamp(190px,46vw,240px);margin:0 auto clamp(16px,3vh,26px);display:block;overflow:visible;
+    animation:heroFloat 7s var(--ease-soft) infinite;
   }
-  .mark .pulse{transform-origin:center;animation:beat 3.6s var(--ease-soft) infinite;}
+  @keyframes heroFloat{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-9px) rotate(-1deg);}
+  }
+  .hero-art .breathe{transform-origin:center;transform-box:fill-box;animation:beat 5s var(--ease-soft) infinite;}
   @keyframes beat{
-    0%,100%{transform:scale(1);opacity:1;}
-    14%{transform:scale(1.07);}
-    28%{transform:scale(1);}
-    42%{transform:scale(1.04);}
-    56%{transform:scale(1);opacity:.92;}
+    0%,100%{transform:scale(1);}
+    18%{transform:scale(1.045);}
+    36%{transform:scale(1);}
+    54%{transform:scale(1.02);}
+    72%{transform:scale(1);}
   }
+  .twinkle{transform-origin:center;transform-box:fill-box;animation:twinkle 3.4s var(--ease-soft) infinite;}
+  .twinkle.t2{animation-delay:1.1s;}
+  .twinkle.t3{animation-delay:2.2s;}
+  @keyframes twinkle{0%,100%{opacity:.25;transform:scale(.8);}50%{opacity:1;transform:scale(1.1);}}
+
+  /* small inline legacy mark fallback (kept, unused visually) */
+  .mark{display:none;}
 
   /* buttons */
   .btn{
-    font-family:'Inter',sans-serif;font-size:.95rem;font-weight:500;letter-spacing:.02em;
-    color:var(--paper);
-    background:linear-gradient(135deg,var(--rose-deep),#8d6f96);
-    border:none;border-radius:100px;padding:.95em 2.4em;cursor:pointer;
-    transition:transform .5s var(--ease), box-shadow .5s var(--ease), filter .5s var(--ease);
-    box-shadow:0 14px 30px -14px rgba(168,115,108,0.7), inset 0 1px 0 rgba(255,255,255,0.2);
+    font-family:'Inter',sans-serif;font-size:1rem;font-weight:600;letter-spacing:.01em;
+    color:#fff;
+    background:linear-gradient(135deg,var(--orange-soft),var(--orange) 45%,var(--orange-deep));
+    border:none;border-radius:100px;padding:1.02em 2.5em;cursor:pointer;
+    transition:transform .45s var(--ease-bounce), box-shadow .45s var(--ease), filter .45s var(--ease);
+    box-shadow:0 16px 30px -12px rgba(242,106,63,0.6), inset 0 2px 0 rgba(255,255,255,0.32), inset 0 -3px 8px rgba(180,70,30,0.25);
     position:relative;overflow:hidden;
   }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 22px 40px -16px rgba(168,115,108,0.8);filter:saturate(1.05);}
-  .btn:active{transform:translateY(0);}
-  .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--rose);}
-  .btn.ghost{background:transparent;color:var(--ink-soft);box-shadow:none;border:1px solid var(--line);font-weight:400;}
-  .btn.ghost:hover{background:rgba(255,255,255,0.4);color:var(--ink);border-color:var(--line);box-shadow:none;}
+  .btn::after{
+    content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+    background:linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%);
+    transform:skewX(-18deg);transition:left .7s var(--ease);
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 24px 44px -14px rgba(242,106,63,0.7);filter:saturate(1.06);}
+  .btn:hover::after{left:130%;}
+  .btn:active{transform:translateY(-1px) scale(.99);}
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 4px var(--paper),0 0 0 8px var(--orange);}
+  .btn.ghost{
+    background:rgba(255,255,255,0.55);color:var(--orange-deep);font-weight:600;
+    box-shadow:0 10px 24px -16px rgba(150,90,55,0.5);border:1.5px solid rgba(255,140,66,0.35);
+  }
+  .btn.ghost::after{display:none;}
+  .btn.ghost:hover{background:#fff;color:var(--orange-deep);border-color:rgba(255,140,66,0.55);transform:translateY(-2px);}
 
-  .actions{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:clamp(30px,5vh,46px);flex-wrap:wrap;}
+  .actions{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:clamp(28px,5vh,42px);flex-wrap:wrap;}
 
   .reassure{
-    text-align:center;margin-top:clamp(22px,4vh,32px);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;letter-spacing:.12em;color:var(--ink-faint);font-weight:300;
+    display:inline-flex;align-items:center;gap:.55em;
+    margin-top:clamp(20px,4vh,30px);
+    font-family:'Inter',sans-serif;
+    font-size:.78rem;letter-spacing:.02em;color:var(--ink-faint);font-weight:500;
+    background:rgba(255,255,255,0.5);padding:.55em 1.1em;border-radius:100px;
+    border:1px solid var(--line-soft);
   }
+  .reassure-wrap{text-align:center;}
+  .reassure svg{width:1.1em;height:1.1em;flex:0 0 auto;}
 
   /* ---- scene ---- */
-  .scene-no{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--rose-deep);text-align:center;margin-bottom:1.1rem;
+  .scene-art{
+    width:clamp(96px,22vw,124px);height:clamp(96px,22vw,124px);
+    margin:0 auto clamp(14px,2.5vh,20px);display:block;overflow:visible;
+    animation:sceneFloat 6s var(--ease-soft) infinite;
   }
+  @keyframes sceneFloat{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-6px) rotate(1.5deg);}
+  }
+  .scene-no{
+    display:inline-block;
+    font-family:'Inter',sans-serif;font-weight:700;
+    font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--orange-deep);
+    background:rgba(255,140,66,0.12);
+    padding:.42em 1em;border-radius:100px;
+    margin-bottom:1rem;
+  }
+  .scene-no-wrap{text-align:center;}
   .scene-title{
-    font-family:'Cormorant Garamond',serif;font-weight:400;
-    font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.12;text-align:center;
-    margin-bottom:1.3rem;
+    font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.1;text-align:center;
+    margin-bottom:1.1rem;color:var(--ink);
   }
   .scene-narr{
-    font-size:clamp(1rem,2.4vw,1.13rem);color:var(--ink-soft);font-weight:300;
-    max-width:46ch;margin:0 auto;text-align:center;line-height:1.7;
+    font-size:clamp(1rem,2.4vw,1.12rem);color:var(--ink-soft);font-weight:400;
+    max-width:48ch;margin:0 auto;text-align:center;line-height:1.72;
   }
   .scene-q{
-    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
-    font-size:clamp(1.2rem,3.2vw,1.5rem);color:var(--rose-deep);
-    text-align:center;margin:clamp(24px,4vh,34px) auto clamp(20px,3vh,26px);
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+    font-size:clamp(1.25rem,3.2vw,1.55rem);color:var(--orange-deep);
+    text-align:center;margin:clamp(22px,4vh,32px) auto clamp(18px,3vh,24px);
     max-width:34ch;
   }
 
-  .choices{display:flex;flex-direction:column;gap:12px;max-width:520px;margin:0 auto;}
+  .choices{display:flex;flex-direction:column;gap:12px;max-width:540px;margin:0 auto;}
   .choice{
     font-family:'Inter',sans-serif;font-size:clamp(.95rem,2.2vw,1.02rem);
     font-weight:400;line-height:1.5;color:var(--ink-soft);text-align:left;
-    background:var(--card);border:1px solid var(--line);border-radius:18px;
-    padding:1.05em 1.3em;cursor:pointer;
+    background:var(--card);border:1.5px solid rgba(255,255,255,0.7);border-radius:20px;
+    padding:1.05em 1.25em 1.05em 1.1em;cursor:pointer;
     backdrop-filter:blur(8px);
-    display:flex;align-items:flex-start;gap:.85em;
-    transition:transform .4s var(--ease), background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+    box-shadow:0 10px 26px -22px rgba(150,90,55,0.5);
+    display:flex;align-items:center;gap:.85em;
+    transition:transform .4s var(--ease-bounce), background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
     animation:choiceIn .65s var(--ease) both;
   }
   .choice .key{
-    flex:0 0 auto;
-    font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:400;
-    color:var(--ink-faint);margin-top:.18em;
-    transition:color .4s var(--ease);
+    flex:0 0 auto;width:2em;height:2em;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Inter',sans-serif;font-size:.82rem;font-weight:700;
+    color:var(--orange-deep);
+    background:rgba(255,140,66,0.14);
+    transition:color .4s var(--ease), background .4s var(--ease), transform .4s var(--ease-bounce);
   }
   .choice:hover{
-    transform:translateY(-2px);
-    background:rgba(255,255,255,0.82);color:var(--ink);
-    border-color:rgba(168,115,108,0.4);
-    box-shadow:0 14px 30px -18px rgba(168,115,108,0.6);
+    transform:translateY(-3px);
+    background:rgba(255,255,255,0.92);color:var(--ink);
+    border-color:rgba(255,140,66,0.45);
+    box-shadow:0 18px 36px -20px rgba(242,106,63,0.55);
   }
-  .choice:hover .key{color:var(--rose-deep);}
-  .choice:focus-visible{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px rgba(198,154,146,0.3);}
+  .choice:hover .key{color:#fff;background:linear-gradient(135deg,var(--orange),var(--orange-deep));transform:scale(1.08) rotate(-4deg);}
+  .choice:focus-visible{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,140,66,0.28);}
   .choice.chosen{
-    background:linear-gradient(135deg,var(--rose-deep),#8d6f96);
-    color:var(--paper);border-color:transparent;
-    box-shadow:0 16px 30px -16px rgba(168,115,108,0.7);
+    background:linear-gradient(135deg,var(--orange-soft),var(--orange) 50%,var(--orange-deep));
+    color:#fff;border-color:transparent;
+    box-shadow:0 20px 36px -16px rgba(242,106,63,0.7);
+    transform:translateY(-2px) scale(1.01);
   }
-  .choice.chosen .key{color:rgba(255,255,255,0.7);}
-  @keyframes choiceIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .choice.chosen .key{color:var(--orange-deep);background:#fff;}
+  @keyframes choiceIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
 
   /* ---- decoding beat ---- */
   .decoding{text-align:center;}
-  .orbit{width:140px;height:140px;margin:0 auto clamp(24px,4vh,36px);position:relative;}
+  .orbit{width:clamp(150px,38vw,180px);height:clamp(150px,38vw,180px);margin:0 auto clamp(22px,4vh,32px);position:relative;}
   .orbit svg{width:100%;height:100%;overflow:visible;}
-  .orbit .ring{fill:none;stroke:var(--rose);stroke-width:1.4;opacity:.55;transform-origin:center;}
-  .orbit .ring:nth-child(2){stroke:var(--mauve);animation:spin 7s linear infinite reverse;}
-  .orbit .ring:nth-child(1){animation:spin 9s linear infinite;}
-  .orbit .ring:nth-child(3){stroke:var(--sage);animation:spin 5s linear infinite;}
-  .orbit .core{fill:var(--rose-deep);animation:coreBeat 2.2s var(--ease-soft) infinite;transform-origin:center;filter:drop-shadow(0 0 8px var(--glow));}
+  .orbit .ring{fill:none;stroke-width:2;stroke-linecap:round;opacity:.6;transform-origin:center;}
+  .orbit .ring.r1{stroke:var(--orange);animation:spin 11s linear infinite;}
+  .orbit .ring.r2{stroke:var(--coral);animation:spin 8s linear infinite reverse;}
+  .orbit .ring.r3{stroke:var(--lilac);animation:spin 6s linear infinite;}
+  .orbit .sat{transform-origin:90px 90px;}
+  .orbit .sat.s1{animation:spin 9s linear infinite;}
+  .orbit .sat.s2{animation:spin 7s linear infinite reverse;}
+  .orbit .sat.s3{animation:spin 5s linear infinite;}
+  .orbit .heart-core{transform-origin:center;transform-box:fill-box;animation:coreBeat 2.4s var(--ease-soft) infinite;filter:drop-shadow(0 4px 10px var(--glow));}
   @keyframes spin{to{transform:rotate(360deg);}}
-  @keyframes coreBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.4);opacity:.7;}}
+  @keyframes coreBeat{0%,100%{transform:scale(1);}30%{transform:scale(1.12);}45%{transform:scale(1);}60%{transform:scale(1.06);}}
   .decode-line{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:clamp(.82rem,2.4vw,.95rem);letter-spacing:.06em;
+    font-family:'Inter',sans-serif;font-weight:500;
+    font-size:clamp(.92rem,2.4vw,1.05rem);letter-spacing:.005em;
     color:var(--ink-soft);min-height:1.5em;transition:opacity .6s var(--ease);
   }
 
   /* ---- result ---- */
-  .result-tag{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
-    color:var(--rose-deep);text-align:center;margin-bottom:1rem;
+  .result-emblem{
+    width:clamp(120px,30vw,160px);height:clamp(120px,30vw,160px);
+    margin:0 auto clamp(8px,2vh,16px);display:block;overflow:visible;
+    animation:heroFloat 7s var(--ease-soft) infinite;
   }
+  .result-tag{
+    display:inline-block;
+    font-family:'Inter',sans-serif;font-weight:700;
+    font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--orange-deep);
+    background:rgba(255,140,66,0.12);padding:.42em 1em;border-radius:100px;
+    margin-bottom:.9rem;
+  }
+  .result-tag-wrap{text-align:center;}
   .result-name{
-    font-family:'Cormorant Garamond',serif;font-weight:400;
-    font-size:clamp(2.4rem,7vw,3.6rem);line-height:1.04;text-align:center;
+    font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(2.4rem,7vw,3.5rem);line-height:1.03;text-align:center;color:var(--ink);
   }
   .result-tagline{
-    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-    font-size:clamp(1.15rem,3vw,1.5rem);color:var(--ink-soft);
-    text-align:center;max-width:30ch;margin:1.1rem auto 0;line-height:1.4;
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.18rem,3vw,1.5rem);color:var(--orange-deep);
+    text-align:center;max-width:30ch;margin:1rem auto 0;line-height:1.42;
   }
 
   .cards{
     display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
-    margin:clamp(30px,5vh,44px) 0 0;
+    margin:clamp(28px,5vh,42px) 0 0;
   }
   @media (max-width:480px){.cards{grid-template-columns:1fr;}}
   .card{
-    background:linear-gradient(160deg, rgba(255,255,255,0.66), rgba(255,255,255,0.4));
-    border:1px solid rgba(255,255,255,0.6);
-    border-radius:20px;padding:1.3em 1.4em;
-    box-shadow:0 18px 44px -32px rgba(42,45,58,0.4);
+    background:linear-gradient(160deg, rgba(255,255,255,0.82), rgba(255,247,238,0.6));
+    border:1.5px solid rgba(255,255,255,0.8);
+    border-radius:22px;padding:1.3em 1.4em;
+    box-shadow:0 18px 40px -30px rgba(150,90,55,0.55);
     backdrop-filter:blur(12px);
     position:relative;overflow:hidden;
+    transition:transform .45s var(--ease-bounce), box-shadow .45s var(--ease);
   }
+  .card::before{
+    content:"";position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,140,66,0.18), rgba(255,140,66,0) 70%);
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px rgba(242,106,63,0.55);}
+  .card-icon{width:30px;height:30px;margin-bottom:.7rem;display:block;overflow:visible;}
   .card-label{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--ink-faint);margin-bottom:.55rem;
+    font-family:'Inter',sans-serif;font-weight:700;
+    font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--orange-deep);margin-bottom:.4rem;
   }
   .card-value{
-    font-family:'Cormorant Garamond',serif;font-weight:500;
-    font-size:clamp(1.2rem,3vw,1.4rem);color:var(--ink);line-height:1.18;
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(1.25rem,3vw,1.45rem);color:var(--ink);line-height:1.16;
     margin-bottom:.45rem;
   }
-  .card-note{font-size:.86rem;color:var(--ink-soft);font-weight:300;line-height:1.5;}
+  .card-note{font-size:.88rem;color:var(--ink-soft);font-weight:400;line-height:1.5;}
 
   .insight{
     margin-top:18px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.5), rgba(255,255,255,0.32));
-    border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(160deg, rgba(255,255,255,0.72), rgba(255,247,238,0.5));
+    border:1.5px solid rgba(255,255,255,0.7);border-radius:24px;
     padding:clamp(22px,4vw,30px);
+    box-shadow:0 16px 40px -34px rgba(150,90,55,0.5);
     backdrop-filter:blur(10px);
+    position:relative;overflow:hidden;
   }
   .insight + .insight{margin-top:14px;}
   .insight-label{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--rose-deep);margin-bottom:.7rem;
+    display:flex;align-items:center;gap:.5em;
+    font-family:'Inter',sans-serif;font-weight:700;
+    font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--orange-deep);margin-bottom:.7rem;
   }
-  .insight-body{font-size:clamp(.96rem,2.3vw,1.06rem);color:var(--ink-soft);font-weight:300;line-height:1.65;}
+  .insight-label svg{width:1.15em;height:1.15em;flex:0 0 auto;}
+  .insight-body{font-size:clamp(.96rem,2.3vw,1.06rem);color:var(--ink-soft);font-weight:400;line-height:1.66;}
 
   .result-divider{
-    margin:clamp(30px,5vh,44px) auto clamp(22px,4vh,30px);
-    width:48px;height:1px;background:var(--line);
+    margin:clamp(28px,5vh,42px) auto clamp(20px,4vh,28px);
+    width:64px;height:8px;display:block;overflow:visible;
   }
 
-  .restart{margin-top:clamp(28px,5vh,42px);text-align:center;}
+  .restart{margin-top:clamp(26px,5vh,40px);text-align:center;}
   .footnote{
-    text-align:center;margin-top:clamp(28px,6vh,48px);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.66rem;color:var(--ink-faint);letter-spacing:.06em;font-weight:300;line-height:1.7;
+    text-align:center;margin-top:clamp(26px,6vh,44px);
+    font-family:'Inter',sans-serif;
+    font-size:.72rem;color:var(--ink-faint);letter-spacing:.01em;font-weight:400;line-height:1.7;
   }
 
   /* staggered reveal */
@@ -333,22 +476,53 @@
   /* reduced motion */
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.12s!important;scroll-behavior:auto!important;}
-    .aura{animation:none;}
-    .mark .pulse,.orbit .ring,.orbit .core,.eyebrow .blink{animation:none;}
-    .eyebrow .blink{opacity:.5;}
+    .blob{animation:none!important;}
+    .hero-art,.scene-art,.result-emblem,.breathe,.twinkle,
+    .orbit .ring,.orbit .sat,.orbit .heart-core,.eyebrow .blink{animation:none!important;}
+    .eyebrow .blink{opacity:.7;}
     .reveal > *{opacity:1;transform:none;}
   }
 </style>
 </head>
 <body>
-  <div class="aura" aria-hidden="true"></div>
+  <div class="aura" aria-hidden="true">
+    <div class="blob b1"><svg viewBox="0 0 200 200"><path fill="#ffd1a6" d="M44.2,-58.6C56.4,-49.7,64.6,-35.5,68.8,-20.1C73,-4.7,73.2,11.9,67,25.9C60.7,39.9,48,51.3,33.6,59.1C19.2,66.9,3.1,71.1,-13.6,69.9C-30.3,68.7,-47.6,62.1,-58.9,49.7C-70.2,37.3,-75.5,19.1,-75.2,1.1C-74.9,-16.9,-69,-34.7,-57.6,-44.7C-46.2,-54.7,-29.3,-56.9,-13.7,-60.5C1.9,-64.1,16.1,-69.1,28.9,-67C41.7,-64.9,32,-67.5,44.2,-58.6Z" transform="translate(100 100)"/></svg></div>
+    <div class="blob b2"><svg viewBox="0 0 200 200"><path fill="#ffc6d2" d="M41.3,-55.7C52.6,-47.3,60.3,-34.3,64.5,-20.2C68.7,-6.1,69.4,9.1,64.3,22C59.2,34.9,48.3,45.5,35.6,54.1C22.9,62.7,8.4,69.3,-6.9,69.9C-22.2,70.5,-38.3,65.1,-50.4,54.6C-62.5,44.1,-70.6,28.5,-72.6,12.3C-74.6,-3.9,-70.5,-20.7,-61.5,-33.9C-52.5,-47.1,-38.6,-56.7,-24.4,-63.9C-10.2,-71.1,4.3,-75.9,17.6,-72.4C30.9,-68.9,30,-64.1,41.3,-55.7Z" transform="translate(100 100)"/></svg></div>
+    <div class="blob b3"><svg viewBox="0 0 200 200"><path fill="#cfe9d6" d="M38.5,-52.4C50.8,-43.4,61.9,-32.1,66.4,-18.4C70.9,-4.7,68.8,11.4,62.2,25.1C55.6,38.8,44.5,50.1,31.2,57.7C17.9,65.3,2.4,69.2,-13.6,68.2C-29.6,67.2,-46.1,61.3,-57.3,49.8C-68.5,38.3,-74.4,21.2,-74.8,3.9C-75.2,-13.4,-70.1,-30.9,-59.4,-43.6C-48.7,-56.3,-32.4,-64.2,-16.4,-66.8C-0.4,-69.4,15.3,-66.7,28.5,-62.4C41.7,-58.1,26.2,-61.4,38.5,-52.4Z" transform="translate(100 100)"/></svg></div>
+    <div class="blob b4"><svg viewBox="0 0 200 200"><path fill="#e3d2f6" d="M37.7,-50.9C49.4,-42.1,59.6,-31.3,64.2,-18.2C68.8,-5.1,67.8,10.3,61.6,23.2C55.4,36.1,44,46.5,31,54.2C18,61.9,3.4,66.9,-11.7,66.4C-26.8,65.9,-42.4,59.9,-53.9,49.1C-65.4,38.3,-72.8,22.7,-74.1,6.4C-75.4,-9.9,-70.6,-26.9,-60.4,-39.3C-50.2,-51.7,-34.6,-59.5,-19.3,-65.4C-4,-71.3,11,-75.3,24.3,-71.2C37.6,-67.1,26,-59.7,37.7,-50.9Z" transform="translate(100 100)"/></svg></div>
+  </div>
+  <div class="glow-veil" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#c69a92"/>
-        <stop offset="1" stop-color="#8f8398"/>
+        <stop offset="0" stop-color="#ffb877"/>
+        <stop offset="1" stop-color="#f26a3f"/>
+      </linearGradient>
+      <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffc98a"/>
+        <stop offset="1" stop-color="#ff7e6b"/>
+      </linearGradient>
+      <linearGradient id="coralg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ff9d7a"/>
+        <stop offset="1" stop-color="#f26a3f"/>
+      </linearGradient>
+      <radialGradient id="sunlit" cx="50%" cy="38%" r="68%">
+        <stop offset="0" stop-color="#fff1dd"/>
+        <stop offset="1" stop-color="#ffd9b0"/>
+      </radialGradient>
+      <linearGradient id="skyg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d9f0f2"/>
+        <stop offset="1" stop-color="#a9d6dc"/>
+      </linearGradient>
+      <linearGradient id="lilacg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#e7daf7"/>
+        <stop offset="1" stop-color="#cbb2ed"/>
+      </linearGradient>
+      <linearGradient id="mintg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d9f2e0"/>
+        <stop offset="1" stop-color="#a9dcb8"/>
       </linearGradient>
     </defs>
   </svg>
@@ -366,22 +540,58 @@
 
       <!-- welcome -->
       <section class="panel show" id="p-welcome" aria-labelledby="welcome-h" tabindex="-1">
-        <svg class="mark" viewBox="0 0 100 92" role="img" aria-label="A softly beating heart">
-          <path class="pulse" d="M50 84 C 16 60 6 38 6 26 C 6 12 16 6 26 6 C 36 6 44 12 50 22 C 56 12 64 6 74 6 C 84 6 94 12 94 26 C 94 38 84 60 50 84 Z"/>
+        <svg class="hero-art" viewBox="0 0 240 220" role="img" aria-label="A gentle, friendly character cradling a glowing heart">
+          <!-- soft sunlit halo -->
+          <ellipse cx="120" cy="118" rx="96" ry="92" fill="url(#sunlit)" opacity="0.55"/>
+          <!-- twinkles -->
+          <g fill="#ffb877">
+            <path class="twinkle" d="M44 56 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z"/>
+            <path class="twinkle t2" d="M196 64 l2.4 6 6 2.4 -6 2.4 -2.4 6 -2.4 -6 -6 -2.4 6 -2.4 z"/>
+            <path class="twinkle t3" d="M202 150 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z"/>
+          </g>
+          <g class="breathe">
+            <!-- body: soft rounded creature -->
+            <path d="M120 196 C 70 196 48 162 48 124 C 48 84 78 56 120 56 C 162 56 192 84 192 124 C 192 162 170 196 120 196 Z" fill="url(#coralg)"/>
+            <!-- soft belly highlight -->
+            <ellipse cx="120" cy="140" rx="48" ry="42" fill="#ffd9bd" opacity="0.65"/>
+            <!-- little rounded feet -->
+            <ellipse cx="96" cy="194" rx="15" ry="11" fill="#f26a3f"/>
+            <ellipse cx="144" cy="194" rx="15" ry="11" fill="#f26a3f"/>
+            <!-- antennae with soft tips -->
+            <path d="M104 60 C 98 40 92 32 86 26" stroke="#f26a3f" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M136 60 C 142 40 148 32 154 26" stroke="#f26a3f" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <circle cx="84" cy="24" r="7" fill="#ffc6d2"/>
+            <circle cx="156" cy="24" r="7" fill="#ffc6d2"/>
+            <!-- gentle closed-eye arcs (calm, content) -->
+            <path d="M92 116 C 98 108 110 108 116 116" stroke="#7a3b22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M124 116 C 130 108 142 108 148 116" stroke="#7a3b22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <!-- rosy cheeks -->
+            <ellipse cx="86" cy="132" rx="9" ry="6" fill="#ff8a8a" opacity="0.45"/>
+            <ellipse cx="154" cy="132" rx="9" ry="6" fill="#ff8a8a" opacity="0.45"/>
+            <!-- soft smile -->
+            <path d="M108 134 C 116 144 124 144 132 134" stroke="#7a3b22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <!-- cradled glowing heart -->
+            <g>
+              <circle cx="120" cy="170" r="26" fill="#fff" opacity="0.35"/>
+              <path d="M120 184 C 104 173 98 165 98 157 C 98 150 103 147 108 147 C 113 147 117 150 120 155 C 123 150 127 147 132 147 C 137 147 142 150 142 157 C 142 165 136 173 120 184 Z" fill="#ffffff"/>
+              <path d="M120 180 C 107 171 102 164 102 158 C 102 152 106 150 110 150 C 114 150 117 153 120 157 C 123 153 126 150 130 150 C 134 150 138 152 138 158 C 138 164 133 171 120 180 Z" fill="#ff7e6b"/>
+            </g>
+          </g>
         </svg>
-        <p class="eyebrow">Love Bug<span class="blink" aria-hidden="true"></span></p>
+        <div class="eyebrow-wrap"><p class="eyebrow">Love Bug<span class="blink" aria-hidden="true"></span></p></div>
         <h1 class="center" id="welcome-h">How do you love?</h1>
         <p class="lede">A short, honest walk through a handful of intimate moments. You choose how you would respond, and the piece reads the pattern back to you — your attachment, your language, the shape of how you let people in.</p>
         <p class="lede" style="margin-top:1rem;">There are no right answers, and no wrong ones. Only yours.</p>
         <div class="actions">
           <button class="btn" id="begin">Begin the reading</button>
         </div>
-        <p class="reassure">Nothing is saved. Nothing is shared. This is only for you.</p>
+        <div class="reassure-wrap"><p class="reassure"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4 6.5V12c0 5 3.4 7.7 8 9 4.6-1.3 8-4 8-9V6.5L12 3Z" stroke="#a08474" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#ff8c42" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Nothing is saved. Nothing is shared. This is only for you.</p></div>
       </section>
 
       <!-- scene (reused) -->
       <section class="panel" id="p-scene" aria-labelledby="scene-title" tabindex="-1">
-        <p class="scene-no" id="sceneNo">Scene 01</p>
+        <div class="scene-art" id="sceneArt" aria-hidden="true"></div>
+        <div class="scene-no-wrap"><p class="scene-no" id="sceneNo">Scene 01</p></div>
         <h2 class="scene-title" id="scene-title"></h2>
         <p class="scene-narr" id="sceneNarr"></p>
         <p class="scene-q" id="sceneQ"></p>
@@ -391,11 +601,14 @@
       <!-- decoding -->
       <section class="panel decoding" id="p-decoding" aria-live="polite" tabindex="-1">
         <div class="orbit" aria-hidden="true">
-          <svg viewBox="0 0 140 140">
-            <circle class="ring" cx="70" cy="70" r="58"/>
-            <circle class="ring" cx="70" cy="70" r="44"/>
-            <circle class="ring" cx="70" cy="70" r="30"/>
-            <circle class="core" cx="70" cy="70" r="9"/>
+          <svg viewBox="0 0 180 180">
+            <circle class="ring r1" cx="90" cy="90" r="76" stroke-dasharray="6 16"/>
+            <circle class="ring r2" cx="90" cy="90" r="58" stroke-dasharray="4 18"/>
+            <circle class="ring r3" cx="90" cy="90" r="40" stroke-dasharray="3 14"/>
+            <g class="sat s1"><circle cx="90" cy="14" r="6" fill="#ff8c42"/></g>
+            <g class="sat s2"><circle cx="90" cy="32" r="5" fill="#ff7e6b"/></g>
+            <g class="sat s3"><circle cx="90" cy="50" r="4.5" fill="#d8c6f0"/></g>
+            <path class="heart-core" d="M90 110 C 74 99 67 90 67 81 C 67 73 73 69 79 69 C 84 69 88 72 90 77 C 92 72 96 69 101 69 C 107 69 113 73 113 81 C 113 90 106 99 90 110 Z" fill="url(#coralg)"/>
           </svg>
         </div>
         <p class="decode-line" id="decodeLine">reading the pattern</p>
@@ -404,41 +617,46 @@
       <!-- result -->
       <section class="panel" id="p-result" aria-labelledby="result-name" tabindex="-1">
         <div class="reveal" id="resultReveal">
-          <p class="result-tag">Your archetype</p>
+          <div class="result-emblem" id="resultEmblem" aria-hidden="true"></div>
+          <div class="result-tag-wrap"><p class="result-tag">Your archetype</p></div>
           <h2 class="result-name" id="result-name"></h2>
           <p class="result-tagline" id="resultTagline"></p>
 
           <div class="cards">
             <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 8h18a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9l-6 5v-5H7a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3Z" fill="none" stroke="url(#warm)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.6" fill="#ff8c42"/><circle cx="16" cy="15.5" r="1.6" fill="#ff8c42"/><circle cx="20" cy="15.5" r="1.6" fill="#ff8c42"/></svg>
               <p class="card-label">Love Language</p>
               <p class="card-value" id="cLove"></p>
               <p class="card-note" id="cLoveNote"></p>
             </div>
             <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="16" r="6" fill="none" stroke="url(#warm)" stroke-width="2.2"/><circle cx="21" cy="16" r="6" fill="none" stroke="url(#lilacg)" stroke-width="2.2"/></svg>
               <p class="card-label">Attachment Style</p>
               <p class="card-value" id="cAttach"></p>
               <p class="card-note" id="cAttachNote"></p>
             </div>
             <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27 C 7 21 4 16 4 11.5 C 4 7.5 7 5 10.5 5 C 13 5 15 6.5 16 9 C 17 6.5 19 5 21.5 5 C 25 5 28 7.5 28 11.5 C 28 16 25 21 16 27 Z" fill="none" stroke="url(#coralg)" stroke-width="2.2" stroke-linejoin="round"/></svg>
               <p class="card-label">Ideal Match</p>
               <p class="card-value" id="cMatch"></p>
               <p class="card-note" id="cMatchNote"></p>
             </div>
             <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4v24M4 16h24" stroke="url(#mintg)" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="16" r="11" fill="none" stroke="url(#warm)" stroke-width="2.2"/></svg>
               <p class="card-label">Compatibility</p>
               <p class="card-value" id="cCompat"></p>
               <p class="card-note" id="cCompatNote"></p>
             </div>
           </div>
 
-          <div class="result-divider" aria-hidden="true"></div>
+          <svg class="result-divider" viewBox="0 0 64 8" aria-hidden="true"><circle cx="8" cy="4" r="3" fill="#ffb877"/><circle cx="32" cy="4" r="4" fill="#ff7e6b"/><circle cx="56" cy="4" r="3" fill="#d8c6f0"/></svg>
 
           <div class="insight">
-            <p class="insight-label">The Pattern</p>
+            <p class="insight-label"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="#ff8c42" stroke-width="1.8"/><path d="M12 8v4l2.5 2.5" stroke="#ff8c42" stroke-width="1.8" stroke-linecap="round"/></svg>The Pattern</p>
             <p class="insight-body" id="iPattern"></p>
           </div>
           <div class="insight">
-            <p class="insight-label">Your Superpower</p>
+            <p class="insight-label"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l2.2 5.6L20 9.6l-4.4 3.8L17 19l-5-3.2L7 19l1.4-5.6L4 9.6l5.8-1z" stroke="#ff8c42" stroke-width="1.6" stroke-linejoin="round"/></svg>Your Superpower</p>
             <p class="insight-body" id="iSuper"></p>
           </div>
         </div>
@@ -701,6 +919,114 @@
   ];
 
   /* ============================================================
+     SCENE ART — one bespoke, soft, rounded motif per scene.
+     Premium, restrained line-and-shape illustration (no clip-art).
+     ============================================================ */
+  function svg(inner){
+    return '<svg viewBox="0 0 120 120" role="img" aria-hidden="true">' + inner + '</svg>';
+  }
+  var SCENE_ART = [
+    /* 01 The Quiet Apartment — a softly lit window at dusk */
+    svg('<rect x="30" y="22" width="60" height="76" rx="14" fill="#ffe7cf"/><rect x="38" y="30" width="44" height="60" rx="9" fill="url(#skyg)"/><path d="M60 30v60M38 60h44" stroke="#fffaf3" stroke-width="3"/><circle cx="74" cy="44" r="6" fill="#ffe1a8"/><path d="M30 98h60" stroke="#f26a3f" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="104" r="4" fill="#ff7e6b"/>'),
+    /* 02 The Memory — a folded note / paper keepsake with a small heart */
+    svg('<rect x="28" y="34" width="64" height="48" rx="10" fill="#fff4e3" stroke="#ffd9bd" stroke-width="3"/><path d="M28 46h64M28 58h44M28 70h54" stroke="#ffcaa0" stroke-width="3" stroke-linecap="round"/><path d="M84 84 C 76 79 73 75 73 71 C 73 67 76 65 79 65 C 81 65 83 66 84 69 C 85 66 87 65 89 65 C 92 65 95 67 95 71 C 95 75 92 79 84 84 Z" fill="#ff7e6b"/>'),
+    /* 03 The Stranger — two soft conversation bubbles, one warm one cool */
+    svg('<path d="M24 38h40a10 10 0 0 1 10 10v14a10 10 0 0 1-10 10H44l-10 9v-9h-10a10 10 0 0 1-10-10V48a10 10 0 0 1 10-10Z" fill="url(#warm)"/><path d="M66 58h24a8 8 0 0 1 8 8v10a8 8 0 0 1-8 8h-8l-7 6v-6a8 8 0 0 1-9-8V66a8 8 0 0 1 8-8Z" fill="url(#lilacg)"/>'),
+    /* 04 The First Night In — a candle flame, intimate low light */
+    svg('<rect x="48" y="56" width="24" height="44" rx="8" fill="#fff4e3" stroke="#ffd9bd" stroke-width="3"/><path d="M60 56 C 53 48 53 40 60 32 C 67 40 67 48 60 56 Z" fill="url(#coralg)"/><path d="M60 50 C 56 45 56 41 60 37 C 64 41 64 45 60 50 Z" fill="#ffe1a8"/><ellipse cx="60" cy="40" rx="22" ry="20" fill="#ffb877" opacity="0.28"/>'),
+    /* 05 The Fight — two soft shapes leaning apart, a thin tension line */
+    svg('<path d="M44 88 C 30 88 26 70 26 58 C 26 44 34 36 46 36 C 52 36 54 40 54 50 L 54 84 C 54 87 50 88 44 88 Z" fill="url(#warm)"/><path d="M76 88 C 90 88 94 70 94 58 C 94 44 86 36 74 36 C 68 36 66 40 66 50 L 66 84 C 66 87 70 88 76 88 Z" fill="url(#lilacg)"/><path d="M60 38 L 60 86" stroke="#fffaf3" stroke-width="4" stroke-dasharray="4 7" stroke-linecap="round"/>'),
+    /* 06 The Message at 2 A.M. — a phone glowing in the dark */
+    svg('<rect x="40" y="22" width="40" height="76" rx="12" fill="#fff4e3" stroke="#ffd9bd" stroke-width="3"/><rect x="46" y="30" width="28" height="48" rx="6" fill="url(#skyg)"/><path d="M60 76 C 53 71 50 67 50 63 C 50 59 53 57 56 57 C 58 57 60 58 60 61 C 60 58 62 57 64 57 C 67 57 70 59 70 63 C 70 67 67 71 60 76 Z" fill="#ff7e6b"/><circle cx="60" cy="88" r="3" fill="#ffcaa0"/><circle cx="92" cy="34" r="4" fill="#ffe1a8" class="twinkle"/>'),
+    /* 07 The Pattern — looping ribbon, a gentle repeated curve */
+    svg('<path d="M32 60 C 32 44 50 44 50 60 C 50 76 68 76 68 60 C 68 44 86 44 86 60 C 86 76 70 78 60 78" fill="none" stroke="url(#coralg)" stroke-width="6" stroke-linecap="round"/><circle cx="32" cy="60" r="6" fill="#ff8c42"/><circle cx="88" cy="62" r="5" fill="#d8c6f0"/>'),
+    /* 08 The Quiet Want — a soft crescent moon with a small star */
+    svg('<path d="M76 32 A 32 32 0 1 0 76 96 A 26 26 0 1 1 76 32 Z" fill="url(#warm)"/><path d="M86 44 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6 z" fill="#ffe1a8" class="twinkle"/>'),
+    /* 09 The Plateau — a calm horizon, sun resting on a flat line */
+    svg('<circle cx="60" cy="60" r="20" fill="url(#warm)"/><ellipse cx="60" cy="58" rx="20" ry="20" fill="#ffe1a8" opacity="0.5"/><path d="M24 78h72" stroke="#ff7e6b" stroke-width="5" stroke-linecap="round"/><path d="M30 88h60" stroke="#ffcaa0" stroke-width="4" stroke-linecap="round"/>'),
+    /* 10 The Closeness — two soft hearts overlapping tenderly */
+    svg('<path d="M50 84 C 34 73 28 64 28 55 C 28 47 34 43 40 43 C 45 43 49 46 50 51 C 51 46 55 43 60 43 C 66 43 72 47 72 55 C 72 64 66 73 50 84 Z" fill="url(#lilacg)" opacity="0.85"/><path d="M70 88 C 54 77 48 68 48 59 C 48 51 54 47 60 47 C 65 47 69 50 70 55 C 71 50 75 47 80 47 C 86 47 92 51 92 59 C 92 68 86 77 70 88 Z" fill="url(#coralg)"/>'),
+    /* 11 The Small Thing — a tiny spark / blooming seed */
+    svg('<circle cx="60" cy="68" r="22" fill="url(#mintg)"/><path d="M60 68 C 60 54 54 46 48 42" stroke="#ff8c42" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M60 56 C 50 54 44 48 42 40 C 52 40 60 46 60 56 Z" fill="#ffb877"/><path d="M60 56 C 70 54 76 48 78 40 C 68 40 60 46 60 56 Z" fill="#ff9d7a"/><path d="M60 38 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" fill="#ffe1a8" class="twinkle"/>'),
+    /* 12 The Ending — an open doorway with warm light beyond */
+    svg('<rect x="38" y="24" width="44" height="74" rx="8" fill="#ffe7cf" stroke="#ffd9bd" stroke-width="3"/><path d="M60 24 v74" stroke="#ffcaa0" stroke-width="3"/><path d="M62 28 h16 a4 4 0 0 1 4 4 v62 a4 4 0 0 1 -4 4 h-16 Z" fill="url(#warm)"/><circle cx="66" cy="62" r="3.5" fill="#fffaf3"/>')
+  ];
+
+  /* ============================================================
+     ARCHETYPE EMBLEMS — a distinct illustrated character per result.
+     Each shares the soft "love bug" creature DNA, recolored and
+     posed to express its archetype.
+     ============================================================ */
+  function emblem(inner){
+    return '<svg viewBox="0 0 160 160" role="img" aria-hidden="true">' +
+      '<ellipse cx="80" cy="80" rx="66" ry="62" fill="url(#sunlit)" opacity="0.5"/>' + inner + '</svg>';
+  }
+  var ARCH_EMBLEM = {
+    /* Devoted Romantic — creature holding a big radiant heart */
+    dev: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#coralg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#ffd9bd" opacity="0.6"/>'+
+      '<path d="M62 84 C 66 78 74 78 78 84M82 84 C 86 78 94 78 98 84" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 96 C 76 104 84 104 88 96" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.5"/><ellipse cx="102" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.5"/>'+
+      '<path d="M80 130 C 60 116 52 105 52 95 C 52 86 58 82 64 82 C 70 82 76 86 80 94 C 84 86 90 82 96 82 C 102 82 108 86 108 95 C 108 105 100 116 80 130 Z" fill="#ff5d63" opacity="0.92"/>'+
+      '</g>'+
+      '<path d="M40 36 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#ffb877" class="twinkle"/>'),
+    /* Guarded Strategist — creature behind a soft rounded shield */
+    guard: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#lilacg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#f1e6fb" opacity="0.7"/>'+
+      '<path d="M64 86 C 68 80 74 80 78 86M82 86 C 86 80 92 80 96 86" stroke="#5a4a6e" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M74 98 C 78 102 82 102 86 98" stroke="#5a4a6e" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M80 78 C 96 84 104 86 104 86 C 104 104 94 116 80 122 C 66 116 56 104 56 86 C 56 86 64 84 80 78 Z" fill="url(#warm)" opacity="0.95"/>'+
+      '<path d="M80 92 C 76 88 73 86 73 83 C 73 80 76 79 78 79 C 79 79 80 80 80 82 C 80 80 81 79 82 79 C 84 79 87 80 87 83 C 87 86 84 88 80 92 Z" fill="#fffaf3"/>'+
+      '</g>'),
+    /* Passionate Storm — creature wreathed in warm flame-petals */
+    storm: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 40 C 70 24 90 22 84 8 C 100 18 96 36 104 44 M80 40 C 90 24 70 22 76 8 C 60 18 64 36 56 44" fill="url(#coralg)" opacity="0.5"/>'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#coralg)"/>'+
+      '<path d="M44 86 C 30 78 24 64 28 50 C 36 60 40 70 50 74 Z M116 86 C 130 78 136 64 132 50 C 124 60 120 70 110 74 Z" fill="#ff9d7a" opacity="0.7"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#ffd9bd" opacity="0.55"/>'+
+      '<path d="M62 82 L 78 88 M98 82 L 82 88" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 100 C 76 96 84 96 88 100" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="96" rx="6.5" ry="4.5" fill="#ff5d63" opacity="0.55"/><ellipse cx="102" cy="96" rx="6.5" ry="4.5" fill="#ff5d63" opacity="0.55"/>'+
+      '</g>'),
+    /* Intellectual Seducer — creature with a thoughtful orbit / idea spark */
+    intel: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#skyg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#eaf6f7" opacity="0.7"/>'+
+      '<circle cx="66" cy="90" r="9" fill="none" stroke="#3f6b72" stroke-width="3"/><circle cx="94" cy="90" r="9" fill="none" stroke="#3f6b72" stroke-width="3"/><path d="M75 90 h10" stroke="#3f6b72" stroke-width="3" stroke-linecap="round"/><circle cx="66" cy="90" r="3" fill="#3f6b72"/><circle cx="94" cy="90" r="3" fill="#3f6b72"/>'+
+      '<path d="M72 106 C 76 110 84 110 88 106" stroke="#3f6b72" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+      '<g transform="translate(80 34)"><circle r="9" fill="#ffe1a8"/><path d="M-3 9 h6 M-2 13 h4" stroke="#ff8c42" stroke-width="2.4" stroke-linecap="round"/><path d="M0 -16 v5 M14 -2 h-5 M-14 -2 h5 M10 -12 l-3 4 M-10 -12 l3 4" stroke="#ffb877" stroke-width="2.6" stroke-linecap="round"/></g>'+
+      '</g>'),
+    /* Healing Nurturer — creature offering a small sprout with care */
+    heal: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#mintg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#eaf7ee" opacity="0.7"/>'+
+      '<path d="M62 86 C 66 80 74 80 78 86M82 86 C 86 80 94 80 98 86" stroke="#2f6b41" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 98 C 76 104 84 104 88 98" stroke="#2f6b41" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/><ellipse cx="102" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/>'+
+      '<g transform="translate(80 118)"><path d="M0 14 V0" stroke="#2f6b41" stroke-width="3.4" stroke-linecap="round"/><path d="M0 4 C -10 2 -14 -4 -15 -12 C -6 -11 -1 -5 0 4 Z" fill="#8ed0a0"/><path d="M0 0 C 10 -2 14 -8 15 -16 C 6 -15 1 -9 0 0 Z" fill="#a9dcb8"/></g>'+
+      '</g>'),
+    /* Restless Explorer — creature with a paper-plane / compass spark */
+    rest: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#warm)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#fff1dd" opacity="0.6"/>'+
+      '<path d="M62 84 C 66 78 74 78 78 84M82 84 C 86 78 94 78 98 84" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 96 C 76 104 84 104 88 96" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/><ellipse cx="102" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/>'+
+      '<g transform="translate(108 44) rotate(12)"><path d="M-18 0 L 16 -10 L 4 16 L 0 4 Z" fill="#fffaf3" stroke="#ff7e6b" stroke-width="2.4" stroke-linejoin="round"/><path d="M-18 0 L 4 4 L 0 4 Z" fill="#ffd9bd"/></g>'+
+      '<path d="M40 118 C 56 110 64 110 80 118" stroke="#ffcaa0" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-dasharray="2 6"/>'+
+      '</g>')
+  };
+
+  /* ============================================================
      STATE + ELEMENTS
      ============================================================ */
   var state = { i:0, scores:null };
@@ -777,6 +1103,9 @@
   function renderScene(){
     var sc = SCENES[state.i];
     setProgress(state.i + 1, SCENES.length);
+
+    var art = byId('sceneArt');
+    if(art){ art.innerHTML = SCENE_ART[state.i] || ''; }
 
     byId('sceneNo').textContent = 'Scene ' + pad(state.i + 1);
     byId('scene-title').textContent = sc.title;
@@ -897,6 +1226,9 @@
   function showResult(){
     var key = resolve();
     var a = ARCH[key];
+
+    var emb = byId('resultEmblem');
+    if(emb){ emb.innerHTML = ARCH_EMBLEM[key] || ''; }
 
     byId('result-name').textContent   = a.name;
     byId('resultTagline').textContent = a.tagline;
