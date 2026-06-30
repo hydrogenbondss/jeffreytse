@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Welcome Home — generated art + type</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     WELCOME HOME — the new method:
+       generated riso ARTWORK (variant 1) as the poster,
+       real TYPE laid on top in HTML so words stay sharp.
+     Type sits in the flat top/bottom zones the art left open.
+     Built blind to the image's exact colors — gentle scrims
+     keep the type legible on whatever it landed on.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+    --cream:#f4f0e4; --ink:#0e0e0a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;color:var(--cream);
+    background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_164131_1b7ba31c-ccd4-4f5f-97cf-4d72e8ad222b.png");
+    background-size:cover;background-position:center;
+    box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+
+  /* legibility scrims over the flat zones */
+  .poster::before{content:"";position:absolute;left:0;right:0;top:0;height:30%;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(8,8,6,.6),rgba(8,8,6,0))}
+  .poster::after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;z-index:1;pointer-events:none;
+    background:linear-gradient(0deg,rgba(8,8,6,.7),rgba(8,8,6,0))}
+
+  /* --- top zone --- */
+  .codes{position:absolute;top:14px;left:16px;right:16px;z-index:3;display:flex;justify-content:space-between;gap:10px;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;line-height:1.5;
+    text-shadow:0 1px 6px rgba(0,0,0,.6)}
+  .codes .r{text-align:right}
+  .hand{position:absolute;top:54px;right:18px;z-index:3;font-family:var(--mark);font-size:clamp(1.4rem,5vw,2rem);
+    line-height:.95;width:60%;text-align:right;transform:rotate(-2deg);text-shadow:0 2px 10px rgba(0,0,0,.55)}
+
+  /* --- bottom zone --- */
+  .title{position:absolute;left:16px;bottom:64px;z-index:3;font-family:var(--anton);
+    font-size:clamp(3rem,14vw,5rem);line-height:.82;text-transform:uppercase;letter-spacing:-.01em;
+    text-shadow:0 3px 18px rgba(0,0,0,.5)}
+  .credit{position:absolute;left:18px;bottom:40px;z-index:3;font-family:var(--mono);font-size:.56rem;
+    letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+  .credit b{font-weight:700}
+  .meta{position:absolute;right:16px;bottom:16px;z-index:3;display:flex;align-items:flex-end;gap:10px}
+  .barcode{width:70px;height:26px;background:repeating-linear-gradient(90deg,var(--cream) 0 1.5px,transparent 1.5px 3px,var(--cream) 3px 4px,transparent 4px 7px,var(--cream) 7px 9px,transparent 9px 11px);opacity:.92}
+  .serial{font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;text-align:right;line-height:1.5;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;
+    max-width:50ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <div class="codes">
+      <div class="l">ARCHIVE · EX-01<br>WAAP · VANCOUVER<br>CURATOR · 2019</div>
+      <div class="r">SERIES I<br>EXHIBITION<br>3 ARTISTS</div>
+    </div>
+    <div class="hand">what makes a room yours?</div>
+
+    <h1 class="title">Welcome<br>Home</h1>
+    <div class="credit"><b>Featured —</b> Cube in Cube · Olivia Qiu · resin, plastic &amp; oil · 2017</div>
+    <div class="meta">
+      <span class="barcode" aria-hidden="true"></span>
+      <span class="serial">© ARCHIVE<br>J. N. TSE<br>№ EX-01</span>
+    </div>
+  </article>
+  <p class="cap">WELCOME HOME · generated riso art (variant 1) + type laid on top · the new method. Type colors/placement are a blind first pass — tell me the art's colors and I'll tune them.</p>
+</body>
+</html>
