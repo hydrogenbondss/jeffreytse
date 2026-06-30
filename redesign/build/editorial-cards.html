@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Editorial — Jeffrey N. Tse</title>
-<meta name="description" content="Fashion editorial as a wall of cassette tapes — each editorial a cassette on the shelf. Pull one off to read it.">
-<meta name="theme-color" content="#efe8da">
+<meta name="description" content="Fashion editorial as a wall of cassette tapes — hover a tape to see the title, click to read the editorial.">
+<meta name="theme-color" content="#2a1d12">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#241a10;--ink-soft:#5c5040;--ink-faint:#8f8268;--hot:#b23a26;
+    --ink:#f4ece0;--ink-soft:rgba(244,236,224,.66);--ink-faint:rgba(244,236,224,.4);--hot:#e6b780;
     --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
     --spring:cubic-bezier(.34,1.32,.5,1);
   }
@@ -19,53 +19,44 @@
   html,body{min-height:100%}
   body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;
     background:
-      radial-gradient(100% 55% at 50% -10%, #fffdf9 0%, rgba(255,253,249,0) 62%),
-      repeating-linear-gradient(90deg, rgba(120,98,64,.04) 0 1px, transparent 1px 26px),
-      linear-gradient(180deg, #f4efe6 0%, #ece4d6 56%, #e0d5c2 100%);}
+      radial-gradient(90% 55% at 50% -8%, rgba(120,80,40,.5), rgba(70,44,22,0) 60%),
+      radial-gradient(60% 50% at 14% 6%, rgba(150,100,52,.32), transparent 60%),
+      linear-gradient(180deg, #2c1d12 0%, #241710 55%, #1a1009 100%);}
 
   #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,46px)}
-  .ed-head{text-align:center;margin-bottom:clamp(12px,2.4vw,26px)}
+  .ed-head{text-align:center;margin-bottom:clamp(14px,2.6vw,30px)}
   .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
-  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:var(--ink)}
+  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:var(--ink);text-shadow:0 2px 30px rgba(0,0,0,.5)}
 
-  .wall{max-width:1180px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3.4vw,40px)}
-
+  .wall{max-width:1180px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3.4vw,42px)}
   .shelf{position:relative}
-  .genres{font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase;
-    text-align:center;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .row{display:flex;justify-content:center;align-items:flex-end;gap:clamp(8px,1.4vw,22px);position:relative;z-index:2;padding:0 8px}
-  .item{display:flex;flex-direction:column;align-items:center;width:clamp(92px,11.5vw,138px)}
+  .row{display:flex;justify-content:center;align-items:flex-end;gap:clamp(8px,1.5vw,22px);position:relative;z-index:2;padding:0 6px}
+  .item{position:relative;width:clamp(96px,11.8vw,140px);display:flex;justify-content:center}
 
-  .cass{appearance:none;border:0;background:none;padding:0;cursor:pointer;width:100%;display:block}
-  .cass img{width:100%;height:auto;display:block;filter:drop-shadow(0 16px 11px rgba(70,56,32,.32));
+  .cass{appearance:none;border:0;background:none;padding:0;cursor:pointer;width:100%;display:block;position:relative}
+  .cass img{width:100%;height:auto;display:block;filter:drop-shadow(0 16px 12px rgba(0,0,0,.5));
     transition:transform .42s var(--spring), filter .42s var(--spring)}
-  .cass:hover img,.cass:focus-visible img{transform:translateY(-14px);filter:drop-shadow(0 30px 18px rgba(70,56,32,.34))}
+  .cass:hover img,.cass:focus-visible img{transform:translateY(-16px) scale(1.03);filter:drop-shadow(0 30px 22px rgba(0,0,0,.6))}
   .cass:focus-visible{outline:none}
-  .item .read{margin-top:2px;font-family:var(--mono);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--hot);
-    opacity:0;transform:translateY(-3px);transition:.3s var(--spring)}
-  .item:hover .read,.cass:focus-visible + .read{opacity:1;transform:none}
+  /* hover-reveal title */
+  .tt{position:absolute;left:50%;bottom:-6px;transform:translate(-50%,8px);z-index:5;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:#1a1009;
+    background:var(--hot);padding:6px 11px;border-radius:30px;box-shadow:0 8px 20px rgba(0,0,0,.45);
+    opacity:0;pointer-events:none;transition:opacity .3s var(--spring), transform .3s var(--spring)}
+  .item:hover .tt,.cass:focus-visible ~ .tt{opacity:1;transform:translate(-50%,0)}
 
-  /* the shelf plank */
-  .board{height:17px;margin-top:-7px;border-radius:2px;position:relative;z-index:1;
-    background:linear-gradient(180deg,#fffefb 0%,#efe7d8 100%);
-    box-shadow:0 16px 26px -13px rgba(80,62,36,.55), inset 0 1px 0 #fff, inset 0 -2px 5px rgba(0,0,0,.07);}
-  .board::after{content:"";position:absolute;left:1%;right:1%;top:17px;height:16px;border-radius:50%;
-    background:radial-gradient(50% 100% at 50% 0,rgba(80,62,36,.16),transparent 72%);filter:blur(2px)}
+  /* warm shelf plank */
+  .board{height:16px;margin-top:-6px;border-radius:2px;position:relative;z-index:1;
+    background:linear-gradient(180deg,#5a3c22 0%,#3c2716 100%);
+    box-shadow:0 16px 26px -12px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,220,170,.25), inset 0 -3px 6px rgba(0,0,0,.4);}
+  .board::after{content:"";position:absolute;left:1%;right:1%;top:16px;height:16px;border-radius:50%;
+    background:radial-gradient(50% 100% at 50% 0,rgba(0,0,0,.5),transparent 72%);filter:blur(2px)}
 
-  /* printed label card under each cassette, sitting on the shelf lip */
-  .label{margin-top:7px;width:96%;background:#fffdf7;border:1px solid rgba(40,28,14,.16);border-radius:2px;padding:4px 6px;
-    box-shadow:0 3px 8px -3px rgba(40,28,14,.4);text-align:left;transform:rotate(-.5deg)}
-  .label .lt{font-family:var(--mono);font-size:.46rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);
-    line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
-  .label .lb{display:flex;justify-content:space-between;gap:5px;margin-top:2px;font-family:var(--mono);font-size:.42rem;
-    letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase}
-  .label .lb .flag{color:var(--hot);font-weight:700}
+  .ed-foot{text-align:center;margin-top:clamp(16px,3vw,30px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
 
-  .ed-foot{text-align:center;margin-top:clamp(16px,3vw,28px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
-
-  @media(max-width:760px){.item{width:calc(25% - 12px)}.genres{display:none}}
+  @media(max-width:760px){.item{width:calc(25% - 12px)}}
   @media(max-width:480px){.item{width:calc(33.3% - 10px)}}
-  @media(prefers-reduced-motion:reduce){.cass img{transition:none}}
+  @media(prefers-reduced-motion:reduce){.cass img,.tt{transition:none}}
 </style>
 </head>
 <body>
@@ -75,58 +66,46 @@
     <h1 class="ed-title">Editorial</h1>
   </header>
   <div class="wall" id="wall"></div>
-  <div class="ed-foot">Pull a tape off the shelf &mdash; it opens the editorial.</div>
+  <div class="ed-foot">Hover a tape for its title &mdash; click to read the editorial.</div>
 </section>
 
 <script>
 (function(){
   "use strict";
   var IMG="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
-  // each editorial: name, season tag, iteshop link, cut-out cassette image
   var CASS=[
-    {n:"NO ZIPPERS, NO APOLOGIES",t:"FW25",l:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",img:"hf_20260630_084407_c5df6d30-6aa7-4c22-8d3f-8fede703a077.png"},
-    {n:"MARKGONG FALL 2025",t:"FW25",l:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",img:"hf_20260630_084447_10f27299-dbda-4196-9fa6-b9093e81f94a.png"},
-    {n:"MASAYUKI INO",t:"DBLT",l:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",img:"hf_20260630_084448_7849c54a-874c-4502-83ac-cf1d77984a4f.png"},
-    {n:"A BATHING APE®",t:"FW24",l:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",img:"hf_20260630_084450_31e32354-00cc-4f54-9410-0b8193585218.png"},
-    {n:"THE RISE OF BLOKECORE",t:"SPORT",l:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",img:"hf_20260630_084452_cc919ab1-d47f-44be-8de7-716367425069.png"},
-    {n:"THE GOTHIC REALM",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",img:"hf_20260630_084454_d86bac2b-f36f-4b64-b5bc-47645d6c98dc.png"},
-    {n:"PONDER.ER SS24",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",img:"hf_20260630_084456_93d819c8-a6de-4c31-ae96-97d340451067.png"},
-    {n:"WESTFALL",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",img:"hf_20260630_084457_5b3304e9-f516-4508-897a-743b1264cf57.png"},
-    {n:"MOUNTWOOD",t:"OUT",l:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",img:"hf_20260630_084458_832b1417-b826-4b9c-be16-1dc0949a2eb2.png"},
-    {n:"SUBI · SUBEZ YETI",t:"CWIP",l:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",img:"hf_20260630_084459_8a92095e-4699-4f06-8cb9-b6a4ab974dca.png"},
-    {n:"HONG KONG SHOWROOM",t:"FA24",l:"https://hk.iteshop.com/bit/editorial/fashion-asia-showroom-2024",img:"hf_20260630_084501_de1e7ee6-36d2-4cc7-8411-a68167c5f825.png"},
-    {n:"RICK OWENS SS24",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/rick-owens-ss24-new-collection",img:"hf_20260630_084728_4e8931bd-2079-4a75-903f-ea435689b4e8.png"},
-    {n:"SWEET REBELLION",t:"INT",l:"https://hk.iteshop.com/bit/editorial/shushu-tong-interview-and-collection",img:"hf_20260630_084729_51b76293-70b9-4e53-ba0b-45b0a9c83b91.png"},
-    {n:"THE MEANING OF LOVE",t:"LOVE",l:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love",img:"hf_20260630_084730_2fea97e1-8207-41c6-9bd3-c37aa7e3f718.png"},
-    {n:"BREAKING BOUNDARIES",t:"SK8",l:"https://hk.iteshop.com/sit/editorial/breaking-boundaries",img:"hf_20260630_084732_abd58089-dcf3-4061-9f8c-698b881e9719.png"},
-    {n:"IN THE STUDIO WITH TAKU",t:"CWIP",l:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush",img:"hf_20260630_084733_1d1a6781-c5d5-4b4c-ba2b-a624771be622.png"},
-    {n:"JERSEY TEES",t:"SPORT",l:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets",img:"hf_20260630_084734_28261f5d-02a3-422e-92ca-654f606e7bd2.png"}
+    {n:"No Zippers, No Apologies",l:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",img:"hf_20260630_084407_c5df6d30-6aa7-4c22-8d3f-8fede703a077.png"},
+    {n:"Markgong Fall 2025",l:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",img:"hf_20260630_084447_10f27299-dbda-4196-9fa6-b9093e81f94a.png"},
+    {n:"Masayuki Ino · Doublet",l:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",img:"hf_20260630_084448_7849c54a-874c-4502-83ac-cf1d77984a4f.png"},
+    {n:"A Bathing Ape® FW24",l:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",img:"hf_20260630_084450_31e32354-00cc-4f54-9410-0b8193585218.png"},
+    {n:"The Rise of Blokecore",l:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",img:"hf_20260630_084452_cc919ab1-d47f-44be-8de7-716367425069.png"},
+    {n:"The Gothic Realm",l:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",img:"hf_20260630_084454_d86bac2b-f36f-4b64-b5bc-47645d6c98dc.png"},
+    {n:"Ponder.er SS24",l:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",img:"hf_20260630_084456_93d819c8-a6de-4c31-ae96-97d340451067.png"},
+    {n:"Westfall",l:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",img:"hf_20260630_084457_5b3304e9-f516-4508-897a-743b1264cf57.png"},
+    {n:"Mountwood",l:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",img:"hf_20260630_084458_832b1417-b826-4b9c-be16-1dc0949a2eb2.png"},
+    {n:"Subi · Subez Yeti",l:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",img:"hf_20260630_084459_8a92095e-4699-4f06-8cb9-b6a4ab974dca.png"},
+    {n:"Hong Kong Showroom",l:"https://hk.iteshop.com/bit/editorial/fashion-asia-showroom-2024",img:"hf_20260630_084501_de1e7ee6-36d2-4cc7-8411-a68167c5f825.png"},
+    {n:"Rick Owens SS24",l:"https://hk.iteshop.com/bit/editorial/rick-owens-ss24-new-collection",img:"hf_20260630_084728_4e8931bd-2079-4a75-903f-ea435689b4e8.png"},
+    {n:"Sweet Rebellion · Shushu/Tong",l:"https://hk.iteshop.com/bit/editorial/shushu-tong-interview-and-collection",img:"hf_20260630_084729_51b76293-70b9-4e53-ba0b-45b0a9c83b91.png"},
+    {n:"The Meaning of Love",l:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love",img:"hf_20260630_084730_2fea97e1-8207-41c6-9bd3-c37aa7e3f718.png"},
+    {n:"Breaking Boundaries",l:"https://hk.iteshop.com/sit/editorial/breaking-boundaries",img:"hf_20260630_084732_abd58089-dcf3-4061-9f8c-698b881e9719.png"},
+    {n:"In the Studio with Taku",l:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush",img:"hf_20260630_084733_1d1a6781-c5d5-4b4c-ba2b-a624771be622.png"},
+    {n:"Jersey Tees",l:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets",img:"hf_20260630_084734_28261f5d-02a3-422e-92ca-654f606e7bd2.png"}
   ];
-  var GENRES=[
-    "Renaissance / Markgong / Doublet / A Bathing Ape® / Blokecore / Gothic",
-    "Ponder.er / Westfall / Mountwood / Carhartt WIP / HK Showroom / Rick Owens",
-    "Shushu/Tong / Meaning of Love / Breaking Boundaries / Taku / Jersey Tees"
-  ];
-  var SHELVES=[[0,6],[6,12],[12,17]]; // 6, 6, 5
-
+  var SHELVES=[[0,6],[6,12],[12,17]];
   var wall=document.getElementById("wall");
   function item(e){
     return '<div class="item">'+
-      '<button class="cass" type="button" onclick="window.open(\''+e.l+'\',\'_blank\',\'noopener\')" aria-label="'+e.n+' — open editorial">'+
-        '<img src="'+IMG+e.img+'" alt="'+e.n+'" loading="lazy"></button>'+
-      '<span class="read">Read</span>'+
-      '<span class="label"><span class="lt">'+e.n+'</span>'+
-        '<span class="lb"><span class="flag">HK</span><span>Editorial</span><span>'+e.t+'</span></span></span>'+
+      '<button class="cass" type="button" onclick="window.open(\''+e.l+'\',\'_blank\',\'noopener\')" aria-label="'+e.n+' — open editorial"><img src="'+IMG+e.img+'" alt="'+e.n+'" loading="lazy"></button>'+
+      '<span class="tt">'+e.n+'</span>'+
     '</div>';
   }
-  SHELVES.forEach(function(rng,i){
+  SHELVES.forEach(function(rng){
     var shelf=document.createElement("div");shelf.className="shelf";
-    var g=document.createElement("div");g.className="genres";g.textContent=GENRES[i]||"";
     var row=document.createElement("div");row.className="row";
     row.innerHTML=CASS.slice(rng[0],rng[1]).map(item).join("");
     var board=document.createElement("div");board.className="board";
-    shelf.appendChild(g);shelf.appendChild(row);shelf.appendChild(board);
-    wall.appendChild(shelf);
+    shelf.appendChild(row);shelf.appendChild(board);wall.appendChild(shelf);
   });
 })();
 </script>
