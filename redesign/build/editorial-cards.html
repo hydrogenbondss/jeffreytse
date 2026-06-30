@@ -4,15 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Editorial — Jeffrey N. Tse</title>
-<meta name="description" content="Fashion editorial displayed as a wall of cassette tapes — each editorial a cassette, its cover the J-card. Pull one off the shelf to read it.">
-<meta name="theme-color" content="#efe9e0">
+<meta name="description" content="Fashion editorial displayed as a wall of cassette tapes — each editorial a cassette, generated from its cover. Pull one off the shelf to read it.">
+<meta name="theme-color" content="#e7ddcc">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1c1712;--ink-soft:#5c5040;--ink-faint:#9a8d77;
-    --wall:#ece5d8;--shelf:#fbfaf7;--hot:#b23a26;
+    --ink:#241a10;--ink-soft:#5c4f3c;--ink-faint:#8c7c64;--hot:#b23a26;
     --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
     --spring:cubic-bezier(.34,1.3,.5,1);
   }
@@ -20,74 +19,43 @@
   html,body{min-height:100%}
   body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;
     background:
-      radial-gradient(90% 50% at 50% -8%, rgba(255,252,244,.9), rgba(255,250,240,0) 60%),
-      radial-gradient(60% 40% at 15% 10%, rgba(255,247,232,.7), transparent 60%),
-      linear-gradient(180deg, #efe8db 0%, #e7ddcc 60%, #ddd0ba 100%);}
+      radial-gradient(85% 45% at 50% -6%, rgba(255,250,240,.85), rgba(255,248,236,0) 60%),
+      radial-gradient(50% 40% at 12% 8%, rgba(255,243,224,.55), transparent 60%),
+      linear-gradient(180deg, #efe6d6 0%, #e7dcc8 55%, #d8c8ac 100%);}
 
   #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,46px)}
-
-  .ed-head{text-align:center;margin-bottom:clamp(14px,3vw,30px)}
+  .ed-head{text-align:center;margin-bottom:clamp(16px,3vw,30px)}
   .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
   .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:var(--ink)}
 
-  .wall{max-width:1120px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:clamp(30px,5vw,58px);flex:1;justify-content:center}
+  .wall{max-width:1160px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,4vw,44px)}
+  .shelf .genres{font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase;
+    text-align:center;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(12px,1.8vw,24px)}
 
-  .shelf{position:relative}
-  .genres{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase;
-    text-align:center;margin-bottom:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(12px,1.8vw,26px);align-items:end;position:relative;z-index:2;padding:0 6px}
-
-  /* the shelf board the tapes stand on */
-  .board{position:relative;height:16px;margin-top:-8px;border-radius:2px;background:linear-gradient(180deg,var(--shelf),#e7e0d2);
-    box-shadow:0 14px 24px -12px rgba(60,44,26,.5), inset 0 1px 0 #fff, inset 0 -2px 4px rgba(0,0,0,.08);z-index:3}
-  .board::after{content:"";position:absolute;left:1%;right:1%;top:16px;height:18px;border-radius:50%;
-    background:radial-gradient(50% 100% at 50% 0,rgba(60,44,26,.18),transparent 70%);filter:blur(2px)}
-
-  /* a cassette */
-  .tape{appearance:none;border:0;background:none;padding:0;cursor:pointer;font:inherit;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
-  .case{position:relative;width:100%;aspect-ratio:5/7.4;border-radius:5px;overflow:hidden;
-    background:#0e0e12 center/cover no-repeat;
-    box-shadow:0 12px 20px -10px rgba(40,28,14,.7), inset 0 0 0 1px rgba(255,255,255,.22), inset 0 0 0 3px rgba(255,255,255,.06);
-    transition:transform .45s var(--spring), box-shadow .45s var(--spring)}
-  .case .art{position:absolute;inset:0;background-size:cover;background-position:center}
-  /* clear-plastic sheen + the cassette window strip near the top */
-  .case .sheen{position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(118deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 72%, rgba(255,255,255,.14) 100%);
-    mix-blend-mode:screen}
-  .case::before{content:"";position:absolute;top:0;left:0;right:0;height:15%;pointer-events:none;
-    background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0));border-bottom:1px solid rgba(255,255,255,.16)}
-  .case .spine{position:absolute;left:0;right:0;bottom:0;padding:6px 7px;font-family:var(--mono);font-size:.46rem;
-    letter-spacing:.1em;text-transform:uppercase;color:#f4efe6;line-height:1.25;
-    background:linear-gradient(180deg,transparent,rgba(0,0,0,.78));text-align:left;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  /* the "pull it off the shelf" lift */
-  .tape:hover .case,.tape:focus-visible .case{transform:translateY(-16px) rotate(-1deg);
-    box-shadow:0 30px 36px -12px rgba(40,28,14,.66), inset 0 0 0 1px rgba(255,255,255,.34)}
-  .tape:focus-visible{outline:none}
-  .read{position:absolute;top:9px;right:9px;z-index:4;font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;
-    text-transform:uppercase;color:#0e0e12;background:#f4efe6;padding:3px 7px;border-radius:20px;opacity:0;transform:translateY(-4px);
-    transition:.3s var(--spring)}
+  .tape{appearance:none;border:0;background:none;padding:0;cursor:pointer;font:inherit;color:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:9px}
+  .cass{position:relative;width:100%;aspect-ratio:3/4;border-radius:7px;overflow:hidden;background:#1a140d center/cover no-repeat;
+    box-shadow:0 16px 26px -14px rgba(40,28,14,.65);transition:transform .45s var(--spring), box-shadow .45s var(--spring)}
+  .read{position:absolute;top:9px;right:9px;z-index:3;font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;
+    color:#1a140d;background:#f4efe6;padding:3px 8px;border-radius:20px;opacity:0;transform:translateY(-4px);transition:.3s var(--spring)}
+  .tape:hover .cass,.tape:focus-visible .cass{transform:translateY(-14px) rotate(-.6deg);box-shadow:0 34px 40px -16px rgba(40,28,14,.6)}
   .tape:hover .read,.tape:focus-visible .read{opacity:1;transform:none}
+  .tape:focus-visible{outline:none}
 
-  /* printed label card on the shelf lip */
-  .label{width:96%;background:#fffdf8;border:1px solid rgba(40,28,14,.16);border-radius:2px;padding:5px 7px;
-    box-shadow:0 3px 8px -3px rgba(40,28,14,.4);text-align:left;transform:rotate(-.4deg)}
-  .label .lt{font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);
+  .label{width:96%;background:#fffdf8;border:1px solid rgba(40,28,14,.16);border-radius:2px;padding:5px 8px;
+    box-shadow:0 3px 8px -3px rgba(40,28,14,.35);text-align:left;transform:rotate(-.4deg)}
+  .label .lt{font-family:var(--mono);font-size:.5rem;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);
     line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
   .label .lb{display:flex;justify-content:space-between;gap:6px;margin-top:3px;font-family:var(--mono);font-size:.44rem;
-    letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase}
+    letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase}
   .label .lb .flag{color:var(--hot);font-weight:700}
 
-  .ed-foot{text-align:center;margin-top:clamp(18px,3vw,32px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
+  .ed-foot{text-align:center;margin-top:clamp(18px,3vw,30px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
 
-  @media(max-width:760px){
-    .row{grid-template-columns:repeat(3,1fr)}
-  }
-  @media(max-width:460px){
-    .row{grid-template-columns:repeat(2,1fr)}
-    .genres{display:none}
-  }
-  @media(prefers-reduced-motion:reduce){.case{transition:none}}
+  @media(max-width:760px){.row{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:460px){.row{grid-template-columns:repeat(2,1fr)}.shelf .genres{display:none}}
+  @media(prefers-reduced-motion:reduce){.cass{transition:none}}
 </style>
 </head>
 <body>
@@ -96,56 +64,44 @@
     <div class="ed-kicker">Fashion</div>
     <h1 class="ed-title">Editorial</h1>
   </header>
-
   <div class="wall" id="wall"></div>
-
   <div class="ed-foot">Pull a tape off the shelf to read the editorial.</div>
 </section>
 
 <script>
 (function(){
   "use strict";
-  var CDN="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
-  function u(id){return CDN+id+".png";}
-  var ED=[
-    {name:"NO ZIPPERS, NO APOLOGIES",sub:"Renaissance Renaissance",tag:"FW25",link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",cover:u("fe2a6de7-22ee-4151-baf8-894b1ab7bec0")},
-    {name:"MARKGONG FALL 2025",sub:"Rebellion & Nostalgia",tag:"FW25",link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",cover:u("958a7f37-45e7-4b17-8b74-f88b2b35eab5")},
-    {name:"MASAYUKI INO",sub:"Doublet — Interview",tag:"DBLT",link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",cover:u("3967cb9d-2dd1-4760-8fb6-2f8339606737")},
-    {name:"A BATHING APE®",sub:"FW24 — Shanghai",tag:"FW24",link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",cover:u("2e4b0101-5454-4882-a00a-02ef4d45f205")},
-    {name:"THE RISE OF BLOKECORE",sub:"Football Fashion",tag:"SPORT",link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",cover:u("3d9d5a6e-cd0d-416b-a637-0b200b33ae4b")},
-    {name:"THE GOTHIC REALM",sub:"Obsidian Elegance",tag:"SS24",link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",cover:u("fe079530-3568-40bf-9dd5-af64ad696bbf")},
-    {name:"PONDER.ER SS24",sub:"Road Trip to Heaven",tag:"SS24",link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",cover:u("3a1d91aa-e798-4736-8d20-d9d7a91237eb")},
-    {name:"WESTFALL",sub:"California Punk",tag:"SS24",link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",cover:u("22963cb0-dcd4-4720-a4e7-d45deef942e1")},
-    {name:"MOUNTWOOD",sub:"Great Outdoors",tag:"OUT",link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",cover:u("213d5de9-fc35-4828-aac3-0b7d6e33eb35")},
-    {name:"SUBI · SUBEZ YETI",sub:"Carhartt WIP — Interview",tag:"CWIP",link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",cover:u("5d96aa7f-39f3-4918-bdb3-18d1f2c03edd")}
+  var IMG="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
+  var CASS=[
+    {n:"NO ZIPPERS, NO APOLOGIES",s:"Renaissance Renaissance",t:"FW25",l:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",img:"hf_20260630_080041_59fe8b29-f18f-4ab5-a29d-1b02dc95cb84.png"},
+    {n:"MARKGONG FALL 2025",s:"Rebellion & Nostalgia",t:"FW25",l:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",img:"hf_20260630_080044_07426637-9d2a-4f42-afb6-ea27c7ff674f.png"},
+    {n:"MASAYUKI INO",s:"Doublet — Interview",t:"DBLT",l:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",img:"hf_20260630_080715_78094f98-145b-42a0-8254-35c8e1525a18.png"},
+    {n:"A BATHING APE®",s:"FW24 — Shanghai",t:"FW24",l:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",img:"hf_20260630_080924_2b423f5d-fb84-4214-ae9c-de5ad362e6df.png"},
+    {n:"THE RISE OF BLOKECORE",s:"Football Fashion",t:"SPORT",l:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",img:"hf_20260630_080926_ec3612c6-98de-4a21-80c2-40d1fe91ad64.png"},
+    {n:"THE GOTHIC REALM",s:"Obsidian Elegance",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",img:"hf_20260630_080724_988023bb-c6f2-4381-8676-a301e85f04f4.png"},
+    {n:"PONDER.ER SS24",s:"Road Trip to Heaven",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",img:"hf_20260630_080727_8c1281af-4e40-4e6f-a23c-edb5d07bb129.png"},
+    {n:"WESTFALL",s:"California Punk",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",img:"hf_20260630_080730_d713ed3c-0e87-465a-9d12-1d14aae0939b.png"},
+    {n:"MOUNTWOOD",s:"Great Outdoors",t:"OUT",l:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",img:"hf_20260630_080733_d74bac9f-1ee4-4fa0-9b9b-8a26e3249e71.png"},
+    {n:"SUBI · SUBEZ YETI",s:"Carhartt WIP — Interview",t:"CWIP",l:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",img:"hf_20260630_080736_670e794f-a8fa-4a58-b8df-1cc4b40a8bf9.png"}
   ];
   var GENRES=[
     "Renaissance / Markgong / Doublet / A Bathing Ape® / Blokecore",
     "Gothic / Ponder.er / Westfall / Mountwood / Carhartt WIP"
   ];
-
   var wall=document.getElementById("wall");
-  function tapeHTML(e){
-    return '<button class="tape" type="button" onclick="window.open(\''+e.link+'\',\'_blank\',\'noopener\')" aria-label="'+e.name+' — read editorial">'+
-      '<span class="case">'+
-        '<span class="art" style="background-image:url(\''+e.cover+'\')"></span>'+
-        '<span class="sheen"></span>'+
-        '<span class="spine">'+e.name+'</span>'+
-        '<span class="read">Read</span>'+
-      '</span>'+
-      '<span class="label"><span class="lt">'+e.name+'</span>'+
-        '<span class="lb"><span class="flag">HK</span><span>'+e.sub+'</span><span>'+e.tag+'</span></span></span>'+
+  function tape(e){
+    return '<button class="tape" type="button" onclick="window.open(\''+e.l+'\',\'_blank\',\'noopener\')" aria-label="'+e.n+' — read editorial">'+
+      '<span class="cass" style="background-image:url(\''+IMG+e.img+'\')"><span class="read">Read</span></span>'+
+      '<span class="label"><span class="lt">'+e.n+'</span>'+
+        '<span class="lb"><span class="flag">HK</span><span>'+e.s+'</span><span>'+e.t+'</span></span></span>'+
     '</button>';
   }
-  // two shelves of five
   for(var s=0;s<2;s++){
     var shelf=document.createElement("div");shelf.className="shelf";
-    var genres=document.createElement("div");genres.className="genres";genres.textContent=GENRES[s];
+    var g=document.createElement("div");g.className="genres";g.textContent=GENRES[s];
     var row=document.createElement("div");row.className="row";
-    row.innerHTML=ED.slice(s*5,s*5+5).map(tapeHTML).join("");
-    var board=document.createElement("div");board.className="board";
-    shelf.appendChild(genres);shelf.appendChild(row);shelf.appendChild(board);
-    wall.appendChild(shelf);
+    row.innerHTML=CASS.slice(s*5,s*5+5).map(tape).join("");
+    shelf.appendChild(g);shelf.appendChild(row);wall.appendChild(shelf);
   }
 })();
 </script>
