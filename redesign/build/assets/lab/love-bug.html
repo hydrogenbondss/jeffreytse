@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Bug</title>
+<meta name="description" content="An interactive narrative that decodes how you love. A quiet, private piece of self-reflection — nothing saved, nothing shared.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* muted, soothing palette — dusk over still water */
+    --ink:#2a2d3a;
+    --ink-soft:#4c5063;
+    --ink-faint:#7b7f92;
+    --paper:#f4f1ec;
+    --paper-2:#efeae3;
+    --line:rgba(42,45,58,0.10);
+    --line-soft:rgba(42,45,58,0.06);
+    --rose:#c69a92;
+    --rose-deep:#a8736c;
+    --sage:#8a9a8f;
+    --mauve:#8f8398;
+    --gold:#c8a96a;
+    --glow:rgba(198,154,146,0.55);
+    --card:rgba(255,255,255,0.55);
+    --shadow:0 24px 60px -28px rgba(42,45,58,0.35);
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --ease-soft:cubic-bezier(.4,0,.2,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 800px at 18% -10%, #faf4ee 0%, rgba(250,244,238,0) 55%),
+      radial-gradient(1100px 900px at 92% 110%, #ece6f0 0%, rgba(236,230,240,0) 55%),
+      linear-gradient(160deg, #f4f1ec 0%, #efe9e4 45%, #ece7ee 100%);
+    background-attachment:fixed;
+    min-height:100%;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.6;
+  }
+
+  /* slow living aurora behind everything */
+  .aura{
+    position:fixed;inset:-20vmax;z-index:0;pointer-events:none;
+    filter:blur(60px);opacity:.5;
+    background:
+      radial-gradient(38vmax 38vmax at 30% 30%, rgba(198,154,146,0.30), transparent 60%),
+      radial-gradient(34vmax 34vmax at 72% 64%, rgba(143,131,152,0.26), transparent 62%),
+      radial-gradient(30vmax 30vmax at 50% 88%, rgba(138,154,143,0.22), transparent 60%);
+    animation:drift 34s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{transform:translate3d(-2%, -1%, 0) scale(1);}
+    50%{transform:translate3d(2%, 2%, 0) scale(1.06);}
+    100%{transform:translate3d(-1%, 1%, 0) scale(1.02);}
+  }
+
+  .grain{
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- shell ---- */
+  .stage{
+    position:relative;z-index:2;
+    min-height:100dvh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:clamp(28px,5vw,72px) clamp(20px,5vw,40px);
+  }
+  .frame{width:min(640px,100%);position:relative;}
+
+  /* progress bar */
+  .progress{
+    margin-bottom:clamp(30px,5vh,52px);
+    opacity:0;animation:fadeIn 1.2s var(--ease) .3s forwards;
+  }
+  .progress.hidden{display:none;}
+  .progress-meta{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:.7rem;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:400;
+  }
+  .progress-meta .count{color:var(--rose-deep);}
+  .progress-track{
+    height:2px;width:100%;border-radius:2px;
+    background:var(--line);overflow:hidden;position:relative;
+  }
+  .progress-fill{
+    position:absolute;inset:0 auto 0 0;height:100%;width:0%;
+    background:linear-gradient(90deg,var(--rose),var(--mauve));
+    border-radius:2px;
+    transition:width .8s var(--ease);
+  }
+
+  /* panels */
+  .panel{display:none;animation:rise .9s var(--ease) both;}
+  .panel.show{display:block;}
+  .panel.leaving{animation:sink .5s var(--ease-soft) both;}
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(22px);filter:blur(6px);}
+    to{opacity:1;transform:none;filter:blur(0);}
+  }
+  @keyframes sink{
+    from{opacity:1;transform:none;}
+    to{opacity:0;transform:translateY(-14px);}
+  }
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:400;
+    margin-bottom:1.4rem;text-align:center;
+  }
+  .eyebrow .blink{
+    display:inline-block;width:.55em;height:1em;
+    margin-left:.15em;vertical-align:-.12em;
+    background:var(--rose-deep);
+    animation:blink 1.15s steps(1) infinite;
+  }
+  @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+
+  h1,h2{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:300;line-height:1.08;letter-spacing:.005em;color:var(--ink);
+  }
+  h1{font-size:clamp(2.8rem,8vw,4.4rem);}
+  h2{font-size:clamp(1.9rem,5vw,2.8rem);}
+
+  .lede{
+    font-size:clamp(1rem,2.4vw,1.16rem);
+    color:var(--ink-soft);font-weight:300;max-width:38ch;
+    margin:1.5rem auto 0;text-align:center;
+  }
+  .center{text-align:center;}
+
+  /* heart mark */
+  .mark{width:88px;height:88px;margin:0 auto clamp(20px,4vh,34px);display:block;overflow:visible;}
+  .mark path{
+    fill:none;stroke:url(#hg);stroke-width:3.2;
+    stroke-linecap:round;stroke-linejoin:round;
+    filter:drop-shadow(0 0 10px var(--glow));
+  }
+  .mark .pulse{transform-origin:center;animation:beat 3.6s var(--ease-soft) infinite;}
+  @keyframes beat{
+    0%,100%{transform:scale(1);opacity:1;}
+    14%{transform:scale(1.07);}
+    28%{transform:scale(1);}
+    42%{transform:scale(1.04);}
+    56%{transform:scale(1);opacity:.92;}
+  }
+
+  /* buttons */
+  .btn{
+    font-family:'Inter',sans-serif;font-size:.95rem;font-weight:500;letter-spacing:.02em;
+    color:var(--paper);
+    background:linear-gradient(135deg,var(--rose-deep),#8d6f96);
+    border:none;border-radius:100px;padding:.95em 2.4em;cursor:pointer;
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease), filter .5s var(--ease);
+    box-shadow:0 14px 30px -14px rgba(168,115,108,0.7), inset 0 1px 0 rgba(255,255,255,0.2);
+    position:relative;overflow:hidden;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 22px 40px -16px rgba(168,115,108,0.8);filter:saturate(1.05);}
+  .btn:active{transform:translateY(0);}
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--rose);}
+  .btn.ghost{background:transparent;color:var(--ink-soft);box-shadow:none;border:1px solid var(--line);font-weight:400;}
+  .btn.ghost:hover{background:rgba(255,255,255,0.4);color:var(--ink);border-color:var(--line);box-shadow:none;}
+
+  .actions{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:clamp(30px,5vh,46px);flex-wrap:wrap;}
+
+  .reassure{
+    text-align:center;margin-top:clamp(22px,4vh,32px);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;letter-spacing:.12em;color:var(--ink-faint);font-weight:300;
+  }
+
+  /* ---- scene ---- */
+  .scene-no{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--rose-deep);text-align:center;margin-bottom:1.1rem;
+  }
+  .scene-title{
+    font-family:'Cormorant Garamond',serif;font-weight:400;
+    font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.12;text-align:center;
+    margin-bottom:1.3rem;
+  }
+  .scene-narr{
+    font-size:clamp(1rem,2.4vw,1.13rem);color:var(--ink-soft);font-weight:300;
+    max-width:46ch;margin:0 auto;text-align:center;line-height:1.7;
+  }
+  .scene-q{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+    font-size:clamp(1.2rem,3.2vw,1.5rem);color:var(--rose-deep);
+    text-align:center;margin:clamp(24px,4vh,34px) auto clamp(20px,3vh,26px);
+    max-width:34ch;
+  }
+
+  .choices{display:flex;flex-direction:column;gap:12px;max-width:520px;margin:0 auto;}
+  .choice{
+    font-family:'Inter',sans-serif;font-size:clamp(.95rem,2.2vw,1.02rem);
+    font-weight:400;line-height:1.5;color:var(--ink-soft);text-align:left;
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:1.05em 1.3em;cursor:pointer;
+    backdrop-filter:blur(8px);
+    display:flex;align-items:flex-start;gap:.85em;
+    transition:transform .4s var(--ease), background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+    animation:choiceIn .65s var(--ease) both;
+  }
+  .choice .key{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:400;
+    color:var(--ink-faint);margin-top:.18em;
+    transition:color .4s var(--ease);
+  }
+  .choice:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,0.82);color:var(--ink);
+    border-color:rgba(168,115,108,0.4);
+    box-shadow:0 14px 30px -18px rgba(168,115,108,0.6);
+  }
+  .choice:hover .key{color:var(--rose-deep);}
+  .choice:focus-visible{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px rgba(198,154,146,0.3);}
+  .choice.chosen{
+    background:linear-gradient(135deg,var(--rose-deep),#8d6f96);
+    color:var(--paper);border-color:transparent;
+    box-shadow:0 16px 30px -16px rgba(168,115,108,0.7);
+  }
+  .choice.chosen .key{color:rgba(255,255,255,0.7);}
+  @keyframes choiceIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  /* ---- decoding beat ---- */
+  .decoding{text-align:center;}
+  .orbit{width:140px;height:140px;margin:0 auto clamp(24px,4vh,36px);position:relative;}
+  .orbit svg{width:100%;height:100%;overflow:visible;}
+  .orbit .ring{fill:none;stroke:var(--rose);stroke-width:1.4;opacity:.55;transform-origin:center;}
+  .orbit .ring:nth-child(2){stroke:var(--mauve);animation:spin 7s linear infinite reverse;}
+  .orbit .ring:nth-child(1){animation:spin 9s linear infinite;}
+  .orbit .ring:nth-child(3){stroke:var(--sage);animation:spin 5s linear infinite;}
+  .orbit .core{fill:var(--rose-deep);animation:coreBeat 2.2s var(--ease-soft) infinite;transform-origin:center;filter:drop-shadow(0 0 8px var(--glow));}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes coreBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.4);opacity:.7;}}
+  .decode-line{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:clamp(.82rem,2.4vw,.95rem);letter-spacing:.06em;
+    color:var(--ink-soft);min-height:1.5em;transition:opacity .6s var(--ease);
+  }
+
+  /* ---- result ---- */
+  .result-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--rose-deep);text-align:center;margin-bottom:1rem;
+  }
+  .result-name{
+    font-family:'Cormorant Garamond',serif;font-weight:400;
+    font-size:clamp(2.4rem,7vw,3.6rem);line-height:1.04;text-align:center;
+  }
+  .result-tagline{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+    font-size:clamp(1.15rem,3vw,1.5rem);color:var(--ink-soft);
+    text-align:center;max-width:30ch;margin:1.1rem auto 0;line-height:1.4;
+  }
+
+  .cards{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
+    margin:clamp(30px,5vh,44px) 0 0;
+  }
+  @media (max-width:480px){.cards{grid-template-columns:1fr;}}
+  .card{
+    background:linear-gradient(160deg, rgba(255,255,255,0.66), rgba(255,255,255,0.4));
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:20px;padding:1.3em 1.4em;
+    box-shadow:0 18px 44px -32px rgba(42,45,58,0.4);
+    backdrop-filter:blur(12px);
+    position:relative;overflow:hidden;
+  }
+  .card-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:.55rem;
+  }
+  .card-value{
+    font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(1.2rem,3vw,1.4rem);color:var(--ink);line-height:1.18;
+    margin-bottom:.45rem;
+  }
+  .card-note{font-size:.86rem;color:var(--ink-soft);font-weight:300;line-height:1.5;}
+
+  .insight{
+    margin-top:18px;
+    background:linear-gradient(160deg, rgba(255,255,255,0.5), rgba(255,255,255,0.32));
+    border:1px solid var(--line);border-radius:20px;
+    padding:clamp(22px,4vw,30px);
+    backdrop-filter:blur(10px);
+  }
+  .insight + .insight{margin-top:14px;}
+  .insight-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--rose-deep);margin-bottom:.7rem;
+  }
+  .insight-body{font-size:clamp(.96rem,2.3vw,1.06rem);color:var(--ink-soft);font-weight:300;line-height:1.65;}
+
+  .result-divider{
+    margin:clamp(30px,5vh,44px) auto clamp(22px,4vh,30px);
+    width:48px;height:1px;background:var(--line);
+  }
+
+  .restart{margin-top:clamp(28px,5vh,42px);text-align:center;}
+  .footnote{
+    text-align:center;margin-top:clamp(28px,6vh,48px);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.66rem;color:var(--ink-faint);letter-spacing:.06em;font-weight:300;line-height:1.7;
+  }
+
+  /* staggered reveal */
+  .reveal > *{opacity:0;transform:translateY(12px);animation:revUp .9s var(--ease) forwards;}
+  @keyframes revUp{to{opacity:1;transform:none;}}
+
+  /* reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.12s!important;scroll-behavior:auto!important;}
+    .aura{animation:none;}
+    .mark .pulse,.orbit .ring,.orbit .core,.eyebrow .blink{animation:none;}
+    .eyebrow .blink{opacity:.5;}
+    .reveal > *{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+  <div class="aura" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#c69a92"/>
+        <stop offset="1" stop-color="#8f8398"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <main class="stage">
+    <div class="frame">
+
+      <div class="progress hidden" id="progress" aria-hidden="true">
+        <div class="progress-meta">
+          <span>The reading</span>
+          <span class="count" id="progCount">00 / 00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+      </div>
+
+      <!-- welcome -->
+      <section class="panel show" id="p-welcome" aria-labelledby="welcome-h" tabindex="-1">
+        <svg class="mark" viewBox="0 0 100 92" role="img" aria-label="A softly beating heart">
+          <path class="pulse" d="M50 84 C 16 60 6 38 6 26 C 6 12 16 6 26 6 C 36 6 44 12 50 22 C 56 12 64 6 74 6 C 84 6 94 12 94 26 C 94 38 84 60 50 84 Z"/>
+        </svg>
+        <p class="eyebrow">Love Bug<span class="blink" aria-hidden="true"></span></p>
+        <h1 class="center" id="welcome-h">How do you love?</h1>
+        <p class="lede">A short, honest walk through a handful of intimate moments. You choose how you would respond, and the piece reads the pattern back to you — your attachment, your language, the shape of how you let people in.</p>
+        <p class="lede" style="margin-top:1rem;">There are no right answers, and no wrong ones. Only yours.</p>
+        <div class="actions">
+          <button class="btn" id="begin">Begin the reading</button>
+        </div>
+        <p class="reassure">Nothing is saved. Nothing is shared. This is only for you.</p>
+      </section>
+
+      <!-- scene (reused) -->
+      <section class="panel" id="p-scene" aria-labelledby="scene-title" tabindex="-1">
+        <p class="scene-no" id="sceneNo">Scene 01</p>
+        <h2 class="scene-title" id="scene-title"></h2>
+        <p class="scene-narr" id="sceneNarr"></p>
+        <p class="scene-q" id="sceneQ"></p>
+        <div class="choices" id="sceneChoices" role="group" aria-label="Choose your response"></div>
+      </section>
+
+      <!-- decoding -->
+      <section class="panel decoding" id="p-decoding" aria-live="polite" tabindex="-1">
+        <div class="orbit" aria-hidden="true">
+          <svg viewBox="0 0 140 140">
+            <circle class="ring" cx="70" cy="70" r="58"/>
+            <circle class="ring" cx="70" cy="70" r="44"/>
+            <circle class="ring" cx="70" cy="70" r="30"/>
+            <circle class="core" cx="70" cy="70" r="9"/>
+          </svg>
+        </div>
+        <p class="decode-line" id="decodeLine">reading the pattern</p>
+      </section>
+
+      <!-- result -->
+      <section class="panel" id="p-result" aria-labelledby="result-name" tabindex="-1">
+        <div class="reveal" id="resultReveal">
+          <p class="result-tag">Your archetype</p>
+          <h2 class="result-name" id="result-name"></h2>
+          <p class="result-tagline" id="resultTagline"></p>
+
+          <div class="cards">
+            <div class="card">
+              <p class="card-label">Love Language</p>
+              <p class="card-value" id="cLove"></p>
+              <p class="card-note" id="cLoveNote"></p>
+            </div>
+            <div class="card">
+              <p class="card-label">Attachment Style</p>
+              <p class="card-value" id="cAttach"></p>
+              <p class="card-note" id="cAttachNote"></p>
+            </div>
+            <div class="card">
+              <p class="card-label">Ideal Match</p>
+              <p class="card-value" id="cMatch"></p>
+              <p class="card-note" id="cMatchNote"></p>
+            </div>
+            <div class="card">
+              <p class="card-label">Compatibility</p>
+              <p class="card-value" id="cCompat"></p>
+              <p class="card-note" id="cCompatNote"></p>
+            </div>
+          </div>
+
+          <div class="result-divider" aria-hidden="true"></div>
+
+          <div class="insight">
+            <p class="insight-label">The Pattern</p>
+            <p class="insight-body" id="iPattern"></p>
+          </div>
+          <div class="insight">
+            <p class="insight-label">Your Superpower</p>
+            <p class="insight-body" id="iSuper"></p>
+          </div>
+        </div>
+
+        <div class="restart">
+          <button class="btn ghost" id="again">Begin again</button>
+        </div>
+        <p class="footnote">Love Bug — a small object from the studio of Jeffrey N. Tse.<br>Held only in this moment, then let go.</p>
+      </section>
+
+    </div>
+  </main>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function byId(id){return document.getElementById(id);}
+
+  /* ============================================================
+     SCENES
+     Each choice carries scoring weights:
+       att : attachment signal  (anxious | avoidant | secure | fearful)
+       arch: archetype affinity (dev | guard | storm | intel | heal | rest)
+     The final scene maps a strong base archetype.
+     ============================================================ */
+
+  var SCENES = [
+    {
+      title:"The Quiet Apartment",
+      narr:"It is Friday evening. You just got home, and the apartment is quiet — too quiet. You check your phone. No messages, or maybe a few, but not from the person on your mind.",
+      q:"What rises in you first?",
+      choices:[
+        {t:"A heaviness in my chest — a loneliness that feels like it might be permanent.", att:"anxious", arch:"dev"},
+        {t:"Relief, honestly. Peace. I have been needing this kind of silence.", att:"avoidant", arch:"guard"},
+        {t:"Restlessness. I should be out doing something, anything, with someone.", att:"fearful", arch:"rest"},
+        {t:"A flatness I can't quite name. I'm not sure what I feel anymore.", att:"avoidant", arch:"guard"}
+      ]
+    },
+    {
+      title:"The Memory",
+      narr:"Clearing out a drawer, you find an old ticket stub, a photograph, a folded note. It is from someone who hurt you — or someone you hurt. The memory floods back, uninvited.",
+      q:"What do you do with it?",
+      choices:[
+        {t:"Put it in a box. I can't throw it away, but I can't look at it either.", att:"anxious", arch:"dev"},
+        {t:"Throw it away at once. Clean slate. The past stays in the past.", att:"avoidant", arch:"guard"},
+        {t:"Text a close friend about it. I need to say it out loud to feel it.", att:"anxious", arch:"heal"},
+        {t:"Keep it with me all day, touching it quietly when no one is looking.", att:"anxious", arch:"storm"}
+      ]
+    },
+    {
+      title:"The Stranger",
+      narr:"A friend drags you to a party you didn't want to attend. Across the room, someone interesting. They are mid-conversation with someone else, laughing easily.",
+      q:"What is it that catches you?",
+      choices:[
+        {t:"The way they look at people — like they actually see who is in front of them.", att:"anxious", arch:"storm"},
+        {t:"They are holding a book I have never heard of. I want to know their mind.", att:"secure", arch:"intel"},
+        {t:"There is an unavailability about them. A ring, or just that distant energy.", att:"fearful", arch:"rest"},
+        {t:"They touch people's arms gently when they speak. I notice that I want that.", att:"anxious", arch:"heal"}
+      ]
+    },
+    {
+      title:"The First Night In",
+      narr:"It is late. You are with someone, the kind of late where the real conversations surface. They ask about the one who hurt you most. The room goes from light to heavy.",
+      q:"What do you let them see?",
+      choices:[
+        {t:"Everything. I show them the damage and hope it doesn't send them running.", att:"anxious", arch:"dev"},
+        {t:"Nothing real. I deflect with humour. They can't see the mess yet.", att:"avoidant", arch:"guard"},
+        {t:"Just enough to make them feel safe sharing theirs, while I stay careful.", att:"avoidant", arch:"intel"},
+        {t:"I turn it back to them. I would rather understand their wounds than name mine.", att:"anxious", arch:"heal"}
+      ]
+    },
+    {
+      title:"The Fight",
+      narr:"It was always going to happen. A small argument — about texting, about dishes, about something that was never really the thing. Voices rise. Or worse: they go quiet.",
+      q:"What is your instinct in that moment?",
+      choices:[
+        {t:"I go quiet too. I need space — but they read my silence as a punishment.", att:"avoidant", arch:"guard"},
+        {t:"I can't help the tears. I need them to feel how much this is hurting me.", att:"anxious", arch:"dev"},
+        {t:"It gets sharp. I reach for old wounds and make sure mine land hardest.", att:"fearful", arch:"storm"},
+        {t:"I slow it down. 'Let's figure out what we are actually fighting about.'", att:"secure", arch:"intel"}
+      ]
+    },
+    {
+      title:"The Message at 2 A.M.",
+      narr:"Your phone lights the ceiling. 'I miss you.' From the one who truly hurt you — the one you quietly measure everyone else against.",
+      q:"What is your first, honest instinct?",
+      choices:[
+        {t:"My stomach drops. I draft three replies and delete all of them.", att:"anxious", arch:"dev"},
+        {t:"Block the number. I cannot afford to go back into that.", att:"fearful", arch:"storm"},
+        {t:"Screenshot it and send it to the group chat. 'Look who resurfaced.'", att:"anxious", arch:"rest"},
+        {t:"A quiet, private satisfaction. I leave it unread, but I smile.", att:"avoidant", arch:"guard"}
+      ]
+    },
+    {
+      title:"The Pattern",
+      narr:"You are being honest with yourself now. You keep falling for the same kind of person — the unavailable one, the one who needs saving, the one who adores you on Monday and is gone by Friday.",
+      q:"If you had to say why, what would it be?",
+      choices:[
+        {t:"If I can mend them, maybe they will stay. Maybe they'll feel they owe me that.", att:"anxious", arch:"heal"},
+        {t:"Available people bore me. I need the chase, the uncertainty, the spark.", att:"avoidant", arch:"rest"},
+        {t:"I am drawn to intensity. Calm can feel like a trap, like something is wrong.", att:"fearful", arch:"storm"},
+        {t:"I keep choosing distance so I can want someone without truly being exposed.", att:"avoidant", arch:"guard"}
+      ]
+    },
+    {
+      title:"The Quiet Want",
+      narr:"You are alone, and your mind drifts to the thing you want most but rarely say aloud — the scene you return to when you can't sleep.",
+      q:"What does it look like?",
+      choices:[
+        {t:"Being completely cared for. Looked after. Told, and believed, that I am enough.", att:"anxious", arch:"heal"},
+        {t:"Being truly known by someone whose mind keeps pace with mine.", att:"secure", arch:"intel"},
+        {t:"Being chosen over everyone else. Being the one they could not walk past.", att:"anxious", arch:"dev"},
+        {t:"Something new and a little uncertain — a door I haven't opened yet.", att:"avoidant", arch:"rest"}
+      ]
+    },
+    {
+      title:"The Plateau",
+      narr:"Six months in. The early shimmer has worn off and the ordinary days have arrived. This is usually the point where you start to check out — or quietly look for the exit.",
+      q:"What would you need, to want to stay?",
+      choices:[
+        {t:"Reassurance, often. Tell me you love me. Show me you still choose this.", att:"anxious", arch:"dev"},
+        {t:"Room to breathe. I need to miss you a little to feel how much I want you.", att:"avoidant", arch:"guard"},
+        {t:"Newness. New places, new plans, a sense that we are still becoming.", att:"fearful", arch:"rest"},
+        {t:"Depth. I want to keep going further in — your fears, your dreams, the real you.", att:"secure", arch:"intel"}
+      ]
+    },
+    {
+      title:"The Closeness",
+      narr:"You are as close to someone as two people get. They have seen you at your worst; you have seen them undefended. This is the moment where you either fall further in or quietly panic.",
+      q:"What makes you feel safe enough to stay?",
+      choices:[
+        {t:"Eye contact that doesn't break, even when the honesty becomes intense.", att:"anxious", arch:"dev"},
+        {t:"Being able to let go — to trust someone else to hold things for a while.", att:"secure", arch:"heal"},
+        {t:"Being the steady one. Their ease in my hands is its own kind of comfort.", att:"avoidant", arch:"heal"},
+        {t:"Being able to laugh when something goes wrong, instead of bracing for it.", att:"secure", arch:"rest"}
+      ]
+    },
+    {
+      title:"The Small Thing",
+      narr:"They do something so small they don't even notice it. But it shifts something in your chest. A quiet thought arrives: this one is different.",
+      q:"What was it that landed?",
+      choices:[
+        {t:"They remembered something I mentioned weeks ago, in passing.", att:"anxious", arch:"dev"},
+        {t:"They were kind to a stranger — kindness with no audience to perform for.", att:"secure", arch:"heal"},
+        {t:"They disagreed with me. Real, considered, unafraid of the friction.", att:"secure", arch:"intel"},
+        {t:"They showed me something tender about themselves, without being asked.", att:"anxious", arch:"storm"}
+      ]
+    },
+    {
+      title:"The Ending",
+      narr:"It comes, the way it always eventually does. You are being left, or you are doing the leaving, or you are choosing to stay against the odds. The final honest moment.",
+      q:"What is your truest response?",
+      choices:[
+        {t:"I plead. I negotiate. I promise to change. Anything to keep this from ending.", att:"anxious", arch:"dev"},
+        {t:"I agree at once. I act fine. I fall apart later, alone, where no one sees.", att:"avoidant", arch:"guard"},
+        {t:"It turns to fire. I name every flaw and make sure they carry the regret.", att:"fearful", arch:"storm"},
+        {t:"I get analytical. 'Let's understand exactly where this went wrong.'", att:"secure", arch:"intel"}
+      ]
+    }
+  ];
+
+  /* ============================================================
+     ARCHETYPES
+     ============================================================ */
+  var ARCH = {
+    dev:{
+      name:"The Devoted Romantic",
+      tagline:"You don't fall often — but when you do, it is total.",
+      love:"Words and Presence",
+      loveNote:"You need to hear it. “I love you” is never redundant to you; it is oxygen.",
+      attach:"Anxious-Preoccupied",
+      attachNote:"You text first. You read timestamps. Love can feel, at times, indistinguishable from anxiety.",
+      match:"The Secure Anchor",
+      matchNote:"Someone patient enough to reassure you again and again, without ever resenting the asking.",
+      compat:"The Guarded Strategist",
+      compatNote:"They teach you that distance need not mean danger; you teach them that closeness is survivable.",
+      pattern:"Your intensity can quietly exhaust the people you love. You move from nothing to everything very fast, and you sometimes choose chaos because calm registers, falsely, as boredom. The work is learning that steadiness is not the absence of love — it is one of its rarer forms.",
+      superpower:"Your memory, and the attention behind it. You make people feel like the protagonist of their own life — their coffee order, their oldest fear, the song that undoes them. To be remembered by you is to feel, finally, seen."
+    },
+    guard:{
+      name:"The Guarded Strategist",
+      tagline:"You want to be chosen, yet you resist being seen.",
+      love:"Acts of Service",
+      loveNote:"Anyone can say the words. You trust the person who shows up and quietly fixes the thing that broke.",
+      attach:"Dismissive-Avoidant",
+      attachNote:"Independence is your armour. Needing someone can feel uncomfortably close to weakness.",
+      match:"The Patient Partner",
+      matchNote:"Someone who does not demand your transparency before you are ready to offer it.",
+      compat:"The Devoted Romantic",
+      compatNote:"They reach you through sheer warmth and persistence; you teach them a self-sufficiency they envy.",
+      pattern:"You sometimes choose people who are a little out of reach, because wanting from a safe distance costs less than being truly known. The exit stays mapped before the relationship even begins. The work is letting one person past the armour and finding the roof does not cave in.",
+      superpower:"Your steadiness and your restraint. You do not perform love, you build it — quietly, in the background, in the things that simply get handled. Being chosen by you feels earned, and so it lands deeper."
+    },
+    storm:{
+      name:"The Passionate Storm",
+      tagline:"You burn hot. You leave behind either scorched earth or deep devotion.",
+      love:"Touch and Intensity",
+      loveNote:"You love through presence — being there, fully, in the room. Distance reads to you as deprivation.",
+      attach:"Fearful-Avoidant",
+      attachNote:"You crave closeness and fear being swallowed by it at once. The push and the pull live in the same breath.",
+      match:"The Steady Rock",
+      matchNote:"Someone grounded enough to weather your weather without being pulled under by it.",
+      compat:"The Guarded Strategist",
+      compatNote:"They can hold your intensity without competing for it — a calm that meets your heat instead of fleeing it.",
+      pattern:"Your intensity can frighten people before it can reach them, and you sometimes mistake anxiety for chemistry — reading the racing heart as love when it is really alarm. The work is learning that a love which does not hurt is not, by definition, a love that isn't real.",
+      superpower:"Your raw authenticity. You do not do half-measures or polite distance. When you are with someone, they feel unmistakably alive — chosen, awake, and met by your whole self at once."
+    },
+    intel:{
+      name:"The Intellectual Seducer",
+      tagline:"Your mind is the way in.",
+      love:"Deep Conversation",
+      loveNote:"Small talk is a kind of torture. You fall in love at 3 A.M., mid-argument, when the real thinking starts.",
+      attach:"Secure-Avoidant",
+      attachNote:"You value your independence and guard it well. Boredom, not distance, is your true dealbreaker.",
+      match:"The Curious Challenger",
+      matchNote:"Someone sharp enough to push back, who treats your certainties as an invitation rather than a wall.",
+      compat:"The Devoted Romantic",
+      compatNote:"They bring the emotional depth you didn't know you were missing beneath all the analysis.",
+      pattern:"You would rather be alone than bored, and your high standards can quietly double as a moat. If no one is good enough, no one ever gets close enough to know you. The work is noticing when curiosity becomes a way of keeping the heart at a clinical distance.",
+      superpower:"Your insight. You connect the dots between someone's past and their present, and name the thing they have circled for years without landing on. Being understood by you feels like being read aloud, kindly, for the first time."
+    },
+    heal:{
+      name:"The Healing Nurturer",
+      tagline:"You love what needs mending, and hope the mending makes them stay.",
+      love:"Caregiving",
+      loveNote:"Your love language is “let me make your life a little easier” — said in actions more than words.",
+      attach:"Anxious-Caretaker",
+      attachNote:"You give in order to receive. Being needed can feel far safer than simply being wanted.",
+      match:"The Grateful Receiver",
+      matchNote:"Someone who appreciates your care without leaning on it until it hollows you out.",
+      compat:"The Guarded Strategist",
+      compatNote:"They need your warmth to thaw a little; you need their stability to stop pouring from an empty cup.",
+      pattern:"You fall for potential rather than people — the wounded, the unfinished, the almost. Fixing someone can become a way to earn a love you don't believe you deserve outright. The work is letting yourself be cared for, not only useful, and trusting you would still be chosen.",
+      superpower:"Your compassion. You make people feel worthy before they have done anything to earn it — and that early, unconditional belief is often the exact thing that lets them become who they were trying to be."
+    },
+    rest:{
+      name:"The Restless Explorer",
+      tagline:"You collect experiences. You struggle, quietly, to stay.",
+      love:"Novelty and Adventure",
+      loveNote:"Routine dulls the colour for you. You love through surprise — the next place, the next plan, the next door.",
+      attach:"Avoidant",
+      attachNote:"You tend to leave just as it gets comfortable, when comfort starts to feel like a closing door.",
+      match:"The Fellow Wanderer",
+      matchNote:"Someone who wants to keep growing alongside you, not anchor you in place.",
+      compat:"The Intellectual Seducer",
+      compatNote:"You both fiercely protect your independence, and somehow that mutual freedom is what lets you draw close.",
+      pattern:"You are drawn to honeymoon phases and slip away right as real intimacy begins — when the novelty thins and only the person, plainly, remains. The work is discovering that depth is its own frontier, and that staying can be the most unexplored country of all.",
+      superpower:"Your sense of possibility. You remind the people you love that life is short and wide, that the world is larger than their routine, and that it is never too late to begin something new."
+    }
+  };
+
+  /* decoding lines — quiet code/terminal motif, restrained */
+  var DECODE_LINES = [
+    "reading the pattern",
+    "tracing how you reach for people",
+    "weighing distance against want",
+    "resolving the shape of it"
+  ];
+
+  /* ============================================================
+     STATE + ELEMENTS
+     ============================================================ */
+  var state = { i:0, scores:null };
+
+  var panels = {
+    welcome: byId('p-welcome'),
+    scene:   byId('p-scene'),
+    decoding:byId('p-decoding'),
+    result:  byId('p-result')
+  };
+
+  var progress  = byId('progress');
+  var progFill  = byId('progFill');
+  var progCount = byId('progCount');
+
+  function pad(n){ return (n<10?'0':'') + n; }
+
+  function freshScores(){
+    return {
+      att:{anxious:0, avoidant:0, secure:0, fearful:0},
+      arch:{dev:0, guard:0, storm:0, intel:0, heal:0, rest:0}
+    };
+  }
+
+  /* ============================================================
+     PANEL TRANSITIONS + FOCUS
+     ============================================================ */
+  function go(toName, after){
+    var current = document.querySelector('.panel.show');
+    var next = panels[toName];
+    if(current === next){ if(after) after(); return; }
+
+    if(reduce){
+      if(current){ current.classList.remove('show'); }
+      next.classList.add('show');
+      focusPanel(next);
+      if(after) after();
+      return;
+    }
+    if(current){
+      current.classList.add('leaving');
+      var done = function(){
+        current.classList.remove('show','leaving');
+        current.removeEventListener('animationend', done);
+        next.classList.add('show');
+        focusPanel(next);
+        if(after) after();
+      };
+      current.addEventListener('animationend', done);
+    } else {
+      next.classList.add('show');
+      focusPanel(next);
+      if(after) after();
+    }
+  }
+
+  function focusPanel(p){
+    window.requestAnimationFrame(function(){
+      try { p.focus({preventScroll:true}); } catch(e){ p.focus(); }
+    });
+  }
+
+  function setProgress(step, total){
+    progress.classList.remove('hidden');
+    progCount.textContent = pad(step) + ' / ' + pad(total);
+    progFill.style.width = (step/total*100) + '%';
+  }
+
+  /* ============================================================
+     SCENE RENDERING
+     ============================================================ */
+  var KEYS = ['A','B','C','D'];
+
+  function renderScene(){
+    var sc = SCENES[state.i];
+    setProgress(state.i + 1, SCENES.length);
+
+    byId('sceneNo').textContent = 'Scene ' + pad(state.i + 1);
+    byId('scene-title').textContent = sc.title;
+    byId('sceneNarr').textContent = sc.narr;
+    byId('sceneQ').textContent = sc.q;
+
+    var wrap = byId('sceneChoices');
+    wrap.innerHTML = '';
+    sc.choices.forEach(function(ch, idx){
+      var b = document.createElement('button');
+      b.className = 'choice';
+      b.type = 'button';
+      b.style.animationDelay = (reduce ? 0 : (0.06 * idx + 0.12)) + 's';
+
+      var k = document.createElement('span');
+      k.className = 'key';
+      k.setAttribute('aria-hidden','true');
+      k.textContent = KEYS[idx];
+
+      var t = document.createElement('span');
+      t.textContent = ch.t;
+
+      b.appendChild(k);
+      b.appendChild(t);
+      b.addEventListener('click', function(){ pick(ch, b); });
+      wrap.appendChild(b);
+    });
+  }
+
+  function pick(ch, el){
+    // lock further clicks for this scene
+    var all = byId('sceneChoices').querySelectorAll('.choice');
+    all.forEach(function(c){ c.style.pointerEvents='none'; });
+    el.classList.add('chosen');
+
+    state.scores.att[ch.att]  += 1;
+    state.scores.arch[ch.arch] += 1;
+
+    var delay = reduce ? 120 : 360;
+    window.setTimeout(function(){
+      state.i++;
+      if(state.i < SCENES.length){
+        go('scene', renderScene);
+      } else {
+        runDecode();
+      }
+    }, delay);
+  }
+
+  /* ============================================================
+     RESOLVE ARCHETYPE
+     Archetype affinity is primary; attachment style breaks ties
+     and nudges toward a coherent reading.
+     ============================================================ */
+  function resolve(){
+    var s = state.scores;
+
+    // attachment-influenced bonus: reinforce archetypes whose
+    // attachment matches the dominant signal, so the reading coheres.
+    var attMap = {
+      dev:'anxious', heal:'anxious', storm:'fearful',
+      guard:'avoidant', rest:'avoidant', intel:'secure'
+    };
+    var domAtt = topKey(s.att);
+
+    var best = null, bestScore = -Infinity;
+    // stable, intentional priority on ties
+    var order = ['dev','guard','storm','intel','heal','rest'];
+    order.forEach(function(key){
+      var v = s.arch[key];
+      if(attMap[key] === domAtt) v += 0.5; // gentle coherence nudge
+      if(v > bestScore){ bestScore = v; best = key; }
+    });
+    return best;
+  }
+
+  function topKey(obj){
+    var best=null, bv=-Infinity;
+    Object.keys(obj).forEach(function(k){
+      if(obj[k] > bv){ bv = obj[k]; best = k; }
+    });
+    return best;
+  }
+
+  /* ============================================================
+     DECODING BEAT
+     ============================================================ */
+  function runDecode(){
+    progress.classList.add('hidden');
+    go('decoding');
+    var line = byId('decodeLine');
+    var i = 0;
+    line.textContent = DECODE_LINES[0];
+
+    if(reduce){
+      window.setTimeout(showResult, 650);
+      return;
+    }
+    var iv = window.setInterval(function(){
+      i++;
+      if(i >= DECODE_LINES.length){ return; }
+      line.style.opacity = 0;
+      window.setTimeout(function(){
+        line.textContent = DECODE_LINES[i];
+        line.style.opacity = 1;
+      }, 420);
+    }, 1150);
+
+    window.setTimeout(function(){
+      window.clearInterval(iv);
+      showResult();
+    }, 4500);
+  }
+
+  /* ============================================================
+     RESULT
+     ============================================================ */
+  function showResult(){
+    var key = resolve();
+    var a = ARCH[key];
+
+    byId('result-name').textContent   = a.name;
+    byId('resultTagline').textContent = a.tagline;
+
+    byId('cLove').textContent      = a.love;
+    byId('cLoveNote').textContent  = a.loveNote;
+    byId('cAttach').textContent    = a.attach;
+    byId('cAttachNote').textContent= a.attachNote;
+    byId('cMatch').textContent     = a.match;
+    byId('cMatchNote').textContent = a.matchNote;
+    byId('cCompat').textContent    = a.compat;
+    byId('cCompatNote').textContent= a.compatNote;
+
+    byId('iPattern').textContent   = a.pattern;
+    byId('iSuper').textContent     = a.superpower;
+
+    // staggered reveal
+    var box = byId('resultReveal');
+    var kids = box.children;
+    for(var k=0;k<kids.length;k++){
+      kids[k].style.animationDelay = (reduce ? 0 : (0.1 * k + 0.12)) + 's';
+    }
+    box.classList.remove('reveal');
+    void box.offsetWidth;
+    box.classList.add('reveal');
+
+    go('result', function(){
+      window.requestAnimationFrame(function(){
+        window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+      });
+    });
+  }
+
+  /* ============================================================
+     FLOW WIRING
+     ============================================================ */
+  byId('begin').addEventListener('click', function(){
+    state.i = 0;
+    state.scores = freshScores();
+    go('scene', renderScene);
+  });
+
+  byId('again').addEventListener('click', function(){
+    state.i = 0;
+    state.scores = freshScores();
+    progress.classList.add('hidden');
+    go('welcome');
+  });
+
+  /* keyboard: Enter / Space activates focused choice or button natively;
+     also allow number/letter keys 1-4 or A-D to pick a choice on a scene. */
+  document.addEventListener('keydown', function(e){
+    if(!panels.scene.classList.contains('show')) return;
+    var map = {'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+    var idx = map[e.key.toLowerCase()];
+    if(idx === undefined) return;
+    var btns = byId('sceneChoices').querySelectorAll('.choice');
+    if(btns[idx] && btns[idx].style.pointerEvents !== 'none'){
+      e.preventDefault();
+      btns[idx].click();
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
