@@ -7,7 +7,7 @@
 <meta name="description" content="Anti-AI / lo-fi zine treatment of the Archive — single-record proof.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
      ARCHIVE — ZINE PROOF. Anti-AI / lo-fi / xerox-collage.
@@ -24,8 +24,8 @@
     --mag:#ff2bd6;        /* hot magenta */
     --grn:#27ff8b;        /* electric green */
     --yel:#fff23d;        /* fluorescent yellow */
-    --disp:'Anton',Impact,sans-serif;
-    --marker:'Permanent Marker',cursive;
+    --disp:'Reenie Beanie',cursive;
+    --marker:'Reenie Beanie',cursive;
     --mono:'Courier Prime',monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -51,19 +51,19 @@
 
   /* ---------- MASTHEAD ---------- */
   .mast{position:relative;padding:4vh 0 2vh}
-  .mast h1{font-family:var(--disp);font-size:clamp(4rem,18vw,12rem);line-height:.82;
-    letter-spacing:-.02em;text-transform:uppercase;
-    transform:scaleY(1.18) skewX(-3deg);transform-origin:left;
+  .mast h1{font-family:var(--disp);font-size:clamp(5.5rem,24vw,16rem);line-height:.74;
+    letter-spacing:.01em;text-transform:uppercase;
+    transform:rotate(-2deg);transform-origin:left;
     color:#111;mix-blend-mode:multiply;
-    text-shadow:3px 3px 0 var(--mag), 6px 6px 0 rgba(0,0,0,.12);}
+    text-shadow:2px 3px 0 var(--mag);}
   .mast .strap{font-family:var(--mono);font-weight:700;font-size:.7rem;letter-spacing:.3em;
     text-transform:uppercase;margin-top:8px;background:#111;color:var(--yel);display:inline-block;padding:4px 10px;transform:rotate(-1deg)}
 
   /* ---------- SERIES BANNER ---------- */
   .series-banner{margin:5vh 0 0;display:flex;align-items:center;gap:14px;transform:rotate(-.6deg)}
   .series-banner .bar{flex:1;height:10px;background:repeating-linear-gradient(90deg,#111 0 18px,transparent 18px 26px)}
-  .series-banner b{font-family:var(--disp);font-size:clamp(1.1rem,3.2vw,1.8rem);letter-spacing:.04em;text-transform:uppercase;
-    background:var(--grn);padding:3px 12px;border:2px solid #111;transform:rotate(.8deg)}
+  .series-banner b{font-family:var(--disp);font-size:clamp(1.8rem,5vw,3rem);letter-spacing:.02em;text-transform:uppercase;
+    background:var(--grn);padding:0 14px 4px;border:2px solid #111;transform:rotate(.8deg);line-height:1}
 
   /* ---------- DOSSIER (one record) ---------- */
   .dossier{position:relative;margin:6vh 0;padding:clamp(18px,4vw,40px);
@@ -78,8 +78,8 @@
     transform:translateY(-50%) rotate(-4deg);mix-blend-mode:multiply;border:1px dashed rgba(0,0,0,.12)}
   .tab::before{left:-26px}.tab::after{right:-26px;transform:translateY(-50%) rotate(5deg)}
 
-  .d-title{font-family:var(--disp);font-size:clamp(2.4rem,8vw,4.6rem);line-height:.86;text-transform:uppercase;
-    letter-spacing:-.01em;transform:skewX(-4deg);margin:18px 0 6px;color:#141414}
+  .d-title{font-family:var(--disp);font-size:clamp(3.4rem,11vw,7rem);line-height:.78;text-transform:uppercase;
+    letter-spacing:.01em;transform:rotate(-1deg);margin:10px 0 4px;color:#141414}
   .d-title .hi{background:linear-gradient(var(--mag),var(--mag)) bottom/100% .42em no-repeat;padding:0 .05em}
   .credit{font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
     display:inline-block;background:#111;color:#f3f0e6;padding:6px 12px;transform:rotate(.5deg);margin-bottom:6px}
@@ -89,7 +89,7 @@
 
   .abstract{font-family:var(--mono);font-size:.92rem;line-height:1.6;color:#1c1a14;max-width:60ch}
   .abstract .circ{box-shadow:inset 0 -2px 0 var(--grn);outline:2px solid var(--mag);outline-offset:2px;padding:0 2px}
-  .marknote{font-family:var(--marker);font-size:1.5rem;color:#1a1a1a;transform:rotate(-3deg);margin-top:18px;line-height:1.1}
+  .marknote{font-family:var(--marker);font-size:2.2rem;color:#1a1a1a;transform:rotate(-3deg);margin-top:18px;line-height:1}
 
   /* plates taped on, crooked, photocopied */
   .plates{position:relative;display:flex;flex-direction:column;gap:26px;padding-top:8px}
@@ -98,7 +98,7 @@
   .plate:nth-child(1){transform:rotate(2.2deg)}
   .plate:nth-child(2){transform:rotate(-2.6deg)}
   .plate img{width:100%;display:block;filter:grayscale(1) contrast(1.5) brightness(.96)}
-  .plate cap,.plate .cap{position:absolute;left:12px;bottom:7px;font-family:var(--marker);font-size:1.1rem;color:#111}
+  .plate cap,.plate .cap{position:absolute;left:12px;bottom:3px;font-family:var(--marker);font-size:1.7rem;color:#111;line-height:1}
   /* tape corners (CSS fallback; real tape strips overlay later) */
   .plate::before,.plate::after{content:"";position:absolute;width:84px;height:26px;
     background:rgba(214,198,150,.5);mix-blend-mode:multiply;box-shadow:0 1px 2px rgba(0,0,0,.2)}
