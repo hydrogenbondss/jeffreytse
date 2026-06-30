@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Play — Jeffrey N. Tse</title>
+<title>Lab — Jeffrey N. Tse</title>
 <meta name="description" content="A living night-city street you explore. Each piece a diegetic object: a billboard, a boutique window, a neon machine, a figure, fireworks, and two doorways.">
 <meta name="theme-color" content="#05060a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,63 +146,58 @@
   }
   .marker:focus-visible{outline:2px solid var(--acc);outline-offset:8px;border-radius:4px;}
 
-  /* the visible "presence" of each object on the street: a glow + a pin */
-  .marker .glow{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-    width:clamp(120px,16vw,240px);height:clamp(120px,16vw,240px);
-    border-radius:50%;
-    background:radial-gradient(circle, var(--acc) 0%, rgba(0,0,0,0) 62%);
-    opacity:0.18;filter:blur(8px);
-    transition:opacity .5s var(--ease), transform .6s var(--ease);
-    pointer-events:none;
+  /* each object IS its real media, planted as lit signage in the city */
+  .obj .screen{
+    position:relative;display:block;overflow:hidden;border-radius:6px;
+    border:1px solid color-mix(in srgb, var(--acc) 46%, rgba(255,255,255,0.12));
+    background:#05060a;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.5),
+      0 18px 50px -10px rgba(0,0,0,0.82),
+      0 0 40px -4px color-mix(in srgb, var(--acc) 44%, transparent);
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease);
   }
-  .marker .pin{
-    position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;
-    transition:transform .5s var(--ease);
+  .obj .screen video,.obj .screen iframe,.obj .screen img{
+    position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+    object-fit:cover;pointer-events:none;background:#05060a;
   }
-  .marker .dot{
-    width:13px;height:13px;border-radius:50%;
-    background:var(--acc);
-    box-shadow:0 0 0 6px color-mix(in srgb, var(--acc) 22%, transparent),
-               0 0 22px 3px var(--acc);
-    position:relative;
+  .obj .screen::after{ /* glass sheen + slight vignette so media reads as a lit panel */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0) 42%),
+      radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.4));
   }
-  .marker .dot::before{
-    content:"";position:absolute;inset:-7px;border-radius:50%;
-    border:1px solid var(--acc);opacity:0.5;
-    animation:ping 2.8s var(--ease) infinite;
+  .obj .plate{
+    position:absolute;left:2px;top:calc(100% + 9px);white-space:nowrap;text-align:left;
+    font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--ink);text-shadow:0 1px 14px rgba(0,0,0,0.95);
+    display:flex;flex-direction:column;gap:3px;
   }
-  @keyframes ping{0%{transform:scale(0.7);opacity:0.6}70%{opacity:0}100%{transform:scale(2.4);opacity:0}}
-  .marker .cat{
-    font-family:var(--mono);font-size:10px;letter-spacing:0.34em;text-transform:uppercase;
-    color:var(--ink-soft);white-space:nowrap;
-    opacity:0;transform:translateY(4px);
-    transition:opacity .4s var(--ease), transform .4s var(--ease);
-    text-shadow:0 1px 12px rgba(0,0,0,0.8);
+  .obj .plate small{color:var(--ink-faint);letter-spacing:0.16em;font-size:8.5px;}
+  .obj .plate::before{
+    content:"";width:20px;height:2px;background:var(--acc);
+    box-shadow:0 0 10px var(--acc);margin-bottom:5px;
   }
-  .marker:hover .glow,.marker:focus-visible .glow{opacity:0.42;transform:translate(-50%,-50%) scale(1.12);}
-  .marker:hover .pin,.marker:focus-visible .pin{transform:translateY(-4px);}
-  .marker:hover .cat,.marker:focus-visible .cat{opacity:1;transform:translateY(0);}
+  .obj:hover .screen,.obj:focus-visible .screen{
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:0 24px 64px -10px rgba(0,0,0,0.86), 0 0 64px -2px color-mix(in srgb, var(--acc) 64%, transparent);
+  }
 
-  /* object placements on the street */
-  .m-turbo{left:50%;top:17%;transform:translateX(-50%);}    /* billboard overhead */
-  .m-pabepabe{left:20%;top:60%;}                              /* lit boutique window */
-  .m-lovebug{left:38%;top:74%;}                               /* sidewalk machine */
-  .m-ash{left:64%;top:58%;}                                   /* figure in the street */
-  .m-feature{left:78%;top:20%;}                               /* fireworks in the sky */
-
-  /* a thin "billboard" frame hint behind Turbo so it reads as overhead signage */
-  .m-turbo .frame{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-    width:clamp(150px,20vw,300px);height:clamp(64px,9vw,128px);
-    border:1px solid color-mix(in srgb, var(--acc) 40%, transparent);
-    border-radius:3px;
-    box-shadow:inset 0 0 40px color-mix(in srgb, var(--acc) 16%, transparent),
-               0 0 30px color-mix(in srgb, var(--acc) 14%, transparent);
-    opacity:0.55;pointer-events:none;
-    transition:opacity .5s var(--ease);
+  /* object placements + per-object screen sizes */
+  .m-turbo{left:50%;top:6%;transform:translateX(-50%);}        /* billboard, overhead centre */
+  .m-turbo .screen{width:clamp(240px,30vw,460px);aspect-ratio:16/9;}
+  .m-turbo .screen::before{ /* mounting post under the billboard */
+    content:"";position:absolute;left:50%;bottom:-28px;width:7px;height:28px;
+    background:linear-gradient(#2a2a2e,#0a0a0a);transform:translateX(-50%);z-index:-1;
   }
-  .m-turbo:hover .frame,.m-turbo:focus-visible .frame{opacity:0.9;}
+  .m-pabepabe{left:17%;top:37%;}                                /* lit boutique window, street level */
+  .m-pabepabe .screen{width:clamp(150px,16vw,240px);aspect-ratio:3/4;}
+  .m-ash{left:68%;top:37%;}                                     /* the figure, towering */
+  .m-ash .screen{width:clamp(128px,14vw,210px);aspect-ratio:3/5;}
+  .m-lovebug{left:41%;top:59%;}                                 /* sidewalk machine */
+  .m-lovebug .screen{width:clamp(118px,13vw,180px);aspect-ratio:1/1;}
+  .m-feature{left:74%;top:15%;}                                 /* fireworks in the sky */
+  .m-feature .screen{width:clamp(160px,17vw,270px);aspect-ratio:16/9;}
 
   /* ---------- DOORWAYS (2 building entrances — larger, architectural) ---------- */
   .door{
@@ -240,11 +235,20 @@
     transition:opacity .6s var(--ease);
     pointer-events:none;
   }
+  /* live preview of the actual interactive piece, seen through the doorway */
+  .door .arch iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+    pointer-events:none;opacity:0.92;
+  }
+  .door .arch .veil{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0.72) 100%);
+  }
   .door .threshold{
     position:relative;z-index:2;
     font-family:var(--mono);font-size:10px;letter-spacing:0.32em;text-transform:uppercase;
-    color:var(--ink-soft);text-align:center;line-height:1.8;
-    opacity:0;transform:translateY(8px);
+    color:var(--ink);text-align:center;line-height:1.8;text-shadow:0 1px 14px rgba(0,0,0,0.95);
+    opacity:0.92;transform:translateY(0);
     transition:opacity .45s var(--ease), transform .45s var(--ease);
   }
   .door .threshold .enter{display:block;color:var(--acc);font-weight:700;margin-top:4px;}
@@ -468,14 +472,19 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:760px){
-    .m-turbo{top:14%;}
-    .m-pabepabe{left:14%;top:54%;}
-    .m-lovebug{left:50%;top:68%;transform:translateX(-50%);}
-    .m-ash{left:72%;top:52%;}
-    .m-feature{left:80%;top:16%;}
-    .d-binary{left:3%;}
-    .d-fallow{right:3%;}
-    .door .arch{height:clamp(160px,24vh,240px);}
+    .m-turbo{top:9%;}
+    .m-turbo .screen{width:min(74vw,320px);}
+    .m-pabepabe{left:5%;top:48%;}
+    .m-pabepabe .screen{width:34vw;}
+    .m-ash{left:60%;top:38%;}
+    .m-ash .screen{width:30vw;}
+    .m-lovebug{left:30%;top:70%;}
+    .m-lovebug .screen{width:32vw;}
+    .m-feature{left:62%;top:12%;}
+    .m-feature .screen{width:40vw;}
+    .d-binary{left:2%;}
+    .d-fallow{right:2%;}
+    .door .arch{width:clamp(92px,26vw,150px);height:clamp(150px,24vh,230px);}
     #toLower{flex-direction:column;align-items:flex-start;}
     #toLower .side{flex:1 1 auto;width:100%;}
     #masthead{flex-direction:column;}
@@ -496,7 +505,7 @@
 <body>
 
 <!-- ====================== THE STREET ====================== -->
-<main id="street" aria-label="Play — a living night street to explore">
+<main id="street" aria-label="Lab — a living night street to explore">
   <div id="streetBg" aria-hidden="true"></div>
   <video id="streetVid" autoplay muted loop playsinline aria-hidden="true"
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
@@ -508,71 +517,67 @@
   <header id="masthead">
     <div>
       <div class="eyebrow">Generative &middot; AI &middot; Interactive</div>
-      <h1 class="title"><em>Play</em></h1>
+      <h1 class="title"><em>Lab</em></h1>
     </div>
-    <p class="hint">Explore the street.<br>Hover a light, enter a door.</p>
+    <p class="hint">Each piece is a thing in the city.<br>Tap a screen, enter a door.</p>
   </header>
 
   <!-- ---- 5 STREET OBJECTS ---- -->
 
-  <!-- Turbo MG21 = billboard overhead -->
-  <button class="marker m-turbo" data-piece="turbo" style="--acc:var(--acc-turbo)"
-          aria-label="Turbo MG21, billboard overhead. Open detail view.">
-    <span class="frame" aria-hidden="true"></span>
-    <span class="glow" aria-hidden="true"></span>
-    <span class="pin">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="cat">Billboard &mdash; Turbo MG21</span>
+  <!-- Turbo MG21 = billboard, its film playing on it -->
+  <button class="marker obj m-turbo" data-piece="turbo" style="--acc:var(--acc-turbo)"
+          aria-label="Turbo MG21, billboard playing the campaign film. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <video src="assets/lab/turbo_mg21.mp4" autoplay muted loop playsinline preload="metadata"></video>
     </span>
+    <span class="plate">Turbo MG21<small>Billboard &middot; Campaign Film</small></span>
   </button>
 
-  <!-- PabePabe = lit boutique window -->
-  <button class="marker m-pabepabe" data-piece="pabepabe" style="--acc:var(--acc-pabepabe)"
-          aria-label="PabePabe, the boutique window. Open detail view.">
-    <span class="glow" aria-hidden="true"></span>
-    <span class="pin">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="cat">Boutique Window &mdash; PabePabe</span>
+  <!-- PabePabe = lit boutique window, the bag film in the display -->
+  <button class="marker obj m-pabepabe" data-piece="pabepabe" style="--acc:var(--acc-pabepabe)"
+          aria-label="PabePabe, the boutique window with the bag films. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <video src="assets/lab/pabepabe_ocarina.mp4" autoplay muted loop playsinline preload="metadata"></video>
     </span>
+    <span class="plate">PabePabe<small>Boutique Window &middot; The Trilogy</small></span>
   </button>
 
-  <!-- Love Bug = neon-heart machine on the sidewalk -->
-  <button class="marker m-lovebug" data-piece="lovebug" style="--acc:var(--acc-lovebug)"
+  <!-- Love Bug = neon-heart machine, live preview -->
+  <button class="marker obj m-lovebug" data-piece="lovebug" style="--acc:var(--acc-lovebug)"
           aria-label="Love Bug, the neon heart machine. Open detail view.">
-    <span class="glow" aria-hidden="true"></span>
-    <span class="pin">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="cat">Sidewalk Machine &mdash; Love Bug</span>
+    <span class="screen" aria-hidden="true">
+      <iframe src="assets/lab/love-bug.html" tabindex="-1" title="Love Bug preview" loading="lazy" scrolling="no"></iframe>
     </span>
+    <span class="plate">Love Bug<small>Sidewalk Machine &middot; Interactive</small></span>
   </button>
 
-  <!-- Ash-01 = figure in the street -->
-  <button class="marker m-ash" data-piece="ash" style="--acc:var(--acc-ash)"
-          aria-label="Ash-01, the figure in the street. Open detail view.">
-    <span class="glow" aria-hidden="true"></span>
-    <span class="pin">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="cat">The Figure &mdash; Ash-01</span>
+  <!-- Ash-01 = the figure, towering -->
+  <button class="marker obj m-ash" data-piece="ash" style="--acc:var(--acc-ash)"
+          aria-label="Ash-01, the figure that towers over the street. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <video src="assets/lab/ash01.mp4" autoplay muted loop playsinline preload="metadata"></video>
     </span>
+    <span class="plate">Ash-01<small>The Figure &middot; Original Character</small></span>
   </button>
 
-  <!-- Feature World: Chaos = fireworks in the sky -->
-  <button class="marker m-feature" data-piece="feature" style="--acc:var(--acc-feature)"
-          aria-label="Feature World Chaos, fireworks in the sky. Open detail view.">
-    <span class="glow" aria-hidden="true"></span>
-    <span class="pin">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="cat">Sky &mdash; Feature World: Chaos</span>
+  <!-- Feature World: Chaos = the sky, live particle preview -->
+  <button class="marker obj m-feature" data-piece="feature" style="--acc:var(--acc-feature)"
+          aria-label="Feature World Chaos, the particle sky. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <iframe src="assets/lab/feature-world-chaos.html" tabindex="-1" title="Feature World preview" loading="lazy" scrolling="no"></iframe>
     </span>
+    <span class="plate">Feature World: Chaos<small>Sky &middot; Interactive Physics</small></span>
   </button>
 
-  <!-- ---- 2 DOORWAYS ---- -->
+  <!-- ---- 2 DOORWAYS (live previews of the actual pieces) ---- -->
 
   <!-- Binary One = building entrance -->
   <button class="door d-binary" data-piece="binary" style="--acc:var(--acc-binary)"
           aria-label="Binary One, a building you can enter. Open detail view.">
     <span class="arch">
-      <span class="threshold">Entrance<span class="enter">Binary One</span></span>
+      <iframe src="assets/lab/binary-one.html" tabindex="-1" title="Binary One preview" loading="lazy" scrolling="no" aria-hidden="true"></iframe>
+      <span class="veil" aria-hidden="true"></span>
+      <span class="threshold">Enter<span class="enter">Binary One</span></span>
     </span>
   </button>
 
@@ -580,7 +585,9 @@
   <button class="door d-fallow" data-piece="fallow" style="--acc:var(--acc-fallow)"
           aria-label="Fallow Ruins, a building you can enter. Open detail view.">
     <span class="arch">
-      <span class="threshold">Entrance<span class="enter">Fallow Ruins</span></span>
+      <iframe src="assets/lab/fallow-ruins.html" tabindex="-1" title="Fallow Ruins preview" loading="lazy" scrolling="no" aria-hidden="true"></iframe>
+      <span class="veil" aria-hidden="true"></span>
+      <span class="threshold">Enter<span class="enter">Fallow Ruins</span></span>
     </span>
   </button>
 
