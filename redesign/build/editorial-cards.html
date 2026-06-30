@@ -20,28 +20,18 @@
 
   /* the single Higgsfield-merged wall fills the whole section, edge to edge */
   #editorial{position:relative;min-height:100vh;display:flex;flex-direction:column;
-    background:#e7ddca url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_092101_abe3f378-0dfe-4a80-9bf4-435a3f72fd07.png') center/cover no-repeat;overflow:hidden}
-  /* soft scrims so the title + footer read over the wall */
-  #editorial::before{content:"";position:absolute;left:0;right:0;top:0;height:34%;z-index:1;pointer-events:none;
-    background:linear-gradient(180deg, rgba(250,245,236,.92) 0%, rgba(250,245,236,.5) 45%, rgba(250,245,236,0) 100%)}
+    background:#e7ddca url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_093522_5220709a-9cc5-4fc2-b40b-f0cbaa1c3e98.png') center/cover no-repeat;overflow:hidden}
+  /* soft bottom scrim so the footer reads over the wall */
   #editorial::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18%;z-index:1;pointer-events:none;
     background:linear-gradient(0deg, rgba(40,28,14,.5) 0%, rgba(40,28,14,0) 100%)}
-
-  .ed-head{position:relative;z-index:2;text-align:center;padding:clamp(20px,4vw,46px) 20px 0}
-  .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.6rem,6.4vw,4.8rem);line-height:.9;color:var(--ink)}
 
   .ed-foot{position:relative;z-index:2;margin-top:auto;text-align:center;padding:0 20px clamp(18px,3vw,34px);
     font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:#f4ece0;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 </style>
 </head>
 <body>
-<section id="editorial" aria-label="Editorial — a wall of cassette tapes">
-  <header class="ed-head">
-    <div class="ed-kicker">Fashion &middot; I.T Apparels</div>
-    <h1 class="ed-title">Editorial</h1>
-  </header>
-  <div class="ed-foot">17 editorials &middot; New York / Hong Kong &middot; 2023&ndash;2025</div>
+<section id="editorial" aria-label="Editorials — a wall of cassette tapes">
+  <div class="ed-foot">17 editorials &middot; I.T Apparels &middot; New York / Hong Kong &middot; 2023&ndash;2025</div>
 </section>
 </body>
 </html>
