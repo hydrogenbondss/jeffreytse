@@ -117,6 +117,29 @@
   .p3 .foot{position:absolute;left:12px;right:12px;bottom:14px;z-index:4;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;color:#ece6d6}
   .p3 .foot .barcode{width:74px;color:#ece6d6;flex:none;opacity:.85}
   .p3 .foot .ser{font-family:var(--mono);font-size:.46rem;letter-spacing:.06em;text-align:right;line-height:1.5;color:#bdb8d0}
+
+  /* ============== P4 — WELCOME HOME (framed object + type-storm) ============== */
+  .p4{background:#ff4d9d;color:#14121c}
+  .p4 .storm{position:absolute;inset:0;z-index:1;overflow:hidden;padding:6px;font-family:var(--anton);
+    text-transform:uppercase;color:#14121c;opacity:.10;font-size:clamp(2rem,8vw,3rem);line-height:.92;letter-spacing:.04em;word-break:break-word}
+  .p4 .top{position:absolute;top:12px;left:12px;right:12px;z-index:5;display:flex;justify-content:space-between;gap:6px;
+    font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase}
+  .p4 .title{position:absolute;left:12px;top:42px;z-index:5;font-family:var(--anton);font-size:clamp(2.6rem,11vw,4rem);
+    line-height:.82;text-transform:uppercase;color:#14121c}
+  .p4 .title span{display:block;color:#1f37e3}
+  .p4 .credit{position:absolute;left:12px;top:150px;z-index:5;width:40%;font-family:var(--mono);font-size:.48rem;
+    line-height:1.55;letter-spacing:.03em;text-transform:uppercase}
+  .p4 .credit b{color:#1f37e3}
+  .p4 .obj{position:absolute;right:5%;bottom:62px;z-index:3;width:52%;aspect-ratio:4/5;
+    border:3px solid #14121c;box-shadow:8px 8px 0 #1f37e3}
+  .p4 .obj img{width:100%;height:100%;object-fit:cover;filter:url(#duoBlue) contrast(1.3) brightness(1.05)}
+  .p4 .hand{position:absolute;left:8%;bottom:118px;z-index:6;font-family:var(--mark);font-size:clamp(1.3rem,5.2vw,1.9rem);
+    color:#14121c;line-height:.92;width:38%}
+  .p4 .hand svg{position:absolute;right:-18px;bottom:-6px;width:52px;height:42px;overflow:visible}
+  .p4 .hand svg path{fill:none;stroke:#14121c;stroke-width:2.2;stroke-linecap:round}
+  .p4 .foot{position:absolute;left:12px;right:12px;bottom:12px;z-index:6;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;color:#14121c}
+  .p4 .foot .barcode{width:74px;color:#14121c;flex:none}
+  .p4 .foot .ser{font-family:var(--mono);font-size:.46rem;letter-spacing:.05em;text-align:right;line-height:1.5}
 </style>
 </head>
 <body>
@@ -124,11 +147,13 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="duoMag"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
     <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.05 0.91"/><feFuncG type="table" tableValues="0.05 0.15"/><feFuncB type="table" tableValues="0.05 0.37"/></feComponentTransfer></filter>
+  <filter id="duoBlue"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.05 0.12"/><feFuncG type="table" tableValues="0.05 0.22"/><feFuncB type="table" tableValues="0.05 0.89"/></feComponentTransfer></filter>
 </svg>
 
 <div class="head-note">
-  <h1>Range test — 3 layouts</h1>
-  <p>Same archive, three different compositions. If these read as three distinct posters (not one recoloured three times), the approach is proven and I convert the other five.</p>
+  <h1>Range test — 4 layouts</h1>
+  <p>Same archive, four different compositions. If these read as distinct posters (not one recoloured), the approach is proven and I convert the other four. P4 is Welcome Home, now built around your Cube in Cube.</p>
 </div>
 
 <div class="row">
@@ -217,6 +242,23 @@
       </article>
     </div>
     <p class="cap">P3 · <b>cloned from DIVE INTO THE UNKNOWN</b> — dark, glow + rings, minimal type</p>
+  </div>
+
+  <!-- ============ P4 — WELCOME HOME / framed object + type-storm ============ -->
+  <div>
+    <div class="paste" style="--rot:2.1deg">
+      <span class="tape tl"></span><span class="tape tr"></span>
+      <article class="poster p4 grain">
+        <div class="storm">Home Welcome Home Self Space Welcome Home Belonging Home Welcome Home Home Self Space Home</div>
+        <div class="top"><span>Archive · EX-01</span><span>WAAP · Vancouver · 2019</span></div>
+        <h2 class="title">Welcome<span>Home</span></h2>
+        <div class="credit"><b>Featured —</b> Cube in Cube, Olivia Qiu · resin, plastic &amp; oil · 2017<br><br>Curator · 3 artists · sculpture / performance / sound</div>
+        <div class="obj"><img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/1d662e90-eff3-4b33-91af-c19b318162e8.png" alt="Cube in Cube, Olivia Qiu, 2017"></div>
+        <div class="hand">what makes a room yours?<svg viewBox="0 0 52 42" aria-hidden="true"><path d="M4 6 C 20 16, 24 36, 46 28"/><path d="M46 28 l-12 0 M46 28 l-2 -12"/></svg></div>
+        <div class="foot"><span class="barcode" aria-hidden="true"></span><span class="ser">© ARCHIVE · J. N. TSE<br>№ EX-01 / 2019</span></div>
+      </article>
+    </div>
+    <p class="cap">P4 · <b>Welcome Home</b> — framed object on flat ground + type-storm (your Cube in Cube)</p>
   </div>
 
 </div>
