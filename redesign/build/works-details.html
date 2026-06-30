@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Selected Work — Detail Views · Jeffrey N. Tse</title>
+<meta name="description" content="Cinematic detail-view treatment for Selected Work: ECHO, SPECTOR, PawsAid, ROLL CALL, Noru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============ GLOBAL ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:#050608;color:#ECEAE3;
+  font-family:'Cormorant Garamond',serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+:root{
+  --mono:'Courier Prime',monospace;
+  --serif:'Cormorant Garamond',serif;
+  --letterbox:#000;
+}
+::selection{background:rgba(236,234,227,.18)}
+
+/* ---- demo review chrome (only for this preview page) ---- */
+.demo-head{
+  position:relative;z-index:2;text-align:center;
+  padding:9vh 6vw 5vh;
+}
+.demo-head .kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.42em;color:#7d7563;text-transform:uppercase;margin-bottom:18px}
+.demo-head h1{font-weight:300;font-size:clamp(2.4rem,6vw,4.6rem);letter-spacing:.02em;line-height:1;color:#ECEAE3}
+.demo-head p{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:#6f6a5c;margin-top:20px;line-height:2;max-width:64ch;margin-left:auto;margin-right:auto}
+.demo-sep{font-family:var(--mono);text-align:center;font-size:.6rem;letter-spacing:.42em;color:#3a3a40;padding:7vh 0 1vh}
+
+/* ============ DETAIL VIEW — cinematic takeover ============ */
+/* On this preview page each .detail is a full-viewport panel stacked
+   vertically so the owner can scroll through all five. In production a
+   single .detail would be position:fixed and toggled open. */
+.detail{
+  position:relative;
+  height:100vh;min-height:640px;
+  background:var(--letterbox);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  isolation:isolate;
+  --accent:#ECEAE3;
+  --accent-soft:rgba(236,234,227,.16);
+  --tint:rgba(236,234,227,.05);
+}
+
+/* letterbox bars */
+.detail .bar{position:absolute;left:0;right:0;height:7.4vh;min-height:42px;background:#000;z-index:6;pointer-events:none}
+.detail .bar.top{top:0;border-bottom:1px solid rgba(255,255,255,.04)}
+.detail .bar.bot{bottom:0;border-top:1px solid rgba(255,255,255,.04)}
+
+/* stage = the media window between the bars */
+.detail .stage{position:absolute;inset:7.4vh 0;z-index:1;overflow:hidden;background:#08080a}
+@media(max-width:640px){.detail .stage{inset:42px 0}.detail .bar{height:42px}}
+
+/* media track (swipe gallery) */
+.detail .track{display:flex;height:100%;width:100%;transition:transform .62s cubic-bezier(.7,0,.18,1)}
+.detail .slide{position:relative;flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.detail .slide::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 42%,transparent 46%,rgba(0,0,0,.34) 88%,rgba(0,0,0,.6) 100%);
+  mix-blend-mode:multiply;}
+/* color tint wash, per-project */
+.detail .slide .wash{position:absolute;inset:0;z-index:3;pointer-events:none;background:var(--tint);mix-blend-mode:screen;opacity:.7}
+.detail .slide img,.detail .slide video{display:block;width:100%;height:100%;object-fit:cover}
+
+/* placeholder media tile */
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:6%;
+  background:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 16px,transparent 16px 32px),
+    radial-gradient(120% 120% at 50% 30%,var(--tint),#0a0a0c 72%);}
+.ph .ph-mark{width:46px;height:46px;border:1px solid var(--accent-soft);border-radius:50%;position:relative;opacity:.6}
+.ph .ph-mark::before,.ph .ph-mark::after{content:'';position:absolute;background:var(--accent-soft)}
+.ph .ph-mark::before{left:50%;top:14%;bottom:14%;width:1px;transform:translateX(-.5px)}
+.ph .ph-mark::after{top:50%;left:14%;right:14%;height:1px;transform:translateY(-.5px)}
+.ph .ph-path{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:#8c8678}
+.ph .ph-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:#55504a;max-width:46ch;line-height:1.9}
+.ph .ph-tag{font-family:var(--mono);font-size:.54rem;letter-spacing:.34em;color:var(--accent);opacity:.7;text-transform:uppercase}
+
+/* film slate counter (top-left) */
+.detail .slate{position:absolute;top:0;left:0;height:7.4vh;min-height:42px;display:flex;align-items:center;gap:14px;padding:0 clamp(18px,3vw,40px);z-index:7;font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;color:#cfcabd}
+.detail .slate .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:rec 2.6s steps(1) infinite}
+@keyframes rec{50%{opacity:.25}}
+.detail .slate .roll{color:#7a7568}
+.detail .slate .frame{color:var(--accent)}
+@media(max-width:640px){.detail .slate{font-size:.52rem;gap:9px;padding:0 16px}}
+
+/* close button (top-right) */
+.detail .close{position:absolute;top:0;right:0;height:7.4vh;min-height:42px;display:flex;align-items:center;gap:10px;padding:0 clamp(18px,3vw,40px);z-index:8;
+  background:none;border:none;color:#cfcabd;font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;cursor:pointer;text-transform:uppercase;transition:.3s}
+.detail .close:hover{color:#fff;letter-spacing:.36em}
+.detail .close .glyph{display:inline-block;width:14px;height:14px;position:relative}
+.detail .close .glyph::before,.detail .close .glyph::after{content:'';position:absolute;top:50%;left:0;width:100%;height:1.4px;background:currentColor}
+.detail .close .glyph::before{transform:rotate(45deg)}
+.detail .close .glyph::after{transform:rotate(-45deg)}
+@media(max-width:640px){.detail .close span.txt{display:none}.detail .close{gap:0}}
+
+/* gallery arrows */
+.detail .nav{position:absolute;top:50%;transform:translateY(-50%);z-index:7;width:clamp(44px,5vw,64px);height:clamp(44px,5vw,64px);
+  display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.12);
+  color:#ECEAE3;cursor:pointer;border-radius:50%;backdrop-filter:blur(3px);transition:.34s;opacity:.78}
+.detail .nav:hover{opacity:1;border-color:var(--accent);background:rgba(0,0,0,.5)}
+.detail .nav.prev{left:clamp(12px,2.4vw,30px)}
+.detail .nav.next{right:clamp(12px,2.4vw,30px)}
+.detail .nav svg{width:42%;height:42%}
+.detail .nav:disabled{opacity:.18;cursor:default}
+@media(max-width:640px){.detail .nav{width:40px;height:40px}}
+
+/* media label (under each item) + dots — sit just above the lower-third */
+.detail .ribbon{position:absolute;left:0;right:0;bottom:calc(7.4vh + 1px);z-index:7;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px clamp(18px,4vw,56px);pointer-events:none;
+  background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0));}
+.detail .ribbon .label{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;color:#d8d2c4}
+.detail .ribbon .label b{color:var(--accent);font-weight:400}
+.detail .dots{display:flex;gap:9px;pointer-events:auto}
+.detail .dots button{width:7px;height:7px;border-radius:50%;border:1px solid rgba(236,234,227,.4);background:transparent;cursor:pointer;padding:0;transition:.3s}
+.detail .dots button[aria-current="true"]{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px var(--accent)}
+@media(max-width:640px){.detail .ribbon{bottom:calc(42px + 1px);padding:10px 16px}.detail .ribbon .label{font-size:.54rem}}
+
+/* ============ LOWER THIRD ============ */
+.detail .lower{position:absolute;left:0;right:0;bottom:7.4vh;z-index:5;
+  padding:clamp(26px,5vh,72px) clamp(20px,5vw,80px) clamp(30px,6vh,80px);
+  background:linear-gradient(to top,rgba(0,0,0,.94) 6%,rgba(0,0,0,.78) 48%,rgba(0,0,0,0));
+  pointer-events:none}
+.detail .lower > *{pointer-events:auto}
+@media(max-width:640px){.detail .lower{bottom:42px;padding:26px 18px 34px}}
+.detail .lt-in{max-width:1180px;margin:0 auto;width:100%}
+.detail .eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.detail .eyebrow::before{content:'';width:30px;height:1px;background:var(--accent);display:inline-block;opacity:.7}
+.detail .title{font-family:var(--serif);font-weight:300;font-size:clamp(2.7rem,8vw,6.4rem);line-height:.92;letter-spacing:.005em;color:#fff;margin-bottom:.22em;text-shadow:0 2px 50px rgba(0,0,0,.8)}
+.detail .title .accent-mark{color:var(--accent)}
+.detail .blurb{font-family:var(--serif);font-size:clamp(1.06rem,1.9vw,1.5rem);font-weight:300;line-height:1.5;color:#e7e2d6;max-width:60ch;margin-bottom:1.1em}
+.detail .blurb em{font-style:italic;color:#fff}
+.detail .meta{display:flex;flex-wrap:wrap;gap:26px 44px;align-items:flex-start}
+.detail .meta-block{min-width:0}
+.detail .meta-k{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:#8c8678;margin-bottom:9px}
+.detail .chips{display:flex;flex-wrap:wrap;gap:8px;max-width:62ch}
+.detail .chip{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:#e4ded2;border:1px solid var(--accent-soft);background:rgba(255,255,255,.02);padding:.5em 1em;border-radius:40px;white-space:nowrap}
+.detail .links{display:flex;flex-wrap:wrap;gap:10px}
+.detail .lnk{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#0a0a0a;background:var(--accent);text-decoration:none;padding:.72em 1.5em;border-radius:40px;display:inline-flex;align-items:center;gap:9px;transition:.3s;font-weight:700}
+.detail .lnk:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.detail .lnk.ghost{color:var(--accent);background:transparent;border:1px solid var(--accent-soft);font-weight:400}
+.detail .lnk.ghost:hover{border-color:var(--accent);background:rgba(255,255,255,.04)}
+.detail .lnk .arr{font-size:.9em}
+
+/* tier rail (PawsAid) */
+.detail .tiers{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.detail .tier{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:#e4ded2;border:1px solid var(--accent-soft);border-radius:4px;padding:.55em .85em;display:flex;flex-direction:column;gap:3px;min-width:96px}
+.detail .tier b{color:var(--accent);letter-spacing:.16em;font-weight:700;font-size:.62rem}
+.detail .tier span{color:#9a948a}
+.detail .tier .arr{color:#6f6a5c;align-self:center;padding:0 .2em}
+
+@media(max-width:760px){.detail .meta{gap:20px 28px}.detail .blurb{max-width:46ch}}
+
+/* reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .detail .track{transition:none}
+  .detail .slate .dot{animation:none}
+  .ph,.detail .nav,.detail .close,.detail .lnk{transition:none}
+}
+
+/* keyboard focus visibility */
+.detail .close:focus-visible,.detail .nav:focus-visible,.detail .dots button:focus-visible,.detail .lnk:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header class="demo-head">
+  <div class="kicker">Selected Work · Detail Views · Internal Review</div>
+  <h1>Five worlds, one treatment.</h1>
+  <p>Cinematic takeover per project — letterbox bars, a film-slate counter, swipe gallery, and a bold lower-third. Each tinted with its own accent. Use ← / → to move through media, Esc closes. Scroll to review all five.</p>
+</header>
+
+<div class="demo-sep">— 01 / 05 —</div>
+
+<!-- ================= ECHO ================= -->
+<section class="detail" id="echo"
+  style="--accent:#E8A06A;--accent-soft:rgba(232,160,106,.22);--tint:rgba(120,70,40,.16)"
+  aria-label="ECHO detail view" data-roll="ECHO">
+  <div class="bar top"></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> ECHO <span class="frame" data-frame>01 / 04</span></div>
+  <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
+
+  <div class="stage">
+    <div class="track" data-track>
+      <!-- slide 1: real asset present -->
+      <div class="slide">
+        <div class="wash"></div>
+        <video src="assets/echo/darkroom.mp4" poster="assets/echo/darkroom_poster.jpg" muted loop playsinline autoplay></video>
+      </div>
+      <!-- slide 2: real asset present -->
+      <div class="slide">
+        <div class="wash"></div>
+        <img src="assets/echo/blake_apartment_day.png" alt="Blake's apartment, daytime — ECHO scene">
+      </div>
+      <!-- slide 3: placeholder -->
+      <div class="slide">
+        <div class="ph">
+          <div class="ph-mark"></div>
+          <div class="ph-path">assets/works/echo/03.png</div>
+          <div class="ph-note">The Copper Room — Kite behind the bar, his dog at his feet, rain on the windows.</div>
+          <div class="ph-tag">Placeholder</div>
+        </div>
+      </div>
+      <!-- slide 4: placeholder -->
+      <div class="slide">
+        <div class="ph">
+          <div class="ph-mark"></div>
+          <div class="ph-path">assets/works/echo/04.png</div>
+          <div class="ph-note">Character lineup — Kite, Blake, Neo / Nia, with Remy — playable as a man or a woman.</div>
+          <div class="ph-tag">Placeholder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="ribbon">
+    <div class="label">Plate <b data-idx>01</b> — <span data-label>The darkroom — rainy night city</span></div>
+    <div class="dots" data-dots role="tablist" aria-label="ECHO media"></div>
+  </div>
+
+  <div class="lower">
+    <div class="lt-in">
+      <div class="eyebrow">Visual Novel · Ren'Py</div>
+      <h1 class="title">ECHO</h1>
+      <p class="blurb"><em>Three to fall for. Each playable as a man or a woman.</em> A romance through a rainy night city — Kite the bartender at The Copper Room (and his dog), Blake the journalist, and Neo / Nia the artist — with Remy along for the ride.</p>
+      <div class="meta">
+        <div class="meta-block">
+          <div class="meta-k">Discipline</div>
+          <div class="chips">
+            <span class="chip">Ren'Py</span>
+            <span class="chip">Branching Narrative</span>
+            <span class="chip">Character Design</span>
+            <span class="chip">Art Direction</span>
+            <span class="chip">Writing</span>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-k">Cast</div>
+          <div class="chips">
+            <span class="chip">Kite · bartender</span>
+            <span class="chip">Blake · journalist</span>
+            <span class="chip">Neo / Nia · artist</span>
+            <span class="chip">Remy · assistant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="demo-sep">— 02 / 05 —</div>
+
+<!-- ================= SPECTOR ================= -->
+<section class="detail" id="spector"
+  style="--accent:#9B7BE0;--accent-soft:rgba(155,123,224,.24);--tint:rgba(110,80,200,.18)"
+  aria-label="SPECTOR detail view" data-roll="SPECTOR">
+  <div class="bar top"></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> SPECTOR <span class="frame" data-frame>01 / 05</span></div>
+  <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
+
+  <div class="stage">
+    <div class="track" data-track>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/spector/01.png</div><div class="ph-note">App icon — purple aperture mark on black.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/spector/02.png</div><div class="ph-note">Phone teleprompter UI — big script, Comfort / Focus / Presentation modes, speed control.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/spector/03.png</div><div class="ph-note">Comfort Mode comparison — "Standard" jitter vs "Spatially Anchored" — Calm by Design.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/spector/04.png</div><div class="ph-note">Ray-Ban Meta glasses showing the SPECTOR teleprompter, eyes-up.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/spector/05.png</div><div class="ph-note">Rehearsal Analytics dashboard — AVG WPM, pacing score, 92% fluency, pacing over time.</div><div class="ph-tag">Placeholder</div></div></div>
+    </div>
+  </div>
+
+  <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="ribbon">
+    <div class="label">Plate <b data-idx>01</b> — <span data-label>App icon — aperture mark</span></div>
+    <div class="dots" data-dots role="tablist" aria-label="SPECTOR media"></div>
+  </div>
+
+  <div class="lower">
+    <div class="lt-in">
+      <div class="eyebrow">Product · Open-Source PWA</div>
+      <h1 class="title">SPECTOR</h1>
+      <p class="blurb">An auto-paced teleprompter built for the smart-glasses era — rehearse on your phone, then perform <em>eyes-up</em> on Ray-Ban Meta, XREAL or Viture. Punctuation-aware adaptive pacing, a Comfort mode that spatially anchors the script with Kalman-filtered head-tracking, and post-run analytics on pacing, hesitation and WPM — all in a zero-dependency PWA.</p>
+      <div class="meta">
+        <div class="meta-block">
+          <div class="meta-k">Stack</div>
+          <div class="chips">
+            <span class="chip">Vanilla JS · zero-dep</span>
+            <span class="chip">Custom Kalman filter</span>
+            <span class="chip">DeviceOrientation API</span>
+            <span class="chip">Web Audio + Vibration</span>
+            <span class="chip">PWA · Service Worker</span>
+            <span class="chip">localStorage</span>
+            <span class="chip">Vercel</span>
+            <span class="chip">Formspree</span>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-k">Visit</div>
+          <div class="links">
+            <a class="lnk" href="https://www.spectorlabs.io/" target="_blank" rel="noopener">spectorlabs.io <span class="arr">→</span></a>
+            <a class="lnk ghost" href="https://github.com/hydrogenbondss/SPECTOR" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="demo-sep">— 03 / 05 —</div>
+
+<!-- ================= PAWSAID ================= -->
+<section class="detail" id="pawsaid"
+  style="--accent:#E60012;--accent-soft:rgba(230,0,18,.26);--tint:rgba(230,0,18,.1)"
+  aria-label="PawsAid detail view" data-roll="PAWSAID">
+  <div class="bar top"></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> PAWSAID <span class="frame" data-frame>01 / 04</span></div>
+  <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
+
+  <div class="stage">
+    <div class="track" data-track>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/01.png</div><div class="ph-note">Hero — the three kits lined up, pure-white product plate.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/02.png</div><div class="ph-note">Essential kit — HK$168 — contents flat-lay on white.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/03.png</div><div class="ph-note">Bilingual storefront — Sora + Noto Sans TC, "Because every second matters".</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/pawsaid/04.png</div><div class="ph-note">Packaging system — PawsAid Red on Canvas, the three tiers.</div><div class="ph-tag">Placeholder</div></div></div>
+    </div>
+  </div>
+
+  <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="ribbon">
+    <div class="label">Plate <b data-idx>01</b> — <span data-label>The three kits</span></div>
+    <div class="dots" data-dots role="tablist" aria-label="PawsAid media"></div>
+  </div>
+
+  <div class="lower">
+    <div class="lt-in">
+      <div class="eyebrow">Brand · Packaging · Web</div>
+      <h1 class="title">PawsAid</h1>
+      <p class="blurb">A pet first-aid kit brand built end to end — three kits, with a bilingual storefront. <em>Because every second matters · 因為每一秒都很重要.</em></p>
+      <div class="meta">
+        <div class="meta-block">
+          <div class="meta-k">Range</div>
+          <div class="tiers">
+            <div class="tier"><b>Essential</b><span>HK$168</span></div>
+            <span class="arr">→</span>
+            <div class="tier"><b>Pro</b><span>HK$288</span></div>
+            <span class="arr">→</span>
+            <div class="tier"><b>Plus</b><span>HK$388</span></div>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-k">Discipline</div>
+          <div class="chips">
+            <span class="chip">Brand Identity</span>
+            <span class="chip">Packaging</span>
+            <span class="chip">Bilingual Storefront</span>
+            <span class="chip">Sora + Noto Sans TC</span>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-k">Visit</div>
+          <div class="links">
+            <a class="lnk" href="https://pawsaid.hk/" target="_blank" rel="noopener">pawsaid.hk <span class="arr">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="demo-sep">— 04 / 05 —</div>
+
+<!-- ================= ROLL CALL ================= -->
+<section class="detail" id="rollcall"
+  style="--accent:#C9C2B2;--accent-soft:rgba(201,194,178,.22);--tint:rgba(150,142,126,.08)"
+  aria-label="ROLL CALL detail view" data-roll="ROLL CALL">
+  <div class="bar top"></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> ROLL CALL <span class="frame" data-frame>01 / 04</span></div>
+  <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
+
+  <div class="stage">
+    <div class="track" data-track>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/01.png</div><div class="ph-note">Specimen grid — toilet-paper samples catalogued by country.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/02.png</div><div class="ph-note">Single specimen plate — macro of texture, perforation, label.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/03.png</div><div class="ph-note">Archive interface — 21 countries, taxonomy and provenance.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/rollcall/04.png</div><div class="ph-note">World map of specimen origins.</div><div class="ph-tag">Placeholder</div></div></div>
+    </div>
+  </div>
+
+  <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="ribbon">
+    <div class="label">Plate <b data-idx>01</b> — <span data-label>Specimen grid</span></div>
+    <div class="dots" data-dots role="tablist" aria-label="ROLL CALL media"></div>
+  </div>
+
+  <div class="lower">
+    <div class="lt-in">
+      <div class="eyebrow">Material-Culture Archive</div>
+      <h1 class="title">ROLL CALL</h1>
+      <p class="blurb">A material-culture archive cataloguing toilet-paper specimens from <em>21 countries</em> — provenance, texture and taxonomy treated with curatorial seriousness.</p>
+      <div class="meta">
+        <div class="meta-block">
+          <div class="meta-k">Discipline</div>
+          <div class="chips">
+            <span class="chip">Archive Design</span>
+            <span class="chip">Taxonomy</span>
+            <span class="chip">Editorial Systems</span>
+            <span class="chip">Specimen Photography</span>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-k">Visit</div>
+          <div class="links">
+            <a class="lnk" href="https://rollcall.asia" target="_blank" rel="noopener">rollcall.asia <span class="arr">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="demo-sep">— 05 / 05 —</div>
+
+<!-- ================= NORU ================= -->
+<section class="detail" id="noru"
+  style="--accent:#36C99B;--accent-soft:rgba(54,201,155,.24);--tint:rgba(40,180,140,.14)"
+  aria-label="Noru detail view" data-roll="NORU">
+  <div class="bar top"></div>
+  <div class="slate"><span class="dot"></span><span class="roll">REEL</span> NORU <span class="frame" data-frame>01 / 03</span></div>
+  <button class="close" type="button"><span class="txt">Close</span><span class="glyph"></span></button>
+
+  <div class="stage">
+    <div class="track" data-track>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/noru/01.png</div><div class="ph-note">Mascot — the red panda in glasses, full character sheet.</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/noru/02.png</div><div class="ph-note">Brand system — logotype, palette (mint / orange), "Knowledge | Fun".</div><div class="ph-tag">Placeholder</div></div></div>
+      <div class="slide"><div class="wash"></div><div class="ph"><div class="ph-mark"></div><div class="ph-path">assets/works/noru/03.png</div><div class="ph-note">Edutainment in use — content frame / lesson card with the mascot.</div><div class="ph-tag">Placeholder</div></div></div>
+    </div>
+  </div>
+
+  <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <div class="ribbon">
+    <div class="label">Plate <b data-idx>01</b> — <span data-label>The mascot</span></div>
+    <div class="dots" data-dots role="tablist" aria-label="Noru media"></div>
+  </div>
+
+  <div class="lower">
+    <div class="lt-in">
+      <div class="eyebrow">Edutainment Brand</div>
+      <h1 class="title">Noru</h1>
+      <p class="blurb"><em>Knowledge | Fun.</em> An edutainment brand fronted by a red-panda-in-glasses mascot — learning that keeps its sense of humour.</p>
+      <div class="meta">
+        <div class="meta-block">
+          <div class="meta-k">Discipline</div>
+          <div class="chips">
+            <span class="chip">Brand Identity</span>
+            <span class="chip">Mascot Design</span>
+            <span class="chip">Content System</span>
+            <span class="chip">Art Direction</span>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-k">Palette</div>
+          <div class="chips">
+            <span class="chip">Mint</span>
+            <span class="chip">Orange</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="demo-sep" style="padding:8vh 0 10vh">— END OF REEL —</div>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  document.querySelectorAll('.detail').forEach(function(detail){
+    var track  = detail.querySelector('[data-track]');
+    var slides = Array.prototype.slice.call(track.children);
+    var total  = slides.length;
+    var prev   = detail.querySelector('.nav.prev');
+    var next   = detail.querySelector('.nav.next');
+    var frameEl= detail.querySelector('[data-frame]');
+    var idxEl  = detail.querySelector('[data-idx]');
+    var labelEl= detail.querySelector('[data-label]');
+    var dotsWrap = detail.querySelector('[data-dots]');
+    var closeBtn = detail.querySelector('.close');
+    var i = 0;
+
+    // labels pulled from each placeholder note / explicit data
+    var labels = slides.map(function(s){
+      var note = s.querySelector('.ph-note');
+      var media = s.querySelector('video,img');
+      if (media && media.getAttribute('alt')) return media.getAttribute('alt');
+      if (media && media.tagName === 'VIDEO') return 'The darkroom — rainy night city';
+      return note ? note.textContent.replace(/\s+/g,' ').trim() : 'Plate';
+    });
+
+    // build dots
+    slides.forEach(function(_, n){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role','tab');
+      b.setAttribute('aria-label','Go to plate ' + (n+1));
+      b.addEventListener('click', function(){ go(n); });
+      dotsWrap.appendChild(b);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function pad(n){ return (n<10?'0':'') + n; }
+
+    function render(){
+      track.style.transform = 'translateX(' + (-i*100) + '%)';
+      if (frameEl) frameEl.textContent = pad(i+1) + ' / ' + pad(total);
+      if (idxEl)   idxEl.textContent = pad(i+1);
+      if (labelEl) labelEl.textContent = labels[i];
+      dots.forEach(function(d,n){ d.setAttribute('aria-current', n===i ? 'true':'false'); });
+      prev.disabled = (i===0);
+      next.disabled = (i===total-1);
+      // pause offscreen videos, play current
+      slides.forEach(function(s,n){
+        var v = s.querySelector('video');
+        if (!v) return;
+        if (n===i){ if(!reduceMotion){ v.play().catch(function(){}); } }
+        else { v.pause(); }
+      });
+    }
+
+    function go(n){
+      i = Math.max(0, Math.min(total-1, n));
+      render();
+    }
+
+    prev.addEventListener('click', function(){ go(i-1); });
+    next.addEventListener('click', function(){ go(i+1); });
+
+    // close — in this preview, scroll the panel out of the way; in production this hides the fixed overlay
+    closeBtn.addEventListener('click', function(){
+      var nextEl = detail.nextElementSibling;
+      while (nextEl && !nextEl.classList.contains('detail') && nextEl.tagName !== 'HEADER') {
+        nextEl = nextEl.nextElementSibling;
+      }
+      (nextEl || document.body).scrollIntoView({behavior: reduceMotion ? 'auto':'smooth', block:'start'});
+    });
+
+    // keyboard: arrows + Esc when this detail is the one in view
+    detail.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowLeft')  { go(i-1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { go(i+1); e.preventDefault(); }
+      if (e.key === 'Escape')     { closeBtn.click(); }
+    });
+    // make the panel focusable for keyboard nav
+    detail.tabIndex = -1;
+
+    // touch swipe
+    var x0 = null;
+    detail.querySelector('.stage').addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+    detail.querySelector('.stage').addEventListener('touchend', function(e){
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 46){ go(dx < 0 ? i+1 : i-1); }
+      x0 = null;
+    }, {passive:true});
+
+    // global arrow keys route to whichever detail is centered in the viewport
+    render();
+  });
+
+  // route document-level arrow keys to the detail nearest viewport center
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Escape') return;
+    if (document.activeElement && document.activeElement.closest('.detail')) return; // already handled
+    var mid = window.innerHeight/2, best = null, bestD = Infinity;
+    document.querySelectorAll('.detail').forEach(function(d){
+      var r = d.getBoundingClientRect();
+      var c = r.top + r.height/2;
+      var dist = Math.abs(c - mid);
+      if (dist < bestD){ bestD = dist; best = d; }
+    });
+    if (best){ best.focus({preventScroll:true}); best.dispatchEvent(new KeyboardEvent('keydown',{key:e.key})); e.preventDefault(); }
+  });
+})();
+</script>
+</body>
+</html>
