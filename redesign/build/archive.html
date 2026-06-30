@@ -29,9 +29,9 @@
      top band. Reads as a correction: (struck) Publications -> Archive,
      loosely circled with a sketchy doodle. */
   .marker{
-    position:absolute;top:1.5%;left:6%;z-index:9;
+    position:absolute;top:5%;left:5%;z-index:9;
     font-family:'Permanent Marker',cursive;color:#141008;
-    font-size:clamp(1.6rem,5.2vw,2.6rem);line-height:1;
+    font-size:clamp(1.8rem,4vw,3rem);line-height:1;
     transform:rotate(-3deg);opacity:.92;mix-blend-mode:multiply;
     pointer-events:none;white-space:nowrap}
   .marker .words{position:relative;display:inline-block;padding:.12em .55em .2em}
@@ -43,23 +43,28 @@
   .marker .doodle{position:absolute;left:-9%;top:-26%;width:118%;height:150%;overflow:visible;z-index:-1}
   .marker .doodle path{fill:none;stroke:#141008;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
-  /* the wood desk stage */
+  /* the wood desk stage — landscape */
   .stage{
-    position:relative;width:min(900px,96vw);aspect-ratio:2/3;margin:0 auto;
-    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_183917_7e6e7a64-f46d-42ed-89f7-73adbc98f4b8.png") center/cover;
+    position:relative;width:min(1180px,96vw);aspect-ratio:3/2;margin:0 auto;isolation:isolate;
+    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_190339_0a3f5bc0-8fdc-4e0c-9fe1-7816ae6a5796.png") center/cover;
     box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  /* single photographic grade over the whole desk (prints included) so
+     everything shares one light + grain — above prints/marker, but
+     pointer-events:none so hover still reaches the prints. */
+  .stage::before{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;mix-blend-mode:multiply;background:linear-gradient(125deg,rgba(255,244,224,.10),transparent 38%,rgba(12,8,3,.26) 100%),radial-gradient(130% 120% at 36% 28%,transparent 48%,rgba(8,5,2,.5) 100%)}
+  .stage::after{content:"";position:absolute;inset:0;z-index:41;pointer-events:none;opacity:.12;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gr'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gr)'/%3E%3C/svg%3E")}
 
   /* each shadow host = one print lying on the desk.
      rotation comes from --rot (inline); hover composes scale on top. */
   .host{
-    position:absolute;width:30%;
+    position:absolute;width:19%;
     padding:4px;background:#f4f0e6;
-    box-shadow:0 10px 22px rgba(0,0,0,.4);
+    box-shadow:1px 2px 3px rgba(0,0,0,.4),10px 16px 26px -6px rgba(0,0,0,.5);
     transform:rotate(var(--rot,0deg));
     transition:transform .2s, box-shadow .2s}
   .host:hover{
     transform:rotate(var(--rot,0deg)) scale(1.05);
-    box-shadow:0 18px 34px rgba(0,0,0,.5);z-index:30}
+    box-shadow:2px 4px 6px rgba(0,0,0,.4),18px 28px 42px -8px rgba(0,0,0,.6);z-index:30}
 
   @media (max-width:560px){
     /* scatter gets cramped — switch to a readable vertical stack of
@@ -104,14 +109,14 @@
       </span>
     </div>
 
-    <div class="host" data-poster="welcome-home"      style="left:4%;  top:14%; z-index:2; --rot:-6deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="finite-appearances" style="left:37%; top:12%; z-index:3; --rot:5deg;  --rot-m:3deg"></div>
-    <div class="host" data-poster="undergrowth"        style="left:67%; top:16%; z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="insights"           style="left:19%; top:39%; z-index:5; --rot:7deg;  --rot-m:3deg"></div>
-    <div class="host" data-poster="resonance"          style="left:51%; top:41%; z-index:4; --rot:-5deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="beitler"            style="left:3%;  top:66%; z-index:3; --rot:5deg;  --rot-m:3deg"></div>
-    <div class="host" data-poster="one-ply"            style="left:36%; top:69%; z-index:6; --rot:-8deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="tinder"             style="left:66%; top:65%; z-index:5; --rot:4deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="welcome-home"      style="left:31%; top:6%;  z-index:2; --rot:-7deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="finite-appearances" style="left:52%; top:3%;  z-index:3; --rot:5deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="undergrowth"        style="left:73%; top:7%;  z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="insights"           style="left:5%;  top:46%; z-index:5; --rot:6deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="resonance"          style="left:25%; top:50%; z-index:4; --rot:-5deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="beitler"            style="left:45%; top:48%; z-index:3; --rot:7deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="one-ply"            style="left:64%; top:52%; z-index:6; --rot:-6deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="tinder"             style="left:80%; top:47%; z-index:5; --rot:4deg;  --rot-m:3deg"></div>
   </section>
 
 
