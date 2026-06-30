@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — retro-flyer proof</title>
+<meta name="description" content="Archive as a retro supermarket circular — one newspaper, two registers (loud + grave).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One+SC&family=Luckiest+Guy&family=Yellowtail&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE — retro grocery-circular treatment.
+     ONE NEWSPAPER, TWO REGISTERS: light records get full flyer
+     energy; grave records keep the same paper+type but go sober.
+     Newsprint is CSS grain here (real scan swaps in later).
+     ============================================================ */
+  :root{
+    --paper:#f5f2e8; --paper-2:#efe7d4;
+    --ink-red:#d8332b; --ink-blue:#1b75bb; --ink-yellow:#f4d000;
+    --deal-yellow:#e8c33d; --ink-key:#2b2622; --ink-pink:#ff48b0;
+    --rule:#2b2622;
+    --disp:'Anton',Impact,sans-serif;
+    --store:'Bowlby One SC',Impact,sans-serif;
+    --price:'Luckiest Guy',cursive;
+    --script:'Yellowtail',cursive;
+    --mono:'Courier Prime',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#ddd9cc}
+  body{font-family:var(--mono);color:var(--ink-key);-webkit-font-smoothing:none}
+  /* newsprint grain (real fractalNoise) over the cream paper */
+  .grain{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.16;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .sheet{max-width:1100px;margin:0 auto;background:var(--paper);
+    background-image:radial-gradient(rgba(0,0,0,.025) 1px,transparent 1.3px);background-size:5px 5px;
+    box-shadow:0 0 60px rgba(0,0,0,.25);padding:0 0 60px}
+
+  /* ---------- MASTHEAD (the "store" banner) ---------- */
+  .masthead{position:relative;padding:clamp(18px,4vw,40px) clamp(18px,5vw,56px) 14px;border-bottom:4px double var(--rule)}
+  .topline{font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:6px}
+  .store{font-family:var(--store);font-size:clamp(3.6rem,15vw,9.5rem);line-height:.86;letter-spacing:.005em;
+    color:var(--ink-key);text-align:center;
+    text-shadow:2px 0 var(--ink-red),-2px 0 var(--ink-blue);} /* off-register CMYK fringe */
+  .subline{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;text-align:center;margin-top:6px}
+  .mast-script{font-family:var(--script);font-size:clamp(1.4rem,4vw,2.2rem);color:var(--ink-red);
+    position:absolute;left:clamp(18px,5vw,56px);top:clamp(40px,8vw,70px);transform:rotate(-7deg)}
+  .mast-burst{position:absolute;right:clamp(14px,4vw,40px);top:clamp(20px,5vw,40px);width:clamp(70px,11vw,104px);aspect-ratio:1;
+    display:grid;place-items:center;text-align:center;transform:rotate(9deg);
+    font-family:var(--price);font-size:clamp(.7rem,1.6vw,1rem);color:var(--ink-key);line-height:.9;
+    background:var(--deal-yellow);
+    clip-path:polygon(50% 0,61% 18%,82% 12%,77% 33%,98% 38%,82% 50%,98% 62%,77% 67%,82% 88%,61% 82%,50% 100%,39% 82%,18% 88%,23% 67%,2% 62%,18% 50%,2% 38%,23% 33%,18% 12%,39% 18%)}
+
+  /* ---------- AISLE BANNER ---------- */
+  .aisle-banner{font-family:var(--disp);font-size:clamp(1.3rem,4vw,2.1rem);letter-spacing:.04em;text-transform:uppercase;
+    color:var(--paper);background:var(--ink-red);border-top:2px solid var(--rule);border-bottom:2px solid var(--rule);
+    padding:5px clamp(18px,5vw,56px);display:flex;justify-content:space-between;align-items:center}
+  .aisle-banner small{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;opacity:.9}
+  .aisle-banner.ii{background:var(--ink-key)}
+
+  /* ---------- AISLE GRID ---------- */
+  .aisle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:168px;grid-auto-flow:row dense;
+    padding:clamp(14px,3vw,28px) clamp(18px,5vw,56px)}
+  .cell{border:1.5px dashed var(--rule);margin:-0.75px;padding:14px 14px 12px;position:relative;overflow:hidden;background:var(--paper)}
+  .cell--hero{grid-column:span 2;grid-row:span 2}
+  .cell--wide{grid-column:span 2}
+  .cell--tall{grid-row:span 2}
+
+  /* halftone plate */
+  .plate{position:relative;height:58%;margin:-14px -14px 10px;border-bottom:1.5px dashed var(--rule);background:#cfc8b6;overflow:hidden}
+  .cell--hero .plate{height:64%}
+  .plate img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.2) brightness(1.03)}
+  .plate::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle,rgba(0,0,0,.9) 30%,transparent 36%);background-size:4px 4px;mix-blend-mode:multiply;opacity:.45}
+
+  .cell .title{font-family:var(--disp);font-size:clamp(1.1rem,2.6vw,2rem);line-height:.9;text-transform:uppercase;color:var(--ink-key)}
+  .cell--hero .title{font-size:clamp(1.8rem,4.4vw,3.1rem)}
+  .cell .title em{font-style:normal;background:var(--ink-yellow);box-decoration-break:clone;padding:0 .08em}
+  .cell .meta{font-family:var(--mono);font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;margin-top:6px;color:var(--ink-key)}
+  .cell .blurb{font-family:var(--mono);font-size:.66rem;line-height:1.5;margin-top:8px;color:#3a342a}
+  .cell--stub{display:flex;flex-direction:column;justify-content:center}
+
+  /* accession starburst */
+  .acc{position:absolute;top:-10px;right:-10px;width:74px;height:74px;display:grid;place-items:center;text-align:center;
+    transform:rotate(-8deg);z-index:3;background:var(--deal-yellow);
+    clip-path:polygon(50% 0,61% 18%,82% 12%,77% 33%,98% 38%,82% 50%,98% 62%,77% 67%,82% 88%,61% 82%,50% 100%,39% 82%,18% 88%,23% 67%,2% 62%,18% 50%,2% 38%,23% 33%,18% 12%,39% 18%)}
+  .acc b{font-family:var(--price);font-size:.62rem;color:var(--ink-key);line-height:.95}
+  .acc b span{display:block;font-size:1.15rem}
+
+  /* status ribbon */
+  .ribbon{position:absolute;left:-6px;top:14px;font-family:var(--disp);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--paper);background:var(--ink-blue);padding:3px 12px 3px 10px;z-index:3;box-shadow:2px 2px 0 rgba(0,0,0,.25)}
+  .ribbon::after{content:"";position:absolute;right:-8px;top:0;border:11px solid var(--ink-blue);border-right-color:transparent;border-bottom-color:transparent}
+
+  .script-pop{font-family:var(--script);color:var(--ink-red);font-size:1.5rem;transform:rotate(-5deg);display:inline-block;margin-top:4px}
+
+  /* ============ GRAVE REGISTER — same paper, energy withheld ============ */
+  .feature{padding:clamp(26px,6vw,64px) clamp(20px,8vw,120px);max-width:78ch;margin:0 auto;border-bottom:1px solid var(--rule)}
+  .feature .kicker{font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:#6c6557}
+  .feature h2{font-family:var(--disp);font-weight:400;font-size:clamp(1.8rem,5vw,3.1rem);line-height:1;text-transform:none;
+    letter-spacing:.005em;margin:10px 0 4px;color:var(--ink-key)}
+  .feature .byline{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:#6c6557;margin-bottom:18px}
+  .feature p{font-family:var(--mono);font-size:.82rem;line-height:1.85;color:#2a2418;max-width:64ch}
+  .feature p + p{margin-top:.9em}
+  .withheld{margin:22px 0;border:1px solid var(--rule);padding:18px 20px;background:var(--paper-2)}
+  .withheld .lbl{font-family:var(--mono);font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#6c6557}
+  .withheld p{font-size:.74rem;line-height:1.7;margin-top:6px;color:#3a342a}
+  .feature .plate-quiet{margin-top:22px;border:1px solid var(--rule);background:#cfc8b6}
+  .feature .plate-quiet img{width:100%;display:block;filter:grayscale(1) contrast(1.05)}
+  .feature .cap{font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:#6c6557;margin-top:7px}
+
+  .note{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:#6c6557;text-align:center;padding:26px 20px 0}
+
+  @media(max-width:1100px){.aisle{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:680px){
+    .aisle{grid-template-columns:1fr;grid-auto-rows:auto}
+    .cell--hero,.cell--wide,.cell--tall{grid-column:auto;grid-row:auto}
+    .plate,.cell--hero .plate{height:200px}
+    .acc{width:62px;height:62px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<main class="sheet">
+
+  <!-- ===== MASTHEAD ===== -->
+  <header class="masthead">
+    <div class="topline"><span>J. N. TSE</span><span>Selected Exhibitions &amp; Writing</span><span>Vol. I</span></div>
+    <span class="mast-script">selected</span>
+    <h1 class="store">ARCHIVE</h1>
+    <div class="subline">A catalogue of exhibitions &amp; writing — kept on file</div>
+    <span class="mast-burst" aria-hidden="true"><b>No.<span>01</span></b></span>
+  </header>
+
+  <!-- ===== SERIES I — EXHIBITIONS (loud register) ===== -->
+  <div class="aisle-banner">Series I — Exhibitions <small>EX-01 — EX-05</small></div>
+  <section class="aisle">
+
+    <!-- HERO, loud -->
+    <article class="cell cell--hero">
+      <span class="ribbon">Co-Curator</span>
+      <span class="acc" aria-hidden="true"><b>EX<span>02</span></b></span>
+      <figure class="plate">
+        <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/00c952ca-9eca-4873-869c-bb18d048c53f.png" alt="Kelly Holmes, Soap Hands, 2017">
+      </figure>
+      <h3 class="title"><em>Finite</em> Appearances</h3>
+      <div class="meta">Wil Aballe Art Projects · Vancouver · 2018</div>
+      <p class="blurb">Imprinted bodily traces — plaster casts of hands, soap moulds, a floor of plaster navels. Can intimacy survive being made permanent? <span class="script-pop">a study in touch</span></p>
+    </article>
+
+    <!-- STUB, text-only filler -->
+    <article class="cell cell--stub">
+      <span class="acc" aria-hidden="true"><b>EX<span>05</span></b></span>
+      <h3 class="title">Resonance</h3>
+      <div class="meta">Curator · JCCAC · Hong Kong · 2017</div>
+      <p class="blurb">Memory, identity and emotional trace on circular canvases.</p>
+    </article>
+
+    <!-- STUB -->
+    <article class="cell cell--stub">
+      <span class="acc" aria-hidden="true"><b>EX<span>03</span></b></span>
+      <h3 class="title">Undergrowth</h3>
+      <div class="meta">Co-Curator · Audain Gallery · 2018</div>
+    </article>
+
+  </section>
+
+  <!-- ===== SERIES II — WRITING (grave register) ===== -->
+  <div class="aisle-banner ii">Series II — Writing <small>PUB-01</small></div>
+  <article class="feature">
+    <div class="kicker">PUB-01 · 2019 · UBC Undergraduate Journal of Art History</div>
+    <h2>The Offender Behind the Lens</h2>
+    <div class="byline">The Ethical Legacy of Beitler's Lynching Photograph &middot; Author: J. N. Tse</div>
+    <p>A study of the ethical legacy of the photographic record of racial violence — the position of the lens, the responsibilities of looking, and what it means to circulate an image whose original act was the crime it documents.</p>
+    <p>Cited in the <em>Milwaukee Independent</em> (2020), in its coverage of the emotional strain of seeing images and video of anti-Black violence.</p>
+    <div class="withheld">
+      <div class="lbl">Image withheld</div>
+      <p>The 1930 photograph this essay examines is described, not reproduced — in keeping with the argument of the work. The plate below documents the symposium where it was presented.</p>
+    </div>
+    <figure class="plate-quiet">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/31a30bbc-46b9-4d3c-8ad6-56720517be39.png" alt="14th Annual Undergraduate Art History Symposium and UJAH launch">
+      <figcaption class="cap" style="padding:0 0 14px">Symposium presentation, UJAH launch.</figcaption>
+    </figure>
+  </article>
+
+  <p class="note">PROOF · masthead + 3 exhibition cells (loud) + 1 publication feature (grave) · newsprint is CSS grain for now; a real scan swaps in.</p>
+
+</main>
+</body>
+</html>
