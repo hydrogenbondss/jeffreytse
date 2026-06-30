@@ -130,12 +130,29 @@
   .intro .t{font-family:var(--serif);font-style:italic;font-size:2rem;line-height:1}
   .intro .h{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
 
+  /* cinematic intro: the living city video, then it fades to the walkable street */
+  #cityIntro{position:fixed;inset:0;z-index:60;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .9s var(--ease)}
+  #cityIntro.gone{opacity:0;visibility:hidden;pointer-events:none}
+  #cityIntro video{width:100%;height:100%;object-fit:cover}
+  #cityIntro .ttl{position:absolute;left:6vw;bottom:13vh;pointer-events:none;text-shadow:0 4px 40px rgba(0,0,0,.7)}
+  #cityIntro .ttl b{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(2.6rem,8vw,6rem);display:block;line-height:1}
+  #cityIntro .ttl span{font-family:var(--mono);font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-soft)}
+  #cityIntro .skip{position:absolute;bottom:26px;right:26px;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.32);padding:11px 18px;border-radius:4px;cursor:pointer;pointer-events:auto}
+  #cityIntro .skip:hover{background:rgba(0,0,0,.7)}
+
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
   @media(max-width:680px){#map{width:108px}.intro .t{font-size:1.5rem}.hint{bottom:96px}}
 </style>
 </head>
 <body>
 <div id="lab" tabindex="0" aria-label="Lab — walk the city. Drag or use arrow keys to move.">
+
+  <!-- ===== CINEMATIC INTRO (living city) ===== -->
+  <div id="cityIntro">
+    <video id="introVid" muted playsinline preload="auto" aria-hidden="true"></video>
+    <div class="ttl"><b>Lab</b><span>Enter the city</span></div>
+    <button class="skip" id="introSkip" type="button">Enter the street &#8594;</button>
+  </div>
 
   <!-- ===== STREET SCENE ===== -->
   <section class="scene on" id="sc-street" aria-label="City street">
@@ -193,6 +210,8 @@
   var CFG = {
     // Wide 21:9 street panorama (Turbo billboard + PabePabe window + neon heart + Ash + fireworks).
     STREET_SRC: "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_110947_a8a4ed39-d228-4b07-82a2-779adc448553.png",
+    // Living version (cars + fireworks + Ash looming) — 16:9, used as the cinematic intro only.
+    STREET_VIDEO: "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_113215_431eb850-9ff7-4f68-a1a4-9ea7a06b70e6.mp4",
     BINARY_SRC: "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_105740_c5341a56-6a39-4c51-abd7-0ab282bf9670.png",
     // placeholders until you approve them:
     FALLOW_SRC: "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_104753_2e216d5d-6d98-4515-984f-477a65c17ea9.png",
@@ -336,6 +355,22 @@
   sizeWorld();
   // center-start a touch in so the first piece isn't hard against the edge
   x=clamp(-worldW*0.02); apply();
+
+  /* ---- cinematic intro: living city plays once, then fades to the walk ---- */
+  (function(){
+    var intro=document.getElementById("cityIntro");
+    if(!intro) return;
+    var v=document.getElementById("introVid");
+    var reduce=window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+    var done=false;
+    function reveal(){ if(done)return; done=true; intro.classList.add("gone"); setTimeout(function(){ intro.style.display="none"; },1000); }
+    document.getElementById("introSkip").addEventListener("click",reveal);
+    if(reduce || !CFG.STREET_VIDEO){ reveal(); return; }
+    v.src=CFG.STREET_VIDEO;
+    v.addEventListener("ended",reveal);
+    var p=v.play && v.play(); if(p && p.catch) p.catch(function(){});
+    setTimeout(reveal, 8000); // safety: never trap the user
+  })();
 })();
 </script>
 </body>
