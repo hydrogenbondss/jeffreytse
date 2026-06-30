@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — specimen-poster wall (all records)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&family=Noto+Serif+SC:wght@700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE — wall of specimen posters.
+       · one shared grid + type system  (coherence)
+       · one ink pair per record         (variety / riso zine)
+       · cover modes: photo / artifact / type / withheld
+       · click a cover -> clean readable record (artwork untreated)
+       Real metadata only — no fabricated codes.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+    --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive; --cjk:'Noto Serif SC',serif;
+    --paper:#e9e6dd; --paper-2:#e3dfd4; --rink:#1a1814; --meta:#6c6557; --rule:rgba(26,24,20,.28);
+    --accent:#7a2e22; --serif:'Cormorant Garamond',Georgia,serif; --cmono:'Courier Prime',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;color:#e9e6dd;font-family:var(--sans);min-height:100vh;
+    padding:clamp(16px,4vw,56px) clamp(14px,4vw,56px) 96px}
+
+  /* section masthead */
+  .mast{max-width:1240px;margin:0 auto clamp(26px,5vw,52px);border-bottom:2px solid #3a3a3e;padding-bottom:18px}
+  .mast h1{font-family:var(--anton);font-size:clamp(2.6rem,9vw,6rem);line-height:.9;text-transform:uppercase;letter-spacing:-.01em}
+  .mast .strap{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9a9aa0;margin-top:10px}
+
+  .series{max-width:1240px;margin:0 auto}
+  .series-head{display:flex;align-items:baseline;gap:14px;margin:clamp(26px,5vw,46px) 0 18px;
+    font-family:var(--mono);text-transform:uppercase}
+  .series-head .no{font-size:.7rem;letter-spacing:.2em;color:#8a8a90}
+  .series-head h2{font-family:var(--anton);font-size:clamp(1.3rem,3.6vw,2rem);letter-spacing:.01em;color:#e9e6dd}
+  .series-head .count{margin-left:auto;font-size:.64rem;letter-spacing:.14em;color:#7a7a80}
+
+  .wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:clamp(18px,3vw,34px)}
+
+  /* ===================== COVER ===================== */
+  .pcover{position:relative;width:100%;aspect-ratio:2/3;background:var(--g);overflow:hidden;color:var(--t);
+    cursor:pointer;border:0;text-align:left;font:inherit;
+    box-shadow:0 22px 50px -22px rgba(0,0,0,.7);transition:transform .22s ease,box-shadow .22s ease}
+  .pcover:hover,.pcover:focus-visible{transform:translateY(-6px) rotate(-.3deg);
+    box-shadow:0 34px 64px -22px rgba(0,0,0,.78);outline:none}
+  .pcover:focus-visible{box-shadow:0 0 0 3px var(--a),0 34px 64px -22px rgba(0,0,0,.78)}
+  .pcover::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:9;opacity:.15;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .p-head{position:absolute;top:0;left:0;right:0;z-index:6;padding:8px 12px 0;font-family:var(--mono);color:var(--t)}
+  .p-head .r1{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:.5rem;letter-spacing:.13em;
+    text-transform:uppercase;border-bottom:1.5px solid var(--t);padding-bottom:4px}
+  .p-head .r2{display:flex;justify-content:space-between;gap:6px;font-size:.44rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--d);padding-top:3px;border-bottom:1px solid var(--t);
+    white-space:nowrap;overflow:hidden}
+  .p-head .r2 span{overflow:hidden;text-overflow:ellipsis}
+
+  .p-title{position:absolute;left:11px;top:42px;right:11px;z-index:5;font-family:var(--anton);
+    line-height:.82;text-transform:uppercase;letter-spacing:-.005em;font-size:clamp(1.7rem,7vw,2.5rem);color:var(--t)}
+  .p-title .ac{color:var(--i)}
+
+  /* hero (photo / artifact) */
+  .p-hero{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:62%;aspect-ratio:4/5;z-index:2}
+  .p-hero img,.p-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .p-hero.photo img,.p-hero.photo video{filter:url(#duoMag) contrast(1.4) brightness(1.05)}
+  .p-hero .dots{position:absolute;inset:0;mix-blend-mode:screen;opacity:.5;
+    background-image:radial-gradient(var(--g) 30%,transparent 34%);background-size:5px 5px}
+  .p-hero .glitch{position:absolute;left:-6%;width:112%;height:6%;mix-blend-mode:multiply;opacity:.9;
+    background:repeating-linear-gradient(90deg,var(--i) 0 7px,transparent 7px 14px),
+      repeating-linear-gradient(90deg,var(--t) 0 3px,transparent 3px 18px)}
+  .p-hero svg.net{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible}
+  .p-hero svg.net polyline{fill:none;stroke:var(--t);stroke-width:1.3}
+  .p-hero svg.net circle{fill:var(--i);stroke:var(--t);stroke-width:1}
+  .p-hero.artifact{width:72%;aspect-ratio:3/4}
+
+  /* type-only zone */
+  .p-typezone{position:absolute;inset:0;z-index:1;overflow:hidden}
+  .p-typezone .ghost{position:absolute;left:-4%;right:-4%;top:34%;font-family:var(--anton);
+    font-size:clamp(2.4rem,9vw,3.4rem);line-height:.82;text-transform:uppercase;color:var(--i);opacity:.16;
+    word-break:break-word}
+  .p-typezone .big{position:absolute;left:11px;right:11px;top:40%;font-family:var(--anton);
+    font-size:clamp(2.4rem,9.5vw,3.4rem);line-height:.82;text-transform:uppercase;color:var(--i)}
+
+  /* withheld zone */
+  .p-withheld{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:64%;aspect-ratio:4/5;z-index:2}
+  .p-withheld .redact{position:absolute;inset:0;background:var(--t);display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.16em;color:var(--g);text-align:center;line-height:1.5}
+  .p-withheld .thumb{position:absolute;right:-14%;bottom:-10%;width:54%;aspect-ratio:4/3;object-fit:cover;
+    filter:url(#duoGrave) contrast(1.1);border:2px solid var(--g)}
+
+  .p-code{position:absolute;left:11px;z-index:5;font-family:var(--mono);font-size:.46rem;line-height:1.5;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--t)}
+  .p-code{top:auto;bottom:96px}
+  .p-code b{color:var(--i)}
+
+  .p-mark{position:absolute;left:4%;bottom:74px;z-index:6;width:60%}
+  .p-mark p{font-family:var(--mark);font-size:clamp(1.2rem,5vw,1.7rem);line-height:.92;color:var(--t)}
+  .p-mark svg{position:absolute;right:-26px;top:-4px;width:60px;height:48px;overflow:visible}
+  .p-mark svg path{fill:none;stroke:var(--t);stroke-width:2.2;stroke-linecap:round}
+  .p-quiet{position:absolute;left:11px;right:42%;bottom:74px;z-index:6;font-family:var(--cmono);font-style:italic;
+    font-size:.66rem;line-height:1.35;color:var(--t);opacity:.86}
+
+  .p-cjk{position:absolute;right:7px;bottom:34px;z-index:5;font-family:var(--cjk);font-weight:900;
+    font-size:clamp(2rem,9vw,3rem);color:var(--i);line-height:.8}
+  .p-star{position:absolute;z-index:6;color:var(--i);font-family:var(--sans);font-weight:900}
+
+  .p-foot{position:absolute;left:0;right:0;bottom:0;z-index:6;padding:0 11px 10px}
+  .p-foot .rule{height:0;border-top:1.5px solid var(--t);margin-bottom:6px}
+  .p-foot .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+  .barcode{width:74px;height:26px;flex:none;
+    background:repeating-linear-gradient(90deg,var(--t) 0 1.5px,transparent 1.5px 3px,var(--t) 3px 4px,transparent 4px 7px,var(--t) 7px 9px,transparent 9px 11px)}
+  .listing{flex:1;font-family:var(--mono);font-size:.42rem;line-height:1.45;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--t)}
+  .listing b{color:var(--i)}
+  .serial{font-family:var(--mono);font-size:.42rem;letter-spacing:.05em;color:var(--t);text-align:right;line-height:1.5;white-space:nowrap}
+
+  .open-hint{position:absolute;z-index:8;right:0;top:42px;background:var(--t);color:var(--g);font-family:var(--mono);
+    font-weight:700;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;padding:5px 8px;pointer-events:none}
+  .pcover:hover .open-hint,.pcover:focus-visible .open-hint{background:var(--i)}
+
+  /* ===================== CLEAN RECORD MODAL ===================== */
+  .record{position:fixed;inset:0;z-index:50;background:rgba(10,10,8,.6);display:flex;justify-content:center;
+    align-items:flex-start;overflow-y:auto;padding:clamp(10px,3vw,40px);
+    opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+  .record.open{opacity:1;visibility:visible}
+  .sheet{position:relative;width:min(880px,100%);background:var(--paper);color:var(--rink);font-family:var(--cmono);
+    box-shadow:0 40px 100px -30px rgba(0,0,0,.7);transform:translateY(18px);transition:transform .3s ease;
+    background-image:repeating-linear-gradient(0deg,rgba(26,24,20,.014) 0 1px,transparent 1px 3px)}
+  .record.open .sheet{transform:translateY(0)}
+  .sheet .topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--rink);
+    padding:clamp(14px,3vw,22px) clamp(18px,4vw,40px);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--meta)}
+  .sheet .close{font-family:var(--cmono);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+    background:none;border:1px solid var(--rink);color:var(--rink);padding:6px 12px;cursor:pointer}
+  .sheet .close:hover{background:var(--rink);color:var(--paper)}
+  .sheet .body{padding:clamp(20px,4.5vw,52px) clamp(18px,4vw,40px) clamp(40px,6vw,72px)}
+  .sheet .accession{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .sheet h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,6vw,4rem);line-height:.98;letter-spacing:.005em;margin-bottom:8px}
+  .sheet .credit{font-size:.78rem;letter-spacing:.04em;color:var(--meta);margin-bottom:26px}
+  .sheet .credit b{color:var(--rink);font-weight:700}
+  .sheet .meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px 24px;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:18px 0;margin-bottom:28px}
+  .sheet .meta-grid .f{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--meta)}
+  .sheet .meta-grid .v{font-size:.86rem;color:var(--rink);margin-top:3px}
+  .sheet .lead{font-family:var(--serif);font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.5;max-width:62ch;margin-bottom:18px}
+  .sheet .prose{font-size:.92rem;line-height:1.72;max-width:68ch;color:#2a261f;margin-bottom:14px}
+  .sheet .withheld-note{border-left:3px solid var(--accent);background:var(--paper-2);padding:16px 20px;margin:8px 0 22px;
+    font-size:.86rem;line-height:1.6;color:#2a261f;max-width:68ch}
+  .sheet .withheld-note b{color:var(--accent);letter-spacing:.04em;text-transform:uppercase;font-size:.66rem;display:block;margin-bottom:6px}
+  .plates{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:30px 0 8px}
+  .plates figure{background:var(--paper-2);padding:10px 10px 0;border:1px solid var(--rule)}
+  .plates img,.plates video{width:100%;display:block;filter:none}
+  .plates figcaption{font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--meta);padding:10px 2px 12px}
+  .reflist{list-style:none;margin:26px 0 0;border-top:1px solid var(--rule);padding-top:16px}
+  .reflist li{display:flex;gap:14px;font-size:.78rem;line-height:1.5;padding:6px 0}
+  .reflist .mk{flex:none;width:84px;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--meta);padding-top:2px}
+  .reflist a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(122,46,34,.4);word-break:break-word}
+  .reflist a:hover{background:rgba(122,46,34,.08)}
+
+  @media (prefers-reduced-motion:reduce){
+    .pcover,.record,.sheet{transition:none}
+    .pcover:hover,.pcover:focus-visible{transform:none}
+  }
+  .footdemo{max-width:1240px;margin:48px auto 0;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;
+    color:#7a7a80;line-height:1.6;border-top:1px solid #3a3a3e;padding-top:18px}
+</style>
+</head>
+<body>
+
+<!-- per-record duotone filters -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="duoMag"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.05 0.91"/><feFuncG type="table" tableValues="0.05 0.15"/><feFuncB type="table" tableValues="0.05 0.37"/></feComponentTransfer></filter>
+  <filter id="duoOrange"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.05 1.0"/><feFuncG type="table" tableValues="0.05 0.42"/><feFuncB type="table" tableValues="0.05 0.12"/></feComponentTransfer></filter>
+  <filter id="duoForest"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.09 0.93"/><feFuncG type="table" tableValues="0.33 0.90"/><feFuncB type="table" tableValues="0.16 0.84"/></feComponentTransfer></filter>
+  <filter id="duoGrave"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.08 0.79"/><feFuncG type="table" tableValues="0.08 0.77"/><feFuncB type="table" tableValues="0.06 0.71"/></feComponentTransfer></filter>
+</svg>
+
+<header class="mast">
+  <h1>Archive</h1>
+  <div class="strap">The human, pre-AI, analogue record · kept by hand — click a card to open its file</div>
+</header>
+
+<section class="series">
+  <div class="series-head"><span class="no">Series I</span><h2>Selected Exhibitions</h2><span class="count">EX-01 — EX-05</span></div>
+  <div class="wall" id="wall-ex"></div>
+</section>
+
+<section class="series">
+  <div class="series-head"><span class="no">Series II</span><h2>Writing, Scholarship &amp; Publications</h2><span class="count">PUB-01 — PUB-03</span></div>
+  <div class="wall" id="wall-pub"></div>
+</section>
+
+<p class="footdemo">PROOF · 8 records, one template, one ink pair each · covers are treated, records are clean · no generation. Tune any ink pair or swap any cover image on request.</p>
+
+<!-- record modal -->
+<div class="record" id="record" role="dialog" aria-modal="true" aria-label="Archive record">
+  <article class="sheet">
+    <div class="topbar"><span id="rec-top"></span><button class="close" id="closeRec" aria-label="Close record">← Close</button></div>
+    <div class="body" id="rec-body"></div>
+  </article>
+</div>
+
+<script>
+const CF="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
+const RECORDS=[
+  {
+    acc:"EX-01", series:"Series I", mode:"type",
+    cover:`Welcome<br><span class="ac">Home</span>`, short:"Welcome Home",
+    title:"Welcome Home", role:"Curator", venue:"Wil Aballe Art Projects", city:"Vancouver", year:"2019",
+    medium:"Sculpture · performance · found objects · sound",
+    thesis:"what makes a room yours?",
+    inks:{g:"#ff4d9d",i:"#14121c",t:"#14121c",d:"rgba(20,18,28,.62)",a:"#1f37e3"},
+    abstract:[
+      `How does our sense of self come to inform the spaces we occupy — and how do the spaces we occupy inform our sense of self?`,
+      `Building on Steven Vertovec's concept of superdiversity, Welcome Home examined home as a fluid essence capable of shifting alongside ourselves. Three artists working in sculpture, performance, found objects, and sound installation reflected on their relationships to home: cycles of identity and self-acceptance, remembrance and belonging across cultural influences, and abstracted representations of interior and exterior space.`
+    ],
+    annot:["Featured work","“Cube in Cube,” resin, plastic, and oil, 2017, by Olivia Qiu."],
+    plates:[], refs:[]
+  },
+  {
+    acc:"EX-02", series:"Series I", mode:"photo", filter:"duoMag",
+    cover:`Finite<br><span class="ac">Appear&shy;ances</span>`, short:"Finite Appearances",
+    title:"Finite Appearances", role:"Co-Curator", venue:"Wil Aballe Art Projects", city:"Vancouver", year:"2018",
+    medium:"Plaster, soap, single-channel video", artist:"Kelly Holmes",
+    thesis:"can a cast hold the feeling — or only the shape it left?",
+    inks:{g:"#c6e21a",i:"#e8275f",t:"#0e0e0a",d:"#4a4a1e",a:"#e8275f"},
+    heroSrc:CF+"00c952ca-9eca-4873-869c-bb18d048c53f.png",
+    abstract:[
+      `The body has always been mobilised as a site where presence is both inscribed and erased.`,
+      `Finite Appearances brought together works by Kelly Holmes made from imprinted bodily traces — plaster casts of hands, soap moulds, video documentation of a snow angel, and a floor-scattered arrangement of plaster navels. The exhibition asked whether intimacy can be successfully represented in any medium, and whether the permanence of art inevitably contradicts an intimate act.`
+    ],
+    plates:[
+      {type:"img", src:CF+"00c952ca-9eca-4873-869c-bb18d048c53f.png", cap:"Pl. 2.1 — Kelly Holmes, Soap Hands, 2017."},
+      {type:"img", src:CF+"7e554792-922d-4790-ba92-b444e64f0cd9.png", cap:"Pl. 2.2 — Installation view, gallery."}
+    ], refs:[]
+  },
+  {
+    acc:"EX-03", series:"Series I", mode:"artifact", filter:"duoForest",
+    cover:`Under<br><span class="ac">growth</span>`, short:"UNDERGROWTH",
+    title:"UNDERGROWTH", role:"Co-Curator", venue:"Audain Gallery", city:"Vancouver", year:"2018",
+    medium:"BFA/BA Graduating Exhibition",
+    thesis:"what grows in the year you graduate?",
+    inks:{g:"#ece6d6",i:"#18532a",t:"#18140d",d:"#6b6555",a:"#e5332a"},
+    heroSrc:CF+"95f58e44-dd68-4b78-94fc-232f577410a4.png",
+    abstract:[ `2018 BFA/BA Graduating Exhibition, Audain Gallery — co-curated presentation of the graduating cohort's work.` ],
+    plates:[ {type:"img", src:CF+"95f58e44-dd68-4b78-94fc-232f577410a4.png", cap:"Pl. 3.1 — UNDERGROWTH, exhibition poster, 2018."} ],
+    refs:[
+      {mk:"Event", href:"https://ahva.ubc.ca/events/event/undergrowth-2018-bfa-ba-graduating-exhibition/", label:"UNDERGROWTH — 2018 BFA/BA Graduating Exhibition (AHVA, UBC)"},
+      {mk:"Catalogue", href:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf", label:"2018 BFA Catalogue — Undergrowth (PDF)"}
+    ]
+  },
+  {
+    acc:"EX-04", series:"Series I", mode:"photo", filter:"duoOrange",
+    cover:`Insights<br><span class="ac">Unseen</span>`, short:"Insights Unseen & Unheard",
+    title:"Insights Unseen and Unheard", role:"Artist", venue:"Hatch Art Gallery", city:"Vancouver", year:"2017",
+    medium:"Photography · sound · installation",
+    thesis:"what stays at the edge of what you can see?",
+    inks:{g:"#1f37e3",i:"#ff6a1f",t:"#f3efe2",d:"#b9c0f0",a:"#ff6a1f"},
+    heroSrc:CF+"075172b6-c5a5-4b4f-8b19-e19f7d1b0442.png",
+    abstract:[
+      `Insights Unseen and Unheard was a group exhibition at Hatch Art Gallery in Vancouver. The show brought together artists working across photography, sound, and installation to examine questions of visibility and perception — what remains at the limits of what can be seen, heard, or communicated.`,
+      `Jeffrey Tse contributed Impulsive Fragments — one contribution among several — sitting within a broader conversation the exhibition was already having about bodies, spaces, and what images actually record.`
+    ],
+    plates:[
+      {type:"video", src:"assets/archive/impulsive-fragments.mp4", poster:CF+"075172b6-c5a5-4b4f-8b19-e19f7d1b0442.png", cap:"Pl. 4.1 — Jeffrey Tse, Impulsive Fragments (video)."},
+      {type:"img", src:CF+"1714a2f0-4d19-4f77-9cd9-c4de7baed614.png", cap:"Pl. 4.2 — Installation view."},
+      {type:"img", src:CF+"b1489c5b-9770-403a-9a3b-51d0a3585ea2.png", cap:"Pl. 4.3 — Installation view."}
+    ], refs:[]
+  },
+  {
+    acc:"EX-05", series:"Series I", mode:"type",
+    cover:`Reson<br><span class="ac">ance</span>`, short:"Resonance",
+    title:"Resonance", role:"Curator", venue:"JCCAC", city:"Hong Kong", year:"2017",
+    medium:"Abstract acrylic on circular canvas",
+    thesis:"a feeling that keeps coming back.",
+    inks:{g:"#14121c",i:"#ff4d9d",t:"#ece6d6",d:"#6f6c84",a:"#9ef01a"},
+    abstract:[
+      `Presented at the Jockey Club Creative Arts Centre, Resonance brought together works exploring memory, identity, and emotional trace — the ways in which experience leaves marks that persist, evolve, and resurface.`,
+      `The exhibition featured abstract acrylic paintings on circular canvases, examining relational experience as a structure rather than an event: something that accumulates, distorts, and continues long after its origin.`
+    ],
+    plates:[], refs:[]
+  },
+  {
+    acc:"PUB-01", series:"Series II", mode:"withheld", solemn:true, filter:"duoGrave",
+    cover:`The Offender<br><span class="ac">Behind the Lens</span>`, short:"The Offender Behind the Lens",
+    title:"The Offender Behind the Lens: The Ethical Legacy of Beitler's Lynching Photograph",
+    role:"Author", venue:"UBC Undergraduate Journal of Art History (UJAH)", city:"Vancouver", year:"2019",
+    medium:"Essay · symposium presentation",
+    thesis:"what does it mean to circulate an image whose origin was the crime?",
+    inks:{g:"#15140f",i:"#b8b2a2",t:"#cfc9ba",d:"#6a655a",a:"#7a2e22"},
+    heroSrc:CF+"31a30bbc-46b9-4d3c-8ad6-56720517be39.png",
+    abstract:[
+      `A study of the ethical legacy of the photographic record of racial violence — the position of the lens, the responsibilities of looking, and what it means to circulate an image whose original act was the crime it documents.`
+    ],
+    note:["Plate withheld","The lynching photograph at the centre of this essay is not reproduced here. The argument is precisely about the ethics of circulating such an image; showing it in a portfolio would repeat the act the writing interrogates. The symposium presentation is shown instead."],
+    annot:["Cited in press","Milwaukee Independent, 2020 — in coverage of the emotional strain of seeing images and video of anti-Black violence."],
+    plates:[ {type:"img", src:CF+"31a30bbc-46b9-4d3c-8ad6-56720517be39.png", cap:"Pl. 6.1 — Symposium presentation, UJAH launch."} ],
+    refs:[
+      {mk:"Citation", href:"https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/", label:"Milwaukee Independent — “The crushing emotional strain of seeing images and videos of anti-Black violence” (2020)"},
+      {mk:"Symposium", href:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/", label:"14th Annual Undergraduate Art History Symposium & UJAH Launch (AHVA, UBC)"}
+    ]
+  },
+  {
+    acc:"PUB-02", series:"Series II", mode:"type",
+    cover:`One-Ply<br><span class="ac">Realism</span>`, short:"One-Ply Realism",
+    title:"One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure",
+    role:"Author", venue:"ROLL CALL — Material Culture Archive", city:"", year:"2026",
+    medium:"Critical essay in the form of an archive",
+    thesis:"the most ignored object in the room.",
+    inks:{g:"#eee7d6",i:"#0e0e0a",t:"#0e0e0a",d:"#6b6555",a:"#2536d8"},
+    abstract:[
+      `A critical essay in the form of an archive: the claim that the most overlooked object of daily life encodes the invisible — supply chains, hygiene politics, colonial inheritance, and the economics of who gets what standard of living by default.`,
+      `The archive makes its argument only through accumulation and the formal weight of treating the mundane as evidence.`
+    ],
+    refs:[ {mk:"Read", href:"https://hydrogenbondss.github.io/Rollcall/#/essay", label:"One-Ply Realism — full essay (ROLL CALL)"} ]
+  },
+  {
+    acc:"PUB-03", series:"Series II", mode:"type",
+    cover:`Online Dating<br><span class="ac">& Tinder</span>`, short:"Online Dating & Tinder",
+    title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder",
+    role:"MSc Thesis", venue:"Hong Kong Polytechnic University", city:"", year:"2023",
+    medium:"Master's thesis · marketing research",
+    thesis:"does the market believe in love?",
+    inks:{g:"#e5332a",i:"#14121c",t:"#f6efe2",d:"#f0c9c5",a:"#14121c"},
+    abstract:[
+      `Master's thesis examining the marketing legitimacy and consumer perception of online dating through a comprehensive study of Tinder.`
+    ],
+    annot:["Supervisor","Dr Vincent Leung."],
+    plates:[], refs:[]
+  }
+];
+
+const NET=`<svg class="net" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+  <polyline points="22,40 50,26 74,44 66,72 40,82 22,40 50,55 74,44 40,82 50,55 66,72"/>
+  <circle cx="22" cy="40" r="2.4"/><circle cx="50" cy="26" r="2.4"/><circle cx="74" cy="44" r="2.4"/>
+  <circle cx="66" cy="72" r="2.4"/><circle cx="40" cy="82" r="2.4"/><circle cx="50" cy="55" r="2.4"/></svg>`;
+const ARROW=`<svg viewBox="0 0 60 48" aria-hidden="true"><path d="M3 40 C 20 32, 24 6, 52 11"/><path d="M52 11 l-12 1 M52 11 l-6 11"/></svg>`;
+
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function midZone(r){
+  if(r.mode==="photo"){
+    return `<div class="p-hero photo"><img src="${r.heroSrc}" alt="" style="filter:url(#${r.filter}) contrast(1.4) brightness(1.05)">
+      <div class="dots"></div><div class="glitch" style="top:34%"></div><div class="glitch" style="top:63%;height:4%;opacity:.8"></div>${NET}</div>`;
+  }
+  if(r.mode==="artifact"){
+    return `<div class="p-hero artifact"><img src="${r.heroSrc}" alt="" style="filter:url(#${r.filter}) contrast(1.25) brightness(1.04)"><div class="dots"></div></div>`;
+  }
+  if(r.mode==="withheld"){
+    return `<div class="p-withheld"><div class="redact">PLATE<br>WITHHELD</div><img class="thumb" src="${r.heroSrc}" alt="" style="filter:url(#${r.filter}) contrast(1.1)"></div>`;
+  }
+  // type
+  return `<div class="p-typezone"><div class="ghost">${r.short.toUpperCase()} ${r.short.toUpperCase()} ${r.short.toUpperCase()}</div></div>`;
+}
+
+function coverHTML(r){
+  const human = r.solemn
+    ? `<div class="p-quiet">${esc(r.thesis)}</div>`
+    : `<div class="p-mark"><p>${esc(r.thesis)}</p>${ARROW}</div>`;
+  const star = r.solemn ? "" : `<span class="p-star" style="left:58%;top:30%;font-size:1.1rem">✦</span>`;
+  const code = `<div class="p-code"><b>${r.acc}</b> · ${r.year}<br>${esc(r.role)}${r.medium?("<br>"+esc(r.medium)):""}</div>`;
+  return `<button class="pcover" data-acc="${r.acc}" aria-haspopup="dialog" aria-controls="record"
+      aria-label="Open record: ${esc(r.short)}"
+      style="--g:${r.inks.g};--i:${r.inks.i};--t:${r.inks.t};--d:${r.inks.d};--a:${r.inks.a}">
+    <div class="p-head">
+      <div class="r1"><span>Archive</span><span>${r.mode==="withheld"?"Document":"Specimen"}</span><span>${r.series}</span><span>${r.acc}</span></div>
+      <div class="r2"><span>${esc(r.role)}</span><span>${esc(r.venue)}</span><span>${r.year}</span></div>
+    </div>
+    <span class="open-hint">Open record →</span>
+    <h3 class="p-title">${r.cover}</h3>
+    ${midZone(r)}
+    ${code}
+    ${human}
+    ${star}
+    <div class="p-cjk">藏</div>
+    <div class="p-foot">
+      <div class="rule"></div>
+      <div class="row">
+        <span class="barcode" aria-hidden="true"></span>
+        <span class="listing"><b>${esc(r.short)}</b> · ${esc(r.venue)} · ${r.year}</span>
+        <span class="serial">© ARCHIVE<br>J. N. TSE<br>№ ${r.acc}</span>
+      </div>
+    </div>
+  </button>`;
+}
+
+function recordHTML(r){
+  const meta=[["Role",r.role],["Artist",r.artist],["Year",r.year],["Venue",r.venue],["City",r.city],["Medium",r.medium]]
+    .filter(x=>x[1]).map(x=>`<div><div class="f">${x[0]}</div><div class="v">${esc(x[1])}</div></div>`).join("");
+  const lead = r.abstract && r.abstract.length>1 ? `<p class="lead">${esc(r.abstract[0])}</p>` : "";
+  const rest = (r.abstract||[]).slice(r.abstract.length>1?1:0).map(p=>`<p class="prose">${esc(p)}</p>`).join("");
+  const note = r.note ? `<div class="withheld-note"><b>${esc(r.note[0])}</b>${esc(r.note[1])}</div>` : "";
+  const annot = r.annot ? `<p class="prose"><b>${esc(r.annot[0])}:</b> ${esc(r.annot[1])}</p>` : "";
+  const plates = (r.plates&&r.plates.length) ? `<div class="plates">`+r.plates.map(p=>{
+    const media = p.type==="video"
+      ? `<video src="${p.src}" ${p.poster?`poster="${p.poster}"`:""} muted loop autoplay playsinline></video>`
+      : `<img src="${p.src}" alt="" loading="lazy">`;
+    return `<figure>${media}<figcaption>${esc(p.cap)}</figcaption></figure>`;
+  }).join("")+`</div>` : "";
+  const refs = (r.refs&&r.refs.length) ? `<ul class="reflist">`+r.refs.map(x=>
+    `<li><span class="mk">${esc(x.mk)}</span><span><a href="${x.href}" target="_blank" rel="noopener noreferrer">${esc(x.label)}</a></span></li>`).join("")+`</ul>` : "";
+  return {
+    top:`${r.series} · ${r.acc} · ${esc(r.role)}`,
+    body:`<div class="accession">${r.acc} · ${r.year} · ${esc(r.role)}</div>
+      <h2>${esc(r.title)}</h2>
+      <p class="credit">${r.artist?`<b>${esc(r.artist)}</b> · `:""}${esc(r.venue)}${r.city?` · ${esc(r.city)}`:""} · ${r.year}</p>
+      <div class="meta-grid">${meta}</div>
+      ${note}${lead}${rest}${annot}${plates}${refs}`
+  };
+}
+
+const wallEx=document.getElementById("wall-ex");
+const wallPub=document.getElementById("wall-pub");
+RECORDS.forEach(r=>{(r.series==="Series I"?wallEx:wallPub).insertAdjacentHTML("beforeend",coverHTML(r));});
+
+const rec=document.getElementById("record");
+const recTop=document.getElementById("rec-top");
+const recBody=document.getElementById("rec-body");
+const closeBtn=document.getElementById("closeRec");
+function openRec(acc){
+  const r=RECORDS.find(x=>x.acc===acc); if(!r) return;
+  const h=recordHTML(r); recTop.textContent=h.top; recBody.innerHTML=h.body;
+  rec.scrollTop=0; rec.classList.add("open"); closeBtn.focus();
+}
+function closeRec(){rec.classList.remove("open");}
+document.querySelectorAll(".pcover").forEach(b=>b.addEventListener("click",()=>openRec(b.dataset.acc)));
+closeBtn.addEventListener("click",closeRec);
+rec.addEventListener("click",e=>{if(e.target===rec)closeRec();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&rec.classList.contains("open"))closeRec();});
+</script>
+</body>
+</html>
