@@ -11,26 +11,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#241a10;--ink-soft:#5c5040;--ink-faint:#8f8268;
+    --ink:#241a10;--ink-soft:#5c5040;
     --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{min-height:100%}
-  body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;
-    background:radial-gradient(100% 60% at 50% -10%, #fffdf8, rgba(255,253,248,0) 60%),linear-gradient(180deg,#efe7d8,#e2d6c1)}
+  body{font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh}
 
-  #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(18px,3vw,40px)}
-  .ed-head{text-align:center;margin-bottom:clamp(12px,2.2vw,26px)}
+  /* the single Higgsfield-merged wall fills the whole section, edge to edge */
+  #editorial{position:relative;min-height:100vh;display:flex;flex-direction:column;
+    background:#e7ddca url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_092101_abe3f378-0dfe-4a80-9bf4-435a3f72fd07.png') center/cover no-repeat;overflow:hidden}
+  /* soft scrims so the title + footer read over the wall */
+  #editorial::before{content:"";position:absolute;left:0;right:0;top:0;height:34%;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg, rgba(250,245,236,.92) 0%, rgba(250,245,236,.5) 45%, rgba(250,245,236,0) 100%)}
+  #editorial::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18%;z-index:1;pointer-events:none;
+    background:linear-gradient(0deg, rgba(40,28,14,.5) 0%, rgba(40,28,14,0) 100%)}
+
+  .ed-head{position:relative;z-index:2;text-align:center;padding:clamp(20px,4vw,46px) 20px 0}
   .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.6rem,6.4vw,4.6rem);line-height:.9;color:var(--ink)}
+  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.6rem,6.4vw,4.8rem);line-height:.9;color:var(--ink)}
 
-  /* the two Higgsfield-composed shelves, stacked into one wall */
-  .wall{max-width:920px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
-  .wall .stack{width:100%;border-radius:8px;overflow:hidden;box-shadow:0 50px 110px -42px rgba(40,28,14,.6)}
-  .wall .stack img{display:block;width:100%;height:auto}
-  .wall .stack img + img{margin-top:-1px}
-
-  .ed-foot{text-align:center;margin-top:clamp(12px,2vw,24px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
+  .ed-foot{position:relative;z-index:2;margin-top:auto;text-align:center;padding:0 20px clamp(18px,3vw,34px);
+    font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:#f4ece0;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 </style>
 </head>
 <body>
@@ -39,13 +41,7 @@
     <div class="ed-kicker">Fashion &middot; I.T Apparels</div>
     <h1 class="ed-title">Editorial</h1>
   </header>
-  <div class="wall">
-    <div class="stack">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_091534_7a7c2645-c516-419a-bd28-127dd33a1d54.png" alt="Editorial cassettes — shelf one">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_091539_a5066a18-c943-4eda-87a6-2f68fb520f0e.png" alt="Editorial cassettes — shelf two">
-    </div>
-  </div>
-  <div class="ed-foot">17 I.T Apparels editorials &mdash; New York / Hong Kong</div>
+  <div class="ed-foot">17 editorials &middot; New York / Hong Kong &middot; 2023&ndash;2025</div>
 </section>
 </body>
 </html>
