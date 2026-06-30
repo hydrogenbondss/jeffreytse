@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Finite Appearances — riso art + type</title>
+<title>Finite Appearances — riso art + type (vertical title)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     FINITE APPEARANCES — proven method, record 2.
-     Generated riso art (cobalt / bone / red, no rainbow, no
-     chrome) + real TYPE in bone & red on the flat blue zones.
-     No accession codes, no barcode, no serial.
+     FINITE APPEARANCES — DIFFERENT composition from Welcome Home.
+     Same approved cobalt image (no regeneration). Type re-laid:
+     title runs VERTICAL up the right edge, curatorial line low-left,
+     credit top-left. No codes, no chrome. Zero new credits.
      ============================================================ */
   :root{
     --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
@@ -27,28 +27,30 @@
     background-size:cover;background-position:center;
     box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
 
-  /* curatorial line, top */
-  .hand{position:absolute;top:16px;left:15px;z-index:3;font-family:var(--mark);
-    font-size:clamp(1.3rem,5vw,1.95rem);line-height:.96;width:78%;color:var(--bone);transform:rotate(-1.5deg)}
-  .hand em{color:var(--red);font-style:normal}
+  /* credit, top-left */
+  .credit{position:absolute;top:15px;left:15px;z-index:3;font-family:var(--mono);font-size:.56rem;
+    letter-spacing:.06em;text-transform:uppercase;line-height:1.5;color:var(--bone)}
 
-  /* title + credit, bottom flat-blue zone */
-  .title{position:absolute;left:15px;bottom:44px;z-index:3;font-family:var(--anton);
-    font-size:clamp(2.3rem,9.5vw,3.5rem);line-height:.82;text-transform:uppercase;letter-spacing:-.01em;color:var(--bone)}
-  .title span{display:block;color:var(--red)}
-  .credit{position:absolute;left:16px;bottom:22px;z-index:3;font-family:var(--mono);font-size:.56rem;
-    letter-spacing:.05em;text-transform:uppercase;color:var(--bone)}
+  /* TITLE — vertical, up the right edge */
+  .title{position:absolute;right:8px;top:18px;bottom:18px;z-index:3;font-family:var(--anton);
+    writing-mode:vertical-rl;text-orientation:mixed;font-size:clamp(1.8rem,6.4vw,2.7rem);
+    line-height:1;text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
+  .title span{color:var(--red)}
+
+  /* curatorial line, lower-left */
+  .hand{position:absolute;left:15px;bottom:18px;z-index:3;font-family:var(--mark);
+    font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:62%;color:var(--bone);transform:rotate(-1.5deg)}
+  .hand em{color:var(--red);font-style:normal}
 
   .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
 </style>
 </head>
 <body>
   <article class="poster">
+    <div class="credit">Kelly Holmes<br>Wil Aballe Art Projects · 2018</div>
+    <h1 class="title">Finite <span>Appearances</span></h1>
     <div class="hand">can a cast hold the feeling — <em>or only the shape it left?</em></div>
-
-    <h1 class="title">Finite<span>Appearances</span></h1>
-    <div class="credit">Kelly Holmes — Wil Aballe Art Projects, 2018</div>
   </article>
-  <p class="cap">FINITE APPEARANCES · riso art (right-hand variant) + bone/red type on the flat cobalt zones · no chrome. Placement is a first pass on this art — say the word and I nudge.</p>
+  <p class="cap">FINITE APPEARANCES · same approved image, type re-laid (vertical title) so it differs from Welcome Home · no new generation, no chrome.</p>
 </body>
 </html>
