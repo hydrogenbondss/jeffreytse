@@ -53,18 +53,14 @@
 
   /* hotspots embedded in the street */
   .spot{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;cursor:pointer;z-index:4}
-  /* invisible by default — no marker sitting on the art */
-  .spot .ring{display:block;width:clamp(96px,11vw,168px);height:clamp(96px,11vw,168px);border-radius:50%;
-    background:transparent;position:relative;transition:background .3s var(--ease),box-shadow .3s var(--ease)}
-  .spot .tag{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;
-    font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);
-    background:rgba(5,6,10,.72);border:1px solid color-mix(in srgb,var(--acc) 40%,transparent);padding:5px 10px;border-radius:3px;
-    opacity:0;transition:opacity .3s var(--ease)}
-  /* point at a piece and it lights up softly — you press the piece itself */
-  .spot:hover .ring,.spot.active .ring{background:radial-gradient(circle, color-mix(in srgb,var(--acc) 24%,transparent) 0%, transparent 66%);
-    box-shadow:0 0 60px color-mix(in srgb,var(--acc) 40%,transparent)}
-  .spot:hover .tag,.spot.active .tag{opacity:1}
-  .spot:focus-visible .ring{outline:2px solid #fff;outline-offset:4px}
+  /* visible circle marker on each piece — click it directly, anytime */
+  .spot .ring{display:block;width:clamp(46px,5vw,72px);height:clamp(46px,5vw,72px);border-radius:50%;
+    border:1.5px solid color-mix(in srgb,var(--acc) 82%,transparent);
+    box-shadow:0 0 0 5px color-mix(in srgb,var(--acc) 12%,transparent),0 0 30px color-mix(in srgb,var(--acc) 45%,transparent);
+    position:relative;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+  .spot .ring::before{content:"";position:absolute;inset:40%;border-radius:50%;background:var(--acc);opacity:.92}
+  .spot:hover .ring{transform:scale(1.14);box-shadow:0 0 0 7px color-mix(in srgb,var(--acc) 18%,transparent),0 0 46px color-mix(in srgb,var(--acc) 72%,transparent)}
+  .spot:focus-visible .ring{outline:2px solid #fff;outline-offset:6px}
 
   /* ---------- STRUCTURE SCENES (own spot) ---------- */
   .structure{position:absolute;inset:0;background:#05060a center/cover no-repeat;cursor:pointer}
