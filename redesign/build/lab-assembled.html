@@ -526,11 +526,11 @@
 
   <!-- Turbo MG21 = billboard, its film playing on it -->
   <button class="marker obj m-turbo" data-piece="turbo" style="--acc:var(--acc-turbo)"
-          aria-label="Turbo MG21, billboard playing the campaign film. Open detail view.">
+          aria-label="Turbo MG21, billboard playing the film. Open detail view.">
     <span class="screen" aria-hidden="true">
       <video src="assets/lab/turbo_mg21.mp4" autoplay muted loop playsinline preload="metadata"></video>
     </span>
-    <span class="plate">Turbo MG21<small>Billboard &middot; Campaign Film</small></span>
+    <span class="plate">Turbo MG21<small>Billboard</small></span>
   </button>
 
   <!-- PabePabe = lit boutique window, the bag film in the display -->
@@ -548,7 +548,7 @@
     <span class="screen" aria-hidden="true">
       <iframe src="assets/lab/love-bug.html" tabindex="-1" title="Love Bug preview" loading="lazy" scrolling="no"></iframe>
     </span>
-    <span class="plate">Love Bug<small>Sidewalk Machine &middot; Interactive</small></span>
+    <span class="plate">Love Bug<small>Neon Heart &middot; Interactive</small></span>
   </button>
 
   <!-- Ash-01 = the figure, towering -->
@@ -614,7 +614,7 @@
     <div class="bar top" aria-hidden="true"></div>
     <div class="bar bottom" aria-hidden="true"></div>
 
-    <div id="toSlate" aria-hidden="true">
+    <div id="toSlate" aria-hidden="true" style="display:none">
       <div>ROLL <span class="roll">A01</span> &middot; SC <span class="scn">001</span></div>
       <div class="ticks">||||&middot;||||&middot;||||</div>
     </div>
@@ -655,7 +655,7 @@
   var PIECES = {
     /* ---- CAMPAIGN (video-first galleries) ---- */
     turbo:{
-      cat:"Billboard — Campaign Film",
+      cat:"Billboard",
       name:"Turbo MG21",
       title:"Turbo <em>MG21</em>",
       accent:"var(--acc-turbo)",
@@ -743,7 +743,7 @@
       media:[{type:"poster", src:A+"feature-world-chaos-poster.png", label:"Feature World: Chaos — Poster"}]
     },
     lovebug:{
-      cat:"Sidewalk Machine — Interactive Narrative",
+      cat:"Neon Heart — Interactive Narrative",
       name:"Love Bug",
       title:"Love <em>Bug</em>",
       accent:"var(--acc-lovebug)",
@@ -826,10 +826,9 @@
         img.loading = "lazy";
         img.src = m.src;
         img.addEventListener("error", function(){
-          var ph = document.createElement("div");
-          ph.className = "poster";
-          ph.textContent = m.label + "  —  placeholder · drop " + m.src;
-          if(img.parentNode){ img.parentNode.replaceChild(ph, img); }
+          // no placeholder junk: if the real asset isn't in the repo, drop the slide cleanly
+          slide.style.display = "none";
+          if(dot){ dot.style.display = "none"; }
         });
         slide.appendChild(img);
       }
