@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Client Work — Jeffrey N. Tse</title>
+<meta name="description" content="Client Work — commissioned brand and campaign work by Jeffrey N. Tse. Samsung · Earth Day; Hong Kong Tourism Board · Hello Hong Kong.">
+<meta property="og:title" content="Client Work — Jeffrey N. Tse">
+<meta property="og:description" content="Commissioned brand and campaign work. Samsung · Earth Day. Hong Kong Tourism Board · Hello Hong Kong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- western wood-type display (Rye), distressed slab (Smokum), typewriter (Special Elite) + the site's Courier Prime / Cormorant -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,500&family=Courier+Prime:wght@400;700&family=Rye&family=Smokum&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CLIENT WORK · §04 of the transformation chain
+   WILD WEST STOP-MOTION — sun-bleached frontier main street.
+   Western type + dust/paper texture in CSS for the FRAMING & UI.
+   The big stop-motion HERO is a deliberate, captioned film-cell
+   SLOT (real asset generated later via Higgsfield).
+   ============================================================ */
+:root{
+  --sky:#e7c79a;        /* hazy desert sky */
+  --sky2:#d9a86b;
+  --sand:#cda978;       /* sun-bleached sand */
+  --paper:#e9dcbe;      /* aged hand-bill paper */
+  --paper2:#dccaa4;     /* aged hand-bill paper, shaded */
+  --wood:#6e4b2b;       /* tooled wood */
+  --wood2:#4a2f1a;      /* dark wood / shadow */
+  --ink:#2a1c10;        /* branding-iron ink */
+  --ink-soft:#4a3622;
+  --rust:#9a3b1f;       /* barn-red / rust */
+  --gold:#b8772b;       /* raking gold light */
+  --bone:#f4ead0;       /* bleached bone highlight */
+  --dust:rgba(120,84,44,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+#client{
+  position:relative;color:var(--ink);
+  font-family:'Cormorant Garamond',serif;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;overflow:hidden;
+  /* desert noon bleaching down into golden dusk */
+  background:
+    radial-gradient(120% 70% at 50% -16%, var(--sky) 0%, var(--sky2) 34%, transparent 62%),
+    radial-gradient(140% 90% at 50% 116%, #8a5a2e 0%, transparent 55%),
+    linear-gradient(180deg,#dcb886 0%, var(--sand) 46%, #b78a55 100%);
+  padding:clamp(40px,7vh,86px) clamp(18px,5vw,72px) clamp(64px,9vh,120px);
+}
+/* fine grain + horizon haze, multiplied over everything */
+#client .cw-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply}
+#client .cw-haze{position:absolute;left:0;right:0;top:0;height:46vh;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,244,222,.5),transparent 78%)}
+/* dust drifting in the raking light — slow, ambient, never glitchy */
+#client .cw-dust{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.4;mix-blend-mode:screen;
+  background-image:radial-gradient(1.4px 1.4px at 20% 30%,rgba(255,240,214,.9),transparent),
+    radial-gradient(1.2px 1.2px at 70% 60%,rgba(255,240,214,.7),transparent),
+    radial-gradient(1.6px 1.6px at 45% 80%,rgba(255,240,214,.8),transparent),
+    radial-gradient(1px 1px at 85% 20%,rgba(255,240,214,.6),transparent),
+    radial-gradient(1.3px 1.3px at 12% 70%,rgba(255,240,214,.7),transparent);
+  background-size:600px 600px;animation:drift 38s linear infinite}
+@keyframes drift{from{background-position:0 0,0 0,0 0,0 0,0 0}to{background-position:80px -120px,-60px 100px,40px -90px,-50px 70px,70px -110px}}
+
+#client .cw-wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto}
+
+/* ---------- masthead: a frontier hand-bill header ---------- */
+#client .cw-head{text-align:center;margin-bottom:clamp(30px,5vh,58px);position:relative}
+#client .cw-rule{display:flex;align-items:center;gap:14px;justify-content:center;
+  font-family:'Special Elite',monospace;font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink-soft)}
+#client .cw-rule::before,#client .cw-rule::after{content:"";height:2px;width:min(90px,16vw);
+  background:linear-gradient(90deg,transparent,var(--ink-soft),transparent)}
+#client .cw-reel{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.32em;color:var(--rust);margin-top:14px}
+#client .cw-title{font-family:'Rye',serif;font-weight:400;color:var(--ink);
+  font-size:clamp(2.7rem,9vw,6rem);line-height:.92;letter-spacing:.01em;margin:6px 0 4px;
+  text-shadow:0 1px 0 var(--bone),0 3px 0 rgba(74,47,26,.28)}
+#client .cw-title b{display:block;font-family:'Smokum',serif;font-weight:400;color:var(--rust);
+  font-size:clamp(1.5rem,4vw,2.6rem);letter-spacing:.04em;line-height:1.05}
+#client .cw-sub{font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.05rem,2.2vw,1.45rem);color:var(--ink-soft);max-width:46ch;margin:12px auto 0;line-height:1.5}
+
+/* ---------- HERO film-cell SLOT (Higgsfield asset pending) ---------- */
+#client .cw-cell{position:relative;margin:clamp(26px,5vh,52px) auto 0;max-width:980px;
+  /* sprocket-edged film cell */
+  background:linear-gradient(180deg,#2a1c10,#1c1209);
+  border-radius:8px;padding:18px clamp(20px,4vw,42px);
+  box-shadow:0 30px 70px -28px rgba(40,22,8,.8),0 0 0 1px rgba(40,22,8,.4)}
+#client .cw-cell::before,#client .cw-cell::after{content:"";position:absolute;top:0;bottom:0;width:16px;
+  background-image:radial-gradient(circle,#e9dcbe 38%,transparent 42%);background-size:16px 26px;background-repeat:repeat-y;
+  opacity:.85}
+#client .cw-cell::before{left:6px}#client .cw-cell::after{right:6px}
+#client .cw-frame{position:relative;aspect-ratio:16/9;border-radius:4px;overflow:hidden;
+  margin:0 14px;
+  /* the staged sun-bleached frontier diorama, evoked — clearly an intentional placeholder, not a broken image */
+  background:
+    radial-gradient(80% 60% at 50% 14%, rgba(255,238,206,.65), transparent 60%),
+    linear-gradient(180deg,#e9c489 0%, #d8a05f 40%, #a86a37 100%);
+  display:flex;align-items:flex-end;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(40,22,8,.5),inset 0 -40px 80px rgba(74,40,16,.5)}
+/* a low, flat horizon + a couple of stop-motion "set" silhouettes so the empty slot reads as a staged scene */
+#client .cw-frame .horizon{position:absolute;left:0;right:0;bottom:34%;height:1px;background:rgba(60,36,14,.4)}
+#client .cw-frame .mesa{position:absolute;bottom:34%;width:26%;height:20%;background:#9a5f33;opacity:.55;
+  border-radius:6px 6px 0 0;filter:blur(.3px)}
+#client .cw-frame .mesa.l{left:10%}#client .cw-frame .mesa.r{right:8%;height:14%;width:18%}
+#client .cw-frame .shingle{position:absolute;bottom:34%;left:50%;transform:translateX(-50%);
+  width:14%;height:26%;background:#3a2412;opacity:.7;border-radius:2px}
+#client .cw-frame .stub{position:relative;z-index:2;text-align:center;padding:0 8% 9%;
+  font-family:'Special Elite',monospace;color:#3a2412}
+#client .cw-frame .stub .scene{display:inline-block;font-size:clamp(.62rem,1.3vw,.78rem);letter-spacing:.3em;
+  background:rgba(244,234,208,.82);border:1px solid rgba(58,36,18,.5);padding:.5em 1.1em;border-radius:2px;text-transform:uppercase}
+#client .cw-frame .stub .line{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.95rem,2vw,1.2rem);
+  color:#2a1c10;margin-top:10px;line-height:1.4}
+#client .cw-cellcap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin:14px 14px 0;font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.22em;
+  text-transform:uppercase;color:#cdb488}
+#client .cw-cellcap .pend{color:#e6a85c}
+
+/* the gentle, intentional stop-motion step on the whole hero cell — handcrafted jitter, NOT glitch */
+#client .cw-cell{animation:stepframe 1.4s steps(1) infinite}
+@keyframes stepframe{
+  0%{transform:translate(0,0) rotate(0deg)}
+  20%{transform:translate(.6px,-.5px) rotate(.12deg)}
+  40%{transform:translate(-.5px,.4px) rotate(-.1deg)}
+  60%{transform:translate(.4px,.6px) rotate(.08deg)}
+  80%{transform:translate(-.6px,-.3px) rotate(-.12deg)}
+}
+
+/* ---------- the dusty main street of WANTED bills ---------- */
+#client .cw-streetlbl{text-align:center;margin:clamp(34px,6vh,64px) 0 8px;
+  font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.38em;text-transform:uppercase;color:var(--ink-soft)}
+#client .cw-street{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:clamp(24px,4vw,52px);justify-items:center;align-items:start;margin-top:clamp(20px,4vh,40px)}
+
+/* a WANTED hand-bill nailed to the boardwalk */
+#client .bill{position:relative;border:0;cursor:pointer;text-align:left;color:inherit;font:inherit;
+  background:transparent;padding:0;display:block;width:min(360px,90vw);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),filter .35s ease;will-change:transform}
+#client .bill.b1{transform:rotate(-1.6deg)}
+#client .bill.b2{transform:rotate(1.8deg);margin-top:22px}
+#client .bill:hover,#client .bill:focus-visible{transform:rotate(0) translateY(-6px) scale(1.02);filter:saturate(1.05) brightness(1.02)}
+#client .bill:focus-visible{outline:3px solid var(--rust);outline-offset:8px;border-radius:3px}
+#client .bill .nail{position:absolute;top:-7px;left:50%;width:13px;height:13px;margin-left:-6px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#7a6450,#2a2018);box-shadow:0 2px 3px rgba(0,0,0,.45);z-index:3}
+#client .paper{position:relative;background:
+    repeating-linear-gradient(92deg,rgba(120,84,44,.05) 0 2px,transparent 2px 9px),
+    linear-gradient(160deg,var(--paper),var(--paper2));
+  padding:20px 20px 22px;border-radius:2px;
+  box-shadow:0 18px 36px -16px rgba(40,22,8,.65),inset 0 0 0 1px rgba(40,22,8,.12),inset 0 0 60px rgba(120,80,40,.14);
+  /* torn, irregular hand-bill edges */
+  clip-path:polygon(0 2%,4% 0,14% 3%,30% 0,48% 3%,66% 0,84% 3%,97% 0,100% 3%,99% 30%,100% 60%,98% 86%,100% 98%,90% 100%,72% 97%,52% 100%,33% 97%,15% 100%,3% 98%,0 90%,1% 60%,0 32%)}
+#client .paper::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.5;border-radius:2px;
+  background:radial-gradient(60% 40% at 80% 90%,rgba(120,70,30,.22),transparent 60%),
+    radial-gradient(50% 40% at 12% 14%,rgba(120,70,30,.18),transparent 60%)}
+#client .paper>*{position:relative;z-index:1}
+#client .bill .wanted{font-family:'Rye',serif;font-size:1.5rem;letter-spacing:.12em;color:var(--ink);text-align:center;
+  border-bottom:3px double var(--ink);padding-bottom:7px;margin-bottom:12px;line-height:1}
+#client .bill .keyart{position:relative;aspect-ratio:4/3;border-radius:1px;overflow:hidden;margin-bottom:13px;
+  background:linear-gradient(160deg,#caa472,#a06f3e);
+  box-shadow:inset 0 0 0 2px rgba(40,22,8,.5),inset 0 0 26px rgba(40,22,8,.35);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  /* halftone ink dots as if newsprint-printed */
+  background-image:radial-gradient(rgba(40,22,8,.5) 1px,transparent 1.4px),linear-gradient(160deg,#caa472,#a06f3e);
+  background-size:5px 5px,100% 100%}
+#client .bill .keyart .ka{font-family:'Special Elite',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#f4ead0;padding:0 14%;line-height:1.9}
+#client .bill .client{font-family:'Smokum',serif;font-size:1.85rem;line-height:1;color:var(--rust);text-align:center;letter-spacing:.02em}
+#client .bill .campaign{font-family:'Special Elite',monospace;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-soft);text-align:center;margin-top:7px}
+#client .bill .scope{display:block;text-align:center;margin-top:13px;font-family:'Special Elite',monospace;font-size:.54rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--rust)}
+#client .bill .scope::before,#client .bill .scope::after{content:"·";margin:0 .7em;color:var(--ink-soft)}
+
+/* each pinned bill also gets a tiny independent stop-motion step (staggered) */
+#client .bill .paper{animation:billstep 1.7s steps(1) infinite}
+#client .bill.b2 .paper{animation-duration:2.05s;animation-delay:.2s}
+@keyframes billstep{0%{transform:translate(0,0)}33%{transform:translate(.4px,-.3px) rotate(.1deg)}66%{transform:translate(-.4px,.3px) rotate(-.08deg)}}
+
+/* boardwalk footer note */
+#client .cw-foot{text-align:center;margin-top:clamp(38px,6vh,66px);
+  font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft)}
+#client .cw-foot a{color:var(--rust);text-decoration:none;border-bottom:1px solid rgba(154,59,31,.5)}
+#client .cw-foot a:hover{color:var(--ink)}
+
+@media(max-width:680px){
+  #client .bill.b1,#client .bill.b2{transform:rotate(-1deg);margin-top:0}
+  #client .cw-cell::before,#client .cw-cell::after{display:none}
+  #client .cw-frame{margin:0}
+}
+
+/* ============================================================
+   PROJECT DETAIL POP-UP (reuses the Works modal interaction)
+   ============================================================ */
+#cwmodal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:5vh 5vw}
+#cwmodal[hidden]{display:none}
+.cwm-backdrop{position:absolute;inset:0;background:rgba(28,18,8,.82);backdrop-filter:blur(4px)}
+.cwm-card{position:relative;max-width:600px;width:100%;max-height:88vh;overflow:auto;
+  background:linear-gradient(165deg,#efe2c4,#e2cfa6);color:var(--ink);
+  border:1px solid rgba(40,22,8,.3);border-radius:5px;
+  box-shadow:0 40px 120px rgba(20,12,4,.7);
+  transform:translateY(10px) scale(.99);opacity:0;transition:.34s ease}
+#cwmodal.open .cwm-card{transform:none;opacity:1}
+.cwm-card::-webkit-scrollbar{width:0}
+.cwm-x{position:absolute;top:12px;right:14px;z-index:5;width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(40,22,8,.4);background:rgba(244,234,208,.7);color:var(--ink);cursor:pointer;
+  font-family:'Special Elite',monospace;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.cwm-x:hover{background:var(--rust);color:#f4ead0}
+.cwm-x:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
+/* media gallery stage */
+.cwm-stage{position:relative;aspect-ratio:16/9;background:#2a1c10;border-radius:5px 5px 0 0;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;text-align:center}
+.cwm-stage .pendart{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#cdb488;padding:0 12%;line-height:2}
+.cwm-stage .pendart b{display:block;color:#e6a85c;margin-bottom:8px;letter-spacing:.3em}
+.cwm-stage video,.cwm-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cwm-medias{display:none}
+.cwm-body{padding:22px clamp(20px,4vw,34px) 28px}
+.cwm-tag{font-family:'Special Elite',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--rust);margin-bottom:9px}
+.cwm-client{font-family:'Smokum',serif;font-size:clamp(2.1rem,7vw,3.2rem);line-height:.9;color:var(--ink);margin-bottom:2px}
+.cwm-campaign{font-family:'Rye',serif;font-size:clamp(1rem,2.6vw,1.35rem);color:var(--rust);letter-spacing:.04em;margin-bottom:14px}
+.cwm-lede{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.4rem);
+  color:var(--ink-soft);line-height:1.45;margin-bottom:1em}
+.cwm-blurb{font-size:1.08rem;line-height:1.7;color:#3a2c1c;margin-bottom:1.3em}
+.cwm-role{font-family:'Special Elite',monospace;font-size:.66rem;letter-spacing:.1em;color:var(--ink-soft);
+  border-top:1px solid rgba(40,22,8,.22);padding-top:13px}
+.cwm-pend{font-family:'Special Elite',monospace;font-size:.58rem;letter-spacing:.06em;color:#8a6a3a;margin-top:11px}
+.cwm-pend:not(:empty)::before{content:'PENDING — '}
+
+@media (prefers-reduced-motion:reduce){
+  #client .cw-cell,#client .bill .paper,#client .cw-dust{animation:none!important}
+  #client .bill,#cwmodal .cwm-card{transition:none}
+  #client .bill:hover,#client .bill:focus-visible{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ §04 · CLIENT WORK — WILD WEST STOP-MOTION ============ -->
+<section id="client" aria-label="Client Work">
+  <!-- textures -->
+  <svg class="cw-grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><filter id="cwn"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .05 0"/></filter><rect width="100%" height="100%" filter="url(#cwn)"/></svg>
+  <div class="cw-haze" aria-hidden="true"></div>
+  <div class="cw-dust" aria-hidden="true"></div>
+
+  <div class="cw-wrap">
+
+    <!-- masthead hand-bill -->
+    <header class="cw-head">
+      <div class="cw-rule">Section No. 04 · The Frontier</div>
+      <div class="cw-reel">REEL: CLIENT WORK · 12 FPS · HAND-STAGED</div>
+      <h2 class="cw-title">Client Work<b>Commissioned &amp; Made for Hire</b></h2>
+      <p class="cw-sub">Brand and campaign work staged like a frontier main street — every job nailed up as its own hand-bill, shot frame by frame.</p>
+    </header>
+
+    <!-- HERO: framed stop-motion film-cell SLOT (real asset to be generated via Higgsfield) -->
+    <figure class="cw-cell" role="img"
+      aria-label="Reserved frame for the Client Work stop-motion hero scene — a sun-bleached frontier diorama, to be generated.">
+      <div class="cw-frame">
+        <span class="mesa l" aria-hidden="true"></span>
+        <span class="mesa r" aria-hidden="true"></span>
+        <span class="horizon" aria-hidden="true"></span>
+        <span class="shingle" aria-hidden="true"></span>
+        <div class="stub">
+          <span class="scene">Scene 01 · Main Street, Golden Hour</span>
+          <div class="line">A felt-and-clay frontier set — dust hanging in raking gold light.</div>
+        </div>
+      </div>
+      <figcaption class="cw-cellcap">
+        <span>REEL 04 · CLIENT WORK · FRAME 001</span>
+        <span class="pend">HERO STILL — STOP-MOTION ASSET TO BE STAGED</span>
+      </figcaption>
+    </figure>
+
+    <!-- the main street of WANTED bills (one per real client job) -->
+    <div class="cw-streetlbl">Posted along Main Street</div>
+    <div class="cw-street" id="cwStreet">
+      <!-- bills injected by JS -->
+    </div>
+
+    <p class="cw-foot">Tap a bill to read the job &nbsp;·&nbsp; <a href="#gate">↑ back to the Gate</a></p>
+  </div>
+</section>
+
+<!-- ============ PROJECT DETAIL POP-UP ============ -->
+<div id="cwmodal" hidden role="dialog" aria-modal="true" aria-labelledby="cwmClient">
+  <div class="cwm-backdrop" data-close></div>
+  <div class="cwm-card" role="document">
+    <button class="cwm-x" data-close aria-label="Close">&times;</button>
+    <div class="cwm-stage" id="cwmStage"></div>
+    <div class="cwm-body">
+      <div class="cwm-tag" id="cwmTag"></div>
+      <h3 class="cwm-client" id="cwmClient"></h3>
+      <div class="cwm-campaign" id="cwmCampaign"></div>
+      <p class="cwm-lede" id="cwmLede"></p>
+      <p class="cwm-blurb" id="cwmBlurb"></p>
+      <div class="cwm-role" id="cwmRole"></div>
+      <div class="cwm-pend" id="cwmPend"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* -------- REAL client jobs only (sourced from Jeffrey's history + CV) --------
+     Samsung · Earth Day — confirmed lead client project ("a campaign i did for Samsung, for a client").
+     Hong Kong Tourism Board · Hello Hong Kong — CV: Senior English Editor / lead English
+       copywriter for DiscoverHongKong.com and the Hello Hong Kong campaign.
+     No filler clients fabricated. Media slots are intentional placeholders for assets
+     that get generated/attached later (do NOT reuse ECHO clips). */
+  const JOBS = [
+    {
+      id:'earthday', cls:'b1',
+      client:'Samsung', campaign:'Earth Day', scope:'Campaign',
+      tag:"BRAND CAMPAIGN · COMMISSIONED",
+      keyart:"SAMSUNG · EARTH DAY — KEY ART",
+      lede:"A commissioned Earth Day campaign for Samsung — art and image-making, made for the client.",
+      blurb:"Earth Day is a brand campaign produced for Samsung. Working to the client's brief, Jeffrey directed the visual language and produced the imagery that carried the campaign. It is the lead piece in this section: commissioned, made-for-hire work delivered to a brand, not a self-initiated project.",
+      role:"Art Director — campaign imagery and direction for Samsung",
+      pend:"final campaign key art / stills to surface · stop-motion hero scene (Higgsfield)"
+    },
+    {
+      id:'hellohk', cls:'b2',
+      client:'HK Tourism Board', campaign:'Hello Hong Kong', scope:'Editorial Strategy',
+      tag:"CAMPAIGN · EDITORIAL · COPY",
+      keyart:"HELLO HONG KONG — CAMPAIGN COPY",
+      lede:"Lead English copy for the Hong Kong Tourism Board's Hello Hong Kong campaign and DiscoverHongKong.com.",
+      blurb:"As Senior English Editor for the Hong Kong Tourism Board, Jeffrey was the lead English copywriter across DiscoverHongKong.com and the Hello Hong Kong campaign — setting the English voice for a destination brand at national scale. Editorial strategy on a commissioned footing: a client, a brief, and copy that had to carry across a whole campaign.",
+      role:"Editorial Strategist · Senior English Editor — DiscoverHongKong.com & Hello Hong Kong",
+      pend:"campaign / site screenshots to surface"
+    }
+  ];
+
+  const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ---- build the street of WANTED bills ---- */
+  const street = document.getElementById('cwStreet');
+  JOBS.forEach((j,idx)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='bill '+j.cls;
+    b.setAttribute('aria-haspopup','dialog');
+    b.setAttribute('aria-label','Open '+j.client+' — '+j.campaign);
+    b.innerHTML =
+      '<span class="nail" aria-hidden="true"></span>'+
+      '<div class="paper">'+
+        '<div class="wanted">WANTED</div>'+
+        '<div class="keyart"><span class="ka">'+esc(j.keyart)+'</span></div>'+
+        '<div class="client">'+esc(j.client)+'</div>'+
+        '<div class="campaign">'+esc(j.campaign)+'</div>'+
+        '<span class="scope">'+esc(j.scope)+'</span>'+
+      '</div>';
+    b.addEventListener('click',()=>open(idx));
+    street.appendChild(b);
+  });
+
+  /* ---- modal (reuses the Works pop-up interaction) ---- */
+  const m=document.getElementById('cwmodal');
+  const set=(id,v)=>{document.getElementById(id).textContent=v;};
+  let lastFocus=null;
+
+  function open(idx){
+    const j=JOBS[idx];if(!j)return;
+    set('cwmTag',j.tag);set('cwmClient',j.client);set('cwmCampaign',j.campaign);
+    set('cwmLede',j.lede);set('cwmBlurb',j.blurb);set('cwmRole',j.role);set('cwmPend',j.pend||'');
+    // media stage: real media if present, otherwise an intentional "asset pending" slot
+    const stage=document.getElementById('cwmStage');stage.innerHTML='';
+    if(j.media&&j.media.length){
+      const it=j.media[0];
+      if(it.type==='video'){const v=document.createElement('video');v.src=it.src;if(it.poster)v.poster=it.poster;
+        v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('preload','metadata');stage.appendChild(v);
+        if(!reduce)v.play().catch(()=>{});}
+      else{const im=document.createElement('img');im.src=it.src;im.loading='lazy';im.alt=it.alt||(j.client+' — '+j.campaign);stage.appendChild(im);}
+    } else {
+      stage.innerHTML='<div class="pendart"><b>ASSET PENDING</b>'+esc(j.keyart)+'<br>frame to be staged</div>';
+    }
+    lastFocus=document.activeElement;
+    m.hidden=false;requestAnimationFrame(()=>m.classList.add('open'));
+    m.querySelector('.cwm-x').focus();
+    document.addEventListener('keydown',onKey);
+  }
+  function close(){
+    m.classList.remove('open');
+    document.getElementById('cwmStage').querySelectorAll('video').forEach(v=>v.pause());
+    document.removeEventListener('keydown',onKey);
+    setTimeout(()=>{m.hidden=true;if(lastFocus&&lastFocus.focus)lastFocus.focus();},340);
+  }
+  function onKey(e){if(e.key==='Escape'&&!m.hidden)close();}
+  m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
+})();
+</script>
+</body>
+</html>
