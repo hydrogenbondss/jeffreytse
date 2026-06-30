@@ -198,20 +198,18 @@
     FALLOW_SRC: "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_104753_2e216d5d-6d98-4515-984f-477a65c17ea9.png",
     MAP_SRC:    "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_104754_26e10317-2c7e-44b7-ab3c-2bfa9defbccf.png",
     WORLD_ASPECT: 21/9,   // panorama aspect, used to size the walkable width
-    // real films that PLAY embedded in the scene (left/top/size as % of the world; TUNE to where the art landed)
-    EMBEDS: [
-      {kind:"billboard", src:"assets/lab/turbo_mg21.mp4",       x:3,  y:15, w:18, h:21},
-      {kind:"window",    src:"assets/lab/pabepabe_ocarina.mp4", x:83, y:52, w:13, h:25}
-    ]
+    // Turbo + PabePabe are already baked INTO the panorama, so no floating video overlays.
+    // (Motion/life comes from animating the whole street as a video — Layer 2.)
+    EMBEDS: []
   };
 
   /* ============ PIECES on the street (xPct = position across the panorama) ============ */
   /* yPct/xPct are TUNABLE once the real street is in — set to match where each element landed. */
   var PIECES = [
-    {key:"turbo",   x:9,  y:46, acc:"var(--turbo)",   cat:"Billboard",               name:"Turbo MG21",        open:null},
-    {key:"lovebug", x:50, y:54, acc:"var(--lovebug)", cat:"Neon Heart",              name:"Love Bug",          open:"assets/lab/love-bug.html"},
-    {key:"pabepabe",x:90, y:58, acc:"var(--pabepabe)",cat:"Boutique Window",         name:"PabePabe",          open:"https://pabepabeofficial.com/"},
-    {key:"ash",     x:70, y:24, acc:"var(--ash)",     cat:"The Figure",              name:"Ash-01",            open:null}
+    {key:"turbo",   x:12, y:28, acc:"var(--turbo)",   cat:"Billboard",       name:"Turbo MG21", open:null},
+    {key:"ash",     x:37, y:20, acc:"var(--ash)",     cat:"The Figure",      name:"Ash-01",     open:null},
+    {key:"lovebug", x:62, y:45, acc:"var(--lovebug)", cat:"Neon Heart",      name:"Love Bug",   open:"assets/lab/love-bug.html"},
+    {key:"pabepabe",x:89, y:57, acc:"var(--pabepabe)",cat:"Boutique Window", name:"PabePabe",   open:"https://pabepabeofficial.com/"}
   ];
 
   var lab   = document.getElementById("lab");
