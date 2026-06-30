@@ -4,428 +4,971 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Client Work — Jeffrey N. Tse</title>
-<meta name="description" content="Client Work — commissioned brand and campaign work by Jeffrey N. Tse. Samsung · Earth Day; Hong Kong Tourism Board · Hello Hong Kong.">
+<meta name="description" content="Client Work — commissioned brand and campaign copywriting by Jeffrey N. Tse, presented as an old western cartoon. Samsung · Ocean Park · Hong Kong Tourism Board · MTR · China Mobile.">
 <meta property="og:title" content="Client Work — Jeffrey N. Tse">
-<meta property="og:description" content="Commissioned brand and campaign work. Samsung · Earth Day. Hong Kong Tourism Board · Hello Hong Kong.">
+<meta property="og:description" content="Commissioned brand and campaign work, staged as a 1930s western cartoon. Samsung, Ocean Park, Hong Kong Tourism Board, MTR, China Mobile.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- western wood-type display (Rye), distressed slab (Smokum), typewriter (Special Elite) + the site's Courier Prime / Cormorant -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,500&family=Courier+Prime:wght@400;700&family=Rye&family=Smokum&family=Special+Elite&display=swap" rel="stylesheet">
+<!-- wood-type / slab display (Rye, Smokum), title-card typewriter (Special Elite) + the site's Courier Prime / Cormorant -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,500&family=Courier+Prime:wght@400;700&family=Rye&family=Smokum&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    CLIENT WORK · §04 of the transformation chain
-   WILD WEST STOP-MOTION — sun-bleached frontier main street.
-   Western type + dust/paper texture in CSS for the FRAMING & UI.
-   The big stop-motion HERO is a deliberate, captioned film-cell
-   SLOT (real asset generated later via Higgsfield).
+   AN OLD WESTERN CARTOON, PROJECTED ON A SCREEN (c.1930).
+   Warm aged sepia monochrome over the WHOLE stage: grain,
+   flicker, scratches/dust, vignette, gate-weave jitter,
+   rounded film-frame corners, sprocket strips down the sides.
+   The cowboy ASH ropes/captures each real client with a
+   different cartoon western gag; the viewer ADVANCES the reel.
    ============================================================ */
 :root{
-  --sky:#e7c79a;        /* hazy desert sky */
-  --sky2:#d9a86b;
-  --sand:#cda978;       /* sun-bleached sand */
-  --paper:#e9dcbe;      /* aged hand-bill paper */
-  --paper2:#dccaa4;     /* aged hand-bill paper, shaded */
-  --wood:#6e4b2b;       /* tooled wood */
-  --wood2:#4a2f1a;      /* dark wood / shadow */
-  --ink:#2a1c10;        /* branding-iron ink */
-  --ink-soft:#4a3622;
-  --rust:#9a3b1f;       /* barn-red / rust */
-  --gold:#b8772b;       /* raking gold light */
-  --bone:#f4ead0;       /* bleached bone highlight */
-  --dust:rgba(120,84,44,.16);
+  --sepia:#2a1c0e;        /* deep aged ink */
+  --card:#e9dcbe;         /* aged lobby-card stock */
+  --card2:#d8c49a;        /* aged stock, shaded */
+  --amber:#c98a3a;        /* projector amber */
+  --rust:#9a3b1f;         /* barn-red */
+  --bone:#f4ead0;         /* bleached highlight */
+  --ink:#241405;          /* title-card ink */
+  /* ===== ASH SCENE IMAGE — swap this one URL to change the still ===== */
+  --ash:url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_193330_71c67c75-b385-4879-8069-7fa8c9adbaed.png');
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+
 #client{
-  position:relative;color:var(--ink);
+  position:relative;color:var(--bone);
   font-family:'Cormorant Garamond',serif;
   -webkit-font-smoothing:antialiased;
   min-height:100vh;overflow:hidden;
-  /* desert noon bleaching down into golden dusk */
+  /* the dark auditorium around the screen */
   background:
-    radial-gradient(120% 70% at 50% -16%, var(--sky) 0%, var(--sky2) 34%, transparent 62%),
-    radial-gradient(140% 90% at 50% 116%, #8a5a2e 0%, transparent 55%),
-    linear-gradient(180deg,#dcb886 0%, var(--sand) 46%, #b78a55 100%);
-  padding:clamp(40px,7vh,86px) clamp(18px,5vw,72px) clamp(64px,9vh,120px);
+    radial-gradient(120% 80% at 50% 30%, #1a120a 0%, #0d0905 70%, #060402 100%);
+  padding:clamp(34px,6vh,72px) clamp(14px,4vw,56px) clamp(54px,8vh,104px);
 }
-/* fine grain + horizon haze, multiplied over everything */
-#client .cw-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply}
-#client .cw-haze{position:absolute;left:0;right:0;top:0;height:46vh;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,244,222,.5),transparent 78%)}
-/* dust drifting in the raking light — slow, ambient, never glitchy */
-#client .cw-dust{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.4;mix-blend-mode:screen;
-  background-image:radial-gradient(1.4px 1.4px at 20% 30%,rgba(255,240,214,.9),transparent),
-    radial-gradient(1.2px 1.2px at 70% 60%,rgba(255,240,214,.7),transparent),
-    radial-gradient(1.6px 1.6px at 45% 80%,rgba(255,240,214,.8),transparent),
-    radial-gradient(1px 1px at 85% 20%,rgba(255,240,214,.6),transparent),
-    radial-gradient(1.3px 1.3px at 12% 70%,rgba(255,240,214,.7),transparent);
-  background-size:600px 600px;animation:drift 38s linear infinite}
-@keyframes drift{from{background-position:0 0,0 0,0 0,0 0,0 0}to{background-position:80px -120px,-60px 100px,40px -90px,-50px 70px,70px -110px}}
 
-#client .cw-wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto}
+#client .cw-wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto}
 
-/* ---------- masthead: a frontier hand-bill header ---------- */
-#client .cw-head{text-align:center;margin-bottom:clamp(30px,5vh,58px);position:relative}
-#client .cw-rule{display:flex;align-items:center;gap:14px;justify-content:center;
-  font-family:'Special Elite',monospace;font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink-soft)}
-#client .cw-rule::before,#client .cw-rule::after{content:"";height:2px;width:min(90px,16vw);
-  background:linear-gradient(90deg,transparent,var(--ink-soft),transparent)}
-#client .cw-reel{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.32em;color:var(--rust);margin-top:14px}
-#client .cw-title{font-family:'Rye',serif;font-weight:400;color:var(--ink);
-  font-size:clamp(2.7rem,9vw,6rem);line-height:.92;letter-spacing:.01em;margin:6px 0 4px;
-  text-shadow:0 1px 0 var(--bone),0 3px 0 rgba(74,47,26,.28)}
-#client .cw-title b{display:block;font-family:'Smokum',serif;font-weight:400;color:var(--rust);
-  font-size:clamp(1.5rem,4vw,2.6rem);letter-spacing:.04em;line-height:1.05}
+/* ---------- masthead title-card (wood-type / slab) ---------- */
+#client .cw-head{text-align:center;margin-bottom:clamp(20px,3vh,34px)}
+#client .cw-classic{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.42em;
+  text-transform:uppercase;color:var(--amber);opacity:.9}
+#client .cw-title{font-family:'Rye',serif;font-weight:400;color:var(--bone);
+  font-size:clamp(2.3rem,8vw,5rem);line-height:.94;letter-spacing:.01em;margin:8px 0 2px;
+  text-shadow:0 2px 0 rgba(0,0,0,.5),0 0 30px rgba(201,138,58,.25)}
+#client .cw-title b{display:block;font-family:'Smokum',serif;font-weight:400;color:var(--amber);
+  font-size:clamp(1.2rem,3.4vw,2.1rem);letter-spacing:.05em;line-height:1.1}
 #client .cw-sub{font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:clamp(1.05rem,2.2vw,1.45rem);color:var(--ink-soft);max-width:46ch;margin:12px auto 0;line-height:1.5}
-
-/* ---------- HERO film-cell SLOT (Higgsfield asset pending) ---------- */
-#client .cw-cell{position:relative;margin:clamp(26px,5vh,52px) auto 0;max-width:980px;
-  /* sprocket-edged film cell */
-  background:linear-gradient(180deg,#2a1c10,#1c1209);
-  border-radius:8px;padding:18px clamp(20px,4vw,42px);
-  box-shadow:0 30px 70px -28px rgba(40,22,8,.8),0 0 0 1px rgba(40,22,8,.4)}
-#client .cw-cell::before,#client .cw-cell::after{content:"";position:absolute;top:0;bottom:0;width:16px;
-  background-image:radial-gradient(circle,#e9dcbe 38%,transparent 42%);background-size:16px 26px;background-repeat:repeat-y;
-  opacity:.85}
-#client .cw-cell::before{left:6px}#client .cw-cell::after{right:6px}
-#client .cw-frame{position:relative;aspect-ratio:16/9;border-radius:4px;overflow:hidden;
-  margin:0 14px;
-  /* the staged sun-bleached frontier diorama, evoked — clearly an intentional placeholder, not a broken image */
-  background:
-    radial-gradient(80% 60% at 50% 14%, rgba(255,238,206,.65), transparent 60%),
-    linear-gradient(180deg,#e9c489 0%, #d8a05f 40%, #a86a37 100%);
-  display:flex;align-items:flex-end;justify-content:center;
-  box-shadow:inset 0 0 0 1px rgba(40,22,8,.5),inset 0 -40px 80px rgba(74,40,16,.5)}
-/* a low, flat horizon + a couple of stop-motion "set" silhouettes so the empty slot reads as a staged scene */
-#client .cw-frame .horizon{position:absolute;left:0;right:0;bottom:34%;height:1px;background:rgba(60,36,14,.4)}
-#client .cw-frame .mesa{position:absolute;bottom:34%;width:26%;height:20%;background:#9a5f33;opacity:.55;
-  border-radius:6px 6px 0 0;filter:blur(.3px)}
-#client .cw-frame .mesa.l{left:10%}#client .cw-frame .mesa.r{right:8%;height:14%;width:18%}
-#client .cw-frame .shingle{position:absolute;bottom:34%;left:50%;transform:translateX(-50%);
-  width:14%;height:26%;background:#3a2412;opacity:.7;border-radius:2px}
-#client .cw-frame .stub{position:relative;z-index:2;text-align:center;padding:0 8% 9%;
-  font-family:'Special Elite',monospace;color:#3a2412}
-#client .cw-frame .stub .scene{display:inline-block;font-size:clamp(.62rem,1.3vw,.78rem);letter-spacing:.3em;
-  background:rgba(244,234,208,.82);border:1px solid rgba(58,36,18,.5);padding:.5em 1.1em;border-radius:2px;text-transform:uppercase}
-#client .cw-frame .stub .line{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.95rem,2vw,1.2rem);
-  color:#2a1c10;margin-top:10px;line-height:1.4}
-#client .cw-cellcap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  margin:14px 14px 0;font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.22em;
-  text-transform:uppercase;color:#cdb488}
-#client .cw-cellcap .pend{color:#e6a85c}
-
-/* the gentle, intentional stop-motion step on the whole hero cell — handcrafted jitter, NOT glitch */
-#client .cw-cell{animation:stepframe 1.4s steps(1) infinite}
-@keyframes stepframe{
-  0%{transform:translate(0,0) rotate(0deg)}
-  20%{transform:translate(.6px,-.5px) rotate(.12deg)}
-  40%{transform:translate(-.5px,.4px) rotate(-.1deg)}
-  60%{transform:translate(.4px,.6px) rotate(.08deg)}
-  80%{transform:translate(-.6px,-.3px) rotate(-.12deg)}
-}
-
-/* ---------- the dusty main street of WANTED bills ---------- */
-#client .cw-streetlbl{text-align:center;margin:clamp(34px,6vh,64px) 0 8px;
-  font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.38em;text-transform:uppercase;color:var(--ink-soft)}
-#client .cw-street{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:clamp(24px,4vw,52px);justify-items:center;align-items:start;margin-top:clamp(20px,4vh,40px)}
-
-/* a WANTED hand-bill nailed to the boardwalk */
-#client .bill{position:relative;border:0;cursor:pointer;text-align:left;color:inherit;font:inherit;
-  background:transparent;padding:0;display:block;width:min(360px,90vw);
-  transition:transform .35s cubic-bezier(.2,.7,.2,1),filter .35s ease;will-change:transform}
-#client .bill.b1{transform:rotate(-1.6deg)}
-#client .bill.b2{transform:rotate(1.8deg);margin-top:22px}
-#client .bill:hover,#client .bill:focus-visible{transform:rotate(0) translateY(-6px) scale(1.02);filter:saturate(1.05) brightness(1.02)}
-#client .bill:focus-visible{outline:3px solid var(--rust);outline-offset:8px;border-radius:3px}
-#client .bill .nail{position:absolute;top:-7px;left:50%;width:13px;height:13px;margin-left:-6px;border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#7a6450,#2a2018);box-shadow:0 2px 3px rgba(0,0,0,.45);z-index:3}
-#client .paper{position:relative;background:
-    repeating-linear-gradient(92deg,rgba(120,84,44,.05) 0 2px,transparent 2px 9px),
-    linear-gradient(160deg,var(--paper),var(--paper2));
-  padding:20px 20px 22px;border-radius:2px;
-  box-shadow:0 18px 36px -16px rgba(40,22,8,.65),inset 0 0 0 1px rgba(40,22,8,.12),inset 0 0 60px rgba(120,80,40,.14);
-  /* torn, irregular hand-bill edges */
-  clip-path:polygon(0 2%,4% 0,14% 3%,30% 0,48% 3%,66% 0,84% 3%,97% 0,100% 3%,99% 30%,100% 60%,98% 86%,100% 98%,90% 100%,72% 97%,52% 100%,33% 97%,15% 100%,3% 98%,0 90%,1% 60%,0 32%)}
-#client .paper::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.5;border-radius:2px;
-  background:radial-gradient(60% 40% at 80% 90%,rgba(120,70,30,.22),transparent 60%),
-    radial-gradient(50% 40% at 12% 14%,rgba(120,70,30,.18),transparent 60%)}
-#client .paper>*{position:relative;z-index:1}
-#client .bill .wanted{font-family:'Rye',serif;font-size:1.5rem;letter-spacing:.12em;color:var(--ink);text-align:center;
-  border-bottom:3px double var(--ink);padding-bottom:7px;margin-bottom:12px;line-height:1}
-#client .bill .keyart{position:relative;aspect-ratio:4/3;border-radius:1px;overflow:hidden;margin-bottom:13px;
-  background:linear-gradient(160deg,#caa472,#a06f3e);
-  box-shadow:inset 0 0 0 2px rgba(40,22,8,.5),inset 0 0 26px rgba(40,22,8,.35);
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  /* halftone ink dots as if newsprint-printed */
-  background-image:radial-gradient(rgba(40,22,8,.5) 1px,transparent 1.4px),linear-gradient(160deg,#caa472,#a06f3e);
-  background-size:5px 5px,100% 100%}
-#client .bill .keyart .ka{font-family:'Special Elite',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;
-  color:#f4ead0;padding:0 14%;line-height:1.9}
-#client .bill .client{font-family:'Smokum',serif;font-size:1.85rem;line-height:1;color:var(--rust);text-align:center;letter-spacing:.02em}
-#client .bill .campaign{font-family:'Special Elite',monospace;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--ink-soft);text-align:center;margin-top:7px}
-#client .bill .scope{display:block;text-align:center;margin-top:13px;font-family:'Special Elite',monospace;font-size:.54rem;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--rust)}
-#client .bill .scope::before,#client .bill .scope::after{content:"·";margin:0 .7em;color:var(--ink-soft)}
-
-/* each pinned bill also gets a tiny independent stop-motion step (staggered) */
-#client .bill .paper{animation:billstep 1.7s steps(1) infinite}
-#client .bill.b2 .paper{animation-duration:2.05s;animation-delay:.2s}
-@keyframes billstep{0%{transform:translate(0,0)}33%{transform:translate(.4px,-.3px) rotate(.1deg)}66%{transform:translate(-.4px,.3px) rotate(-.08deg)}}
-
-/* boardwalk footer note */
-#client .cw-foot{text-align:center;margin-top:clamp(38px,6vh,66px);
-  font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft)}
-#client .cw-foot a{color:var(--rust);text-decoration:none;border-bottom:1px solid rgba(154,59,31,.5)}
-#client .cw-foot a:hover{color:var(--ink)}
-
-@media(max-width:680px){
-  #client .bill.b1,#client .bill.b2{transform:rotate(-1deg);margin-top:0}
-  #client .cw-cell::before,#client .cw-cell::after{display:none}
-  #client .cw-frame{margin:0}
-}
+  font-size:clamp(1rem,2vw,1.32rem);color:#cdb488;max-width:48ch;margin:10px auto 0;line-height:1.5}
 
 /* ============================================================
-   PROJECT DETAIL POP-UP (reuses the Works modal interaction)
+   THE PROJECTED FILM STAGE
+   Everything inside .cw-screen carries the sepia film treatment.
+   ============================================================ */
+#client .cw-screen{position:relative;margin:clamp(18px,3vh,30px) auto 0;max-width:980px;
+  aspect-ratio:4/3;border-radius:14px;overflow:hidden;
+  background:#1c130a;
+  /* the projected beam falls on the screen */
+  box-shadow:0 40px 100px -30px rgba(0,0,0,.9),0 0 0 8px #0a0704,0 0 0 9px rgba(201,138,58,.18);
+}
+@media(max-width:560px){#client .cw-screen{aspect-ratio:3/4}}
+
+/* the picture itself — ASH still as the scene background */
+#client .cw-pic{position:absolute;inset:0;
+  background-image:
+    radial-gradient(120% 90% at 50% 40%, rgba(70,45,20,0) 40%, rgba(20,12,4,.55) 100%),
+    var(--ash);
+  background-size:cover;background-position:center;
+  /* AGED MONOCHROME — grayscale then warm sepia tint */
+  filter:grayscale(1) sepia(.62) contrast(1.06) brightness(1.04);
+}
+/* the open right side where clients are roped in */
+#client .cw-arena{position:absolute;top:0;right:0;bottom:0;left:34%;z-index:6;pointer-events:none}
+
+/* ----- ASH alt text carrier (offscreen, for screen readers) ----- */
+#client .cw-pic-alt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- film treatment layers (over the picture) ---------- */
+#client .fx{position:absolute;inset:0;pointer-events:none}
+#client .fx-grain{z-index:7;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+  animation:grainShift .5s steps(2) infinite}
+@keyframes grainShift{0%{transform:translate(0,0)}50%{transform:translate(-3px,2px)}100%{transform:translate(2px,-2px)}}
+
+/* drifting vertical scratch lines */
+#client .fx-scratch{z-index:8;opacity:.5;mix-blend-mode:screen;
+  background-image:
+    linear-gradient(90deg,transparent 0,transparent 18%,rgba(255,244,222,.5) 18.4%,transparent 18.8%),
+    linear-gradient(90deg,transparent 0,transparent 52%,rgba(255,244,222,.35) 52.3%,transparent 52.6%),
+    linear-gradient(90deg,transparent 0,transparent 79%,rgba(255,244,222,.4) 79.5%,transparent 79.9%);
+  animation:scratchDrift 3.4s steps(1) infinite}
+@keyframes scratchDrift{
+  0%{transform:translateX(0);opacity:.5}
+  25%{transform:translateX(8%);opacity:.2}
+  50%{transform:translateX(-6%);opacity:.55}
+  75%{transform:translateX(12%);opacity:.15}
+  100%{transform:translateX(0);opacity:.5}}
+
+/* dust specks */
+#client .fx-dust{z-index:8;opacity:.45;mix-blend-mode:screen;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%,rgba(255,240,214,.9),transparent),
+    radial-gradient(1.2px 1.2px at 70% 60%,rgba(255,240,214,.7),transparent),
+    radial-gradient(1.6px 1.6px at 45% 80%,rgba(255,240,214,.8),transparent),
+    radial-gradient(1px 1px at 85% 22%,rgba(255,240,214,.6),transparent),
+    radial-gradient(1.3px 1.3px at 12% 70%,rgba(255,240,214,.7),transparent);
+  background-size:340px 340px;animation:dustJump .42s steps(1) infinite}
+@keyframes dustJump{0%{background-position:0 0}33%{background-position:30px -40px}66%{background-position:-24px 26px}100%{background-position:14px 18px}}
+
+/* soft vignette + corner darkening */
+#client .fx-vig{z-index:9;
+  background:radial-gradient(120% 100% at 50% 46%,transparent 52%,rgba(20,10,2,.55) 84%,rgba(10,5,1,.85) 100%)}
+
+/* constant subtle flicker over the whole picture */
+#client .fx-flick{z-index:9;background:rgba(255,236,200,.05);animation:flick 1.6s steps(1) infinite}
+@keyframes flick{
+  0%{opacity:.0}10%{opacity:.10}20%{opacity:.02}30%{opacity:.14}45%{opacity:.04}
+  55%{opacity:.12}70%{opacity:.0}82%{opacity:.16}100%{opacity:.03}}
+
+/* tiny GATE-WEAVE jitter applied to the whole picture stack */
+#client .cw-gate{position:absolute;inset:-1.5%;animation:gateweave .5s steps(2) infinite;will-change:transform}
+@keyframes gateweave{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(.5%,-.4%)}
+  50%{transform:translate(-.4%,.5%)}
+  75%{transform:translate(.3%,.3%)}
+  100%{transform:translate(-.3%,-.2%)}}
+
+/* sprocket-hole strips down the sides */
+#client .cw-sprock{position:absolute;top:0;bottom:0;width:18px;z-index:10;pointer-events:none;
+  background-image:radial-gradient(circle,#0a0603 40%,transparent 44%);
+  background-size:18px 30px;background-repeat:repeat-y;opacity:.55;
+  animation:sprockRun .5s linear infinite}
+#client .cw-sprock.l{left:4px}#client .cw-sprock.r{right:4px}
+@keyframes sprockRun{from{background-position:0 0}to{background-position:0 30px}}
+
+/* small corner frame ticks */
+#client .cw-corner{position:absolute;z-index:10;width:26px;height:26px;border:2px solid rgba(244,234,208,.4);pointer-events:none}
+#client .cw-corner.tl{top:14px;left:24px;border-right:0;border-bottom:0}
+#client .cw-corner.tr{top:14px;right:24px;border-left:0;border-bottom:0}
+#client .cw-corner.bl{bottom:14px;left:24px;border-right:0;border-top:0}
+#client .cw-corner.br{bottom:14px;right:24px;border-left:0;border-top:0}
+
+/* ---------- VINTAGE TITLE CARD (the very first screen) ---------- */
+#client .cw-titlecard{position:absolute;inset:0;z-index:22;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:.35em;pointer-events:none;
+  padding:8% 9%;color:var(--bone);
+  background:radial-gradient(70% 70% at 50% 46%,#241708 0%,#120c05 64%,#080502 100%);
+  filter:grayscale(1) sepia(.6) contrast(1.06);
+  animation:tcFlick .3s steps(1) infinite}
+@keyframes tcFlick{0%{opacity:1}40%{opacity:.86}70%{opacity:.98}100%{opacity:.92}}
+/* decorative double rule frame inside the card */
+#client .cw-titlecard::before{content:"";position:absolute;inset:7%;border:2px double rgba(244,234,208,.45);
+  border-radius:4px;pointer-events:none}
+#client .cw-titlecard.iris{animation:tcIris .55s ease-in forwards}
+@keyframes tcIris{0%{clip-path:circle(150% at 50% 50%);opacity:1}
+  70%{opacity:1}100%{clip-path:circle(0% at 50% 50%);opacity:0}}
+#client .cw-titlecard.gone{display:none}
+#client .tc-studio{font-family:'Rye',serif;font-size:clamp(.85rem,2.6vw,1.3rem);letter-spacing:.18em;color:var(--bone)}
+#client .tc-tiny{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.7rem,1.8vw,1rem);color:#cdb488}
+#client .tc-kind{font-family:'Smokum',serif;font-size:clamp(1.1rem,4vw,2.1rem);letter-spacing:.04em;color:var(--amber);line-height:1.05}
+#client .tc-feature{font-family:'Rye',serif;font-size:clamp(1.6rem,7vw,3.6rem);line-height:1;color:var(--bone);
+  letter-spacing:.01em;margin:.12em 0;text-shadow:0 2px 0 rgba(0,0,0,.5),0 0 26px rgba(201,138,58,.3)}
+#client .tc-comic{font-family:'Smokum',serif;font-size:clamp(1rem,3.4vw,1.7rem);letter-spacing:.06em;color:#e2c98f}
+#client .tc-sys{font-family:'Special Elite',monospace;font-size:clamp(.5rem,1.4vw,.66rem);letter-spacing:.24em;
+  text-transform:uppercase;color:#cdb488;margin-top:.3em}
+#client .tc-copy{font-family:'Special Elite',monospace;font-size:.5rem;letter-spacing:.3em;color:#9a8458;margin-top:.5em}
+#client .tc-orn{font-family:'Rye',serif;color:var(--amber);font-size:clamp(.9rem,2.4vw,1.2rem);opacity:.8;line-height:1}
+
+/* ---------- "ASH THE COWBOY" hand-drawn annotation ---------- */
+#client .cw-ash-note{position:absolute;left:8%;top:60%;z-index:15;pointer-events:none;
+  font-family:'Caveat','Special Elite',cursive;color:#fff3da;
+  text-shadow:0 1px 4px #000,0 0 2px #000;opacity:0;transition:opacity .6s ease}
+#client .cw-ash-note.show{opacity:.96}
+#client .cw-ash-note.fade{opacity:0}
+#client .cw-ash-note .lbl{font-family:'Special Elite',monospace;font-size:clamp(.6rem,1.8vw,.9rem);
+  letter-spacing:.12em;text-transform:uppercase;transform:rotate(-4deg);display:inline-block;
+  border-bottom:2px solid #fff3da;padding-bottom:1px}
+#client .cw-ash-note svg{display:block;width:clamp(54px,12vw,92px);height:auto;margin-top:2px;margin-left:6px}
+#client .cw-ash-note svg path{stroke:#fff3da;stroke-width:2.4;fill:none;stroke-linecap:round}
+
+/* ---------- COUNTDOWN LEADER ---------- */
+#client .cw-leader{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 50%,#1c130a,#0a0603);
+  filter:grayscale(1) sepia(.62) contrast(1.05);
+  animation:leadFlick .28s steps(1) infinite}
+@keyframes leadFlick{0%{opacity:1}50%{opacity:.82}100%{opacity:.97}}
+#client .cw-leader.gone{display:none}
+#client .cw-leader .reticle{position:absolute;width:78%;max-width:520px;aspect-ratio:1;border-radius:50%;
+  border:2px solid rgba(244,234,208,.45)}
+#client .cw-leader .reticle::before,#client .cw-leader .reticle::after{content:"";position:absolute;background:rgba(244,234,208,.4)}
+#client .cw-leader .reticle::before{left:50%;top:-6%;bottom:-6%;width:2px;margin-left:-1px}
+#client .cw-leader .reticle::after{top:50%;left:-6%;right:-6%;height:2px;margin-top:-1px}
+/* the sweeping leader hand */
+#client .cw-leader .sweep{position:absolute;width:78%;max-width:520px;aspect-ratio:1;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(10,6,3,.0) 0deg,rgba(10,6,3,.78) 8deg,rgba(10,6,3,0) 9deg);
+  animation:sweep 1s linear infinite}
+@keyframes sweep{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+#client .cw-leader .num{position:relative;z-index:2;font-family:'Rye',serif;
+  font-size:clamp(5rem,22vw,12rem);color:var(--bone);line-height:1;
+  text-shadow:0 0 30px rgba(0,0,0,.7)}
+#client .cw-leader .lbl{position:absolute;bottom:11%;left:0;right:0;text-align:center;
+  font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.4em;color:var(--amber);text-transform:uppercase}
+
+/* ---------- ASH "now roping" caption (current gag label) ---------- */
+#client .cw-act{position:absolute;left:0;bottom:0;z-index:14;width:34%;max-width:240px;
+  padding:8px 10px;text-align:center;
+  font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bone);text-shadow:0 1px 4px #000;pointer-events:none;opacity:.92}
+#client .cw-act b{display:block;color:var(--amber);font-size:.62rem;letter-spacing:.26em;margin-top:2px}
+
+/* ---------- the GAG layer (svg lives here) + SFX intertitle ---------- */
+#client .cw-gag{position:absolute;inset:0;z-index:13;pointer-events:none}
+#client .cw-gag svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+
+/* comic SFX intertitle card */
+#client .cw-sfx{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) rotate(-4deg) scale(.4);
+  z-index:18;pointer-events:none;opacity:0;
+  font-family:'Rye',serif;font-size:clamp(2.2rem,9vw,5rem);color:#fff3da;
+  -webkit-text-stroke:3px #1a0f04;text-stroke:3px #1a0f04;
+  text-shadow:0 0 0 #1a0f04,6px 6px 0 rgba(26,15,4,.5);
+  letter-spacing:.02em;white-space:nowrap}
+#client .cw-sfx.pop{animation:sfxpop .7s cubic-bezier(.2,1.4,.3,1) both}
+@keyframes sfxpop{
+  0%{opacity:0;transform:translate(-50%,-50%) rotate(-9deg) scale(.3)}
+  30%{opacity:1;transform:translate(-50%,-50%) rotate(3deg) scale(1.15)}
+  55%{transform:translate(-50%,-50%) rotate(-2deg) scale(.98)}
+  78%{opacity:1;transform:translate(-50%,-50%) rotate(0deg) scale(1.04)}
+  100%{opacity:0;transform:translate(-50%,-50%) rotate(0deg) scale(1.04)}}
+
+/* a smoke puff used by the gun / dynamite gags */
+#client .puff{position:absolute;z-index:16;border-radius:50%;
+  background:radial-gradient(circle at 40% 38%,rgba(255,248,228,.95),rgba(214,196,154,.6) 55%,rgba(120,90,50,0) 72%);
+  opacity:0;pointer-events:none}
+#client .puff.go{animation:puff .7s ease-out both}
+@keyframes puff{0%{opacity:0;transform:scale(.2)}25%{opacity:.95}100%{opacity:0;transform:scale(2.1)}}
+
+/* ============================================================
+   CAPTURED LOBBY CARDS — land on the open right side, stay put
+   ============================================================ */
+#client .cw-cards{position:absolute;inset:0;z-index:12;pointer-events:none}
+#client .lobby{position:absolute;width:clamp(112px,21%,180px);
+  background:linear-gradient(160deg,var(--card),var(--card2));
+  border:1px solid rgba(36,20,5,.5);border-radius:3px;padding:7px 7px 9px;
+  box-shadow:0 12px 26px -8px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,247,225,.35);
+  color:var(--ink);text-align:center;cursor:pointer;pointer-events:auto;
+  font:inherit;
+  transform:translate(0,0) scale(.6) rotate(-3deg);opacity:0;
+  transition:transform .5s cubic-bezier(.2,.9,.25,1),opacity .45s ease, box-shadow .25s ease;
+  /* projected-film tint matches the picture */
+  filter:grayscale(.25) sepia(.3) contrast(1.02)}
+#client .lobby.in{opacity:1}
+#client .lobby:hover,#client .lobby:focus-visible{box-shadow:0 18px 38px -8px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,247,225,.5);
+  filter:grayscale(.1) sepia(.18) contrast(1.04) brightness(1.04)}
+#client .lobby:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+#client .lobby .frame{position:relative;aspect-ratio:4/3;border-radius:2px;overflow:hidden;margin-bottom:6px;
+  background:linear-gradient(160deg,#cdab78,#9c6a3a);
+  box-shadow:inset 0 0 0 1px rgba(36,20,5,.5),inset 0 0 18px rgba(36,20,5,.4);
+  display:flex;align-items:center;justify-content:center;
+  /* halftone newsprint dots */
+  background-image:radial-gradient(rgba(36,20,5,.45) 1px,transparent 1.3px),linear-gradient(160deg,#cdab78,#9c6a3a);
+  background-size:4px 4px,100% 100%}
+#client .lobby .frame .nm{font-family:'Smokum',serif;font-size:clamp(.9rem,2.4vw,1.3rem);color:#23140a;
+  line-height:.95;padding:0 6%;text-shadow:0 1px 0 rgba(255,247,225,.4)}
+#client .lobby .roped{position:absolute;left:-6%;right:-6%;top:50%;height:0;border-top:2px dashed rgba(36,20,5,.55);
+  transform:rotate(-7deg)}
+#client .lobby .meta{font-family:'Special Elite',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--rust);line-height:1.5}
+#client .lobby .yr{font-family:'Special Elite',monospace;font-size:.42rem;letter-spacing:.18em;color:#5a4528;margin-top:1px}
+#client .lobby .cap-no{position:absolute;top:4px;left:5px;font-family:'Special Elite',monospace;font-size:.42rem;
+  color:rgba(36,20,5,.6)}
+
+/* ---------- NEXT REEL advance control + reel meta ---------- */
+#client .cw-controls{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+  margin-top:clamp(18px,3vh,30px)}
+#client .reel-btn{font-family:'Special Elite',monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink);background:linear-gradient(160deg,var(--card),var(--card2));
+  border:1px solid rgba(36,20,5,.5);border-radius:3px;padding:.95em 1.8em;cursor:pointer;
+  box-shadow:0 8px 22px -8px rgba(0,0,0,.7);transition:.25s}
+#client .reel-btn:hover:not(:disabled){background:var(--amber);color:#1a0f04;letter-spacing:.3em}
+#client .reel-btn:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+#client .reel-btn:disabled{opacity:.4;cursor:default}
+#client .reel-meta{font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;
+  color:#9a8458;text-align:center;min-width:11ch}
+#client .reel-meta b{color:var(--amber)}
+
+/* a quiet hint that the whole screen is tappable */
+#client .cw-tap{position:absolute;left:0;right:0;bottom:8%;z-index:15;text-align:center;pointer-events:none;
+  font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--bone);text-shadow:0 1px 6px #000;opacity:.85;transition:opacity .4s}
+#client .cw-tap.hide{opacity:0}
+
+/* whole-screen advance button (invisible, keyboard-operable) sits above gag layer, below cards/leader */
+#client .cw-advance{position:absolute;inset:0;z-index:11;border:0;background:transparent;cursor:pointer;
+  -webkit-tap-highlight-color:transparent}
+#client .cw-advance:focus-visible{outline:3px solid var(--amber);outline-offset:-6px;border-radius:14px}
+
+#client .cw-foot{text-align:center;margin-top:clamp(26px,4vh,46px);
+  font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:#8a7654}
+#client .cw-foot a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(201,138,58,.5)}
+#client .cw-foot a:hover{color:var(--bone)}
+
+/* ============================================================
+   MOBILE FALLBACK — simple tap-through list of captured cards
+   (shown when the stage is too tight; toggled by JS on narrow screens)
+   ============================================================ */
+#client .cw-list{display:none;margin:clamp(18px,3vh,28px) auto 0;max-width:560px;width:100%}
+#client.is-list .cw-screen,
+#client.is-list .cw-controls,
+#client.is-list .cw-tap{display:none}
+#client.is-list .cw-list{display:block}
+#client .cw-list .lhead{font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;
+  color:#9a8458;text-align:center;margin-bottom:14px}
+#client .cw-list .lrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+  background:linear-gradient(160deg,var(--card),var(--card2));color:var(--ink);
+  border:1px solid rgba(36,20,5,.4);border-radius:4px;padding:12px 14px;margin-bottom:10px;font:inherit;
+  box-shadow:0 8px 20px -10px rgba(0,0,0,.6);transition:.2s}
+#client .cw-list .lrow:hover,#client .cw-list .lrow:focus-visible{background:var(--bone);transform:translateY(-2px)}
+#client .cw-list .lrow:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+#client .cw-list .lrow .gag{flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+  background:#23140a;color:var(--amber);display:flex;align-items:center;justify-content:center;
+  font-family:'Special Elite',monospace;font-size:.5rem;letter-spacing:.06em}
+#client .cw-list .lrow .lc{flex:1 1 auto}
+#client .cw-list .lrow .lc .nm{font-family:'Smokum',serif;font-size:1.4rem;line-height:1;color:#23140a}
+#client .cw-list .lrow .lc .rl{font-family:'Special Elite',monospace;font-size:.54rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--rust);margin-top:3px}
+#client .cw-list .lrow .yr{font-family:'Special Elite',monospace;font-size:.56rem;color:#5a4528;letter-spacing:.1em}
+
+/* ============================================================
+   LOBBY-CARD DETAIL MODAL (reuses the Works/boardwalk pattern:
+   focus-trap-lite, Esc-close, focus-return, [data-close])
    ============================================================ */
 #cwmodal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:5vh 5vw}
 #cwmodal[hidden]{display:none}
-.cwm-backdrop{position:absolute;inset:0;background:rgba(28,18,8,.82);backdrop-filter:blur(4px)}
-.cwm-card{position:relative;max-width:600px;width:100%;max-height:88vh;overflow:auto;
-  background:linear-gradient(165deg,#efe2c4,#e2cfa6);color:var(--ink);
-  border:1px solid rgba(40,22,8,.3);border-radius:5px;
-  box-shadow:0 40px 120px rgba(20,12,4,.7);
+.cwm-backdrop{position:absolute;inset:0;background:rgba(10,6,3,.86);backdrop-filter:blur(4px)}
+.cwm-card{position:relative;max-width:560px;width:100%;max-height:88vh;overflow:auto;
+  background:linear-gradient(165deg,#efe2c4,#ddc9a0);color:var(--ink);
+  border:1px solid rgba(36,20,5,.35);border-radius:6px;
+  box-shadow:0 40px 120px rgba(8,4,1,.75),inset 0 0 0 1px rgba(255,247,225,.4);
   transform:translateY(10px) scale(.99);opacity:0;transition:.34s ease}
 #cwmodal.open .cwm-card{transform:none;opacity:1}
 .cwm-card::-webkit-scrollbar{width:0}
 .cwm-x{position:absolute;top:12px;right:14px;z-index:5;width:32px;height:32px;border-radius:50%;
-  border:1px solid rgba(40,22,8,.4);background:rgba(244,234,208,.7);color:var(--ink);cursor:pointer;
+  border:1px solid rgba(36,20,5,.4);background:rgba(244,234,208,.75);color:var(--ink);cursor:pointer;
   font-family:'Special Elite',monospace;font-size:1rem;display:flex;align-items:center;justify-content:center}
 .cwm-x:hover{background:var(--rust);color:#f4ead0}
-.cwm-x:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
-/* media gallery stage */
-.cwm-stage{position:relative;aspect-ratio:16/9;background:#2a1c10;border-radius:5px 5px 0 0;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;text-align:center}
-.cwm-stage .pendart{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-  color:#cdb488;padding:0 12%;line-height:2}
-.cwm-stage .pendart b{display:block;color:#e6a85c;margin-bottom:8px;letter-spacing:.3em}
-.cwm-stage video,.cwm-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cwm-medias{display:none}
-.cwm-body{padding:22px clamp(20px,4vw,34px) 28px}
-.cwm-tag{font-family:'Special Elite',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--rust);margin-bottom:9px}
-.cwm-client{font-family:'Smokum',serif;font-size:clamp(2.1rem,7vw,3.2rem);line-height:.9;color:var(--ink);margin-bottom:2px}
-.cwm-campaign{font-family:'Rye',serif;font-size:clamp(1rem,2.6vw,1.35rem);color:var(--rust);letter-spacing:.04em;margin-bottom:14px}
-.cwm-lede{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.4rem);
-  color:var(--ink-soft);line-height:1.45;margin-bottom:1em}
-.cwm-blurb{font-size:1.08rem;line-height:1.7;color:#3a2c1c;margin-bottom:1.3em}
-.cwm-role{font-family:'Special Elite',monospace;font-size:.66rem;letter-spacing:.1em;color:var(--ink-soft);
-  border-top:1px solid rgba(40,22,8,.22);padding-top:13px}
-.cwm-pend{font-family:'Special Elite',monospace;font-size:.58rem;letter-spacing:.06em;color:#8a6a3a;margin-top:11px}
-.cwm-pend:not(:empty)::before{content:'PENDING — '}
+.cwm-x:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+/* lobby-card header band */
+.cwm-stage{position:relative;aspect-ratio:16/9;border-radius:6px 6px 0 0;overflow:hidden;
+  background:
+    radial-gradient(80% 70% at 50% 24%,rgba(255,238,206,.6),transparent 60%),
+    linear-gradient(160deg,#cdab78,#9c6a3a);
+  background-image:radial-gradient(rgba(36,20,5,.4) 1px,transparent 1.3px),
+    radial-gradient(80% 70% at 50% 24%,rgba(255,238,206,.6),transparent 60%),
+    linear-gradient(160deg,#cdab78,#9c6a3a);
+  background-size:5px 5px,100% 100%,100% 100%;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  box-shadow:inset 0 0 0 1px rgba(36,20,5,.4),inset 0 -36px 70px rgba(58,32,12,.45)}
+.cwm-stage .lobbytag{position:absolute;top:10px;left:12px;font-family:'Special Elite',monospace;
+  font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:#3a2412}
+.cwm-stage .nm{font-family:'Smokum',serif;font-size:clamp(2.4rem,10vw,4.2rem);color:#23140a;line-height:.85;
+  text-shadow:0 1px 0 rgba(255,247,225,.4)}
+.cwm-stage .gag-strip{position:absolute;bottom:10px;left:0;right:0;text-align:center;
+  font-family:'Special Elite',monospace;font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:#3a2412}
+.cwm-body{padding:20px clamp(18px,4vw,32px) 26px}
+.cwm-tag{font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+.cwm-client{font-family:'Smokum',serif;font-size:clamp(2rem,7vw,3rem);line-height:.9;color:var(--ink);margin-bottom:2px}
+.cwm-role{font-family:'Rye',serif;font-size:clamp(.95rem,2.4vw,1.25rem);color:var(--rust);letter-spacing:.03em;margin-bottom:13px}
+.cwm-blurb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.4rem);
+  color:#3a2c1c;line-height:1.5;margin-bottom:1em}
+.cwm-year{font-family:'Special Elite',monospace;font-size:.62rem;letter-spacing:.12em;color:#5a4528;
+  border-top:1px solid rgba(36,20,5,.22);padding-top:12px}
 
+/* ============================================================
+   REDUCED MOTION — kill the show, present the finished reel
+   ============================================================ */
 @media (prefers-reduced-motion:reduce){
-  #client .cw-cell,#client .bill .paper,#client .cw-dust{animation:none!important}
-  #client .bill,#cwmodal .cwm-card{transition:none}
-  #client .bill:hover,#client .bill:focus-visible{transform:none}
+  #client .fx-grain,#client .fx-scratch,#client .fx-dust,#client .fx-flick,
+  #client .cw-gate,#client .cw-sprock,#client .cw-leader .sweep,
+  #client .cw-titlecard{animation:none!important}
+  #client .fx-flick{display:none}
+  #client .cw-pic{filter:grayscale(1) sepia(.55) contrast(1.04)}
+  #client .lobby{transition:none}
+  #client .cw-ash-note{transition:none}
+  #cwmodal .cwm-card{transition:none}
+  #client .cw-sfx,.puff{display:none!important}
 }
 </style>
 </head>
 <body>
 
-<!-- ============ §04 · CLIENT WORK — WILD WEST STOP-MOTION ============ -->
+<!-- ============ §04 · CLIENT WORK — OLD WESTERN CARTOON, PROJECTED ============ -->
 <section id="client" aria-label="Client Work">
-  <!-- textures -->
-  <svg class="cw-grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><filter id="cwn"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .05 0"/></filter><rect width="100%" height="100%" filter="url(#cwn)"/></svg>
-  <div class="cw-haze" aria-hidden="true"></div>
-  <div class="cw-dust" aria-hidden="true"></div>
-
   <div class="cw-wrap">
 
-    <!-- masthead hand-bill -->
+    <!-- title-card masthead -->
     <header class="cw-head">
-      <div class="cw-rule">Section No. 04 · The Frontier</div>
-      <div class="cw-reel">REEL: CLIENT WORK · 12 FPS · HAND-STAGED</div>
-      <h2 class="cw-title">Client Work<b>Commissioned &amp; Made for Hire</b></h2>
-      <p class="cw-sub">Brand and campaign work staged like a frontier main street — every job nailed up as its own hand-bill, shot frame by frame.</p>
+      <div class="cw-classic">1930 · A Classic Cartoon · Reel 04</div>
+      <h2 class="cw-title">Client Work<b>Ash Rounds Up the Roster</b></h2>
+      <p class="cw-sub">A short western cartoon, projected. The cowboy Ash wrangles every real client into the frame — one gag at a time. Start the reel, then advance it.</p>
     </header>
 
-    <!-- HERO: framed stop-motion film-cell SLOT (real asset to be generated via Higgsfield) -->
-    <figure class="cw-cell" role="img"
-      aria-label="Reserved frame for the Client Work stop-motion hero scene — a sun-bleached frontier diorama, to be generated.">
-      <div class="cw-frame">
-        <span class="mesa l" aria-hidden="true"></span>
-        <span class="mesa r" aria-hidden="true"></span>
-        <span class="horizon" aria-hidden="true"></span>
-        <span class="shingle" aria-hidden="true"></span>
-        <div class="stub">
-          <span class="scene">Scene 01 · Main Street, Golden Hour</span>
-          <div class="line">A felt-and-clay frontier set — dust hanging in raking gold light.</div>
-        </div>
+    <!-- THE PROJECTED FILM STAGE -->
+    <div class="cw-screen" id="cwScreen">
+      <div class="cw-gate">
+        <div class="cw-pic" role="img"
+          aria-label="A 1930s western cartoon still: the cowboy Ash on his horse at the left, facing right with his lasso raised, an open desert stretching out to the right."></div>
+        <span class="cw-pic-alt">Aged sepia film still — Ash on horseback, lasso raised, open desert to the right.</span>
       </div>
-      <figcaption class="cw-cellcap">
-        <span>REEL 04 · CLIENT WORK · FRAME 001</span>
-        <span class="pend">HERO STILL — STOP-MOTION ASSET TO BE STAGED</span>
-      </figcaption>
-    </figure>
 
-    <!-- the main street of WANTED bills (one per real client job) -->
-    <div class="cw-streetlbl">Posted along Main Street</div>
-    <div class="cw-street" id="cwStreet">
-      <!-- bills injected by JS -->
+      <!-- film treatment -->
+      <div class="fx fx-grain" aria-hidden="true"></div>
+      <div class="fx fx-scratch" aria-hidden="true"></div>
+      <div class="fx fx-dust" aria-hidden="true"></div>
+      <div class="fx fx-vig" aria-hidden="true"></div>
+      <div class="fx fx-flick" aria-hidden="true"></div>
+      <div class="cw-sprock l" aria-hidden="true"></div>
+      <div class="cw-sprock r" aria-hidden="true"></div>
+      <span class="cw-corner tl" aria-hidden="true"></span>
+      <span class="cw-corner tr" aria-hidden="true"></span>
+      <span class="cw-corner bl" aria-hidden="true"></span>
+      <span class="cw-corner br" aria-hidden="true"></span>
+
+      <!-- the open right side where clients arrive -->
+      <div class="cw-arena" aria-hidden="true"></div>
+
+      <!-- "ASH THE COWBOY" hand-drawn annotation (points at Ash, below his face) -->
+      <div class="cw-ash-note" id="cwAshNote" aria-hidden="true">
+        <span class="lbl">Ash the Cowboy</span>
+        <svg viewBox="0 0 90 60" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M78 6 C 50 8, 26 18, 12 44"/>
+          <path d="M12 44 L 20 38"/>
+          <path d="M12 44 L 22 47"/>
+        </svg>
+      </div>
+
+      <!-- whole-screen advance control (keyboard-operable) -->
+      <button class="cw-advance" id="cwAdvance" type="button"
+        aria-label="Advance the reel — Ash captures the next client"></button>
+
+      <!-- gag svg + smoke puffs render here -->
+      <div class="cw-gag" id="cwGag" aria-hidden="true"></div>
+
+      <!-- captured lobby cards land here -->
+      <div class="cw-cards" id="cwCards"></div>
+
+      <!-- current act caption -->
+      <div class="cw-act" id="cwAct" aria-hidden="true"></div>
+
+      <!-- comic SFX intertitle -->
+      <div class="cw-sfx" id="cwSfx" aria-hidden="true"></div>
+
+      <!-- tap hint -->
+      <div class="cw-tap" id="cwTap">Tap the screen to start the show</div>
+
+      <!-- COUNTDOWN LEADER (shown after the title card, before the film) -->
+      <div class="cw-leader" id="cwLeader" aria-hidden="true">
+        <span class="reticle"></span>
+        <span class="sweep"></span>
+        <span class="num" id="cwCount">3</span>
+        <span class="lbl">Picture Start</span>
+      </div>
+
+      <!-- VINTAGE TITLE CARD — the very first screen, before the countdown -->
+      <div class="cw-titlecard" id="cwTitle" role="img"
+        aria-label="Title card: J. N. Tse Studios present a Client-Work Sound Cartoon — &quot;The Client Wrangler&quot; — a J. N. Tse comic, recorded by the Lasso-Phone System, copyright MMXXVI.">
+        <span class="tc-orn" aria-hidden="true">&#10070;</span>
+        <span class="tc-studio">J. N. TSE STUDIOS</span>
+        <span class="tc-tiny">present a</span>
+        <span class="tc-kind">CLIENT-WORK SOUND CARTOON</span>
+        <span class="tc-feature">&ldquo;The Client Wrangler&rdquo;</span>
+        <span class="tc-comic">A J. N. TSE COMIC</span>
+        <span class="tc-sys">Recorded by the Lasso-Phone System</span>
+        <span class="tc-copy">COPYRIGHT &#183; MMXXVI</span>
+        <span class="tc-orn" aria-hidden="true">&#10070;</span>
+      </div>
     </div>
 
-    <p class="cw-foot">Tap a bill to read the job &nbsp;·&nbsp; <a href="#gate">↑ back to the Gate</a></p>
+    <!-- advance controls -->
+    <div class="cw-controls">
+      <button class="reel-btn" id="cwNext" type="button">Next Reel ▸</button>
+      <div class="reel-meta" id="cwMeta">Reel ready</div>
+    </div>
+
+    <!-- MOBILE / TIGHT-SCREEN FALLBACK: tap-through captured cards -->
+    <div class="cw-list" id="cwListView">
+      <div class="lhead">The Captured Roster — tap a card to read the job</div>
+      <!-- rows injected by JS -->
+    </div>
+
+    <p class="cw-foot">Tap a captured card for the job &nbsp;·&nbsp; <a href="#gate">↑ back to the Gate</a></p>
   </div>
 </section>
 
-<!-- ============ PROJECT DETAIL POP-UP ============ -->
+<!-- ============ LOBBY-CARD DETAIL MODAL ============ -->
 <div id="cwmodal" hidden role="dialog" aria-modal="true" aria-labelledby="cwmClient">
   <div class="cwm-backdrop" data-close></div>
   <div class="cwm-card" role="document">
     <button class="cwm-x" data-close aria-label="Close">&times;</button>
-    <div class="cwm-stage" id="cwmStage"></div>
+    <div class="cwm-stage" id="cwmStage">
+      <span class="lobbytag" id="cwmLobbyTag"></span>
+      <span class="nm" id="cwmStageName"></span>
+      <span class="gag-strip" id="cwmGagStrip"></span>
+    </div>
     <div class="cwm-body">
       <div class="cwm-tag" id="cwmTag"></div>
       <h3 class="cwm-client" id="cwmClient"></h3>
-      <div class="cwm-campaign" id="cwmCampaign"></div>
-      <p class="cwm-lede" id="cwmLede"></p>
-      <p class="cwm-blurb" id="cwmBlurb"></p>
       <div class="cwm-role" id="cwmRole"></div>
-      <div class="cwm-pend" id="cwmPend"></div>
+      <p class="cwm-blurb" id="cwmBlurb"></p>
+      <div class="cwm-year" id="cwmYear"></div>
     </div>
   </div>
 </div>
 
 <script>
 (function(){
-  /* -------- REAL client jobs only (sourced from Jeffrey's history + CV) --------
-     Samsung · Earth Day — confirmed lead client project ("a campaign i did for Samsung, for a client").
-     Hong Kong Tourism Board · Hello Hong Kong — CV: Senior English Editor / lead English
-       copywriter for DiscoverHongKong.com and the Hello Hong Kong campaign.
-     No filler clients fabricated. Media slots are intentional placeholders for assets
-     that get generated/attached later (do NOT reuse ECHO clips). */
+  /* -------- SEVEN real clients — NAMES ONLY (no roles / years / blurbs).
+     Each name lands as a captured wood-type sign; Ash ropes each with a
+     DISTINCT cartoon-western gag. No invented descriptions anywhere. -------- */
   const JOBS = [
-    {
-      id:'pabepabe', cls:'b1',
-      client:'Pabepabe', campaign:'AI Art Director · 2026', scope:'AI Art Director',
-      tag:"CLIENT · AI ART DIRECTION · 2026",
-      keyart:"PABEPABE — AI ART DIRECTION",
-      lede:"AI art direction for Pabepabe.",
-      blurb:"AI Art Director for Pabepabe, 2026.",
-      role:"AI Art Director — Pabepabe, 2026",
-      pend:"stills to surface"
-    },
-    {
-      id:'samsung', cls:'b2',
-      client:'Samsung', campaign:'Social Copywriter · 2024–25', scope:'Social Copywriter',
-      tag:"CLIENT · SOCIAL COPY · 2024–2025",
-      keyart:"SAMSUNG — SOCIAL COPY",
-      lede:"Social copywriting for Samsung, including the Earth Day campaign.",
-      blurb:"Social Copywriter for Samsung, 2024–2025 — work included the Earth Day campaign.",
-      role:"Social Copywriter — Samsung, 2024–2025",
-      pend:"Earth Day / campaign stills to surface · stop-motion hero scene (Higgsfield)"
-    },
-    {
-      id:'oceanpark', cls:'b1',
-      client:'Ocean Park', campaign:'Social Copywriter · 2024', scope:'Social Copywriter',
-      tag:"CLIENT · SOCIAL COPY · 2024",
-      keyart:"OCEAN PARK — SOCIAL COPY",
-      lede:"Social copywriting for Ocean Park.",
-      blurb:"Social Copywriter for Ocean Park, 2024.",
-      role:"Social Copywriter — Ocean Park, 2024",
-      pend:"stills to surface"
-    },
-    {
-      id:'hktb', cls:'b2',
-      client:'HK Tourism Board', campaign:'Copywriter · 2024', scope:'Copywriter',
-      tag:"CLIENT · COPYWRITING · 2024",
-      keyart:"HK TOURISM BOARD — COPY",
-      lede:"Copywriting for the Hong Kong Tourism Board — DiscoverHongKong / Hello Hong Kong.",
-      blurb:"Copywriter for the Hong Kong Tourism Board, 2024 — copy for DiscoverHongKong and the Hello Hong Kong campaign.",
-      role:"Copywriter — Hong Kong Tourism Board, 2024",
-      pend:"DiscoverHongKong / Hello Hong Kong screenshots to surface"
-    },
-    {
-      id:'mtr', cls:'b1',
-      client:'MTR', campaign:'Press Release Writer · 2024', scope:'Press Release Writer',
-      tag:"CLIENT · PRESS RELEASE · 2024",
-      keyart:"MTR — PRESS RELEASE",
-      lede:"Press release writing for MTR.",
-      blurb:"Press Release Writer for MTR, 2024.",
-      role:"Press Release Writer — MTR, 2024",
-      pend:"stills to surface"
-    },
-    {
-      id:'chinamobile', cls:'b2',
-      client:'China Mobile', campaign:'Press Release & Strategy · 2021', scope:'Press Release Writer · Content Strategist',
-      tag:"CLIENT · PRESS RELEASE · STRATEGY · 2021",
-      keyart:"CHINA MOBILE — PRESS RELEASE & STRATEGY",
-      lede:"Press release writing and content strategy for China Mobile.",
-      blurb:"Press Release Writer and Content Strategist for China Mobile, 2021.",
-      role:"Press Release Writer · Content Strategist — China Mobile, 2021",
-      pend:"stills to surface"
-    }
+    { id:'samsung',      client:'Samsung',                 gag:'lasso',     sfx:'WHOOSH!',  act:'The Lasso'      },
+    { id:'chinamobile',  client:'China Mobile',            gag:'gun',       sfx:'BANG!',    act:'The Six-Shooter'},
+    { id:'mtr',          client:'MTR',                     gag:'dynamite',  sfx:'KA-BOOM!', act:'The Dynamite'   },
+    { id:'disneyland',   client:'Disneyland',              gag:'whip',      sfx:'CRACK!',   act:'The Bullwhip'   },
+    { id:'oceanpark',    client:'Ocean Park',              gag:'net',       sfx:'GOTCHA!',  act:'The Net'        },
+    { id:'hktb',         client:'Hong Kong Tourism Board', gag:'cannon',    sfx:'BOOM!',    act:'The Cannon'     },
+    { id:'heimtextil',   client:'Heimtextil',              gag:'slingshot', sfx:'TWANG!',   act:'The Slingshot'  }
   ];
 
   const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  /* ---- build the street of WANTED bills ---- */
-  const street = document.getElementById('cwStreet');
-  JOBS.forEach((j,idx)=>{
-    const b=document.createElement('button');
+  // resting positions for the seven captured signs across the open right side
+  const SLOTS = [
+    {left:'39%', top:'10%', rot:-4},
+    {left:'66%', top:'17%', rot:3},
+    {left:'44%', top:'33%', rot:-2},
+    {left:'71%', top:'40%', rot:4},
+    {left:'40%', top:'57%', rot:-3},
+    {left:'67%', top:'63%', rot:3},
+    {left:'50%', top:'80%', rot:-2}
+  ];
+
+  const screen  = document.getElementById('cwScreen');
+  const titleCard = document.getElementById('cwTitle');
+  const ashNote = document.getElementById('cwAshNote');
+  const leader  = document.getElementById('cwLeader');
+  const countEl = document.getElementById('cwCount');
+  const gagL    = document.getElementById('cwGag');
+  const cards   = document.getElementById('cwCards');
+  const sfxEl   = document.getElementById('cwSfx');
+  const actEl   = document.getElementById('cwAct');
+  const tapEl   = document.getElementById('cwTap');
+  const nextBtn = document.getElementById('cwNext');
+  const advBtn  = document.getElementById('cwAdvance');
+  const metaEl  = document.getElementById('cwMeta');
+  const listView= document.getElementById('cwListView');
+
+  // ---------- build the captured lobby cards (hidden until roped in) ----------
+  const cardEls = JOBS.map((j,i)=>{
+    const s = SLOTS[i];
+    const b = document.createElement('button');
     b.type='button';
-    b.className='bill '+j.cls;
-    b.setAttribute('aria-haspopup','dialog');
-    b.setAttribute('aria-label','Open '+j.client+' — '+j.campaign);
+    b.className='lobby';
+    b.style.left=s.left;b.style.top=s.top;
+    b.setAttribute('aria-label','Captured client: '+j.client+'. Tap to enlarge the sign.');
+    b.hidden=true; // not yet captured
     b.innerHTML =
-      '<span class="nail" aria-hidden="true"></span>'+
-      '<div class="paper">'+
-        '<div class="wanted">WANTED</div>'+
-        '<div class="keyart"><span class="ka">'+esc(j.keyart)+'</span></div>'+
-        '<div class="client">'+esc(j.client)+'</div>'+
-        '<div class="campaign">'+esc(j.campaign)+'</div>'+
-        '<span class="scope">'+esc(j.scope)+'</span>'+
-      '</div>';
-    b.addEventListener('click',()=>open(idx));
-    street.appendChild(b);
+      '<span class="cap-no">No. 0'+(i+1)+'</span>'+
+      '<div class="frame"><span class="nm">'+esc(j.client)+'</span><span class="roped" aria-hidden="true"></span></div>';
+    b.addEventListener('click',()=>enlarge(i));
+    cards.appendChild(b);
+    return b;
   });
 
-  /* ---- modal (reuses the Works pop-up interaction) ---- */
+  // ---------- build the mobile fallback list rows (names only) ----------
+  JOBS.forEach((j,i)=>{
+    const r=document.createElement('button');
+    r.type='button';r.className='lrow';
+    r.setAttribute('aria-label','Captured client: '+j.client+'. Tap to enlarge the sign.');
+    r.innerHTML =
+      '<span class="gag" aria-hidden="true">'+esc(j.sfx.replace(/[!.]/g,'').slice(0,4))+'</span>'+
+      '<span class="lc"><span class="nm">'+esc(j.client)+'</span></span>';
+    r.addEventListener('click',()=>enlarge(i));
+    listView.appendChild(r);
+  });
+
+  // ============================================================
+  //  GAG ANIMATIONS — each returns a Promise that resolves when
+  //  the card should "land". Cartoonish, light, never violent.
+  // ============================================================
+  // origin near Ash's raised hand (upper-left third), in % of the stage
+  const HAND = {x:26, y:34};
+
+  function svg(inner){
+    return '<svg viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden="true">'+inner+'</svg>';
+  }
+  function clearGag(){ gagL.innerHTML=''; }
+
+  function target(i){ // approximate landing centre for card i (% coords)
+    const s=SLOTS[i];
+    return {x:parseFloat(s.left)+10, y:parseFloat(s.top)+12};
+  }
+
+  function showSfx(text){
+    sfxEl.textContent=text;
+    sfxEl.classList.remove('pop'); void sfxEl.offsetWidth; sfxEl.classList.add('pop');
+  }
+  function puff(xPct,yPct,size){
+    const p=document.createElement('span');p.className='puff';
+    p.style.left='calc('+xPct+'% - '+(size/2)+'px)';
+    p.style.top='calc('+yPct+'% - '+(size/2)+'px)';
+    p.style.width=size+'px';p.style.height=size+'px';
+    gagL.appendChild(p);
+    requestAnimationFrame(()=>p.classList.add('go'));
+    setTimeout(()=>p.remove(),720);
+  }
+
+  // 1 · LASSO — a rope loop coils out and snaps in
+  function gagLasso(i){
+    return new Promise(res=>{
+      const t=target(i);
+      gagL.innerHTML = svg(
+        '<g fill="none" stroke="#f4ead0" stroke-width="0.8" stroke-linecap="round" opacity="0.92">'+
+        '<path id="rope" d="M'+HAND.x+' '+HAND.y+' Q '+((HAND.x+t.x)/2)+' '+(Math.min(HAND.y,t.y)-14)+' '+t.x+' '+t.y+'"/>'+
+        '<ellipse cx="'+t.x+'" cy="'+t.y+'" rx="0.5" ry="0.4">'+
+          '<animate attributeName="rx" values="0.5;11;8" dur="0.5s" fill="freeze"/>'+
+          '<animate attributeName="ry" values="0.4;8;6" dur="0.5s" fill="freeze"/>'+
+        '</ellipse>'+
+        '</g>'
+      );
+      const loop=gagL.querySelector('ellipse');
+      setTimeout(()=>{ showSfx('WHOOSH!'); },420);
+      // tighten the loop, then land
+      setTimeout(()=>{ if(loop){loop.setAttribute('rx','5');loop.setAttribute('ry','3.6');} },560);
+      setTimeout(res,760);
+    });
+  }
+
+  // 2 · SIX-SHOOTER — barrel flash + smoke; card spins in like a hit target
+  function gagGun(i){
+    return new Promise(res=>{
+      gagL.innerHTML = svg(
+        '<g stroke="#f4ead0" stroke-width="0.7" fill="none" opacity="0.9">'+
+        // muzzle flash starburst at the hand
+        '<g transform="translate('+HAND.x+' '+HAND.y+')" opacity="0">'+
+          '<path d="M0 0 L7 -2 M0 0 L8 1 M0 0 L6 4 M0 0 L4 6 M0 0 L9 -4" stroke-width="1.1"/>'+
+          '<animate attributeName="opacity" values="0;1;0" dur="0.32s" fill="freeze"/>'+
+        '</g>'+
+        '</g>'
+      );
+      setTimeout(()=>{ puff(HAND.x+4, HAND.y, 70); showSfx('BANG!'); },150);
+      // spin-in handled by card landing transform below
+      setTimeout(res,560);
+    });
+  }
+
+  // 3 · DYNAMITE / TNT — lit stick arcs over, big puff, card emerges
+  function gagDynamite(i){
+    return new Promise(res=>{
+      const t=target(i);
+      gagL.innerHTML = svg(
+        '<g opacity="0.95">'+
+        // a tossed stick arcing from hand toward the spot
+        '<g>'+
+          '<rect x="-2" y="-1" width="4" height="2" rx="0.4" fill="#d8c49a" stroke="#23140a" stroke-width="0.25">'+
+          '</rect>'+
+          '<animateMotion dur="0.55s" fill="freeze" path="M'+HAND.x+' '+HAND.y+' Q '+((HAND.x+t.x)/2)+' '+(Math.min(HAND.y,t.y)-20)+' '+t.x+' '+t.y+'"/>'+
+        '</g>'+
+        '</g>'
+      );
+      // spark trail then KABOOM
+      setTimeout(()=>{ showSfx('KA-BOOM!'); puff(t.x,t.y,120); puff(t.x-8,t.y+4,80); puff(t.x+9,t.y-3,90); },560);
+      setTimeout(res,840); // card appears out of the smoke
+    });
+  }
+
+  // 4 · BULLWHIP — a whip cracks out and snaps the card in
+  function gagWhip(i){
+    return new Promise(res=>{
+      const t=target(i);
+      gagL.innerHTML = svg(
+        '<g fill="none" stroke="#f4ead0" stroke-width="0.9" stroke-linecap="round" opacity="0.92">'+
+        '<path d="M'+HAND.x+' '+HAND.y+' Q '+((HAND.x+t.x)/2)+' '+(HAND.y+18)+' '+t.x+' '+t.y+'">'+
+          '<animate attributeName="stroke-dasharray" values="0 120;120 0" dur="0.34s" fill="freeze"/>'+
+        '</path>'+
+        // the crack flash at the tip
+        '<g transform="translate('+t.x+' '+t.y+')" opacity="0">'+
+          '<path d="M-3 -3 L3 3 M3 -3 L-3 3" stroke-width="1"/>'+
+          '<animate attributeName="opacity" values="0;1;0" dur="0.3s" begin="0.3s" fill="freeze"/>'+
+        '</g>'+
+        '</g>'
+      );
+      setTimeout(()=>{ showSfx('CRACK!'); },340);
+      setTimeout(res,620);
+    });
+  }
+
+  // 5 · NET / BOLA — a net drops over the spot and reels it in
+  function gagNet(i){
+    return new Promise(res=>{
+      const t=target(i);
+      gagL.innerHTML = svg(
+        '<g fill="none" stroke="#f4ead0" stroke-width="0.5" opacity="0">'+
+          '<g transform="translate('+t.x+' '+t.y+')">'+
+            // a simple net mesh
+            '<path d="M-9 -7 L9 -7 L7 8 L-7 8 Z"/>'+
+            '<path d="M-6 -7 L-5 8 M-1 -7 L-1 8 M4 -7 L3 8"/>'+
+            '<path d="M-9 -3 L9 -3 M-8 1 L8 1 M-7.5 5 L7.5 5"/>'+
+          '</g>'+
+          '<animate attributeName="opacity" values="0;0.95;0.95" dur="0.4s" fill="freeze"/>'+
+        '</g>'
+      );
+      setTimeout(()=>{ showSfx('GOTCHA!'); },360);
+      setTimeout(res,620);
+    });
+  }
+
+  // 6 · CANNON — a barrel fires a smoke ring toward the spot, big BOOM puff
+  function gagCannon(i){
+    return new Promise(res=>{
+      const t=target(i);
+      gagL.innerHTML = svg(
+        '<g opacity="0.95">'+
+        // stubby cannon at the hand
+        '<g transform="translate('+HAND.x+' '+HAND.y+')" fill="#d8c49a" stroke="#23140a" stroke-width="0.3">'+
+          '<rect x="-1" y="-2.4" width="9" height="4.8" rx="1.2"/>'+
+          '<circle cx="-2" cy="0" r="2.6"/>'+
+        '</g>'+
+        // a flying cannonball + smoke-ring trail
+        '<g fill="none" stroke="#f4ead0" stroke-width="0.7" opacity="0.9">'+
+          '<circle r="2.4" fill="#f4ead0" stroke="none">'+
+            '<animateMotion dur="0.5s" fill="freeze" path="M'+(HAND.x+7)+' '+HAND.y+' Q '+((HAND.x+t.x)/2)+' '+(Math.min(HAND.y,t.y)-12)+' '+t.x+' '+t.y+'"/>'+
+          '</circle>'+
+        '</g>'+
+        '</g>'
+      );
+      setTimeout(()=>{ puff(HAND.x+8, HAND.y, 60); },120);     // muzzle puff
+      setTimeout(()=>{ showSfx('BOOM!'); puff(t.x,t.y,118); puff(t.x-7,t.y+3,80); },520);
+      setTimeout(res,790);
+    });
+  }
+
+  // 7 · SLINGSHOT — band stretches and twangs a pebble across; card snaps in
+  function gagSlingshot(i){
+    return new Promise(res=>{
+      const t=target(i);
+      gagL.innerHTML = svg(
+        '<g opacity="0.95">'+
+        // slingshot Y-fork at the hand
+        '<g transform="translate('+HAND.x+' '+HAND.y+')" fill="none" stroke="#d8c49a" stroke-width="0.9" stroke-linecap="round">'+
+          '<path d="M0 4 L0 0 M0 0 L-2.4 -3 M0 0 L2.4 -3"/>'+
+          // the elastic band, snapping forward
+          '<path stroke="#f4ead0" stroke-width="0.6" d="M-2.4 -3 L1 -1 L2.4 -3">'+
+            '<animate attributeName="d" values="M-2.4 -3 L-4 -1 L2.4 -3;M-2.4 -3 L4 -1 L2.4 -3;M-2.4 -3 L1 -1 L2.4 -3" dur="0.36s" fill="freeze"/>'+
+          '</path>'+
+        '</g>'+
+        // the pebble flying off
+        '<circle r="1.4" fill="#f4ead0">'+
+          '<animateMotion begin="0.2s" dur="0.4s" fill="freeze" path="M'+(HAND.x)+' '+(HAND.y-1)+' Q '+((HAND.x+t.x)/2)+' '+(Math.min(HAND.y,t.y)-14)+' '+t.x+' '+t.y+'"/>'+
+        '</circle>'+
+        '</g>'
+      );
+      setTimeout(()=>{ showSfx('TWANG!'); },220);
+      setTimeout(()=>{ puff(t.x,t.y,64); },600);
+      setTimeout(res,740);
+    });
+  }
+
+  const GAGS = { lasso:gagLasso, gun:gagGun, dynamite:gagDynamite, whip:gagWhip, net:gagNet, cannon:gagCannon, slingshot:gagSlingshot };
+
+  // ---------- land a captured card (with gag-specific entrance) ----------
+  function landCard(i){
+    const el=cardEls[i], s=SLOTS[i], j=JOBS[i];
+    el.hidden=false;
+    // gag-specific entrance transform start state
+    let start;
+    if(j.gag==='gun')           start='scale(.4) rotate(380deg)';                 // spins in like a hit target
+    else if(j.gag==='dynamite') start='scale(.3) rotate('+s.rot+'deg)';            // pops out of smoke
+    else if(j.gag==='cannon')   start='scale(.3) rotate('+(s.rot+20)+'deg)';       // blasted in out of the smoke
+    else if(j.gag==='net')      start='translateY(-40px) scale(.7) rotate('+s.rot+'deg)'; // dropped in
+    else if(j.gag==='slingshot')start='translateX(46px) scale(.45) rotate('+(s.rot+12)+'deg)'; // pinged in
+    else                        start='translateX(40px) scale(.6) rotate('+(s.rot-10)+'deg)';  // yanked in (lasso/whip)
+    el.style.transform=start;
+    requestAnimationFrame(()=>{
+      el.classList.add('in');
+      el.style.transform='translate(0,0) scale(1) rotate('+s.rot+'deg)';
+    });
+  }
+
+  // ============================================================
+  //  REEL STATE MACHINE
+  // ============================================================
+  let started=false, busy=false, idx=0;
+
+  function setMeta(){
+    const N=JOBS.length;
+    if(idx>=N){ metaEl.innerHTML='<b>The End</b> · '+N+' of '+N+' captured'; }
+    else if(!started){ metaEl.textContent='Reel ready'; }
+    else { metaEl.innerHTML='Captured <b>'+idx+'</b> of '+N+' · next up'; }
+    nextBtn.disabled = busy || idx>=N;
+    if(idx>=N){ nextBtn.textContent='Reel complete'; }
+  }
+
+  // present everything instantly (reduced motion / fallback / completed)
+  function presentAll(){
+    if(titleCard) titleCard.classList.add('gone');
+    leader.classList.add('gone');
+    if(ashNote) ashNote.classList.add('show'); // stays visible, non-animated, under reduced motion
+    actEl.textContent='';
+    clearGag();
+    JOBS.forEach((j,i)=>{
+      const el=cardEls[i];
+      el.hidden=false;el.classList.add('in');
+      el.style.transition='none';
+      el.style.transform='translate(0,0) scale(1) rotate('+SLOTS[i].rot+'deg)';
+    });
+    idx=JOBS.length;started=true;busy=false;
+    tapEl.classList.add('hide');
+    setMeta();
+  }
+
+  // iris the vintage title card out, then resolve
+  function dismissTitle(){
+    return new Promise(res=>{
+      if(!titleCard||titleCard.classList.contains('gone')){res();return;}
+      if(reduce){ titleCard.classList.add('gone'); res(); return; }
+      titleCard.classList.add('iris');
+      setTimeout(()=>{ titleCard.classList.add('gone'); res(); },560);
+    });
+  }
+
+  // show the "ASH THE COWBOY" annotation, then gently fade it
+  function flashAshNote(){
+    if(!ashNote) return;
+    if(reduce){ ashNote.classList.add('show'); return; } // persistent under reduced motion
+    ashNote.classList.remove('fade');
+    ashNote.classList.add('show');
+    setTimeout(()=>{ ashNote.classList.add('fade'); ashNote.classList.remove('show'); },2600);
+  }
+
+  // run the 3·2·1 leader, then mark the reel started
+  function runCountdown(){
+    return new Promise(res=>{
+      if(reduce){ leader.classList.add('gone'); res(); return; }
+      let n=3;
+      countEl.textContent=n;
+      const iv=setInterval(()=>{
+        n--;
+        if(n>=1){ countEl.textContent=n; }
+        else { clearInterval(iv); leader.classList.add('gone'); res(); }
+      },800);
+    });
+  }
+
+  async function startReel(){
+    if(started) return;
+    started=true; busy=true;
+    tapEl.classList.add('hide');
+    setMeta();
+    // title card -> flickery iris cut -> 3·2·1 countdown -> the film
+    await dismissTitle();
+    await runCountdown();
+    // the picture is up: introduce Ash, then fade the annotation
+    flashAshNote();
+    await wait(reduce?0:700);
+    busy=false;
+    // auto-play the FIRST gag so the viewer immediately sees the idea
+    setMeta();
+    advance();
+  }
+
+  async function advance(){
+    if(!started){ startReel(); return; }
+    if(busy || idx>=JOBS.length) return;
+    busy=true; setMeta();
+    const j=JOBS[idx];
+    // anticipation beat
+    actEl.innerHTML='Ash readies… <b>'+esc(j.act)+'</b>';
+    await wait(reduce?0:260);
+    actEl.innerHTML='Roping <b>'+esc(j.client)+'</b>';
+    // run the gag
+    if(!reduce && GAGS[j.gag]){ await GAGS[j.gag](idx); }
+    else { showSfxStatic(j.sfx); }
+    // card lands
+    landCard(idx);
+    await wait(reduce?0:420);
+    clearGag();
+    idx++;
+    actEl.textContent = idx>=JOBS.length ? '' : '';
+    busy=false;
+    setMeta();
+    if(idx>=JOBS.length){ actEl.textContent=''; }
+  }
+
+  function showSfxStatic(){ /* no-op when reduced; SFX cards disabled */ }
+  function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+  // ---------- wire the advance controls ----------
+  nextBtn.addEventListener('click',()=>{ started?advance():startReel(); });
+  advBtn.addEventListener('click',()=>{ started?advance():startReel(); });
+  // scroll-to-advance is NOT hijacked (keeps the page scrollable);
+  // tapping the screen or the button is the obvious advance.
+
+  // ---------- responsive: decide stage vs. list fallback ----------
+  function fitMode(){
+    // if the stage would be too tight to stage gags, use the tap-through list
+    const tight = window.innerWidth < 600 || window.innerHeight < 560;
+    if(tight){
+      document.getElementById('client').classList.add('is-list');
+      // make sure the list is fully populated/legible regardless of reel state
+    } else {
+      document.getElementById('client').classList.remove('is-list');
+    }
+  }
+  fitMode();
+  let rTO; window.addEventListener('resize',()=>{clearTimeout(rTO);rTO=setTimeout(fitMode,180);});
+
+  // ---------- reduced motion / initial present ----------
+  if(reduce){ presentAll(); }
+  else { setMeta(); }
+
+  // ============================================================
+  //  ENLARGE — a trivial "make the name big" overlay. NO detail
+  //  copy (no roles/years/blurbs). Esc-close, focus-returning,
+  //  reuses the dialog pattern from the boardwalk version.
+  // ============================================================
   const m=document.getElementById('cwmodal');
-  const set=(id,v)=>{document.getElementById(id).textContent=v;};
+  const bigName=document.getElementById('cwmStageName');
+  const bigNo=document.getElementById('cwmLobbyTag');
   let lastFocus=null;
 
-  function open(idx){
-    const j=JOBS[idx];if(!j)return;
-    set('cwmTag',j.tag);set('cwmClient',j.client);set('cwmCampaign',j.campaign);
-    set('cwmLede',j.lede);set('cwmBlurb',j.blurb);set('cwmRole',j.role);set('cwmPend',j.pend||'');
-    // media stage: real media if present, otherwise an intentional "asset pending" slot
-    const stage=document.getElementById('cwmStage');stage.innerHTML='';
-    if(j.media&&j.media.length){
-      const it=j.media[0];
-      if(it.type==='video'){const v=document.createElement('video');v.src=it.src;if(it.poster)v.poster=it.poster;
-        v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('preload','metadata');stage.appendChild(v);
-        if(!reduce)v.play().catch(()=>{});}
-      else{const im=document.createElement('img');im.src=it.src;im.loading='lazy';im.alt=it.alt||(j.client+' — '+j.campaign);stage.appendChild(im);}
-    } else {
-      stage.innerHTML='<div class="pendart"><b>ASSET PENDING</b>'+esc(j.keyart)+'<br>frame to be staged</div>';
-    }
+  function enlarge(i){
+    const j=JOBS[i]; if(!j) return;
+    bigNo.textContent='Captured · No. 0'+(i+1);
+    bigName.textContent=j.client;
+    m.setAttribute('aria-label',j.client+' — captured client sign');
     lastFocus=document.activeElement;
     m.hidden=false;requestAnimationFrame(()=>m.classList.add('open'));
     m.querySelector('.cwm-x').focus();
     document.addEventListener('keydown',onKey);
   }
-  function close(){
+  function shrink(){
     m.classList.remove('open');
-    document.getElementById('cwmStage').querySelectorAll('video').forEach(v=>v.pause());
     document.removeEventListener('keydown',onKey);
     setTimeout(()=>{m.hidden=true;if(lastFocus&&lastFocus.focus)lastFocus.focus();},340);
   }
-  function onKey(e){if(e.key==='Escape'&&!m.hidden)close();}
-  m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
+  function onKey(e){
+    if(e.key==='Escape'&&!m.hidden){ shrink(); return; }
+    // lightweight focus trap inside the dialog
+    if(e.key==='Tab'&&!m.hidden){
+      const f=m.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+      if(!f.length)return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
+  }
+  m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',shrink));
 })();
 </script>
 </body>
