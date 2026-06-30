@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About — Scrapbook · Jeffrey N. Tse</title>
+<meta name="description" content="Systems Architect · Art Director · Editorial Strategist. A scrapbook wall of taped keepsakes, a shoebox spilling polaroids, and the way back to the gate.">
+<meta name="theme-color" content="#241c12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#f3eee2;          /* warm paper ink */
+  --mut:#b6a98f;          /* muted parchment */
+  --line:rgba(243,238,226,.14);
+  --accent:#e8c9a0;       /* warm gold (matches the koi/notebook world) */
+  --paper:#f0e7d4;        /* scrapbook paper */
+  --paper2:#e7dcc2;
+  --tape:rgba(231,222,193,.55);
+  --red:#a01f1f;
+  --cardink:#2b2114;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --hand:'Caveat',cursive;
+  --mono:'Courier Prime',monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--serif);color:var(--ink);
+  background:#241c12;
+  background-image:
+    radial-gradient(120% 90% at 50% -10%,rgba(94,72,40,.55),transparent 60%),
+    radial-gradient(90% 70% at 90% 110%,rgba(60,44,22,.5),transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  -webkit-font-smoothing:antialiased;min-height:100%;
+}
+
+.scrapbook{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(48px,8vh,96px) clamp(20px,5vw,64px) 140px}
+
+/* ===== header ===== */
+.sb-head{margin-bottom:clamp(30px,5vh,56px);max-width:760px}
+.sb-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.sb-title{font-weight:300;font-size:clamp(2.4rem,6.4vw,4.4rem);line-height:.95;letter-spacing:.01em;color:#f6f0e3}
+.sb-title em{font-style:italic;color:var(--accent)}
+.sb-titles{font-family:var(--mono);font-size:clamp(.62rem,1.4vw,.74rem);letter-spacing:.18em;text-transform:uppercase;color:var(--mut);margin-top:18px;line-height:1.7}
+.sb-hint{font-family:var(--hand);font-size:1.55rem;color:var(--mut);margin-top:14px;transform:rotate(-2deg);display:inline-block}
+.sb-hint::before{content:"";display:inline-block;width:42px;height:1px;background:var(--mut);vertical-align:middle;margin-right:10px;transform:translateY(-3px)}
+
+/* ===== collage wall: irregular grid of taped pieces ===== */
+.wall{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:clamp(22px,3.4vw,46px) clamp(16px,2.4vw,34px);
+  align-items:start;
+}
+
+/* a taped piece (shared scrapbook chrome) */
+.piece{position:relative;will-change:transform;transition:transform .35s var(--ease),filter .35s ease}
+.piece:hover{transform:rotate(0deg) translateY(-6px) scale(1.015);filter:saturate(1.06);z-index:5}
+
+/* paper card */
+.card-paper{
+  position:relative;
+  background:linear-gradient(150deg,var(--paper),var(--paper2));
+  border-radius:3px;
+  box-shadow:0 18px 38px -16px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.18) inset;
+  padding:16px 16px 18px;color:var(--cardink);
+}
+/* torn / deckle bottom edge */
+.card-paper::after{
+  content:"";position:absolute;left:0;right:0;bottom:-7px;height:9px;
+  background:radial-gradient(7px 9px at 6px -2px,var(--paper2) 98%,transparent) repeat-x;
+  background-size:13px 9px;filter:drop-shadow(0 2px 1px rgba(0,0,0,.25));
+}
+/* tape corners (same technique as Works) */
+.tape{position:absolute;width:74px;height:24px;background:var(--tape);
+  box-shadow:0 1px 3px rgba(0,0,0,.25);backdrop-filter:blur(.5px);
+  border-left:1px dashed rgba(0,0,0,.07);border-right:1px dashed rgba(0,0,0,.07);z-index:4}
+.tape.tl{top:-11px;left:-14px;transform:rotate(-38deg)}
+.tape.tr{top:-11px;right:-14px;transform:rotate(40deg)}
+.tape.bl{bottom:-9px;left:-12px;transform:rotate(38deg)}
+.tape.mid{top:-13px;left:50%;width:120px;margin-left:-60px;transform:rotate(-3deg)}
+
+/* handwritten labels / scribbles inside cards */
+.handwrite{font-family:var(--hand);font-size:1.9rem;line-height:1;color:var(--cardink);margin-top:10px;padding-left:2px}
+.scribble{display:block;height:8px;margin-top:2px;color:var(--red);opacity:.65}
+
+/* per-piece placement + rotation — irregular wall */
+.p-intro  {grid-column:1 / 7; transform:rotate(-1.6deg)}
+.p-bio    {grid-column:7 / 13; transform:rotate(1.6deg); margin-top:26px}
+.p-cred   {grid-column:1 / 5; transform:rotate(2.6deg); margin-top:14px}
+.p-stub   {grid-column:5 / 8; transform:rotate(-3.4deg); margin-top:42px}
+.p-lang   {grid-column:8 / 13; transform:rotate(-2.2deg); margin-top:10px}
+.p-box    {grid-column:1 / 8; transform:rotate(-1deg); margin-top:30px}
+.p-tag    {grid-column:8 / 13; transform:rotate(3deg); margin-top:54px}
+
+/* ---- card content styles ---- */
+.k-eye{font-family:var(--mono);font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:#7a6a48;margin-bottom:10px}
+.k-name{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1;color:#231a0e}
+.k-titles{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#5e5034;margin-top:12px;line-height:1.8}
+.k-hi{font-family:var(--hand);font-size:2rem;color:var(--red);line-height:1;transform:rotate(-1.4deg);display:inline-block;margin-bottom:4px}
+.k-body{font-size:1.04rem;line-height:1.62;color:#3a2f1d}
+.k-body + .k-body{margin-top:11px}
+.k-body em{font-style:italic}
+.k-rule{height:1px;background:rgba(0,0,0,.12);margin:14px 0}
+
+/* fact list (ticket-stub style on a ruled card) */
+.ruled{background:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 28px),
+    linear-gradient(160deg,#f4ecda,#e3d6b8)}
+.facts{list-style:none;font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:#46391f;line-height:1.55}
+.facts li{padding:5px 0;display:flex;gap:10px;align-items:baseline;border-bottom:1px dashed rgba(0,0,0,.12)}
+.facts li:last-child{border-bottom:0}
+.facts .yr{color:#8a7344;min-width:84px;flex:0 0 auto}
+.facts b{font-weight:700;color:#231a0e}
+
+/* small ticket stub */
+.stub .card-paper{padding:14px 14px 16px;
+  background:linear-gradient(150deg,#efe3c5,#e2d2ad)}
+.stub-no{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;color:#8a7344;text-transform:uppercase}
+.stub-big{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem);line-height:.95;color:#231a0e;margin:6px 0 4px}
+.stub-perf{border-top:2px dashed rgba(0,0,0,.18);margin-top:12px;padding-top:9px;font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;color:#6f5d36;text-transform:uppercase}
+
+/* languages chip card */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.chips span{font-family:var(--mono);font-size:.6rem;color:#3a2f1d;border:1px solid rgba(0,0,0,.18);border-radius:3px;padding:5px 9px;background:rgba(255,255,255,.28)}
+.chips span.native{background:rgba(232,201,160,.5);border-color:rgba(0,0,0,.12)}
+
+/* ===== SHOEBOX, tipped open, spilling polaroids ===== */
+.boxwrap{position:relative}
+.box{
+  position:relative;
+  background:linear-gradient(180deg,#cabfa6 0%,#bcae93 100%);
+  border:1px solid #b3a886;border-radius:10px;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.6),inset 0 2px 0 rgba(255,255,255,.30),inset 0 -18px 40px rgba(0,0,0,.16);
+  padding:clamp(20px,3vw,30px) clamp(20px,3vw,30px) clamp(72px,9vw,96px);
+  min-height:230px;overflow:visible;
+}
+.box::before{content:"";position:absolute;inset:8px;border:1px dashed rgba(0,0,0,.16);border-radius:6px;pointer-events:none}
+/* the tipped-open lid leaning behind the box */
+.lid{position:absolute;top:-26px;right:-10px;width:60%;height:78px;
+  background:linear-gradient(180deg,#d2c7ad,#c2b596);border:1px solid #b3a886;border-radius:8px;
+  transform:rotate(-7deg);box-shadow:0 18px 30px -18px rgba(0,0,0,.5);z-index:0}
+.lid::after{content:"keepsakes";position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:#6c5f44}
+.box-label{position:absolute;top:-14px;left:26px;z-index:3;background:#e9e2cf;border:1px solid #b3a886;
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:#5e5034;
+  padding:5px 12px;transform:rotate(-2.2deg);box-shadow:0 4px 10px rgba(0,0,0,.16)}
+
+/* polaroids spilling out of the box */
+.spill{position:relative;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:flex-start;padding-top:10px}
+.polaroid{position:relative;background:#fbf8ef;padding:11px 11px 42px;width:clamp(130px,30%,168px);flex:0 0 auto;
+  box-shadow:3px 7px 0 rgba(0,0,0,.10),0 22px 50px rgba(0,0,0,.34);
+  transition:transform .5s var(--ease)}
+.polaroid:hover{transform:translateY(-6px) rotate(0deg)}
+.polaroid.pa{transform:rotate(-6deg)}
+.polaroid.pb{transform:rotate(4deg);margin-bottom:18px}
+.polaroid.pc{transform:rotate(-2deg)}
+.polaroid .ptape{position:absolute;width:86px;height:24px;background:var(--tape);left:50%;margin-left:-43px;top:-12px;
+  transform:rotate(-3deg);box-shadow:0 1px 3px rgba(0,0,0,.2);mix-blend-mode:multiply}
+.polaroid .photo{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;text-align:center;
+  background:
+    repeating-linear-gradient(135deg,#d7ccb2 0 8px,#cfc3a6 8px 16px);
+  color:#7c7053;font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;line-height:1.7;text-transform:uppercase;padding:8px}
+/* "still developing" intentional-empty polaroid */
+.polaroid .photo.developing{background:linear-gradient(160deg,#3a3326,#2a2419);color:#bcae8e}
+.polaroid .photo.swatch{background:linear-gradient(150deg,#e8c9a0,#cdbf9a)}
+.polaroid .cap{font-family:var(--hand);font-size:1.35rem;color:#2a2014;text-align:center;margin-top:9px;transform:rotate(-1deg);line-height:1}
+
+/* CV taped tag */
+.tagwrap{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.cv-tag{position:relative;display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#231a0e;
+  background:linear-gradient(150deg,#f2e8cd,#e6d6b1);border:1px solid rgba(0,0,0,.16);border-radius:3px;
+  padding:14px 18px 14px 30px;text-decoration:none;box-shadow:0 14px 26px -14px rgba(0,0,0,.6);
+  transition:transform .25s var(--ease),background .25s var(--ease)}
+.cv-tag::before{content:"";position:absolute;left:11px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;
+  background:#bcae93;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.3)}   /* punch hole */
+.cv-tag svg{width:14px;height:14px;fill:currentColor}
+.cv-tag:hover{transform:translateY(-3px) rotate(-1deg);background:linear-gradient(150deg,#f6eed6,#ecdcb8)}
+.cv-tag:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.tag-note{font-family:var(--hand);font-size:1.5rem;color:var(--cardink);transform:rotate(-2deg)}
+
+/* ===== loop-back cue ===== */
+.loopback{margin-top:clamp(54px,8vh,96px);text-align:center;position:relative}
+.loopback .turn{font-family:var(--hand);font-size:clamp(1.6rem,4vw,2.4rem);color:var(--accent);line-height:1.3;transform:rotate(-1.4deg);display:inline-block}
+.loopback .turn em{font-style:normal;color:#f6f0e3}
+.loop-link{display:inline-flex;align-items:center;gap:9px;margin-top:18px;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#241c12;
+  background:var(--accent);padding:11px 18px;border-radius:4px;text-decoration:none;transition:transform .25s var(--ease)}
+.loop-link:hover{transform:translateY(-3px)}
+.loop-link:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.loop-arc{display:block;margin:6px auto 0;color:var(--mut);opacity:.7}
+
+/* ===== floating doodles / arrows (Caveat) ===== */
+.doodle{position:absolute;font-family:var(--hand);color:var(--accent);pointer-events:none;opacity:.9;z-index:6}
+.doodle.d1{font-size:1.4rem;top:-30px;left:40%;transform:rotate(-8deg)}
+.doodle.d2{font-size:1.2rem;top:42%;right:-34px;transform:rotate(7deg);color:#cdbf9a}
+.doodle.d3{font-size:1.25rem;bottom:8%;left:-30px;transform:rotate(-6deg);color:#cdbf9a}
+
+/* ===== responsive ===== */
+@media(max-width:860px){
+  .wall{display:flex;flex-direction:column;gap:30px}
+  .piece,.p-intro,.p-bio,.p-cred,.p-stub,.p-lang,.p-box,.p-tag{margin-top:0;grid-column:auto;transform:rotate(-1.4deg)}
+  .piece:nth-child(even){transform:rotate(1.6deg)}
+  .lid{width:62%}
+  .doodle.d2,.doodle.d3{display:none}
+}
+@media(max-width:480px){
+  .polaroid{width:clamp(118px,44%,150px)}
+}
+
+/* ===== reduced motion ===== */
+@media (prefers-reduced-motion: reduce){
+  *{scroll-behavior:auto !important}
+  .piece,.piece:hover,
+  .polaroid,.polaroid:hover,
+  .cv-tag,.cv-tag:hover,
+  .loop-link,.loop-link:hover{transition:none;transform:none}
+  /* keep the static collage rotations so the spread still reads as scrapbook */
+  .p-intro{transform:rotate(-1.6deg)} .p-bio{transform:rotate(1.6deg)}
+  .p-cred{transform:rotate(2.6deg)} .p-stub{transform:rotate(-3.4deg)}
+  .p-lang{transform:rotate(-2.2deg)} .p-box{transform:rotate(-1deg)} .p-tag{transform:rotate(3deg)}
+  .polaroid.pa{transform:rotate(-6deg)} .polaroid.pb{transform:rotate(4deg)} .polaroid.pc{transform:rotate(-2deg)}
+}
+</style>
+</head>
+<body>
+
+<main class="scrapbook">
+  <header class="sb-head">
+    <p class="sb-eyebrow">About &middot; Scrapbook</p>
+    <h1 class="sb-title">Pasted up, <em>kept on file</em>.</h1>
+    <p class="sb-titles">Systems Architect &middot; Art Director &middot; Editorial Strategist</p>
+    <span class="sb-hint">everything worth keeping, taped to one wall</span>
+  </header>
+
+  <div class="wall">
+
+    <!-- INTRO card -->
+    <article class="piece p-intro">
+      <span class="doodle d1" aria-hidden="true">that's him &darr;</span>
+      <span class="tape tl" aria-hidden="true"></span><span class="tape tr" aria-hidden="true"></span>
+      <div class="card-paper">
+        <p class="k-eye">no. 01 &middot; introduction</p>
+        <span class="k-hi">Hello —</span>
+        <h2 class="k-name">Jeffrey N. Tse</h2>
+        <p class="k-titles">Systems Architect &middot; Art Director &middot; Editorial Strategist</p>
+        <div class="handwrite">based in Hong Kong<svg class="scribble" viewBox="0 0 160 8" preserveAspectRatio="none" width="150" aria-hidden="true"><path d="M2 5 C 30 2, 60 8, 90 4 S 150 3, 158 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      </div>
+    </article>
+
+    <!-- BIO card -->
+    <article class="piece p-bio">
+      <span class="tape tl" aria-hidden="true"></span><span class="tape tr" aria-hidden="true"></span>
+      <div class="card-paper">
+        <p class="k-eye">no. 02 &middot; the short version</p>
+        <p class="k-body">He builds the structure underneath a thing and the way it reads on the surface &mdash; identity systems, editorial direction, and narrative work &mdash; and treats the seam between the two as the whole job.</p>
+        <div class="k-rule" aria-hidden="true"></div>
+        <p class="k-body">Most recently Chief Editor at I.T Apparels, where he ran a copy and editorial team, drove roughly <em>30% organic traffic growth</em>, and built <em>DISCOVER</em>, an on-site archive for editorial features and designer interviews &mdash; among them Mark Gong, Subez Yeti and Masayuki Ino.</p>
+        <p class="k-body">Before that, Senior English Editor at the Hong Kong Tourism Board: lead English copywriter on DiscoverHongKong.com and the Hello Hong Kong campaign through the city's tourism recovery.</p>
+      </div>
+    </article>
+
+    <!-- CREDENTIALS / TIMELINE card (ruled) -->
+    <article class="piece p-cred">
+      <span class="tape mid" aria-hidden="true"></span>
+      <div class="card-paper ruled">
+        <p class="k-eye">no. 03 &middot; on record</p>
+        <ul class="facts">
+          <li><span class="yr">2026 &ndash;</span><span><b>PawsAid</b> &mdash; Co-Founder, Head of Product</span></li>
+          <li><span class="yr">2023 &ndash; 25</span><span><b>I.T Apparels</b> &mdash; Chief Editor</span></li>
+          <li><span class="yr">2022 &ndash; 23</span><span><b>HK Tourism Board</b> &mdash; Senior English Editor</span></li>
+          <li><span class="yr">MSc</span><span>Marketing Management &mdash; <b>HK PolyU</b></span></li>
+          <li><span class="yr">BA</span><span>Art History, Dean's Honour List &mdash; <b>UBC</b></span></li>
+        </ul>
+        <div class="handwrite" style="font-size:1.5rem;margin-top:8px">kept the receipts</div>
+      </div>
+    </article>
+
+    <!-- TICKET STUB -->
+    <article class="piece p-stub stub">
+      <span class="tape tl" aria-hidden="true"></span>
+      <div class="card-paper">
+        <p class="stub-no">admit one &middot; field note</p>
+        <p class="stub-big">One-Ply<br>Realism</p>
+        <p class="k-eye" style="margin:0">an essay on material culture &middot; 2026</p>
+        <p class="stub-perf">ROLL CALL &middot; no. 0001</p>
+      </div>
+    </article>
+
+    <!-- LANGUAGES card -->
+    <article class="piece p-lang">
+      <span class="doodle d2" aria-hidden="true">&larr; reads in six</span>
+      <span class="tape tr" aria-hidden="true"></span><span class="tape bl" aria-hidden="true"></span>
+      <div class="card-paper">
+        <p class="k-eye">no. 04 &middot; languages, taped on</p>
+        <div class="chips" aria-label="Languages">
+          <span class="native">English &mdash; native</span>
+          <span class="native">Cantonese &mdash; native</span>
+          <span>Mandarin &mdash; fluent</span>
+          <span>Japanese</span>
+          <span>Russian</span>
+          <span>Thai</span>
+        </div>
+        <div class="handwrite" style="font-size:1.5rem;margin-top:14px">tone travels &mdash; or it doesn't</div>
+      </div>
+    </article>
+
+    <!-- SHOEBOX, tipped open, spilling polaroids -->
+    <article class="piece p-box">
+      <div class="boxwrap">
+        <span class="doodle d3" aria-hidden="true">open it &uarr;</span>
+        <div class="box">
+          <span class="lid" aria-hidden="true"></span>
+          <span class="box-label">Keepsakes — do not throw out</span>
+          <div class="spill">
+            <figure class="polaroid pa">
+              <span class="ptape" aria-hidden="true"></span>
+              <div class="photo developing" role="img" aria-label="An undeveloped polaroid, kept blank on purpose">still<br>developing</div>
+              <figcaption class="cap">give it a minute</figcaption>
+            </figure>
+            <figure class="polaroid pb">
+              <span class="ptape" aria-hidden="true"></span>
+              <div class="photo swatch" role="img" aria-label="A warm gold colour swatch, the house tone">house<br>gold</div>
+              <figcaption class="cap">the koi colour</figcaption>
+            </figure>
+            <figure class="polaroid pc">
+              <span class="ptape" aria-hidden="true"></span>
+              <div class="photo" role="img" aria-label="A polaroid of a ticket stub keepsake">UBC &middot; '19<br>vancouver</div>
+              <figcaption class="cap">art history, then this</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CV TAPED TAG -->
+    <article class="piece p-tag">
+      <div class="tagwrap">
+        <a class="cv-tag" href="assets/JeffreyTse_CV.pdf" target="_blank" rel="noopener" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zM5 18h14v2H5z"/></svg>
+          The full C.V. &mdash; PDF
+        </a>
+        <p class="tag-note">tied on with string &mdash; take a copy</p>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- LOOP BACK TO THE GATE (koi) -->
+  <footer class="loopback">
+    <p class="turn">that's the box, just about emptied &mdash;<br><em>now follow the koi back to the start.</em></p>
+    <svg class="loop-arc" width="120" height="34" viewBox="0 0 120 34" fill="none" aria-hidden="true">
+      <path d="M6 6 C 40 40, 80 40, 112 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M112 12 l-9 1 l5 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <a class="loop-link" href="#gate">&#8634;&nbsp; back to the gate</a>
+  </footer>
+</main>
+
+</body>
+</html>
