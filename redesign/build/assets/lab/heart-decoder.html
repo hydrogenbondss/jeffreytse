@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart Decoder</title>
+<meta name="description" content="Feed it a feeling, watch it try to read you back. A quiet moment of guided self-reflection.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* muted, soothing palette — dusk over still water */
+    --ink:#2a2d3a;
+    --ink-soft:#4c5063;
+    --ink-faint:#7b7f92;
+    --paper:#f4f1ec;
+    --paper-2:#efeae3;
+    --line:rgba(42,45,58,0.10);
+    --line-soft:rgba(42,45,58,0.06);
+    --rose:#c69a92;
+    --rose-deep:#a8736c;
+    --sage:#8a9a8f;
+    --mauve:#8f8398;
+    --gold:#c8a96a;
+    --glow:rgba(198,154,146,0.55);
+    --card:rgba(255,255,255,0.55);
+    --shadow:0 24px 60px -28px rgba(42,45,58,0.35);
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --ease-soft:cubic-bezier(.4,0,.2,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html,body{height:100%;}
+
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 800px at 18% -10%, #faf4ee 0%, rgba(250,244,238,0) 55%),
+      radial-gradient(1100px 900px at 92% 110%, #ece6f0 0%, rgba(236,230,240,0) 55%),
+      linear-gradient(160deg, #f4f1ec 0%, #efe9e4 45%, #ece7ee 100%);
+    background-attachment:fixed;
+    min-height:100%;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.6;
+  }
+
+  /* slow living aurora behind everything */
+  .aura{
+    position:fixed;
+    inset:-20vmax;
+    z-index:0;
+    pointer-events:none;
+    filter:blur(60px);
+    opacity:.5;
+    background:
+      radial-gradient(38vmax 38vmax at 30% 30%, rgba(198,154,146,0.30), transparent 60%),
+      radial-gradient(34vmax 34vmax at 72% 64%, rgba(143,131,152,0.26), transparent 62%),
+      radial-gradient(30vmax 30vmax at 50% 88%, rgba(138,154,143,0.22), transparent 60%);
+    animation:drift 34s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{transform:translate3d(-2%, -1%, 0) scale(1);}
+    50%{transform:translate3d(2%, 2%, 0) scale(1.06);}
+    100%{transform:translate3d(-1%, 1%, 0) scale(1.02);}
+  }
+
+  .grain{
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- shell ---- */
+  .stage{
+    position:relative;z-index:2;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:clamp(24px,5vw,72px) clamp(20px,5vw,40px);
+  }
+
+  .frame{
+    width:min(620px,100%);
+    position:relative;
+  }
+
+  /* progress dots */
+  .progress{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:clamp(28px,5vh,52px);
+    opacity:0;
+    animation:fadeIn 1.2s var(--ease) .3s forwards;
+  }
+  .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--line);
+    transition:all .7s var(--ease);
+  }
+  .dot.active{background:var(--rose-deep);transform:scale(1.25);box-shadow:0 0 0 5px rgba(168,115,108,0.10);}
+  .dot.done{background:var(--rose);}
+
+  /* panels */
+  .panel{
+    display:none;
+    animation:rise .9s var(--ease) both;
+  }
+  .panel.show{display:block;}
+  .panel.leaving{animation:sink .5s var(--ease-soft) both;}
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(22px);filter:blur(6px);}
+    to{opacity:1;transform:none;filter:blur(0);}
+  }
+  @keyframes sink{
+    from{opacity:1;transform:none;}
+    to{opacity:0;transform:translateY(-14px);}
+  }
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  .eyebrow{
+    font-size:.72rem;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    font-weight:500;
+    margin-bottom:1.4rem;
+    text-align:center;
+  }
+
+  h1,h2{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:300;
+    line-height:1.08;
+    letter-spacing:.005em;
+    color:var(--ink);
+  }
+  h1{font-size:clamp(2.6rem,7vw,4rem);}
+  h2{font-size:clamp(2rem,5.4vw,3rem);}
+
+  .lede{
+    font-size:clamp(1rem,2.4vw,1.18rem);
+    color:var(--ink-soft);
+    font-weight:300;
+    max-width:34ch;
+    margin:1.4rem auto 0;
+    text-align:center;
+  }
+  .center{text-align:center;}
+
+  em.q{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color:var(--rose-deep);
+    font-weight:400;
+  }
+
+  /* heart mark */
+  .mark{
+    width:84px;height:84px;margin:0 auto clamp(20px,4vh,34px);
+    display:block;
+    overflow:visible;
+  }
+  .mark path{
+    fill:none;
+    stroke:url(#hg);
+    stroke-width:3.2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:drop-shadow(0 0 10px var(--glow));
+  }
+  .mark .pulse{
+    transform-origin:center;
+    animation:beat 3.6s var(--ease-soft) infinite;
+  }
+  @keyframes beat{
+    0%,100%{transform:scale(1);opacity:1;}
+    14%{transform:scale(1.07);}
+    28%{transform:scale(1);}
+    42%{transform:scale(1.04);}
+    56%{transform:scale(1);opacity:.92;}
+  }
+
+  /* buttons */
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-size:.95rem;
+    font-weight:500;
+    letter-spacing:.02em;
+    color:var(--paper);
+    background:linear-gradient(135deg,var(--rose-deep),#8d6f96);
+    border:none;
+    border-radius:100px;
+    padding:.95em 2.4em;
+    cursor:pointer;
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease), filter .5s var(--ease);
+    box-shadow:0 14px 30px -14px rgba(168,115,108,0.7), inset 0 1px 0 rgba(255,255,255,0.2);
+    position:relative;
+    overflow:hidden;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 22px 40px -16px rgba(168,115,108,0.8);filter:saturate(1.05);}
+  .btn:active{transform:translateY(0);}
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--rose);}
+
+  .btn.ghost{
+    background:transparent;color:var(--ink-soft);
+    box-shadow:none;border:1px solid var(--line);
+    font-weight:400;
+  }
+  .btn.ghost:hover{background:rgba(255,255,255,0.4);color:var(--ink);border-color:var(--line);box-shadow:none;}
+
+  .actions{
+    display:flex;gap:14px;justify-content:center;align-items:center;
+    margin-top:clamp(28px,5vh,44px);flex-wrap:wrap;
+  }
+
+  /* emotion chips */
+  .feelings{
+    display:flex;flex-wrap:wrap;gap:11px;justify-content:center;
+    margin:clamp(28px,5vh,40px) auto 0;
+    max-width:560px;
+  }
+  .chip{
+    font-family:'Inter',sans-serif;
+    font-size:.92rem;font-weight:400;letter-spacing:.01em;
+    color:var(--ink-soft);
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:.62em 1.25em;
+    cursor:pointer;
+    backdrop-filter:blur(8px);
+    transition:transform .4s var(--ease), background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+    animation:chipIn .7s var(--ease) both;
+  }
+  .chip:hover{
+    transform:translateY(-3px);
+    background:rgba(255,255,255,0.82);
+    color:var(--ink);
+    border-color:rgba(168,115,108,0.4);
+    box-shadow:0 12px 26px -16px rgba(168,115,108,0.55);
+  }
+  .chip:focus-visible{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px rgba(198,154,146,0.3);}
+  .chip.sel{
+    background:linear-gradient(135deg,var(--rose-deep),#8d6f96);
+    color:var(--paper);border-color:transparent;
+    box-shadow:0 14px 28px -14px rgba(168,115,108,0.7);
+  }
+  @keyframes chipIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  .own{
+    margin:clamp(22px,4vh,30px) auto 0;
+    max-width:440px;
+  }
+  .own-label{
+    display:block;text-align:center;font-size:.78rem;
+    color:var(--ink-faint);letter-spacing:.06em;margin-bottom:.85rem;
+  }
+  .field{
+    width:100%;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.45rem;
+    font-weight:400;
+    color:var(--ink);
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line);
+    padding:.5em .2em;
+    text-align:center;
+    transition:border-color .5s var(--ease);
+  }
+  .field::placeholder{color:var(--ink-faint);font-style:italic;opacity:.7;}
+  .field:focus{outline:none;border-bottom-color:var(--rose-deep);}
+
+  /* follow-up slider */
+  .deepen{margin:clamp(26px,5vh,40px) auto 0;max-width:460px;}
+  .scale-cap{display:flex;justify-content:space-between;font-size:.78rem;color:var(--ink-faint);margin-bottom:1rem;letter-spacing:.03em;}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--rose) 0%,var(--mauve) 100%);
+    cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--rose-deep);
+    box-shadow:0 6px 16px -6px rgba(168,115,108,0.8);
+    transition:transform .3s var(--ease);
+  }
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12);}
+  input[type=range]::-moz-range-thumb{
+    width:24px;height:24px;border-radius:50%;background:var(--paper);
+    border:2px solid var(--rose-deep);box-shadow:0 6px 16px -6px rgba(168,115,108,0.8);
+  }
+  input[type=range]:focus-visible{outline:none;}
+  input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(198,154,146,0.35);}
+  .scale-read{text-align:center;margin-top:1.1rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;color:var(--rose-deep);min-height:1.6em;transition:opacity .4s var(--ease);}
+
+  /* decoding beat */
+  .decoding{text-align:center;}
+  .orbit{width:140px;height:140px;margin:0 auto clamp(24px,4vh,36px);position:relative;}
+  .orbit svg{width:100%;height:100%;overflow:visible;}
+  .orbit .ring{fill:none;stroke:var(--rose);stroke-width:1.4;opacity:.55;transform-origin:center;}
+  .orbit .ring:nth-child(2){stroke:var(--mauve);animation:spin 7s linear infinite reverse;}
+  .orbit .ring:nth-child(1){animation:spin 9s linear infinite;}
+  .orbit .ring:nth-child(3){stroke:var(--sage);animation:spin 5s linear infinite;}
+  .orbit .core{fill:var(--rose-deep);animation:coreBeat 2.2s var(--ease-soft) infinite;transform-origin:center;filter:drop-shadow(0 0 8px var(--glow));}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes coreBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.4);opacity:.7;}}
+  .decode-line{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.15rem,3vw,1.5rem);color:var(--ink-soft);min-height:1.5em;transition:opacity .6s var(--ease);}
+
+  /* reading */
+  .reading-card{
+    background:linear-gradient(160deg, rgba(255,255,255,0.66), rgba(255,255,255,0.42));
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:28px;
+    padding:clamp(30px,5vw,52px);
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(14px);
+    position:relative;
+    overflow:hidden;
+  }
+  .reading-card::before{
+    content:"";position:absolute;inset:0;border-radius:28px;padding:1px;
+    background:linear-gradient(160deg,rgba(198,154,146,0.5),rgba(143,131,152,0.2),transparent);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  }
+  .tag{
+    font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--rose-deep);font-weight:500;margin-bottom:1rem;
+  }
+  .reading-title{
+    font-family:'Cormorant Garamond',serif;font-weight:400;
+    font-size:clamp(1.9rem,5vw,2.7rem);line-height:1.1;margin-bottom:1.3rem;
+  }
+  .reading-body p{
+    font-size:clamp(1.02rem,2.5vw,1.16rem);
+    color:var(--ink-soft);font-weight:300;margin-bottom:1.1rem;
+  }
+  .reading-body p:last-child{margin-bottom:0;}
+  .keepsake{
+    margin-top:1.8rem;padding-top:1.6rem;border-top:1px solid var(--line-soft);
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:clamp(1.15rem,3vw,1.4rem);color:var(--ink);line-height:1.4;
+  }
+
+  /* reveal words inside reading */
+  .reveal > *{opacity:0;transform:translateY(10px);animation:revUp .9s var(--ease) forwards;}
+  @keyframes revUp{to{opacity:1;transform:none;}}
+
+  .restart{margin-top:clamp(26px,5vh,40px);text-align:center;}
+  .footnote{
+    text-align:center;margin-top:clamp(30px,6vh,52px);
+    font-size:.74rem;color:var(--ink-faint);letter-spacing:.04em;font-weight:300;
+  }
+  .footnote a{color:var(--ink-faint);}
+
+  /* reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.12s!important;scroll-behavior:auto!important;}
+    .aura{animation:none;}
+    .mark .pulse,.orbit .ring,.orbit .core{animation:none;}
+    .reveal > *{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+  <div class="aura" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- shared svg gradient defs -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#c69a92"/>
+        <stop offset="1" stop-color="#8f8398"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <main class="stage">
+    <div class="frame">
+      <div class="progress" aria-hidden="true" id="progress">
+        <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+
+      <!-- 1 — welcome -->
+      <section class="panel show" id="p-welcome" aria-labelledby="welcome-h" tabindex="-1">
+        <svg class="mark" viewBox="0 0 100 92" role="img" aria-label="A softly beating heart">
+          <path class="pulse" d="M50 84 C 16 60 6 38 6 26 C 6 12 16 6 26 6 C 36 6 44 12 50 22 C 56 12 64 6 74 6 C 84 6 94 12 94 26 C 94 38 84 60 50 84 Z"/>
+        </svg>
+        <p class="eyebrow">Heart Decoder</p>
+        <h1 class="center" id="welcome-h">Feed it a feeling,<br>watch it read you back.</h1>
+        <p class="lede">A quiet few minutes to notice what you are carrying — and to hear it named with a little more kindness than usual. Nothing is saved. Nothing is shared. This is only for you.</p>
+        <div class="actions">
+          <button class="btn" id="begin">Begin</button>
+        </div>
+      </section>
+
+      <!-- 2 — choose feeling -->
+      <section class="panel" id="p-feeling" aria-labelledby="feeling-h" tabindex="-1">
+        <p class="eyebrow">Where you are</p>
+        <h2 class="center" id="feeling-h">How are you, honestly?</h2>
+        <p class="lede">Pick the word that sits closest to the truth right now. If none of them fit, say it in your own.</p>
+        <div class="feelings" id="chips" role="group" aria-label="Choose a feeling"></div>
+        <div class="own">
+          <label class="own-label" for="ownInput">or in your own words</label>
+          <input class="field" id="ownInput" type="text" autocomplete="off" maxlength="60" placeholder="name it here" aria-label="Describe your feeling in your own words">
+        </div>
+        <div class="actions">
+          <button class="btn" id="toDeepen" disabled style="opacity:.45;pointer-events:none;">Continue</button>
+        </div>
+      </section>
+
+      <!-- 3 — deepen -->
+      <section class="panel" id="p-deepen" aria-labelledby="deepen-h" tabindex="-1">
+        <p class="eyebrow">A little closer</p>
+        <h2 class="center" id="deepen-h">And how heavily is <em class="q" id="echoFeeling">it</em> sitting?</h2>
+        <p class="lede">No right answer. Move it to wherever feels honest.</p>
+        <div class="deepen">
+          <div class="scale-cap"><span>barely a whisper</span><span>filling the room</span></div>
+          <input type="range" id="weight" min="0" max="100" value="50" aria-label="How heavily the feeling is sitting, from a whisper to filling the room">
+          <p class="scale-read" id="weightRead">somewhere in the middle</p>
+        </div>
+        <div class="actions">
+          <button class="btn ghost" id="skipDeepen">I would rather not</button>
+          <button class="btn" id="toDecode">Read me</button>
+        </div>
+      </section>
+
+      <!-- 4 — decoding -->
+      <section class="panel decoding" id="p-decoding" aria-live="polite" tabindex="-1">
+        <div class="orbit" aria-hidden="true">
+          <svg viewBox="0 0 140 140">
+            <circle class="ring" cx="70" cy="70" r="58"/>
+            <circle class="ring" cx="70" cy="70" r="44"/>
+            <circle class="ring" cx="70" cy="70" r="30"/>
+            <circle class="core" cx="70" cy="70" r="9"/>
+          </svg>
+        </div>
+        <p class="decode-line" id="decodeLine">Sitting with it for a moment.</p>
+      </section>
+
+      <!-- 5 — reading -->
+      <section class="panel" id="p-reading" aria-labelledby="reading-h" tabindex="-1">
+        <div class="reading-card reveal" id="readingCard">
+          <p class="tag" id="readingTag">Your reflection</p>
+          <h2 class="reading-title" id="reading-h"></h2>
+          <div class="reading-body" id="readingBody"></div>
+          <p class="keepsake" id="keepsake"></p>
+        </div>
+        <div class="restart">
+          <button class="btn ghost" id="again">Decode another feeling</button>
+        </div>
+        <p class="footnote">Heart Decoder — a small object from the studio of Jeffrey N. Tse. Held only in this moment, then let go.</p>
+      </section>
+    </div>
+  </main>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- emotion library ---------- */
+  /* Each reading: title, two grounded paragraphs, and a keepsake line.
+     Written to feel specific, literary, and warm — never horoscope, never therapy-cliche. */
+  var FEELINGS = {
+    tender:{
+      label:"Tender",
+      title:"A softness with the guard down.",
+      body:[
+        "Tenderness usually means something got through — a memory, a kindness, a person who matters more than you let on. The ache of it is not weakness; it is the proof that you are still reachable, that the world has not gone numb on you.",
+        "You do not have to do anything with this except let it be true for a while. Softness handled gently tends to stay; rushed past, it hardens. Give it the slow afternoon it is asking for."
+      ],
+      keep:"To be tender is to still have skin in the world."
+    },
+    restless:{
+      label:"Restless",
+      title:"A current with nowhere to go yet.",
+      body:[
+        "Restlessness is energy that has outpaced its instructions. Some part of you is ready for the next thing before the next thing has shown its face — so the readiness rattles around, looking like impatience, feeling like static under the skin.",
+        "It rarely wants more thinking. It wants one small motion in the right direction: a walk, a sentence written, a single honest message sent. Pick the smallest true move and let the current finally spend itself on something real."
+      ],
+      keep:"The restlessness is not the problem. It is the engine, idling."
+    },
+    untethered:{
+      label:"Untethered",
+      title:"Loose from the things that usually hold you.",
+      body:[
+        "Untethered is the quiet between chapters — the old shape of your days has loosened and the new one has not arrived to grip you yet. It can read as freedom and as freefall in the same breath, and both readings are honest.",
+        "You do not need the whole rope back at once. One anchor will do: a person you can call, an hour that repeats, a place that knows you. Tie on to a single fixed point and the drifting becomes floating again."
+      ],
+      keep:"You are not lost. You are simply between two places that have your name."
+    },
+    hopeful_tired:{
+      label:"Hopeful, but tired",
+      title:"Faith that is running a little low on fuel.",
+      body:[
+        "This is the most honest place a person can stand: still believing it is worth it, while feeling the cost of the believing. The hope has not left you — it has just been carrying weight for a long time without being set down.",
+        "What you likely need is not more reasons to keep going, but permission to keep going slowly. Hope does not require you to sprint. It only asks that you do not put it down for good — and you clearly have not."
+      ],
+      keep:"Tired hope is still hope. It has simply earned a rest."
+    },
+    content:{
+      label:"Quietly content",
+      title:"An ordinary day that happens to be enough.",
+      body:[
+        "Contentment is the most underrated feeling there is — undramatic, easy to overlook, gone the moment you start asking whether you deserve it. Right now, nothing is missing in a way that aches. That is rarer than it sounds.",
+        "Try not to interrogate it. The instinct to brace for the catch is just an old habit looking for work. Let this be a plain, unremarkable good — the kind of day you will quietly miss someday, so notice it while it is here."
+      ],
+      keep:"Enough is not a low bar. It is the whole point."
+    },
+    heavy:{
+      label:"Heavy",
+      title:"Carrying more than the day asked for.",
+      body:[
+        "Heaviness rarely comes from one thing. It is the sum — small unfinished worries, a tiredness older than today, feelings you have been polite enough to postpone. Stacked quietly, they get mistaken for your own weight.",
+        "You are not required to lift all of it to feel lighter. Name one piece and set it down where you can see it. Heaviness shared, or even just admitted out loud, almost always weighs less than heaviness carried in silence."
+      ],
+      keep:"You are not the weight. You are the one still standing under it."
+    },
+    grateful:{
+      label:"Grateful",
+      title:"A warmth that points outward.",
+      body:[
+        "Gratitude is one of the few feelings that improves the moment you express it. Something or someone has done you good, and the wanting-to-say-so is itself a small act of love looking for an address.",
+        "Do not let it stay an internal glow. Tell the person. Write the line. Gratitude unspoken fades like a held breath; gratitude offered tends to come back around, often to you."
+      ],
+      keep:"Say it to them, not just to yourself. It travels better out loud."
+    },
+    anxious:{
+      label:"Anxious",
+      title:"A mind running drills for a danger that may not come.",
+      body:[
+        "Anxiety is care with the volume stuck too high. It only rehearses the things that matter to you — which is why it feels so urgent and so exhausting at once. The fear is loud, but it is not always accurate.",
+        "You do not have to win the argument with it. Come back to what is literally true right now: your feet, your breath, the room you are in. Most of what anxiety predicts never arrives, and you have survived all of it so far."
+      ],
+      keep:"You can be afraid and still be safe. Both can be true in the same breath."
+    },
+    numb:{
+      label:"Numb",
+      title:"The volume turned low to get you through.",
+      body:[
+        "Numbness is not the absence of feeling — it is feeling, dimmed on purpose. When there has been too much to hold, the mind quietly turns the dial down so you can keep functioning. It is protection, not failure.",
+        "There is nothing to force here. The signal comes back at its own pace, usually when it is safe to. Be patient and unalarmed with the flatness; treat yourself like someone recovering, because in a quiet way, you are."
+      ],
+      keep:"The feeling is not gone. It is waiting until you can afford it."
+    },
+    longing:{
+      label:"Longing",
+      title:"A pull toward something not here.",
+      body:[
+        "Longing is the heart pointing. Whatever it reaches for — a person, a place, a version of life you can almost see — the ache is really a map. It tells you, with embarrassing honesty, what you actually want.",
+        "The discomfort is not a flaw to fix. It is information worth reading. Ask the longing plainly what it is for, and you may find it is asking for one true, possible thing, hidden underneath the impossible-sounding wish."
+      ],
+      keep:"What you miss is a clue to what you are made of."
+    },
+    proud:{
+      label:"Quietly proud",
+      title:"Something you did is finally landing.",
+      body:[
+        "Quiet pride is hard-won and easily talked out of. You did a difficult thing — held a line, finished the work, behaved well when no one was watching — and some honest part of you knows it. Let that part speak first for once.",
+        "You do not need anyone to confirm it for it to count. Take the moment fully before the next task swallows it. The version of you who was unsure you could do this would want you to actually feel this."
+      ],
+      keep:"You are allowed to be impressed by your own quiet effort."
+    },
+    overwhelmed:{
+      label:"Overwhelmed",
+      title:"Too many open doors at once.",
+      body:[
+        "Overwhelm is not weakness of will; it is a true mismatch between what is being asked and what any one person can hold at a time. The mind, faced with everything, tends to freeze on all of it — which only makes the pile look taller.",
+        "The way out is almost insultingly simple and genuinely works: pick the single next thing, do only that, and let the rest blur for now. You do not have to carry the whole day. You only have to carry the next ten minutes."
+      ],
+      keep:"You cannot do everything at once. No one can. That was never the assignment."
+    }
+  };
+
+  var ORDER = ["tender","restless","untethered","hopeful_tired","content","heavy","grateful","anxious","numb","longing","proud","overwhelmed"];
+
+  /* fallback reading for free-typed feeling */
+  function fallbackReading(word){
+    var clean = (word || "").trim();
+    var shown = clean.length ? clean : "this";
+    return {
+      label: clean,
+      title: "A feeling that wants its own word.",
+      body:[
+        "You reached past the easy labels and named it yourself — “" + escapeHtml(shown) + "” — and that is already a kind of clarity. Most feelings are too particular for a tidy box, and the honest ones almost always are.",
+        "Whatever it turns out to be, it is asking to be acknowledged before it is solved. So let this be the acknowledgement. You felt something true enough to find words for, and you stopped long enough to say it. That counts for more than it seems."
+      ],
+      keep:"The thing you cannot quite name still deserves to be heard."
+    };
+  }
+
+  /* weight-aware grace note, woven into the reading when they used the slider */
+  function weightNote(w){
+    if(w === null) return "";
+    if(w <= 20) return "And you said it is barely a whisper today — light enough to notice without it taking the wheel. That is a good place to meet it from.";
+    if(w <= 45) return "You placed it on the quieter side of the room, present but not in charge. Steady is its own kind of progress.";
+    if(w <= 70) return "You set it somewhere in the middle — real, taking up space, but not the only thing in the room. You are holding it and the rest of your life at once, which is harder than it looks.";
+    return "And you said it is nearly filling the room right now. On days like that the only honest goal is to get through gently, not to fix everything. Be as patient with yourself as you would be with anyone you love.";
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  /* ---------- state ---------- */
+  var state = { key:null, label:null, custom:false, weight:null };
+
+  /* ---------- elements ---------- */
+  var panels = {
+    welcome: byId('p-welcome'),
+    feeling: byId('p-feeling'),
+    deepen: byId('p-deepen'),
+    decoding: byId('p-decoding'),
+    reading: byId('p-reading')
+  };
+  var dots = byId('progress').querySelectorAll('.dot');
+  var stepIndex = { welcome:0, feeling:1, deepen:2, decoding:3, reading:3 };
+
+  function byId(id){return document.getElementById(id);}
+
+  /* ---------- build chips ---------- */
+  var chipWrap = byId('chips');
+  ORDER.forEach(function(key,i){
+    var b = document.createElement('button');
+    b.className = 'chip';
+    b.type = 'button';
+    b.textContent = FEELINGS[key].label;
+    b.setAttribute('aria-pressed','false');
+    b.dataset.key = key;
+    b.style.animationDelay = (0.04 * i + 0.1) + 's';
+    b.addEventListener('click', function(){ selectChip(key, b); });
+    chipWrap.appendChild(b);
+  });
+
+  var ownInput = byId('ownInput');
+  var continueBtn = byId('toDeepen');
+
+  function setContinue(enabled){
+    continueBtn.disabled = !enabled;
+    continueBtn.style.opacity = enabled ? '1' : '.45';
+    continueBtn.style.pointerEvents = enabled ? 'auto' : 'none';
+  }
+
+  function selectChip(key, el){
+    state.key = key; state.custom = false; state.label = FEELINGS[key].label;
+    chipWrap.querySelectorAll('.chip').forEach(function(c){
+      var on = c === el;
+      c.classList.toggle('sel', on);
+      c.setAttribute('aria-pressed', on ? 'true':'false');
+    });
+    ownInput.value = '';
+    setContinue(true);
+  }
+
+  ownInput.addEventListener('input', function(){
+    var v = ownInput.value.trim();
+    if(v.length){
+      state.key = null; state.custom = true; state.label = v;
+      chipWrap.querySelectorAll('.chip').forEach(function(c){
+        c.classList.remove('sel'); c.setAttribute('aria-pressed','false');
+      });
+      setContinue(true);
+    } else if(!state.key){
+      setContinue(false);
+    }
+  });
+
+  /* ---------- panel transitions ---------- */
+  function go(toName){
+    var current = document.querySelector('.panel.show');
+    var next = panels[toName];
+    if(current === next) return;
+
+    // progress dots
+    var idx = stepIndex[toName];
+    dots.forEach(function(d,i){
+      d.classList.toggle('active', i === idx);
+      d.classList.toggle('done', i < idx);
+    });
+
+    if(reduce){
+      if(current){ current.classList.remove('show'); }
+      next.classList.add('show');
+      focusPanel(next);
+      return;
+    }
+
+    if(current){
+      current.classList.add('leaving');
+      var done = function(){
+        current.classList.remove('show','leaving');
+        current.removeEventListener('animationend', done);
+        next.classList.add('show');
+        focusPanel(next);
+      };
+      current.addEventListener('animationend', done);
+    } else {
+      next.classList.add('show');
+      focusPanel(next);
+    }
+  }
+
+  function focusPanel(p){
+    // move focus to the panel for screen readers / keyboard, without scrolling jump
+    window.requestAnimationFrame(function(){
+      p.focus({preventScroll:true});
+    });
+  }
+
+  /* ---------- step: deepen ---------- */
+  var weight = byId('weight');
+  var weightRead = byId('weightRead');
+  var echoFeeling = byId('echoFeeling');
+
+  function weightWord(v){
+    if(v <= 12) return "barely there";
+    if(v <= 30) return "a quiet undertone";
+    if(v <= 48) return "noticeable, but bearable";
+    if(v <= 62) return "somewhere in the middle";
+    if(v <= 78) return "taking up real space";
+    if(v <= 92) return "loud today";
+    return "filling the whole room";
+  }
+  weight.addEventListener('input', function(){
+    weightRead.style.opacity = 0;
+    window.requestAnimationFrame(function(){
+      weightRead.textContent = weightWord(+weight.value);
+      weightRead.style.opacity = 1;
+    });
+  });
+
+  /* ---------- decoding lines ---------- */
+  var decodeLines = [
+    "Sitting with it for a moment.",
+    "Listening past the first word.",
+    "Letting it settle into something clearer."
+  ];
+
+  /* ---------- flow wiring ---------- */
+  byId('begin').addEventListener('click', function(){ go('feeling'); });
+
+  continueBtn.addEventListener('click', function(){
+    if(continueBtn.disabled) return;
+    echoFeeling.textContent = (state.label || 'it').toLowerCase();
+    go('deepen');
+    // reset slider read
+    weight.value = 50;
+    weightRead.textContent = weightWord(50);
+  });
+
+  byId('skipDeepen').addEventListener('click', function(){
+    state.weight = null;
+    runDecode();
+  });
+  byId('toDecode').addEventListener('click', function(){
+    state.weight = +weight.value;
+    runDecode();
+  });
+
+  function runDecode(){
+    go('decoding');
+    var line = byId('decodeLine');
+    var i = 0;
+    line.textContent = decodeLines[0];
+
+    if(reduce){
+      window.setTimeout(showReading, 700);
+      return;
+    }
+
+    var iv = window.setInterval(function(){
+      i++;
+      if(i >= decodeLines.length){ return; }
+      line.style.opacity = 0;
+      window.setTimeout(function(){
+        line.textContent = decodeLines[i];
+        line.style.opacity = 1;
+      }, 450);
+    }, 1300);
+
+    window.setTimeout(function(){
+      window.clearInterval(iv);
+      showReading();
+    }, 4100);
+  }
+
+  /* ---------- reading ---------- */
+  function showReading(){
+    var data = state.custom ? fallbackReading(state.label)
+                            : FEELINGS[state.key];
+
+    byId('readingTag').textContent = state.label
+      ? 'On feeling ' + state.label.toLowerCase()
+      : 'Your reflection';
+    byId('reading-h').textContent = data.title;
+
+    var bodyEl = byId('readingBody');
+    bodyEl.innerHTML = '';
+    var paras = data.body.slice();
+    var note = weightNote(state.weight);
+    if(note) paras.push(note);
+
+    paras.forEach(function(t, n){
+      var p = document.createElement('p');
+      // body text is from our own library or escaped custom word; safe to set as text
+      p.textContent = t;
+      bodyEl.appendChild(p);
+    });
+
+    byId('keepsake').textContent = data.keep;
+
+    // stagger reveal
+    var card = byId('readingCard');
+    var kids = card.children;
+    for(var k=0;k<kids.length;k++){
+      kids[k].style.animationDelay = (reduce ? 0 : (0.12 * k + 0.15)) + 's';
+    }
+    // restart animation
+    card.classList.remove('reveal');
+    void card.offsetWidth;
+    card.classList.add('reveal');
+
+    go('reading');
+  }
+
+  /* ---------- restart ---------- */
+  byId('again').addEventListener('click', function(){
+    state = { key:null, label:null, custom:false, weight:null };
+    chipWrap.querySelectorAll('.chip').forEach(function(c){
+      c.classList.remove('sel'); c.setAttribute('aria-pressed','false');
+    });
+    ownInput.value = '';
+    setContinue(false);
+    weight.value = 50;
+    weightRead.textContent = 'somewhere in the middle';
+    go('feeling');
+  });
+
+  /* ---------- keyboard: Enter on own-input continues ---------- */
+  ownInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' && !continueBtn.disabled){
+      e.preventDefault();
+      continueBtn.click();
+    }
+  });
+})();
+</script>
+</body>
+</html>
