@@ -139,6 +139,13 @@
   #cityIntro .ttl span{font-family:var(--mono);font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-soft)}
   #cityIntro .skip{position:absolute;bottom:26px;right:26px;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.32);padding:11px 18px;border-radius:4px;cursor:pointer;pointer-events:auto}
   #cityIntro .skip:hover{background:rgba(0,0,0,.7)}
+  /* click-to-open lightbox */
+  #lightbox{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:6vh 6vw}
+  #lightbox[hidden]{display:none}
+  #lightbox .lb-inner{max-width:92vw;max-height:86vh;display:flex}
+  #lightbox video,#lightbox img{max-width:92vw;max-height:86vh;border-radius:6px;box-shadow:0 24px 90px rgba(0,0,0,.7)}
+  #lightbox .lb-close{position:absolute;top:18px;right:24px;font-size:2rem;line-height:1;color:#fff;background:transparent;border:0;cursor:pointer;opacity:.8}
+  #lightbox .lb-close:hover{opacity:1}
 
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
   @media(max-width:680px){#map{width:108px}.intro .t{font-size:1.5rem}.hint{bottom:96px}}
@@ -189,8 +196,6 @@
     <div class="vig"></div>
     <div class="intro"><div class="t">Lab</div><div class="h">Walk the city &middot; drag or &#8592; &#8594;</div></div>
     <div class="reticle"></div>
-    <div id="loc"><div class="cat"></div><div class="nm"></div></div>
-    <div id="prompt">Click to open</div>
 
     <button class="edge l" id="edgeL" aria-label="Walk left"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
     <button class="edge r" id="edgeR" aria-label="Walk right"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -199,6 +204,12 @@
     <button class="hint r" id="hintFallow" style="--acc:var(--fallow)">Fallow Ruins <span class="dir">&#8594;</span></button>
 
     <div id="map"><span class="lbl">Lab</span></div>
+  </div>
+
+  <!-- click-to-open lightbox -->
+  <div id="lightbox" hidden>
+    <button class="lb-close" type="button" aria-label="Close">&times;</button>
+    <div class="lb-inner"></div>
   </div>
 </div>
 
@@ -225,8 +236,8 @@
   /* ============ PIECES on the street (xPct = position across the panorama) ============ */
   /* yPct/xPct are TUNABLE once the real street is in — set to match where each element landed. */
   var PIECES = [
-    {key:"turbo",   x:12, y:28, acc:"var(--turbo)",   cat:"Billboard",       name:"Turbo MG21", open:null},
-    {key:"ash",     x:37, y:20, acc:"var(--ash)",     cat:"The Figure",      name:"Ash-01",     open:null},
+    {key:"turbo",   x:12, y:28, acc:"var(--turbo)",   cat:"Billboard",       name:"Turbo MG21", media:"assets/lab/turbo_mg21.mp4"},
+    {key:"ash",     x:37, y:20, acc:"var(--ash)",     cat:"The Figure",      name:"Ash-01",     media:"assets/lab/ash01.mp4"},
     {key:"lovebug", x:62, y:45, acc:"var(--lovebug)", cat:"Neon Heart",      name:"Love Bug",   open:"assets/lab/love-bug.html"},
     {key:"pabepabe",x:89, y:57, acc:"var(--pabepabe)",cat:"Boutique Window", name:"PabePabe",   open:"https://pabepabeofficial.com/"}
   ];
@@ -234,8 +245,6 @@
   var lab   = document.getElementById("lab");
   var world = document.getElementById("world");
   var hud   = document.getElementById("hud");
-  var loc   = document.getElementById("loc");
-  var prompt= document.getElementById("prompt");
   var edgeL = document.getElementById("edgeL");
   var edgeR = document.getElementById("edgeR");
   var mapEl = document.getElementById("map");
@@ -287,11 +296,22 @@
   var you=document.createElement("span"); you.className="you"; mapEl.appendChild(you);
 
   function openPiece(p){
-    if(p.open){ window.open(p.open,"_blank","noopener"); }
-    else { flashLoc(p, true); } // Turbo / Ash: detail view to be wired to their media
+    if(p.media){ openLightbox(p); }
+    else if(p.open){ window.open(p.open,"_blank","noopener"); }
   }
 
-  /* ---- transform + active-piece detection (nearest to centre reticle) ---- */
+  /* ---- lightbox: clicking a piece opens its media right here ---- */
+  var lb=document.getElementById("lightbox"), lbInner=lb.querySelector(".lb-inner");
+  function openLightbox(p){
+    lbInner.innerHTML="";
+    var v=document.createElement("video");
+    v.src=p.media; v.controls=true; v.autoplay=true; v.loop=true; v.setAttribute("playsinline","");
+    lbInner.appendChild(v); lb.hidden=false;
+  }
+  function closeLightbox(){ lb.hidden=true; lbInner.innerHTML=""; }
+  lb.addEventListener("click",function(e){ if(e.target===lb || e.target.classList.contains("lb-close")) closeLightbox(); });
+
+  /* ---- transform + subtle nearest-piece highlight (no centre screen) ---- */
   function apply(){
     world.style.transform="translateX("+x+"px)";
     var cx=window.innerWidth/2, best=null, bestD=1e9;
@@ -300,16 +320,11 @@
       p.el.classList.remove("active");
       if(d<bestD){bestD=d;best=p;}
     });
-    if(best && bestD<window.innerWidth*0.16){ best.el.classList.add("active"); flashLoc(best,false); showPrompt(best.open?"Click to open":"Click to view"); }
-    else { loc.classList.remove("show"); prompt.classList.remove("show"); }
-    // minimap "you" tracks centre of view across the world
+    if(best && bestD<window.innerWidth*0.16){ best.el.classList.add("active"); }
     var prog=worldW>window.innerWidth ? (-x)/(worldW-window.innerWidth) : 0;
     you.style.left=(8+prog*84)+"%"; you.style.top=(20+(8+prog*84)*0.55)+"%";
     edgeL.disabled = x>=0; edgeR.disabled = x<=minX;
   }
-  var locTimer=null;
-  function flashLoc(p){ loc.style.setProperty("--acc",p.acc); loc.querySelector(".cat").textContent=p.cat; loc.querySelector(".nm").textContent=p.name; loc.classList.add("show"); }
-  function showPrompt(t){ prompt.textContent=t; prompt.classList.add("show"); }
 
   /* ---- WALK controls: drag, wheel, keys, edge buttons ---- */
   var dragging=false, lastX=0, moved=0;
@@ -325,7 +340,7 @@
       if(e.key==="ArrowLeft"){nudge(window.innerWidth*0.4);}
       if(e.key==="ArrowRight"){nudge(-window.innerWidth*0.4);}
     }
-    if(e.key==="Escape" && curScene!=="street"){ goScene("street"); }
+    if(e.key==="Escape"){ if(!lb.hidden){ closeLightbox(); } else if(curScene!=="street"){ goScene("street"); } }
   });
 
   /* ---- SCENES ---- */
@@ -336,11 +351,8 @@
     curScene=name;
     Object.keys(scenes).forEach(function(k){ scenes[k].classList.toggle("on",k===name); });
     back.hidden = (name==="street");
-    // HUD chrome relevant only to the street
-    ["reticle","loc","prompt","map"].forEach(function(){});
     mapEl.style.display = name==="street" ? "" : "none";
     document.querySelectorAll(".edge,.hint,.intro").forEach(function(el){ el.style.display = name==="street" ? "" : "none"; });
-    loc.classList.remove("show"); prompt.classList.remove("show");
   }
   document.getElementById("hintBinary").addEventListener("click",function(){ goScene("binary"); });
   document.getElementById("hintFallow").addEventListener("click",function(){ goScene("fallow"); });
