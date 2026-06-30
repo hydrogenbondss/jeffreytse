@@ -285,7 +285,7 @@
     b.className="spot"; b.type="button"; b.dataset.key=p.key;
     b.style.left=p.x+"%"; b.style.top=p.y+"%"; b.style.setProperty("--acc",p.acc);
     b.setAttribute("aria-label",p.name+" — "+p.cat);
-    b.innerHTML='<span class="ring"></span><span class="tag">'+p.name+'</span>';
+    b.innerHTML='<span class="ring"></span>';
     b.addEventListener("click",function(e){ e.stopPropagation(); openPiece(p); });
     world.appendChild(b);
     p.el=b;
@@ -314,13 +314,6 @@
   /* ---- transform + subtle nearest-piece highlight (no centre screen) ---- */
   function apply(){
     world.style.transform="translateX("+x+"px)";
-    var cx=window.innerWidth/2, best=null, bestD=1e9;
-    PIECES.forEach(function(p){
-      var sx=x+(p.x/100)*worldW, d=Math.abs(sx-cx);
-      p.el.classList.remove("active");
-      if(d<bestD){bestD=d;best=p;}
-    });
-    if(best && bestD<window.innerWidth*0.16){ best.el.classList.add("active"); }
     var prog=worldW>window.innerWidth ? (-x)/(worldW-window.innerWidth) : 0;
     you.style.left=(8+prog*84)+"%"; you.style.top=(20+(8+prog*84)*0.55)+"%";
     edgeL.disabled = x>=0; edgeR.disabled = x<=minX;
