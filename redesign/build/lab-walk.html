@@ -92,13 +92,13 @@
   .reticle::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}
   .reticle::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
   /* location readout */
-  #loc{position:absolute;left:50%;top:calc(50% - 64px);transform:translateX(-50%);text-align:center;opacity:0;transition:opacity .3s var(--ease)}
+  #loc{position:absolute;left:50%;top:clamp(60px,8vh,100px);transform:translateX(-50%);text-align:center;opacity:0;transition:opacity .3s var(--ease)}
   #loc.show{opacity:1}
-  #loc .cat{font-size:.54rem;letter-spacing:.34em;text-transform:uppercase;color:var(--acc,#fff)}
-  #loc .nm{font-family:var(--serif);font-weight:300;font-size:1.7rem;line-height:1.1;margin-top:2px}
+  #loc .cat{font-size:.5rem;letter-spacing:.34em;text-transform:uppercase;color:var(--acc,#fff)}
+  #loc .nm{font-family:var(--serif);font-weight:300;font-size:1.2rem;line-height:1.1;margin-top:2px}
   /* enter / open prompt */
-  #prompt{position:absolute;left:50%;top:calc(50% + 44px);transform:translateX(-50%);
-    font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);
+  #prompt{position:absolute;left:50%;bottom:clamp(60px,9vh,104px);top:auto;transform:translateX(-50%);
+    font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);
     background:rgba(5,6,10,.6);border:1px solid rgba(255,255,255,.22);padding:8px 14px;border-radius:4px;
     opacity:0;transition:opacity .25s var(--ease)}
   #prompt.show{opacity:1}
