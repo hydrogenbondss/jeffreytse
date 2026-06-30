@@ -4,68 +4,61 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Editorial — Jeffrey N. Tse</title>
-<meta name="description" content="Fashion editorial as a wall of cassette tapes — hover a tape to see the title, click to read the editorial.">
-<meta name="theme-color" content="#2a1d12">
+<meta name="description" content="Fashion editorial as cassette tapes on a record-shop shelf — hover a tape for its title, click to read the editorial.">
+<meta name="theme-color" content="#e7ddca">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#f4ece0;--ink-soft:rgba(244,236,224,.66);--ink-faint:rgba(244,236,224,.4);--hot:#e6b780;
+    --ink:#241a10;--ink-soft:#5c5040;--ink-faint:#8f8268;--hot:#241a10;
     --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
     --spring:cubic-bezier(.34,1.32,.5,1);
+    /* shelf alignment — tweak these to seat the cassettes on the generated shelves */
+    --y1:66cqh; --y2:40cqh; --y3:13cqh; --ch:23cqh; --side:6%;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{min-height:100%}
   body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;
-    background:
-      radial-gradient(90% 55% at 50% -8%, rgba(120,80,40,.5), rgba(70,44,22,0) 60%),
-      radial-gradient(60% 50% at 14% 6%, rgba(150,100,52,.32), transparent 60%),
-      linear-gradient(180deg, #2c1d12 0%, #241710 55%, #1a1009 100%);}
+    background:radial-gradient(100% 60% at 50% -10%, #fffdf8, rgba(255,253,248,0) 60%),linear-gradient(180deg,#efe7d8,#e2d6c1)}
 
-  #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,46px)}
-  .ed-head{text-align:center;margin-bottom:clamp(14px,2.6vw,30px)}
-  .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
-  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:var(--ink);text-shadow:0 2px 30px rgba(0,0,0,.5)}
+  #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(18px,3vw,40px)}
+  .ed-head{text-align:center;margin-bottom:clamp(10px,2vw,22px)}
+  .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.6rem,6.4vw,4.6rem);line-height:.9;color:var(--ink)}
 
-  .wall{max-width:1180px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3.4vw,42px)}
-  .shelf{position:relative}
-  .row{display:flex;justify-content:center;align-items:flex-end;gap:clamp(8px,1.5vw,22px);position:relative;z-index:2;padding:0 6px}
-  .item{position:relative;width:clamp(96px,11.8vw,140px);display:flex;justify-content:center}
+  /* the generated shelf */
+  .stage{position:relative;width:min(1180px,97vw);margin:0 auto;aspect-ratio:1264/848;container-type:size;
+    background:#e8ddc8 url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_090241_a5334d7e-2e63-4443-a62c-0aa4738dad16.png') center/cover no-repeat;border-radius:8px;
+    box-shadow:0 50px 110px -40px rgba(40,28,14,.6)}
 
-  .cass{appearance:none;border:0;background:none;padding:0;cursor:pointer;width:100%;display:block;position:relative}
-  .cass img{width:100%;height:auto;display:block;filter:drop-shadow(0 16px 12px rgba(0,0,0,.5));
+  .row{position:absolute;left:var(--side);right:var(--side);display:flex;justify-content:center;align-items:flex-end;gap:1.2cqw}
+  .row.r1{bottom:var(--y1)} .row.r2{bottom:var(--y2)} .row.r3{bottom:var(--y3)}
+
+  .item{position:relative;display:flex;justify-content:center}
+  .cass{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:block;line-height:0}
+  .cass img{height:var(--ch);width:auto;display:block;filter:drop-shadow(0 1.4cqh 1cqh rgba(40,28,14,.4));
     transition:transform .42s var(--spring), filter .42s var(--spring)}
-  .cass:hover img,.cass:focus-visible img{transform:translateY(-16px) scale(1.03);filter:drop-shadow(0 30px 22px rgba(0,0,0,.6))}
+  .cass:hover img,.cass:focus-visible img{transform:translateY(-9cqh) scale(1.04);filter:drop-shadow(0 3cqh 2cqh rgba(40,28,14,.45))}
   .cass:focus-visible{outline:none}
-  /* hover-reveal title */
-  .tt{position:absolute;left:50%;bottom:-6px;transform:translate(-50%,8px);z-index:5;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;
-    font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:#1a1009;
-    background:var(--hot);padding:6px 11px;border-radius:30px;box-shadow:0 8px 20px rgba(0,0,0,.45);
+  .tt{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translate(-50%,8px);z-index:6;white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis;
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#f4ece0;
+    background:var(--hot);padding:6px 12px;border-radius:30px;box-shadow:0 10px 24px rgba(40,28,14,.5);
     opacity:0;pointer-events:none;transition:opacity .3s var(--spring), transform .3s var(--spring)}
   .item:hover .tt,.cass:focus-visible ~ .tt{opacity:1;transform:translate(-50%,0)}
 
-  /* warm shelf plank */
-  .board{height:16px;margin-top:-6px;border-radius:2px;position:relative;z-index:1;
-    background:linear-gradient(180deg,#5a3c22 0%,#3c2716 100%);
-    box-shadow:0 16px 26px -12px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,220,170,.25), inset 0 -3px 6px rgba(0,0,0,.4);}
-  .board::after{content:"";position:absolute;left:1%;right:1%;top:16px;height:16px;border-radius:50%;
-    background:radial-gradient(50% 100% at 50% 0,rgba(0,0,0,.5),transparent 72%);filter:blur(2px)}
+  .ed-foot{text-align:center;margin-top:clamp(12px,2vw,22px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
 
-  .ed-foot{text-align:center;margin-top:clamp(16px,3vw,30px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
-
-  @media(max-width:760px){.item{width:calc(25% - 12px)}}
-  @media(max-width:480px){.item{width:calc(33.3% - 10px)}}
   @media(prefers-reduced-motion:reduce){.cass img,.tt{transition:none}}
 </style>
 </head>
 <body>
-<section id="editorial" aria-label="Editorial — a wall of cassette tapes">
+<section id="editorial" aria-label="Editorial — cassette tapes on a shelf">
   <header class="ed-head">
     <div class="ed-kicker">Fashion</div>
     <h1 class="ed-title">Editorial</h1>
   </header>
-  <div class="wall" id="wall"></div>
+  <div class="stage" id="stage"></div>
   <div class="ed-foot">Hover a tape for its title &mdash; click to read the editorial.</div>
 </section>
 
@@ -93,19 +86,14 @@
     {n:"Jersey Tees",l:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets",img:"hf_20260630_084734_28261f5d-02a3-422e-92ca-654f606e7bd2.png"}
   ];
   var SHELVES=[[0,6],[6,12],[12,17]];
-  var wall=document.getElementById("wall");
+  var stage=document.getElementById("stage");
   function item(e){
-    return '<div class="item">'+
-      '<button class="cass" type="button" onclick="window.open(\''+e.l+'\',\'_blank\',\'noopener\')" aria-label="'+e.n+' — open editorial"><img src="'+IMG+e.img+'" alt="'+e.n+'" loading="lazy"></button>'+
-      '<span class="tt">'+e.n+'</span>'+
-    '</div>';
+    return '<div class="item"><button class="cass" type="button" onclick="window.open(\''+e.l+'\',\'_blank\',\'noopener\')" aria-label="'+e.n+' — open editorial"><img src="'+IMG+e.img+'" alt="'+e.n+'" loading="lazy"></button><span class="tt">'+e.n+'</span></div>';
   }
-  SHELVES.forEach(function(rng){
-    var shelf=document.createElement("div");shelf.className="shelf";
-    var row=document.createElement("div");row.className="row";
+  SHELVES.forEach(function(rng,i){
+    var row=document.createElement("div");row.className="row r"+(i+1);
     row.innerHTML=CASS.slice(rng[0],rng[1]).map(item).join("");
-    var board=document.createElement("div");board.className="board";
-    shelf.appendChild(row);shelf.appendChild(board);wall.appendChild(shelf);
+    stage.appendChild(row);
   });
 })();
 </script>
