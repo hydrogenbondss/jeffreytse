@@ -3,94 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UNDERGROWTH — abstract type piece</title>
+<title>UNDERGROWTH — tree-stump (TIINHOOD style)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     UNDERGROWTH — abstract / type-forward (this-style direction).
-     No original poster, no generation. Riso green ground, soft
-     spray blobs, exploded "UNDERGROWTH" as texture + focal type,
-     scattered real labels, red dots, a loose scribble. Pure CSS.
+     UNDERGROWTH — tree-stump, modelled closely on the TIINHOOD
+     reference. Generated stump photo + red perspective outline
+     and dots around the base, scattered lime labels (real
+     content), a big brush-handwritten line, brand mark. No chrome.
      ============================================================ */
   :root{
-    --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
-    --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
-    --green:#2f6b3a; --lime:#c8f032; --cream:#f3efe2; --red:#ef3b2a; --orange:#ff7a1a;
+    --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Space Mono',monospace; --brush:'Permanent Marker',cursive;
+    --lime:#c6f032; --red:#e8281f; --cream:#f2eee2; --ink:#16210f;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
-    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+    padding:clamp(16px,4vw,52px);font-family:var(--sans)}
 
-  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--green);
-    color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
-  /* riso grain */
-  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.18;mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;color:var(--lime);
+    background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_180554_ecd8fdd7-e8e2-40e0-8f88-f1b3a6d95910.png");
+    background-size:cover;background-position:center;box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
 
-  /* exploded type-texture: the word tiled faintly across the field */
-  .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.6rem,6vw,2.2rem);
-    line-height:1.7;letter-spacing:.34em;word-spacing:.5em;text-transform:uppercase;color:rgba(243,239,226,.12);overflow:hidden}
+  /* red perspective outline around the base */
+  .outline{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .outline polygon{fill:none;stroke:var(--red);stroke-width:1.1}
+  .dot{position:absolute;z-index:2;width:14px;height:14px;border-radius:50%;background:var(--red)}
 
-  /* soft spray blobs */
-  .blob{position:absolute;z-index:1;filter:blur(2px);mix-blend-mode:screen}
-  .blob.b1{left:6%;top:8%;width:52%;height:34%;background:radial-gradient(closest-side,rgba(243,239,226,.95),rgba(243,239,226,.5) 55%,transparent 72%)}
-  .blob.b2{right:4%;top:46%;width:54%;height:34%;background:radial-gradient(closest-side,var(--lime),rgba(200,240,50,.4) 55%,transparent 72%);mix-blend-mode:normal;opacity:.92}
-  .blob.b3{left:10%;bottom:8%;width:40%;height:24%;background:radial-gradient(closest-side,var(--orange),rgba(255,122,26,.3) 55%,transparent 72%);mix-blend-mode:normal;opacity:.8}
+  /* scattered lime labels (real content) */
+  .lab{position:absolute;z-index:3;font-family:var(--sans);font-weight:700;font-size:.66rem;line-height:1.05;
+    color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
+  .lab.s{font-weight:600;font-size:.56rem;color:var(--cream)}
+  .ll1{left:8%;top:44%} .ll2{right:9%;top:50%;text-align:right} .ll3{right:12%;top:62%;text-align:right} .ll4{left:10%;top:70%}
+  .free{position:absolute;right:9%;top:26%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.62rem;color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
 
-  /* loose scribble */
-  .scribble{position:absolute;left:8%;top:40%;width:70%;height:34%;z-index:2;overflow:visible;pointer-events:none}
-  .scribble path{fill:none;stroke:rgba(243,239,226,.85);stroke-width:1.4}
+  /* big brush-handwritten line + printed echo */
+  .brush{position:absolute;left:6%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8vw,3rem);
+    line-height:.96;color:var(--lime);width:64%;text-shadow:0 2px 7px rgba(0,0,0,.4)}
+  .echo{position:absolute;left:34%;bottom:31%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.56rem;
+    color:var(--cream);transform:rotate(-2deg);text-shadow:0 1px 4px rgba(0,0,0,.5)}
 
-  /* focal title — exploded across two lines, wide tracking */
-  .title{position:absolute;left:14px;right:14px;top:30%;z-index:3;font-family:var(--anton);
-    font-size:clamp(2.6rem,11.5vw,4.2rem);line-height:.86;text-transform:uppercase;letter-spacing:.06em;color:var(--cream)}
-  .title b{font-weight:400;color:var(--lime)}
-
-  /* scattered real labels */
-  .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.62rem;line-height:1.1;
-    text-transform:uppercase;color:var(--cream)}
-  .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(243,239,226,.85)}
-  .lab.lime{color:var(--lime)}
-  .l1{left:15px;top:14px} .l2{right:15px;top:14px;text-align:right}
-  .l3{left:15px;bottom:74px} .l4{right:15px;bottom:74px;text-align:right}
-  .mark{position:absolute;left:14px;bottom:16px;z-index:4;font-family:var(--mark);
-    font-size:clamp(1.4rem,5.4vw,2.05rem);line-height:.95;width:78%;color:var(--cream);transform:rotate(-2deg)}
-  .mark em{color:var(--red);font-style:normal}
-
-  /* red dots */
-  .dot{position:absolute;z-index:4;width:13px;height:13px;border-radius:50%;background:var(--red)}
+  /* brand mark, bottom-right */
+  .brand{position:absolute;right:6%;bottom:6%;z-index:3;text-align:right}
+  .brand b{display:block;font-family:var(--sans);font-weight:900;font-size:clamp(1.3rem,5vw,1.9rem);letter-spacing:.01em;
+    color:var(--lime);text-shadow:0 1px 5px rgba(0,0,0,.45);text-transform:uppercase}
+  .brand span{display:block;font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);
+    margin-top:3px;line-height:1.4;text-shadow:0 1px 4px rgba(0,0,0,.55)}
 
   .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
 </style>
 </head>
 <body>
   <article class="poster">
-    <div class="tile">UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH UNDERGROWTH</div>
-
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-
-    <svg class="scribble" viewBox="0 0 100 50" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M2 30 C 18 10, 26 44, 40 24 S 60 6, 72 30 88 40, 98 18"/>
+    <svg class="outline" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true">
+      <polygon points="20,104 80,104 94,132 6,132"/>
     </svg>
+    <span class="dot" style="left:5%;top:68%"></span>
+    <span class="dot" style="left:26%;top:71%"></span>
+    <span class="dot" style="right:30%;top:69%"></span>
+    <span class="dot" style="right:7%;top:70%"></span>
+    <span class="dot" style="left:46%;top:80%"></span>
+    <span class="dot" style="right:18%;top:85%"></span>
 
-    <h1 class="title">Under<br><b>growth</b></h1>
+    <div class="free">(co-curated)</div>
+    <div class="lab ll1">Record—<br>the cohort</div>
+    <div class="lab ll2">Audain<br>Gallery</div>
+    <div class="lab ll3 s">2018</div>
+    <div class="lab ll4 s">BFA / BA<br>graduating show</div>
 
-    <div class="lab l1">Co-curated<br>2018</div>
-    <div class="lab l2 lime">Audain Gallery<br>Vancouver</div>
-    <div class="lab s l3">BFA / BA<br>graduating exhibition</div>
-    <div class="lab s l4">a whole cohort<br>leaves at once</div>
+    <div class="echo">what grows in the year everyone graduates</div>
+    <div class="brush">what grows in the<br>year everyone graduates?</div>
 
-    <span class="dot" style="left:22%;top:24%"></span>
-    <span class="dot" style="right:18%;top:58%;background:var(--orange)"></span>
-    <span class="dot" style="left:30%;bottom:30%"></span>
-    <span class="dot" style="right:30%;bottom:22%"></span>
-
-    <div class="mark">what grows in the year <em>everyone graduates?</em></div>
+    <div class="brand"><b>Undergrowth</b><span>Audain Gallery · Vancouver</span></div>
   </article>
-  <p class="cap">UNDERGROWTH · abstract type piece — no poster, no generation. Spray blobs, exploded type, scattered labels, riso grain. First in the "this-style" direction.</p>
+  <p class="cap">UNDERGROWTH · generated tree-stump + TIINHOOD-style graphics — red outline + dots, scattered lime labels, brush handwriting, brand mark · no chrome.</p>
 </body>
 </html>
