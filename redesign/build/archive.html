@@ -19,9 +19,9 @@
      ============================================================ */
   *{margin:0;padding:0;box-sizing:border-box}
   body{
-    background:#15110d;color:#e9e6df;min-height:100vh;
+    background:#15110d;color:#e9e6df;
     font-family:'Space Mono',monospace;
-    padding:clamp(24px,4vw,56px) clamp(12px,3vw,40px) clamp(48px,7vw,96px);
+    margin:0;padding:0;overflow:hidden;
     -webkit-font-smoothing:antialiased;
   }
 
@@ -45,9 +45,8 @@
 
   /* the wood desk stage — landscape */
   .stage{
-    position:relative;width:min(1180px,96vw);aspect-ratio:3/2;margin:0 auto;isolation:isolate;
-    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_190339_0a3f5bc0-8fdc-4e0c-9fe1-7816ae6a5796.png") center/cover;
-    box-shadow:0 20px 60px rgba(0,0,0,.5)}
+    position:relative;width:100vw;height:100vh;height:100dvh;isolation:isolate;
+    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_190339_0a3f5bc0-8fdc-4e0c-9fe1-7816ae6a5796.png") center/cover}
   /* single photographic grade over the whole desk (prints included) so
      everything shares one light + grain — above prints/marker, but
      pointer-events:none so hover still reaches the prints. */
