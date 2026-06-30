@@ -17,16 +17,20 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{min-height:100%}
-  body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;
+  body{color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;background:#140e08}
+  /* generated cassette-shop wall, soft + out of focus, as the backdrop */
+  .shopwall{position:fixed;inset:-6%;z-index:-2;
+    background:#140e08 url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_083623_caaf1cc8-d1ab-46a0-a832-59ddf8dd581b.png') center/cover no-repeat;
+    filter:blur(12px) brightness(.52) saturate(1.08);transform:scale(1.05)}
+  .shopscrim{position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(85% 45% at 50% -6%, rgba(255,250,240,.85), rgba(255,248,236,0) 60%),
-      radial-gradient(50% 40% at 12% 8%, rgba(255,243,224,.55), transparent 60%),
-      linear-gradient(180deg, #efe6d6 0%, #e7dcc8 55%, #d8c8ac 100%);}
+      radial-gradient(120% 90% at 50% 34%, transparent 40%, rgba(15,9,5,.72)),
+      linear-gradient(180deg, rgba(15,9,5,.55) 0%, rgba(15,9,5,.10) 26%, rgba(15,9,5,.20) 58%, rgba(15,9,5,.68) 100%)}
 
   #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,46px)}
   .ed-head{text-align:center;margin-bottom:clamp(16px,3vw,30px)}
-  .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
-  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:var(--ink)}
+  .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,243,228,.82);margin-bottom:7px;text-shadow:0 1px 16px rgba(0,0,0,.7)}
+  .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:#fff6ea;text-shadow:0 3px 40px rgba(0,0,0,.8)}
 
   .wall{max-width:1180px;width:100%;margin:0 auto;flex:1;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;
     gap:clamp(18px,2.2vw,34px) clamp(12px,1.6vw,24px)}
@@ -50,7 +54,7 @@
     letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase}
   .label .lb .flag{color:var(--hot);font-weight:700}
 
-  .ed-foot{text-align:center;margin-top:clamp(18px,3vw,30px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
+  .ed-foot{text-align:center;margin-top:clamp(18px,3vw,30px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:rgba(255,243,228,.55)}
 
   @media(max-width:760px){.tape{width:calc(33.33% - 18px)}}
   @media(max-width:460px){.tape{width:calc(50% - 12px)}}
@@ -58,6 +62,8 @@
 </style>
 </head>
 <body>
+<div class="shopwall" aria-hidden="true"></div>
+<div class="shopscrim" aria-hidden="true"></div>
 <section id="editorial" aria-label="Editorial — a wall of cassette tapes">
   <header class="ed-head">
     <div class="ed-kicker">Fashion</div>
