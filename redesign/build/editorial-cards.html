@@ -28,10 +28,9 @@
   .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
   .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:.9;color:var(--ink)}
 
-  .wall{max-width:1160px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,4vw,44px)}
-  .shelf .genres{font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase;
-    text-align:center;margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(12px,1.8vw,24px)}
+  .wall{max-width:1180px;width:100%;margin:0 auto;flex:1;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;
+    gap:clamp(18px,2.2vw,34px) clamp(12px,1.6vw,24px)}
+  .tape{width:clamp(132px,16.5vw,184px)}
 
   .tape{appearance:none;border:0;background:none;padding:0;cursor:pointer;font:inherit;color:inherit;
     display:flex;flex-direction:column;align-items:center;gap:9px}
@@ -53,8 +52,8 @@
 
   .ed-foot{text-align:center;margin-top:clamp(18px,3vw,30px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
 
-  @media(max-width:760px){.row{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:460px){.row{grid-template-columns:repeat(2,1fr)}.shelf .genres{display:none}}
+  @media(max-width:760px){.tape{width:calc(33.33% - 18px)}}
+  @media(max-width:460px){.tape{width:calc(50% - 12px)}}
   @media(prefers-reduced-motion:reduce){.cass{transition:none}}
 </style>
 </head>
@@ -82,7 +81,14 @@
     {n:"PONDER.ER SS24",s:"Road Trip to Heaven",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",img:"hf_20260630_080727_8c1281af-4e40-4e6f-a23c-edb5d07bb129.png"},
     {n:"WESTFALL",s:"California Punk",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",img:"hf_20260630_080730_d713ed3c-0e87-465a-9d12-1d14aae0939b.png"},
     {n:"MOUNTWOOD",s:"Great Outdoors",t:"OUT",l:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",img:"hf_20260630_080733_d74bac9f-1ee4-4fa0-9b9b-8a26e3249e71.png"},
-    {n:"SUBI · SUBEZ YETI",s:"Carhartt WIP — Interview",t:"CWIP",l:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",img:"hf_20260630_080736_670e794f-a8fa-4a58-b8df-1cc4b40a8bf9.png"}
+    {n:"SUBI · SUBEZ YETI",s:"Carhartt WIP — Interview",t:"CWIP",l:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",img:"hf_20260630_080736_670e794f-a8fa-4a58-b8df-1cc4b40a8bf9.png"},
+    {n:"HONG KONG SHOWROOM",s:"Designers to Watch",t:"FA24",l:"https://hk.iteshop.com/bit/editorial/fashion-asia-showroom-2024",img:"hf_20260630_082312_96aa9c93-c893-48c1-8ffc-3f767887ac2b.png"},
+    {n:"RICK OWENS SS24",s:"Grim Elegance",t:"SS24",l:"https://hk.iteshop.com/bit/editorial/rick-owens-ss24-new-collection",img:"hf_20260630_082314_6fec6d65-e862-486b-af4b-0beb5c6af184.png"},
+    {n:"SWEET REBELLION",s:"SHUSHU/TONG — Liushu Lei",t:"INT",l:"https://hk.iteshop.com/bit/editorial/shushu-tong-interview-and-collection",img:"hf_20260630_082316_76d544b7-8073-4b11-ba86-ec793fa92812.png"},
+    {n:"THE MEANING OF LOVE",s:"Love is…",t:"LOVE",l:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love",img:"hf_20260630_082319_eb16a17a-f0e8-46df-bdba-3c93ccbddde5.png"},
+    {n:"BREAKING BOUNDARIES",s:"Skate Fashion to Watch",t:"SK8",l:"https://hk.iteshop.com/sit/editorial/breaking-boundaries",img:"BREAK_PENDING"},
+    {n:"IN THE STUDIO WITH TAKU",s:"Carhartt WIP — Beyond the Brush",t:"CWIP",l:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush",img:"hf_20260630_082325_9246e488-9d0c-49b7-946a-dcb9bc94386e.png"},
+    {n:"JERSEY TEES",s:"From Pitch to Streets",t:"SPORT",l:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets",img:"JERSEY_PENDING"}
   ];
   var GENRES=[
     "Renaissance / Markgong / Doublet / A Bathing Ape® / Blokecore",
@@ -96,13 +102,7 @@
         '<span class="lb"><span class="flag">HK</span><span>'+e.s+'</span><span>'+e.t+'</span></span></span>'+
     '</button>';
   }
-  for(var s=0;s<2;s++){
-    var shelf=document.createElement("div");shelf.className="shelf";
-    var g=document.createElement("div");g.className="genres";g.textContent=GENRES[s];
-    var row=document.createElement("div");row.className="row";
-    row.innerHTML=CASS.slice(s*5,s*5+5).map(tape).join("");
-    shelf.appendChild(g);shelf.appendChild(row);wall.appendChild(shelf);
-  }
+  wall.innerHTML = CASS.map(tape).join("");
 })();
 </script>
 </body>
