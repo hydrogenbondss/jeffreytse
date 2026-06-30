@@ -11,89 +11,79 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&family=Permanent+Marker&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     ARCHIVE WALL — light/normal DOM only. Each poster lives in its
-     own shadow root (see templates + script below) so its CSS can
-     never leak or collide with this page or with sibling posters.
+     ARCHIVE DESK — light/normal DOM only. The 8 posters are scattered
+     across a wooden desk like physical prints. Each poster still lives
+     in its own shadow root (templates + script below, UNTOUCHED), so
+     its CSS can never leak or collide. This sheet only styles the desk
+     stage and the print "frames" the shadow hosts sit in.
      ============================================================ */
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{
-    background:#1a1a1d;color:#e9e6df;min-height:100vh;
+    background:#15110d;color:#e9e6df;min-height:100vh;
     font-family:'Space Mono',monospace;
-    padding:clamp(28px,5vw,72px) clamp(16px,4vw,56px) clamp(60px,8vw,120px);
+    padding:clamp(24px,4vw,56px) clamp(12px,3vw,40px) clamp(48px,7vw,96px);
     -webkit-font-smoothing:antialiased;
   }
 
-  /* --- header --- */
-  .wall-head{max-width:1180px;margin:0 auto clamp(34px,6vw,68px)}
-  .wall-head h1{
-    font-family:'Anton',Impact,sans-serif;
-    font-size:clamp(3.4rem,13vw,7.5rem);line-height:.9;
-    text-transform:uppercase;letter-spacing:.005em;color:#f4f1e9}
-  .wall-head .strap{
-    margin-top:clamp(12px,2vw,18px);max-width:60ch;
-    font-size:clamp(.72rem,1.4vw,.86rem);letter-spacing:.04em;line-height:1.6;
-    color:#a3a097}
+  /* subtle wordmark, top-left corner of the page */
+  .wordmark{
+    position:absolute;top:clamp(16px,3vw,30px);left:clamp(16px,3vw,34px);z-index:10;
+    font-family:'Anton',Impact,sans-serif;font-size:clamp(.95rem,2vw,1.25rem);
+    letter-spacing:.22em;text-transform:uppercase;color:rgba(244,241,233,.42)}
 
-  /* --- section labels --- */
-  .section-label{
-    max-width:1180px;margin:clamp(40px,6vw,72px) auto clamp(18px,2.6vw,26px);
-    display:flex;align-items:center;gap:16px;
-    font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:#cfccc2}
-  .section-label::after{content:"";flex:1;height:1px;background:rgba(233,230,223,.16)}
-  .section-label:first-of-type{margin-top:0}
+  /* the wood desk stage */
+  .stage{
+    position:relative;width:min(900px,96vw);aspect-ratio:4/5;margin:0 auto;
+    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_182841_33ee3bdf-b5fe-404d-a81a-dc6cd7a83f02.png") center/cover;
+    box-shadow:0 20px 60px rgba(0,0,0,.5)}
 
-  /* --- the grid wall --- */
-  .wall{
-    max-width:1180px;margin:0 auto;
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-    gap:clamp(26px,3.4vw,48px)}
-
-  .cell{display:flex;flex-direction:column;gap:14px}
-
-  /* the shadow host — holds one poster, keeps its 848/1264 shape */
+  /* each shadow host = one print lying on the desk.
+     rotation comes from --rot (inline); hover composes scale on top. */
   .host{
-    display:block;width:100%;aspect-ratio:848/1264;
-    border-radius:3px;overflow:hidden;
-    box-shadow:0 22px 48px -22px rgba(0,0,0,.72);
-    transition:transform .35s ease, box-shadow .35s ease}
-  .cell:hover .host{transform:translateY(-5px);box-shadow:0 30px 60px -22px rgba(0,0,0,.82)}
-
-  .cell figcaption{
-    font-size:.74rem;letter-spacing:.05em;line-height:1.4;color:#cbc8be;text-align:center}
+    position:absolute;width:30%;
+    padding:4px;background:#f4f0e6;
+    box-shadow:0 10px 22px rgba(0,0,0,.4);
+    transform:rotate(var(--rot,0deg));
+    transition:transform .2s, box-shadow .2s}
+  .host:hover{
+    transform:rotate(var(--rot,0deg)) scale(1.05);
+    box-shadow:0 18px 34px rgba(0,0,0,.5);z-index:30}
 
   @media (max-width:560px){
-    .wall{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+    /* scatter gets cramped — switch to a readable vertical stack of
+       tilted prints on the wood */
+    .stage{aspect-ratio:auto;min-height:0;padding:18px 0}
+    .host{
+      position:static;width:86%;margin:18px auto;
+      transform:rotate(var(--rot-m,3deg))}
+    .host:hover{transform:rotate(var(--rot-m,3deg)) scale(1.03)}
   }
 
   @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto}
-    .host{transition:none}
-    .cell:hover .host{transform:none}
+    .host{transition:none;transform:rotate(var(--rot,0deg))}
+    .host:hover{transform:rotate(var(--rot,0deg));z-index:30}
+  }
+  @media (prefers-reduced-motion: reduce) and (max-width:560px){
+    .host,.host:hover{transform:rotate(var(--rot-m,3deg))}
   }
 </style>
 </head>
 <body>
 
-  <header class="wall-head">
-    <h1>Archive</h1>
-    <p class="strap">Selected exhibitions, writing &amp; scholarship — the human, analogue record.</p>
-  </header>
+  <div class="wordmark">Archive</div>
 
-  <h2 class="section-label">Exhibitions</h2>
-  <section class="wall" id="wall-exhibitions">
-    <figure class="cell"><div class="host" data-poster="welcome-home"></div><figcaption>Welcome Home</figcaption></figure>
-    <figure class="cell"><div class="host" data-poster="finite-appearances"></div><figcaption>Finite Appearances</figcaption></figure>
-    <figure class="cell"><div class="host" data-poster="undergrowth"></div><figcaption>UNDERGROWTH</figcaption></figure>
-    <figure class="cell"><div class="host" data-poster="insights"></div><figcaption>Insights Unseen &amp; Unheard</figcaption></figure>
-    <figure class="cell"><div class="host" data-poster="resonance"></div><figcaption>Resonance</figcaption></figure>
-  </section>
-
-  <h2 class="section-label">Writing &amp; Scholarship</h2>
-  <section class="wall" id="wall-writing">
-    <figure class="cell"><div class="host" data-poster="beitler"></div><figcaption>The Offender Behind the Lens</figcaption></figure>
-    <figure class="cell"><div class="host" data-poster="one-ply"></div><figcaption>One-Ply Realism</figcaption></figure>
-    <figure class="cell"><div class="host" data-poster="tinder"></div><figcaption>Online Dating &amp; Tinder</figcaption></figure>
+  <!-- The wood desk. Each .host is one print scattered on the surface;
+       left/top/z-index + --rot (scatter rotation) are inline per print.
+       --rot-m is the gentler tilt used in the mobile vertical stack. -->
+  <section class="stage" aria-label="Archive — prints scattered on a desk">
+    <div class="host" data-poster="welcome-home"      style="left:4%;  top:3%;  z-index:2; --rot:-6deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="finite-appearances" style="left:37%; top:1%;  z-index:3; --rot:5deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="undergrowth"        style="left:67%; top:5%;  z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="insights"           style="left:19%; top:28%; z-index:5; --rot:7deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="resonance"          style="left:51%; top:30%; z-index:4; --rot:-5deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="beitler"            style="left:3%;  top:55%; z-index:3; --rot:5deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="one-ply"            style="left:36%; top:58%; z-index:6; --rot:-8deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="tinder"             style="left:66%; top:54%; z-index:5; --rot:4deg;  --rot-m:3deg"></div>
   </section>
 
 
