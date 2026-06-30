@@ -28,40 +28,27 @@
     background-size:cover;background-position:center;
     box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
 
-  /* --- top flat-green zone --- */
-  .codes{position:absolute;top:13px;left:15px;z-index:3;font-family:var(--mono);font-size:.54rem;
-    letter-spacing:.1em;text-transform:uppercase;line-height:1.55;color:var(--ink)}
-  .codes b{color:var(--crimson)}
-  .hand{position:absolute;top:14px;right:15px;z-index:3;font-family:var(--mark);
-    font-size:clamp(1.2rem,4.6vw,1.7rem);line-height:.95;width:48%;text-align:right;color:var(--crimson);
+  /* --- handwriting, top --- */
+  .hand{position:absolute;top:16px;right:15px;z-index:3;font-family:var(--mark);
+    font-size:clamp(1.3rem,5vw,1.9rem);line-height:.95;width:52%;text-align:right;color:var(--crimson);
     transform:rotate(-2deg)}
 
   /* --- bottom flat-green zone --- */
-  .title{position:absolute;left:15px;bottom:62px;z-index:3;font-family:var(--anton);
+  .title{position:absolute;left:15px;bottom:46px;z-index:3;font-family:var(--anton);
     font-size:clamp(2.8rem,12vw,4.4rem);line-height:.8;text-transform:uppercase;letter-spacing:-.01em;color:var(--ink)}
   .title span{color:var(--crimson)}
-  .credit{position:absolute;left:16px;bottom:40px;z-index:3;font-family:var(--mono);font-size:.54rem;
+  .credit{position:absolute;left:16px;bottom:22px;z-index:3;font-family:var(--mono);font-size:.56rem;
     letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
-  .credit b{color:var(--crimson);font-weight:700}
-  .meta{position:absolute;right:15px;bottom:14px;z-index:3;display:flex;align-items:flex-end;gap:9px}
-  .barcode{width:66px;height:24px;
-    background:repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px 3px,var(--ink) 3px 4px,transparent 4px 7px,var(--ink) 7px 9px,transparent 9px 11px)}
-  .serial{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;text-align:right;line-height:1.5;color:var(--ink)}
 
   .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
 </style>
 </head>
 <body>
   <article class="poster">
-    <div class="codes"><b>ARCHIVE · EX-01</b><br>WAAP · VANCOUVER<br>CURATOR · 2019</div>
     <div class="hand">what makes a room yours?</div>
 
     <h1 class="title">Welcome<br><span>Home</span></h1>
-    <div class="credit"><b>Featured —</b> Cube in Cube · Olivia Qiu · 2017</div>
-    <div class="meta">
-      <span class="barcode" aria-hidden="true"></span>
-      <span class="serial">© ARCHIVE<br>J. N. TSE<br>№ EX-01</span>
-    </div>
+    <div class="credit">Cube in Cube — Olivia Qiu, 2017</div>
   </article>
   <p class="cap">WELCOME HOME v2 · fixed riso art (variant 1) + black/crimson type on the flat green zones. Type placement is a first pass on this art — say the word and I nudge.</p>
 </body>
