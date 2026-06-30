@@ -40,6 +40,16 @@
   /* subtle atmosphere so the gradient fallback still reads as a street */
   #world::after{content:"";position:absolute;inset:0;pointer-events:none;
     background:radial-gradient(120% 80% at 50% 120%, rgba(0,0,0,.0) 40%, rgba(0,0,0,.55) 100%)}
+  /* real films playing embedded on the billboard / in the shop window */
+  .embed{position:absolute;overflow:hidden;border-radius:3px;z-index:3;box-shadow:0 0 36px rgba(0,0,0,.45)}
+  .embed video{width:100%;height:100%;object-fit:cover;display:block}
+  .embed.billboard{box-shadow:0 10px 50px rgba(127,212,255,.28);outline:2px solid rgba(255,255,255,.14);outline-offset:-2px}
+  .embed.window{box-shadow:0 10px 36px rgba(255,183,200,.24);outline:2px solid rgba(255,255,255,.10);outline-offset:-2px}
+  /* subtle living atmosphere (kept faint so it never reads as cheap CSS) */
+  .amb{position:absolute;inset:0;pointer-events:none;z-index:2}
+  .amb.fog{background:radial-gradient(55% 45% at 28% 82%,rgba(120,150,255,.05),transparent 70%),radial-gradient(48% 42% at 82% 72%,rgba(255,120,180,.045),transparent 70%);animation:fogdrift 20s ease-in-out infinite alternate}
+  @keyframes fogdrift{0%{transform:translateX(-1.5%)}100%{transform:translateX(1.5%)}}
+  @media(prefers-reduced-motion:reduce){.amb.fog{animation:none}}
 
   /* hotspots embedded in the street */
   .spot{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;cursor:pointer;z-index:4}
@@ -187,7 +197,12 @@
     // placeholders until you approve them:
     FALLOW_SRC: "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_104753_2e216d5d-6d98-4515-984f-477a65c17ea9.png",
     MAP_SRC:    "https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_104754_26e10317-2c7e-44b7-ab3c-2bfa9defbccf.png",
-    WORLD_ASPECT: 21/9   // panorama aspect, used to size the walkable width
+    WORLD_ASPECT: 21/9,   // panorama aspect, used to size the walkable width
+    // real films that PLAY embedded in the scene (left/top/size as % of the world; TUNE to where the art landed)
+    EMBEDS: [
+      {kind:"billboard", src:"assets/lab/turbo_mg21.mp4",       x:3,  y:15, w:18, h:21},
+      {kind:"window",    src:"assets/lab/pabepabe_ocarina.mp4", x:83, y:52, w:13, h:25}
+    ]
   };
 
   /* ============ PIECES on the street (xPct = position across the panorama) ============ */
@@ -213,6 +228,19 @@
   document.querySelector("#sc-binary .structure").style.backgroundImage="url('"+CFG.BINARY_SRC+"')";
   document.querySelector("#sc-fallow .structure").style.backgroundImage="url('"+CFG.FALLOW_SRC+"')";
   if(CFG.MAP_SRC) mapEl.style.backgroundImage="url('"+CFG.MAP_SRC+"')";
+
+  /* ---- LAYER 1: real films playing embedded in the street + subtle atmosphere ---- */
+  (CFG.EMBEDS||[]).forEach(function(e){
+    var d=document.createElement("div");
+    d.className="embed "+e.kind;
+    d.style.left=e.x+"%"; d.style.top=e.y+"%"; d.style.width=e.w+"%"; d.style.height=e.h+"%";
+    var v=document.createElement("video");
+    v.src=e.src; v.muted=true; v.loop=true; v.autoplay=true; v.preload="auto";
+    v.setAttribute("playsinline",""); v.setAttribute("muted","");
+    d.appendChild(v); world.appendChild(d);
+    if(v.play){ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+  });
+  var fog=document.createElement("div"); fog.className="amb fog"; world.appendChild(fog);
 
   /* ---- size the walkable world (wider than viewport) ---- */
   var worldW=0, minX=0, x=0;
