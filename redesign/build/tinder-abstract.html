@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Online Dating &amp; Tinder — abstract type piece</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ONLINE DATING & TINDER — abstract type piece, "this-style".
+     No generation. Red riso ground; motif = a soft spray HEART +
+     swipe cues; exploded type, scattered academic labels. CSS.
+     Distinct palette + form vs the other abstract pieces.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+    --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+    --red:#e5332a; --cream:#f6efe2; --ink:#1a0e0c; --blue:#2536d8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--red);
+    color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.17;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+    line-height:1.7;letter-spacing:.3em;word-spacing:.5em;text-transform:uppercase;color:rgba(246,239,226,.1);overflow:hidden}
+
+  /* soft spray heart */
+  .heart{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:66%;z-index:1;
+    filter:blur(2px)}
+  .heart svg{width:100%;display:block}
+  .heart svg path{fill:var(--cream)}
+
+  /* focal title */
+  .title{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--anton);
+    font-size:clamp(2.6rem,11.5vw,4.2rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--cream)}
+
+  /* swipe cues */
+  .swipe{position:absolute;z-index:4;font-family:var(--mono);font-weight:700;font-size:.56rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--cream)}
+  .swipe.l{left:14px;top:50%} .swipe.r{right:14px;top:50%;text-align:right;color:var(--blue)}
+
+  .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.6rem;line-height:1.12;
+    text-transform:uppercase;color:var(--cream)}
+  .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(246,239,226,.85)}
+  .l1{right:15px;top:16px;text-align:right} .l2{left:15px;top:40%} .l3{right:15px;top:62%;text-align:right} .l4{left:15px;bottom:74px}
+
+  .mark{position:absolute;right:14px;bottom:44px;z-index:4;font-family:var(--mark);
+    font-size:clamp(1.4rem,5.4vw,2.05rem);line-height:.96;width:60%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
+  .mark em{color:var(--blue);font-style:normal}
+
+  .credit{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-size:.52rem;
+    letter-spacing:.06em;text-transform:uppercase;color:rgba(246,239,226,.85)}
+
+  .dot{position:absolute;z-index:4;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <div class="tile">TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER ONLINE DATING TINDER</div>
+
+    <div class="heart" aria-hidden="true">
+      <svg viewBox="0 0 100 92"><path d="M50 84 C 18 60, 3 41, 17 21 C 27 7, 46 9, 50 25 C 54 9, 73 7, 83 21 C 97 41, 82 60, 50 84 Z"/></svg>
+    </div>
+
+    <h1 class="title">Online<br>Dating</h1>
+
+    <span class="swipe l">← nope</span>
+    <span class="swipe r">like →</span>
+
+    <div class="lab l1">MSc Thesis<br>2023</div>
+    <div class="lab s l2">marketing<br>legitimacy</div>
+    <div class="lab s l3">consumer<br>perception</div>
+    <div class="lab l4">A study on<br>Tinder</div>
+
+    <div class="mark">does the market <em>believe in love?</em></div>
+    <div class="credit">Hong Kong Polytechnic University · supervisor Dr Vincent Leung</div>
+
+    <span class="dot" style="left:26%;top:30%"></span>
+    <span class="dot" style="right:28%;top:50%;background:var(--cream)"></span>
+    <span class="dot" style="left:34%;bottom:30%"></span>
+  </article>
+  <p class="cap">ONLINE DATING &amp; TINDER · abstract type piece — soft spray heart + swipe cues, exploded type, scattered academic labels · no generation.</p>
+</body>
+</html>
