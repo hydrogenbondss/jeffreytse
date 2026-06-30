@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEATURE WORLD // CHAOS ENGINE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .ui-layer {
+            position: fixed;
+            z-index: 10;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            mix-blend-mode: difference;
+        }
+
+        .glitch-text {
+            position: absolute;
+            font-size: 12vw;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 0.8;
+            animation: glitch 3s infinite;
+            text-shadow:
+                0.05em 0 0 rgba(255,0,0,0.75),
+                -0.05em -0.025em 0 rgba(0,255,0,0.75),
+                0.025em 0.05em 0 rgba(0,0,255,0.75);
+        }
+
+        .top-left {
+            top: 2rem;
+            left: 2rem;
+            transform: rotate(-2deg);
+        }
+
+        .bottom-right {
+            bottom: 2rem;
+            right: 2rem;
+            text-align: right;
+            transform: rotate(2deg);
+        }
+
+        .chaos-counter {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .interaction-hint {
+            position: fixed;
+            bottom: 20%;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .chaos-button {
+            position: fixed;
+            pointer-events: auto;
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            z-index: 20;
+        }
+
+        .chaos-button:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        #reset-btn {
+            top: 2rem;
+            right: 2rem;
+        }
+
+        #surprise-btn {
+            bottom: 2rem;
+            left: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .glitch-text {
+                font-size: 15vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="ui-layer">
+        <div class="glitch-text top-left">Feature<br>World</div>
+        <div class="glitch-text bottom-right">Random<br>Chaos</div>
+    </div>
+
+    <div class="chaos-counter" id="chaosLevel">CHAOS: 0%</div>
+
+    <div class="interaction-hint">
+        Click to fracture • Drag to distort • Space to reset physics
+    </div>
+
+    <button class="chaos-button" id="reset-btn" onclick="resetWorld()">Collapse Reality</button>
+    <button class="chaos-button" id="surprise-btn" onclick="triggerSurprise()">?</button>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let chaosLevel = 0;
+        let mouse = { x: 0, y: 0, vx: 0, vy: 0 };
+        let lastMouse = { x: 0, y: 0 };
+        let time = 0;
+        let glitchMode = false;
+        let gravity = 0.5;
+
+        // Resize handling
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Particle Class
+        class Particle {
+            constructor(x, y, type = 'normal') {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.size = Math.random() * 20 + 5;
+                this.vx = (Math.random() - 0.5) * 10;
+                this.vy = (Math.random() - 0.5) * 10;
+                this.life = 1;
+                this.decay = Math.random() * 0.01 + 0.002;
+                this.color = this.generateColor();
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.2;
+                this.shape = Math.floor(Math.random() * 4); // 0: circle, 1: square, 2: triangle, 3: glitch
+            }
+
+            generateColor() {
+                const hues = [0, 120, 240, 60, 300];
+                const hue = hues[Math.floor(Math.random() * hues.length)];
+                return `hsla(${hue + Math.random() * 60}, 100%, ${50 + Math.random() * 50}%,`;
+            }
+
+            update() {
+                // Physics chaos
+                this.vy += gravity * (Math.random() > 0.5 ? 1 : -0.5);
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+                this.life -= this.decay;
+
+                // Mouse interaction chaos
+                const dx = this.x - mouse.x;
+                const dy = this.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 150) {
+                    const force = (150 - dist) / 150;
+                    this.vx += (dx / dist) * force * 2;
+                    this.vy += (dy / dist) * force * 2;
+                    this.rotationSpeed += 0.01;
+                    chaosLevel = Math.min(chaosLevel + 0.1, 100);
+                }
+
+                // Screen wrapping with glitch
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                // Velocity damping
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+
+                // Random chaos events
+                if (Math.random() < 0.001) {
+                    this.vx += (Math.random() - 0.5) * 20;
+                    this.vy += (Math.random() - 0.5) * 20;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.life;
+
+                if (glitchMode && Math.random() > 0.7) {
+                    ctx.translate((Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20);
+                }
+
+                ctx.fillStyle = this.color + this.life + ')';
+                ctx.strokeStyle = this.color + '1)';
+                ctx.lineWidth = 2;
+
+                switch(this.shape) {
+                    case 0: // Circle
+                        ctx.beginPath();
+                        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.stroke();
+                        break;
+                    case 1: // Square
+                        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                        ctx.strokeRect(-this.size/2, -this.size/2, this.size, this.size);
+                        break;
+                    case 2: // Triangle
+                        ctx.beginPath();
+                        ctx.moveTo(0, -this.size);
+                        ctx.lineTo(-this.size, this.size);
+                        ctx.lineTo(this.size, this.size);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.stroke();
+                        break;
+                    case 3: // Glitch shape
+                        ctx.beginPath();
+                        ctx.moveTo(-this.size, -this.size);
+                        ctx.lineTo(this.size, -this.size/2);
+                        ctx.lineTo(-this.size/2, this.size);
+                        ctx.lineTo(this.size, this.size);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                }
+
+                // Draw connections for chaos web
+                particles.forEach(p => {
+                    if (p === this) return;
+                    const dx = this.x - p.x;
+                    const dy = this.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100 && Math.random() > 0.9) {
+                        ctx.strokeStyle = this.color + '0.2)';
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(p.x - this.x, p.y - this.y);
+                        ctx.stroke();
+                    }
+                });
+
+                ctx.restore();
+            }
+        }
+
+        // Initialize world
+        function init() {
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle(
+                    Math.random() * width,
+                    Math.random() * height
+                ));
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            // Trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+
+            time += 0.01;
+
+            // Random background glitch
+            if (Math.random() < 0.01) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`;
+                ctx.fillRect(0, Math.random() * height, width, Math.random() * 10);
+            }
+
+            // Update and draw particles
+            particles = particles.filter(p => {
+                p.update();
+                p.draw();
+                return p.life > 0;
+            });
+
+            // Auto-spawn chaos
+            if (particles.length < 100 && Math.random() < 0.1) {
+                particles.push(new Particle(
+                    Math.random() * width,
+                    Math.random() * height
+                ));
+            }
+
+            // Update chaos display
+            document.getElementById('chaosLevel').textContent =
+                `CHAOS: ${Math.floor(chaosLevel)}% | ENTITIES: ${particles.length}`;
+
+            if (chaosLevel > 0) chaosLevel -= 0.05;
+
+            requestAnimationFrame(animate);
+        }
+
+        // Mouse tracking
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.vx = mouse.x - lastMouse.x;
+            mouse.vy = mouse.y - lastMouse.y;
+            lastMouse.x = mouse.x;
+            lastMouse.y = mouse.y;
+
+            // Spawn particles on fast movement
+            if (Math.abs(mouse.vx) + Math.abs(mouse.vy) > 20) {
+                for (let i = 0; i < 3; i++) {
+                    particles.push(new Particle(mouse.x, mouse.y, 'chaos'));
+                }
+            }
+        });
+
+        // Click explosion
+        window.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+
+            // Explosion effect
+            for (let i = 0; i < 20; i++) {
+                const p = new Particle(e.clientX, e.clientY);
+                p.vx = (Math.random() - 0.5) * 30;
+                p.vy = (Math.random() - 0.5) * 30;
+                p.size = Math.random() * 30 + 10;
+                particles.push(p);
+            }
+
+            // Screen shake effect
+            document.body.style.transform = `translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px)`;
+            setTimeout(() => {
+                document.body.style.transform = 'none';
+            }, 50);
+
+            chaosLevel = Math.min(chaosLevel + 10, 100);
+        });
+
+        // Keyboard chaos
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                gravity = gravity === 0.5 ? -0.5 : 0.5;
+                document.querySelector('.bottom-right').textContent =
+                    gravity > 0 ? 'Gravity\nNormal' : 'Gravity\nInverted';
+            }
+        });
+
+        // Touch support
+        window.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            mouse.x = touch.clientX;
+            mouse.y = touch.clientY;
+
+            for (let i = 0; i < 2; i++) {
+                particles.push(new Particle(mouse.x, mouse.y));
+            }
+        });
+
+        function resetWorld() {
+            particles = [];
+            chaosLevel = 0;
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, width, height);
+
+            // Big bang restart
+            setTimeout(() => {
+                for (let i = 0; i < 100; i++) {
+                    const angle = (Math.PI * 2 * i) / 100;
+                    const p = new Particle(width/2, height/2);
+                    p.vx = Math.cos(angle) * 15;
+                    p.vy = Math.sin(angle) * 15;
+                    particles.push(p);
+                }
+            }, 100);
+        }
+
+        function triggerSurprise() {
+            glitchMode = !glitchMode;
+            const btn = document.getElementById('surprise-btn');
+            btn.textContent = glitchMode ? '!!!' : '?';
+            btn.style.background = glitchMode ? '#fff' : 'transparent';
+            btn.style.color = glitchMode ? '#000' : '#fff';
+
+            if (glitchMode) {
+                document.body.style.filter = 'invert(1)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 100);
+            }
+        }
+
+        // Start
+        init();
+        animate();
+
+        // Auto chaos every 10 seconds
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const x = Math.random() * width;
+                const y = Math.random() * height;
+                for (let i = 0; i < 10; i++) {
+                    particles.push(new Particle(x, y));
+                }
+            }
+        }, 10000);
+
+    </script>
+</body>
+</html>
