@@ -4,18 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Editorial — Jeffrey N. Tse</title>
-<meta name="description" content="Fashion editorial as cassette tapes on a record-shop shelf — hover a tape for its title, click to read the editorial.">
+<meta name="description" content="Fashion editorial as a wall of cassette tapes — a Higgsfield-composed record-shop shelf of the I.T Apparels editorials.">
 <meta name="theme-color" content="#e7ddca">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#241a10;--ink-soft:#5c5040;--ink-faint:#8f8268;--hot:#241a10;
+    --ink:#241a10;--ink-soft:#5c5040;--ink-faint:#8f8268;
     --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
-    --spring:cubic-bezier(.34,1.32,.5,1);
-    /* shelf alignment — tweak these to seat the cassettes on the generated shelves */
-    --y1:66cqh; --y2:40cqh; --y3:13cqh; --ch:23cqh; --side:6%;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{min-height:100%}
@@ -23,79 +20,32 @@
     background:radial-gradient(100% 60% at 50% -10%, #fffdf8, rgba(255,253,248,0) 60%),linear-gradient(180deg,#efe7d8,#e2d6c1)}
 
   #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(18px,3vw,40px)}
-  .ed-head{text-align:center;margin-bottom:clamp(10px,2vw,22px)}
+  .ed-head{text-align:center;margin-bottom:clamp(12px,2.2vw,26px)}
   .ed-kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
   .ed-title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.6rem,6.4vw,4.6rem);line-height:.9;color:var(--ink)}
 
-  /* the generated shelf */
-  .stage{position:relative;width:min(1180px,97vw);margin:0 auto;aspect-ratio:1264/848;container-type:size;
-    background:#e8ddc8 url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_090241_a5334d7e-2e63-4443-a62c-0aa4738dad16.png') center/cover no-repeat;border-radius:8px;
-    box-shadow:0 50px 110px -40px rgba(40,28,14,.6)}
+  /* the two Higgsfield-composed shelves, stacked into one wall */
+  .wall{max-width:920px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .wall .stack{width:100%;border-radius:8px;overflow:hidden;box-shadow:0 50px 110px -42px rgba(40,28,14,.6)}
+  .wall .stack img{display:block;width:100%;height:auto}
+  .wall .stack img + img{margin-top:-1px}
 
-  .row{position:absolute;left:var(--side);right:var(--side);display:flex;justify-content:center;align-items:flex-end;gap:1.2cqw}
-  .row.r1{bottom:var(--y1)} .row.r2{bottom:var(--y2)} .row.r3{bottom:var(--y3)}
-
-  .item{position:relative;display:flex;justify-content:center}
-  .cass{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:block;line-height:0}
-  .cass img{height:var(--ch);width:auto;display:block;filter:drop-shadow(0 1.4cqh 1cqh rgba(40,28,14,.4));
-    transition:transform .42s var(--spring), filter .42s var(--spring)}
-  .cass:hover img,.cass:focus-visible img{transform:translateY(-9cqh) scale(1.04);filter:drop-shadow(0 3cqh 2cqh rgba(40,28,14,.45))}
-  .cass:focus-visible{outline:none}
-  .tt{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translate(-50%,8px);z-index:6;white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis;
-    font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#f4ece0;
-    background:var(--hot);padding:6px 12px;border-radius:30px;box-shadow:0 10px 24px rgba(40,28,14,.5);
-    opacity:0;pointer-events:none;transition:opacity .3s var(--spring), transform .3s var(--spring)}
-  .item:hover .tt,.cass:focus-visible ~ .tt{opacity:1;transform:translate(-50%,0)}
-
-  .ed-foot{text-align:center;margin-top:clamp(12px,2vw,22px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
-
-  @media(prefers-reduced-motion:reduce){.cass img,.tt{transition:none}}
+  .ed-foot{text-align:center;margin-top:clamp(12px,2vw,24px);font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;color:var(--ink-faint)}
 </style>
 </head>
 <body>
-<section id="editorial" aria-label="Editorial — cassette tapes on a shelf">
+<section id="editorial" aria-label="Editorial — a wall of cassette tapes">
   <header class="ed-head">
-    <div class="ed-kicker">Fashion</div>
+    <div class="ed-kicker">Fashion &middot; I.T Apparels</div>
     <h1 class="ed-title">Editorial</h1>
   </header>
-  <div class="stage" id="stage"></div>
-  <div class="ed-foot">Hover a tape for its title &mdash; click to read the editorial.</div>
+  <div class="wall">
+    <div class="stack">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_091534_7a7c2645-c516-419a-bd28-127dd33a1d54.png" alt="Editorial cassettes — shelf one">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_091539_a5066a18-c943-4eda-87a6-2f68fb520f0e.png" alt="Editorial cassettes — shelf two">
+    </div>
+  </div>
+  <div class="ed-foot">17 I.T Apparels editorials &mdash; New York / Hong Kong</div>
 </section>
-
-<script>
-(function(){
-  "use strict";
-  var IMG="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
-  var CASS=[
-    {n:"No Zippers, No Apologies",l:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",img:"hf_20260630_084407_c5df6d30-6aa7-4c22-8d3f-8fede703a077.png"},
-    {n:"Markgong Fall 2025",l:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",img:"hf_20260630_084447_10f27299-dbda-4196-9fa6-b9093e81f94a.png"},
-    {n:"Masayuki Ino · Doublet",l:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",img:"hf_20260630_084448_7849c54a-874c-4502-83ac-cf1d77984a4f.png"},
-    {n:"A Bathing Ape® FW24",l:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",img:"hf_20260630_084450_31e32354-00cc-4f54-9410-0b8193585218.png"},
-    {n:"The Rise of Blokecore",l:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",img:"hf_20260630_084452_cc919ab1-d47f-44be-8de7-716367425069.png"},
-    {n:"The Gothic Realm",l:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",img:"hf_20260630_084454_d86bac2b-f36f-4b64-b5bc-47645d6c98dc.png"},
-    {n:"Ponder.er SS24",l:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",img:"hf_20260630_084456_93d819c8-a6de-4c31-ae96-97d340451067.png"},
-    {n:"Westfall",l:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",img:"hf_20260630_084457_5b3304e9-f516-4508-897a-743b1264cf57.png"},
-    {n:"Mountwood",l:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",img:"hf_20260630_084458_832b1417-b826-4b9c-be16-1dc0949a2eb2.png"},
-    {n:"Subi · Subez Yeti",l:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",img:"hf_20260630_084459_8a92095e-4699-4f06-8cb9-b6a4ab974dca.png"},
-    {n:"Hong Kong Showroom",l:"https://hk.iteshop.com/bit/editorial/fashion-asia-showroom-2024",img:"hf_20260630_084501_de1e7ee6-36d2-4cc7-8411-a68167c5f825.png"},
-    {n:"Rick Owens SS24",l:"https://hk.iteshop.com/bit/editorial/rick-owens-ss24-new-collection",img:"hf_20260630_084728_4e8931bd-2079-4a75-903f-ea435689b4e8.png"},
-    {n:"Sweet Rebellion · Shushu/Tong",l:"https://hk.iteshop.com/bit/editorial/shushu-tong-interview-and-collection",img:"hf_20260630_084729_51b76293-70b9-4e53-ba0b-45b0a9c83b91.png"},
-    {n:"The Meaning of Love",l:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love",img:"hf_20260630_084730_2fea97e1-8207-41c6-9bd3-c37aa7e3f718.png"},
-    {n:"Breaking Boundaries",l:"https://hk.iteshop.com/sit/editorial/breaking-boundaries",img:"hf_20260630_084732_abd58089-dcf3-4061-9f8c-698b881e9719.png"},
-    {n:"In the Studio with Taku",l:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush",img:"hf_20260630_084733_1d1a6781-c5d5-4b4c-ba2b-a624771be622.png"},
-    {n:"Jersey Tees",l:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets",img:"hf_20260630_084734_28261f5d-02a3-422e-92ca-654f606e7bd2.png"}
-  ];
-  var SHELVES=[[0,6],[6,12],[12,17]];
-  var stage=document.getElementById("stage");
-  function item(e){
-    return '<div class="item"><button class="cass" type="button" onclick="window.open(\''+e.l+'\',\'_blank\',\'noopener\')" aria-label="'+e.n+' — open editorial"><img src="'+IMG+e.img+'" alt="'+e.n+'" loading="lazy"></button><span class="tt">'+e.n+'</span></div>';
-  }
-  SHELVES.forEach(function(rng,i){
-    var row=document.createElement("div");row.className="row r"+(i+1);
-    row.innerHTML=CASS.slice(rng[0],rng[1]).map(item).join("");
-    stage.appendChild(row);
-  });
-})();
-</script>
 </body>
 </html>
