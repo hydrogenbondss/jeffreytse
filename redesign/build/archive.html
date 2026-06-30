@@ -25,16 +25,28 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* subtle wordmark, top-left corner of the page */
-  .wordmark{
-    position:absolute;top:clamp(16px,3vw,30px);left:clamp(16px,3vw,34px);z-index:10;
-    font-family:'Anton',Impact,sans-serif;font-size:clamp(.95rem,2vw,1.25rem);
-    letter-spacing:.22em;text-transform:uppercase;color:rgba(244,241,233,.42)}
+  /* hand-drawn black-marker title, scrawled on the desk in the clear
+     top band. Reads as a correction: (struck) Publications -> Archive,
+     loosely circled with a sketchy doodle. */
+  .marker{
+    position:absolute;top:1.5%;left:6%;z-index:9;
+    font-family:'Permanent Marker',cursive;color:#141008;
+    font-size:clamp(1.6rem,5.2vw,2.6rem);line-height:1;
+    transform:rotate(-3deg);opacity:.92;mix-blend-mode:multiply;
+    pointer-events:none;white-space:nowrap}
+  .marker .words{position:relative;display:inline-block;padding:.12em .55em .2em}
+  .marker .struck{position:relative;display:inline-block;color:#141008;margin-right:.32em}
+  /* hand-drawn strike — wavy SVG sitting over the struck word */
+  .marker .strike{position:absolute;left:-4%;top:42%;width:108%;height:.5em;overflow:visible}
+  .marker .strike path{fill:none;stroke:#141008;stroke-width:3;stroke-linecap:round}
+  /* loose doodle circling the whole group */
+  .marker .doodle{position:absolute;left:-9%;top:-26%;width:118%;height:150%;overflow:visible;z-index:-1}
+  .marker .doodle path{fill:none;stroke:#141008;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
   /* the wood desk stage */
   .stage{
-    position:relative;width:min(900px,96vw);aspect-ratio:4/5;margin:0 auto;
-    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_182841_33ee3bdf-b5fe-404d-a81a-dc6cd7a83f02.png") center/cover;
+    position:relative;width:min(900px,96vw);aspect-ratio:2/3;margin:0 auto;
+    background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_183917_7e6e7a64-f46d-42ed-89f7-73adbc98f4b8.png") center/cover;
     box-shadow:0 20px 60px rgba(0,0,0,.5)}
 
   /* each shadow host = one print lying on the desk.
@@ -70,20 +82,36 @@
 </head>
 <body>
 
-  <div class="wordmark">Archive</div>
-
   <!-- The wood desk. Each .host is one print scattered on the surface;
        left/top/z-index + --rot (scatter rotation) are inline per print.
-       --rot-m is the gentler tilt used in the mobile vertical stack. -->
+       --rot-m is the gentler tilt used in the mobile vertical stack.
+       The marker title is scrawled on the wood in the clear top band. -->
   <section class="stage" aria-label="Archive — prints scattered on a desk">
-    <div class="host" data-poster="welcome-home"      style="left:4%;  top:3%;  z-index:2; --rot:-6deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="finite-appearances" style="left:37%; top:1%;  z-index:3; --rot:5deg;  --rot-m:3deg"></div>
-    <div class="host" data-poster="undergrowth"        style="left:67%; top:5%;  z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="insights"           style="left:19%; top:28%; z-index:5; --rot:7deg;  --rot-m:3deg"></div>
-    <div class="host" data-poster="resonance"          style="left:51%; top:30%; z-index:4; --rot:-5deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="beitler"            style="left:3%;  top:55%; z-index:3; --rot:5deg;  --rot-m:3deg"></div>
-    <div class="host" data-poster="one-ply"            style="left:36%; top:58%; z-index:6; --rot:-8deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="tinder"             style="left:66%; top:54%; z-index:5; --rot:4deg;  --rot-m:3deg"></div>
+
+    <div class="marker" aria-label="Publications, crossed out, corrected to Archive">
+      <span class="words">
+        <!-- loose hand-drawn circle + underline flourish around the group -->
+        <svg class="doodle" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M16 40 C 22 14, 96 7, 158 8 C 230 9, 292 16, 287 44 C 283 70, 214 82, 146 81 C 78 80, 10 74, 14 44 C 15 36, 19 30, 26 26"/>
+          <path d="M150 86 C 188 90, 232 89, 268 84"/>
+          <path d="M268 84 l -12 -6 M268 84 l -10 9"/>
+        </svg>
+        <span class="struck">Publications<!-- hand-drawn wavy strike-through over this word -->
+          <svg class="strike" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 9 C 34 4, 58 12, 92 7 C 126 2, 150 11, 197 6"/>
+          </svg>
+        </span>Archive
+      </span>
+    </div>
+
+    <div class="host" data-poster="welcome-home"      style="left:4%;  top:14%; z-index:2; --rot:-6deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="finite-appearances" style="left:37%; top:12%; z-index:3; --rot:5deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="undergrowth"        style="left:67%; top:16%; z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="insights"           style="left:19%; top:39%; z-index:5; --rot:7deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="resonance"          style="left:51%; top:41%; z-index:4; --rot:-5deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="beitler"            style="left:3%;  top:66%; z-index:3; --rot:5deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="one-ply"            style="left:36%; top:69%; z-index:6; --rot:-8deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="tinder"             style="left:66%; top:65%; z-index:5; --rot:4deg;  --rot-m:3deg"></div>
   </section>
 
 
