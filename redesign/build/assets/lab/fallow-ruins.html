@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fallow Ruins</title>
+<meta name="description" content="A journey through a derelict building reclaimed by nature, at dusk falling to night, that opens at last into a clearing flooded with dawn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --ease-soft:cubic-bezier(.4,0,.2,1);
+    --paper:#e9e3d6;
+    --paper-soft:rgba(233,227,214,.78);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+
+  body{
+    background:#05070a;
+    color:var(--paper);
+    font-family:'Cormorant Garamond',Georgia,serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    cursor:default;
+  }
+
+  #stage{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+  }
+
+  canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+  }
+
+  /* atmospheric grain + vignette over the whole frame */
+  .vignette{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:6;
+    background:
+      radial-gradient(140% 120% at 50% 42%, rgba(0,0,0,0) 38%, rgba(0,0,0,.55) 100%);
+    mix-blend-mode:multiply;
+    transition:opacity 2.4s var(--ease-soft);
+  }
+  .grain{
+    position:fixed;
+    inset:-50%;
+    width:200%;
+    height:200%;
+    pointer-events:none;
+    z-index:7;
+    opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 7s steps(6) infinite;
+    will-change:transform;
+  }
+  @keyframes grain{
+    0%{transform:translate(0,0)}
+    20%{transform:translate(-3%,2%)}
+    40%{transform:translate(2%,-3%)}
+    60%{transform:translate(-2%,-2%)}
+    80%{transform:translate(3%,1%)}
+    100%{transform:translate(0,0)}
+  }
+
+  /* drifting narrative captions */
+  .caption-layer{
+    position:fixed;
+    inset:0;
+    z-index:8;
+    pointer-events:none;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding:0 8vw 14vh;
+  }
+  .caption{
+    max-width:46ch;
+    text-align:center;
+    font-weight:300;
+    font-size:clamp(1.35rem,3.2vw,2.5rem);
+    line-height:1.45;
+    letter-spacing:.012em;
+    color:rgba(236,232,221,.94);
+    text-shadow:0 2px 30px rgba(0,0,0,.85), 0 0 1px rgba(0,0,0,.6);
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 2.2s var(--ease-soft), transform 2.2s var(--ease);
+  }
+  .caption.show{opacity:1;transform:translateY(0);}
+  .caption em{font-style:italic;color:#cdd8c2;}
+
+  /* final title moment */
+  .finale{
+    position:fixed;
+    inset:0;
+    z-index:9;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 3s var(--ease-soft);
+  }
+  .finale.show{opacity:1;}
+  .finale h1{
+    font-weight:300;
+    font-size:clamp(2.6rem,8vw,6.5rem);
+    letter-spacing:.16em;
+    color:#1d2a22;
+    text-shadow:0 1px 0 rgba(255,255,255,.35);
+    line-height:1;
+  }
+  .finale .rule{
+    width:0;
+    height:1px;
+    margin:2.4vh 0;
+    background:linear-gradient(90deg,transparent,rgba(40,58,46,.7),transparent);
+    transition:width 3.4s var(--ease) .8s;
+  }
+  .finale.show .rule{width:min(38vw,360px);}
+  .finale p{
+    font-style:italic;
+    font-weight:300;
+    font-size:clamp(1rem,2.4vw,1.5rem);
+    letter-spacing:.05em;
+    color:rgba(31,42,34,.78);
+    max-width:34ch;
+  }
+  .finale .again{
+    margin-top:5vh;
+    font-size:clamp(.78rem,1.6vw,.95rem);
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:rgba(31,42,34,.55);
+    pointer-events:auto;
+    cursor:pointer;
+    padding:.7em 1.4em;
+    border:1px solid rgba(31,42,34,.25);
+    border-radius:2px;
+    background:rgba(255,255,255,.12);
+    transition:color .6s,border-color .6s,background .6s;
+  }
+  .finale .again:hover{
+    color:rgba(31,42,34,.9);
+    border-color:rgba(31,42,34,.5);
+    background:rgba(255,255,255,.28);
+  }
+
+  /* progress hairline */
+  .progress{
+    position:fixed;
+    left:0;top:0;
+    height:2px;
+    width:0%;
+    z-index:10;
+    background:linear-gradient(90deg,rgba(140,170,130,.0),rgba(170,200,150,.85));
+    transition:width .25s linear, opacity 2s;
+    pointer-events:none;
+  }
+
+  /* intro overlay */
+  .intro{
+    position:fixed;
+    inset:0;
+    z-index:20;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:radial-gradient(120% 100% at 50% 50%, #0a0f0c 0%, #04060a 70%);
+    transition:opacity 1.6s var(--ease-soft);
+    padding:8vw;
+  }
+  .intro.hide{opacity:0;pointer-events:none;}
+  .intro .kicker{
+    font-size:clamp(.72rem,1.5vw,.9rem);
+    letter-spacing:.5em;
+    text-transform:uppercase;
+    color:rgba(150,168,150,.7);
+    margin-bottom:2.4vh;
+    padding-left:.5em;
+  }
+  .intro h1{
+    font-weight:300;
+    font-size:clamp(2.6rem,9vw,7rem);
+    letter-spacing:.14em;
+    color:#dfe5d8;
+    line-height:1;
+    text-shadow:0 0 50px rgba(120,160,120,.18);
+  }
+  .intro .sub{
+    margin-top:3.2vh;
+    font-style:italic;
+    font-weight:300;
+    font-size:clamp(1rem,2.6vw,1.45rem);
+    color:rgba(206,214,196,.72);
+    max-width:40ch;
+  }
+  .enter{
+    margin-top:6vh;
+    font-size:clamp(.78rem,1.6vw,.95rem);
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:rgba(206,214,196,.85);
+    cursor:pointer;
+    padding:.85em 1.8em;
+    border:1px solid rgba(160,180,150,.35);
+    border-radius:2px;
+    background:rgba(160,180,150,.05);
+    transition:all .6s var(--ease);
+  }
+  .enter:hover{
+    color:#0a0f0c;
+    background:rgba(190,208,170,.85);
+    border-color:rgba(190,208,170,.85);
+    letter-spacing:.4em;
+  }
+  .enter:focus-visible{outline:2px solid rgba(190,208,170,.8);outline-offset:4px;}
+  .intro .note{
+    margin-top:4vh;
+    font-size:.82rem;
+    letter-spacing:.04em;
+    color:rgba(150,168,150,.45);
+  }
+  .intro .note button{
+    background:none;border:none;color:rgba(180,198,160,.85);
+    font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;
+    letter-spacing:.04em;
+  }
+
+  @media (max-width:560px){
+    .caption-layer{padding:0 6vw 16vh;}
+  }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <canvas id="sky"></canvas>
+    <canvas id="world"></canvas>
+    <canvas id="haze"></canvas>
+  </div>
+
+  <div class="vignette" id="vignette"></div>
+  <div class="grain" id="grain"></div>
+
+  <div class="progress" id="progress"></div>
+
+  <div class="caption-layer">
+    <p class="caption" id="caption"></p>
+  </div>
+
+  <div class="finale" id="finale">
+    <h1>Fallow Ruins</h1>
+    <div class="rule"></div>
+    <p>What we abandon, the green remembers — and carries into the light.</p>
+    <button class="again" id="again">Return to the dark</button>
+  </div>
+
+  <div class="intro" id="intro">
+    <div class="kicker">An interactive passage</div>
+    <h1>Fallow Ruins</h1>
+    <p class="sub">A derelict building, reclaimed by the slow patience of green. Walk it through to the end.</p>
+    <button class="enter" id="enter">Enter the ruin</button>
+    <p class="note">
+      Scroll, or simply wait — the path moves on its own.
+      <br>
+      <button id="calm">Prefer a calm, still version?</button>
+    </p>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var sky   = document.getElementById('sky');
+  var world = document.getElementById('world');
+  var haze  = document.getElementById('haze');
+  var sctx = sky.getContext('2d');
+  var wctx = world.getContext('2d');
+  var hctx = haze.getContext('2d');
+
+  var W = 0, H = 0, DPR = 1;
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    [sky, world, haze].forEach(function(c){
+      c.width = W * DPR; c.height = H * DPR;
+      c.style.width = W + 'px'; c.style.height = H + 'px';
+      c.getContext('2d').setTransform(DPR,0,0,DPR,0,0);
+    });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* ---------- helpers ---------- */
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function smooth(t){ return t<0?0:(t>1?1:t*t*(3-2*t)); }
+  // mix two hex colors
+  function mix(c1,c2,t){
+    return [
+      Math.round(lerp(c1[0],c2[0],t)),
+      Math.round(lerp(c1[1],c2[1],t)),
+      Math.round(lerp(c1[2],c2[2],t))
+    ];
+  }
+  function rgba(c,a){ return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'; }
+  // seeded pseudo-random for stable foliage layout
+  function rng(seed){
+    var s = seed % 2147483647;
+    if (s <= 0) s += 2147483646;
+    return function(){ s = (s*16807) % 2147483647; return (s-1)/2147483646; };
+  }
+
+  /* ---------- journey state ----------
+     p (progress) runs 0 -> 1 across the whole piece.
+     The journey has three acts mapped over p:
+       0.00 - 0.18  threshold / dusk at the doorway
+       0.18 - 0.72  descending deeper, dimmer, greener, night falling
+       0.72 - 1.00  the turn: light grows ahead, walls fall away, the clearing, dawn
+  -------------------------------------------------- */
+  var p = 0;                 // displayed progress (eased toward target)
+  var pTarget = 0;           // target progress
+  var started = false;
+  var autoSpeed = prefersReduced ? 0 : 0.0000115; // progress per ms when auto-advancing
+  var lastT = performance.now();
+
+  // sky palette keyframes (dusk -> night -> dawn clearing)
+  var SKY = [
+    {p:0.00, top:[26,34,40], bot:[58,62,52]},   // muted dusk through the doorway
+    {p:0.18, top:[18,26,30], bot:[40,50,42]},   // entering, cooler
+    {p:0.45, top:[10,18,20], bot:[20,32,26]},   // deep interior, night
+    {p:0.66, top:[8,14,16],  bot:[14,24,20]},   // deepest, almost black-green
+    {p:0.78, top:[26,40,40], bot:[60,76,58]},   // first true light ahead
+    {p:0.90, top:[120,150,128],bot:[210,206,168]},// breaking into the clearing
+    {p:1.00, top:[196,214,196],bot:[244,236,206]} // dawn flood, calm
+  ];
+  function skyAt(pp){
+    for (var i=0;i<SKY.length-1;i++){
+      if (pp <= SKY[i+1].p){
+        var a=SKY[i], b=SKY[i+1];
+        var t = smooth((pp-a.p)/(b.p-a.p));
+        return { top:mix(a.top,b.top,t), bot:mix(a.bot,b.bot,t) };
+      }
+    }
+    var last=SKY[SKY.length-1];
+    return {top:last.top, bot:last.bot};
+  }
+
+  // overall light level 0(dark)..1(flooded) used for foliage tint & glow
+  function lightAt(pp){
+    if (pp < 0.66) return lerp(0.42, 0.10, smooth(pp/0.66));   // dimming
+    return lerp(0.10, 1.0, smooth((pp-0.66)/0.34));            // opening to light
+  }
+
+  /* ---------- procedural building columns (parallax depth) ----------
+     We build several depth bands of broken architecture. Each band scrolls
+     toward the camera as p increases, giving the "walking down a corridor"
+     push. Bands further back move slower (parallax).               */
+  var BANDS = [];
+  function buildBands(){
+    BANDS = [];
+    var rand = rng(1337);
+    var count = 7;
+    for (var b=0;b<count;b++){
+      var depth = b/(count-1);            // 0 near .. 1 far
+      var pillars = [];
+      var n = 4 + Math.round(rand()*3);
+      for (var i=0;i<n;i++){
+        pillars.push({
+          x: rand(),                      // 0..1 across corridor mouth
+          w: 0.06 + rand()*0.09,
+          h: 0.55 + rand()*0.4,           // fraction of height (broken tops vary)
+          broken: 0.1 + rand()*0.35,      // jagged top amount
+          side: rand()<0.5?-1:1,
+          ferns: rand(),                  // foliage seed on this pillar
+          moss: rand()
+        });
+      }
+      BANDS.push({depth:depth, pillars:pillars, seed: Math.floor(rand()*99999)});
+    }
+  }
+  buildBands();
+
+  /* ---------- spores / drifting light particles ---------- */
+  var spores = [];
+  function buildSpores(){
+    spores = [];
+    var n = prefersReduced ? 26 : 70;
+    var rand = rng(909);
+    for (var i=0;i<n;i++){
+      spores.push({
+        x: rand(), y: rand(),
+        z: 0.2 + rand()*0.8,            // depth -> size & speed
+        ph: rand()*Math.PI*2,
+        spd: 0.2 + rand()*0.6,
+        drift: (rand()-0.5)*0.4
+      });
+    }
+  }
+  buildSpores();
+
+  /* ---------- god-ray shafts (only emerge near the end) ---------- */
+  var shafts = [];
+  (function(){
+    var rand = rng(55);
+    for (var i=0;i<6;i++){
+      shafts.push({x:0.15+rand()*0.7, w:0.05+rand()*0.12, off:rand()*Math.PI*2});
+    }
+  })();
+
+  /* ---------- drawing: sky / depth gradient ---------- */
+  function drawSky(time){
+    var s = skyAt(p);
+    var g = sctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0, rgba(s.top,1));
+    g.addColorStop(1, rgba(s.bot,1));
+    sctx.fillStyle = g;
+    sctx.fillRect(0,0,W,H);
+
+    var light = lightAt(p);
+
+    // distant glow at the vanishing point — the promise / payoff of light ahead.
+    // grows dramatically in the final act.
+    var cx = W*0.5, cy = H*0.46;
+    var openness = clamp((p-0.6)/0.4,0,1);
+    var glowR = lerp(H*0.10, H*1.2, smooth(openness));
+    var glowA = lerp(0.05, 0.95, smooth(openness));
+    var warm = mix([120,150,120],[250,242,210], smooth(openness));
+    var rg = sctx.createRadialGradient(cx,cy,0,cx,cy,glowR);
+    rg.addColorStop(0, rgba(warm, glowA));
+    rg.addColorStop(0.4, rgba(warm, glowA*0.45));
+    rg.addColorStop(1, rgba(warm,0));
+    sctx.globalCompositeOperation = 'screen';
+    sctx.fillStyle = rg;
+    sctx.fillRect(0,0,W,H);
+    sctx.globalCompositeOperation = 'source-over';
+
+    return {light:light, openness:openness, warm:warm};
+  }
+
+  /* ---------- a single broken pillar with overgrowth ---------- */
+  function drawPillar(ctx, px, baseY, pw, ph, broken, tint, foliageTint, foliage, seed){
+    var topY = baseY - ph;
+    // concrete column with a jagged broken top
+    ctx.beginPath();
+    ctx.moveTo(px, baseY);
+    ctx.lineTo(px, topY + ph*broken*0.5);
+    // jagged rubble top
+    var jr = rng(seed);
+    var steps = 5;
+    for (var i=0;i<=steps;i++){
+      var jx = px + (pw)*(i/steps);
+      var jy = topY + ph*broken*jr()*0.9;
+      ctx.lineTo(jx, jy);
+    }
+    ctx.lineTo(px+pw, baseY);
+    ctx.closePath();
+    ctx.fillStyle = tint;
+    ctx.fill();
+
+    // subtle rebar / cracks
+    ctx.strokeStyle = rgba([0,0,0], 0.18);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(px+pw*0.5, topY+ph*broken*0.6);
+    ctx.lineTo(px+pw*0.5, baseY);
+    ctx.stroke();
+
+    // moss creeping up the base
+    var mh = ph*0.45;
+    var mg = ctx.createLinearGradient(0, baseY, 0, baseY-mh);
+    mg.addColorStop(0, rgba(foliageTint, 0.85));
+    mg.addColorStop(1, rgba(foliageTint, 0));
+    ctx.fillStyle = mg;
+    ctx.fillRect(px-1, baseY-mh, pw+2, mh);
+
+    // vines hanging / ferns sprouting at the broken top
+    drawFoliageClump(ctx, px+pw*foliage, topY+ph*broken*0.3, pw*1.4, foliageTint, seed+7);
+  }
+
+  function drawFoliageClump(ctx, x, y, size, tint, seed){
+    var r = rng(seed);
+    ctx.save();
+    ctx.strokeStyle = rgba(tint, 0.9);
+    ctx.lineCap='round';
+    var blades = 7 + Math.floor(r()*6);
+    for (var i=0;i<blades;i++){
+      var ang = -Math.PI/2 + (r()-0.5)*1.7;
+      var len = size*(0.5+r()*0.9);
+      ctx.lineWidth = Math.max(1, size*0.04*(0.5+r()));
+      ctx.beginPath();
+      ctx.moveTo(x,y);
+      var mx = x + Math.cos(ang)*len*0.5 + (r()-0.5)*size*0.3;
+      var my = y + Math.sin(ang)*len*0.5;
+      var ex = x + Math.cos(ang)*len;
+      var ey = y + Math.sin(ang)*len;
+      ctx.quadraticCurveTo(mx,my,ex,ey);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  /* ---------- a young tree breaking through (foreground, end act) ---------- */
+  function drawYoungTree(ctx, x, baseY, scale, tint, seed){
+    var r = rng(seed);
+    ctx.save();
+    ctx.strokeStyle = rgba([30,34,28], 0.92);
+    ctx.lineCap='round';
+    function branch(x,y,ang,len,wd){
+      if (len < scale*0.06) {
+        // leaf cluster
+        ctx.save();
+        ctx.fillStyle = rgba(tint, 0.85);
+        for (var k=0;k<4;k++){
+          var lx = x + (r()-0.5)*scale*0.18;
+          var ly = y + (r()-0.5)*scale*0.18;
+          ctx.beginPath();
+          ctx.ellipse(lx,ly, scale*0.05, scale*0.025, r()*Math.PI, 0, Math.PI*2);
+          ctx.fill();
+        }
+        ctx.restore();
+        return;
+      }
+      var ex = x + Math.cos(ang)*len;
+      var ey = y + Math.sin(ang)*len;
+      ctx.lineWidth = wd;
+      ctx.beginPath();
+      ctx.moveTo(x,y);
+      ctx.quadraticCurveTo(x+(r()-0.5)*len*0.3, (y+ey)/2, ex,ey);
+      ctx.stroke();
+      branch(ex,ey, ang-(0.3+r()*0.4), len*0.72, wd*0.7);
+      branch(ex,ey, ang+(0.3+r()*0.4), len*0.72, wd*0.7);
+    }
+    branch(x, baseY, -Math.PI/2, scale*0.5, Math.max(2,scale*0.05));
+    ctx.restore();
+  }
+
+  /* ---------- shattered glass shard scatter on the floor ---------- */
+  function drawShards(ctx, light){
+    var r = rng(404);
+    ctx.save();
+    for (var i=0;i<18;i++){
+      var x = r()*W;
+      var y = H*0.78 + r()*H*0.2;
+      var s = 4 + r()*10;
+      ctx.beginPath();
+      ctx.moveTo(x,y);
+      ctx.lineTo(x+s, y+s*0.3);
+      ctx.lineTo(x+s*0.4, y+s);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(180,210,210,'+(0.04+light*0.16)+')';
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* ---------- main world ---------- */
+  function drawWorld(time, env){
+    wctx.clearRect(0,0,W,H);
+    var light = env.light;
+    var openness = env.openness;
+
+    // base "floor" plane perspective line
+    var horizon = H*0.46;
+
+    // concrete tints darken with depth & with night, then the far ones
+    // catch the dawn light.
+    var nearTint = mix([120,118,108],[150,150,140], light);
+    var farFog   = skyAt(p).bot;
+
+    // camera "push": as p grows, bands scroll forward & scale up, then in the
+    // final act the near bands slide off-screen (walls falling behind us).
+    var corridorOpen = smooth(openness); // 0..1 walls part
+
+    for (var b=BANDS.length-1;b>=0;b--){
+      var band = BANDS[b];
+      var depth = band.depth;        // 0 near .. 1 far
+
+      // forward scroll: each band's apparent depth decreases over time.
+      // We map a continuous "travel" so geometry streams toward us.
+      var travel = p*2.4;            // total distance walked
+      var local = depth*1.0 - (travel % 1.0)*0; // keep layered; we animate via scale below
+      var phase = (depth + (1 - (p*1.6 % 1))) ; // gentle cycling sense of motion
+
+      // perspective scale: nearer band => bigger, lower on screen
+      var dd = depth;                // use static depth for stable corridor
+      // breathing forward motion (subtle, continuous)
+      var march = (time*0.00004*(prefersReduced?0:1));
+      var z = dd + 0.0;
+      var scale = lerp(1.5, 0.35, z);          // near big, far small
+      var baseY = lerp(H*0.95, horizon, z);    // floor meets horizon with depth
+      var fade  = lerp(0.0, 0.85, z);          // far bands fade into fog
+
+      // fog tint by depth: far = sky bottom color (atmosphere)
+      var tintC = mix(nearTint, farFog, z*0.9);
+      var pillarTint = rgba(tintC, lerp(0.95, 0.25, z));
+      var foliageBase = mix([40,70,42],[70,110,60], light);   // green, richer in light
+      var foliageDeep = mix([20,42,26],[64,104,58], light);
+      var foliageTint = mix(foliageDeep, foliageBase, 1-z*0.5);
+
+      // corridor parting in the final act: spread pillars outward & push them
+      // toward screen edges so the center opens to light.
+      var spread = corridorOpen * (1 + (1-z)) * 0.6;
+
+      // when walls fall behind: near bands (low z) get pushed off as openness rises
+      var exit = clamp((openness - (1-z)*0.55)*1.6, 0, 1);
+      var exitShift = exit * (z<0.5? 0 : 0); // handled per pillar side
+
+      for (var i=0;i<band.pillars.length;i++){
+        var pl = band.pillars[i];
+        // base x in screen space, biased to the two sides of a corridor
+        var sideBias = (pl.x - 0.5);
+        var cx = W*0.5 + sideBias * W * (0.85 + spread);
+        // pull toward edges as it opens
+        cx += Math.sign(sideBias||1) * W*0.18*corridorOpen*(1-z);
+
+        var pw = pl.w * W * scale * 0.5;
+        var ph = pl.h * H * scale * 0.9;
+        var px = cx - pw/2 + Math.sin(march*6 + i)*2;
+
+        // near-band pillars slide off-screen as we emerge
+        var slide = (z < 0.45) ? exit * Math.sign(sideBias||1) * W*0.7 : 0;
+        px += slide;
+
+        // skip if fully gone
+        if (px+pw < -40 || px > W+40) continue;
+
+        wctx.globalAlpha = 1 - fade*0.4 - exit*0.9;
+        if (wctx.globalAlpha <= 0.02) { wctx.globalAlpha=1; continue; }
+
+        drawPillar(wctx, px, baseY, pw, ph, pl.broken, pillarTint, foliageTint, pl.ferns, band.seed+i*13);
+        wctx.globalAlpha = 1;
+      }
+
+      // ground-level moss & fern beds for this band
+      drawGroundBed(wctx, baseY, z, foliageTint, light, band.seed);
+    }
+
+    // glass shards near the camera floor
+    drawShards(wctx, light);
+
+    // foreground young trees breaking through — they rise into frame as we
+    // approach the clearing, the green visibly "winning".
+    if (openness > 0.15){
+      var treeAlpha = smooth(clamp((openness-0.15)/0.5,0,1));
+      wctx.globalAlpha = treeAlpha;
+      var fT = mix([46,84,46],[96,150,80], light);
+      drawYoungTree(wctx, W*0.16, H*1.02, H*0.5, fT, 21);
+      drawYoungTree(wctx, W*0.86, H*1.04, H*0.46, fT, 88);
+      if (openness>0.5) drawYoungTree(wctx, W*0.5, H*1.08, H*0.62, fT, 53);
+      wctx.globalAlpha = 1;
+    }
+  }
+
+  function drawGroundBed(ctx, baseY, z, tint, light, seed){
+    var r = rng(seed+1);
+    var n = Math.round(lerp(10,3,z));
+    ctx.save();
+    for (var i=0;i<n;i++){
+      var x = r()*W;
+      var size = lerp(26,8,z)*(0.6+r()*0.8);
+      var alpha = lerp(0.7,0.2,z);
+      ctx.globalAlpha = alpha;
+      drawFoliageClump(ctx, x, baseY + r()*8, size, tint, seed+i*5);
+    }
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  /* ---------- haze layer: volumetric fog, god-rays, spores ---------- */
+  function drawHaze(time, env){
+    hctx.clearRect(0,0,W,H);
+    var light = env.light;
+    var openness = env.openness;
+    var warm = env.warm;
+
+    // layered drifting fog bands (parallax)
+    var fogBase = skyAt(p).bot;
+    for (var l=0;l<3;l++){
+      var y = H*(0.5 + l*0.16) + Math.sin(time*0.0002*(l+1))*H*0.02;
+      var fg = hctx.createLinearGradient(0,y-H*0.2,0,y+H*0.25);
+      var a = lerp(0.18,0.05,light) * (1 - l*0.25);
+      fg.addColorStop(0, rgba(fogBase,0));
+      fg.addColorStop(0.5, rgba(fogBase,a));
+      fg.addColorStop(1, rgba(fogBase,0));
+      hctx.fillStyle = fg;
+      var shift = (time*0.00002*(l+1))%1;
+      hctx.fillRect(0, y-H*0.2, W, H*0.45);
+    }
+
+    // god-ray shafts from the vanishing point — bloom in the final act
+    if (openness > 0.05 && !prefersReduced){
+      hctx.save();
+      hctx.globalCompositeOperation = 'screen';
+      var cx = W*0.5, cy = H*0.46;
+      var rays = smooth(clamp((openness-0.05)/0.6,0,1));
+      for (var s=0;s<shafts.length;s++){
+        var sh = shafts[s];
+        var sx = cx + (sh.x-0.5)*W*0.9;
+        var sway = Math.sin(time*0.0004 + sh.off)*W*0.02;
+        var grad = hctx.createLinearGradient(cx,cy, sx+sway, H);
+        grad.addColorStop(0, rgba(warm, 0.0));
+        grad.addColorStop(0.15, rgba(warm, 0.22*rays));
+        grad.addColorStop(1, rgba(warm, 0));
+        hctx.fillStyle = grad;
+        var w = sh.w*W*rays;
+        hctx.beginPath();
+        hctx.moveTo(cx-2, cy);
+        hctx.lineTo(cx+2, cy);
+        hctx.lineTo(sx+sway+w, H);
+        hctx.lineTo(sx+sway-w, H);
+        hctx.closePath();
+        hctx.fill();
+      }
+      hctx.restore();
+    }
+
+    // spores / drifting motes
+    hctx.save();
+    hctx.globalCompositeOperation = 'screen';
+    for (var i=0;i<spores.length;i++){
+      var sp = spores[i];
+      var t = time*0.001;
+      var sy = (sp.y - (t*sp.spd*0.02*(prefersReduced?0:1)) ) % 1;
+      if (sy < 0) sy += 1;
+      var sx = (sp.x + Math.sin(t*sp.spd + sp.ph)*0.02 + sp.drift*sy*0.1) % 1;
+      if (sx<0) sx+=1;
+      var px = sx*W, py = sy*H;
+      var twinkle = 0.5 + 0.5*Math.sin(t*1.5 + sp.ph);
+      var rad = sp.z * (2 + 2*twinkle) * (1 + light*1.5);
+      var a = (0.10 + 0.4*twinkle) * (0.4 + light*0.9) * sp.z;
+      // motes warm up in the light
+      var mc = mix([170,190,170], warm, light);
+      hctx.beginPath();
+      var grd = hctx.createRadialGradient(px,py,0,px,py,rad*3);
+      grd.addColorStop(0, rgba(mc, a));
+      grd.addColorStop(1, rgba(mc, 0));
+      hctx.fillStyle = grd;
+      hctx.arc(px,py,rad*3,0,Math.PI*2);
+      hctx.fill();
+    }
+    hctx.restore();
+
+    // final wash: as we fully emerge, a soft luminous bloom overtakes the frame
+    if (openness > 0.8){
+      var washA = smooth((openness-0.8)/0.2);
+      hctx.fillStyle = rgba([248,242,214], washA*0.5);
+      hctx.fillRect(0,0,W,H);
+    }
+  }
+
+  /* ---------- captions tied to progress ---------- */
+  var captions = [
+    {at:0.05, text:"A doorway, left open for a decade of seasons."},
+    {at:0.22, text:"Inside, the air goes cool and green."},
+    {at:0.40, text:"Concrete remembers being a wall. The vines disagree."},
+    {at:0.58, text:"Deeper, the light gives up. Only the roots keep going."},
+    {at:0.70, text:"And then — something pale, far ahead, between the columns."},
+    {at:0.84, text:"The walls fall away."},
+    {at:0.94, text:"<em>The green has won.</em>"}
+  ];
+  var capEl = document.getElementById('caption');
+  var curCap = -1;
+  function updateCaption(){
+    var idx = -1;
+    for (var i=0;i<captions.length;i++){
+      if (p >= captions[i].at) idx = i;
+    }
+    // hide captions entirely once the finale title takes over
+    if (p > 0.965) idx = -2;
+    if (idx !== curCap){
+      curCap = idx;
+      capEl.classList.remove('show');
+      if (idx >= 0){
+        setTimeout(function(){
+          if (curCap === idx){
+            capEl.innerHTML = captions[idx].text;
+            capEl.classList.add('show');
+          }
+        }, 650);
+      }
+    }
+  }
+
+  /* ---------- finale ---------- */
+  var finaleEl = document.getElementById('finale');
+  var vignetteEl = document.getElementById('vignette');
+  var progressEl = document.getElementById('progress');
+  var finaleShown = false;
+  function updateFinale(){
+    if (p > 0.97 && !finaleShown){
+      finaleShown = true;
+      finaleEl.classList.add('show');
+      vignetteEl.style.opacity = '0';      // vignette lifts — openness
+      progressEl.style.opacity = '0';
+    } else if (p <= 0.97 && finaleShown){
+      finaleShown = false;
+      finaleEl.classList.remove('show');
+      vignetteEl.style.opacity = '1';
+      progressEl.style.opacity = '1';
+    }
+  }
+
+  /* ---------- the render loop ---------- */
+  function frame(now){
+    var dt = Math.min(now - lastT, 60);
+    lastT = now;
+
+    if (started){
+      // auto-advance, but stop dead-still at the very end (calm final frame)
+      if (pTarget < 1) pTarget = clamp(pTarget + autoSpeed*dt, 0, 1);
+      // ease displayed progress toward target for buttery motion
+      p = lerp(p, pTarget, prefersReduced ? 1 : 0.05);
+      if (p > 0.9995) p = pTarget;
+    }
+
+    var env = drawSky(now);
+    drawWorld(now, env);
+    drawHaze(now, env);
+
+    progressEl.style.width = (p*100).toFixed(2) + '%';
+    updateCaption();
+    updateFinale();
+
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- input: scroll + wheel + touch nudge the journey ---------- */
+  function nudge(delta){
+    if (!started) return;
+    pTarget = clamp(pTarget + delta, 0, 1);
+  }
+  window.addEventListener('wheel', function(e){
+    nudge(e.deltaY * 0.00022);
+  }, {passive:true});
+
+  var touchY = null;
+  window.addEventListener('touchstart', function(e){ touchY = e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchmove', function(e){
+    if (touchY===null) return;
+    var y = e.touches[0].clientY;
+    nudge((touchY - y) * 0.0009);
+    touchY = y;
+  }, {passive:true});
+  window.addEventListener('keydown', function(e){
+    if (e.key==='ArrowDown'||e.key===' '||e.key==='PageDown') nudge(0.03);
+    if (e.key==='ArrowUp'||e.key==='PageUp') nudge(-0.03);
+  });
+
+  /* ---------- intro / start ---------- */
+  var introEl = document.getElementById('intro');
+  var enterBtn = document.getElementById('enter');
+  var calmBtn  = document.getElementById('calm');
+  var againBtn = document.getElementById('again');
+
+  function begin(){
+    introEl.classList.add('hide');
+    started = true;
+    lastT = performance.now();
+  }
+  function beginCalm(){
+    // calm path: no auto-advance race, slower, gentler; honor reduced-motion vibe
+    autoSpeed = 0.0000065;
+    prefersReduced = prefersReduced; // keep, but we still animate softly
+    begin();
+  }
+
+  enterBtn.addEventListener('click', begin);
+  calmBtn.addEventListener('click', beginCalm);
+  enterBtn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') begin(); });
+
+  againBtn.addEventListener('click', function(){
+    // return to the dark — soft reset to the threshold
+    finaleEl.classList.remove('show');
+    vignetteEl.style.opacity='1';
+    progressEl.style.opacity='1';
+    finaleShown=false; curCap=-1; capEl.classList.remove('show');
+    pTarget = 0; p = 0;
+  });
+
+  // If reduced motion: present a calm, mostly-still composition. We still let
+  // the visitor walk the arc (so the payoff exists), but motion is minimal and
+  // it does not auto-race; one gentle auto-drift carries them to the clearing.
+  if (prefersReduced){
+    autoSpeed = 0.0000045;
+  }
+
+  // kick the loop immediately so the intro has a living backdrop
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
