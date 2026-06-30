@@ -3,35 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Editorial — Jeffrey N. Tse</title>
-<meta name="description" content="Fashion editorial as a wall of cassette tapes — a Higgsfield-composed record-shop shelf of the I.T Apparels editorials.">
-<meta name="theme-color" content="#e7ddca">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Editorials — Jeffrey N. Tse</title>
+<meta name="description" content="Fashion editorial displayed as a wall of cassette tapes in a record shop.">
+<meta name="theme-color" content="#1a140d">
 <style>
-  :root{
-    --ink:#241a10;--ink-soft:#5c5040;
-    --serif:'Cormorant Garamond',Georgia,serif;--mono:'Courier Prime',monospace;--ui:'Inter',system-ui,sans-serif;
-  }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{min-height:100%}
-  body{font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh}
-
-  /* the single Higgsfield-merged wall fills the whole section, edge to edge */
-  #editorial{position:relative;min-height:100vh;display:flex;flex-direction:column;
-    background:#e7ddca url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_093522_5220709a-9cc5-4fc2-b40b-f0cbaa1c3e98.png') center/cover no-repeat;overflow:hidden}
-  /* soft bottom scrim so the footer reads over the wall */
-  #editorial::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18%;z-index:1;pointer-events:none;
-    background:linear-gradient(0deg, rgba(40,28,14,.5) 0%, rgba(40,28,14,0) 100%)}
-
-  .ed-foot{position:relative;z-index:2;margin-top:auto;text-align:center;padding:0 20px clamp(18px,3vw,34px);
-    font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:#f4ece0;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+  html,body{background:#1a140d}
+  #editorial{position:relative;display:block;background:#1a140d;line-height:0}
+  .wall{display:block;width:100%;height:auto}
 </style>
 </head>
 <body>
 <section id="editorial" aria-label="Editorials — a wall of cassette tapes">
-  <div class="ed-foot">17 editorials &middot; I.T Apparels &middot; New York / Hong Kong &middot; 2023&ndash;2025</div>
-</section>
+  <img class="wall" src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_093522_5220709a-9cc5-4fc2-b40b-f0cbaa1c3e98.png" alt="Editorials — a wall of cassette tapes">
 </body>
 </html>
