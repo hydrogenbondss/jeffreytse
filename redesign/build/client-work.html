@@ -60,6 +60,10 @@ body{margin:0;background:#0b0704}
   animation:bob .42s ease-in-out infinite;animation-play-state:paused}
 #client.is-riding .cw-world{animation-play-state:running}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-0.7%)}}
+/* generated gallop video (fades over the still once loaded) */
+#client .cw-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:0;transition:opacity .6s ease}
+#client .cw-video.ready{opacity:1}
+#client.has-video .cw-world{animation:none}   /* the clip carries its own bounce */
 
 /* a soft amber beam hot-spot, like light landing on a wall */
 #client .cw-beam{position:absolute;inset:0;z-index:2;pointer-events:none;
@@ -302,7 +306,9 @@ body{margin:0;background:#0b0704}
 
       <!-- the projected picture -->
       <div class="cw-world" id="cwWorld" role="img"
-        aria-label="A 1930s western cartoon, projected: the cowboy Ash on horseback rides the open desert, lasso ready."></div>
+        aria-label="A 1930s western cartoon, projected: the cowboy Ash on horseback rides the open desert, lasso ready.">
+        <video class="cw-video" id="cwVideo" muted loop playsinline preload="auto" aria-hidden="true"></video>
+      </div>
       <div class="cw-beam" aria-hidden="true"></div>
       <div class="cw-ground" aria-hidden="true"></div>
 
@@ -433,6 +439,19 @@ body{margin:0;background:#0b0704}
   const hintEl = document.getElementById('cwHint');
   const liveEl = document.getElementById('cwLive');
   const listView=document.getElementById('cwListView');
+
+  /* ===== generated gallop clip — set ASH_VIDEO to the video URL to use it.
+     When set, Ash actually gallops (the clip plays while you scroll and
+     freezes the instant you stop); empty falls back to the still. ===== */
+  const ASH_VIDEO='https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260701_050123_c4cf493f-b660-4b7a-a593-f8960ca19164.mp4';
+  const video=document.getElementById('cwVideo');
+  const useVideo = !!ASH_VIDEO && !reduce;
+  if(useVideo){
+    root.classList.add('has-video');
+    video.src=ASH_VIDEO;
+    video.addEventListener('loadeddata',()=>video.classList.add('ready'),{once:true});
+    video.load();
+  }
 
   /* ============================================================
      SCENERY — desert silhouettes that drift past as Ash rides.
@@ -608,6 +627,7 @@ body{margin:0;background:#0b0704}
     hintEl.style.opacity = p>0.04 ? '0' : '0.88';
   }
   function updatePan(p){
+    if(useVideo) return;                       // the clip carries its own motion
     const r=clamp((p-INTRO_END)/(OUT0-INTRO_END),0,1);
     world.style.backgroundPositionX=(50 - r*18).toFixed(2)+'%';
   }
@@ -647,8 +667,9 @@ body{margin:0;background:#0b0704}
     if(!ticking){ ticking=true; requestAnimationFrame(applyScroll); }
     /* "ride while scrolling, freeze when stopped" */
     root.classList.add('is-riding');
+    if(useVideo){ const pr=video.play(); if(pr&&pr.catch)pr.catch(()=>{}); }
     clearTimeout(ridingTO);
-    ridingTO=setTimeout(()=>root.classList.remove('is-riding'),140);
+    ridingTO=setTimeout(()=>{root.classList.remove('is-riding'); if(useVideo)video.pause();},140);
   }
 
   /* ---------- present the finished reel statically (reduced motion) ---------- */
