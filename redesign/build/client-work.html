@@ -462,25 +462,9 @@ body{margin:0;background:#0b0704}
     wagon:'<svg viewBox="0 0 100 100"><g class="ink" style="stroke-width:4"><circle cx="50" cy="58" r="32"/><circle cx="50" cy="58" r="7"/><path d="M50 26 L50 90 M18 58 L82 58 M28 36 L72 80 M72 36 L28 80"/></g></svg>',
     rock:'<svg viewBox="0 0 100 60"><path class="fill" d="M6 60 Q18 24 40 28 Q52 8 70 24 Q96 26 94 60Z"/></svg>'
   };
-  /* a populated ride: scenery between and around the seven stations */
-  const SCN = [
-    {p:0.165,t:'mesa',  d:0.45,s:1.5,y:30},
-    {p:0.205,t:'tumble',d:1.0, s:0.5,y:2},
-    {p:0.245,t:'saguaro',d:1.0,s:1.2,y:0},
-    {p:0.30, t:'rock',  d:0.8, s:0.7,y:0},
-    {p:0.355,t:'barrel',d:1.0, s:0.7,y:0},
-    {p:0.40, t:'fence', d:0.9, s:1.0,y:0},
-    {p:0.45, t:'mesa',  d:0.4, s:1.7,y:34},
-    {p:0.49, t:'tumble',d:1.0, s:0.6,y:4},
-    {p:0.55, t:'skull', d:0.95,s:0.7,y:2},
-    {p:0.60, t:'saguaro',d:1.0,s:1.4,y:0},
-    {p:0.66, t:'rock',  d:0.85,s:0.8,y:0},
-    {p:0.71, t:'wagon', d:1.0, s:1.0,y:2},
-    {p:0.76, t:'tumble',d:1.0, s:0.5,y:6},
-    {p:0.80, t:'saguaro',d:1.0,s:1.1,y:0},
-    {p:0.85, t:'mesa',  d:0.4, s:1.6,y:32},
-    {p:0.885,t:'barrel',d:1.0, s:0.7,y:0}
-  ];
+  /* Scenery is now GENERATED into the ride clip itself (cacti, tumbleweeds,
+     mesas embedded in the animation) instead of cheap CSS silhouettes on top. */
+  const SCN = [];
   const TRAVEL = 150;                 // % screen travel per unit-p at depth 1
   const scnEls = SCN.map(it=>{
     const el=document.createElement('div');
@@ -495,22 +479,7 @@ body{margin:0;background:#0b0704}
     return el;
   });
 
-  /* speed lines */
-  for(let i=0;i<7;i++){
-    const s=document.createElement('i');
-    s.style.top=(12+i*11)+'%';
-    s.style.width=(18+(i%3)*10)+'vw';
-    s.style.animationDelay=(i*0.07)+'s';
-    speed.appendChild(s);
-  }
-  /* hoof dust */
-  for(let i=0;i<4;i++){
-    const b=document.createElement('b');
-    b.style.width=b.style.height=(22+i*8)+'px';
-    b.style.left=(i*16)+'%';
-    b.style.animationDelay=(i*0.22)+'s';
-    dustFeet.appendChild(b);
-  }
+  /* speed-lines and hoof-dust removed — that motion is generated into the clip. */
 
   /* ============================================================
      ROPED LOGO PLATES — the caught clients, tied up on the rail.
