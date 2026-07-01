@@ -12,14 +12,15 @@
   /* LAYER 1+3 — the desert AND the logo pan together (logo rides on its sign) */
   .world{position:absolute;top:0;left:0;height:100%;width:auto;
     animation:pan 22s linear infinite alternate;will-change:transform}
-  @keyframes pan{from{transform:translateX(0)}to{transform:translateX(-34%)}}
+  @keyframes pan{from{transform:translateX(0)}to{transform:translateX(-22%)}}
   .world .bg{display:block;height:100vh;width:auto}
-  /* the real logo, positioned onto the wooden sign inside the desert image */
-  .world .logo{position:absolute;left:81.5%;top:24%;width:9.5%;
-    mix-blend-mode:multiply;filter:sepia(.35) contrast(1.03)}
+  /* the real logo, toned to the sepia world and centered on the sign board,
+     multiply so it reads as printed onto the weathered wood */
+  .world .logo{position:absolute;left:73.5%;top:18%;width:16%;
+    mix-blend-mode:multiply;filter:grayscale(1) sepia(.6) contrast(1.08) brightness(.9)}
 
   /* LAYER 2 — Ash on WHITE, composited with multiply so the white vanishes */
-  .ash{position:absolute;left:3%;bottom:3%;height:72%;width:auto;object-fit:contain;
+  .ash{position:absolute;left:1%;bottom:3%;height:70%;width:auto;object-fit:contain;
     z-index:3;pointer-events:none;mix-blend-mode:multiply}
 
   /* faint sepia vignette to marry the layers */
