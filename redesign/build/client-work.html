@@ -31,7 +31,7 @@ body{margin:0;background:#0b0704}
 
 #client{position:relative;background:#0b0704;color:var(--bone);
   font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased}
-#client .cw-track{position:relative;height:940vh}
+#client .cw-track{position:relative;height:1080vh}   /* generous scroll so each catch has room (not rushed) */
 #client .cw-stage{position:sticky;top:0;height:100vh;height:100dvh;width:100%;
   overflow:hidden;background:#0b0704}
 
@@ -213,7 +213,7 @@ body{margin:0;background:#0b0704}
   var vids=CATCH.map(function(c,i){
     var v=document.createElement('video');
     v.className='cw-clip';
-    v.muted=true; v.loop=false; v.playsInline=true; v.setAttribute('playsinline','');
+    v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline','');
     v.preload='auto';
     v.poster=CF+c.poster;
     v.setAttribute('aria-hidden','true');
@@ -233,7 +233,7 @@ body{margin:0;background:#0b0704}
   /* ============================================================
      SCROLL-DRIVEN: rings iris -> seven scrubbed catch clips -> ride off
      ============================================================ */
-  var INTRO_END=0.14, S0=0.14, S1=0.90, OUT0=0.90;
+  var INTRO_END=0.13, S0=0.13, S1=0.90, OUT0=0.90;
   var BAND=(S1-S0)/N;
   var ticking=false, cur=-1;
 
@@ -244,39 +244,34 @@ body{margin:0;background:#0b0704}
     hintEl.style.opacity=p>0.03?'0':'0.9';
   }
 
-  function showClip(idx){
+  /* activate ONE clip (visibility via .active class only — no stray inline
+     styles); pause every other clip so nothing lingers underneath. */
+  function setActive(idx){
     if(idx===cur) return;
-    vids.forEach(function(v,k){ v.classList.toggle('active',k===idx); });
     cur=idx;
+    vids.forEach(function(v,k){
+      var on=(k===idx);
+      v.classList.toggle('active',on);
+      if(!on){ try{ v.pause(); }catch(e){} }
+    });
   }
 
   function updateCatch(p){
-    if(p<S0){ showClip(reduce?0:0); vids.forEach(function(v){v.classList.remove('active');}); cur=-1;
-      actEl.style.opacity='0'; metaEl.innerHTML='The Client Wrangler'; return; }
-    if(p>=S1){ actEl.style.opacity='0'; metaEl.innerHTML='<b>The End</b> · '+N+' of '+N+' roped'; return; }
+    if(p<S0){ setActive(-1); actEl.style.opacity='0'; metaEl.innerHTML='The Client Wrangler'; return; }
+    if(p>=S1){ setActive(N-1); actEl.style.opacity='0'; metaEl.innerHTML='<b>The End</b> · '+N+' of '+N+' roped'; return; }
     var idx=clamp(Math.floor((p-S0)/BAND),0,N-1);
-    var q=clamp((p-(S0+idx*BAND))/BAND,0,1);
-    showClip(idx);
-    /* SCRUB: scroll drives the frame; stop = freeze; back = rewind.
-       Quantised to ~12fps so it steps like stop-motion. */
-    var v=vids[idx], dur=parseFloat(v.dataset.dur)||0;
-    if(dur>0){
-      var t=Math.round(q*dur*12)/12;
-      t=clamp(t,0,dur-0.02);
-      if(Math.abs((v.currentTime||0)-t)>0.03){ try{ v.currentTime=t; }catch(e){} }
-    }
+    setActive(idx);
     var c=CATCH[idx];
-    actEl.style.opacity=(q>0.1&&q<0.94)?'1':'0';
+    actEl.style.opacity='1';
     actEl.innerHTML='Ash ropes<b>'+esc(c.client)+'</b>';
-    metaEl.innerHTML='Roped <b>'+(q>0.6?idx+1:idx)+'</b> of '+N;
-    if(q>0.6){ liveEl.textContent=c.client+' roped — '+(idx+1)+' of '+N; }
+    metaEl.innerHTML='Roping <b>'+(idx+1)+'</b> of '+N;
+    liveEl.textContent='Roping '+c.client+' — '+(idx+1)+' of '+N;
   }
 
   function updateOutro(p){
     var o=clamp((p-OUT0)/(1-OUT0),0,1);
     endCard.style.transform='translateX('+((1-o)*100).toFixed(1)+'%)';
     endCard.style.opacity=o>0?'1':'0';
-    if(cur>=0){ vids[cur].style.opacity=(1-o).toFixed(2); }
   }
 
   function apply(){
@@ -286,7 +281,14 @@ body{margin:0;background:#0b0704}
     var p=total>0?clamp((-r.top)/total,0,1):0;
     updateIntro(p); updateCatch(p); updateOutro(p);
   }
-  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(apply); } }
+  /* the cartoon PLAYS while you scroll and FREEZES a beat after you stop */
+  var ridingTO=null;
+  function onScroll(){
+    if(!ticking){ ticking=true; requestAnimationFrame(apply); }
+    if(cur>=0){ var v=vids[cur], pr=v.play(); if(pr&&pr.catch)pr.catch(function(){}); }
+    clearTimeout(ridingTO);
+    ridingTO=setTimeout(function(){ if(cur>=0){ try{ vids[cur].pause(); }catch(e){} } },170);
+  }
 
   /* responsive: scrub-show vs. static roster */
   var mode=null;
