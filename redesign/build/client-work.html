@@ -46,7 +46,7 @@ body{margin:0;background:#0b0704}
 /* ---- the section is a TALL scroll track; the film stays pinned ---- */
 #client{position:relative;background:#0b0704;color:var(--bone);
   font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased}
-#client .cw-track{position:relative;height:900vh}
+#client .cw-track{position:relative;height:1040vh}   /* more scroll per capture = calmer pace */
 #client .cw-stage{position:sticky;top:0;height:100vh;height:100dvh;width:100%;
   overflow:hidden;background:#160d05}
 
@@ -168,10 +168,9 @@ body{margin:0;background:#0b0704}
    CAPTURED LOGO PLATES — roped, tied up, parked on the rail
    ============================================================ */
 #client .cw-cards{position:absolute;inset:0;z-index:12;pointer-events:none}
-#client .lobby{position:absolute;width:clamp(120px,15vw,194px);
-  transform:translate(0,0) scale(.6) rotate(-3deg);opacity:0;
-  transition:transform .55s cubic-bezier(.2,.9,.25,1),opacity .4s ease;will-change:transform,opacity}
-#client .lobby.in{opacity:1}
+/* ONE plate on screen at a time; fully scroll-scrubbed (no CSS transition) */
+#client .lobby{position:absolute;width:clamp(140px,17vw,220px);opacity:0;display:none;
+  will-change:transform,opacity}
 #client .lobby .plate{position:relative;border-radius:3px;padding:8px 8px 10px;
   background:linear-gradient(160deg,var(--card),var(--card2));
   border:1px solid rgba(36,20,5,.5);
@@ -190,8 +189,8 @@ body{margin:0;background:#0b0704}
 #client .lobby .caught{display:block;margin-top:5px;text-align:center;font-family:'Special Elite',monospace;
   font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rust)}
 /* the rope that ties the caught plate up (drawn over it) */
-#client .lobby .rope{position:absolute;inset:-7% -5%;z-index:3;pointer-events:none;opacity:0;transition:opacity .3s ease .15s}
-#client .lobby.in .rope{opacity:1}
+#client .lobby .rope{position:absolute;inset:-7% -5%;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s ease}
+#client .lobby.tied .rope{opacity:1}
 #client .lobby .rope svg{width:100%;height:100%;overflow:visible}
 #client .lobby .rope .cord{fill:none;stroke:#cdb07a;stroke-width:3.2;stroke-linecap:round;
   filter:drop-shadow(0 1px 1px rgba(20,11,4,.6))}
@@ -407,16 +406,12 @@ body{margin:0;background:#0b0704}
   const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
 
-  /* resting positions for the roped plates (% of stage) */
-  const SLOTS = [
-    {left:'62%', top:'12%', rot:-4},
-    {left:'78%', top:'26%', rot:3},
-    {left:'60%', top:'40%', rot:-2},
-    {left:'79%', top:'52%', rot:4},
-    {left:'61%', top:'64%', rot:-3},
-    {left:'77%', top:'76%', rot:3},
-    {left:'48%', top:'84%', rot:-2}
+  /* where the ONE current plate is held while it's roped (% of stage),
+     kept upper-right so it never covers Ash (centre-left). Slight variety. */
+  const HELD = [
+    {x:57,y:29}, {x:62,y:34}, {x:56,y:27}, {x:63,y:36}, {x:58,y:30}, {x:61,y:33}, {x:55,y:31}
   ];
+  const ROT = [-4,3,-2,4,-3,3,-2];
 
   const root   = document.getElementById('client');
   const track  = document.getElementById('cwTrack');
@@ -490,7 +485,7 @@ body{margin:0;background:#0b0704}
   const scnEls = SCN.map(it=>{
     const el=document.createElement('div');
     el.className='scn';
-    const base = 16;                  // base height in vh at scale 1
+    const base = 26;                  // base height in vh at scale 1 (foreground, prominent)
     el.style.height = (base*it.s)+'vh';
     el.style.width  = (base*it.s*1.1)+'vh';
     el.style.bottom = (it.y+ (1-it.d)*8) +'%';
@@ -527,9 +522,8 @@ body{margin:0;background:#0b0704}
     '<path class="cord" d="M8 20 Q50 0 94 22 Q104 52 92 82 Q50 104 10 82 Q0 50 8 20Z"/><circle class="knot" cx="50" cy="12" r="6"/>'
   ];
   const cardEls = LOGOS.map((j,i)=>{
-    const s=SLOTS[i];
     const el=document.createElement('div');
-    el.className='lobby';el.style.left=s.left;el.style.top=s.top;
+    el.className='lobby';el.style.left=HELD[i].x+'%';el.style.top=HELD[i].y+'%';
     const inner = j.art
       ? '<img src="'+esc(j.art)+'" alt="'+esc(j.client)+' logo, roped">'
       : '<span class="nm">'+esc(j.client)+'</span>';
@@ -559,7 +553,7 @@ body{margin:0;background:#0b0704}
   const HAND={x:26,y:42};
   const svg = inner => '<svg viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden="true">'+inner+'</svg>';
   const clearGag = ()=>{ gagL.innerHTML=''; };
-  const target = i => { const s=SLOTS[i]; return {x:parseFloat(s.left)+6, y:parseFloat(s.top)+8}; };
+  const target = i => ({x:HELD[i].x+6, y:HELD[i].y+7});   // where the rope lands on the plate
 
   function showSfx(t){ sfxEl.textContent=t; sfxEl.classList.remove('pop'); void sfxEl.offsetWidth; sfxEl.classList.add('pop'); }
   function puff(xPct,yPct,size){
@@ -568,51 +562,45 @@ body{margin:0;background:#0b0704}
     p.style.width=size+'px';p.style.height=size+'px';gagL.appendChild(p);
     requestAnimationFrame(()=>p.classList.add('go'));setTimeout(()=>p.remove(),720);
   }
-  function throwLasso(i){
-    const j=LOGOS[i], t=target(i), midX=(HAND.x+t.x)/2, midY=Math.min(HAND.y,t.y)+j.arc;
-    gagL.innerHTML = svg(
-      '<g fill="none" stroke="#f4ead0" stroke-width="0.8" stroke-linecap="round" opacity="0.92">'+
-      '<path d="M'+HAND.x+' '+HAND.y+' Q '+midX+' '+midY+' '+t.x+' '+t.y+'">'+
-        '<animate attributeName="stroke-dasharray" values="0 140;140 0" dur="0.34s" fill="freeze"/></path>'+
-      '<ellipse cx="'+t.x+'" cy="'+t.y+'" rx="0.6" ry="0.5">'+
-        '<animate attributeName="rx" values="0.6;9;6" dur="0.5s" fill="freeze"/>'+
-        '<animate attributeName="ry" values="0.5;7;5" dur="0.5s" fill="freeze"/></ellipse></g>');
-    setTimeout(()=>{ showSfx(j.sfx); puff(t.x,t.y,58); },360);
-    setTimeout(clearGag,900);
-  }
 
-  /* ---------- land a roped plate at its slot ---------- */
-  function landCard(i,animate){
-    const el=cardEls[i],s=SLOTS[i];
-    if(!animate){
-      el.style.transition='none';el.classList.add('in');
-      el.style.transform='translate(0,0) scale(1) rotate('+s.rot+'deg)';
-      void el.offsetWidth;el.style.transition='';
-      return;
-    }
-    el.style.transform='translateX(70%) scale(.55) rotate('+(s.rot-8)+'deg)';  // yanked in from the right
-    requestAnimationFrame(()=>{el.classList.add('in');el.style.transform='translate(0,0) scale(1) rotate('+s.rot+'deg)';});
+  /* The lasso is built once per station, then SCRUBBED by scroll: the rope
+     draws out from Ash's hand and the loop cinches on the plate. This is what
+     makes the catch feel connected instead of a swing + a separate tied block. */
+  let lasso=null, lassoFor=-1;
+  function buildLasso(i){
+    const j=LOGOS[i], t=target(i), midX=(HAND.x+t.x)/2, midY=Math.min(HAND.y,t.y)+j.arc;
+    gagL.innerHTML =
+      '<svg viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden="true">'+
+        '<path id="cwRope" d="M'+HAND.x+' '+HAND.y+' Q '+midX+' '+midY+' '+t.x+' '+t.y+'" '+
+          'fill="none" stroke="#f4ead0" stroke-width="0.8" stroke-linecap="round" opacity="0.92"/>'+
+        '<ellipse id="cwLoop" cx="'+t.x+'" cy="'+t.y+'" rx="0" ry="0" fill="none" stroke="#f4ead0" stroke-width="0.8" opacity="0.92"/>'+
+      '</svg>';
+    const path=gagL.querySelector('#cwRope');
+    lasso={path:path,len:path.getTotalLength(),loop:gagL.querySelector('#cwLoop')};
+    lasso.path.style.strokeDasharray=lasso.len;
+    lassoFor=i;
   }
+  function drawLasso(prog){
+    if(!lasso) return;
+    lasso.path.style.strokeDashoffset=(lasso.len*(1-prog)).toFixed(2);
+    lasso.loop.setAttribute('rx',(prog*7).toFixed(2));
+    lasso.loop.setAttribute('ry',(prog*5).toFixed(2));
+  }
+  function dropLasso(){ if(lassoFor!==-1){ clearGag(); lasso=null; lassoFor=-1; } }
 
   /* ============================================================
-     SCROLL-DRIVEN REEL
+     SCROLL-DRIVEN REEL — ONE client at a time, fully scrubbed.
+     Each station owns a scroll band; within it the local progress q
+     drives the whole beat: the client rides in from the right, Ash's
+     rope draws out and cinches it, it holds tied for a moment, then it
+     drops away BEFORE the next client arrives. Never a pile-up.
      ============================================================ */
-  const INTRO_END=0.15, C0=0.17, C1=0.88, OUT0=0.90, N=LOGOS.length;
-  const BAND=(C1-C0)/N;
-  let maxStep=-1, ticking=false, ridingTO=null;
+  const INTRO_END=0.15, S0=0.17, S1=0.90, OUT0=0.90, N=LOGOS.length;
+  const BAND=(S1-S0)/N;
+  let ticking=false, ridingTO=null, curStation=-1;
+  const lastQ=new Array(N).fill(0);
 
   function announce(t){ liveEl.textContent=t; }
-  function setMeta(step){
-    const done=Math.max(0,step+1);
-    metaEl.innerHTML = done>=N ? '<b>The End</b> · '+N+' of '+N+' roped'
-                     : 'Roped <b>'+done+'</b> of '+N;
-  }
-  function fireCapture(k,full){
-    const j=LOGOS[k];
-    if(full && !reduce){ actEl.style.opacity='1'; actEl.innerHTML='Ash ropes <b>'+esc(j.client)+'</b>'; throwLasso(k); }
-    landCard(k, full && !reduce);
-    announce(j.client+' roped and tied — '+(k+1)+' of '+N+'.');
-  }
 
   function updateIntro(p){
     titleCard.style.opacity = (1 - clamp(p/0.05,0,1)).toFixed(3);
@@ -623,31 +611,65 @@ body{margin:0;background:#0b0704}
       countEl.textContent = lp<1/3?3:lp<2/3?2:1;
       sweep.style.transform='rotate('+(((lp*3)%1)*360).toFixed(1)+'deg)';
     }
-    ashNote.style.opacity = (p>=INTRO_END && p<0.30) ? '0.96' : '0';
+    ashNote.style.opacity = (p>=INTRO_END && p<0.24) ? '0.96' : '0';
     hintEl.style.opacity = p>0.04 ? '0' : '0.88';
   }
   function updatePan(p){
-    if(useVideo) return;                       // the clip carries its own motion
+    if(useVideo) return;
     const r=clamp((p-INTRO_END)/(OUT0-INTRO_END),0,1);
     world.style.backgroundPositionX=(50 - r*18).toFixed(2)+'%';
   }
   function updateScenery(p){
     for(let i=0;i<SCN.length;i++){
-      const it=SCN[i], dx=(it.p - p);
-      const x = 50 + dx*TRAVEL*it.d;          // centre when p==it.p, drift left as p grows
-      const el=scnEls[i];
-      if(x<-30||x>140){ el.style.visibility='hidden'; continue; }
+      const it=SCN[i], x=50 + (it.p - p)*TRAVEL*it.d, el=scnEls[i];
+      if(x<-40||x>150){ el.style.visibility='hidden'; continue; }
       el.style.visibility='visible';
       el.style.transform='translateX('+x.toFixed(1)+'vw)';
     }
   }
-  function updateCaptures(p){
-    let step=clamp(Math.floor((p-C0)/BAND),-1,N-1);
-    if(step>maxStep){
-      for(let k=maxStep+1;k<=step;k++) fireCapture(k,k===step);
-      maxStep=step; setMeta(step);
-    }
+
+  function hidePlate(i){ const el=cardEls[i]; el.style.display='none'; el.style.opacity='0'; el.classList.remove('tied'); }
+
+  /* render the ONE active station at local progress q (0..1) */
+  function renderStation(i,q){
+    const el=cardEls[i], j=LOGOS[i];
+    el.style.display='block';
+    const entry=clamp(q/0.34,0,1);              // rides in from the right
+    const exit =clamp((q-0.80)/0.20,0,1);       // drops away before the next arrives
+    const inX  =(1-entry)*135 - exit*55;        // in from right, then out to the left
+    const outY =exit*26;
+    el.style.opacity=Math.max(0,Math.min(entry,1-exit)).toFixed(2);
+    el.style.transform='translate('+inX.toFixed(1)+'%,'+outY.toFixed(1)+'%) '+
+      'scale('+(0.72+0.28*entry-exit*0.12).toFixed(3)+') rotate('+ROT[i]+'deg)';
+    el.classList.toggle('tied', q>0.55 && exit<0.85);
+    /* lasso draws out 0.28..0.58, connecting hand -> plate; then clears */
+    if(q>=0.28 && q<0.64){
+      if(lassoFor!==i) buildLasso(i);
+      drawLasso(clamp((q-0.28)/0.30,0,1));
+    } else if(lassoFor===i){ dropLasso(); }
+    /* holler once, on the forward crossing of the cinch */
+    if(q>0.52 && lastQ[i]<=0.52){ showSfx(j.sfx); puff(target(i).x,target(i).y,54);
+      announce(j.client+' roped and tied — '+(i+1)+' of '+N+'.'); }
+    lastQ[i]=q;
+    const cap=q>0.14 && q<0.92;
+    actEl.style.opacity=cap?'1':'0';
+    if(cap) actEl.innerHTML='Ash ropes <b>'+esc(j.client)+'</b>';
+    metaEl.innerHTML='Roped <b>'+(q>0.55?i+1:i)+'</b> of '+N;
   }
+
+  function renderStations(p){
+    if(p<S0 || p>=S1){
+      for(let k=0;k<N;k++) hidePlate(k);
+      dropLasso(); actEl.style.opacity='0'; curStation=-1;
+      metaEl.innerHTML = p>=S1 ? '<b>The End</b> · '+N+' of '+N+' roped' : 'The Client Wrangler';
+      return;
+    }
+    const idx=clamp(Math.floor((p-S0)/BAND),0,N-1);
+    for(let k=0;k<N;k++) if(k!==idx) hidePlate(k);
+    if(idx!==curStation){ dropLasso(); curStation=idx; }
+    renderStation(idx, clamp((p-(S0+idx*BAND))/BAND,0,1));
+  }
+
   function updateOutro(p){
     const o=clamp((p-OUT0)/(1-OUT0),0,1);
     world.style.transform = o>0 ? 'translateX('+(-o*60).toFixed(1)+'%)' : '';
@@ -661,23 +683,22 @@ body{margin:0;background:#0b0704}
     const r=track.getBoundingClientRect();
     const total=track.offsetHeight - window.innerHeight;
     const p= total>0 ? clamp((-r.top)/total,0,1) : 0;
-    updateIntro(p);updatePan(p);updateScenery(p);updateCaptures(p);updateOutro(p);
+    updateIntro(p);updatePan(p);updateScenery(p);renderStations(p);updateOutro(p);
   }
   function onScroll(){
     if(!ticking){ ticking=true; requestAnimationFrame(applyScroll); }
-    /* "ride while scrolling, freeze when stopped" */
     root.classList.add('is-riding');
     if(useVideo){ const pr=video.play(); if(pr&&pr.catch)pr.catch(()=>{}); }
     clearTimeout(ridingTO);
     ridingTO=setTimeout(()=>{root.classList.remove('is-riding'); if(useVideo)video.pause();},140);
   }
 
-  /* ---------- present the finished reel statically (reduced motion) ---------- */
+  /* ---------- reduced motion: no ride; the list carries the roster ---------- */
   function presentStatic(){
     titleCard.style.opacity='0';leader.style.opacity='0';endCard.style.opacity='0';
-    ashNote.style.opacity='0.96';hintEl.style.opacity='0';
-    LOGOS.forEach((j,i)=>landCard(i,false));
-    maxStep=N-1;setMeta(N-1);
+    ashNote.style.opacity='0';hintEl.style.opacity='0';
+    for(let k=0;k<N;k++) hidePlate(k);
+    metaEl.innerHTML='<b>The End</b> · '+N+' of '+N+' roped';
   }
 
   /* ---------- responsive: ride-show vs. roster list ---------- */
@@ -689,7 +710,7 @@ body{margin:0;background:#0b0704}
     mode=want;
     if(tight){ root.classList.add('is-list'); window.removeEventListener('scroll',onScroll); }
     else{
-      root.classList.remove('is-list'); maxStep=-1;
+      root.classList.remove('is-list'); curStation=-1; lastQ.fill(0);
       window.addEventListener('scroll',onScroll,{passive:true});
       applyScroll();
     }
