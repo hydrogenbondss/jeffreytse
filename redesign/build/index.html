@@ -76,34 +76,35 @@ section{position:relative}
 @keyframes jolt{0%,100%{transform:none}25%{transform:translate(7px,-5px)}55%{transform:translate(-6px,4px)}80%{transform:translate(3px,-2px)}}
 
 /* ============ 2 · HERO (masthead) ============ */
-#hero .stage{position:relative;min-height:100vh;overflow:hidden;color:var(--ink);font-family:var(--helv);background:var(--paper)}
+#hero .stage{position:relative;min-height:100vh;overflow:hidden;color:var(--ink);font-family:var(--helv);background:var(--paper);
+  display:flex;flex-direction:column;justify-content:center}
 #hero .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
 #hero .htone{position:absolute;inset:0;z-index:1;opacity:.06;mix-blend-mode:multiply;pointer-events:none;background-image:radial-gradient(circle,#000 26%,transparent 27%);background-size:6px 6px}
-#hero .wrap{position:relative;z-index:2}
+#hero .wrap{position:relative;z-index:2;width:min(1240px,94vw);margin:0 auto}
 #hero .crop{position:absolute;width:22px;height:22px;z-index:5;opacity:.6}
 #hero .crop::before,#hero .crop::after{content:"";position:absolute;background:var(--ink)}
 #hero .crop::before{width:100%;height:1.3px;top:0}#hero .crop::after{height:100%;width:1.3px;left:0}
 #hero .crop.tl{left:14px;top:12px}#hero .crop.tr{right:14px;top:12px;transform:scaleX(-1)}
-#hero .top{display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,3.2vw,46px) 8px;font-size:clamp(.6rem,1vw,.72rem);letter-spacing:.2em;font-weight:700}
-#hero .rule{height:2px;background:var(--ink);margin:0 clamp(16px,3.2vw,46px)}
+#hero .top{display:flex;justify-content:space-between;align-items:center;padding:14px 0 8px;font-size:clamp(.58rem,.85vw,.66rem);letter-spacing:.22em;font-weight:700}
+#hero .rule{height:2px;background:var(--ink)}
 #hero .plate{display:block;width:100%;height:auto}
-#hero .state{text-align:center;font-weight:800;color:var(--blu);font-size:clamp(15px,2.7vw,38px);letter-spacing:.01em;line-height:1;padding:18px 16px 12px;text-transform:uppercase}
-#hero .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,30px);padding:4px clamp(16px,3.2vw,46px) 0;position:relative}
+#hero .state{text-align:center;font-weight:700;color:var(--blu);font-size:clamp(12px,1.55vw,22px);letter-spacing:.14em;line-height:1;padding:20px 16px 14px;text-transform:uppercase;white-space:nowrap}
+#hero .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,30px);padding:6px 0 0;position:relative}
 #hero .col-3{grid-column:span 3}
 #hero .mod{margin-bottom:18px}
 #hero .mod h3{display:flex;align-items:baseline;gap:.45em;border-bottom:2px solid var(--ink);padding-bottom:5px;margin-bottom:9px}
-#hero .mod h3 .n{font-weight:800;font-size:clamp(20px,2.4vw,32px);color:var(--blu);line-height:.8}
-#hero .mod h3 .t{font-weight:700;font-size:clamp(12px,1.3vw,16px)}
+#hero .mod h3 .n{font-weight:800;font-size:clamp(17px,1.7vw,24px);color:var(--blu);line-height:.8}
+#hero .mod h3 .t{font-weight:700;font-size:clamp(10.5px,.95vw,13px);letter-spacing:.06em}
 #hero .mod ul{list-style:none}
-#hero .mod li{font-size:clamp(10.5px,1.02vw,12.5px);line-height:1.45;color:#241c12;padding:2.5px 0;border-bottom:1px dotted rgba(70,58,40,.4)}
+#hero .mod li{font-size:clamp(10px,.82vw,11.5px);line-height:1.5;color:#3a3020;padding:2.5px 0;border-bottom:1px dotted rgba(70,58,40,.3)}
 #hero .cap{font-size:9px;letter-spacing:.2em;color:var(--mut);margin-top:7px}
-#hero .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:2px solid var(--ink);margin:16px clamp(16px,3.2vw,46px) 0;padding:10px 0 14px;font-size:.6rem;letter-spacing:.2em;font-weight:700}
+#hero .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:2px solid var(--ink);margin:16px 0 0;padding:10px 0 14px;font-size:.56rem;letter-spacing:.22em;font-weight:700}
 #hero .foot .mid{display:flex;gap:5px}#hero .foot .mid i{width:9px;height:9px;border-radius:50%}
 #hero .cue{text-align:center;padding:2px 0 24px;font-size:.64rem;letter-spacing:.3em}
 #hero .cue b{display:inline-block;animation:bob 2.2s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 #hero .topr{display:flex;align-items:center;gap:9px}
-#hero .burst{height:30px;width:auto;display:block}
+#hero .burst{height:22px;width:auto;display:block;opacity:.85}
 #hero .sketch{position:absolute;z-index:5;pointer-events:none}
 #hero .sketch img{display:block;width:100%;height:auto}
 #hero .sketch.noru{left:8%;top:50%;width:23%;transform:rotate(-4.5deg)}
@@ -2444,7 +2445,7 @@ void main(){
     gl.drawArrays(gl.TRIANGLES,0,3);rafId=requestAnimationFrame(loop);}
   new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){gateLive=true;V.play().catch(()=>{});if(!rafId)rafId=requestAnimationFrame(loop);}
-    else{gateLive=false;V.pause();}
+    else{gateLive=false;V.pause();if(typeof stopAudio==='function')stopAudio();}
   }),{threshold:.05}).observe(document.getElementById('gate'));
   V.play().catch(()=>{});loop();
   } // end WebGL engine
@@ -2482,7 +2483,9 @@ void main(){
       setTimeout(()=>{try{nodes.forEach(n=>n.disconnect&&n.disconnect());AC.close();}catch(e){}},600);
     }catch(e){}
     started=false;}
-  ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,startAudio,{once:true}));
+  ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,()=>{
+    if(gateLive)startAudio();   // only the tank hums, never the rest of the site
+  },{once:true}));
   /* the seam, in one continuous sentence:
      the dither DISSOLVES into the real tank -> impact flash -> the glass
      SHATTERS -> black -> the notebook surfaces. Reduced motion just fades. */
