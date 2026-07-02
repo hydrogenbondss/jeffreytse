@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koi loop A/B — morning review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#03040a;color:#e8e4d8;font-family:'Courier New',Courier,monospace;padding:32px;min-height:100vh}
+h1{font-size:14px;letter-spacing:.3em;font-weight:400;margin-bottom:6px}
+p.note{font-size:11px;opacity:.55;margin-bottom:28px;max-width:70ch;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px}
+figure{background:#0a0c14;border:1px solid #1d2130;padding:14px}
+video{width:100%;display:block;background:#000}
+figcaption{font-size:11px;line-height:1.7;padding-top:10px}
+figcaption b{color:#ffb347;font-weight:400}
+.metric{opacity:.6}
+.win{color:#7fd48a}
+</style>
+</head>
+<body>
+<h1>KOI LOOP — A/B</h1>
+<p class="note">Both candidates animated from their own still, with the same frame pinned as start
+and end so each loop closes by construction. Seam score is first-vs-last frame PSNR
+(higher = cleaner loop point); motion score is first-vs-mid (lower = more movement).
+Candidate 1 is currently wired into the build gate and gate-v14-pond.</p>
+<div class="grid">
+  <figure>
+    <video src="../assets/koi_pond_overhead_loop.mp4" autoplay muted loop playsinline></video>
+    <figcaption><b>CANDIDATE 1</b> — shipped · 10s · 720p std<br>
+    <span class="metric">seam 35.9 dB <span class="win">← cleanest</span> · motion 16.2 dB</span></figcaption>
+  </figure>
+  <figure>
+    <video src="../assets/koi_pond_overhead_loop_b.mp4" autoplay muted loop playsinline></video>
+    <figcaption><b>CANDIDATE 2</b> — raw · 10s · 720p std<br>
+    <span class="metric">seam 23.5 dB (visible jump at loop point) · motion 14.9 dB <span class="win">← most movement</span></span></figcaption>
+  </figure>
+  <figure>
+    <video src="../assets/koi_pond_overhead_loop_b_seamfix.mp4" autoplay muted loop playsinline></video>
+    <figcaption><b>CANDIDATE 2 · SEAMFIX</b> — 9s · tail crossfaded into head over 1s<br>
+    <span class="metric">seam 31.7 dB · same motion as raw candidate 2</span></figcaption>
+  </figure>
+</div>
+</body>
+</html>
