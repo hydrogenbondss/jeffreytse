@@ -1296,19 +1296,22 @@ void main(){
   float md=length(toM);
   float prox=smoothstep(uRadius,0.0,md)*uMon;
   vec2 dir = md>0.001 ? toM/md : vec2(0.0);
-  // liquid: gather toward the cursor + smear along its motion (the wake)
-  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.6;
+  // liquid slosh: motion pushes a wide wave through the image that settles
+  float amp=length(uVel);
+  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.9;
+  disp.x += sin(cpx.y/(uCell*3.2) - uT2*8.0)*amp*0.28*prox;
+  disp.y += sin(cpx.x/(uCell*4.0) - uT2*6.0)*amp*0.10*prox;
   vec3 col=sampleAt(cpx+disp);
-  col += col*prox*0.30;                       // soft light bloom under the cursor
+  col += col*prox*0.12;                       // soft light bloom under the cursor
   float L=dot(col,vec3(0.299,0.587,0.114));
   float th=ign(cid);
   float Ld=clamp(L+(th-0.5)*0.12,0.0,1.0);
   float d=length((frag-cpx)/(uCell*0.5));
   float gap=0.92;
-  float sz=gap*(0.48+0.52*Ld);
+  float sz=gap*(0.62+0.38*Ld);
   float tile=smoothstep(sz+0.12, sz-0.12, d);
   vec3 bg=vec3(0.008,0.012,0.024);
-  vec3 flr=mix(bg, col, 0.08);
+  vec3 flr=mix(bg, col, 0.15);
   vec3 outc=mix(flr, col, tile);
   outc += col*tile*pow(Ld,1.5)*0.85;
   float cen=smoothstep(0.95,0.0,distance(frag/uRes,vec2(0.5)));
@@ -1333,8 +1336,8 @@ void main(){
     mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),force:gl.getUniformLocation(pr,'uForce'),radius:gl.getUniformLocation(pr,'uRadius')};
   let DPR=Math.min(window.devicePixelRatio||1,2);
   let mouse=[-999,-999],smouse=[-999,-999],svel=[0,0],mon=0,t0=performance.now();
-  let cellCSS=7.5;
-  let forceI=2.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
+  let cellCSS=5;
+  let forceI=0.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
   /* dissolve hook: tween the dither toward (or back from) the raw tank */
   tweenGate=function(cellTo,forceTo,dur){
     const c0=cellCSS,f0=forceI,t0=performance.now();
@@ -1355,7 +1358,7 @@ void main(){
   const hint=document.getElementById('hint');let hideHint;
   function flashHint(){hint.style.opacity='.85';clearTimeout(hideHint);hideHint=setTimeout(()=>hint.style.opacity='0',2600);}
   addEventListener('keydown',e=>{
-    if(e.key==='1')cellCSS=6;else if(e.key==='2')cellCSS=7.5;else if(e.key==='3')cellCSS=10;
+    if(e.key==='1')cellCSS=4;else if(e.key==='2')cellCSS=5;else if(e.key==='3')cellCSS=6.5;
     else if(e.key==='4')forceI=0.0;else if(e.key==='5')forceI=2.0;else if(e.key==='6')forceI=4.0;
     else return;
     hint.textContent=(e.key==='1'?'FINE GRAIN':e.key==='2'?'MEDIUM GRAIN':e.key==='3'?'COARSE GRAIN':e.key==='4'?'PULL OFF':e.key==='5'?'PULL SUBTLE':'PULL STRONG');
@@ -1372,14 +1375,14 @@ void main(){
     if(smouse[0]>-900){
       const px=smouse[0],py=smouse[1];
       smouse[0]+=(mouse[0]-smouse[0])*0.3;smouse[1]+=(mouse[1]-smouse[1])*0.3;   // snappier tracking
-      svel[0]=svel[0]*0.82+(smouse[0]-px)*0.6;svel[1]=svel[1]*0.82+(smouse[1]-py)*0.6; // smoothed wake, decays when idle
+      svel[0]=svel[0]*0.9+(smouse[0]-px)*0.5;svel[1]=svel[1]*0.9+(smouse[1]-py)*0.5; // smoothed wake, decays when idle
     }
     gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
     gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
     gl.uniform2f(U.mouse,smouse[0],smouse[1]);
     gl.uniform2f(U.vel,svel[0],svel[1]);
     gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
-    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,115.0*DPR);
+    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,260.0*DPR);
     gl.drawArrays(gl.TRIANGLES,0,3);rafId=requestAnimationFrame(loop);}
   new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){gateLive=true;V.play().catch(()=>{});if(!rafId)rafId=requestAnimationFrame(loop);}
@@ -1439,7 +1442,7 @@ void main(){
     setTimeout(()=>{
       fade.style.opacity='0';gate.classList.remove('smash');
       pour.pause();pour.style.opacity='0';try{pour.currentTime=0;}catch(e){}
-      if(tweenGate)tweenGate(7.5,2.0,1);breaking=false;
+      if(tweenGate)tweenGate(5,0.0,1);breaking=false;
     },950);
   }
   document.getElementById('break').addEventListener('click',()=>{
