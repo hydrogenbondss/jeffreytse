@@ -65,10 +65,14 @@ section{position:relative}
 @keyframes ldslide{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
 /* the payoff: tap the glass and the glass answers */
 #gate #flash{position:absolute;inset:0;z-index:19;background:#e8f0ff;opacity:0;pointer-events:none;transition:opacity .09s ease}
-#gate #shatter{position:absolute;inset:0;z-index:18;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity .12s ease}
-#gate #pour{display:block;position:absolute;inset:0;z-index:18;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity .25s ease}
+#gate #crack{position:absolute;inset:0;z-index:17;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity .08s ease}
+#gate.smash #crack{opacity:1}
+#gate #crack path{stroke:rgba(240,246,255,.85);fill:none;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(190,215,255,.7))}
+#gate #drain{position:absolute;left:0;right:0;top:0;height:0;z-index:19;pointer-events:none;background:var(--paper)}
+#gate #drain svg{position:absolute;left:0;right:0;bottom:-17px;width:100%;height:18px;display:block}
+#gate #drain svg path{fill:var(--paper)}
 #gate.smash #shatter{opacity:1}
-#gate.smash #c{animation:jolt .3s ease}
+#gate.smash #c,#gate.smash #v{animation:jolt .3s ease}
 @keyframes jolt{0%,100%{transform:none}25%{transform:translate(7px,-5px)}55%{transform:translate(-6px,4px)}80%{transform:translate(3px,-2px)}}
 
 /* ============ 2 · HERO (masthead) ============ */
@@ -211,10 +215,13 @@ section{position:relative}
   <div class="ui" id="seq">N&deg; 001</div>
   <button id="break" aria-label="Tap the glass — enter the portfolio">TAP THE GLASS</button>
   <div id="hint">GRAIN 1 · 2 · 3 &nbsp;&nbsp; PULL 4 · 5 · 6</div>
-  <img id="shatter" alt="" loading="lazy" decoding="async"
-    src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_094602_3d820f13-2398-4c76-9100-9ff58690571f.png">
-  <video id="pour" muted playsinline preload="none"
-    src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_110341_0c2f8038-47a5-48a2-8d11-02b5345eace2.mp4"></video>
+  <svg id="crack" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+    <g stroke-width=".45">
+      <path d="M50 30 L38 14 L34 6 M38 14 L30 12 M50 30 L64 18 L72 8 M64 18 L70 20 M50 30 L60 44 L66 54 M60 44 L68 46 M50 30 L36 42 L28 52 M36 42 L30 40 M50 30 L28 26 L14 24 M50 30 L74 32 L88 36 M50 30 L46 10 M50 30 L54 52"/>
+      <path d="M43 22 Q50 18 57 23 Q62 30 56 37 Q49 41 43 36 Q38 29 43 22" stroke-width=".3"/>
+    </g>
+  </svg>
+  <div id="drain"><svg viewBox="0 0 100 6" preserveAspectRatio="none"><path d="M0 0 L100 0 L100 2 Q92 5 84 2.4 Q76 0.4 68 3 Q60 5.4 52 2.6 Q44 0.4 36 3 Q28 5.2 20 2.4 Q12 0.6 4 3 L0 2 Z"/></svg></div>
   <div id="flash"></div>
   <div id="fade"></div>
   <div id="loader"><span class="ldn">Jeffrey N. Tse</span><span class="ldb"><i></i></span></div>
@@ -1442,47 +1449,52 @@ void main(){
   const fade=document.getElementById('fade');
   const flash=document.getElementById('flash');
   const gate=document.getElementById('gate');
+  const drain=document.getElementById('drain');
   const reduceG=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  let breaking=false,timers=[];
-  const pour=document.getElementById('pour');
+  let breaking=false,timers=[],drainRAF=0;
   const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
-  // warm the pour clip up while the visitor hovers the button
-  document.getElementById('break').addEventListener('pointerenter',()=>{try{pour.load();}catch(e){}},{once:true});
-  function landOnWelcome(smooth){
-    document.getElementById('hero').scrollIntoView({behavior:smooth?'smooth':'auto'});
-    setTimeout(()=>{
-      fade.style.opacity='0';gate.classList.remove('smash');
-      pour.pause();pour.style.opacity='0';try{pour.currentTime=0;}catch(e){}
-      if(tweenGate)tweenGate(5,0.0,1);breaking=false;
-    },950);
+  const media=[document.getElementById('c'),document.getElementById('v')].filter(Boolean);
+  function land(){
+    document.getElementById('hero').scrollIntoView({behavior:'auto'});
+    gate.classList.remove('smash');
+    drain.style.height='0';
+    media.forEach(el=>{el.style.transform='';});
+    fade.style.opacity='0';
+    if(tweenGate)tweenGate(5,0.0,1);
+    breaking=false;
+  }
+  function startDrain(){
+    const t0=performance.now(),DUR=1350;
+    (function step(){
+      const k=Math.min(1,(performance.now()-t0)/DUR);
+      const e=1-Math.pow(1-k,3);
+      drain.style.height=(e*100).toFixed(2)+'vh';
+      media.forEach(el=>{el.style.transform='translateY('+(e*9).toFixed(2)+'%) scaleY('+(1-e*0.05).toFixed(3)+')';});
+      if(k<1){drainRAF=requestAnimationFrame(step);}
+      else{land();}
+    })();
   }
   document.getElementById('break').addEventListener('click',()=>{
     if(breaking)return;breaking=true;
     stopAudio();
     if(reduceG||!tweenGate){
       fade.style.opacity='1';
-      setTimeout(()=>landOnWelcome(!reduceG),520);
+      setTimeout(()=>{document.getElementById('hero').scrollIntoView({behavior:'auto'});
+        setTimeout(()=>{fade.style.opacity='0';breaking=false;},700);},520);
       return;
     }
-    tweenGate(1.6,0,420);                                   // 1 · dither resolves to the real tank
-    later(()=>{                                             // 2 · impact: flash + shatter + jolt
+    tweenGate(1.6,0,360);                       // 1 · dither resolves to the real tank
+    later(()=>{                                 // 2 · impact: flash + crack web + jolt
       flash.style.opacity='1';
       setTimeout(()=>{flash.style.opacity='0';},70);
       gate.classList.add('smash');
-    },440);
-    later(()=>{                                             // 3 · the glass gives — water & koi POUR down
-      pour.style.opacity='1';
-      const p=pour.play(); if(p&&p.catch)p.catch(()=>{});
-    },700);
-    later(()=>{fade.style.opacity='1';},4300);              // 4 · the fall washes to black…
-    later(()=>landOnWelcome(true),4900);                    // 5 · …and lands on Welcome
+    },380);
+    later(startDrain,760);                      // 3 · the water level falls into paper
   });
-  // an 8s cinematic must be skippable: tap again anywhere to land now
-  gate.addEventListener('click',e=>{
+  gate.addEventListener('click',e=>{            // skippable: tap again to land now
     if(!breaking||e.target.id==='break')return;
-    timers.forEach(clearTimeout);timers=[];
-    fade.style.opacity='1';
-    setTimeout(()=>landOnWelcome(true),350);
+    timers.forEach(clearTimeout);timers=[];cancelAnimationFrame(drainRAF);
+    land();
   });
 })();
 </script>
