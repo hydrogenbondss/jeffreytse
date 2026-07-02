@@ -161,6 +161,11 @@
     position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
     object-fit:cover;pointer-events:none;background:#05060a;
   }
+  /* live iframes idle as posters until first hover/focus (perf) */
+  .obj .screen iframe[data-live]{visibility:hidden}
+  .obj .screen img.idle{z-index:2;transition:opacity .5s var(--ease)}
+  .obj.live .screen iframe{visibility:visible}
+  .obj.live .screen img.idle{opacity:0}
   .obj .screen::after{ /* glass sheen + slight vignette so media reads as a lit panel */
     content:"";position:absolute;inset:0;pointer-events:none;
     background:
@@ -546,7 +551,8 @@
   <button class="marker obj m-lovebug" data-piece="lovebug" style="--acc:var(--acc-lovebug)"
           aria-label="Love Bug, the neon heart machine. Open detail view.">
     <span class="screen" aria-hidden="true">
-      <iframe src="assets/lab/love-bug.html" tabindex="-1" title="Love Bug preview" loading="lazy" scrolling="no"></iframe>
+      <img class="idle" src="assets/lab/love-bug-poster.png" alt="" loading="lazy" decoding="async">
+      <iframe data-live="assets/lab/love-bug.html" tabindex="-1" title="Love Bug preview" loading="lazy" scrolling="no"></iframe>
     </span>
     <span class="plate">Love Bug<small>Neon Heart &middot; Interactive</small></span>
   </button>
@@ -555,7 +561,7 @@
   <button class="marker obj m-ash" data-piece="ash" style="--acc:var(--acc-ash)"
           aria-label="Ash-01, the figure that towers over the street. Open detail view.">
     <span class="screen" aria-hidden="true">
-      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/48dd90d4-0e09-45b5-ad87-41e384dcf86f.png" alt="Ash-01 character sheet" loading="lazy">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/aec942eb-16d1-4e72-a993-4ea13de4b551.png" alt="Ash-01, the figure" loading="lazy">
     </span>
     <span class="plate">Ash-01<small>The Figure &middot; Original Character</small></span>
   </button>
@@ -564,7 +570,8 @@
   <button class="marker obj m-feature" data-piece="feature" style="--acc:var(--acc-feature)"
           aria-label="Feature World Chaos, the particle sky. Open detail view.">
     <span class="screen" aria-hidden="true">
-      <iframe src="assets/lab/feature-world-chaos.html" tabindex="-1" title="Feature World preview" loading="lazy" scrolling="no"></iframe>
+      <img class="idle" src="assets/lab/feature-world-chaos-poster.png" alt="" loading="lazy" decoding="async">
+      <iframe data-live="assets/lab/feature-world-chaos.html" tabindex="-1" title="Feature World preview" loading="lazy" scrolling="no"></iframe>
     </span>
     <span class="plate">Feature World: Chaos<small>Sky &middot; Interactive Physics</small></span>
   </button>
@@ -907,6 +914,24 @@
     links.style.display = p.links.length ? "" : "none";
   }
 
+  // ---------- STREET MEDIA BUDGET ----------
+  // pause every street video while the takeover is open / tab is hidden
+  function pauseStreet(off){
+    document.querySelectorAll("#street video").forEach(function(v){
+      if(off){ v.pause(); } else { var p=v.play(); if(p&&p.catch)p.catch(function(){}); }
+    });
+  }
+  document.addEventListener("visibilitychange", function(){
+    pauseStreet(document.hidden || !!current);
+  });
+  // live iframes idle as posters; boot on first hover/focus only
+  document.querySelectorAll(".obj").forEach(function(o){
+    var f=o.querySelector("iframe[data-live]"); if(!f) return;
+    function boot(){ if(!f.src){ f.src=f.getAttribute("data-live"); } o.classList.add("live"); }
+    o.addEventListener("pointerenter", boot, {once:false});
+    o.addEventListener("focusin", boot);
+  });
+
   // ---------- OPEN / CLOSE ----------
   function openPiece(key, trigger){
     var p = PIECES[key];
@@ -925,8 +950,9 @@
     takeover.classList.add("open");
     takeover.setAttribute("aria-hidden","false");
     hideLoc();
-    // soften the street behind
+    // soften the street behind + stop paying for media nobody can see
     streetBg.style.filter = "blur(6px) brightness(0.5)";
+    pauseStreet(true);
 
     setActiveSlide(0);
 
@@ -945,6 +971,7 @@
     takeover.classList.remove("open");
     takeover.setAttribute("aria-hidden","true");
     streetBg.style.filter = "";
+    pauseStreet(false);
     document.removeEventListener("keydown", onKey);
     var t = lastFocused;
     current = null;
