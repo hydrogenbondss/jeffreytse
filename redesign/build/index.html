@@ -40,7 +40,7 @@ section{position:relative}
   clip-path:polygon(0 0,100% 0,100% 22%,96% 58%,91% 30%,85% 66%,79% 34%,72% 72%,66% 38%,59% 70%,52% 30%,46% 64%,39% 34%,33% 74%,27% 40%,20% 66%,14% 30%,8% 60%,3% 34%,0 58%)}
 
 /* ============ 1 · GATE (koi) ============ */
-#gate{height:100vh;background:#03040a url("assets/koi_still.webp") center/cover;cursor:none;overflow:hidden}
+#gate{height:100vh;background:#03040a url("assets/koi_still.webp") center/cover;cursor:crosshair;overflow:hidden}
 #gate #c{position:absolute;inset:0;width:100%;height:100%;display:block}
 #gate .ui{position:absolute;color:#ECEAE3;font-family:'Cormorant Garamond',serif;z-index:5;pointer-events:none;text-shadow:0 2px 40px rgba(0,0,0,.96)}
 #gate #name{top:2.6vh;left:3.2vw;font-size:8.4vw;line-height:.9;font-weight:400;letter-spacing:.03em}
@@ -2351,7 +2351,7 @@ uniform sampler2D uT; uniform sampler2D uF;
 uniform vec2 uRes; uniform vec2 uVid; uniform float uCell; uniform float uAmp;
 float ign(vec2 p){return fract(52.9829189*fract(0.06711056*p.x+0.00583715*p.y));}
 vec3 adjust(vec3 c){c.r*=0.985;c.b*=1.02;float l=dot(c,vec3(0.299,0.587,0.114));c=l+(c-l)*1.98;c=(c-0.5)*1.40+0.5;return clamp(c,0.,1.);}
-vec2 cover(vec2 uv){float ca=uRes.x/uRes.y,ia=uVid.x/uVid.y;vec2 s=vec2(1.);if(ca>ia){s.y=ia/ca;}else{s.x=ca/ia;}vec2 o=(uv-0.5)*s+0.5;o.y-=0.05;return o;}
+vec2 cover(vec2 uv){float ca=uRes.x/uRes.y,ia=uVid.x/uVid.y;vec2 s=vec2(1.);if(ca>ia){s.y=ia/ca;}else{s.x=ca/ia;}vec2 o=(uv-0.5)*s/1.14+0.5;o.y-=0.045;return o;}
 vec3 sampleAt(vec2 px){vec2 uv=cover(px/uRes);uv.y=1.0-uv.y;return adjust(texture2D(uT,uv).rgb);}
 void main(){
   vec2 frag=gl_FragCoord.xy;
