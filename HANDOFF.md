@@ -2,27 +2,34 @@
 
 ## Current State
 
-- **Live site** = the old editorial Vite build. The deployed `index.html` (hydrogenbondss.github.io/jeffreytse) is the scrolly editorial version and has not changed since 2026-05-24. Untouched.
-- **Koi redesign** exists only as `gate-v13.html` (locked quality) plus LOVE32-sourced media. All of it is now consolidated under `./redesign/`:
-  - `./redesign/prototypes/` — 12 gate prototypes (`gate-v2` … `gate-v13`), copied from `~/Downloads`.
-  - `./redesign/assets/`:
-    - `koi_tank_from_gatev13.mp4` — koi aquarium clip, 8.06s, 1280×720 (extracted from the base64 blob in `gate-v13.html`). This is the ONLY real portfolio asset so far.
-- **Portfolio assets still to generate (fresh, via Higgsfield / Runway):** the notebook hero image and the portfolio's own glass-shatter still. Neither exists yet — do not reuse ECHO's clips for these.
+- **Live site untouched.** The deployed `index.html` (hydrogenbondss.github.io/jeffreytse) is still the old scrolly editorial build from 2026-05-24.
+- **The redesign lives in two places:**
+  - `./redesign/build/` — the assembled WIP single-file site (`index.html`) plus per-section prototypes (works, editorial, archive, client-work, lab, about).
+  - `./redesign/prototypes/` — gate prototypes (`gate-v2` … `gate-v13`, plus `gate-v14-pond` and `koi-ab.html`).
+- **Gate now runs a real koi pond loop.** `redesign/assets/koi_pond_overhead_loop.mp4` (10s, 720p, seamless: the same still is pinned as first and last frame; seam verified at 35.9 dB PSNR). Wired into `redesign/build/index.html` (gate engine + regenerated `koi_still.webp/png` posters) and into `gate-v14-pond.html`. **gate-v13 itself is untouched and stays locked.**
+- **Koi A/B pending Jeffrey's pick** — `redesign/prototypes/koi-ab.html` shows candidate 1 (shipped, cleanest seam), candidate 2 raw (better motion, weak seam), and candidate 2 seam-fixed (crossfade, 31.7 dB). Candidate 1 stays until he chooses.
+- **Client Work has two competing presentations:**
+  - `redesign/build/client-work.html` — the scroll-scrubbed reel of seven baked catch clips (remote CDN URLs).
+  - `redesign/build/west-composite.html` — **new v5**: luma-keyed transparent Ash rides a panning desert past seven signboards carrying the REAL client logos. All assets LOCAL under `build/assets/west/` (desert, faststart-remuxed ash ride, 7 sourced logos: Samsung, China Mobile, MTR, HK Disneyland, Ocean Park, HKTB junk-boat mark, Heimtextil).
+  - v6 idea: the desert art contains blank painted signboards — the logos could be pinned onto those instead of CSS boards.
+- **Portfolio assets still to generate (fresh, via Higgsfield / Runway):** the notebook hero image, the portfolio's own glass-shatter still, and 3 editorial cover images. Do not reuse ECHO clips.
 - **No build pipeline on disk.** The old Python build is gone and is not being revived (see `CLAUDE.md`).
 
-## In Progress
+## Project skills (in `.claude/skills/`)
 
-- (nothing active)
+- **seamless-loop** — pin-frame loop generation on Higgsfield + ffmpeg PSNR seam verification + crossfade repair.
+- **visual-verify** — headless-Chromium screenshot flow for this sandbox (proxy/font hang workarounds, CDP capture, H.264-less test browser → VP8 substitution trick, "two screenshots + PSNR" animation proof).
 
 ## Decisions
 
-- **ECHO** is the current name of the Ren'Py visual novel; **"Love32" / "LOVE32" is the OLD name.** `~/Desktop/LOVE32/` is the ECHO game project (1.7 GB / 1,885 files), NOT portfolio material.
-- `neo_notebook_v01.png`, `neo_notebook_red_alt_v01.png`, and `kite_glass_shatter.mp4` are ECHO animation clips, NOT portfolio assets. They were removed from `./redesign/assets/` (repo copies only; LOVE32 originals untouched).
-- The koi-tank video is not a standalone file anywhere; it lives embedded in `gate-v13.html` and was extracted to `./redesign/assets/koi_tank_from_gatev13.mp4`.
-- Gate is locked at gate-v13. The lotus / glyph-dither hover effect is deferred until the full site exists end-to-end.
-- Originals left in place; nothing deleted. Live `index.html` not modified or deployed.
+- **ECHO** is the current name of the Ren'Py visual novel; "Love32"/"LOVE32" is the OLD name. `~/Desktop/LOVE32/` is the game project, NOT portfolio material.
+- Gate locked at gate-v13; the lotus / glyph-dither hover effect stays deferred until the full site exists end-to-end.
+- Higgsfield credits are shared with other activity on the account — always preflight cost AND re-check balance immediately before generating.
+- Sandbox egress must allow `d8j0ntlcm91z4.cloudfront.net` (and `d2ol7oe51mr4n9.cloudfront.net`) to pull Higgsfield renders into the repo.
 
 ## Next Steps
 
-- Generate the **notebook hero image** fresh (Higgsfield / Runway) — it does not exist yet.
-- Build the **notebook hero** as section 2, layered onto `gate-v13`.
+- Jeffrey picks the koi loop (A/B page) and the Client Work presentation (reel vs west-composite trail).
+- Generate the **notebook hero image** and **glass-shatter still** fresh — with Jeffrey reviewing candidates live; don't burn credits unattended.
+- Editorials: choose vinyl vs card-stack interface; source the 3 cover images.
+- About section; final stitch into the single deployable `index.html` (localize the remaining remote CDN references while at it).
