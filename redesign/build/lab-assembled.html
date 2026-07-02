@@ -475,21 +475,30 @@
   .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
     clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
+  /* ===== PLATE ANCHORS — every object glued to the street plate's real
+     geometry. #world is a fixed-aspect cover box (JS-sized), so these
+     percentages track the image itself at any viewport. ===== */
+  #world{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+  #world #streetBg{background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_100110_667a29f6-5f6e-454c-9b2a-9a5775fb1454.png');background-size:100% 100%;transform:none}
+  .m-turbo{left:34.5%;top:5%;width:23.5%;transform:none}
+  .m-turbo .screen{width:100%;aspect-ratio:16/9}
+  .m-turbo .screen::before{display:none}
+  .m-pabepabe{left:16.5%;top:35.5%;width:13%}
+  .m-pabepabe .screen{width:100%;aspect-ratio:3/5}
+  .m-ash{left:56.5%;top:24%;width:9.5%}
+  .m-ash .screen{width:100%;aspect-ratio:3/5}
+  .m-lovebug{left:73.2%;top:49%;width:7%}
+  .m-lovebug .screen{width:100%;aspect-ratio:1/1}
+  .m-feature{left:63%;top:5%;width:20%}
+  .m-feature .screen{width:100%;aspect-ratio:16/9}
+  .door{bottom:auto}
+  .d-binary{left:.4%;top:25%;width:5.2%;height:52%}
+  .d-fallow{right:auto;left:90.8%;top:31%;width:8.6%;height:54%}
+  .door .arch{width:100%;height:100%}
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:760px){
-    .m-turbo{top:9%;}
-    .m-turbo .screen{width:min(74vw,320px);}
-    .m-pabepabe{left:5%;top:48%;}
-    .m-pabepabe .screen{width:34vw;}
-    .m-ash{left:60%;top:38%;}
-    .m-ash .screen{width:30vw;}
-    .m-lovebug{left:30%;top:70%;}
-    .m-lovebug .screen{width:32vw;}
-    .m-feature{left:62%;top:12%;}
-    .m-feature .screen{width:40vw;}
-    .d-binary{left:2%;}
-    .d-fallow{right:2%;}
-    .door .arch{width:clamp(92px,26vw,150px);height:clamp(150px,24vh,230px);}
+    /* object positions stay glued to the plate via #world — only chrome adapts */
     #toLower{flex-direction:column;align-items:flex-start;}
     #toLower .side{flex:1 1 auto;width:100%;}
     #masthead{flex-direction:column;}
@@ -511,21 +520,12 @@
 
 <!-- ====================== THE STREET ====================== -->
 <main id="street" aria-label="Lab — a living night street to explore">
+  <!-- #world = the street plate + everything anchored INTO its geometry.
+       When the animated plate loop is approved, it drops in here with the
+       same cover-box so nothing shifts. -->
+  <div id="world">
   <div id="streetBg" aria-hidden="true"></div>
-  <video id="streetVid" autoplay muted loop playsinline aria-hidden="true"
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
-    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_062958_e1428546-c25a-4565-af6d-6b186e2afc18.mp4" type="video/mp4">
-  </video>
-  <div id="atmos" aria-hidden="true"></div>
   <div id="grain" aria-hidden="true"></div>
-
-  <header id="masthead">
-    <div>
-      <div class="eyebrow">Generative &middot; AI &middot; Interactive</div>
-      <h1 class="title"><em>Lab</em></h1>
-    </div>
-    <p class="hint">Each piece is a thing in the city.<br>Tap a screen, enter a door.</p>
-  </header>
 
   <!-- ---- 5 STREET OBJECTS ---- -->
 
@@ -597,6 +597,17 @@
       <span class="threshold">Enter<span class="enter">Fallow Ruins</span></span>
     </span>
   </button>
+
+  </div><!-- /world -->
+  <div id="atmos" aria-hidden="true"></div>
+
+  <header id="masthead">
+    <div>
+      <div class="eyebrow">Generative &middot; AI &middot; Interactive</div>
+      <h1 class="title"><em>Lab</em></h1>
+    </div>
+    <p class="hint">Each piece is a thing in the city.<br>Tap a screen, enter a door.</p>
+  </header>
 
   <!-- GTA-style location title (hover label) -->
   <div id="locTitle" aria-hidden="true">
@@ -913,6 +924,17 @@
     });
     links.style.display = p.links.length ? "" : "none";
   }
+
+  // ---------- WORLD COVER-BOX (glues anchors to the plate) ----------
+  (function(){
+    var w=document.getElementById("world"); if(!w) return;
+    var AR=1376/768;
+    function fit(){
+      var W=Math.max(innerWidth, innerHeight*AR), H=W/AR;
+      w.style.width=W+"px"; w.style.height=H+"px";
+    }
+    addEventListener("resize", fit); fit();
+  })();
 
   // ---------- STREET MEDIA BUDGET ----------
   // pause every street video while the takeover is open / tab is hidden

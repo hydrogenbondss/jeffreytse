@@ -139,7 +139,7 @@ video{display:none}
 /* ===== SIMPLE / MODERN / MINIMAL (interim treatment for sections 4–8
    until each finished world — lab-assembled, client-work, editorial,
    archive desk, about — is stitched in) ===== */
-#lab,#editorial,#archive,#about,#client{background:#f5f2ec;color:#1a1714;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 7vw;position:static;overflow:visible}
+#lab,#editorial,#archive,#client{background:#f5f2ec;color:#1a1714;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 7vw;position:static;overflow:visible}
 .min-in{max-width:920px;width:100%}
 .min-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#6f6555;margin-bottom:16px}
 .min-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:.01em;margin:0 0 12px}
@@ -152,8 +152,39 @@ video{display:none}
 .min-bio{font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.7;color:#3a342c;max-width:56ch}
 .min-contact{margin-top:28px;font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.16em;color:#9a8f7a}
 .min-contact a{color:#1a1714;text-decoration:none;border-bottom:1px solid rgba(26,23,20,.3)}
-#lab .min-h,#editorial .min-h,#archive .min-h,#about .min-h,#client .min-h{color:#1a1714}
+#lab .min-h,#editorial .min-h,#archive .min-h,#client .min-h{color:#1a1714}
 @media(max-width:640px){.min-row{grid-template-columns:1fr}.min-row .meta{text-align:left;margin-top:4px}}
+
+/* ============ 8 · ABOUT — the paper bookend (polaroids on the desk) ============ */
+#about{position:relative;min-height:100vh;overflow:hidden;background:var(--paper);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:10vh 6vw}
+#about .ab-htone{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none;
+  background-image:radial-gradient(circle,#000 26%,transparent 27%);background-size:6px 6px}
+#about .ab-wrap{position:relative;z-index:2;display:flex;gap:clamp(24px,5vw,60px);align-items:center;
+  flex-wrap:wrap;max-width:1080px;justify-content:center}
+#about .polaroid{position:relative;background:#fbf8ef;padding:12px 12px 46px;flex:0 0 auto;
+  box-shadow:4px 8px 0 rgba(0,0,0,.10),0 26px 60px rgba(0,0,0,.30)}
+#about .polaroid.p1{transform:rotate(-4.5deg);width:min(300px,70vw)}
+#about .polaroid.p2{transform:rotate(3.5deg);width:min(240px,58vw)}
+#about .polaroid .photo{aspect-ratio:4/5;background:#d7cdb4;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#about .polaroid.p2 .photo{aspect-ratio:4/3}
+#about .polaroid .photo img{width:100%;height:100%;object-fit:cover;display:block}
+#about .polaroid .photo .ph{color:#8a7f64;font-family:'Courier Prime',monospace;font-size:.56rem;
+  letter-spacing:.2em;text-align:center;line-height:2;padding:0 12%}
+#about .polaroid .cap{font-family:'Caveat',cursive;font-size:1.6rem;color:#222;text-align:center;margin-top:11px;transform:rotate(-1.5deg)}
+#about .ab-tape{position:absolute;width:110px;height:28px;background:rgba(225,210,140,.5);
+  box-shadow:0 1px 3px rgba(0,0,0,.18);mix-blend-mode:multiply;left:50%;margin-left:-55px;top:-14px;transform:rotate(-3deg)}
+#about .polaroid.p2 .ab-tape{transform:rotate(4deg)}
+#about .polaroid.p2 a{display:block;text-decoration:none}
+#about .polaroid.p2:hover{box-shadow:4px 8px 0 rgba(0,0,0,.10),0 30px 70px rgba(0,0,0,.4)}
+#about .ab-note{flex:1 1 300px;max-width:440px}
+#about .ab-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.36em;color:#6f6552;margin-bottom:12px}
+#about .ab-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3rem);margin-bottom:.45em;line-height:1}
+#about .ab-bio{font-size:.98rem;line-height:1.72;color:#2a2418;font-family:'Helvetica Neue',Arial,sans-serif}
+#about .ab-links{margin-top:22px;font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.16em}
+#about .ab-links a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(22,18,11,.35);margin-right:18px}
+#about .ab-links a:hover{border-color:var(--ink)}
+@media(max-width:760px){#about .polaroid.p1,#about .polaroid.p2{transform:none}}
 </style>
 </head>
 <body>
@@ -281,13 +312,32 @@ video{display:none}
   <h2 class="min-h">Archive</h2>
   <p class="min-lead">Drafts, dead ends, and the work that earned its place — kept by hand. [ Add dated archive entries here. ]</p>
 </div></section>
-<section id="about"><div class="min-in">
-  <div class="min-eyebrow">About</div>
-  <h2 class="min-h">Jeffrey N. Tse</h2>
-  <p class="min-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.</p>
-  <div class="min-contact">github.com/hydrogenbondss</div>
-  <p style="margin-top:30px"><a class="min-contact" href="#gate" style="border:0">↑ back to the top</a></p>
-</div></section>
+<section id="about">
+  <div class="ab-htone" aria-hidden="true"></div>
+  <div class="ab-wrap">
+    <figure class="polaroid p1">
+      <span class="ab-tape" aria-hidden="true"></span>
+      <div class="photo" id="aboutPhoto"><span class="ph">PORTRAIT<br>— landing shortly —</span></div>
+      <figcaption class="cap">still, in a moving crowd</figcaption>
+    </figure>
+    <div class="ab-note">
+      <div class="ab-eyebrow">08 · About</div>
+      <h2 class="ab-h">Jeffrey N. Tse</h2>
+      <p class="ab-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.</p>
+      <div class="ab-links">
+        <a href="assets/JeffreyTse_CV.pdf" download>CV ↓</a>
+        <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener">GITHUB</a>
+      </div>
+    </div>
+    <figure class="polaroid p2">
+      <span class="ab-tape" aria-hidden="true"></span>
+      <a href="#gate" aria-label="Back to the start — the koi gate">
+        <div class="photo"><img src="assets/koi_still.png" alt="The koi tank — where this began" width="800" height="450" loading="lazy" decoding="async"></div>
+        <figcaption class="cap">back to the start —</figcaption>
+      </a>
+    </figure>
+  </div>
+</section>
 <section id="loop"><a href="#gate">↑ RETURN TO THE GATE</a></section>
 
 <!-- ============ WORKS · project detail modal ============ -->
