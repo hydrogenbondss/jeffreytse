@@ -58,6 +58,7 @@ video{display:none}
 @keyframes breathe{0%,100%{opacity:.82}50%{opacity:1}}
 #gate #fade{position:absolute;inset:0;z-index:20;background:#03040a;opacity:0;pointer-events:none;transition:opacity 1.1s ease}
 /* the payoff: tap the glass and the glass answers */
+#gate #flash{position:absolute;inset:0;z-index:19;background:#e8f0ff;opacity:0;pointer-events:none;transition:opacity .09s ease}
 #gate #shatter{position:absolute;inset:0;z-index:18;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity .12s ease}
 #gate.smash #shatter{opacity:1}
 #gate.smash #c{animation:jolt .3s ease}
@@ -205,6 +206,7 @@ video{display:none}
   <div id="hint">GRAIN 1 · 2 · 3 &nbsp;&nbsp; PULL 4 · 5 · 6</div>
   <img id="shatter" alt="" loading="lazy" decoding="async"
     src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_094602_3d820f13-2398-4c76-9100-9ff58690571f.png">
+  <div id="flash"></div>
   <div id="fade"></div>
   <video id="v" muted loop playsinline crossorigin="anonymous"></video>
 </section>
@@ -362,6 +364,7 @@ video{display:none}
   V.src="assets/koi_tank_from_gatev13.mp4";
   const cv=document.getElementById('c');
   const gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
+  var tweenGate=null; /* set by the engine: animates the mosaic cell size (the dissolve) */
   if(!gl){
     /* no WebGL (blocked / old device): show the raw tank instead of a dead black gate */
     cv.style.display='none';
@@ -373,7 +376,7 @@ video{display:none}
   const fs=`
 precision highp float;
 uniform sampler2D uT; uniform vec2 uRes; uniform vec2 uVid;
-uniform vec2 uMouse; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uForce; uniform float uRadius;
+uniform vec2 uMouse; uniform vec2 uVel; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uForce; uniform float uRadius;
 float ign(vec2 p){return fract(52.9829189*fract(0.06711056*p.x+0.00583715*p.y));}
 vec3 adjust(vec3 c){
   c.r*=0.985; c.b*=1.02;
@@ -402,7 +405,8 @@ void main(){
   float md=length(toM);
   float prox=smoothstep(uRadius,0.0,md)*uMon;
   vec2 dir = md>0.001 ? toM/md : vec2(0.0);
-  vec2 disp = dir*prox*prox*uForce*uCell;   // prox^2 keeps the pull tight & calm
+  // liquid: gather toward the cursor + smear along its motion (the wake)
+  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.6;
   vec3 col=sampleAt(cpx+disp);
   col += col*prox*0.30;                       // soft light bloom under the cursor
   float L=dot(col,vec3(0.299,0.587,0.114));
@@ -434,12 +438,21 @@ void main(){
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
   const U={t:gl.getUniformLocation(pr,'uT'),res:gl.getUniformLocation(pr,'uRes'),
     vid:gl.getUniformLocation(pr,'uVid'),mouse:gl.getUniformLocation(pr,'uMouse'),
-    t2:gl.getUniformLocation(pr,'uT2'),
+    vel:gl.getUniformLocation(pr,'uVel'),t2:gl.getUniformLocation(pr,'uT2'),
     mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),force:gl.getUniformLocation(pr,'uForce'),radius:gl.getUniformLocation(pr,'uRadius')};
   let DPR=Math.min(window.devicePixelRatio||1,2);
-  let mouse=[-999,-999],smouse=[-999,-999],mon=0,t0=performance.now();
+  let mouse=[-999,-999],smouse=[-999,-999],svel=[0,0],mon=0,t0=performance.now();
   let cellCSS=7.5;
   let forceI=2.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
+  /* dissolve hook: tween the dither toward (or back from) the raw tank */
+  tweenGate=function(cellTo,forceTo,dur){
+    const c0=cellCSS,f0=forceI,t0=performance.now();
+    (function step(){
+      const k=Math.min(1,(performance.now()-t0)/dur);
+      cellCSS=c0+(cellTo-c0)*k; forceI=f0+(forceTo-f0)*k;
+      if(k<1)requestAnimationFrame(step);
+    })();
+  };
   function resize(){DPR=Math.min(window.devicePixelRatio||1,2);
     const w=cv.clientWidth||innerWidth, h=cv.clientHeight||innerHeight;
     cv.width=w*DPR;cv.height=h*DPR;gl.viewport(0,0,cv.width,cv.height);}
@@ -465,12 +478,17 @@ void main(){
     if(!gateLive){rafId=0;return;}
     if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,tex);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);}
-    if(smouse[0]>-900){smouse[0]+=(mouse[0]-smouse[0])*0.14;smouse[1]+=(mouse[1]-smouse[1])*0.14;} // ease/settle
+    if(smouse[0]>-900){
+      const px=smouse[0],py=smouse[1];
+      smouse[0]+=(mouse[0]-smouse[0])*0.3;smouse[1]+=(mouse[1]-smouse[1])*0.3;   // snappier tracking
+      svel[0]=svel[0]*0.82+(smouse[0]-px)*0.6;svel[1]=svel[1]*0.82+(smouse[1]-py)*0.6; // smoothed wake, decays when idle
+    }
     gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
     gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
     gl.uniform2f(U.mouse,smouse[0],smouse[1]);
+    gl.uniform2f(U.vel,svel[0],svel[1]);
     gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
-    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,170.0*DPR);
+    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,115.0*DPR);
     gl.drawArrays(gl.TRIANGLES,0,3);rafId=requestAnimationFrame(loop);}
   new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){gateLive=true;V.play().catch(()=>{});if(!rafId)rafId=requestAnimationFrame(loop);}
@@ -487,40 +505,63 @@ void main(){
     document.getElementById('seq').textContent=hh+':'+mn+':'+ss;}
   tick();setInterval(tick,1000);
 
-  // ambient water audio
-  let AC,started=false,nodes=[];
+  // ambient water audio — a barely-there deep-water room tone that swells
+  // slowly with the vignette. No chirps, no bloops, nothing synthetic-sounding.
+  let AC,started=false,nodes=[],masterG=null;
   function startAudio(){if(started)return;started=true;
     AC=new (window.AudioContext||window.webkitAudioContext)();
     const bs=AC.sampleRate*2,buf=AC.createBuffer(1,bs,AC.sampleRate),d=buf.getChannelData(0);
     let last=0;for(let i=0;i<bs;i++){const w=Math.random()*2-1;last=(last+0.02*w)/1.02;d[i]=last*3.2;}
     const src=AC.createBufferSource();src.buffer=buf;src.loop=true;
-    const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=420;
-    const g=AC.createGain();g.gain.value=0.05;src.connect(f);f.connect(g);g.connect(AC.destination);src.start();nodes.push(src,g);
-    function bubble(){if(!started)return;const o=AC.createOscillator(),bg=AC.createGain();
-      o.frequency.setValueAtTime(220+Math.random()*500,AC.currentTime);
-      o.frequency.exponentialRampToValueAtTime(80+Math.random()*120,AC.currentTime+0.12);
-      bg.gain.setValueAtTime(0,AC.currentTime);bg.gain.linearRampToValueAtTime(0.04,AC.currentTime+0.01);
-      bg.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+0.18);
-      o.connect(bg);bg.connect(AC.destination);o.start();o.stop(AC.currentTime+0.2);
-      setTimeout(bubble,400+Math.random()*1600);}
-    bubble();
+    const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=300;f.Q.value=0.4;
+    const g=AC.createGain();g.gain.value=0;
+    src.connect(f);f.connect(g);g.connect(AC.destination);src.start();
+    g.gain.linearRampToValueAtTime(0.028,AC.currentTime+2.5);       // ease in, very quiet
+    const lfo=AC.createOscillator(),lg=AC.createGain();             // 9s swell, matches the breathe
+    lfo.frequency.value=1/9; lg.gain.value=0.012;
+    lfo.connect(lg); lg.connect(g.gain); lfo.start();
+    masterG=g; nodes.push(src,g,lfo,lg);
   }
-  function stopAudio(){if(!AC)return;try{nodes.forEach(n=>n.disconnect&&n.disconnect());AC.close();}catch(e){}started=false;}
+  function stopAudio(){if(!AC)return;
+    try{
+      if(masterG){masterG.gain.cancelScheduledValues(AC.currentTime);
+        masterG.gain.setValueAtTime(masterG.gain.value,AC.currentTime);
+        masterG.gain.linearRampToValueAtTime(0.0001,AC.currentTime+0.5);}
+      setTimeout(()=>{try{nodes.forEach(n=>n.disconnect&&n.disconnect());AC.close();}catch(e){}},600);
+    }catch(e){}
+    started=false;}
   ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,startAudio,{once:true}));
-  /* the seam: tap the glass -> the glass SHATTERS (generated still, matched
-     to the tank) -> black -> the notebook surfaces. Reduced motion skips
-     the smash and just fades. */
+  /* the seam, in one continuous sentence:
+     the dither DISSOLVES into the real tank -> impact flash -> the glass
+     SHATTERS -> black -> the notebook surfaces. Reduced motion just fades. */
   const fade=document.getElementById('fade');
+  const flash=document.getElementById('flash');
   const gate=document.getElementById('gate');
   const reduceG=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let breaking=false;
   document.getElementById('break').addEventListener('click',()=>{
+    if(breaking)return;breaking=true;
     stopAudio();
-    if(!reduceG){gate.classList.add('smash');}
-    setTimeout(()=>{fade.style.opacity='1';},reduceG?0:340);
-    setTimeout(()=>{
+    if(reduceG||!tweenGate){
+      fade.style.opacity='1';
+      setTimeout(()=>{document.getElementById('hero').scrollIntoView({behavior:reduceG?'auto':'smooth'});
+        setTimeout(()=>{fade.style.opacity='0';breaking=false;},900);},520);
+      return;
+    }
+    tweenGate(1.6,0,420);                                   // 1 · dither resolves to the real tank
+    setTimeout(()=>{                                        // 2 · impact: flash + shatter + jolt
+      flash.style.opacity='1';
+      setTimeout(()=>{flash.style.opacity='0';},70);
+      gate.classList.add('smash');
+    },440);
+    setTimeout(()=>{fade.style.opacity='1';},1050);         // 3 · black
+    setTimeout(()=>{                                        // 4 · surface into the notebook
       document.getElementById('hero').scrollIntoView({behavior:'smooth'});
-      setTimeout(()=>{fade.style.opacity='0';gate.classList.remove('smash');},900);
-    },reduceG?520:900);
+      setTimeout(()=>{
+        fade.style.opacity='0';gate.classList.remove('smash');
+        tweenGate(7.5,2.0,1);breaking=false;                // reset the tank behind the curtain
+      },950);
+    },1600);
   });
 })();
 </script>
