@@ -20,7 +20,7 @@ html{scroll-behavior:smooth}
 body{background:#03040a;color:#ECEAE3;font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 section{position:relative}
 :root{--paper:#E0D8C6;--paper2:#D7CEBA;--ink:#16120b;--blu:#132FAE;--mag:#EC0A6A;--mut:#6f6552;--helv:"Helvetica Neue",Arial,sans-serif}
-#gate #v{display:none}
+#gate #v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 
 /* ============ SPINE — the two things that persist through every world:
@@ -40,8 +40,13 @@ section{position:relative}
   clip-path:polygon(0 0,100% 0,100% 22%,96% 58%,91% 30%,85% 66%,79% 34%,72% 72%,66% 38%,59% 70%,52% 30%,46% 64%,39% 34%,33% 74%,27% 40%,20% 66%,14% 30%,8% 60%,3% 34%,0 58%)}
 
 /* ============ 1 · GATE (koi) ============ */
-#gate{height:100vh;background:#03040a url("assets/koi_still.webp") center/cover;cursor:none;overflow:hidden}
-#gate #c{position:absolute;inset:0;width:100%;height:100%;display:block}
+#gate{height:100vh;background:#03040a url("assets/koi_still.webp") center/cover;overflow:hidden}
+#gate #loader{position:absolute;inset:0;z-index:30;background:#03040a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .8s ease}
+#gate #loader.done{opacity:0;pointer-events:none}
+#gate #loader .ldn{font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:.35em;font-size:clamp(.8rem,1.4vw,1rem);color:#ECEAE3;text-transform:uppercase}
+#gate #loader .ldb{width:min(220px,40vw);height:1px;background:rgba(236,234,227,.18);overflow:hidden}
+#gate #loader .ldb i{display:block;height:100%;width:40%;background:#ECEAE3;animation:ldslide 1.1s ease-in-out infinite}
+@keyframes ldslide{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
 #gate .ui{position:absolute;color:#ECEAE3;font-family:'Cormorant Garamond',serif;z-index:5;pointer-events:none;text-shadow:0 2px 40px rgba(0,0,0,.96)}
 #gate #name{top:2.6vh;left:3.2vw;font-size:8.4vw;line-height:.9;font-weight:400;letter-spacing:.03em}
 #gate #topr{top:3.4vh;right:3.2vw;text-align:right;font-size:.82vw;letter-spacing:.34em;color:#9A9DA8;font-family:'Courier Prime',monospace}
@@ -50,7 +55,6 @@ section{position:relative}
 #gate #date{top:50%;left:1.5vw;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:'Courier Prime',monospace;font-size:.72vw;letter-spacing:.34em;color:#9296a4}
 #gate #break{position:absolute;left:50%;bottom:3.4vh;transform:translateX(-50%);z-index:6;font-family:'Courier Prime',monospace;letter-spacing:.42em;font-size:.82vw;color:#ECEAE3;padding:.95em 2.3em;border:1px solid rgba(236,234,227,.45);background:rgba(5,7,13,.4);backdrop-filter:blur(3px);cursor:pointer;transition:.4s;text-shadow:0 1px 10px #000}
 #gate #break:hover{background:rgba(236,234,227,.12);border-color:rgba(236,234,227,.85);letter-spacing:.5em}
-#gate #hint{position:absolute;left:50%;bottom:10vh;transform:translateX(-50%);z-index:6;font-family:'Courier Prime',monospace;letter-spacing:.34em;font-size:.66vw;color:#5a5e6c;transition:opacity 1s;opacity:.85;pointer-events:none}
 #gate .sc{position:absolute;z-index:1;pointer-events:none}
 #gate #scTL{top:-14vh;left:-12vw;width:62vw;height:56vh;background:radial-gradient(ellipse at 26% 36%,rgba(2,3,7,.96),rgba(2,3,7,.6) 42%,transparent 70%)}
 #gate #scBL{bottom:-12vh;left:-10vw;width:46vw;height:38vh;background:radial-gradient(ellipse at 30% 70%,rgba(2,3,7,.92),rgba(2,3,7,.4) 48%,transparent 74%)}
@@ -62,7 +66,7 @@ section{position:relative}
 #gate #shatter{position:absolute;inset:0;z-index:18;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity .12s ease}
 #gate #pour{display:block;position:absolute;inset:0;z-index:18;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity .25s ease}
 #gate.smash #shatter{opacity:1}
-#gate.smash #c{animation:jolt .3s ease}
+#gate.smash #v{animation:jolt .3s ease}
 @keyframes jolt{0%,100%{transform:none}25%{transform:translate(7px,-5px)}55%{transform:translate(-6px,4px)}80%{transform:translate(3px,-2px)}}
 
 /* ============ 2 · HERO (masthead) ============ */
@@ -196,7 +200,6 @@ section{position:relative}
 
 <!-- ============ 1 · GATE ============ -->
 <section id="gate">
-  <canvas id="c"></canvas>
   <div class="sc" id="scTL"></div><div class="sc" id="scBL"></div><div id="vig"></div>
   <div class="ui" id="name">JEFFREY<br>N. TSE</div>
   <div class="ui" id="topr">A PORTFOLIO OF<br>SYSTEMS &amp; OBJECTS</div>
@@ -204,14 +207,14 @@ section{position:relative}
   <div class="ui" id="date">— · HONG KONG</div>
   <div class="ui" id="seq">N&deg; 001</div>
   <button id="break" aria-label="Tap the glass — enter the portfolio">TAP THE GLASS</button>
-  <div id="hint">GRAIN 1 · 2 · 3 &nbsp;&nbsp; PULL 4 · 5 · 6</div>
   <img id="shatter" alt="" loading="lazy" decoding="async"
     src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_094602_3d820f13-2398-4c76-9100-9ff58690571f.png">
   <video id="pour" muted playsinline preload="none"
     src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_110341_0c2f8038-47a5-48a2-8d11-02b5345eace2.mp4"></video>
   <div id="flash"></div>
   <div id="fade"></div>
-  <video id="v" muted loop playsinline crossorigin="anonymous"></video>
+  <div id="loader"><span class="ldn">Jeffrey N. Tse</span><span class="ldb"><i></i></span></div>
+  <video id="v" muted loop playsinline></video>
 </section>
 
 <!-- ============ 2 · HERO ============ -->
@@ -1253,142 +1256,22 @@ section{position:relative}
 (function(){
   const V=document.getElementById('v');
   V.src="assets/koi_tank_from_gatev13.mp4";
-  const cv=document.getElementById('c');
-  const gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
-  var tweenGate=null; /* set by the engine: animates the mosaic cell size (the dissolve) */
-  if(!gl){
-    /* no WebGL (blocked / old device): show the raw tank instead of a dead black gate */
-    cv.style.display='none';
-    V.style.cssText='display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.08)';
-    V.play().catch(()=>{});
-  }
-  if(gl){
-  const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
-  const fs=`
-precision highp float;
-uniform sampler2D uT; uniform vec2 uRes; uniform vec2 uVid;
-uniform vec2 uMouse; uniform vec2 uVel; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uForce; uniform float uRadius;
-float ign(vec2 p){return fract(52.9829189*fract(0.06711056*p.x+0.00583715*p.y));}
-vec3 adjust(vec3 c){
-  c.r*=0.985; c.b*=1.02;
-  float l=dot(c,vec3(0.299,0.587,0.114));
-  c=l+(c-l)*1.98;
-  c=(c-0.5)*1.40+0.5;
-  return clamp(c,0.0,1.0);
-}
-vec2 cover(vec2 uv){
-  float ca=uRes.x/uRes.y, ia=uVid.x/uVid.y; vec2 s=vec2(1.0);
-  if(ca>ia){s.y=ia/ca;} else {s.x=ca/ia;}
-  vec2 o=(uv-0.5)*s+0.5;
-  o.y-=0.05;
-  return o;
-}
-vec3 sampleAt(vec2 px){
-  vec2 uv=cover(px/uRes); uv.y=1.0-uv.y;
-  return adjust(texture2D(uT,uv).rgb);
-}
-void main(){
-  vec2 frag=gl_FragCoord.xy;
-  vec2 cid=floor(frag/uCell);
-  vec2 cpx=(cid+0.5)*uCell;
-  // cursor interaction: gentle radial gather toward the (eased) cursor — no waves
-  vec2 toM=uMouse-cpx;
-  float md=length(toM);
-  float prox=smoothstep(uRadius,0.0,md)*uMon;
-  vec2 dir = md>0.001 ? toM/md : vec2(0.0);
-  // liquid: a calm directional smear that settles quickly — no banding
-  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.55;
-  vec3 col=sampleAt(cpx+disp);
-  col += col*prox*0.12;                       // soft light bloom under the cursor
-  float L=dot(col,vec3(0.299,0.587,0.114));
-  float th=ign(cid);
-  float Ld=clamp(L+(th-0.5)*0.12,0.0,1.0);
-  float d=length((frag-cpx)/(uCell*0.5));
-  float gap=0.92;
-  float sz=gap*(0.62+0.38*Ld);
-  float tile=smoothstep(sz+0.12, sz-0.12, d);
-  vec3 bg=vec3(0.008,0.012,0.024);
-  vec3 flr=mix(bg, col, 0.15);
-  vec3 outc=mix(flr, col, tile);
-  outc += col*tile*pow(Ld,1.5)*0.85;
-  float cen=smoothstep(0.95,0.0,distance(frag/uRes,vec2(0.5)));
-  outc += outc*cen*0.05;
-  gl_FragColor=vec4(outc,1.0);
-}`;
-  function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
-    if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o;}
-  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));
-  gl.linkProgram(pr);gl.useProgram(pr);
-  const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
-  const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
-  const U={t:gl.getUniformLocation(pr,'uT'),res:gl.getUniformLocation(pr,'uRes'),
-    vid:gl.getUniformLocation(pr,'uVid'),mouse:gl.getUniformLocation(pr,'uMouse'),
-    vel:gl.getUniformLocation(pr,'uVel'),t2:gl.getUniformLocation(pr,'uT2'),
-    mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),force:gl.getUniformLocation(pr,'uForce'),radius:gl.getUniformLocation(pr,'uRadius')};
-  let DPR=Math.min(window.devicePixelRatio||1,2);
-  let mouse=[-999,-999],smouse=[-999,-999],svel=[0,0],mon=0,t0=performance.now();
-  let cellCSS=5;
-  let forceI=0.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
-  /* dissolve hook: tween the dither toward (or back from) the raw tank */
-  tweenGate=function(cellTo,forceTo,dur){
-    const c0=cellCSS,f0=forceI,t0=performance.now();
-    (function step(){
-      const k=Math.min(1,(performance.now()-t0)/dur);
-      cellCSS=c0+(cellTo-c0)*k; forceI=f0+(forceTo-f0)*k;
-      if(k<1)requestAnimationFrame(step);
-    })();
-  };
-  function resize(){DPR=Math.min(window.devicePixelRatio||1,2);
-    const w=cv.clientWidth||innerWidth, h=cv.clientHeight||innerHeight;
-    cv.width=w*DPR;cv.height=h*DPR;gl.viewport(0,0,cv.width,cv.height);}
-  addEventListener('resize',resize);resize();
-  addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();
-    const nx=(e.clientX-r.left)*DPR,ny=(r.height-(e.clientY-r.top))*DPR;
-    if(smouse[0]<-900){smouse=[nx,ny];}mouse=[nx,ny];mon=1;});
-  addEventListener('pointerleave',()=>mon=0);
-  const hint=document.getElementById('hint');let hideHint;
-  function flashHint(){hint.style.opacity='.85';clearTimeout(hideHint);hideHint=setTimeout(()=>hint.style.opacity='0',2600);}
-  addEventListener('keydown',e=>{
-    if(e.key==='1')cellCSS=4;else if(e.key==='2')cellCSS=5;else if(e.key==='3')cellCSS=6.5;
-    else if(e.key==='4')forceI=0.0;else if(e.key==='5')forceI=2.0;else if(e.key==='6')forceI=4.0;
-    else return;
-    hint.textContent=(e.key==='1'?'FINE GRAIN':e.key==='2'?'MEDIUM GRAIN':e.key==='3'?'COARSE GRAIN':e.key==='4'?'PULL OFF':e.key==='5'?'PULL SUBTLE':'PULL STRONG');
-    flashHint();});
-  setTimeout(()=>hint.style.opacity='0',4000);
-  /* run the tank ONLY while the gate is on screen — the loop uploads a
-     video texture every frame, and paying that cost six sections away
-     is what kills scroll performance elsewhere in the chain. */
-  let gateLive=true,rafId=0,vidReady=false;
-  function loop(){
-    if(!gateLive){rafId=0;return;}
-    if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,tex);
-      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);vidReady=true;}
-    if(!vidReady){rafId=requestAnimationFrame(loop);return;}   // keep the still up, draw nothing yet
-    if(smouse[0]>-900){
-      const px=smouse[0],py=smouse[1];
-      smouse[0]+=(mouse[0]-smouse[0])*0.3;smouse[1]+=(mouse[1]-smouse[1])*0.3;   // snappier tracking
-      svel[0]=svel[0]*0.85+(smouse[0]-px)*0.5;svel[1]=svel[1]*0.85+(smouse[1]-py)*0.5;
-      const _sm=Math.hypot(svel[0],svel[1]);if(_sm>34){svel[0]*=34/_sm;svel[1]*=34/_sm;} // smoothed wake, decays when idle
-    }
-    gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
-    gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
-    gl.uniform2f(U.mouse,smouse[0],smouse[1]);
-    gl.uniform2f(U.vel,svel[0],svel[1]);
-    gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
-    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,170.0*DPR);
-    gl.drawArrays(gl.TRIANGLES,0,3);rafId=requestAnimationFrame(loop);}
+  const gate=document.getElementById('gate');
+  const loader=document.getElementById('loader');
+
+  /* preloader: a clean cover until the tank actually plays; never traps */
+  let revealed=false;
+  function reveal(){if(revealed)return;revealed=true;
+    loader.classList.add('done');setTimeout(()=>{try{loader.remove();}catch(e){}},900);}
+  V.addEventListener('canplay',reveal,{once:true});
+  setTimeout(reveal,7000);
+  const p0=V.play(); if(p0&&p0.catch)p0.catch(()=>{});
+
+  /* run only while the gate is on screen */
   new IntersectionObserver(es=>es.forEach(e=>{
-    if(e.isIntersecting){gateLive=true;V.play().catch(()=>{});if(!rafId)rafId=requestAnimationFrame(loop);}
-    else{gateLive=false;V.pause();}
-  }),{threshold:.05}).observe(document.getElementById('gate'));
-  V.play().catch(()=>{});loop();
-  } // end WebGL engine
+    if(e.isIntersecting){const p=V.play();if(p&&p.catch)p.catch(()=>{});}
+    else V.pause();
+  }),{threshold:.05}).observe(gate);
 
   // gate date · seq clock
   function tick(){const d=new Date();
@@ -1398,8 +1281,7 @@ void main(){
     document.getElementById('seq').textContent=hh+':'+mn+':'+ss;}
   tick();setInterval(tick,1000);
 
-  // ambient water audio — a barely-there deep-water room tone that swells
-  // slowly with the vignette. No chirps, no bloops, nothing synthetic-sounding.
+  // ambient water audio — a barely-there deep-water room tone; no chirps
   let AC,started=false,nodes=[],masterG=null;
   function startAudio(){if(started)return;started=true;
     AC=new (window.AudioContext||window.webkitAudioContext)();
@@ -1409,8 +1291,8 @@ void main(){
     const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=300;f.Q.value=0.4;
     const g=AC.createGain();g.gain.value=0;
     src.connect(f);f.connect(g);g.connect(AC.destination);src.start();
-    g.gain.linearRampToValueAtTime(0.028,AC.currentTime+2.5);       // ease in, very quiet
-    const lfo=AC.createOscillator(),lg=AC.createGain();             // 9s swell, matches the breathe
+    g.gain.linearRampToValueAtTime(0.028,AC.currentTime+2.5);
+    const lfo=AC.createOscillator(),lg=AC.createGain();
     lfo.frequency.value=1/9; lg.gain.value=0.012;
     lfo.connect(lg); lg.connect(g.gain); lfo.start();
     masterG=g; nodes.push(src,g,lfo,lg);
@@ -1424,48 +1306,34 @@ void main(){
     }catch(e){}
     started=false;}
   ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,startAudio,{once:true}));
-  /* the seam, in one continuous sentence:
-     the dither DISSOLVES into the real tank -> impact flash -> the glass
-     SHATTERS -> black -> the notebook surfaces. Reduced motion just fades. */
+
+  /* THE SEAM: tap -> flash + shatter + jolt -> the pour carries you down
+     onto Welcome. Second tap anywhere skips. */
   const fade=document.getElementById('fade');
   const flash=document.getElementById('flash');
-  const gate=document.getElementById('gate');
+  const pour=document.getElementById('pour');
   const reduceG=matchMedia('(prefers-reduced-motion:reduce)').matches;
   let breaking=false,timers=[];
-  const pour=document.getElementById('pour');
   const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
-  // warm the pour clip up while the visitor hovers the button
   document.getElementById('break').addEventListener('pointerenter',()=>{try{pour.load();}catch(e){}},{once:true});
   function landOnWelcome(smooth){
     document.getElementById('hero').scrollIntoView({behavior:smooth?'smooth':'auto'});
     setTimeout(()=>{
       fade.style.opacity='0';gate.classList.remove('smash');
       pour.pause();pour.style.opacity='0';try{pour.currentTime=0;}catch(e){}
-      if(tweenGate)tweenGate(5,0.0,1);breaking=false;
+      breaking=false;
     },950);
   }
   document.getElementById('break').addEventListener('click',()=>{
     if(breaking)return;breaking=true;
     stopAudio();
-    if(reduceG||!tweenGate){
-      fade.style.opacity='1';
-      setTimeout(()=>landOnWelcome(!reduceG),520);
-      return;
-    }
-    tweenGate(1.6,0,420);                                   // 1 · dither resolves to the real tank
-    later(()=>{                                             // 2 · impact: flash + shatter + jolt
-      flash.style.opacity='1';
-      setTimeout(()=>{flash.style.opacity='0';},70);
-      gate.classList.add('smash');
-    },440);
-    later(()=>{                                             // 3 · the glass gives — water & koi POUR down
-      pour.style.opacity='1';
-      const p=pour.play(); if(p&&p.catch)p.catch(()=>{});
-    },700);
-    later(()=>{fade.style.opacity='1';},4300);              // 4 · the fall washes to black…
-    later(()=>landOnWelcome(true),4900);                    // 5 · …and lands on Welcome
+    if(reduceG){fade.style.opacity='1';setTimeout(()=>landOnWelcome(false),520);return;}
+    flash.style.opacity='1';setTimeout(()=>{flash.style.opacity='0';},70);
+    gate.classList.add('smash');
+    later(()=>{pour.style.opacity='1';const p=pour.play();if(p&&p.catch)p.catch(()=>{});},240);
+    later(()=>{fade.style.opacity='1';},3900);
+    later(()=>landOnWelcome(true),4500);
   });
-  // an 8s cinematic must be skippable: tap again anywhere to land now
   gate.addEventListener('click',e=>{
     if(!breaking||e.target.id==='break')return;
     timers.forEach(clearTimeout);timers=[];
