@@ -122,7 +122,7 @@ section{position:relative}
 #works .works-spread.pending::after{content:'SCRAPBOOK SPREAD · echo-page_works.png — attach the file to drop it in';font-family:'Courier Prime',monospace;font-size:.8rem;letter-spacing:.18em;color:#b9ad93;text-align:center;padding:0 8%}
 
 /* ============ LOOP ============ */
-#loop{min-height:30vh;display:flex;align-items:center;justify-content:center;background:#03040a}
+#loop{min-height:30vh;display:flex;align-items:center;justify-content:center;background:#03040a;gap:18px;flex-wrap:wrap;padding:5vh 6vw}
 #loop a{font-family:'Courier Prime',monospace;letter-spacing:.4em;font-size:.78rem;color:#9296a4;text-decoration:none;border:1px solid rgba(236,234,227,.3);padding:1em 2.4em;border-radius:40px;transition:.4s}
 #loop a:hover{color:#ECEAE3;border-color:rgba(236,234,227,.7);letter-spacing:.5em}
 
@@ -1534,6 +1534,25 @@ section{position:relative}
 #client .cw-fallback figcaption{font-family:'Smokum',serif;font-size:1.4rem;color:var(--amber);
   padding:8px 12px;letter-spacing:.03em}
 
+/* the ledger — services rendered, on the record (facts from the CV) */
+#client .cw-ledger{position:relative;z-index:30;margin:clamp(30px,6vh,64px) auto 0;max-width:860px;width:calc(100% - 32px);
+  background:#e7d9ba;color:#2a1c0d;padding:clamp(22px,4vw,44px) clamp(20px,4.5vw,52px);
+  box-shadow:0 24px 60px -18px rgba(0,0,0,.75),inset 0 0 0 1px rgba(42,28,13,.18);
+  transform:rotate(-.4deg)}
+#client .cw-ledger::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='lg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23lg)'/%3E%3C/svg%3E")}
+#client .cw-ledger h3{font-family:'Rye',serif;font-weight:400;font-size:clamp(1.25rem,2.6vw,1.9rem);letter-spacing:.08em;text-align:center;margin-bottom:4px}
+#client .cw-ledger .lg-sub{font-family:'Special Elite',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;text-align:center;color:#6b5636;margin-bottom:clamp(16px,3vh,26px)}
+#client .cw-ledger .lg-row{display:grid;grid-template-columns:minmax(0,1.15fr) auto minmax(0,1.6fr);gap:14px;align-items:baseline;
+  padding:11px 2px;border-bottom:1px dotted rgba(42,28,13,.45)}
+#client .cw-ledger .lg-row:last-child{border-bottom:none}
+#client .cw-ledger .lg-b{font-family:'Special Elite',monospace;font-size:clamp(.82rem,1.5vw,1rem);letter-spacing:.06em;text-transform:uppercase}
+#client .cw-ledger .lg-y{font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.12em;color:#6b5636;white-space:nowrap}
+#client .cw-ledger .lg-s{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.04em;line-height:1.55;color:#3c2b16;text-align:right}
+@media(max-width:640px){
+  #client .cw-ledger .lg-row{grid-template-columns:1fr;gap:3px}
+  #client .cw-ledger .lg-s{text-align:left}
+}
 #client .cw-foot{position:relative;z-index:30;text-align:center;padding:clamp(20px,4vh,40px) 0 clamp(28px,6vh,52px);
   font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:#8a7654}
 #client .cw-foot a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(201,138,58,.5)}
@@ -1586,6 +1605,19 @@ section{position:relative}
 
   <!-- REDUCED-MOTION / TIGHT-SCREEN FALLBACK: the seven catch stills -->
   <div class="cw-fallback" id="cwFallback"><div class="fh">The Roped Roster</div></div>
+
+  <!-- the receipts — what each brand actually hired him for -->
+  <div class="cw-ledger" aria-label="Client ledger — services rendered">
+    <h3>Services Rendered</h3>
+    <div class="lg-sub">the roster &middot; on the record</div>
+    <div class="lg-row"><span class="lg-b">Samsung</span><span class="lg-y">2024&ndash;25</span><span class="lg-s">Social copywriting &middot; campaign &amp; always-on content</span></div>
+    <div class="lg-row"><span class="lg-b">China Mobile</span><span class="lg-y">2021</span><span class="lg-s">Press releases &middot; content strategy</span></div>
+    <div class="lg-row"><span class="lg-b">MTR</span><span class="lg-y">2024</span><span class="lg-s">Press releases</span></div>
+    <div class="lg-row"><span class="lg-b">Disneyland</span><span class="lg-y"></span><span class="lg-s">details on request</span></div>
+    <div class="lg-row"><span class="lg-b">Ocean Park</span><span class="lg-y">2024</span><span class="lg-s">Social copywriting</span></div>
+    <div class="lg-row"><span class="lg-b">Hong Kong Tourism Board</span><span class="lg-y">2022&ndash;24</span><span class="lg-s">Lead English copy &middot; DiscoverHongKong.com &middot; Hello Hong Kong</span></div>
+    <div class="lg-row"><span class="lg-b">Heimtextil</span><span class="lg-y"></span><span class="lg-s">details on request</span></div>
+  </div>
 
   <p class="cw-foot"><a href="#gate">↑ back to the Gate</a></p>
 </section>
@@ -2598,6 +2630,7 @@ section{position:relative}
       <h2 class="ab-h">Jeffrey N. Tse</h2>
       <p class="ab-bio">Jeffrey N. Tse is a Systems Architect, Art Director, and Editorial Strategist based in Hong Kong. He builds the structure underneath a thing and the way it looks on the surface — identity systems, fashion and editorial direction, and narrative work — and treats the seam between the two as the whole job.</p>
       <div class="ab-links">
+        <a href="mailto:jeffreynicholast@gmail.com">JEFFREYNICHOLAST@GMAIL.COM</a>
         <a href="assets/JeffreyTse_CV.pdf" download>CV ↓</a>
         <a href="https://github.com/hydrogenbondss" target="_blank" rel="noopener">GITHUB</a>
       </div>
@@ -2611,7 +2644,10 @@ section{position:relative}
     </figure>
   </div>
 </section>
-<section id="loop"><a href="#gate">↑ RETURN TO THE GATE</a></section>
+<section id="loop">
+  <a href="mailto:jeffreynicholast@gmail.com">WRITE ME · JEFFREYNICHOLAST@GMAIL.COM</a>
+  <a href="#gate">↑ RETURN TO THE GATE</a>
+</section>
 
 <!-- ============ WORKS · project detail modal ============ -->
 <div id="pmodal" hidden role="dialog" aria-modal="true" aria-label="Project detail">
