@@ -8,6 +8,7 @@
 <meta property="og:title" content="Jeffrey N. Tse">
 <meta property="og:description" content="Systems Architect · Art Director · Editorial Strategist. Hong Kong.">
 <meta name="theme-color" content="#03040a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2303040a'/><text x='50%25' y='57%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='400' font-size='38' fill='%23ECEAE3'>JNT</text></svg>">
 <link rel="preload" as="image" href="assets/hero_welcome.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,32 +142,109 @@ section{position:relative}
 .pm-lede{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.05rem,2vw,1.35rem);color:#cdc7bb;margin-bottom:1em;line-height:1.42}
 .pm-body{font-size:.96rem;line-height:1.72;color:#d8d2c6;margin-bottom:1.3em}
 .pm-role{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.16em;color:#b9ad93;border-top:1px solid rgba(236,234,227,.14);padding-top:12px}
-.pm-needs{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.1em;color:#6f6552;margin-top:10px}
-.pm-needs:not(:empty):before{content:'PENDING — '}
+/* internal production notes — never shown to visitors */
+.pm-needs{display:none}
+.pm-body a{color:#e9e2d2;text-decoration:none;border-bottom:1px solid rgba(233,226,210,.45)}
+.pm-body a:hover{border-color:#e9e2d2}
 .pm-media{display:grid;gap:12px;margin:2px 0 18px}
 .pm-media figure{margin:0}
 .pm-media video,.pm-media img{display:block;width:100%;border-radius:4px;background:#0a0a0c}
 .pm-media figcaption{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.18em;color:#9296a4;margin-top:5px}
 @media(prefers-reduced-motion:reduce){.pm-card{transition:none}}
 
-/* ===== SIMPLE / MODERN / MINIMAL (interim treatment for sections 4–8
-   until each finished world — lab-assembled, client-work, editorial,
-   archive desk, about — is stitched in) ===== */
-#editorial{background:#f5f2ec;color:#1a1714;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 7vw;position:static;overflow:visible}
-.min-in{max-width:920px;width:100%}
-.min-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#6f6555;margin-bottom:16px}
-.min-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:.01em;margin:0 0 12px}
-.min-lead{font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(1rem,1.5vw,1.18rem);line-height:1.6;color:#5a5145;max-width:56ch;margin:0 0 40px}
-.min-list{border-top:1px solid rgba(26,23,20,.14)}
-.min-row{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:baseline;padding:19px 2px;border-bottom:1px solid rgba(26,23,20,.12)}
-.min-row .t{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);color:#1a1714}
-.min-row .t small{display:block;font-weight:400;font-size:.95rem;color:#6b6152;margin-top:4px;font-family:'Cormorant Garamond',serif;font-style:italic}
-.min-row .meta{font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.16em;color:#6f6555;text-align:right;white-space:nowrap}
-.min-bio{font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.7;color:#3a342c;max-width:56ch}
-.min-contact{margin-top:28px;font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.16em;color:#9a8f7a}
-.min-contact a{color:#1a1714;text-decoration:none;border-bottom:1px solid rgba(26,23,20,.3)}
-#editorial .min-h{color:#1a1714}
-@media(max-width:640px){.min-row{grid-template-columns:1fr}.min-row .meta{text-align:left;margin-top:4px}}
+/* ===== 06 · EDITORIAL — the record collection (three.js vinyl viewer,
+   inlined from editorial-section.html; every rule scoped to #editorial,
+   custom props renamed --ed-* so nothing collides with the chain) ===== */
+#editorial{
+  --ed-panel:#101013;--ed-ink:#f2efe9;--ed-soft:rgba(242,239,233,.66);
+  --ed-faint:rgba(242,239,233,.40);--ed-hair:rgba(242,239,233,.10);--ed-acc:#e6c79a;
+  --ed-serif:'Cormorant Garamond',Georgia,serif;--ed-mono:'Courier Prime','Courier New',monospace;
+  --ed-ui:system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --ed-ease:cubic-bezier(.22,.61,.36,1);
+  background:radial-gradient(120% 80% at 50% -10%, rgba(110,90,150,.16), transparent 55%),#0a0a0c;
+  color:var(--ed-ink);font-family:var(--ed-ui);
+  min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,52px)}
+#editorial .ed-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:clamp(18px,3vw,30px)}
+#editorial .ed-eyebrow{font-family:var(--ed-mono);font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ed-faint);margin-bottom:10px}
+#editorial .ed-title{font-family:var(--ed-serif);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.95;letter-spacing:.01em}
+#editorial .ed-title em{font-style:italic;color:var(--ed-acc)}
+#editorial .ed-credit{font-family:var(--ed-mono);font-size:.66rem;letter-spacing:.1em;color:var(--ed-soft);line-height:1.9;text-align:right;max-width:34ch}
+#editorial .ed-credit b{color:var(--ed-ink)}
+#editorial .readlink{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:var(--ed-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#0a0a0c;background:var(--ed-acc);padding:10px 16px;border-radius:5px;text-decoration:none;transition:.25s var(--ed-ease)}
+#editorial .readlink:hover{background:#fff}
+#editorial .readlink[hidden]{display:none}
+#editorial .feature .plate{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:8%}
+#editorial .feature .plate.on{display:flex}
+#editorial .feature .plate .pt{font-family:var(--ed-serif);font-weight:400;font-size:clamp(1.8rem,3.4vw,3rem);line-height:1.05;color:var(--ed-ink)}
+#editorial .feature .plate .ps{font-family:var(--ed-mono);font-size:.66rem;letter-spacing:.12em;color:var(--ed-soft);margin-top:14px;max-width:34ch}
+#editorial .feature .plate .pn{font-family:var(--ed-mono);font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ed-faint);margin-top:26px;border:1px dashed var(--ed-hair);padding:5px 11px;border-radius:3px}
+#editorial .ed-grid{flex:1;display:grid;grid-template-columns:288px 1fr;gap:clamp(18px,2.4vw,34px);min-height:0}
+#editorial .lib{background:var(--ed-panel);border:1px solid var(--ed-hair);border-radius:14px;padding:16px 14px;display:flex;flex-direction:column;min-height:0}
+#editorial .lib h3{font-family:var(--ed-mono);font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ed-faint);padding:4px 8px 12px}
+#editorial .lib-list{display:flex;flex-direction:column;gap:3px;overflow:auto}
+#editorial .lib-list::-webkit-scrollbar{width:0}
+#editorial .rec{display:flex;align-items:center;gap:12px;padding:9px 8px;border-radius:9px;cursor:pointer;border:1px solid transparent;text-align:left;background:none;color:inherit;font:inherit;transition:background .25s var(--ed-ease)}
+#editorial .rec:hover{background:rgba(255,255,255,.04)}
+#editorial .rec[aria-current="true"]{background:rgba(255,255,255,.07);border-color:var(--ed-hair)}
+#editorial .rec .thumb{width:46px;height:46px;border-radius:5px;flex:0 0 auto;background:#1a1a1f center/cover no-repeat;box-shadow:0 4px 12px rgba(0,0,0,.5);position:relative}
+#editorial .rec .thumb::after{content:"";position:absolute;inset:0;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+#editorial .rec .meta{min-width:0}
+#editorial .rec .nm{font-size:.86rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+#editorial .rec .sb{font-family:var(--ed-mono);font-size:.56rem;letter-spacing:.08em;color:var(--ed-faint);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+#editorial .rec[aria-current="true"] .eq{display:flex}
+#editorial .eq{display:none;gap:2px;margin-left:auto;align-items:flex-end;height:13px}
+#editorial .eq i{width:2px;background:var(--ed-acc);animation:ed-eq 1s var(--ed-ease) infinite}
+#editorial .eq i:nth-child(1){animation-delay:0s}#editorial .eq i:nth-child(2){animation-delay:.25s}#editorial .eq i:nth-child(3){animation-delay:.5s}
+@keyframes ed-eq{0%,100%{height:3px}50%{height:13px}}
+#editorial .ed-stage{display:flex;flex-direction:column;min-height:0;gap:clamp(14px,2vw,22px)}
+#editorial .np-top{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,2.4vw,32px);align-items:center}
+#editorial .deck{position:relative;width:clamp(190px,22vw,260px);aspect-ratio:1/1;flex:0 0 auto}
+#editorial .deck canvas{width:100%;height:100%;display:block}
+#editorial .deck .fallback{position:absolute;inset:0;border-radius:50%;display:none;align-items:center;justify-content:center;background:
+   repeating-radial-gradient(circle at 50% 50%, #111 0 1px, #07070a 1px 3px);box-shadow:0 30px 70px -20px #000}
+#editorial .deck.no3d .fallback{display:flex}
+#editorial .deck.no3d canvas{display:none}
+#editorial .deck .fallback .lbl{width:42%;height:42%;border-radius:50%;background:#222 center/cover no-repeat;box-shadow:0 0 0 4px #0a0a0c, inset 0 0 0 1px rgba(255,255,255,.1);animation:ed-spin 8s linear infinite}
+@keyframes ed-spin{to{transform:rotate(360deg)}}
+#editorial .tonearm{position:absolute;top:-2%;right:-4%;width:54%;height:54%;pointer-events:none;transform-origin:84% 14%;transform:rotate(0deg);transition:transform .6s var(--ed-ease);z-index:3}
+#editorial .tonearm svg{width:100%;height:100%;overflow:visible}
+#editorial .np-info{min-width:0}
+#editorial .np-kicker{font-family:var(--ed-mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ed-acc);margin-bottom:9px}
+#editorial .np-name{font-family:var(--ed-serif);font-weight:400;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1;margin-bottom:8px}
+#editorial .np-sub{font-family:var(--ed-mono);font-size:.66rem;letter-spacing:.06em;color:var(--ed-soft);margin-bottom:18px}
+#editorial .scrub{display:flex;align-items:center;gap:11px;margin-bottom:16px;max-width:440px}
+#editorial .scrub .t{font-family:var(--ed-mono);font-size:.58rem;color:var(--ed-faint);min-width:2.4em}
+#editorial .ed-bar{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.12);position:relative;cursor:pointer}
+#editorial .ed-bar .fill{position:absolute;inset:0 auto 0 0;border-radius:3px;background:linear-gradient(90deg,var(--ed-acc),#fff);width:8%}
+#editorial .ed-bar .knob{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);left:8%;box-shadow:0 1px 6px rgba(0,0,0,.6)}
+#editorial .transport{display:flex;align-items:center;gap:18px}
+#editorial .tb{width:40px;height:40px;border-radius:50%;border:1px solid var(--ed-hair);background:rgba(255,255,255,.03);color:var(--ed-ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s var(--ed-ease)}
+#editorial .tb:hover{background:var(--ed-acc);color:#0a0a0c;border-color:transparent}
+#editorial .tb.play{width:52px;height:52px;background:var(--ed-ink);color:#0a0a0c;border:0}
+#editorial .tb.play:hover{background:var(--ed-acc)}
+#editorial .tb svg{width:17px;height:17px;fill:currentColor}
+#editorial .feature{position:relative;flex:1;min-height:36vh;border-radius:14px;overflow:hidden;background:#0e0e11;border:1px solid var(--ed-hair);display:flex;align-items:center;justify-content:center}
+#editorial .feature .media{position:absolute;inset:0;display:none}
+#editorial .feature .media.on{display:block}
+#editorial .feature img,#editorial .feature video{width:100%;height:100%;object-fit:cover;display:block}
+#editorial .feature .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 24px 16px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
+#editorial .feature .cap .l{font-family:var(--ed-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ed-ink)}
+#editorial .feature .cap .c{font-family:var(--ed-mono);font-size:.6rem;letter-spacing:.12em;color:var(--ed-soft)}
+#editorial .ed-foot{margin-top:14px;font-family:var(--ed-mono);font-size:.56rem;letter-spacing:.14em;color:var(--ed-faint)}
+@media(max-width:880px){
+  #editorial .ed-grid{grid-template-columns:1fr}
+  #editorial .lib{order:-1}
+  #editorial .lib-list{flex-direction:row;overflow-x:auto;gap:8px}
+  #editorial .rec{flex:0 0 auto;width:210px}
+  #editorial .ed-credit{text-align:left}
+  #editorial .np-top{grid-template-columns:1fr;justify-items:center;text-align:center}
+  #editorial .np-info{text-align:center}
+  #editorial .scrub,#editorial .transport{justify-content:center;margin-left:auto;margin-right:auto}
+  #editorial .feature{min-height:54vh}
+}
+@media(prefers-reduced-motion:reduce){
+  #editorial .eq i,#editorial .deck .fallback .lbl{animation:none}
+}
 
 /* ============ 8 · ABOUT — the paper bookend (polaroids on the desk) ============ */
 #about{position:relative;min-height:100vh;overflow:hidden;background:var(--paper);color:var(--ink);
@@ -247,7 +325,7 @@ section{position:relative}
           <ul><li>ECHO</li><li>ROLL CALL</li><li>SPECTOR</li><li>Noru</li><li>PawsAid</li></ul>
           <div class="cap">BRAND · DESIGN · NARRATIVE</div></div></div>
         <div class="col-3"><div class="mod"><h3><span class="n">02</span><span class="t">THE LAB</span></h3>
-          <ul><li>Cathedral of Small Hours</li><li>Garden of Returning</li><li>Heart Decoder</li><li>Feature World: Chaos</li><li>Turbo MG21</li><li>Ash-01</li></ul>
+          <ul><li>Binary One</li><li>Fallow Ruins</li><li>Love Bug</li><li>Feature World: Chaos</li><li>Turbo MG21</li><li>Ash-01</li></ul>
           <div class="cap">GENERATIVE · AI · INTERACTIVE</div></div></div>
         <div class="col-3"><div class="mod"><h3><span class="n">03</span><span class="t">TOOLS &amp; SOFTWARE</span></h3>
           <ul><li>React · TypeScript · JavaScript</li><li>Python · Ren'Py · Node · Bash</li><li>ComfyUI · LoRA · Midjourney</li><li>Runway · Higgsfield · ElevenLabs</li><li>After Effects · Premiere · Photoshop</li><li>Illustrator · Figma · CapCut</li><li>Vercel · Cloudflare · PostgreSQL</li></ul></div></div>
@@ -593,10 +671,10 @@ section{position:relative}
     transition:opacity .6s var(--ease-soft);
   }
   /* letterbox bars */
-  .bar{position:absolute;left:0;right:0;z-index:6;background:#000;pointer-events:none;
+  #takeover .bar{position:absolute;left:0;right:0;z-index:6;background:#000;pointer-events:none;
     height:clamp(36px,7vh,80px);}
-  .bar.top{top:0;box-shadow:0 1px 0 color-mix(in srgb, var(--to-acc) 30%, transparent);}
-  .bar.bottom{bottom:0;box-shadow:0 -1px 0 color-mix(in srgb, var(--to-acc) 30%, transparent);}
+  #takeover .bar.top{top:0;box-shadow:0 1px 0 color-mix(in srgb, var(--to-acc) 30%, transparent);}
+  #takeover .bar.bottom{bottom:0;box-shadow:0 -1px 0 color-mix(in srgb, var(--to-acc) 30%, transparent);}
 
   /* media wrapper holds the swipe gallery or single poster */
   #toMedia{
@@ -1638,17 +1716,264 @@ section{position:relative}
 })();
 </script>
 
-<section id="editorial"><div class="min-in">
-  <div class="min-eyebrow">Editorial</div>
-  <h2 class="min-h">Editorial</h2>
-  <p class="min-lead">Chief Editor &amp; Interviewer at I.T Apparels — fashion editorial across New York &amp; Hong Kong, 2023–2025.</p>
-  <div class="min-list">
-    <div class="min-row"><span class="t">Markgong</span><span class="meta">FW25</span></div>
-    <div class="min-row"><span class="t">Doublet</span><span class="meta">EDITORIAL</span></div>
-    <div class="min-row"><span class="t">A BATHING APE&reg;</span><span class="meta">EDITORIAL</span></div>
-    <div class="min-row"><span class="t">Carhartt WIP</span><span class="meta">EDITORIAL</span></div>
+<section id="editorial" aria-label="Editorial — a fashion record collection">
+  <div class="ed-head">
+    <div>
+      <div class="ed-eyebrow">Chief Editor &amp; Interviewer &middot; I.T Apparels</div>
+      <h2 class="ed-title"><em>Editorials</em></h2>
+    </div>
+    <p class="ed-credit"><b>Fashion Editorial</b><br>New York / Hong Kong<br>2023&ndash;2025</p>
   </div>
-</div></section>
+
+  <div class="ed-grid">
+    <!-- LIBRARY -->
+    <aside class="lib">
+      <h3>Library</h3>
+      <div class="lib-list" id="libList" role="listbox" aria-label="Editorial records"></div>
+    </aside>
+
+    <!-- NOW PLAYING -->
+    <div class="ed-stage">
+      <div class="np-top">
+        <div class="deck no3d" id="deck">
+          <canvas id="vinyl"></canvas>
+          <div class="fallback"><div class="lbl" id="fbLabel"></div></div>
+          <div class="tonearm" id="tonearm" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="84" cy="14" r="9" fill="#1b1b1f" stroke="rgba(255,255,255,.18)"/>
+              <circle cx="84" cy="14" r="3" fill="#3a3a40"/>
+              <line x1="84" y1="14" x2="40" y2="58" stroke="#c9c9cf" stroke-width="3.4" stroke-linecap="round"/>
+              <rect x="33" y="54" width="11" height="8" rx="2" transform="rotate(45 38 58)" fill="#e7e7ec"/>
+            </svg>
+          </div>
+        </div>
+        <div class="np-info">
+          <div class="np-kicker" id="npKicker">Now Playing</div>
+          <h3 class="np-name" id="npName">&mdash;</h3>
+          <div class="np-sub" id="npSub">&mdash;</div>
+          <div class="scrub">
+            <span class="t" id="tPos">01</span>
+            <div class="ed-bar" id="edBar"><div class="fill" id="edFill"></div><div class="knob" id="edKnob"></div></div>
+            <span class="t" id="tLen">01</span>
+          </div>
+          <div class="transport">
+            <button class="tb" id="edPrev" aria-label="Previous editorial"><svg viewBox="0 0 24 24"><path d="M7 6v12H5V6h2zm12 0v12l-9-6 9-6z"/></svg></button>
+            <button class="tb play" id="edPlay" aria-label="Spin / pause record"><svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7L8 5z"/></svg></button>
+            <button class="tb" id="edNext" aria-label="Next editorial"><svg viewBox="0 0 24 24"><path d="M17 6v12h2V6h-2zM5 6v12l9-6-9-6z"/></svg></button>
+          </div>
+          <a class="readlink" id="readlink" href="#" target="_blank" rel="noopener">Read the editorial &#8599;</a>
+        </div>
+      </div>
+
+      <!-- FEATURED PHOTO -->
+      <div class="feature" id="feature">
+        <div class="cap"><span class="l" id="capL">&mdash;</span><span class="c" id="capC">01 / 01</span></div>
+      </div>
+      <div class="ed-foot" id="edFoot">Select a record from the library &mdash; each cover becomes the label on the vinyl.</div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  "use strict";
+  var CDN="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
+  function u(id){return CDN+id+".png";}
+
+  /* ---------- DATA — I.T Apparels editorials (real titles + links) ---------- */
+  var RECORDS=[
+    { name:"NO ZIPPERS, NO APOLOGIES", sub:"Renaissance Renaissance — Cynthia Merhej’s Craft of Resistance", year:"FW25",
+      link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",
+      cover:u("fe2a6de7-22ee-4151-baf8-894b1ab7bec0") },
+    { name:"MARKGONG FALL 2025", sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia", year:"FW25",
+      link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",
+      cover:u("958a7f37-45e7-4b17-8b74-f88b2b35eab5") },
+    { name:"MASAYUKI INO", sub:"Doublet — Crafting Dreams into Reality", year:"Interview",
+      link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",
+      cover:null, plate:"#2b2b33" },
+    { name:"A BATHING APE®", sub:"Fall / Winter 2024 in Shanghai", year:"FW24",
+      link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",
+      cover:null, plate:"#243036" },
+    { name:"THE RISE OF BLOKECORE", sub:"Celebrating Football-Inspired Fashion", year:"",
+      link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",
+      cover:u("3d9d5a6e-cd0d-416b-a637-0b200b33ae4b") },
+    { name:"THE GOTHIC REALM OF DARK FASHION", sub:"Obsidian Elegance", year:"SS24",
+      link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",
+      cover:null, plate:"#191920" },
+    { name:"PONDER.ER SS24", sub:"Road Trip to Heaven", year:"SS24",
+      link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",
+      cover:u("3a1d91aa-e798-4736-8d20-d9d7a91237eb") },
+    { name:"WESTFALL", sub:"California Punk Culture", year:"SS24",
+      link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",
+      cover:u("22963cb0-dcd4-4720-a4e7-d45deef942e1") },
+    { name:"MOUNTWOOD", sub:"Adventure in the Great Outdoors", year:"",
+      link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",
+      cover:u("213d5de9-fc35-4828-aac3-0b7d6e33eb35") },
+    { name:"SUBI · SUBEZ YETI", sub:"Carhartt WIP — Crafting Community and Sound in Hong Kong’s Music Scene", year:"Interview",
+      link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",
+      cover:u("5d96aa7f-39f3-4918-bdb3-18d1f2c03edd") }
+  ];
+
+  var reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var curRec=0;
+  var edSec=document.getElementById("editorial");
+  var edLive=false;           /* section on screen — gates keys + render */
+
+  /* ---------- THREE.JS VINYL (lazy: library loads when the section
+     approaches; the CSS 2D fallback deck spins until then) ---------- */
+  var deck=document.getElementById("deck");
+  var three=false, spinning=true, renderer, scene, camera, group, labelMesh;
+  function grooveTexture(){
+    var c=document.createElement("canvas");c.width=c.height=900;var x=c.getContext("2d");
+    x.fillStyle="#0b0b0d";x.fillRect(0,0,900,900);
+    for(var r=448;r>150;r-=1.4){
+      var v=10+Math.floor(Math.random()*10);
+      x.beginPath();x.arc(450,450,r,0,Math.PI*2);
+      x.strokeStyle="rgba("+v+","+v+","+(v+4)+",.9)";x.lineWidth=1;x.stroke();
+    }
+    var g=x.createLinearGradient(0,0,900,900);
+    g.addColorStop(0,"rgba(255,255,255,.06)");g.addColorStop(.5,"rgba(255,255,255,0)");g.addColorStop(1,"rgba(255,255,255,.05)");
+    x.fillStyle=g;x.beginPath();x.arc(450,450,448,0,Math.PI*2);x.fill();
+    var t=new THREE.CanvasTexture(c);t.anisotropy=4;return t;
+  }
+  function initThree(){
+    if(typeof THREE==="undefined") throw new Error("no three");
+    var cv=document.getElementById("vinyl");
+    renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+    var size=deck.clientWidth||240;
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setSize(size,size,false);
+    scene=new THREE.Scene();
+    camera=new THREE.PerspectiveCamera(32,1,0.1,100);camera.position.set(0,0,7.4);
+    group=new THREE.Group();scene.add(group);
+    var vinyl=new THREE.Mesh(new THREE.CircleGeometry(2.05,128),
+      new THREE.MeshStandardMaterial({map:grooveTexture(),roughness:.46,metalness:.42,color:0xffffff}));
+    group.add(vinyl);
+    var ring=new THREE.Mesh(new THREE.RingGeometry(2.02,2.12,128),
+      new THREE.MeshStandardMaterial({color:0x000000,roughness:.5,metalness:.3,side:THREE.DoubleSide}));
+    ring.position.z=-0.005;group.add(ring);
+    labelMesh=new THREE.Mesh(new THREE.CircleGeometry(0.74,96),
+      new THREE.MeshBasicMaterial({color:0x222227}));
+    labelMesh.position.z=0.012;group.add(labelMesh);
+    var hole=new THREE.Mesh(new THREE.CircleGeometry(0.045,24),new THREE.MeshBasicMaterial({color:0x000000}));
+    hole.position.z=0.02;group.add(hole);
+    scene.add(new THREE.AmbientLight(0xffffff,.55));
+    var key=new THREE.DirectionalLight(0xfff0dd,1.5);key.position.set(-4,5,6);scene.add(key);
+    var rim=new THREE.DirectionalLight(0x88aaff,.5);rim.position.set(5,-3,3);scene.add(rim);
+    three=true;
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(!edLive) return;                       /* idle offscreen */
+      if(spinning && !reduce) group.rotation.z-=0.012;
+      renderer.render(scene,camera);
+    })();
+    addEventListener("resize",function(){var s=deck.clientWidth||240;renderer.setSize(s,s,false);});
+  }
+  var threeReq=false;
+  function loadThree(){
+    if(threeReq) return; threeReq=true;
+    var s=document.createElement("script");
+    s.src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+    s.onload=function(){
+      try{ initThree(); deck.classList.remove("no3d"); setLabel(RECORDS[curRec]); }
+      catch(e){ three=false; }
+    };
+    s.onerror=function(){ three=false; };        /* fallback deck stays */
+    document.head.appendChild(s);
+  }
+  function setLabel(r){
+    var fb=document.getElementById("fbLabel");
+    if(r.cover){
+      if(three){
+        var ld=new THREE.TextureLoader();ld.setCrossOrigin("anonymous");
+        ld.load(r.cover,function(t){
+          labelMesh.material=new THREE.MeshBasicMaterial({map:t});labelMesh.material.needsUpdate=true;
+        },undefined,function(){
+          labelMesh.material=new THREE.MeshBasicMaterial({color:0x222227});
+        });
+      }
+      fb.style.backgroundImage="url('"+r.cover+"')";fb.style.backgroundColor="";
+    }else{
+      if(three && labelMesh){labelMesh.material=new THREE.MeshBasicMaterial({color:parseInt((r.plate||"#1c1c22").slice(1),16)});}
+      fb.style.backgroundImage="none";fb.style.backgroundColor=r.plate||"#1c1c22";
+    }
+  }
+
+  /* ---------- UI WIRING ---------- */
+  var feature=document.getElementById("feature"),
+      libList=document.getElementById("libList"),
+      N=RECORDS.length;
+
+  RECORDS.forEach(function(r,i){
+    var b=document.createElement("button");b.className="rec";b.setAttribute("role","option");
+    var thumb = r.cover
+      ? '<span class="thumb" style="background-image:url(\''+r.cover+'\')"></span>'
+      : '<span class="thumb" style="background:'+(r.plate||"#1c1c22")+'"></span>';
+    b.innerHTML=thumb+
+      '<span class="meta"><span class="nm">'+r.name+'</span><span class="sb">'+(r.year||"Editorial")+'</span></span>'+
+      '<span class="eq"><i></i><i></i><i></i></span>';
+    b.addEventListener("click",function(){ loadRecord(i); });
+    libList.appendChild(b);
+  });
+
+  function loadRecord(i){
+    curRec=i;var r=RECORDS[i];
+    Array.prototype.forEach.call(libList.children,function(c,k){c.setAttribute("aria-current",k===i?"true":"false");});
+    setLabel(r);
+    document.getElementById("tonearm").style.transform="rotate(14deg)";
+    document.getElementById("npName").textContent=r.name;
+    document.getElementById("npSub").textContent=r.sub+(r.year?("  ·  "+r.year):"");
+    Array.prototype.forEach.call(feature.querySelectorAll(".media,.plate"),function(m){m.remove();});
+    var cap=feature.querySelector(".cap"), el;
+    if(r.cover){
+      el=document.createElement("div");el.className="media on";
+      el.innerHTML='<img src="'+r.cover+'" alt="'+r.name+'" loading="lazy">';
+    }else{
+      el=document.createElement("div");el.className="plate on";el.style.background=r.plate||"#1c1c22";
+      el.innerHTML='<div><div class="pt">'+r.name+'</div><div class="ps">'+r.sub+'</div><div class="pn">I.T Apparels &middot; Editorial</div></div>';
+    }
+    feature.insertBefore(el,cap);
+    document.getElementById("capL").textContent=r.name;
+    document.getElementById("capC").textContent=String(i+1).padStart(2,"0")+" / "+String(N).padStart(2,"0");
+    document.getElementById("tPos").textContent=String(i+1).padStart(2,"0");
+    document.getElementById("tLen").textContent=String(N).padStart(2,"0");
+    var pct=N>1?(i/(N-1))*100:8;
+    document.getElementById("edFill").style.width=pct+"%";
+    document.getElementById("edKnob").style.left=pct+"%";
+    var rl=document.getElementById("readlink");
+    if(r.link){rl.href=r.link;rl.hidden=false;}else{rl.hidden=true;}
+    spinning=true;syncPlayIcon();
+  }
+
+  function syncPlayIcon(){
+    document.getElementById("playIcon").innerHTML=spinning
+      ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'
+      : '<path d="M8 5v14l11-7L8 5z"/>';
+  }
+  document.getElementById("edPlay").addEventListener("click",function(){spinning=!spinning;syncPlayIcon();});
+  document.getElementById("edNext").addEventListener("click",function(){loadRecord((curRec+1)%N);});
+  document.getElementById("edPrev").addEventListener("click",function(){loadRecord((curRec-1+N)%N);});
+  document.getElementById("edBar").addEventListener("click",function(e){
+    var rect=this.getBoundingClientRect();var p=(e.clientX-rect.left)/rect.width;
+    loadRecord(Math.max(0,Math.min(N-1,Math.round(p*(N-1)))));
+  });
+  /* arrows flip records only while the collection is on screen */
+  addEventListener("keydown",function(e){
+    if(!edLive) return;
+    if(e.key==="ArrowRight"){document.getElementById("edNext").click();}
+    if(e.key==="ArrowLeft"){document.getElementById("edPrev").click();}
+  });
+
+  /* wake the deck as the section approaches; sleep it when gone */
+  new IntersectionObserver(function(es){
+    es.forEach(function(en){ if(en.isIntersecting) loadThree(); });
+  },{rootMargin:"900px 0px"}).observe(edSec);
+  new IntersectionObserver(function(es){
+    es.forEach(function(en){ edLive=en.isIntersecting; });
+  },{threshold:.05}).observe(edSec);
+
+  loadRecord(0);
+})();
+</script>
 <style>
 /* ===== 07 · ARCHIVE (inlined from archive.html) ===== */
 
@@ -1660,11 +1985,11 @@ section{position:relative}
      stage and the print "frames" the shadow hosts sit in.
      ============================================================ */
 
-  body{
+  /* scoped to #archive — an unscoped body{overflow:hidden} here propagated
+     to the viewport and killed wheel/keyboard scrolling for the whole page */
+  #archive{
     background:#15110d;color:#e9e6df;
     font-family:'Space Mono',monospace;
-    margin:0;padding:0;overflow:hidden;
-    -webkit-font-smoothing:antialiased;
   }
 
   /* hand-drawn black-marker title, scrawled on the desk in the clear
@@ -1686,43 +2011,43 @@ section{position:relative}
   #archive .marker .doodle path{fill:none;stroke:#141008;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
   /* the wood desk stage — landscape */
-  .stage{
+  #archive .stage{
     position:relative;width:100vw;height:100vh;height:100dvh;isolation:isolate;
     background:#3a2c20 url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_190339_0a3f5bc0-8fdc-4e0c-9fe1-7816ae6a5796.png") center/cover}
   /* single photographic grade over the whole desk (prints included) so
      everything shares one light + grain — above prints/marker, but
      pointer-events:none so hover still reaches the prints. */
-  .stage::before{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;mix-blend-mode:multiply;background:linear-gradient(125deg,rgba(255,244,224,.10),transparent 38%,rgba(12,8,3,.26) 100%),radial-gradient(130% 120% at 36% 28%,transparent 48%,rgba(8,5,2,.5) 100%)}
-  .stage::after{content:"";position:absolute;inset:0;z-index:41;pointer-events:none;opacity:.12;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gr'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gr)'/%3E%3C/svg%3E")}
+  #archive .stage::before{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;mix-blend-mode:multiply;background:linear-gradient(125deg,rgba(255,244,224,.10),transparent 38%,rgba(12,8,3,.26) 100%),radial-gradient(130% 120% at 36% 28%,transparent 48%,rgba(8,5,2,.5) 100%)}
+  #archive .stage::after{content:"";position:absolute;inset:0;z-index:41;pointer-events:none;opacity:.12;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gr'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gr)'/%3E%3C/svg%3E")}
 
   /* each shadow host = one print lying on the desk.
      rotation comes from --rot (inline); hover composes scale on top. */
-  .host{
+  #archive .host{
     position:absolute;width:19%;
     padding:4px;background:#f4f0e6;
     box-shadow:1px 2px 3px rgba(0,0,0,.4),10px 16px 26px -6px rgba(0,0,0,.5);
     transform:rotate(var(--rot,0deg));
     transition:transform .2s, box-shadow .2s}
-  .host:hover{
+  #archive .host:hover{
     transform:rotate(var(--rot,0deg)) scale(1.05);
     box-shadow:2px 4px 6px rgba(0,0,0,.4),18px 28px 42px -8px rgba(0,0,0,.6);z-index:30}
 
   @media (max-width:560px){
     /* scatter gets cramped — switch to a readable vertical stack of
        tilted prints on the wood */
-    .stage{aspect-ratio:auto;min-height:0;padding:18px 0}
-    .host{
+    #archive .stage{aspect-ratio:auto;min-height:0;padding:18px 0}
+    #archive .host{
       position:static;width:86%;margin:18px auto;
       transform:rotate(var(--rot-m,3deg))}
-    .host:hover{transform:rotate(var(--rot-m,3deg)) scale(1.03)}
+    #archive .host:hover{transform:rotate(var(--rot-m,3deg)) scale(1.03)}
   }
 
   @media (prefers-reduced-motion: reduce){
-    .host{transition:none;transform:rotate(var(--rot,0deg))}
-    .host:hover{transform:rotate(var(--rot,0deg));z-index:30}
+    #archive .host{transition:none;transform:rotate(var(--rot,0deg))}
+    #archive .host:hover{transform:rotate(var(--rot,0deg));z-index:30}
   }
   @media (prefers-reduced-motion: reduce) and (max-width:560px){
-    .host,.host:hover{transform:rotate(var(--rot-m,3deg))}
+    #archive .host,#archive .host:hover{transform:rotate(var(--rot-m,3deg))}
   }
 
 </style>
@@ -2316,6 +2641,7 @@ section{position:relative}
   const cv=document.getElementById('c');
   const gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
   var tweenGate=null; /* (cellTo, ampTo 0..1, dur) — used by the drain seam */
+  let gateLive=true;  /* shared by the engine's IO and the audio-consent gate */
   if(!gl){
     cv.style.display='none';
     V.style.cssText='display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.08)';
@@ -2437,7 +2763,7 @@ void main(){
     else return;
     flashHint(e.key<'4'?'GRAIN '+e.key:'LIQUID '+(e.key==='4'?'OFF':e.key==='5'?'SOFT':'FULL'));});
   if(hint)setTimeout(()=>hint.style.opacity='0',4000);
-  let gateLive=true,rafId=0,vidReady=false,flip=false;
+  let rafId=0,vidReady=false,flip=false;
   function loop(){
     if(!gateLive){rafId=0;return;}
     if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,vidTex);
@@ -2619,7 +2945,8 @@ void main(){
   let lastFocus=null;
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   function open(k){const d=P[k];if(!d)return;
-    set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-body',d.body);set('pm-role',d.role);set('pm-needs',d.needs);
+    set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-role',d.role);set('pm-needs',d.needs);
+    document.getElementById('pm-body').innerHTML=d.body.replace(/\b(rollcall\.asia|pawsaid\.hk)\b/g,'<a href="https://$1" target="_blank" rel="noopener">$1</a>');
     const mm=document.getElementById('pm-media');mm.innerHTML='';
     (d.media||[]).forEach(it=>{const fig=document.createElement('figure');
       if(it.type==='video'){const v=document.createElement('video');v.src=it.src;if(it.poster)v.poster=it.poster;v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('preload','metadata');fig.appendChild(v);if(!reduce)v.play().catch(()=>{});}
