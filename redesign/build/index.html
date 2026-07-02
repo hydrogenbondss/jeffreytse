@@ -2315,134 +2315,167 @@ section{position:relative}
   setTimeout(_reveal,7000);
   const cv=document.getElementById('c');
   const gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
-  var tweenGate=null; /* set by the engine: animates the mosaic cell size (the dissolve) */
+  var tweenGate=null; /* (cellTo, ampTo 0..1, dur) — used by the drain seam */
   if(!gl){
-    /* no WebGL (blocked / old device): show the raw tank instead of a dead black gate */
     cv.style.display='none';
     V.style.cssText='display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.08)';
     V.play().catch(()=>{});
   }
   if(gl){
-  const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
-  const fs=`
+  /* ============ LIQUID ENGINE ============
+     Pass A: a low-res velocity FIELD — the cursor splats energy in, the
+     field diffuses (waves travel) and decays (water settles).
+     Pass B: the lotus dot-grid render, refracting the tank through the
+     field with a 3-tap streak. Real fluid feel: it flows, then rests. */
+  const VS='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const FS_F=`
+precision mediump float;
+uniform sampler2D uPrev; uniform vec2 uFRes; uniform vec2 uPoint; uniform vec2 uDir; uniform float uRad;
+vec2 dec(vec4 c){return (c.rg-0.5)*2.0;}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uFRes;
+  vec2 px=1.0/uFRes;
+  vec2 c0=dec(texture2D(uPrev,uv));
+  vec2 n=dec(texture2D(uPrev,uv+vec2(px.x,0.)))+dec(texture2D(uPrev,uv-vec2(px.x,0.)))
+        +dec(texture2D(uPrev,uv+vec2(0.,px.y)))+dec(texture2D(uPrev,uv-vec2(0.,px.y)));
+  vec2 v=mix(c0,n*0.25,0.5)*0.955;
+  vec2 d=(uv-uPoint)*uFRes;
+  float s=exp(-dot(d,d)/(uRad*uRad));
+  v+=uDir*s;
+  v=clamp(v,vec2(-1.),vec2(1.));
+  gl_FragColor=vec4(v*0.5+0.5,0.0,1.0);
+}`;
+  const FS_R=`
 precision highp float;
-uniform sampler2D uT; uniform vec2 uRes; uniform vec2 uVid;
-uniform vec2 uMouse; uniform vec2 uVel; uniform float uT2; uniform float uMon; uniform float uCell; uniform float uForce; uniform float uRadius;
+uniform sampler2D uT; uniform sampler2D uF;
+uniform vec2 uRes; uniform vec2 uVid; uniform float uCell; uniform float uAmp;
 float ign(vec2 p){return fract(52.9829189*fract(0.06711056*p.x+0.00583715*p.y));}
-vec3 adjust(vec3 c){
-  c.r*=0.985; c.b*=1.02;
-  float l=dot(c,vec3(0.299,0.587,0.114));
-  c=l+(c-l)*1.98;
-  c=(c-0.5)*1.40+0.5;
-  return clamp(c,0.0,1.0);
-}
-vec2 cover(vec2 uv){
-  float ca=uRes.x/uRes.y, ia=uVid.x/uVid.y; vec2 s=vec2(1.0);
-  if(ca>ia){s.y=ia/ca;} else {s.x=ca/ia;}
-  vec2 o=(uv-0.5)*s+0.5;
-  o.y-=0.05;
-  return o;
-}
-vec3 sampleAt(vec2 px){
-  vec2 uv=cover(px/uRes); uv.y=1.0-uv.y;
-  return adjust(texture2D(uT,uv).rgb);
-}
+vec3 adjust(vec3 c){c.r*=0.985;c.b*=1.02;float l=dot(c,vec3(0.299,0.587,0.114));c=l+(c-l)*1.98;c=(c-0.5)*1.40+0.5;return clamp(c,0.,1.);}
+vec2 cover(vec2 uv){float ca=uRes.x/uRes.y,ia=uVid.x/uVid.y;vec2 s=vec2(1.);if(ca>ia){s.y=ia/ca;}else{s.x=ca/ia;}vec2 o=(uv-0.5)*s+0.5;o.y-=0.05;return o;}
+vec3 sampleAt(vec2 px){vec2 uv=cover(px/uRes);uv.y=1.0-uv.y;return adjust(texture2D(uT,uv).rgb);}
 void main(){
   vec2 frag=gl_FragCoord.xy;
   vec2 cid=floor(frag/uCell);
   vec2 cpx=(cid+0.5)*uCell;
-  // cursor interaction: gentle radial gather toward the (eased) cursor — no waves
-  vec2 toM=uMouse-cpx;
-  float md=length(toM);
-  float prox=smoothstep(uRadius,0.0,md)*uMon;
-  vec2 dir = md>0.001 ? toM/md : vec2(0.0);
-  // liquid: a calm directional smear that settles quickly — no banding
-  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.55;
-  vec3 col=sampleAt(cpx+disp);
-  col += col*prox*0.12;                       // soft light bloom under the cursor
+  vec2 fld=(texture2D(uF,cpx/uRes).rg-0.5)*2.0;
+  vec2 disp=fld*uAmp;
+  vec3 col=(sampleAt(cpx+disp*0.7)+sampleAt(cpx+disp)+sampleAt(cpx+disp*1.3))/3.0;
   float L=dot(col,vec3(0.299,0.587,0.114));
   float th=ign(cid);
-  float Ld=clamp(L+(th-0.5)*0.12,0.0,1.0);
+  float Ld=clamp(L+(th-0.5)*0.12,0.,1.);
   float d=length((frag-cpx)/(uCell*0.5));
-  float gap=0.92;
-  float sz=gap*(0.62+0.38*Ld);
-  float tile=smoothstep(sz+0.12, sz-0.12, d);
+  float sz=0.88*(0.52+0.48*Ld);
+  float tile=smoothstep(sz+0.12,sz-0.12,d);
   vec3 bg=vec3(0.008,0.012,0.024);
-  vec3 flr=mix(bg, col, 0.15);
-  vec3 outc=mix(flr, col, tile);
-  outc += col*tile*pow(Ld,1.5)*0.85;
+  vec3 flr=mix(bg,col,0.15);
+  vec3 outc=mix(flr,col,tile);
+  outc+=col*tile*pow(Ld,1.5)*0.85;
+  outc+=col*tile*min(length(fld)*1.4,1.0)*0.3;
   float cen=smoothstep(0.95,0.0,distance(frag/uRes,vec2(0.5)));
-  outc += outc*cen*0.05;
+  outc+=outc*cen*0.05;
   gl_FragColor=vec4(outc,1.0);
 }`;
   function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
     if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o;}
-  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));
-  gl.linkProgram(pr);gl.useProgram(pr);
+  function prog(fs){const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));
+    gl.linkProgram(p);return p;}
+  const prF=prog(FS_F), prR=prog(FS_R);
   const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
-  const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+  function bindAttr(p){const lp=gl.getAttribLocation(p,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);}
+  const vidTex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,vidTex);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
-  const U={t:gl.getUniformLocation(pr,'uT'),res:gl.getUniformLocation(pr,'uRes'),
-    vid:gl.getUniformLocation(pr,'uVid'),mouse:gl.getUniformLocation(pr,'uMouse'),
-    vel:gl.getUniformLocation(pr,'uVel'),t2:gl.getUniformLocation(pr,'uT2'),
-    mon:gl.getUniformLocation(pr,'uMon'),cell:gl.getUniformLocation(pr,'uCell'),force:gl.getUniformLocation(pr,'uForce'),radius:gl.getUniformLocation(pr,'uRadius')};
+  const UF={prev:gl.getUniformLocation(prF,'uPrev'),fres:gl.getUniformLocation(prF,'uFRes'),
+    point:gl.getUniformLocation(prF,'uPoint'),dir:gl.getUniformLocation(prF,'uDir'),rad:gl.getUniformLocation(prF,'uRad')};
+  const UR={t:gl.getUniformLocation(prR,'uT'),f:gl.getUniformLocation(prR,'uF'),res:gl.getUniformLocation(prR,'uRes'),
+    vid:gl.getUniformLocation(prR,'uVid'),cell:gl.getUniformLocation(prR,'uCell'),amp:gl.getUniformLocation(prR,'uAmp')};
   let DPR=Math.min(window.devicePixelRatio||1,2);
-  let mouse=[-999,-999],smouse=[-999,-999],svel=[0,0],mon=0,t0=performance.now();
-  let cellCSS=5;
-  let forceI=0.0;   // 4=off 5=subtle 6=strong (pull strength, in cells)
-  /* dissolve hook: tween the dither toward (or back from) the raw tank */
-  tweenGate=function(cellTo,forceTo,dur){
-    const c0=cellCSS,f0=forceI,t0=performance.now();
-    (function step(){
-      const k=Math.min(1,(performance.now()-t0)/dur);
-      cellCSS=c0+(cellTo-c0)*k; forceI=f0+(forceTo-f0)*k;
-      if(k<1)requestAnimationFrame(step);
-    })();
-  };
+  let mouse=[-999,-999],smouse=[-999,-999],svel=[0,0];
+  let cellCSS=7, ampK=1;
+  const AMP_BASE=30;
+  let FW=8,FH=8,fldA=null,fldB=null,fboA=null,fboB=null;
+  function mkField(){
+    [fldA,fldB].forEach(t=>{if(t)gl.deleteTexture(t);});
+    [fboA,fboB].forEach(f=>{if(f)gl.deleteFramebuffer(f);});
+    FW=Math.max(8,Math.floor(cv.width/4));FH=Math.max(8,Math.floor(cv.height/4));
+    const zero=new Uint8Array(FW*FH*4);for(let i=0;i<zero.length;i+=4){zero[i]=128;zero[i+1]=128;zero[i+3]=255;}
+    function mk(){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,FW,FH,0,gl.RGBA,gl.UNSIGNED_BYTE,zero);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      const f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);
+      return [t,f];}
+    [fldA,fboA]=mk();[fldB,fboB]=mk();
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  }
   function resize(){DPR=Math.min(window.devicePixelRatio||1,2);
-    const w=cv.clientWidth||innerWidth, h=cv.clientHeight||innerHeight;
-    cv.width=w*DPR;cv.height=h*DPR;gl.viewport(0,0,cv.width,cv.height);}
+    const w=cv.clientWidth||innerWidth,h=cv.clientHeight||innerHeight;
+    cv.width=w*DPR;cv.height=h*DPR;mkField();}
   addEventListener('resize',resize);resize();
   addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();
     const nx=(e.clientX-r.left)*DPR,ny=(r.height-(e.clientY-r.top))*DPR;
-    if(smouse[0]<-900){smouse=[nx,ny];}mouse=[nx,ny];mon=1;});
-  addEventListener('pointerleave',()=>mon=0);
+    if(smouse[0]<-900){smouse=[nx,ny];}mouse=[nx,ny];});
+  tweenGate=function(cellTo,ampTo,dur){
+    const c0=cellCSS,a0=ampK,t0=performance.now();
+    (function step(){
+      const k=Math.min(1,(performance.now()-t0)/dur);
+      cellCSS=c0+(cellTo-c0)*k;ampK=a0+(ampTo-a0)*k;
+      if(k<1)requestAnimationFrame(step);
+    })();
+  };
   const hint=document.getElementById('hint');let hideHint;
-  function flashHint(){hint.style.opacity='.85';clearTimeout(hideHint);hideHint=setTimeout(()=>hint.style.opacity='0',2600);}
+  function flashHint(t){if(!hint)return;hint.textContent=t;hint.style.opacity='.85';clearTimeout(hideHint);hideHint=setTimeout(()=>hint.style.opacity='0',2200);}
   addEventListener('keydown',e=>{
-    if(e.key==='1')cellCSS=4;else if(e.key==='2')cellCSS=5;else if(e.key==='3')cellCSS=6.5;
-    else if(e.key==='4')forceI=0.0;else if(e.key==='5')forceI=2.0;else if(e.key==='6')forceI=4.0;
+    if(e.key==='1')cellCSS=5.5;else if(e.key==='2')cellCSS=7;else if(e.key==='3')cellCSS=9;
+    else if(e.key==='4')ampK=0;else if(e.key==='5')ampK=.6;else if(e.key==='6')ampK=1;
     else return;
-    hint.textContent=(e.key==='1'?'FINE GRAIN':e.key==='2'?'MEDIUM GRAIN':e.key==='3'?'COARSE GRAIN':e.key==='4'?'PULL OFF':e.key==='5'?'PULL SUBTLE':'PULL STRONG');
-    flashHint();});
-  setTimeout(()=>hint.style.opacity='0',4000);
-  /* run the tank ONLY while the gate is on screen — the loop uploads a
-     video texture every frame, and paying that cost six sections away
-     is what kills scroll performance elsewhere in the chain. */
-  let gateLive=true,rafId=0,vidReady=false;
+    flashHint(e.key<'4'?'GRAIN '+e.key:'LIQUID '+(e.key==='4'?'OFF':e.key==='5'?'SOFT':'FULL'));});
+  if(hint)setTimeout(()=>hint.style.opacity='0',4000);
+  let gateLive=true,rafId=0,vidReady=false,flip=false;
   function loop(){
     if(!gateLive){rafId=0;return;}
-    if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,tex);
+    if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,vidTex);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);vidReady=true;}
-    if(!vidReady){rafId=requestAnimationFrame(loop);return;}   // keep the still up, draw nothing yet
+    if(!vidReady){rafId=requestAnimationFrame(loop);return;}
     if(smouse[0]>-900){
       const px=smouse[0],py=smouse[1];
-      smouse[0]+=(mouse[0]-smouse[0])*0.3;smouse[1]+=(mouse[1]-smouse[1])*0.3;   // snappier tracking
+      smouse[0]+=(mouse[0]-smouse[0])*0.32;smouse[1]+=(mouse[1]-smouse[1])*0.32;
       svel[0]=svel[0]*0.85+(smouse[0]-px)*0.5;svel[1]=svel[1]*0.85+(smouse[1]-py)*0.5;
-      const _sm=Math.hypot(svel[0],svel[1]);if(_sm>34){svel[0]*=34/_sm;svel[1]*=34/_sm;} // smoothed wake, decays when idle
+      const sm=Math.hypot(svel[0],svel[1]);if(sm>30){svel[0]*=30/sm;svel[1]*=30/sm;}
     }
-    gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
-    gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
-    gl.uniform2f(U.mouse,smouse[0],smouse[1]);
-    gl.uniform2f(U.vel,svel[0],svel[1]);
-    gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
-    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,170.0*DPR);
-    gl.drawArrays(gl.TRIANGLES,0,3);rafId=requestAnimationFrame(loop);}
+    /* pass A — the water remembers, spreads, settles */
+    const src=flip?fldB:fldA, dstF=flip?fboA:fboB, dstT=flip?fldA:fldB;
+    gl.bindFramebuffer(gl.FRAMEBUFFER,dstF);
+    gl.viewport(0,0,FW,FH);
+    gl.useProgram(prF);bindAttr(prF);
+    gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,src);
+    gl.uniform1i(UF.prev,0);
+    gl.uniform2f(UF.fres,FW,FH);
+    gl.uniform2f(UF.point,smouse[0]/cv.width,smouse[1]/cv.height);
+    gl.uniform2f(UF.dir,svel[0]*0.055,svel[1]*0.055);
+    gl.uniform1f(UF.rad,16.0);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+    flip=!flip;
+    /* pass B — the tank seen through the moving water */
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+    gl.viewport(0,0,cv.width,cv.height);
+    gl.useProgram(prR);bindAttr(prR);
+    gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,vidTex);
+    gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,dstT);
+    gl.uniform1i(UR.t,0);gl.uniform1i(UR.f,1);
+    gl.uniform2f(UR.res,cv.width,cv.height);
+    gl.uniform2f(UR.vid,V.videoWidth||16,V.videoHeight||9);
+    gl.uniform1f(UR.cell,cellCSS*DPR);
+    gl.uniform1f(UR.amp,AMP_BASE*DPR*ampK);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+    rafId=requestAnimationFrame(loop);
+  }
   new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){gateLive=true;V.play().catch(()=>{});if(!rafId)rafId=requestAnimationFrame(loop);}
     else{gateLive=false;V.pause();if(typeof stopAudio==='function')stopAudio();}
@@ -2503,7 +2536,7 @@ void main(){
     drain.style.height='0';
     media.forEach(el=>{el.style.transform='';});
     fade.style.opacity='0';
-    if(tweenGate)tweenGate(5,0.0,1);
+    if(tweenGate)tweenGate(5,1,1);
     breaking=false;
   }
   function startDrain(){
