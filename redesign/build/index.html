@@ -40,7 +40,7 @@ section{position:relative}
   clip-path:polygon(0 0,100% 0,100% 22%,96% 58%,91% 30%,85% 66%,79% 34%,72% 72%,66% 38%,59% 70%,52% 30%,46% 64%,39% 34%,33% 74%,27% 40%,20% 66%,14% 30%,8% 60%,3% 34%,0 58%)}
 
 /* ============ 1 · GATE (koi) ============ */
-#gate{height:100vh;background:#03040a;cursor:none;overflow:hidden}
+#gate{height:100vh;background:#03040a url("assets/koi_still.webp") center/cover;cursor:none;overflow:hidden}
 #gate #c{position:absolute;inset:0;width:100%;height:100%;display:block}
 #gate .ui{position:absolute;color:#ECEAE3;font-family:'Cormorant Garamond',serif;z-index:5;pointer-events:none;text-shadow:0 2px 40px rgba(0,0,0,.96)}
 #gate #name{top:2.6vh;left:3.2vw;font-size:8.4vw;line-height:.9;font-weight:400;letter-spacing:.03em}
@@ -1296,11 +1296,8 @@ void main(){
   float md=length(toM);
   float prox=smoothstep(uRadius,0.0,md)*uMon;
   vec2 dir = md>0.001 ? toM/md : vec2(0.0);
-  // liquid slosh: motion pushes a wide wave through the image that settles
-  float amp=length(uVel);
-  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.9;
-  disp.x += sin(cpx.y/(uCell*3.2) - uT2*8.0)*amp*0.28*prox;
-  disp.y += sin(cpx.x/(uCell*4.0) - uT2*6.0)*amp*0.10*prox;
+  // liquid: a calm directional smear that settles quickly — no banding
+  vec2 disp = dir*prox*prox*uForce*uCell + uVel*prox*0.55;
   vec3 col=sampleAt(cpx+disp);
   col += col*prox*0.12;                       // soft light bloom under the cursor
   float L=dot(col,vec3(0.299,0.587,0.114));
@@ -1367,22 +1364,24 @@ void main(){
   /* run the tank ONLY while the gate is on screen — the loop uploads a
      video texture every frame, and paying that cost six sections away
      is what kills scroll performance elsewhere in the chain. */
-  let gateLive=true,rafId=0;
+  let gateLive=true,rafId=0,vidReady=false;
   function loop(){
     if(!gateLive){rafId=0;return;}
     if(V.readyState>=2){gl.bindTexture(gl.TEXTURE_2D,tex);
-      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);}
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,V);vidReady=true;}
+    if(!vidReady){rafId=requestAnimationFrame(loop);return;}   // keep the still up, draw nothing yet
     if(smouse[0]>-900){
       const px=smouse[0],py=smouse[1];
       smouse[0]+=(mouse[0]-smouse[0])*0.3;smouse[1]+=(mouse[1]-smouse[1])*0.3;   // snappier tracking
-      svel[0]=svel[0]*0.9+(smouse[0]-px)*0.5;svel[1]=svel[1]*0.9+(smouse[1]-py)*0.5; // smoothed wake, decays when idle
+      svel[0]=svel[0]*0.85+(smouse[0]-px)*0.5;svel[1]=svel[1]*0.85+(smouse[1]-py)*0.5;
+      const _sm=Math.hypot(svel[0],svel[1]);if(_sm>34){svel[0]*=34/_sm;svel[1]*=34/_sm;} // smoothed wake, decays when idle
     }
     gl.uniform1i(U.t,0);gl.uniform2f(U.res,cv.width,cv.height);
     gl.uniform2f(U.vid,V.videoWidth||16,V.videoHeight||9);
     gl.uniform2f(U.mouse,smouse[0],smouse[1]);
     gl.uniform2f(U.vel,svel[0],svel[1]);
     gl.uniform1f(U.t2,(performance.now()-t0)/1000);gl.uniform1f(U.mon,mon);
-    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,260.0*DPR);
+    gl.uniform1f(U.cell,cellCSS*DPR);gl.uniform1f(U.force,forceI);gl.uniform1f(U.radius,170.0*DPR);
     gl.drawArrays(gl.TRIANGLES,0,3);rafId=requestAnimationFrame(loop);}
   new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){gateLive=true;V.play().catch(()=>{});if(!rafId)rafId=requestAnimationFrame(loop);}
