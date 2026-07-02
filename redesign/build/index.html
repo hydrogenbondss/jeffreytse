@@ -151,7 +151,7 @@ section{position:relative}
 /* ===== SIMPLE / MODERN / MINIMAL (interim treatment for sections 4–8
    until each finished world — lab-assembled, client-work, editorial,
    archive desk, about — is stitched in) ===== */
-#lab,#editorial{background:#f5f2ec;color:#1a1714;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 7vw;position:static;overflow:visible}
+#editorial{background:#f5f2ec;color:#1a1714;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 7vw;position:static;overflow:visible}
 .min-in{max-width:920px;width:100%}
 .min-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#6f6555;margin-bottom:16px}
 .min-h{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:.01em;margin:0 0 12px}
@@ -164,7 +164,7 @@ section{position:relative}
 .min-bio{font-family:'Helvetica Neue',Arial,sans-serif;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.7;color:#3a342c;max-width:56ch}
 .min-contact{margin-top:28px;font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.16em;color:#9a8f7a}
 .min-contact a{color:#1a1714;text-decoration:none;border-bottom:1px solid rgba(26,23,20,.3)}
-#lab .min-h,#editorial .min-h{color:#1a1714}
+#editorial .min-h{color:#1a1714}
 @media(max-width:640px){.min-row{grid-template-columns:1fr}.min-row .meta{text-align:left;margin-top:4px}}
 
 /* ============ 8 · ABOUT — the paper bookend (polaroids on the desk) ============ */
@@ -287,20 +287,1060 @@ section{position:relative}
 </section>
 
 <!-- ============ SCAFFOLD: remaining sections ============ -->
-<section id="lab"><div class="min-in">
-  <div class="min-eyebrow">The Lab — Generative · AI · Interactive</div>
-  <h2 class="min-h">The Lab</h2>
-  <p class="min-lead">Generative, AI, and interactive systems — seven pieces, each built to be run.</p>
-  <div class="min-list">
-    <div class="min-row"><span class="t">Cathedral of Small Hours<small>a cathedral of binary you can walk into — it stays code, forever</small></span><span class="meta">INTERACTIVE · GENERATIVE</span></div>
-    <div class="min-row"><span class="t">Garden of Returning<small>a realistic, overgrown ruin you move through</small></span><span class="meta">GENERATIVE ART</span></div>
-    <div class="min-row"><span class="t">Feature World: Chaos<small>an interactive physics sandbox — a particle chaos engine</small></span><span class="meta">CREATIVE CODING</span></div>
-    <div class="min-row"><span class="t">Heart Decoder<small>feed it a feeling, watch it try to read you back</small></span><span class="meta">INTERACTIVE · NARRATIVE</span></div>
-    <div class="min-row"><span class="t">Turbo MG21<small>the Gentle Monster goggle-frame — generative video for luxury product film</small></span><span class="meta">AI MOTION STUDY</span></div>
-    <div class="min-row"><span class="t">PabePabe — The Trilogy<small>material transformation across three luxury bags: Ocarina, Flute Soft, Horn</small></span><span class="meta">AI CREATIVE DIRECTION</span></div>
-    <div class="min-row"><span class="t">Ash-01<small>neural portrait — original character with full motion + voice synthesis</small></span><span class="meta">CHARACTER DESIGN · AI</span></div>
+<style>
+/* ===== 04 · THE LAB / CITY (inlined from lab-assembled.html) ===== */
+#lab{position:relative;height:100vh;overflow:hidden;background:#05060a;padding:0;display:block}
+
+  /* ============================================================
+     THE LAB — assembled GTA-style night street
+     Self-contained. Cormorant Garamond (display) + Courier Prime (mono).
+     Accent per project; cinematic takeover; no emojis.
+     ============================================================ */
+
+  :root{
+    --bg:#05060a;
+    --ink:#f3efe6;
+    --ink-soft:rgba(243,239,230,0.74);
+    --ink-faint:rgba(243,239,230,0.46);
+    --hair:rgba(243,239,230,0.16);
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --ease-soft:cubic-bezier(.4,0,.2,1);
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --mono:'Courier Prime','Courier New',ui-monospace,monospace;
+
+    /* per-project accents */
+    --acc-turbo:#7fd4ff;     /* cool */
+    --acc-pabepabe:#ffb7c8;  /* blush */
+    --acc-ash:#ff4d4d;       /* red */
+    --acc-binary:#3bff7e;    /* green */
+    --acc-fallow:#86d98f;    /* overgrown green */
+    --acc-feature:#ff49c8;   /* magenta */
+    --acc-lovebug:#ff8c42;   /* warm orange */
+  }
+
+
+  /* ---------- THE STREET ---------- */
+  #street{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    cursor:default;
+  }
+
+  /* Full-bleed night-street render.
+     REAL ASSET DROPS IN HERE -> assets/lab/street.png
+     Until it exists, the layered gradient below stands in as a dark cinematic placeholder. */
+  #streetBg{
+    position:absolute;
+    inset:0;
+    background-image:
+      /* sodium-lamp glow pools */
+      radial-gradient(40% 30% at 18% 78%, rgba(255,168,92,0.16), rgba(0,0,0,0) 60%),
+      radial-gradient(34% 26% at 82% 72%, rgba(120,170,255,0.14), rgba(0,0,0,0) 62%),
+      /* distant skyline haze */
+      radial-gradient(80% 50% at 50% 30%, rgba(60,40,90,0.40), rgba(0,0,0,0) 70%),
+      /* wet-asphalt floor */
+      linear-gradient(180deg, #0a0c14 0%, #0a0c14 52%, #07080e 64%, #050608 100%),
+      /* deep night sky */
+      linear-gradient(180deg, #0c1024 0%, #0a0e1e 30%, #080a14 48%);
+    background-size:cover;
+    background-position:center bottom;
+    background-repeat:no-repeat;
+    transform:scale(1.02);
+    transition:filter 1.1s var(--ease-soft), transform 1.4s var(--ease-soft);
+  }
+  /* When the real render exists, simply replace the background-image above with
+     url('assets/lab/street.png'). The placeholder lines are intentionally first
+     so they fall back cleanly. */
+
+  /* faint street-line + horizon detail painted over the placeholder for depth */
+  #streetBg::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%),
+      repeating-linear-gradient(180deg, rgba(255,255,255,0) 0 38px, rgba(255,255,255,0.018) 38px 39px);
+    pointer-events:none;
+  }
+
+  /* atmosphere over the whole street */
+  #atmos{
+    position:absolute;inset:0;pointer-events:none;z-index:5;
+    background:
+      radial-gradient(120% 100% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%);
+    mix-blend-mode:multiply;
+  }
+  #grain{
+    position:absolute;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:6;
+    opacity:0.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    animation:grain 7s steps(6) infinite;
+  }
+  @keyframes grain{
+    0%{transform:translate(0,0)}10%{transform:translate(-3%,-4%)}20%{transform:translate(-8%,2%)}
+    30%{transform:translate(3%,-8%)}40%{transform:translate(-2%,9%)}50%{transform:translate(-9%,3%)}
+    60%{transform:translate(6%,0)}70%{transform:translate(0,7%)}80%{transform:translate(5%,-3%)}
+    90%{transform:translate(-4%,-2%)}100%{transform:translate(0,0)}
+  }
+
+  /* ---------- INTRO / MASTHEAD ---------- */
+  #masthead{
+    position:absolute;top:0;left:0;right:0;z-index:8;
+    padding:clamp(20px,4vw,44px) clamp(20px,5vw,60px);
+    display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+    pointer-events:none;
+  }
+  #masthead .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.42em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  #masthead .title{
+    font-size:clamp(34px,6vw,72px);font-weight:300;line-height:0.92;letter-spacing:0.01em;
+    margin-top:6px;
+  }
+  #masthead .title em{font-style:italic;color:var(--ink-soft);}
+  #masthead .hint{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--ink-faint);text-align:right;max-width:200px;line-height:1.7;
+    align-self:flex-start;
+  }
+
+  /* ---------- OBJECT MARKERS (the 5 street objects) ---------- */
+  #lab .marker{
+    position:absolute;z-index:7;
+    border:0;background:transparent;padding:0;margin:0;
+    cursor:pointer;color:inherit;font:inherit;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .5s var(--ease);
+    outline:none;
+  }
+  #lab .marker:focus-visible{outline:2px solid var(--acc);outline-offset:8px;border-radius:4px;}
+
+  /* each object IS its real media, planted as lit signage in the city */
+  .obj .screen{
+    position:relative;display:block;overflow:hidden;border-radius:6px;
+    border:1px solid color-mix(in srgb, var(--acc) 46%, rgba(255,255,255,0.12));
+    background:#05060a;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.5),
+      0 18px 50px -10px rgba(0,0,0,0.82),
+      0 0 40px -4px color-mix(in srgb, var(--acc) 44%, transparent);
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+  }
+  .obj .screen video,.obj .screen iframe,.obj .screen img{
+    position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+    object-fit:cover;pointer-events:none;background:#05060a;
+  }
+  /* live iframes idle as posters until first hover/focus (perf) */
+  .obj .screen iframe[data-live]{visibility:hidden}
+  .obj .screen img.idle{z-index:2;transition:opacity .5s var(--ease)}
+  .obj.live .screen iframe{visibility:visible}
+  .obj.live .screen img.idle{opacity:0}
+  .obj .screen::after{ /* glass sheen + slight vignette so media reads as a lit panel */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0) 42%),
+      radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.4));
+  }
+  .obj .plate{
+    position:absolute;left:2px;top:calc(100% + 9px);white-space:nowrap;text-align:left;
+    font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--ink);text-shadow:0 1px 14px rgba(0,0,0,0.95);
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .obj .plate small{color:var(--ink-faint);letter-spacing:0.16em;font-size:8.5px;}
+  .obj .plate::before{
+    content:"";width:20px;height:2px;background:var(--acc);
+    box-shadow:0 0 10px var(--acc);margin-bottom:5px;
+  }
+  .obj:hover .screen,.obj:focus-visible .screen{
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:0 24px 64px -10px rgba(0,0,0,0.86), 0 0 64px -2px color-mix(in srgb, var(--acc) 64%, transparent);
+  }
+
+  /* object placements + per-object screen sizes */
+  .m-turbo{left:50%;top:6%;transform:translateX(-50%);}        /* billboard, overhead centre */
+  .m-turbo .screen{width:clamp(240px,30vw,460px);aspect-ratio:16/9;}
+  .m-turbo .screen::before{ /* mounting post under the billboard */
+    content:"";position:absolute;left:50%;bottom:-28px;width:7px;height:28px;
+    background:linear-gradient(#2a2a2e,#0a0a0a);transform:translateX(-50%);z-index:-1;
+  }
+  .m-pabepabe{left:17%;top:37%;}                                /* lit boutique window, street level */
+  .m-pabepabe .screen{width:clamp(150px,16vw,240px);aspect-ratio:3/4;}
+  .m-ash{left:68%;top:37%;}                                     /* the figure, towering */
+  .m-ash .screen{width:clamp(128px,14vw,210px);aspect-ratio:3/5;}
+  .m-lovebug{left:41%;top:59%;}                                 /* sidewalk machine */
+  .m-lovebug .screen{width:clamp(118px,13vw,180px);aspect-ratio:1/1;}
+  .m-feature{left:74%;top:15%;}                                 /* fireworks in the sky */
+  .m-feature .screen{width:clamp(160px,17vw,270px);aspect-ratio:16/9;}
+
+  /* ---------- DOORWAYS (2 building entrances — larger, architectural) ---------- */
+  .door{
+    position:absolute;z-index:7;bottom:0;
+    border:0;background:transparent;padding:0;margin:0;
+    cursor:pointer;color:inherit;font:inherit;
+    -webkit-tap-highlight-color:transparent;
+    outline:none;
+  }
+  .door:focus-visible{outline:2px solid var(--acc);outline-offset:6px;}
+  .door .arch{
+    position:relative;
+    width:clamp(110px,13vw,190px);
+    height:clamp(220px,30vh,360px);
+    border-radius:clamp(55px,6.5vw,95px) clamp(55px,6.5vw,95px) 4px 4px;
+    background:linear-gradient(180deg,
+      color-mix(in srgb, var(--acc) 8%, rgba(0,0,0,0.6)) 0%,
+      rgba(0,0,0,0.86) 70%);
+    border:1px solid color-mix(in srgb, var(--acc) 34%, transparent);
+    box-shadow:
+      inset 0 8px 60px color-mix(in srgb, var(--acc) 26%, transparent),
+      inset 0 -30px 60px rgba(0,0,0,0.7),
+      0 0 50px color-mix(in srgb, var(--acc) 18%, transparent);
+    overflow:hidden;
+    transition:box-shadow .6s var(--ease), transform .6s var(--ease), border-color .6s var(--ease);
+    display:flex;align-items:flex-end;justify-content:center;
+    padding-bottom:18px;
+  }
+  /* light spilling from the doorway */
+  .door .arch::before{
+    content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+    width:74%;height:70%;
+    background:radial-gradient(60% 100% at 50% 100%, color-mix(in srgb, var(--acc) 55%, transparent), rgba(0,0,0,0) 70%);
+    opacity:0.5;
+    transition:opacity .6s var(--ease);
+    pointer-events:none;
+  }
+  /* live preview of the actual interactive piece, seen through the doorway */
+  .door .arch iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+    pointer-events:none;opacity:0.92;
+  }
+  .door .arch .veil{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0.72) 100%);
+  }
+  .door .threshold{
+    position:relative;z-index:2;
+    font-family:var(--mono);font-size:10px;letter-spacing:0.32em;text-transform:uppercase;
+    color:var(--ink);text-align:center;line-height:1.8;text-shadow:0 1px 14px rgba(0,0,0,0.95);
+    opacity:0.92;transform:translateY(0);
+    transition:opacity .45s var(--ease), transform .45s var(--ease);
+  }
+  .door .threshold .enter{display:block;color:var(--acc);font-weight:700;margin-top:4px;}
+  .door:hover .arch,.door:focus-visible .arch{
+    transform:translateY(-3px);
+    border-color:color-mix(in srgb, var(--acc) 60%, transparent);
+    box-shadow:
+      inset 0 8px 80px color-mix(in srgb, var(--acc) 40%, transparent),
+      inset 0 -30px 60px rgba(0,0,0,0.7),
+      0 0 70px color-mix(in srgb, var(--acc) 30%, transparent);
+  }
+  .door:hover .arch::before,.door:focus-visible .arch::before{opacity:0.85;}
+  .door:hover .threshold,.door:focus-visible .threshold{opacity:1;transform:translateY(0);}
+
+  .d-binary{left:6%;}
+  .d-fallow{right:6%;}
+
+  /* ---------- GTA LOCATION TITLE (hover label, lower corner) ---------- */
+  #locTitle{
+    position:absolute;left:clamp(20px,5vw,60px);bottom:clamp(26px,5vh,54px);z-index:9;
+    pointer-events:none;
+    opacity:0;transform:translateY(14px);
+    transition:opacity .5s var(--ease), transform .5s var(--ease);
+    text-align:left;
+    max-width:min(80vw,520px);
+  }
+  #locTitle.show{opacity:1;transform:translateY(0);}
+  #locTitle .lt-cat{
+    font-family:var(--mono);font-size:clamp(10px,1.1vw,12px);letter-spacing:0.4em;text-transform:uppercase;
+    color:var(--lt-acc,var(--ink-soft));
+    margin-bottom:6px;
+    text-shadow:0 2px 18px rgba(0,0,0,0.9);
+  }
+  #locTitle .lt-name{
+    font-size:clamp(34px,6vw,68px);font-weight:300;line-height:0.9;letter-spacing:0.01em;
+    color:#fff;
+    text-shadow:0 4px 30px rgba(0,0,0,0.85);
+  }
+  #locTitle .lt-name em{font-style:italic;}
+  #locTitle .lt-rule{
+    width:54px;height:1px;background:var(--lt-acc,var(--ink-soft));margin-top:14px;opacity:0.8;
+  }
+
+  /* ---------- CINEMATIC TAKEOVER ---------- */
+  #takeover{
+    position:fixed;inset:0;z-index:50;
+    background:#000;
+    opacity:0;visibility:hidden;
+    transition:opacity .6s var(--ease-soft), visibility .6s var(--ease-soft);
+  }
+  #takeover.open{opacity:1;visibility:visible;}
+  #takeover[aria-hidden="true"]{pointer-events:none;}
+
+  /* full-bleed media stage */
+  #toStage{
+    position:absolute;inset:0;overflow:hidden;background:#000;
+  }
+  /* accent tint wash over the whole takeover */
+  #toTint{
+    position:absolute;inset:0;z-index:3;pointer-events:none;
+    background:
+      radial-gradient(120% 90% at 50% 38%, color-mix(in srgb, var(--to-acc) 26%, transparent), rgba(0,0,0,0) 60%),
+      linear-gradient(180deg, color-mix(in srgb, var(--to-acc) 10%, transparent), rgba(0,0,0,0) 40%);
+    mix-blend-mode:screen;opacity:0.9;
+    transition:opacity .6s var(--ease-soft);
+  }
+  /* letterbox bars */
+  .bar{position:absolute;left:0;right:0;z-index:6;background:#000;pointer-events:none;
+    height:clamp(36px,7vh,80px);}
+  .bar.top{top:0;box-shadow:0 1px 0 color-mix(in srgb, var(--to-acc) 30%, transparent);}
+  .bar.bottom{bottom:0;box-shadow:0 -1px 0 color-mix(in srgb, var(--to-acc) 30%, transparent);}
+
+  /* media wrapper holds the swipe gallery or single poster */
+  #toMedia{
+    position:absolute;inset:0;z-index:2;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .slides{position:absolute;inset:0;}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;
+    transition:opacity .55s var(--ease-soft);
+    padding:clamp(36px,7vh,80px) 0; /* keep media clear of letterbox bars */
+  }
+  .slide.active{opacity:1;visibility:visible;}
+  .slide video,.slide img,.slide .poster{
+    max-width:100%;max-height:100%;width:auto;height:auto;
+    object-fit:contain;display:block;
+    box-shadow:0 30px 120px -40px rgba(0,0,0,0.9);
+  }
+  /* placeholder still / poster look */
+  .poster{
+    width:min(78vw,1100px);height:min(64vh,640px);
+    border:1px solid color-mix(in srgb, var(--to-acc) 24%, transparent);
+    background:
+      radial-gradient(80% 70% at 50% 40%, color-mix(in srgb, var(--to-acc) 18%, transparent), rgba(0,0,0,0) 70%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 14px, rgba(255,255,255,0) 14px 28px),
+      linear-gradient(180deg,#0c0d12,#060709);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:0.28em;
+    text-transform:uppercase;text-align:center;padding:24px;
+  }
+  .slide .medialabel{
+    position:absolute;left:50%;bottom:clamp(44px,8vh,92px);transform:translateX(-50%);
+    z-index:4;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+    color:var(--ink-soft);white-space:nowrap;
+    text-shadow:0 2px 16px rgba(0,0,0,0.9);
+    pointer-events:none;
+  }
+
+  /* gallery controls */
+  .gnav{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:8;
+    width:clamp(44px,5vw,60px);height:clamp(44px,5vw,60px);
+    border:1px solid var(--hair);border-radius:50%;
+    background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);
+    color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:26px;line-height:1;
+    transition:border-color .35s var(--ease), background .35s var(--ease), transform .35s var(--ease);
+  }
+  .gnav:hover,.gnav:focus-visible{border-color:var(--to-acc);background:rgba(0,0,0,0.55);outline:none;}
+  .gnav.prev{left:clamp(12px,3vw,40px);}
+  .gnav.next{right:clamp(12px,3vw,40px);}
+  .gnav[hidden]{display:none;}
+  .gdots{
+    position:absolute;left:50%;bottom:clamp(20px,4vh,42px);transform:translateX(-50%);z-index:8;
+    display:flex;gap:9px;
+  }
+  .gdots[hidden]{display:none;}
+  .gdot{
+    width:7px;height:7px;border-radius:50%;border:0;padding:0;cursor:pointer;
+    background:rgba(255,255,255,0.3);
+    transition:background .3s var(--ease), transform .3s var(--ease);
+  }
+  .gdot.on{background:var(--to-acc);transform:scale(1.4);}
+
+  /* film slate counter, top-left */
+  #toSlate{
+    position:absolute;top:clamp(44px,7.5vh,90px);left:clamp(20px,4vw,46px);z-index:9;
+    font-family:var(--mono);color:var(--ink-soft);
+    font-size:11px;letter-spacing:0.24em;text-transform:uppercase;
+    line-height:1.8;
+    text-shadow:0 2px 14px rgba(0,0,0,0.9);
+  }
+  #toSlate .roll{color:var(--to-acc);font-weight:700;}
+  #toSlate .ticks{color:var(--ink-faint);letter-spacing:0.5em;}
+
+  /* close button */
+  #toClose{
+    position:absolute;top:clamp(44px,7.5vh,90px);right:clamp(20px,4vw,46px);z-index:9;
+    width:46px;height:46px;border-radius:50%;
+    border:1px solid var(--hair);background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);
+    color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .3s var(--ease), transform .3s var(--ease), background .3s var(--ease);
+  }
+  #toClose:hover,#toClose:focus-visible{border-color:var(--to-acc);transform:rotate(90deg);outline:none;}
+  #toClose svg{width:18px;height:18px;}
+
+  /* LOWER THIRD */
+  #toLower{
+    position:absolute;left:0;right:0;bottom:clamp(36px,7vh,80px);z-index:7;
+    padding:clamp(18px,3vw,40px) clamp(20px,5vw,64px) clamp(20px,3vw,40px);
+    background:linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0) 100%);
+    display:flex;flex-wrap:wrap;align-items:flex-end;gap:clamp(16px,3vw,48px);
+  }
+  #toLower .lead{flex:1 1 420px;min-width:280px;}
+  #toLower .eyebrow{
+    font-family:var(--mono);font-size:clamp(10px,1.1vw,12px);letter-spacing:0.4em;text-transform:uppercase;
+    color:var(--to-acc);margin-bottom:10px;
+  }
+  #toLower h2{
+    font-size:clamp(38px,6.5vw,84px);font-weight:300;line-height:0.9;letter-spacing:0.01em;color:#fff;
+    margin-bottom:14px;
+  }
+  #toLower h2 em{font-style:italic;color:var(--ink-soft);}
+  #toLower .blurb{
+    font-size:clamp(16px,1.7vw,21px);font-weight:300;line-height:1.5;color:var(--ink-soft);
+    max-width:62ch;
+  }
+  #toLower .side{flex:0 1 320px;min-width:240px;display:flex;flex-direction:column;gap:16px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:6px 12px;border:1px solid var(--hair);border-radius:2px;
+    background:rgba(255,255,255,0.03);
+    white-space:nowrap;
+  }
+  .links{display:flex;flex-wrap:wrap;gap:10px;}
+  .link{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;
+    color:#fff;text-decoration:none;
+    padding:11px 18px;border:1px solid color-mix(in srgb, var(--to-acc) 50%, var(--hair));border-radius:2px;
+    display:inline-flex;align-items:center;gap:9px;
+    transition:background .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease);
+    background:rgba(0,0,0,0.3);
+  }
+  .link:hover,.link:focus-visible{
+    background:color-mix(in srgb, var(--to-acc) 16%, transparent);
+    border-color:var(--to-acc);transform:translateY(-2px);outline:none;
+  }
+  .link.primary{
+    background:color-mix(in srgb, var(--to-acc) 22%, transparent);
+    border-color:var(--to-acc);
+  }
+  .link .arr{font-family:var(--serif);font-size:15px;}
+
+  /* takeover entrance flourish */
+  #takeover.open #toLower{animation:riseUp .8s var(--ease) .12s both;}
+  #takeover.open #toSlate{animation:fadeIn .8s var(--ease) .2s both;}
+  @keyframes riseUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* visually-hidden helper */
+  .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+  /* ===== PLATE ANCHORS — every object glued to the street plate's real
+     geometry. #world is a fixed-aspect cover box (JS-sized), so these
+     percentages track the image itself at any viewport. ===== */
+  #world{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+  #world #streetBg{background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_100110_667a29f6-5f6e-454c-9b2a-9a5775fb1454.png');background-size:100% 100%;transform:none}
+  .m-turbo{left:34.5%;top:5%;width:23.5%;transform:none}
+  .m-turbo .screen{width:100%;aspect-ratio:16/9}
+  .m-turbo .screen::before{display:none}
+  .m-pabepabe{left:16.5%;top:35.5%;width:13%}
+  .m-pabepabe .screen{width:100%;aspect-ratio:3/5}
+  .m-ash{left:56.5%;top:24%;width:9.5%}
+  .m-ash .screen{width:100%;aspect-ratio:3/5}
+  .m-lovebug{left:73.2%;top:49%;width:7%}
+  .m-lovebug .screen{width:100%;aspect-ratio:1/1}
+  .m-feature{left:63%;top:5%;width:20%}
+  .m-feature .screen{width:100%;aspect-ratio:16/9}
+  .door{bottom:auto}
+  .d-binary{left:.4%;top:25%;width:5.2%;height:52%}
+  .d-fallow{right:auto;left:90.8%;top:31%;width:8.6%;height:54%}
+  .door .arch{width:100%;height:100%}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:760px){
+    /* object positions stay glued to the plate via #world — only chrome adapts */
+    #toLower{flex-direction:column;align-items:flex-start;}
+    #toLower .side{flex:1 1 auto;width:100%;}
+    #masthead{flex-direction:column;}
+    #masthead .hint{text-align:left;}
+  }
+
+  /* ---------- REDUCED MOTION ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:0.001ms!important;animation-iteration-count:1!important;
+      transition-duration:0.001ms!important;scroll-behavior:auto!important;
+    }
+    #grain{display:none;}
+    #lab .marker .dot::before{display:none;}
+  }
+
+</style>
+<section id="lab" aria-label="The Lab — a living night street">
+
+<!-- ====================== THE STREET ====================== -->
+<main id="street" aria-label="Lab — a living night street to explore">
+  <!-- #world = the street plate + everything anchored INTO its geometry.
+       When the animated plate loop is approved, it drops in here with the
+       same cover-box so nothing shifts. -->
+  <div id="world">
+  <div id="streetBg" aria-hidden="true"></div>
+  <div id="grain" aria-hidden="true"></div>
+
+  <!-- ---- 5 STREET OBJECTS ---- -->
+
+  <!-- Turbo MG21 = billboard, its film playing on it -->
+  <button class="marker obj m-turbo" data-piece="turbo" style="--acc:var(--acc-turbo)"
+          aria-label="Turbo MG21, billboard playing the film. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <video src="assets/lab/turbo_mg21.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    </span>
+    <span class="plate">Turbo MG21<small>Billboard</small></span>
+  </button>
+
+  <!-- PabePabe = lit boutique window, the bag film in the display -->
+  <button class="marker obj m-pabepabe" data-piece="pabepabe" style="--acc:var(--acc-pabepabe)"
+          aria-label="PabePabe, the boutique window with the bag films. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_044640_69aac7e3-3909-4e0d-af09-ea454ed1974b.png" alt="PabePabe boutique window displaying the bags" loading="lazy">
+    </span>
+    <span class="plate">PabePabe<small>Boutique Window &middot; The Trilogy</small></span>
+  </button>
+
+  <!-- Love Bug = neon-heart machine, live preview -->
+  <button class="marker obj m-lovebug" data-piece="lovebug" style="--acc:var(--acc-lovebug)"
+          aria-label="Love Bug, the neon heart machine. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <img class="idle" src="assets/lab/love-bug-poster.png" alt="" loading="lazy" decoding="async">
+      <iframe data-live="assets/lab/love-bug.html" tabindex="-1" title="Love Bug preview" loading="lazy" scrolling="no"></iframe>
+    </span>
+    <span class="plate">Love Bug<small>Neon Heart &middot; Interactive</small></span>
+  </button>
+
+  <!-- Ash-01 = the figure, towering -->
+  <button class="marker obj m-ash" data-piece="ash" style="--acc:var(--acc-ash)"
+          aria-label="Ash-01, the figure that towers over the street. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/aec942eb-16d1-4e72-a993-4ea13de4b551.png" alt="Ash-01, the figure" loading="lazy">
+    </span>
+    <span class="plate">Ash-01<small>The Figure &middot; Original Character</small></span>
+  </button>
+
+  <!-- Feature World: Chaos = the sky, live particle preview -->
+  <button class="marker obj m-feature" data-piece="feature" style="--acc:var(--acc-feature)"
+          aria-label="Feature World Chaos, the particle sky. Open detail view.">
+    <span class="screen" aria-hidden="true">
+      <img class="idle" src="assets/lab/feature-world-chaos-poster.png" alt="" loading="lazy" decoding="async">
+      <iframe data-live="assets/lab/feature-world-chaos.html" tabindex="-1" title="Feature World preview" loading="lazy" scrolling="no"></iframe>
+    </span>
+    <span class="plate">Feature World: Chaos<small>Sky &middot; Interactive Physics</small></span>
+  </button>
+
+  <!-- ---- 2 DOORWAYS (live previews of the actual pieces) ---- -->
+
+  <!-- Binary One = building entrance -->
+  <button class="door d-binary" data-piece="binary" style="--acc:var(--acc-binary)"
+          aria-label="Binary One, a building you can enter. Open detail view.">
+    <span class="arch">
+      <iframe src="assets/lab/binary-one.html" tabindex="-1" title="Binary One preview" loading="lazy" scrolling="no" aria-hidden="true"></iframe>
+      <span class="veil" aria-hidden="true"></span>
+      <span class="threshold">Enter<span class="enter">Binary One</span></span>
+    </span>
+  </button>
+
+  <!-- Fallow Ruins = building entrance -->
+  <button class="door d-fallow" data-piece="fallow" style="--acc:var(--acc-fallow)"
+          aria-label="Fallow Ruins, a building you can enter. Open detail view.">
+    <span class="arch">
+      <iframe src="assets/lab/fallow-ruins.html" tabindex="-1" title="Fallow Ruins preview" loading="lazy" scrolling="no" aria-hidden="true"></iframe>
+      <span class="veil" aria-hidden="true"></span>
+      <span class="threshold">Enter<span class="enter">Fallow Ruins</span></span>
+    </span>
+  </button>
+
+  </div><!-- /world -->
+  <div id="atmos" aria-hidden="true"></div>
+
+  <header id="masthead">
+    <div>
+      <div class="eyebrow">Generative &middot; AI &middot; Interactive</div>
+      <h1 class="title"><em>Lab</em></h1>
+    </div>
+    <p class="hint">Each piece is a thing in the city.<br>Tap a screen, enter a door.</p>
+  </header>
+
+  <!-- GTA-style location title (hover label) -->
+  <div id="locTitle" aria-hidden="true">
+    <div class="lt-cat"></div>
+    <div class="lt-name"></div>
+    <div class="lt-rule"></div>
   </div>
-</div></section>
+</main>
+
+<!-- ====================== CINEMATIC TAKEOVER ====================== -->
+<section id="takeover" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="toTitle" tabindex="-1">
+  <div id="toStage">
+    <div id="toMedia">
+      <!-- slides injected here -->
+    </div>
+    <div id="toTint" aria-hidden="true"></div>
+
+    <button class="gnav prev" type="button" aria-label="Previous">&#8249;</button>
+    <button class="gnav next" type="button" aria-label="Next">&#8250;</button>
+    <div class="gdots" role="tablist" aria-label="Gallery"></div>
+
+    <div class="bar top" aria-hidden="true"></div>
+    <div class="bar bottom" aria-hidden="true"></div>
+
+    <div id="toSlate" aria-hidden="true" style="display:none">
+      <div>ROLL <span class="roll">A01</span> &middot; SC <span class="scn">001</span></div>
+      <div class="ticks">||||&middot;||||&middot;||||</div>
+    </div>
+
+    <button id="toClose" type="button" aria-label="Close detail view (Escape)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M5 5l14 14M19 5L5 19"/>
+      </svg>
+    </button>
+
+    <div id="toLower">
+      <div class="lead">
+        <div class="eyebrow"></div>
+        <h2 id="toTitle"></h2>
+        <p class="blurb"></p>
+      </div>
+      <div class="side">
+        <div class="chips"></div>
+        <div class="links"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+
+  // base path for the lab assets relative to this file (build/lab-assembled.html)
+  var A = "assets/lab/";
+
+  /* ----------------------------------------------------------
+     DATA — every Lab piece. Blurbs/tools from PROJECT_MANIFEST.md.
+     media types:
+       'gallery'  -> video-first swipe gallery (CAMPAIGN pieces)
+       'poster'   -> single placeholder still (INTERACTIVE pieces)
+     ---------------------------------------------------------- */
+  var PIECES = {
+    /* ---- CAMPAIGN (video-first galleries) ---- */
+    turbo:{
+      cat:"Billboard",
+      name:"Turbo MG21",
+      title:"Turbo <em>MG21</em>",
+      accent:"var(--acc-turbo)",
+      blurb:"The Gentle Monster goggle-frame reimagined as a generative product film — luxury eyewear rendered as pure motion, light and material.",
+      tools:["Midjourney","Runway","Higgsfield","After Effects"],
+      links:[],
+      media:[
+        {type:"video", src:A+"turbo_mg21.mp4", label:"Turbo MG21 — Film"},
+        {type:"still", src:"https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/0d73b1b5-e212-4892-bf8a-68b191ba0f16.png", label:"Turbo MG21 — Still"}
+      ]
+    },
+    pabepabe:{
+      cat:"Boutique Window — The Trilogy",
+      name:"PabePabe",
+      title:"Pabe<em>Pabe</em>",
+      accent:"var(--acc-pabepabe)",
+      blurb:"Material transformation across three luxury bags — Ocarina, Flute Soft, Horn — directed as one continuous study in form and surface.",
+      tools:["Midjourney","Runway","Higgsfield","After Effects","Photoshop"],
+      links:[{label:"Visit PabePabe", href:"https://pabepabeofficial.com/", primary:true}],
+      // Order: Ocarina film, Ocarina still, Flute film, Flute still, Horn film, Horn still
+      media:[
+        {type:"video", src:A+"pabepabe_ocarina.mp4", label:"Ocarina — Film"},
+        {type:"still", src:A+"pabepabe-ocarina-still.png", label:"Ocarina — Still"},
+        {type:"video", src:A+"pabepabe_flute.mp4", label:"Flute Soft — Film"},
+        {type:"still", src:A+"pabepabe-flute-still.png", label:"Flute Soft — Still"},
+        {type:"video", src:A+"pabepabe_horn.mp4", label:"Horn — Film"},
+        {type:"still", src:A+"pabepabe-horn-still.png", label:"Horn — Still"}
+      ]
+    },
+    ash:{
+      cat:"The Figure — Original Character",
+      name:"Ash-01",
+      title:"Ash-<em>01</em>",
+      accent:"var(--acc-ash)",
+      blurb:"An original character designed and brought to motion — Ash — a study in proportion, attitude, and a presence that towers over its city.",
+      tools:["ComfyUI","LoRA","Midjourney","Runway","After Effects"],
+      links:[],
+      media:[
+        {type:"video", src:A+"ash01.mp4", label:"Ash-01 — Motion Study"},
+        {type:"still", src:"https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/aec942eb-16d1-4e72-a993-4ea13de4b551.png", label:"Ash-01 — Still"}
+      ]
+    },
+
+    /* ---- INTERACTIVE (poster + open-in-new-tab) ---- */
+    binary:{
+      cat:"Entrance — Interactive / WebGL",
+      name:"Binary One",
+      title:"Binary <em>One</em>",
+      accent:"var(--acc-binary)",
+      blurb:"A cathedral of binary you can walk into — an infinite sanctuary that never resolves out of the code.",
+      tools:["JavaScript","WebGL","Canvas"],
+      links:[
+        // poster placeholder: assets/lab/binary-one-poster.png
+        {label:"Open Binary One", href:A+"binary-one.html", primary:true, blank:true},
+        {label:"Repository", href:"https://github.com/hydrogenbondss/cathedral-of-small-hours", blank:true}
+      ],
+      media:[{type:"poster", src:A+"binary-one-poster.png", label:"Binary One — Poster"}]
+    },
+    fallow:{
+      cat:"Entrance — Interactive / WebGL",
+      name:"Fallow Ruins",
+      title:"Fallow <em>Ruins</em>",
+      accent:"var(--acc-fallow)",
+      blurb:"A realistic, overgrown ruin you move through — nature handed back the concrete, generated frame by frame.",
+      tools:["JavaScript","WebGL","GLSL"],
+      links:[
+        // poster placeholder: assets/lab/fallow-ruins-poster.png
+        {label:"Open Fallow Ruins", href:A+"fallow-ruins.html", primary:true, blank:true},
+        {label:"Repository", href:"https://github.com/hydrogenbondss/garden-of-returning", blank:true}
+      ],
+      media:[{type:"poster", src:A+"fallow-ruins-poster.png", label:"Fallow Ruins — Poster"}]
+    },
+    feature:{
+      cat:"Sky — Interactive Physics",
+      name:"Feature World: Chaos",
+      title:"Feature World: <em>Chaos</em>",
+      accent:"var(--acc-feature)",
+      blurb:"An interactive physics sandbox — a particle chaos engine you fracture with a click and distort with a drag. It never settles.",
+      tools:["JavaScript","Canvas"],
+      links:[
+        // poster placeholder: assets/lab/feature-world-chaos-poster.png
+        {label:"Open Feature World", href:A+"feature-world-chaos.html", primary:true, blank:true}
+      ],
+      media:[{type:"poster", src:A+"feature-world-chaos-poster.png", label:"Feature World: Chaos — Poster"}]
+    },
+    lovebug:{
+      cat:"Neon Heart — Interactive Narrative",
+      name:"Love Bug",
+      title:"Love <em>Bug</em>",
+      accent:"var(--acc-lovebug)",
+      blurb:"An interactive narrative that reads how you love — a walk through intimate moments that resolves into one of six romantic archetypes.",
+      tools:["JavaScript","HTML","CSS"],
+      links:[
+        // poster placeholder: assets/lab/love-bug-poster.png
+        {label:"Open Love Bug", href:A+"love-bug.html", primary:true, blank:true},
+        {label:"Repository", href:"https://github.com/hydrogenbondss/heart-decoder", blank:true}
+      ],
+      media:[{type:"poster", src:A+"love-bug-poster.png", label:"Love Bug — Poster"}]
+    }
+  };
+
+  // ----- element refs -----
+  var street   = document.getElementById("street");
+  var streetBg = document.getElementById("streetBg");
+  var locTitle = document.getElementById("locTitle");
+  var ltCat    = locTitle.querySelector(".lt-cat");
+  var ltName   = locTitle.querySelector(".lt-name");
+  var ltRule   = locTitle.querySelector(".lt-rule");
+
+  var takeover = document.getElementById("takeover");
+  var toStage  = document.getElementById("toStage");
+  var toMedia  = document.getElementById("toMedia");
+  var toLower  = document.getElementById("toLower");
+  var toClose  = document.getElementById("toClose");
+  var gPrev    = takeover.querySelector(".gnav.prev");
+  var gNext    = takeover.querySelector(".gnav.next");
+  var gDots    = takeover.querySelector(".gdots");
+  var slateRoll= takeover.querySelector("#toSlate .roll");
+  var slateScn = takeover.querySelector("#toSlate .scn");
+
+  var lastFocused = null;
+  var current = null;     // current piece key
+  var idx = 0;            // gallery index
+  var slidesEls = [];
+
+  // ---------- LOCATION TITLE (hover) ----------
+  function showLoc(key){
+    var p = PIECES[key];
+    if(!p) return;
+    ltCat.textContent = p.cat;
+    ltName.innerHTML = p.title;
+    locTitle.style.setProperty("--lt-acc", p.accent);
+    ltRule.style.background = "";
+    locTitle.classList.add("show");
+  }
+  function hideLoc(){ locTitle.classList.remove("show"); }
+
+  // ---------- BUILD TAKEOVER ----------
+  function pad3(n){ n = String(n); while(n.length<3) n = "0"+n; return n; }
+
+  function buildSlides(p){
+    toMedia.innerHTML = "";
+    slidesEls = [];
+    gDots.innerHTML = "";
+
+    p.media.forEach(function(m, i){
+      var slide = document.createElement("div");
+      slide.className = "slide" + (i===0 ? " active" : "");
+      slide.setAttribute("role","group");
+      slide.setAttribute("aria-roledescription","slide");
+      slide.setAttribute("aria-label", (i+1) + " of " + p.media.length + " — " + m.label);
+
+      if(m.type === "video"){
+        var v = document.createElement("video");
+        v.src = m.src;
+        v.setAttribute("playsinline","");
+        v.muted = true;
+        v.loop = true;
+        v.controls = false;
+        v.preload = (i===0 ? "auto" : "none");
+        slide.appendChild(v);
+      } else {
+        // 'still' and 'poster' both render as an <img> that falls back to a
+        // styled placeholder block when the real asset is not yet in the repo.
+        var img = document.createElement("img");
+        img.alt = m.label;
+        img.loading = "lazy";
+        img.src = m.src;
+        img.addEventListener("error", function(){
+          // no placeholder junk: if the real asset isn't in the repo, drop the slide cleanly
+          slide.style.display = "none";
+          if(dot){ dot.style.display = "none"; }
+        });
+        slide.appendChild(img);
+      }
+
+      var lab = document.createElement("div");
+      lab.className = "medialabel";
+      lab.textContent = m.label;
+      slide.appendChild(lab);
+
+      toMedia.appendChild(slide);
+      slidesEls.push(slide);
+
+      // dots
+      var dot = document.createElement("button");
+      dot.className = "gdot" + (i===0 ? " on" : "");
+      dot.type = "button";
+      dot.setAttribute("role","tab");
+      dot.setAttribute("aria-label","Go to " + m.label);
+      dot.addEventListener("click", function(){ goTo(i); });
+      gDots.appendChild(dot);
+    });
+
+    var multi = p.media.length > 1;
+    gPrev.hidden = !multi;
+    gNext.hidden = !multi;
+    gDots.hidden = !multi;
+  }
+
+  function setActiveSlide(n){
+    slidesEls.forEach(function(s, i){
+      var on = (i===n);
+      s.classList.toggle("active", on);
+      var v = s.querySelector("video");
+      if(v){
+        if(on){ v.play().catch(function(){}); }
+        else { v.pause(); }
+      }
+    });
+    var dots = gDots.querySelectorAll(".gdot");
+    dots.forEach(function(d,i){ d.classList.toggle("on", i===n); });
+    slateScn.textContent = pad3(n+1);
+  }
+
+  function goTo(n){
+    var len = slidesEls.length;
+    if(len === 0) return;
+    idx = (n % len + len) % len;
+    setActiveSlide(idx);
+  }
+  function next(){ goTo(idx+1); }
+  function prev(){ goTo(idx-1); }
+
+  function buildLower(p){
+    toLower.querySelector(".eyebrow").textContent = p.cat;
+    toLower.querySelector("h2").innerHTML = p.title;
+    toLower.querySelector(".blurb").textContent = p.blurb;
+
+    var chips = toLower.querySelector(".chips");
+    chips.innerHTML = "";
+    p.tools.forEach(function(t){
+      var c = document.createElement("span");
+      c.className = "chip";
+      c.textContent = t;
+      chips.appendChild(c);
+    });
+
+    var links = toLower.querySelector(".links");
+    links.innerHTML = "";
+    p.links.forEach(function(l){
+      var a = document.createElement("a");
+      a.className = "link" + (l.primary ? " primary" : "");
+      a.href = l.href;
+      if(l.blank){ a.target = "_blank"; a.rel = "noopener noreferrer"; }
+      a.innerHTML = '<span>'+l.label+'</span><span class="arr" aria-hidden="true">→</span>';
+      links.appendChild(a);
+    });
+    links.style.display = p.links.length ? "" : "none";
+  }
+
+  // ---------- WORLD COVER-BOX (glues anchors to the plate) ----------
+  (function(){
+    var w=document.getElementById("world"); if(!w) return;
+    var AR=1376/768;
+    function fit(){
+      var W=Math.max(innerWidth, innerHeight*AR), H=W/AR;
+      w.style.width=W+"px"; w.style.height=H+"px";
+    }
+    addEventListener("resize", fit); fit();
+  })();
+
+  // ---------- STREET MEDIA BUDGET ----------
+  // pause every street video while the takeover is open / tab is hidden
+  function pauseStreet(off){
+    document.querySelectorAll("#street video").forEach(function(v){
+      if(off){ v.pause(); } else { var p=v.play(); if(p&&p.catch)p.catch(function(){}); }
+    });
+  }
+  document.addEventListener("visibilitychange", function(){
+    pauseStreet(document.hidden || !!current);
+  });
+  // live iframes idle as posters; boot on first hover/focus only
+  document.querySelectorAll(".obj").forEach(function(o){
+    var f=o.querySelector("iframe[data-live]"); if(!f) return;
+    function boot(){ if(!f.src){ f.src=f.getAttribute("data-live"); } o.classList.add("live"); }
+    o.addEventListener("pointerenter", boot, {once:false});
+    o.addEventListener("focusin", boot);
+  });
+
+  // ---------- OPEN / CLOSE ----------
+  function openPiece(key, trigger){
+    var p = PIECES[key];
+    if(!p) return;
+    current = key;
+    idx = 0;
+    lastFocused = trigger || document.activeElement;
+
+    takeover.style.setProperty("--to-acc", p.accent);
+    slateRoll.textContent = key.slice(0,3).toUpperCase();
+    slateScn.textContent = pad3(1);
+
+    buildSlides(p);
+    buildLower(p);
+
+    takeover.classList.add("open");
+    takeover.setAttribute("aria-hidden","false");
+    hideLoc();
+    // soften the street behind + stop paying for media nobody can see
+    streetBg.style.filter = "blur(6px) brightness(0.5)";
+    pauseStreet(true);
+
+    setActiveSlide(0);
+
+    // move focus into the dialog
+    requestAnimationFrame(function(){
+      toClose.focus();
+    });
+
+    document.addEventListener("keydown", onKey);
+  }
+
+  function closePiece(){
+    if(!current) return;
+    // stop any playing video
+    slidesEls.forEach(function(s){ var v = s.querySelector("video"); if(v) v.pause(); });
+    takeover.classList.remove("open");
+    takeover.setAttribute("aria-hidden","true");
+    streetBg.style.filter = "";
+    pauseStreet(false);
+    document.removeEventListener("keydown", onKey);
+    var t = lastFocused;
+    current = null;
+    if(t && t.focus){ t.focus(); }
+  }
+
+  // ---------- KEYBOARD ----------
+  function onKey(e){
+    if(e.key === "Escape"){ e.preventDefault(); closePiece(); return; }
+    if(e.key === "ArrowRight"){ if(slidesEls.length>1){ e.preventDefault(); next(); } return; }
+    if(e.key === "ArrowLeft"){ if(slidesEls.length>1){ e.preventDefault(); prev(); } return; }
+    if(e.key === "Tab"){ trapFocus(e); }
+  }
+
+  function trapFocus(e){
+    var focusables = takeover.querySelectorAll(
+      'a[href], button:not([hidden]):not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    var list = Array.prototype.filter.call(focusables, function(el){
+      return el.offsetParent !== null || el === document.activeElement;
+    });
+    if(list.length === 0) return;
+    var first = list[0], last = list[list.length-1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+
+  // ---------- WIRE STREET OBJECTS ----------
+  var markers = document.querySelectorAll(".marker, .door");
+  markers.forEach(function(el){
+    var key = el.getAttribute("data-piece");
+    el.addEventListener("mouseenter", function(){ showLoc(key); });
+    el.addEventListener("mouseleave", hideLoc);
+    el.addEventListener("focus", function(){ showLoc(key); });
+    el.addEventListener("blur", hideLoc);
+    el.addEventListener("click", function(){ openPiece(key, el); });
+  });
+
+  // ---------- WIRE TAKEOVER CONTROLS ----------
+  toClose.addEventListener("click", closePiece);
+  gNext.addEventListener("click", next);
+  gPrev.addEventListener("click", prev);
+
+  // click on the backdrop (outside media + chrome) closes — but not on interactive chrome
+  toStage.addEventListener("click", function(e){
+    if(e.target === toStage || e.target === toMedia){ closePiece(); }
+  });
+
+  // ---------- SWIPE (touch) ----------
+  var tx = 0, ty = 0, tracking = false;
+  toMedia.addEventListener("touchstart", function(e){
+    if(slidesEls.length<2) return;
+    tracking = true; tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, {passive:true});
+  toMedia.addEventListener("touchend", function(e){
+    if(!tracking) return; tracking = false;
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if(Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)){
+      if(dx < 0) next(); else prev();
+    }
+  }, {passive:true});
+
+})();
+</script>
+
+<script>
+(function(){ /* street runs only while on screen */
+  var lab=document.getElementById('lab'); if(!lab||!('IntersectionObserver' in window))return;
+  new IntersectionObserver(function(es){es.forEach(function(e){
+    document.querySelectorAll('#street video').forEach(function(v){
+      if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else{v.pause();}
+    });});},{threshold:.05}).observe(lab);
+})();
+</script>
+</section>
 <style>
 /* ===== 05 · CLIENT WORK (inlined from client-work.html) ===== */
 
@@ -629,20 +1669,20 @@ section{position:relative}
   /* hand-drawn black-marker title, scrawled on the desk in the clear
      top band. Reads as a correction: (struck) Publications -> Archive,
      loosely circled with a sketchy doodle. */
-  .marker{
+  #archive .marker{
     position:absolute;top:5%;left:5%;z-index:9;
     font-family:'Permanent Marker',cursive;color:#141008;
     font-size:clamp(1.8rem,4vw,3rem);line-height:1;
     transform:rotate(-3deg);opacity:.92;mix-blend-mode:multiply;
     pointer-events:none;white-space:nowrap}
-  .marker .words{position:relative;display:inline-block;padding:.12em .55em .2em}
-  .marker .struck{position:relative;display:inline-block;color:#141008;margin-right:.32em}
+  #archive .marker .words{position:relative;display:inline-block;padding:.12em .55em .2em}
+  #archive .marker .struck{position:relative;display:inline-block;color:#141008;margin-right:.32em}
   /* hand-drawn strike — wavy SVG sitting over the struck word */
-  .marker .strike{position:absolute;left:-4%;top:42%;width:108%;height:.5em;overflow:visible}
-  .marker .strike path{fill:none;stroke:#141008;stroke-width:3;stroke-linecap:round}
+  #archive .marker .strike{position:absolute;left:-4%;top:42%;width:108%;height:.5em;overflow:visible}
+  #archive .marker .strike path{fill:none;stroke:#141008;stroke-width:3;stroke-linecap:round}
   /* loose doodle circling the whole group */
-  .marker .doodle{position:absolute;left:-9%;top:-26%;width:118%;height:150%;overflow:visible;z-index:-1}
-  .marker .doodle path{fill:none;stroke:#141008;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+  #archive .marker .doodle{position:absolute;left:-9%;top:-26%;width:118%;height:150%;overflow:visible;z-index:-1}
+  #archive .marker .doodle path{fill:none;stroke:#141008;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
   /* the wood desk stage — landscape */
   .stage{
