@@ -114,12 +114,14 @@ section{position:relative}
 @media (max-width:560px){#hero .col-3{grid-column:1/-1}}
 
 /* ============ 3 · WORKS (scrapbook) ============ */
-#works{min-height:100vh;background:#241c12;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6vh 4vw;gap:2.4vh}
-#works .eyebrow{font-family:'Courier Prime',monospace;letter-spacing:.4em;font-size:.7rem;color:#b9ad93;text-transform:uppercase}
-#works .works-spread{max-width:min(1200px,92vw);width:100%;box-shadow:0 40px 120px rgba(0,0,0,.6);border-radius:4px;overflow:hidden;position:relative}
-#works .works-spread img{display:block;width:100%;height:auto}
-#works .works-spread.pending{aspect-ratio:1376/768;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(45deg,#2e2418,#2e2418 22px,#332a1c 22px,#332a1c 44px);border:1px dashed #6f6552}
+#works{position:relative;height:100vh;background:#241c12;overflow:hidden}
+#works .works-spread{position:absolute;inset:0;margin:0;box-shadow:none;border-radius:0;overflow:hidden}
+#works .works-spread img{display:block;width:100%;height:100%;object-fit:cover}
+#works .works-spread.pending{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(45deg,#2e2418,#2e2418 22px,#332a1c 22px,#332a1c 44px);border:1px dashed #6f6552}
 #works .works-spread.pending::after{content:'SCRAPBOOK SPREAD · echo-page_works.png — attach the file to drop it in';font-family:'Courier Prime',monospace;font-size:.8rem;letter-spacing:.18em;color:#b9ad93;text-align:center;padding:0 8%}
+/* bookmark tab pinned to the corner — replaces the old full-width eyebrow
+   header bar so the scrapbook art can run genuinely full-bleed */
+#works .bookmark{position:absolute;top:0;right:7%;z-index:5;padding:16px 9px 22px;font-family:'Courier Prime',monospace;font-size:.6rem;line-height:1.6;letter-spacing:.22em;text-transform:uppercase;text-align:center;color:#f4ece0;background:linear-gradient(180deg,#a13a2d,#6f2419);writing-mode:vertical-rl;text-orientation:mixed;box-shadow:0 16px 34px rgba(0,0,0,.55);clip-path:polygon(0 0,100% 0,100% 88%,50% 100%,0 88%);pointer-events:none}
 
 /* ============ LOOP ============ */
 #loop{min-height:30vh;display:flex;align-items:center;justify-content:center;background:#03040a;gap:18px;flex-wrap:wrap;padding:5vh 6vw}
@@ -127,9 +129,9 @@ section{position:relative}
 #loop a:hover{color:#ECEAE3;border-color:rgba(236,234,227,.7);letter-spacing:.5em}
 
 /* ============ WORKS · project index + detail modal ============ */
-#works .works-index{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
-.proj-chip{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.18em;color:#e9e2d2;background:rgba(0,0,0,.28);border:1px solid rgba(233,226,210,.32);padding:.62em 1.25em;border-radius:40px;cursor:pointer;transition:.3s}
-.proj-chip:hover{border-color:#e9e2d2;letter-spacing:.26em;background:rgba(0,0,0,.5)}
+#works .works-hotspots{position:absolute;inset:0}
+#works .work-hit{position:absolute;margin:0;padding:0;border:0;background:transparent;cursor:pointer;border-radius:8px;-webkit-tap-highlight-color:transparent}
+#works .work-hit:hover,#works .work-hit:focus-visible{background:rgba(244,236,224,.12);box-shadow:0 0 0 2px rgba(244,236,224,.85) inset;outline:none}
 #pmodal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:5vh 5vw}
 #pmodal[hidden]{display:none}
 .pm-backdrop{position:absolute;inset:0;background:rgba(3,4,10,.86);backdrop-filter:blur(3px)}
@@ -349,20 +351,24 @@ section{position:relative}
 
 <!-- ============ 3 · WORKS ============ -->
 <section id="works">
-  <div class="eyebrow">Selected Work · Scrapbook</div>
+  <div class="bookmark" aria-hidden="true">Selected Work<br>Scrapbook</div>
   <figure class="works-spread">
     <picture><source srcset="assets/echo-page_works.webp" type="image/webp">
     <img src="assets/echo-page_works.png" alt="Selected work — ECHO · ROLL CALL · SPECTOR · Noru · PawsAid"
          width="1376" height="768" loading="lazy" decoding="async"
          onerror="this.style.display='none';this.closest('.works-spread').classList.add('pending')"></picture>
+    <!-- clickable hotspots over the flattened scrapbook artwork — approximate
+         pixel positions of each drawn piece, mapped from echo-page_works.png
+         (1376x768) to percentages of this full-bleed frame -->
+    <div class="works-hotspots" role="group" aria-label="Selected projects">
+      <button type="button" class="work-hit" data-proj="echo" style="left:14.9%;top:11.1%;width:18.2%;height:35.2%" aria-label="ECHO — the darkroom"></button>
+      <button type="button" class="work-hit" data-proj="echo" style="left:29.8%;top:31.9%;width:18.2%;height:35.8%" aria-label="ECHO — the apartment"></button>
+      <button type="button" class="work-hit" data-proj="spector" style="left:12.0%;top:69.0%;width:33.1%;height:17.6%" aria-label="SPECTOR"></button>
+      <button type="button" class="work-hit" data-proj="noru" style="left:54.1%;top:50.1%;width:15.3%;height:22.1%" aria-label="Noru"></button>
+      <button type="button" class="work-hit" data-proj="rollcall" style="left:53.8%;top:71.6%;width:19%;height:22.1%" aria-label="ROLL CALL"></button>
+      <button type="button" class="work-hit" data-proj="pawsaid" style="left:71.6%;top:8.5%;width:17.4%;height:51.4%" aria-label="PawsAid"></button>
+    </div>
   </figure>
-  <nav class="works-index" aria-label="Selected projects">
-    <button class="proj-chip" data-proj="echo">ECHO</button>
-    <button class="proj-chip" data-proj="rollcall">ROLL CALL</button>
-    <button class="proj-chip" data-proj="spector">SPECTOR</button>
-    <button class="proj-chip" data-proj="noru">Noru</button>
-    <button class="proj-chip" data-proj="pawsaid">PawsAid</button>
-  </nav>
 </section>
 
 <!-- ============ SCAFFOLD: remaining sections ============ -->
@@ -620,6 +626,52 @@ section{position:relative}
 
   .d-binary{left:6%;}
   .d-fallow{right:6%;}
+
+  /* ---------- DOORWAY WALK-IN (GTA-style approach + enter, before takeover) ----------
+     A short "you walked through the door" beat: the clicked arch swells and its
+     threshold light maxes out while a matching light-burst overlay (#doorWalk)
+     grows from that same spot to fill the screen; the rest of the street pulls
+     back slightly (parallax) and dims. Runs ~0.8s, then the cinematic takeover
+     opens as usual. All CSS/transform — no new media. */
+  #lab .marker{transition:transform .5s var(--ease), opacity .6s var(--ease-soft), filter .6s var(--ease-soft);}
+  .door{transition:opacity .6s var(--ease-soft), filter .6s var(--ease-soft);}
+
+  #doorWalk{
+    position:fixed;z-index:49;pointer-events:none;
+    opacity:0;visibility:hidden;
+    background:
+      radial-gradient(60% 60% at 50% 42%,
+        color-mix(in srgb, var(--dw-acc,#fff) 88%, #fff 12%) 0%,
+        color-mix(in srgb, var(--dw-acc,#fff) 50%, transparent) 55%,
+        rgba(0,0,0,0) 78%);
+    box-shadow:inset 0 0 140px 24px color-mix(in srgb, var(--dw-acc,#fff) 42%, transparent);
+    will-change:left,top,width,height,opacity,border-radius;
+  }
+  #doorWalk.active{visibility:visible;}
+
+  /* the clicked door swells toward camera, its light maxed, veil lifted */
+  .door.walking-door{z-index:12;}
+  .door.walking-door .arch{
+    transform:scale(1.3);
+    border-color:color-mix(in srgb, var(--acc) 82%, transparent);
+    box-shadow:
+      inset 0 8px 110px color-mix(in srgb, var(--acc) 62%, transparent),
+      inset 0 -20px 60px rgba(0,0,0,0.35),
+      0 0 130px color-mix(in srgb, var(--acc) 55%, transparent);
+    transition:transform .8s cubic-bezier(.4,0,.2,1), box-shadow .8s ease, border-color .8s ease;
+  }
+  .door.walking-door .arch::before{opacity:1;transition:opacity .5s ease;}
+  .door.walking-door .arch .veil{opacity:0;transition:opacity .5s ease;}
+  .door.walking-door .threshold{opacity:0;transform:translateY(-8px);transition:opacity .3s ease, transform .3s ease;}
+
+  /* the rest of the street pulls back + dims while you step through */
+  #street.walking #streetBg{transform:scale(1.06);filter:brightness(0.6) saturate(1.2);}
+  #street.walking .marker,
+  #street.walking .door:not(.walking-door){opacity:.26;filter:blur(1.5px) brightness(.7);}
+
+  @media (prefers-reduced-motion:reduce){
+    #doorWalk{display:none;}
+  }
 
   /* ---------- GTA LOCATION TITLE (hover label, lower corner) ---------- */
   #locTitle{
@@ -966,6 +1018,12 @@ section{position:relative}
     <div class="lt-rule"></div>
   </div>
 </main>
+
+<!-- GTA-style "walk through the doorway" transition — a growing threshold-light
+     burst that sweeps from the clicked door's arch to fullscreen before the
+     takeover reveals. Purely CSS/JS (no new media); skipped under
+     prefers-reduced-motion. -->
+<div id="doorWalk" aria-hidden="true"></div>
 
 <!-- ====================== CINEMATIC TAKEOVER ====================== -->
 <section id="takeover" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="toTitle" tabindex="-1">
@@ -1344,10 +1402,77 @@ section{position:relative}
     takeover.setAttribute("aria-hidden","true");
     streetBg.style.filter = "";
     pauseStreet(false);
+    // safety net: clear any leftover door-walk state (should already be gone by now)
+    if(street.classList.contains("walking")){ resetDoorWalk(document.querySelector(".door.walking-door")); }
     document.removeEventListener("keydown", onKey);
     var t = lastFocused;
     current = null;
     if(t && t.focus){ t.focus(); }
+  }
+
+  // ---------- DOORWAY WALK-IN (GTA-style approach + enter) ----------
+  var doorWalk = document.getElementById("doorWalk");
+  var reduceMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var walkingNow = false;
+
+  function resetDoorWalk(doorEl){
+    doorWalk.classList.remove("active");
+    doorWalk.style.cssText = "";
+    street.classList.remove("walking");
+    if(doorEl){ doorEl.classList.remove("walking-door"); }
+    walkingNow = false;
+  }
+
+  function walkThroughDoor(key, doorEl){
+    // no doorWalk element, already mid-transition, or user asked for less motion:
+    // skip straight to the takeover — still correct, just without the flourish.
+    if(!doorWalk || walkingNow || reduceMotionMQ.matches){
+      openPiece(key, doorEl);
+      return;
+    }
+    walkingNow = true;
+
+    var arch = doorEl.querySelector(".arch") || doorEl;
+    var r = arch.getBoundingClientRect();
+    var accent = getComputedStyle(doorEl).getPropertyValue("--acc").trim() || "#fff";
+    var archRadius = getComputedStyle(arch).borderRadius;
+
+    doorWalk.style.setProperty("--dw-acc", accent);
+    doorWalk.style.transition = "none";
+    doorWalk.style.borderRadius = archRadius;
+    doorWalk.style.left = r.left + "px";
+    doorWalk.style.top = r.top + "px";
+    doorWalk.style.width = r.width + "px";
+    doorWalk.style.height = r.height + "px";
+    doorWalk.style.opacity = "0";
+    doorWalk.classList.add("active");
+
+    street.classList.add("walking");
+    doorEl.classList.add("walking-door");
+
+    // force layout so the next style change is a genuine transition, not the start state
+    void doorWalk.offsetWidth;
+
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        doorWalk.style.transition =
+          "left .85s cubic-bezier(.6,0,.15,1), top .85s cubic-bezier(.6,0,.15,1), " +
+          "width .85s cubic-bezier(.6,0,.15,1), height .85s cubic-bezier(.6,0,.15,1), " +
+          "border-radius .85s cubic-bezier(.6,0,.15,1), opacity .7s ease-out";
+        doorWalk.style.left = "-15vw";
+        doorWalk.style.top = "-15vh";
+        doorWalk.style.width = "130vw";
+        doorWalk.style.height = "130vh";
+        doorWalk.style.borderRadius = "0";
+        doorWalk.style.opacity = "1";
+      });
+    });
+
+    setTimeout(function(){
+      openPiece(key, doorEl);
+      // let the takeover's own fade-in take over, then quietly clear the walk state
+      setTimeout(function(){ resetDoorWalk(doorEl); }, 420);
+    }, 780);
   }
 
   // ---------- KEYBOARD ----------
@@ -1379,7 +1504,10 @@ section{position:relative}
     el.addEventListener("mouseleave", hideLoc);
     el.addEventListener("focus", function(){ showLoc(key); });
     el.addEventListener("blur", hideLoc);
-    el.addEventListener("click", function(){ openPiece(key, el); });
+    el.addEventListener("click", function(){
+      if(el.classList.contains("door")){ walkThroughDoor(key, el); }
+      else { openPiece(key, el); }
+    });
   });
 
   // ---------- WIRE TAKEOVER CONTROLS ----------
@@ -3016,7 +3144,7 @@ void main(){
     lastFocus=document.activeElement;m.hidden=false;requestAnimationFrame(()=>m.classList.add('open'));
     m.querySelector('.pm-x').focus();}
   function close(){m.classList.remove('open');setTimeout(()=>{m.hidden=true;if(lastFocus)lastFocus.focus();},320);}
-  document.querySelectorAll('.proj-chip').forEach(b=>b.addEventListener('click',()=>open(b.dataset.proj)));
+  document.querySelectorAll('.work-hit').forEach(b=>b.addEventListener('click',()=>open(b.dataset.proj)));
   m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
   addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close();});
 })();
