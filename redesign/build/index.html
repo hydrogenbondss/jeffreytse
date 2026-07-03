@@ -2259,7 +2259,7 @@ section{position:relative}
       </span>
     </div>
 
-    <div class="host" data-poster="welcome-home"      style="left:29%; top:6%;  z-index:4; --rot:-7deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="welcome-home"      style="left:29%; top:6%;  z-index:8; --rot:-7deg; --rot-m:-3deg"></div>
     <div class="host" data-poster="finite-appearances" style="left:57%; top:3%;  z-index:3; --rot:5deg;  --rot-m:3deg"></div>
     <div class="host" data-poster="undergrowth"        style="left:73%; top:7%;  z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
     <div class="host" data-poster="insights"           style="left:5%;  top:46%; z-index:5; --rot:6deg;  --rot-m:3deg"></div>
@@ -2329,14 +2329,17 @@ section{position:relative}
       .credit{position:absolute;top:15px;left:15px;z-index:3;font-family:var(--mono);font-size:.56rem;
         letter-spacing:.06em;text-transform:uppercase;line-height:1.5;color:var(--bone)}
 
-      /* TITLE — vertical, up the right edge */
-      .title{position:absolute;right:8px;top:18px;bottom:18px;z-index:3;font-family:var(--anton);
+      /* TITLE — vertical, up the right edge. bottom:34 (not 18) keeps its
+         tail clear of "Undergrowth", the neighbouring print on the desk */
+      .title{position:absolute;right:8px;top:18px;bottom:34px;z-index:3;font-family:var(--anton);
         writing-mode:vertical-rl;text-orientation:mixed;font-size:clamp(1.8rem,6.4cqw,2.7rem);
         line-height:1;text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
       .title span{color:var(--red)}
 
       /* curatorial line, lower-left */
-      .hand{position:absolute;left:15px;bottom:18px;z-index:3;font-family:var(--mark);
+      /* lifted clear of the poster's own bottom-left corner, which the
+         neighbouring "Offender Behind the Lens" print can sit under */
+      .hand{position:absolute;left:15px;bottom:46px;z-index:3;font-family:var(--mark);
         font-size:clamp(1.35rem,5.2cqw,2rem);line-height:.96;width:62%;color:var(--bone);transform:rotate(-1.5deg)}
       .hand em{color:var(--red);font-style:normal}
     </style>
@@ -2372,14 +2375,18 @@ section{position:relative}
       .ll1{left:8%;top:44%} .ll2{right:9%;top:50%;text-align:right} .ll3{right:12%;top:62%;text-align:right} .ll4{left:10%;top:70%}
       .free{position:absolute;right:9%;top:26%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.62rem;color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
 
-      /* big brush-handwritten line + printed echo */
-      .brush{position:absolute;left:6%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8cqw,3rem);
-        line-height:.96;color:var(--lime);width:64%;text-shadow:0 2px 7px rgba(0,0,0,.4)}
+      /* big brush-handwritten line + printed echo — kept clear of the
+         poster's own left edge (28% in, not 6%) since that strip sits
+         under the neighbouring "Finite Appearances" print on the desk */
+      .brush{position:absolute;left:28%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8cqw,3rem);
+        line-height:.96;color:var(--lime);width:56%;text-shadow:0 2px 7px rgba(0,0,0,.4)}
       .echo{position:absolute;left:34%;bottom:31%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.56rem;
         color:var(--cream);transform:rotate(-2deg);text-shadow:0 1px 4px rgba(0,0,0,.5)}
 
-      /* brand mark, bottom-right */
-      .brand{position:absolute;right:6%;bottom:6%;z-index:3;text-align:right}
+      /* brand mark, top-right — bottom-right is where "Online Dating" and
+         "One-Ply Realism" sit on top of this print on the desk, so the
+         mark lives up here instead where it stays fully readable */
+      .brand{position:absolute;right:8%;top:9%;z-index:3;text-align:right}
       .brand b{display:block;font-family:var(--sans);font-weight:900;font-size:clamp(1.3rem,5cqw,1.9rem);letter-spacing:.01em;
         color:var(--lime);text-shadow:0 1px 5px rgba(0,0,0,.45);text-transform:uppercase}
       .brand span{display:block;font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);
@@ -2576,6 +2583,9 @@ section{position:relative}
       .eyebrow{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.56rem;
         letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
         border-bottom:1px solid rgba(233,227,212,.16);padding-bottom:10px;flex:none;position:relative;z-index:3}
+      /* the "Welcome Home" print overlaps this poster's top-left corner on
+         the desk, so the first eyebrow label gets a left nudge to clear it */
+      .eyebrow span:first-child{margin-left:22cqw}
 
       .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5cqw,4.6rem);line-height:.9;text-transform:uppercase;
         letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7cqw,46px);position:relative;z-index:3}
@@ -2719,8 +2729,11 @@ section{position:relative}
         font-size:clamp(1.4rem,5.4cqw,2.05rem);line-height:.96;width:60%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
       .mark em{color:var(--blue);font-style:normal}
 
-      .credit{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-size:.52rem;
-        letter-spacing:.06em;text-transform:uppercase;color:rgba(246,239,226,.85)}
+      /* "One-Ply Realism" sits on top of this poster's lower-left corner on
+         the desk, so the credit line starts further in (24%, not 15px) and
+         wraps within a max-width instead of running back under it */
+      .credit{position:absolute;left:24%;right:6%;bottom:16px;z-index:4;font-family:var(--mono);font-size:.52rem;
+        letter-spacing:.06em;text-transform:uppercase;color:rgba(246,239,226,.85);line-height:1.4}
 
       .dot{position:absolute;z-index:4;width:12px;height:12px;border-radius:50%;background:var(--blue)}
     </style>
