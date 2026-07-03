@@ -123,11 +123,6 @@ section{position:relative}
    header bar so the scrapbook art can run genuinely full-bleed */
 #works .bookmark{position:absolute;top:0;right:7%;z-index:5;padding:16px 9px 22px;font-family:'Courier Prime',monospace;font-size:.6rem;line-height:1.6;letter-spacing:.22em;text-transform:uppercase;text-align:center;color:#f4ece0;background:linear-gradient(180deg,#a13a2d,#6f2419);writing-mode:vertical-rl;text-orientation:mixed;box-shadow:0 16px 34px rgba(0,0,0,.55);clip-path:polygon(0 0,100% 0,100% 88%,50% 100%,0 88%);pointer-events:none}
 
-/* ============ LOOP ============ */
-#loop{min-height:30vh;display:flex;align-items:center;justify-content:center;background:#03040a;gap:18px;flex-wrap:wrap;padding:5vh 6vw}
-#loop a{font-family:'Courier Prime',monospace;letter-spacing:.4em;font-size:.78rem;color:#9296a4;text-decoration:none;border:1px solid rgba(236,234,227,.3);padding:1em 2.4em;border-radius:40px;transition:.4s}
-#loop a:hover{color:#ECEAE3;border-color:rgba(236,234,227,.7);letter-spacing:.5em}
-
 /* ============ WORKS · project index + detail modal ============ */
 #works .works-hotspots{position:absolute;inset:0}
 #works .work-hit{position:absolute;margin:0;padding:0;border:0;background:transparent;cursor:pointer;border-radius:8px;-webkit-tap-highlight-color:transparent}
@@ -249,7 +244,12 @@ section{position:relative}
 }
 
 /* ============ 8 · ABOUT — the paper bookend (polaroids on the desk) ============ */
-#about{position:relative;min-height:100vh;overflow:hidden;background:var(--paper);color:var(--ink);
+/* --ink is re-pinned to the dark paper-ink value here because a later
+   section (the Lab) redeclares it on :root for its own dark theme —
+   that leaks globally, and without this local override every var(--ink)
+   text in About (including the links below) silently turns near-white
+   on this light paper background. */
+#about{position:relative;min-height:100vh;overflow:hidden;background:var(--paper);--ink:#16120b;color:var(--ink);
   display:flex;align-items:center;justify-content:center;padding:10vh 6vw}
 #about .ab-htone{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;pointer-events:none;
   background-image:radial-gradient(circle,#000 26%,transparent 27%);background-size:6px 6px}
@@ -2587,22 +2587,27 @@ section{position:relative}
          the desk, so the first eyebrow label gets a left nudge to clear it */
       .eyebrow span:first-child{margin-left:22cqw}
 
-      .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5cqw,4.6rem);line-height:.9;text-transform:uppercase;
-        letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7cqw,46px);position:relative;z-index:3}
+      .title{font-family:var(--anton);font-size:clamp(2.4rem,12.5cqw,4.6rem);line-height:.88;text-transform:uppercase;
+        letter-spacing:.005em;color:var(--cream);margin-top:clamp(12px,7cqw,46px);position:relative;z-index:3}
       .title span{color:var(--ox)}
-      .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2cqw,1.35rem);
-        color:var(--dim);line-height:1.25;margin-top:14px;position:relative;z-index:3}
+      .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(.95rem,3.2cqw,1.35rem);
+        color:var(--dim);line-height:1.2;margin-top:8px;position:relative;z-index:3}
 
-      .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.4cqw,1.7rem);line-height:1.4;
-        color:var(--cream);margin-top:auto;max-width:30ch;position:relative;z-index:3}
+      /* wider max-width than a typical pull-quote so this wraps to fewer
+         lines — the eyebrow/title/subtitle above and the withheld notice +
+         citation links below all have to share one fixed-aspect card, and
+         a narrower measure here was pushing the citation links below the
+         visible poster where overflow:hidden silently ate them */
+      .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.05rem,3.4cqw,1.7rem);line-height:1.3;
+        color:var(--cream);margin-top:auto;max-width:40ch;position:relative;z-index:3}
 
-      .withheld{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);
-        border-top:1px solid rgba(192,86,59,.5);padding-top:11px;margin-top:clamp(20px,5cqw,30px);line-height:1.5;position:relative;z-index:3}
+      .withheld{font-family:var(--mono);font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);
+        border-top:1px solid rgba(192,86,59,.5);padding-top:8px;margin-top:clamp(10px,5cqw,30px);line-height:1.4;position:relative;z-index:3}
       .withheld b{color:var(--cream)}
 
-      .foot{font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;color:var(--dim);line-height:1.6;
-        margin-top:12px;flex:none;position:relative;z-index:3}
-      .foot a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(192,86,59,.5)}
+      .foot{font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:var(--dim);line-height:1.6;
+        margin-top:8px;flex:none;position:relative;z-index:3}
+      .foot a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(192,86,59,.6)}
       .foot a:hover,.foot a:focus-visible{color:var(--ox)}
     </style>
     <article class="poster">
@@ -2809,10 +2814,12 @@ section{position:relative}
     </figure>
   </div>
 </section>
-<section id="loop">
-  <a href="mailto:jeffreynicholast@gmail.com">WRITE ME · JEFFREYNICHOLAST@GMAIL.COM</a>
-  <a href="#gate">↑ RETURN TO THE GATE</a>
-</section>
+
+<!-- The loop back to the Gate is the polaroid's own "back to the start —"
+     link above (p2, href="#gate") — that's the one deliberate closing
+     beat. A second, separate "return to the gate" bar plus a duplicate
+     "write me" pill (the email is already in .ab-links above) used to
+     follow here; removed as redundant. -->
 
 <!-- ============ WORKS · project detail modal ============ -->
 <div id="pmodal" hidden role="dialog" aria-modal="true" aria-label="Project detail">
