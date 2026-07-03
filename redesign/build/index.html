@@ -41,6 +41,43 @@ section{position:relative}
   clip-path:polygon(0 0,100% 0,100% 22%,96% 58%,91% 30%,85% 66%,79% 34%,72% 72%,66% 38%,59% 70%,52% 30%,46% 64%,39% 34%,33% 74%,27% 40%,20% 66%,14% 30%,8% 60%,3% 34%,0 58%)}
 
 /* ============ 1 · GATE (koi) ============ */
+/* ============ SEAMS — connective tissue between worlds ============ */
+/* Works → Lab: dusk falls; the city's neon glow bleeds up from below */
+.seam-dusk{position:relative;height:56vh;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(180deg,#e2d8c2 0%,#8d7a5f 22%,#4a3f42 48%,#141320 76%,#05060c 100%)}
+.seam-dusk::after{content:"";position:absolute;left:0;right:0;bottom:0;height:50%;
+  background:radial-gradient(60% 95% at 50% 100%,rgba(122,80,255,.16),transparent 70%),
+             radial-gradient(40% 75% at 28% 100%,rgba(255,140,60,.10),transparent 70%)}
+.seam-dusk .sd-line{font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.9rem);
+  color:rgba(244,236,224,.55);letter-spacing:.04em;transform:rotate(-1.5deg)}
+/* Lab → Client Work: a strip of film leader before the western begins */
+.seam-leader{position:relative;height:52vh;background:#070503;display:flex;flex-direction:column;gap:18px;
+  align-items:center;justify-content:center;overflow:hidden}
+.seam-leader::before{content:"";position:absolute;top:0;bottom:0;left:3.2%;width:14px;
+  background:repeating-linear-gradient(0deg,transparent 0 26px,rgba(244,234,208,.14) 26px 42px)}
+.seam-leader::after{content:"";position:absolute;top:0;bottom:0;right:3.2%;width:14px;
+  background:repeating-linear-gradient(0deg,transparent 0 26px,rgba(244,234,208,.14) 26px 42px)}
+.seam-leader .sl-ring{width:92px;height:92px;border-radius:50%;border:2px solid rgba(244,234,208,.5);
+  display:flex;align-items:center;justify-content:center;position:relative}
+.seam-leader .sl-ring::before{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(244,234,208,.22)}
+.seam-leader .sl-ring i{font-style:normal;font-family:'Rye',serif;font-size:2rem;color:#e8d9b8}
+.seam-leader .sl-cap{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:#8a7654}
+@media(prefers-reduced-motion:no-preference){
+  .seam-leader .sl-ring::after{content:"";position:absolute;inset:-2px;border-radius:50%;
+    border:2px solid transparent;border-top-color:#c98a3a;animation:slsweep 2.2s linear infinite}
+  @keyframes slsweep{to{transform:rotate(360deg)}}
+}
+/* arrival: each world's furniture settles into place the first time you enter */
+.arrive{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1)}
+.arrive.in{opacity:1;transform:none}
+.arrive.d1{transition-delay:.09s}.arrive.d2{transition-delay:.18s}
+.arrive-fade{opacity:0;transition:opacity 1.1s ease}   /* for elements that carry their own rotate transform */
+.arrive-fade.in{opacity:1}
+.arrive-fade.d1{transition-delay:.12s}.arrive-fade.d2{transition-delay:.24s}
+@media(prefers-reduced-motion:reduce){
+  .arrive,.arrive-fade{opacity:1;transform:none;transition:none}
+}
+
 #gate{height:100vh;background:#03040a url("assets/koi_still_dots.webp") center/cover;cursor:crosshair;overflow:hidden}
 #gate #c{position:absolute;inset:0;width:100%;height:100%;display:block}
 #gate .ui{position:absolute;color:#ECEAE3;font-family:'Cormorant Garamond',serif;z-index:5;pointer-events:none;text-shadow:0 2px 40px rgba(0,0,0,.96)}
@@ -921,6 +958,12 @@ section{position:relative}
   }
 
 </style>
+<!-- SEAM · Works → Lab: dusk falls — the scrapbook's daylight gives way to the
+     street's night. A real scrolled band, not an overlay: cream fades through
+     dusk into the Lab's dark, with the city's glow bleeding up from below. -->
+<div class="seam-dusk" aria-hidden="true">
+  <span class="sd-line">the light goes &mdash; the city wakes</span>
+</div>
 <section id="lab" aria-label="The Lab — a living night street">
 
 <!-- ====================== THE STREET ====================== -->
@@ -1738,6 +1781,13 @@ section{position:relative}
 }
 </style>
 
+
+<!-- SEAM · Lab → Client Work: the projector starts — a strip of film leader
+     between the night street and the western's title plate. -->
+<div class="seam-leader" aria-hidden="true">
+  <span class="sl-ring"><i>5</i></span>
+  <span class="sl-cap">reel 05 &middot; now showing</span>
+</div>
 
 <!-- ============ §05 · CLIENT WORK — STOP-MOTION WESTERN CARTOON (v7) ============ -->
 <section id="client" aria-label="Client Work — a stop-motion western cartoon; scroll to ride, rope each client, then open their card from the tray">
@@ -3252,6 +3302,31 @@ void main(){
   document.querySelectorAll('.work-hit').forEach(b=>b.addEventListener('click',()=>open(b.dataset.proj)));
   m.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',close));
   addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close();});
+})();
+</script>
+
+<!-- ============ ARRIVALS · each world settles into place on first entry ============ -->
+<script>
+(function(){
+  var items=[];
+  function tag(sel,cls){
+    document.querySelectorAll(sel).forEach(function(el,i){
+      el.classList.add(cls);
+      if(i%3===1)el.classList.add('d1'); else if(i%3===2)el.classList.add('d2');
+      items.push(el);
+    });
+  }
+  tag('#hero .wrap','arrive');
+  tag('#works .bookmark','arrive');
+  tag('#editorial .shop-tag','arrive');
+  tag('#archive .host','arrive-fade');
+  tag('#about .polaroid','arrive-fade');
+  tag('#about .ab-note','arrive');
+  if(!('IntersectionObserver' in window)){items.forEach(function(e){e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+  });},{threshold:.18});
+  items.forEach(function(e){io.observe(e);});
 })();
 </script>
 
