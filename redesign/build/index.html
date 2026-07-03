@@ -1746,6 +1746,9 @@ section{position:relative}
   background:radial-gradient(80% 80% at 50% 46%,#27190a,#120c05 70%,#070402);
   transform:translateX(100%);opacity:0;will-change:transform,opacity}
 #client .cw-endcard::before{content:"";position:absolute;inset:7%;border:2px double rgba(244,234,208,.4);border-radius:4px;pointer-events:none}
+/* night sweeps in ahead of the card — no hard cut against the desert sky */
+#client .cw-endcard::after{content:"";position:absolute;right:100%;top:0;bottom:0;width:30vw;pointer-events:none;
+  background:linear-gradient(90deg,rgba(7,4,2,0),rgba(7,4,2,.55) 55%,#070402)}
 #client .ec-orn{font-family:'Rye',serif;color:#c98a3a;font-size:clamp(1rem,3vw,1.5rem);opacity:.85}
 #client .ec-big{font-family:'Rye',serif;font-size:clamp(2rem,9vw,4.6rem);color:var(--bone);line-height:.96;
   text-shadow:0 2px 0 rgba(0,0,0,.5),0 0 26px rgba(201,138,58,.3)}
@@ -1863,7 +1866,7 @@ section{position:relative}
     </div>
   </div>
 
-  <p class="cw-foot"><a href="#gate">&#8593; back to the Gate</a></p>
+  <p class="cw-foot"><a href="#editorial">&#8595; the trail ends at a tape shop</a></p>
 </section>
 
 <script>
