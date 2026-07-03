@@ -1768,7 +1768,7 @@ section{position:relative}
 <section id="editorial" aria-label="Editorial — a fashion record collection">
   <div class="ed-head">
     <div>
-      <div class="ed-eyebrow">Chief Editor &amp; Interviewer &middot; I.T Apparels</div>
+      <div class="ed-eyebrow">Editorial Strategist &middot; Chief Editor &amp; Interviewer, I.T Apparels</div>
       <h2 class="ed-title"><em>Editorials</em></h2>
     </div>
     <p class="ed-credit"><b>Fashion Editorial</b><br>New York / Hong Kong<br>2023&ndash;2025</p>
@@ -1836,7 +1836,7 @@ section{position:relative}
     { name:"MARKGONG FALL 2025", sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia", year:"FW25",
       link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",
       cover:u("40219b54-eadf-4d48-88bb-d28fac41bcee") },
-    { name:"MASAYUKI INO", sub:"Doublet — Crafting Dreams into Reality", year:"Interview",
+    { name:"MASAYUKI INO", sub:"Doublet — Turning Dreams into Reality", year:"Interview",
       link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",
       cover:u("a5cffa8d-b0c7-466a-bb92-a31aa3c7fb92") },
     { name:"A BATHING APE®", sub:"Fall / Winter 2024 in Shanghai", year:"FW24",
@@ -1848,7 +1848,7 @@ section{position:relative}
     { name:"THE GOTHIC REALM OF DARK FASHION", sub:"Obsidian Elegance", year:"SS24",
       link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",
       cover:u("b61de0a0-edfd-4339-aceb-8f0cd040fcc0") },
-    { name:"PONDER.ER SS24", sub:"Road Trip to Heaven", year:"SS24",
+    { name:"PONDER.ER", sub:"Road Trip to Heaven", year:"SS24",
       link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",
       cover:u("3a1d91aa-e798-4736-8d20-d9d7a91237eb") },
     { name:"WESTFALL", sub:"California Punk Culture", year:"SS24",
@@ -1975,7 +1975,13 @@ section{position:relative}
     var cap=feature.querySelector(".cap"), el;
     if(r.cover){
       el=document.createElement("div");el.className="media on";
-      el.innerHTML='<img src="'+r.cover+'" alt="'+r.name+'" loading="lazy">';
+      var img=document.createElement("img");
+      img.src=r.cover;img.alt=r.name;img.loading="lazy";
+      img.addEventListener("error",function(){
+        el.className="plate on";el.style.background=r.plate||"#1c1c22";
+        el.innerHTML='<div><div class="pt">'+r.name+'</div><div class="ps">'+r.sub+'</div><div class="pn">I.T Apparels &middot; Editorial</div></div>';
+      });
+      el.appendChild(img);
     }else{
       el=document.createElement("div");el.className="plate on";el.style.background=r.plate||"#1c1c22";
       el.innerHTML='<div><div class="pt">'+r.name+'</div><div class="ps">'+r.sub+'</div><div class="pn">I.T Apparels &middot; Editorial</div></div>';
@@ -2038,7 +2044,7 @@ section{position:relative}
      to the viewport and killed wheel/keyboard scrolling for the whole page */
   #archive{
     background:#15110d;color:#e9e6df;
-    font-family:'Space Mono',monospace;
+    font-family:'Courier Prime','Courier New',monospace;
   }
 
   /* hand-drawn black-marker title, scrawled on the desk in the clear
@@ -2073,6 +2079,7 @@ section{position:relative}
      rotation comes from --rot (inline); hover composes scale on top. */
   #archive .host{
     position:absolute;width:19%;
+    container-type:inline-size;
     padding:4px;background:#f4f0e6;
     box-shadow:1px 2px 3px rgba(0,0,0,.4),10px 16px 26px -6px rgba(0,0,0,.5);
     transform:rotate(var(--rot,0deg));
@@ -2124,8 +2131,8 @@ section{position:relative}
       </span>
     </div>
 
-    <div class="host" data-poster="welcome-home"      style="left:31%; top:6%;  z-index:2; --rot:-7deg; --rot-m:-3deg"></div>
-    <div class="host" data-poster="finite-appearances" style="left:52%; top:3%;  z-index:3; --rot:5deg;  --rot-m:3deg"></div>
+    <div class="host" data-poster="welcome-home"      style="left:29%; top:6%;  z-index:4; --rot:-7deg; --rot-m:-3deg"></div>
+    <div class="host" data-poster="finite-appearances" style="left:57%; top:3%;  z-index:3; --rot:5deg;  --rot-m:3deg"></div>
     <div class="host" data-poster="undergrowth"        style="left:73%; top:7%;  z-index:2; --rot:-3deg; --rot-m:-3deg"></div>
     <div class="host" data-poster="insights"           style="left:5%;  top:46%; z-index:5; --rot:6deg;  --rot-m:3deg"></div>
     <div class="host" data-poster="resonance"          style="left:25%; top:50%; z-index:4; --rot:-5deg; --rot-m:-3deg"></div>
@@ -2146,7 +2153,7 @@ section{position:relative}
   <template data-poster="welcome-home">
     <style>
       :host{
-        --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --anton:'Anton',Impact,sans-serif; --mono:'Courier Prime','Courier New',monospace; --mark:'Reenie Beanie',cursive;
         --ink:#16140d; --crimson:#d8265a;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2158,12 +2165,12 @@ section{position:relative}
 
       /* --- handwriting, top --- */
       .hand{position:absolute;top:16px;right:15px;z-index:3;font-family:var(--mark);
-        font-size:clamp(1.3rem,5vw,1.9rem);line-height:.95;width:52%;text-align:right;color:var(--crimson);
+        font-size:clamp(1.3rem,5cqw,1.9rem);line-height:.95;width:52%;text-align:right;color:var(--crimson);
         transform:rotate(-2deg)}
 
       /* --- bottom flat-green zone --- */
       .title{position:absolute;left:15px;bottom:46px;z-index:3;font-family:var(--anton);
-        font-size:clamp(2.8rem,12vw,4.4rem);line-height:.8;text-transform:uppercase;letter-spacing:-.01em;color:var(--ink)}
+        font-size:clamp(2.8rem,12cqw,4.4rem);line-height:.8;text-transform:uppercase;letter-spacing:-.01em;color:var(--ink)}
       .title span{color:var(--crimson)}
       .credit{position:absolute;left:16px;bottom:22px;z-index:3;font-family:var(--mono);font-size:.56rem;
         letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
@@ -2180,7 +2187,7 @@ section{position:relative}
   <template data-poster="finite-appearances">
     <style>
       :host{
-        --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --anton:'Anton',Impact,sans-serif; --mono:'Courier Prime','Courier New',monospace; --mark:'Reenie Beanie',cursive;
         --bone:#f1ece0; --red:#ef4a2e;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2196,13 +2203,13 @@ section{position:relative}
 
       /* TITLE — vertical, up the right edge */
       .title{position:absolute;right:8px;top:18px;bottom:18px;z-index:3;font-family:var(--anton);
-        writing-mode:vertical-rl;text-orientation:mixed;font-size:clamp(1.8rem,6.4vw,2.7rem);
+        writing-mode:vertical-rl;text-orientation:mixed;font-size:clamp(1.8rem,6.4cqw,2.7rem);
         line-height:1;text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
       .title span{color:var(--red)}
 
       /* curatorial line, lower-left */
       .hand{position:absolute;left:15px;bottom:18px;z-index:3;font-family:var(--mark);
-        font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:62%;color:var(--bone);transform:rotate(-1.5deg)}
+        font-size:clamp(1.35rem,5.2cqw,2rem);line-height:.96;width:62%;color:var(--bone);transform:rotate(-1.5deg)}
       .hand em{color:var(--red);font-style:normal}
     </style>
     <article class="poster">
@@ -2216,7 +2223,7 @@ section{position:relative}
   <template data-poster="undergrowth">
     <style>
       :host{
-        --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Space Mono',monospace; --brush:'Permanent Marker',cursive;
+        --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Courier Prime','Courier New',monospace; --brush:'Permanent Marker',cursive;
         --lime:#c6f032; --red:#e8281f; --cream:#f2eee2; --ink:#16210f;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2238,14 +2245,14 @@ section{position:relative}
       .free{position:absolute;right:9%;top:26%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.62rem;color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
 
       /* big brush-handwritten line + printed echo */
-      .brush{position:absolute;left:6%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8vw,3rem);
+      .brush{position:absolute;left:6%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8cqw,3rem);
         line-height:.96;color:var(--lime);width:64%;text-shadow:0 2px 7px rgba(0,0,0,.4)}
       .echo{position:absolute;left:34%;bottom:31%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.56rem;
         color:var(--cream);transform:rotate(-2deg);text-shadow:0 1px 4px rgba(0,0,0,.5)}
 
       /* brand mark, bottom-right */
       .brand{position:absolute;right:6%;bottom:6%;z-index:3;text-align:right}
-      .brand b{display:block;font-family:var(--sans);font-weight:900;font-size:clamp(1.3rem,5vw,1.9rem);letter-spacing:.01em;
+      .brand b{display:block;font-family:var(--sans);font-weight:900;font-size:clamp(1.3rem,5cqw,1.9rem);letter-spacing:.01em;
         color:var(--lime);text-shadow:0 1px 5px rgba(0,0,0,.45);text-transform:uppercase}
       .brand span{display:block;font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);
         margin-top:3px;line-height:1.4;text-shadow:0 1px 4px rgba(0,0,0,.55)}
@@ -2280,7 +2287,7 @@ section{position:relative}
     <style>
       :host{
         --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
-        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive; --serif:'Cormorant Garamond',Georgia,serif;
+        --mono:'Courier Prime','Courier New',monospace; --mark:'Reenie Beanie',cursive; --serif:'Cormorant Garamond',Georgia,serif;
         --paper:#ece7da; --ink:#141210; --blue:#2536d8; --red:#e5332a;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2298,7 +2305,7 @@ section{position:relative}
       /* headline */
       .head{flex:none}
       .head .pre{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--blue);line-height:1;margin-bottom:1px}
-      .head h1{font-family:var(--anton);font-size:clamp(2.3rem,9.4vw,3.5rem);line-height:.82;
+      .head h1{font-family:var(--anton);font-size:clamp(2.3rem,9.4cqw,3.5rem);line-height:.82;
         text-transform:uppercase;letter-spacing:-.005em;color:var(--ink)}
       .head h1 .sq{display:inline-block;width:.5em;height:.5em;background:var(--red);vertical-align:.04em;margin-left:.06em}
 
@@ -2363,7 +2370,7 @@ section{position:relative}
     <style>
       :host{
         --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
-        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --mono:'Courier Prime','Courier New',monospace; --mark:'Reenie Beanie',cursive;
         --mag:#c0246a; --cream:#f3efe2; --lime:#d6f02a; --ink:#2a0f1a; --orange:#ff7a1a;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2374,7 +2381,7 @@ section{position:relative}
         background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
       /* faint tiled type-texture */
-      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6cqw,2.1rem);
         line-height:1.7;letter-spacing:.34em;word-spacing:.5em;text-transform:uppercase;color:rgba(243,239,226,.1);overflow:hidden}
 
       /* ripple rings — the resonance motif */
@@ -2386,7 +2393,7 @@ section{position:relative}
 
       /* focal title, bottom */
       .title{position:absolute;left:14px;bottom:54px;z-index:3;font-family:var(--anton);
-        font-size:clamp(2.4rem,10.5vw,3.8rem);line-height:.84;text-transform:uppercase;letter-spacing:.04em;color:var(--cream)}
+        font-size:clamp(2.4rem,10.5cqw,3.8rem);line-height:.84;text-transform:uppercase;letter-spacing:.04em;color:var(--cream)}
 
       /* scattered labels */
       .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.62rem;line-height:1.12;
@@ -2396,7 +2403,7 @@ section{position:relative}
       .l1{left:15px;top:14px} .l2{right:15px;top:14px;text-align:right}
       .l3{right:15px;bottom:54px;text-align:right} .l4{left:15px;bottom:16px}
       .mark{position:absolute;right:15px;top:30%;z-index:4;font-family:var(--mark);
-        font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:56%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
+        font-size:clamp(1.35rem,5.2cqw,2rem);line-height:.96;width:56%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
       .mark em{color:var(--lime);font-style:normal}
 
       .dot{position:absolute;z-index:4;width:13px;height:13px;border-radius:50%;background:var(--lime)}
@@ -2427,14 +2434,14 @@ section{position:relative}
   <template data-poster="beitler">
     <style>
       :host{
-        --anton:'Anton',Impact,sans-serif; --serif:'Cormorant Garamond',Georgia,serif; --mono:'Space Mono',monospace;
+        --anton:'Anton',Impact,sans-serif; --serif:'Cormorant Garamond',Georgia,serif; --mono:'Courier Prime','Courier New',monospace;
         --bg:#16182e; --cream:#e9e3d4; --dim:#8d8aa0; --ox:#c0563b;
       }
       *{margin:0;padding:0;box-sizing:border-box}
 
       .poster{position:relative;width:100%;aspect-ratio:848/1264;overflow:hidden;background:var(--bg);
         color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.75);
-        display:flex;flex-direction:column;padding:clamp(22px,5.5vw,34px) clamp(20px,5vw,30px)}
+        display:flex;flex-direction:column;padding:clamp(22px,5.5cqw,34px) clamp(20px,5cqw,30px)}
       .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:soft-light;
         background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -2442,17 +2449,17 @@ section{position:relative}
         letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
         border-bottom:1px solid rgba(233,227,212,.16);padding-bottom:10px;flex:none;position:relative;z-index:3}
 
-      .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5vw,4.6rem);line-height:.9;text-transform:uppercase;
-        letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7vw,46px);position:relative;z-index:3}
+      .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5cqw,4.6rem);line-height:.9;text-transform:uppercase;
+        letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7cqw,46px);position:relative;z-index:3}
       .title span{color:var(--ox)}
-      .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2vw,1.35rem);
+      .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2cqw,1.35rem);
         color:var(--dim);line-height:1.25;margin-top:14px;position:relative;z-index:3}
 
-      .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.4;
+      .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.4cqw,1.7rem);line-height:1.4;
         color:var(--cream);margin-top:auto;max-width:30ch;position:relative;z-index:3}
 
       .withheld{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);
-        border-top:1px solid rgba(192,86,59,.5);padding-top:11px;margin-top:clamp(20px,5vw,30px);line-height:1.5;position:relative;z-index:3}
+        border-top:1px solid rgba(192,86,59,.5);padding-top:11px;margin-top:clamp(20px,5cqw,30px);line-height:1.5;position:relative;z-index:3}
       .withheld b{color:var(--cream)}
 
       .foot{font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;color:var(--dim);line-height:1.6;
@@ -2478,7 +2485,7 @@ section{position:relative}
     <style>
       :host{
         --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
-        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --mono:'Courier Prime','Courier New',monospace; --mark:'Reenie Beanie',cursive;
         --tang:#e8642a; --paper:#f6f1e6; --ink:#1c1208; --blue:#2536d8;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2488,7 +2495,7 @@ section{position:relative}
       .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:multiply;
         background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6cqw,2.1rem);
         line-height:1.7;letter-spacing:.32em;word-spacing:.5em;text-transform:uppercase;color:rgba(28,18,8,.1);overflow:hidden}
 
       /* unspooling paper strip + perforations */
@@ -2501,8 +2508,8 @@ section{position:relative}
         box-shadow:0 0 0 2px rgba(28,18,8,.2)}
 
       /* focal title, top-left */
-      .title{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--anton);
-        font-size:clamp(2.4rem,10.5vw,3.8rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+      .title{position:absolute;left:14px;top:14px;z-index:3;max-width:36%;font-family:var(--anton);
+        font-size:clamp(1.5rem,7cqw,2.5rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
       .title b{font-weight:400;color:var(--paper)}
 
       .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.6rem;line-height:1.12;
@@ -2511,7 +2518,7 @@ section{position:relative}
       .lab.pap{color:var(--paper)}
       .l1{right:15px;top:16px;text-align:right} .l2{left:15px;top:38%} .l3{right:15px;top:54%;text-align:right} .l4{left:15px;bottom:74px}
       .mark{position:absolute;right:14px;bottom:44px;z-index:4;font-family:var(--mark);
-        font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:54%;text-align:right;color:var(--ink);transform:rotate(-2deg)}
+        font-size:clamp(1.35rem,5.2cqw,2rem);line-height:.96;width:54%;text-align:right;color:var(--ink);transform:rotate(-2deg)}
       .mark em{color:var(--blue);font-style:normal}
 
       .readlink{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-weight:700;font-size:.56rem;
@@ -2547,7 +2554,7 @@ section{position:relative}
     <style>
       :host{
         --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
-        --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+        --mono:'Courier Prime','Courier New',monospace; --mark:'Reenie Beanie',cursive;
         --red:#e5332a; --cream:#f6efe2; --ink:#1a0e0c; --blue:#2536d8;
       }
       *{margin:0;padding:0;box-sizing:border-box}
@@ -2557,7 +2564,7 @@ section{position:relative}
       .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.17;mix-blend-mode:multiply;
         background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+      .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6cqw,2.1rem);
         line-height:1.7;letter-spacing:.3em;word-spacing:.5em;text-transform:uppercase;color:rgba(246,239,226,.1);overflow:hidden}
 
       /* soft spray heart */
@@ -2568,7 +2575,7 @@ section{position:relative}
 
       /* focal title */
       .title{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--anton);
-        font-size:clamp(2.6rem,11.5vw,4.2rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--cream)}
+        font-size:clamp(2.6rem,11.5cqw,4.2rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--cream)}
 
       /* swipe cues */
       .swipe{position:absolute;z-index:4;font-family:var(--mono);font-weight:700;font-size:.56rem;
@@ -2581,7 +2588,7 @@ section{position:relative}
       .l1{right:15px;top:16px;text-align:right} .l2{left:15px;top:40%} .l3{right:15px;top:62%;text-align:right} .l4{left:15px;bottom:74px}
 
       .mark{position:absolute;right:14px;bottom:44px;z-index:4;font-family:var(--mark);
-        font-size:clamp(1.4rem,5.4vw,2.05rem);line-height:.96;width:60%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
+        font-size:clamp(1.4rem,5.4cqw,2.05rem);line-height:.96;width:60%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
       .mark em{color:var(--blue);font-style:normal}
 
       .credit{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-size:.52rem;
