@@ -1550,13 +1550,12 @@ section{position:relative}
 </section>
 <style>
 /* ============================================================
-   CLIENT WORK · §05 — STOP-MOTION WESTERN CARTOON (v6, ship-ready)
-   True stop-motion puppet (felt/clay, photographed on a miniature
-   set) replaces the earlier flat-vector/chibi-anime Ash, matching
-   the koi's hyperreal fidelity bar. Transparent (luma-keyed) Ash
-   travels a panning miniature-set desert; the seven real client
-   logos stand along the trail as painted signboards. All assets
-   are local (assets/west/) — no CDN dependency.
+   CLIENT WORK · §05 — STOP-MOTION WESTERN CARTOON (v7)
+   Still sepia film title plate → scroll-coupled stop-motion ride
+   past seven real-client signboards → lasso CATCH per client →
+   roped logos collect in a tray and open their engagement card.
+   All assets local (assets/west/). Ash = alpha-channel WebM
+   (no runtime keying), mp4 + canvas key as fallback.
    ============================================================ */
 #client{position:relative;background:#0b0704;color:var(--bone);-webkit-font-smoothing:antialiased}
 #client .cw-track{position:relative;height:1200vh}
@@ -1568,16 +1567,26 @@ section{position:relative}
 #client .cw-world .cw-bg.flip{transform:scaleX(-1)}
 
 #client .cw-sign{position:absolute;top:24%;width:clamp(170px,16vw,290px);z-index:1;text-align:center}
-#client .cw-sign .board{display:block;background:#e9dcbe;border:3px solid #5a3d1e;border-radius:3px;
-  padding:12px 14px;box-shadow:0 4px 0 #5a3d1e,0 10px 18px -8px rgba(40,22,6,.55);
-  transform:rotate(-1.2deg)}
+#client .cw-sign .board{display:flex;align-items:center;justify-content:center;min-height:96px;background:#e9dcbe;
+  border:3px solid #5a3d1e;border-radius:3px;padding:12px 14px;
+  box-shadow:0 4px 0 #5a3d1e,0 10px 18px -8px rgba(40,22,6,.55);
+  transform:rotate(-1.2deg);transition:transform .25s ease}
 #client .cw-sign:nth-of-type(even) .board{transform:rotate(1.4deg)}
-#client .cw-sign .board img{display:block;width:100%;height:auto;max-height:88px;object-fit:contain;
-  mix-blend-mode:multiply;filter:grayscale(1) sepia(.55) contrast(1.12)}
+/* real logos in REAL COLOR — physicality comes from the board, not desaturation */
+#client .cw-sign .board img{display:block;width:auto;max-width:100%;object-fit:contain;
+  filter:drop-shadow(0 1px 1px rgba(40,22,6,.25))}
 #client .cw-sign .post{display:block;margin:0 auto;width:10px;height:9vh;background:#5a3d1e;
   box-shadow:inset -2px 0 0 rgba(0,0,0,.28)}
 #client .cw-sign figcaption{font-family:'Smokum',serif;color:#3a2412;font-size:clamp(.8rem,1.5vw,1.15rem);
   letter-spacing:.04em;margin-top:2px;text-shadow:0 1px 0 rgba(244,234,208,.6)}
+/* roped state: the sign rocks once and keeps a slight slump + rope knot */
+#client .cw-sign.roped .board{transform:rotate(-3.6deg) translateY(2px)}
+#client .cw-sign:nth-of-type(even).roped .board{transform:rotate(3.8deg) translateY(2px)}
+#client .cw-sign.roped .board::after{content:"";position:absolute;right:-9px;top:-9px;width:26px;height:26px;
+  border-radius:50%;border:3.5px solid #7a5230;border-right-color:transparent;transform:rotate(35deg);
+  box-shadow:0 1px 2px rgba(40,22,6,.4)}
+#client .cw-sign.rock .board{animation:cwrock .5s ease}
+@keyframes cwrock{0%{transform:rotate(-1.2deg)}30%{transform:rotate(-5deg)}60%{transform:rotate(1.5deg)}100%{transform:rotate(-3.6deg)}}
 
 #client .cw-dust{position:absolute;left:0;bottom:0;width:400%;height:16%;z-index:2;pointer-events:none;
   will-change:transform;opacity:.55;
@@ -1593,10 +1602,24 @@ section{position:relative}
     radial-gradient(2px 2px at 92% 72%,rgba(60,40,18,.7),transparent);
   background-size:25% 100%}
 
-#client .cw-ash{position:absolute;left:2%;bottom:4%;height:70%;width:auto;z-index:3;pointer-events:none}
-#client #cwAshVideo{display:none;mix-blend-mode:multiply}
-#client #cwAshVideo.fallback{display:block}
+#client .cw-ash{position:absolute;left:2%;bottom:4%;height:66%;width:auto;z-index:3;pointer-events:none}
+#client .cw-ash.galloping{animation:cwjit .34s steps(2) infinite}
+@keyframes cwjit{0%,100%{margin-bottom:0}50%{margin-bottom:2px}}
+#client #cwAshVideo{display:none}
+#client #cwAshVideo.show{display:block}
 #client #cwAshCanvas.hidden{display:none}
+/* soft contact shadow so Ash reads grounded and SOLID in every fallback */
+#client .cw-ashshadow{position:absolute;left:3%;bottom:3.2%;width:30%;height:5%;z-index:2;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(40,22,6,.30),transparent 70%)}
+
+/* lasso rope layer — drawn per catch in stage coordinates */
+#client #cwRope{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:visible}
+#client #cwRope path,#client #cwRope ellipse{fill:none;stroke:#8a5a2e;stroke-width:3;stroke-linecap:round;
+  filter:drop-shadow(0 1px 1px rgba(40,22,6,.35))}
+
+/* chip in flight */
+#client .cw-fly{position:fixed;z-index:80;pointer-events:none;object-fit:contain;
+  transition:transform .7s cubic-bezier(.5,-.1,.3,1.1),width .7s ease,height .7s ease;will-change:transform}
 
 #client .cw-wash{position:absolute;inset:0;z-index:4;pointer-events:none;
   background:radial-gradient(120% 100% at 50% 48%,transparent 56%,rgba(24,13,3,.32) 100%)}
@@ -1609,102 +1632,112 @@ section{position:relative}
   text-transform:uppercase;color:#3a2412;opacity:.85}
 #client .cw-reel{position:absolute;top:4.5%;left:5%;z-index:6;pointer-events:none;
   font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;
-  color:var(--amber);text-shadow:0 1px 5px #000}
-#client .cw-act{position:absolute;left:5%;bottom:11%;z-index:6;pointer-events:none;
+  color:#7c5a33;text-shadow:0 1px 0 rgba(244,234,208,.5)}
+#client .cw-act{position:absolute;left:5%;bottom:16%;z-index:6;pointer-events:none;
   font-family:'Special Elite',monospace;font-size:.68rem;letter-spacing:.18em;
   text-transform:uppercase;color:#3a2412;opacity:0;transition:opacity .35s ease}
 #client .cw-act b{display:block;font-family:'Smokum',serif;letter-spacing:.04em;color:#7c3f11;
   font-size:clamp(1.3rem,3.6vw,2.2rem);line-height:1.05;margin-top:.12em}
 
-#client .cw-hint{position:absolute;left:0;right:0;bottom:5%;z-index:6;text-align:center;pointer-events:none;
-  font-family:'Special Elite',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;
-  color:#3a2412;opacity:.7;transition:opacity .4s}
+/* ---------- ROPED TRAY — the caught roster, clickable ---------- */
+#client .cw-tray{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);z-index:7;
+  display:flex;align-items:center;gap:10px;padding:8px 14px;
+  background:linear-gradient(#8a5a2e,#6d431f);border:2px solid #4c2f12;border-radius:10px;
+  box-shadow:0 10px 24px -10px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,235,200,.25);
+  opacity:0;transition:opacity .4s ease;pointer-events:none}
+#client .cw-tray.on{opacity:1;pointer-events:auto}
+#client .cw-tray .tray-label{font-family:'Rye',serif;font-size:.62rem;letter-spacing:.22em;
+  text-transform:uppercase;color:#f4ead0;text-shadow:0 1px 0 rgba(0,0,0,.4);margin-right:2px}
+#client .cw-chip{width:52px;height:40px;border-radius:6px;border:1.5px solid #4c2f12;background:#efe3c4;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;padding:4px;
+  box-shadow:0 2px 0 #4c2f12;transition:transform .15s ease}
+#client .cw-chip:hover,#client .cw-chip:focus-visible{transform:translateY(-3px)}
+#client .cw-chip img{max-width:100%;max-height:100%;object-fit:contain}
 
-/* ---------- RING-IRIS TITLE CARD ---------- */
+/* ---------- ENGAGEMENT CARD POPUP (replaces the ledger section) ---------- */
+#client .cw-pop{position:fixed;inset:0;z-index:96;display:none;align-items:center;justify-content:center}
+#client .cw-pop.open{display:flex}
+#client .cw-pop .pop-back{position:absolute;inset:0;background:rgba(11,7,4,.55)}
+#client .cw-pop .pop-card{position:relative;max-width:420px;width:calc(100% - 40px);
+  background:#e7d9ba;color:#2a1c0d;padding:26px 28px 24px;transform:rotate(-.5deg);
+  box-shadow:0 24px 60px -18px rgba(0,0,0,.75),inset 0 0 0 1px rgba(42,28,13,.18)}
+#client .cw-pop .pop-card::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='lg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23lg)'/%3E%3C/svg%3E")}
+#client .cw-pop .pop-logo{height:44px;display:flex;align-items:center;margin-bottom:10px}
+#client .cw-pop .pop-logo img{max-height:100%;max-width:60%;object-fit:contain}
+#client .cw-pop h4{font-family:'Special Elite',monospace;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+#client .cw-pop .pop-years{font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.12em;color:#6b5636;margin-bottom:12px}
+#client .cw-pop .pop-services{font-family:'Courier Prime',monospace;font-size:.78rem;letter-spacing:.04em;line-height:1.6;color:#3c2b16}
+#client .cw-pop .pop-stamp{margin-top:16px;display:inline-block;font-family:'Rye',serif;font-size:.6rem;letter-spacing:.18em;
+  text-transform:uppercase;color:#8a2f1d;border:2px solid #8a2f1d;border-radius:4px;padding:.45em .8em;transform:rotate(-4deg);opacity:.85}
+#client .cw-pop .pop-x{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;
+  font-family:'Courier Prime',monospace;font-size:1rem;color:#6b5636}
+
+/* ---------- TITLE PLATE — still, silent-era western ---------- */
 #client .cw-titlecard{position:absolute;inset:0;z-index:24;display:flex;
   align-items:center;justify-content:center;text-align:center;pointer-events:none;overflow:hidden;color:var(--bone);
-  background:repeating-radial-gradient(circle at 50% 47%,
-    #d8b16a 0 2.6%, #b98d45 2.6% 5.2%, #8a6631 5.2% 7.8%, #b98d45 7.8% 10.4%);
-  filter:sepia(.4) contrast(1.06)}
-#client .cw-titlecard::before{content:"";position:absolute;inset:0;
-  background:
-    conic-gradient(from 0deg at 50% 47%, rgba(255,244,214,.16), transparent 22%, transparent 78%, rgba(255,244,214,.16)),
-    radial-gradient(circle at 50% 47%, transparent 34%, rgba(12,7,3,.6) 100%);
-  animation:cwltsweep 6s linear infinite}
-@keyframes cwltsweep{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-#client .cw-titlecard .lt-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.16em;
-  padding:9% 12%;border-radius:50%/44%;
-  background:radial-gradient(60% 62% at 50% 50%,rgba(18,11,4,.94) 0%,rgba(18,11,4,.82) 62%,rgba(18,11,4,0) 100%)}
-#client .cw-titlecard .lt-inner::after{content:"";position:absolute;inset:14% 6%;border:2px solid rgba(244,234,208,.35);border-radius:50%/46%;pointer-events:none}
-#client .tc-studio{font-family:'Rye',serif;font-size:clamp(.8rem,2.4vw,1.2rem);letter-spacing:.16em;color:#f4ead0}
-#client .tc-tiny{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.7rem,1.8vw,1rem);color:#e2c98f}
-#client .tc-feature{font-family:'Rye',serif;font-size:clamp(1.5rem,6.5vw,3.4rem);line-height:1;color:#f4ead0;
-  letter-spacing:.01em;margin:.1em 0;text-shadow:0 2px 0 rgba(0,0,0,.55),0 0 26px rgba(201,138,58,.4)}
-#client .tc-comic{font-family:'Smokum',serif;font-size:clamp(1.05rem,3.6vw,1.9rem);letter-spacing:.05em;color:var(--amber)}
-#client .tc-sys{font-family:'Special Elite',monospace;font-size:clamp(.5rem,1.4vw,.64rem);letter-spacing:.24em;text-transform:uppercase;color:#cdb488;margin-top:.35em}
+  background:radial-gradient(120% 95% at 50% 42%,#3a2812 0%,#241708 55%,#120a04 100%)}
+#client .cw-titlecard::before{content:"";position:absolute;inset:4.5%;border:2px solid rgba(214,178,120,.55);
+  outline:1px solid rgba(214,178,120,.3);outline-offset:6px;border-radius:2px;pointer-events:none}
+#client .cw-titlecard::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='tg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tg)'/%3E%3C/svg%3E")}
+#client .cw-titlecard .lt-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.3em;padding:0 8%}
+#client .tc-orn{font-family:'Rye',serif;color:#c98a3a;font-size:clamp(.9rem,2.2vw,1.3rem);letter-spacing:.5em;opacity:.9}
+#client .tc-name{font-family:'Special Elite',monospace;font-size:clamp(.7rem,1.6vw,.95rem);letter-spacing:.42em;
+  text-transform:uppercase;color:#e8d9b8}
+#client .tc-presents{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.95rem,2.2vw,1.4rem);color:#cdb488}
+#client .tc-feature{font-family:'Rye',serif;font-size:clamp(2.4rem,9vw,6rem);line-height:.98;color:#f4ead0;
+  letter-spacing:.015em;margin:.06em 0 .1em;text-shadow:0 2px 0 rgba(0,0,0,.55),0 0 34px rgba(201,138,58,.35)}
+#client .tc-sub{font-family:'Smokum',serif;font-size:clamp(1.1rem,3.2vw,1.9rem);letter-spacing:.05em;color:#c98a3a}
+#client .tc-cue{position:absolute;left:0;right:0;bottom:6%;z-index:2;
+  font-family:'Special Elite',monospace;font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:#a8946f}
+#client .tc-cue .chev{display:block;margin-top:7px;font-size:.9rem;animation:cwbob 1.8s ease-in-out infinite}
+@keyframes cwbob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(5px);opacity:1}}
 
 /* ---------- RIDE-OFF END CARD ---------- */
 #client .cw-endcard{position:absolute;inset:0;z-index:26;display:flex;flex-direction:column;
   align-items:center;justify-content:center;text-align:center;gap:.4em;
   background:radial-gradient(80% 80% at 50% 46%,#27190a,#120c05 70%,#070402);
-  filter:grayscale(1) sepia(.55) contrast(1.05);transform:translateX(100%);opacity:0;will-change:transform,opacity}
+  transform:translateX(100%);opacity:0;will-change:transform,opacity}
 #client .cw-endcard::before{content:"";position:absolute;inset:7%;border:2px double rgba(244,234,208,.4);border-radius:4px;pointer-events:none}
-#client .ec-orn{font-family:'Rye',serif;color:var(--amber);font-size:clamp(1rem,3vw,1.5rem);opacity:.85}
+#client .ec-orn{font-family:'Rye',serif;color:#c98a3a;font-size:clamp(1rem,3vw,1.5rem);opacity:.85}
 #client .ec-big{font-family:'Rye',serif;font-size:clamp(2rem,9vw,4.6rem);color:var(--bone);line-height:.96;
   text-shadow:0 2px 0 rgba(0,0,0,.5),0 0 26px rgba(201,138,58,.3)}
-#client .ec-sub{font-family:'Smokum',serif;font-size:clamp(1.1rem,3.4vw,1.8rem);color:var(--amber);letter-spacing:.05em}
+#client .ec-sub{font-family:'Smokum',serif;font-size:clamp(1.1rem,3.4vw,1.8rem);color:#c98a3a;letter-spacing:.05em}
 #client .ec-count{font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:#cdb488;margin-top:.4em}
 
-/* ---------- LEDGER — services rendered, on the record ---------- */
-#client .cw-ledger{position:relative;z-index:30;margin:clamp(30px,6vh,64px) auto 0;max-width:860px;width:calc(100% - 32px);
-  background:#e7d9ba;color:#2a1c0d;padding:clamp(22px,4vw,44px) clamp(20px,4.5vw,52px);
-  box-shadow:0 24px 60px -18px rgba(0,0,0,.75),inset 0 0 0 1px rgba(42,28,13,.18);
-  transform:rotate(-.4deg)}
-#client .cw-ledger::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='lg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23lg)'/%3E%3C/svg%3E")}
-#client .cw-ledger h3{font-family:'Rye',serif;font-weight:400;font-size:clamp(1.25rem,2.6vw,1.9rem);letter-spacing:.08em;text-align:center;margin-bottom:4px}
-#client .cw-ledger .lg-sub{font-family:'Special Elite',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;text-align:center;color:#6b5636;margin-bottom:clamp(16px,3vh,26px)}
-#client .cw-ledger .lg-row{display:grid;grid-template-columns:minmax(0,1.15fr) auto minmax(0,1.6fr);gap:14px;align-items:baseline;
-  padding:11px 2px;border-bottom:1px dotted rgba(42,28,13,.45)}
-#client .cw-ledger .lg-row:last-child{border-bottom:none}
-#client .cw-ledger .lg-b{font-family:'Special Elite',monospace;font-size:clamp(.82rem,1.5vw,1rem);letter-spacing:.06em;text-transform:uppercase}
-#client .cw-ledger .lg-y{font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.12em;color:#6b5636;white-space:nowrap}
-#client .cw-ledger .lg-s{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.04em;line-height:1.55;color:#3c2b16;text-align:right}
-@media(max-width:640px){
-  #client .cw-ledger .lg-row{grid-template-columns:1fr;gap:3px}
-  #client .cw-ledger .lg-s{text-align:left}
-}
 #client .cw-foot{position:relative;z-index:30;text-align:center;padding:clamp(20px,4vh,40px) 0 clamp(28px,6vh,52px);
   font-family:'Special Elite',monospace;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:#8a7654}
-#client .cw-foot a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(201,138,58,.5)}
+#client .cw-foot a{color:#c98a3a;text-decoration:none;border-bottom:1px solid rgba(201,138,58,.5)}
 #client .cw-foot a:hover{color:var(--bone)}
 
 /* ---------- REDUCED-MOTION / TIGHT-SCREEN FALLBACK ---------- */
 #client .cw-fallback{display:none}
 #client.is-list .cw-track{height:auto}
 #client.is-list .cw-stage{position:static;height:auto;min-height:0;overflow:visible;padding:clamp(28px,6vh,64px) 0}
-#client.is-list .cw-world,#client.is-list .cw-dust,#client.is-list .cw-ash,#client.is-list .cw-wash,
-#client.is-list .cw-flick,#client.is-list .cw-reel,#client.is-list .cw-meta,#client.is-list .cw-act,
-#client.is-list .cw-endcard,#client.is-list .cw-hint{display:none!important}
+#client.is-list .cw-world,#client.is-list .cw-dust,#client.is-list .cw-ash,#client.is-list .cw-ashshadow,
+#client.is-list .cw-wash,#client.is-list .cw-flick,#client.is-list .cw-reel,#client.is-list .cw-meta,
+#client.is-list .cw-act,#client.is-list .cw-endcard,#client.is-list .cw-tray,#client.is-list #cwRope{display:none!important}
 #client.is-list .cw-titlecard{position:relative;inset:auto;min-height:46vh;margin:0 auto clamp(18px,3vh,28px)}
 #client .cw-fallback{margin:0 auto;max-width:820px;width:100%;padding:0 16px}
-#client.is-list .cw-fallback{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px}
+#client.is-list .cw-fallback{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
 #client .cw-fallback .fh{grid-column:1/-1;font-family:'Special Elite',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;
   color:#cdb488;text-align:center;margin-bottom:6px}
 #client .cw-fallback figure{margin:0;border:1px solid rgba(36,20,5,.5);border-radius:6px;overflow:hidden;
-  box-shadow:0 14px 30px -12px rgba(0,0,0,.7);background:#efe3c4;padding:14px 10px;text-align:center}
-#client .cw-fallback img{display:block;width:100%;height:56px;object-fit:contain;margin:0 auto 8px;
-  mix-blend-mode:multiply;filter:grayscale(1) sepia(.55) contrast(1.12)}
+  box-shadow:0 14px 30px -12px rgba(0,0,0,.7);background:#efe3c4;padding:16px 14px;text-align:center;color:#2a1c0d}
+#client .cw-fallback img{display:block;width:100%;height:52px;object-fit:contain;margin:0 auto 8px}
 #client .cw-fallback figcaption{font-family:'Smokum',serif;font-size:1.05rem;color:#7c3f11;letter-spacing:.03em}
+#client .cw-fallback .fy{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.1em;color:#6b5636;margin-top:2px}
+#client .cw-fallback .fs{font-family:'Courier Prime',monospace;font-size:.68rem;line-height:1.5;color:#3c2b16;margin-top:6px}
 
 @media (prefers-reduced-motion:reduce){
-  #client .cw-flick,#client .cw-titlecard::before,#client .cw-hint{animation:none!important}
+  #client .cw-flick,#client .tc-cue .chev,#client .cw-ash.galloping{animation:none!important}
 }
 </style>
 
 
-<!-- ============ §05 · CLIENT WORK — STOP-MOTION WESTERN CARTOON (v6) ============ -->
-<section id="client" aria-label="Client Work — a stop-motion western cartoon; scroll to ride and rope each client">
+<!-- ============ §05 · CLIENT WORK — STOP-MOTION WESTERN CARTOON (v7) ============ -->
+<section id="client" aria-label="Client Work — a stop-motion western cartoon; scroll to ride, rope each client, then open their card from the tray">
   <div class="cw-track" id="cwTrack">
     <div class="cw-stage" id="cwStage">
       <div class="cw-world" id="cwWorld">
@@ -1712,12 +1745,17 @@ section{position:relative}
         <img class="cw-bg flip" src="assets/west/desert_v2.png" alt="">
         <img class="cw-bg" src="assets/west/desert_v2.png" alt="">
         <img class="cw-bg flip" src="assets/west/desert_v2.png" alt="">
-        <!-- seven signboards, spaced along the trail; JS sets left -->
+        <!-- seven signboards injected by JS -->
       </div>
       <div class="cw-dust" id="cwDust"></div>
-      <canvas id="cwAshCanvas" class="cw-ash"></canvas>
-      <video id="cwAshVideo" class="cw-ash" autoplay muted loop playsinline
-        src="assets/west/ash_ride_v3.mp4"></video>
+      <div class="cw-ashshadow" aria-hidden="true"></div>
+      <canvas id="cwAshCanvas" class="cw-ash hidden"></canvas>
+      <video id="cwAshVideo" class="cw-ash" muted loop playsinline preload="auto"
+        poster="assets/west/ash_ride_v4_still.png">
+        <source src="assets/west/ash_ride_v4.webm" type='video/webm; codecs="vp9"'>
+        <source src="assets/west/ash_ride_v4.mp4" type="video/mp4">
+      </video>
+      <svg id="cwRope" aria-hidden="true"></svg>
       <div class="cw-wash"></div>
       <div class="cw-flick" aria-hidden="true"></div>
 
@@ -1725,16 +1763,23 @@ section{position:relative}
       <div class="cw-meta" id="cwMeta" aria-hidden="true">The Client Trail</div>
       <div class="cw-act" id="cwAct" aria-hidden="true"></div>
 
-      <!-- ring opening -->
+      <!-- roped tray: caught clients collect here, each chip opens its card -->
+      <div class="cw-tray" id="cwTray" aria-label="Roped clients — click a logo for engagement details">
+        <span class="tray-label">Roped</span>
+        <div class="tray-chips" id="cwChips" style="display:flex;gap:8px"></div>
+      </div>
+
+      <!-- still sepia title plate -->
       <div class="cw-titlecard" id="cwTitle" role="img"
-        aria-label="Ring title card: J. N. Tse Studios presents a Client-Work Cartoon — The Client Wrangler.">
+        aria-label="Title plate: Jeffrey N. Tse presents Client Work — The Client Wrangler. Scroll to continue.">
         <div class="lt-inner">
-          <span class="tc-studio">J&#183;N&#183;TSE STUDIOS</span>
-          <span class="tc-tiny">presents</span>
-          <span class="tc-feature">A CLIENT-WORK CARTOON</span>
-          <span class="tc-comic">&ldquo;The Client Wrangler&rdquo;</span>
-          <span class="tc-sys">in Sepia-Tone</span>
+          <span class="tc-orn" aria-hidden="true">&#10070; &#10070; &#10070;</span>
+          <span class="tc-name">Jeffrey N. Tse</span>
+          <span class="tc-presents">presents</span>
+          <span class="tc-feature">CLIENT WORK</span>
+          <span class="tc-sub">&ldquo;The Client Wrangler&rdquo; &middot; a stop-motion western</span>
         </div>
+        <div class="tc-cue">scroll to continue<span class="chev" aria-hidden="true">&#9662;</span></div>
       </div>
 
       <!-- ride-off end card -->
@@ -1742,28 +1787,27 @@ section{position:relative}
         <span class="ec-orn" aria-hidden="true">&#10070;</span>
         <span class="ec-big">Ash Rides On</span>
         <span class="ec-sub">The whole roster, roped</span>
-        <span class="ec-count">7 of 7 captured</span>
+        <span class="ec-count" id="cwEndCount">7 of 7 roped</span>
       </div>
 
-      <div class="cw-hint" id="cwHint">Scroll to ride<span class="chev" aria-hidden="true">&#9662;</span></div>
       <span class="cw-live" id="cwLive" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap"></span>
     </div><!-- /cw-stage -->
   </div><!-- /cw-track -->
 
-  <!-- REDUCED-MOTION / TIGHT-SCREEN FALLBACK: the seven client signs -->
+  <!-- REDUCED-MOTION / TIGHT-SCREEN FALLBACK: full roster with engagement details -->
   <div class="cw-fallback" id="cwFallback"><div class="fh">The Roped Roster</div></div>
 
-  <!-- the receipts — what each brand actually hired him for -->
-  <div class="cw-ledger" aria-label="Client ledger — services rendered">
-    <h3>Services Rendered</h3>
-    <div class="lg-sub">the roster &middot; on the record</div>
-    <div class="lg-row"><span class="lg-b">Samsung</span><span class="lg-y">2024&ndash;25</span><span class="lg-s">Social copywriting &middot; campaign &amp; always-on content</span></div>
-    <div class="lg-row"><span class="lg-b">China Mobile</span><span class="lg-y">2021</span><span class="lg-s">Press releases &middot; content strategy</span></div>
-    <div class="lg-row"><span class="lg-b">MTR</span><span class="lg-y">2024</span><span class="lg-s">Press releases</span></div>
-    <div class="lg-row"><span class="lg-b">Disneyland</span><span class="lg-y">2021</span><span class="lg-s">details on request</span></div>
-    <div class="lg-row"><span class="lg-b">Ocean Park</span><span class="lg-y">2024</span><span class="lg-s">Social copywriting</span></div>
-    <div class="lg-row"><span class="lg-b">Hong Kong Tourism Board</span><span class="lg-y">2022&ndash;24</span><span class="lg-s">Lead English copy &middot; DiscoverHongKong.com &middot; Hello Hong Kong</span></div>
-    <div class="lg-row"><span class="lg-b">Heimtextil</span><span class="lg-y">2024</span><span class="lg-s">details on request</span></div>
+  <!-- engagement card popup -->
+  <div class="cw-pop" id="cwPop" role="dialog" aria-modal="true" aria-labelledby="cwPopName" hidden>
+    <div class="pop-back" data-close></div>
+    <div class="pop-card">
+      <button class="pop-x" data-close aria-label="Close">&#10005;</button>
+      <div class="pop-logo"><img id="cwPopLogo" src="" alt=""></div>
+      <h4 id="cwPopName"></h4>
+      <div class="pop-years" id="cwPopYears"></div>
+      <div class="pop-services" id="cwPopServices"></div>
+      <span class="pop-stamp">Roped &middot; on the record</span>
+    </div>
   </div>
 
   <p class="cw-foot"><a href="#gate">&#8593; back to the Gate</a></p>
@@ -1771,14 +1815,15 @@ section{position:relative}
 
 <script>
 (function(){
+  /* the seven real clients — logo height normalizes optical size per file */
   var ROSTER=[
-    {client:'Samsung',                 logo:'assets/west/logos/samsung.png'},
-    {client:'China Mobile',            logo:'assets/west/logos/china-mobile.png'},
-    {client:'MTR',                     logo:'assets/west/logos/mtr.png'},
-    {client:'Disneyland',              logo:'assets/west/logos/disneyland.png'},
-    {client:'Ocean Park',              logo:'assets/west/logos/ocean-park.png'},
-    {client:'Hong Kong Tourism Board', logo:'assets/west/logos/hktb.png'},
-    {client:'Heimtextil',              logo:'assets/west/logos/heimtextil.jpg'}
+    {key:'samsung',  client:'Samsung',                 logo:'assets/west/logos/samsung.png',      h:56, years:'2024–25', services:'Social copywriting · campaign & always-on content'},
+    {key:'chinamob', client:'China Mobile',            logo:'assets/west/logos/china-mobile.png', h:92, years:'2021',        services:'Press releases · content strategy'},
+    {key:'mtr',      client:'MTR',                     logo:'assets/west/logos/mtr.png',          h:84, years:'2024',        services:'Press releases'},
+    {key:'disney',   client:'Disneyland',              logo:'assets/west/logos/disneyland.png',   h:64, years:'2021',        services:'Details on request'},
+    {key:'ocean',    client:'Ocean Park',              logo:'assets/west/logos/ocean-park.png',   h:76, years:'2024',        services:'Social copywriting'},
+    {key:'hktb',     client:'Hong Kong Tourism Board', logo:'assets/west/logos/hktb.png',         h:88, years:'2022–24', services:'Lead English copy · DiscoverHongKong.com · Hello Hong Kong'},
+    {key:'heim',     client:'Heimtextil',              logo:'assets/west/logos/heimtextil.jpg',   h:48, years:'2024',        services:'Details on request'}
   ];
   var N=ROSTER.length;
   var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
@@ -1786,61 +1831,155 @@ section{position:relative}
   var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
   var root=document.getElementById('client');
-  var track=document.getElementById('cwTrack'), world=document.getElementById('cwWorld'),
-      dust=document.getElementById('cwDust'), v=document.getElementById('cwAshVideo'),
-      cv=document.getElementById('cwAshCanvas'), meta=document.getElementById('cwMeta'),
-      act=document.getElementById('cwAct'), hint=document.getElementById('cwHint'),
+  var track=document.getElementById('cwTrack'), stage=document.getElementById('cwStage'),
+      world=document.getElementById('cwWorld'), dust=document.getElementById('cwDust'),
+      v=document.getElementById('cwAshVideo'), cv=document.getElementById('cwAshCanvas'),
+      meta=document.getElementById('cwMeta'), act=document.getElementById('cwAct'),
       titleCard=document.getElementById('cwTitle'), endCard=document.getElementById('cwEnd'),
-      liveEl=document.getElementById('cwLive'), fallback=document.getElementById('cwFallback');
-  var ctx=cv.getContext('2d',{willReadFrequently:true}), keyed=true, ticking=false;
+      endCount=document.getElementById('cwEndCount'), liveEl=document.getElementById('cwLive'),
+      fallback=document.getElementById('cwFallback'), tray=document.getElementById('cwTray'),
+      chips=document.getElementById('cwChips'), rope=document.getElementById('cwRope'),
+      pop=document.getElementById('cwPop');
+  var signs=[], caught=new Array(N).fill(false), catching=false, lastFocus=null;
 
-  /* place the signboards evenly along the world (first ~8% is Ash's runway) */
+  /* signboards along the trail */
   ROSTER.forEach(function(c,i){
     var f=document.createElement('figure');
     f.className='cw-sign';
     f.style.left=(10+i*(84/(N-1))).toFixed(2)+'%';
-    f.innerHTML='<span class="board"><img src="'+esc(c.logo)+'" alt="'+esc(c.client)+'"></span>'+
+    f.innerHTML='<span class="board" style="position:relative"><img src="'+esc(c.logo)+'" alt="'+esc(c.client)+'" style="height:'+c.h+'px"></span>'+
       '<span class="post"></span><figcaption>'+esc(c.client)+'</figcaption>';
-    world.appendChild(f);
+    world.appendChild(f); signs.push(f);
   });
 
-  /* fallback: the seven client signs, static */
+  /* fallback roster: everything the ride tells you, statically */
   ROSTER.forEach(function(c){
     var f=document.createElement('figure');
-    f.innerHTML='<img src="'+esc(c.logo)+'" alt="'+esc(c.client)+'"><figcaption>'+esc(c.client)+'</figcaption>';
+    f.innerHTML='<img src="'+esc(c.logo)+'" alt="'+esc(c.client)+'"><figcaption>'+esc(c.client)+'</figcaption>'+
+      '<div class="fy">'+esc(c.years)+'</div><div class="fs">'+esc(c.services)+'</div>';
     fallback.appendChild(f);
   });
 
-  /* ---- scroll-driven travel: ring iris -> ride past the trail -> ride off ---- */
-  var S0=0.10, S1=0.90, OUT0=0.90;
+  /* ---------- engagement card popup ---------- */
+  function openPop(i){
+    var c=ROSTER[i];
+    document.getElementById('cwPopLogo').src=c.logo;
+    document.getElementById('cwPopLogo').alt=c.client;
+    document.getElementById('cwPopName').textContent=c.client;
+    document.getElementById('cwPopYears').textContent=c.years;
+    document.getElementById('cwPopServices').textContent=c.services;
+    lastFocus=document.activeElement;
+    pop.hidden=false; pop.classList.add('open');
+    document.body.style.overflow='hidden';
+    pop.querySelector('.pop-x').focus();
+  }
+  function closePop(){
+    pop.classList.remove('open'); pop.hidden=true;
+    document.body.style.overflow='';
+    if(lastFocus&&lastFocus.focus)lastFocus.focus();
+  }
+  pop.addEventListener('click',function(e){ if(e.target.hasAttribute('data-close')) closePop(); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape'&&pop.classList.contains('open')) closePop(); });
 
-  function updateIntro(p){
-    var iris=clamp((p-0.03)/0.07,0,1);
-    titleCard.style.clipPath='circle('+((1-iris)*145).toFixed(1)+'% at 50% 47%)';
-    titleCard.style.opacity=iris>=1?'0':'1';
-    hint.style.opacity=p>0.02?'0':'0.9';
+  function addChip(i){
+    var c=ROSTER[i];
+    var b=document.createElement('button');
+    b.className='cw-chip'; b.type='button';
+    b.setAttribute('aria-label',c.client+' — roped. Open engagement details.');
+    b.innerHTML='<img src="'+esc(c.logo)+'" alt="">';
+    b.addEventListener('click',function(){ openPop(i); });
+    chips.appendChild(b);
+    tray.classList.add('on');
+    var done=chips.children.length;
+    endCount.textContent=done+' of '+N+' roped';
   }
 
+  /* ---------- the CATCH: rope whips out, sign rocks, chip flies to tray ---------- */
+  function throwRope(i,doneCb){
+    var sign=signs[i], board=sign.querySelector('.board');
+    var sr=stage.getBoundingClientRect(), br=board.getBoundingClientRect(), ar=v.getBoundingClientRect();
+    if(ar.width===0){ ar=cv.getBoundingClientRect(); }
+    var x1=(ar.left-sr.left)+ar.width*0.55, y1=(ar.top-sr.top)+ar.height*0.18;
+    var x2=(br.left-sr.left)+br.width/2,    y2=(br.top-sr.top)+br.height/2;
+    rope.setAttribute('viewBox','0 0 '+sr.width+' '+sr.height);
+    var midx=(x1+x2)/2, midy=Math.min(y1,y2)-70;
+    var path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M'+x1+' '+y1+' Q'+midx+' '+midy+' '+x2+' '+y2);
+    var ell=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    ell.setAttribute('cx',x2); ell.setAttribute('cy',y2);
+    ell.setAttribute('rx',br.width*0.62); ell.setAttribute('ry',br.height*0.72);
+    rope.appendChild(path); rope.appendChild(ell);
+    var plen=path.getTotalLength(), elen=ell.getTotalLength();
+    path.style.strokeDasharray=plen; path.style.strokeDashoffset=plen;
+    ell.style.strokeDasharray=elen;  ell.style.strokeDashoffset=elen;
+    path.getBoundingClientRect(); /* flush */
+    path.style.transition='stroke-dashoffset .38s ease-out';
+    path.style.strokeDashoffset='0';
+    setTimeout(function(){
+      ell.style.transition='stroke-dashoffset .28s ease-out';
+      ell.style.strokeDashoffset='0';
+      sign.classList.add('rock');
+      setTimeout(function(){
+        sign.classList.remove('rock'); sign.classList.add('roped');
+        /* chip flight: clone the logo from the board to the tray */
+        var img=board.querySelector('img'), ir=img.getBoundingClientRect();
+        var fly=img.cloneNode(); fly.className='cw-fly';
+        fly.style.left=ir.left+'px'; fly.style.top=ir.top+'px';
+        fly.style.width=ir.width+'px'; fly.style.height=ir.height+'px';
+        document.body.appendChild(fly);
+        var tr=tray.getBoundingClientRect();
+        var tx=(tr.left+tr.width-20)-(ir.left+ir.width/2), ty=(tr.top+tr.height/2)-(ir.top+ir.height/2);
+        fly.getBoundingClientRect();
+        fly.style.transform='translate('+tx+'px,'+ty+'px) scale(.32)';
+        setTimeout(function(){
+          fly.remove(); addChip(i);
+          path.remove(); ell.remove();
+          if(doneCb)doneCb();
+        },720);
+      },420);
+    },380);
+  }
+  var catchQueue=[];
+  function pump(){
+    if(catching||!catchQueue.length)return;
+    catching=true;
+    var i=catchQueue.shift();
+    act.style.opacity='1';
+    act.innerHTML='Ash ropes<b>'+esc(ROSTER[i].client)+'</b>';
+    liveEl.textContent='Roped '+ROSTER[i].client;
+    if(reduce){ signs[i].classList.add('roped'); addChip(i); catching=false; pump(); return; }
+    throwRope(i,function(){ catching=false; pump(); });
+  }
+  function tryCatch(i){
+    if(i<0||i>=N||caught[i])return;
+    caught[i]=true; catchQueue.push(i); pump();
+  }
+
+  /* ---------- scroll-driven: title plate -> ride + catches -> ride off ---------- */
+  var S0=0.09, S1=0.90, OUT0=0.90;
+
+  function updateIntro(p){
+    var t=clamp((p-0.015)/0.06,0,1);
+    titleCard.style.opacity=String(1-t);
+    titleCard.style.transform='scale('+(1+t*0.03)+')';
+    titleCard.style.visibility=t>=1?'hidden':'visible';
+  }
   function updateRide(p){
-    if(p<S0||p>=S1){ act.style.opacity='0'; return; }
+    if(p<S0||p>=S1){ if(p<S0){act.style.opacity='0';} return; }
     var q=(p-S0)/(S1-S0);
     var maxPan=Math.max(0, world.scrollWidth - window.innerWidth);
     world.style.transform='translateX('+(-q*maxPan).toFixed(1)+'px)';
     dust.style.transform='translateX('+(-(q*maxPan*1.7) % window.innerWidth).toFixed(1)+'px)';
-    var idx=clamp(Math.round((q*84)/(84/(N-1))),0,N-1);
-    act.style.opacity='1';
-    act.innerHTML='Riding past<b>'+esc(ROSTER[idx].client)+'</b>';
-    meta.innerHTML='Roping <b>'+(idx+1)+'</b> of '+N;
-    liveEl.textContent='Roping '+ROSTER[idx].client+' — '+(idx+1)+' of '+N;
+    var idx=clamp(Math.floor(q*(N-1)+0.42),0,N-1);
+    for(var i=0;i<=idx;i++) tryCatch(i);
+    if(!catching&&caught[idx]){ meta.innerHTML='Roped <b>'+(chips.children.length)+'</b> of '+N; }
   }
-
   function updateOutro(p){
     var o=clamp((p-OUT0)/(1-OUT0),0,1);
     endCard.style.transform='translateX('+((1-o)*100).toFixed(1)+'%)';
     endCard.style.opacity=o>0?'1':'0';
-    if(o>0){ meta.innerHTML='<b>The End</b> &middot; '+N+' of '+N+' roped'; act.style.opacity='0'; }
+    if(o>0){ for(var i=0;i<N;i++) tryCatch(i); meta.innerHTML='<b>The End</b>'; act.style.opacity='0'; }
   }
-
   function apply(){
     ticking=false;
     var total=track.offsetHeight-window.innerHeight;
@@ -1848,47 +1987,61 @@ section{position:relative}
     updateIntro(p); updateRide(p); updateOutro(p);
     if(p<S0){ world.style.transform='translateX(0px)'; }
   }
-  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(apply); } }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',apply);
+  var ticking=false;
+  function onScroll(){
+    if(!ticking){ ticking=true; requestAnimationFrame(apply); }
+    gallop(true);
+    clearTimeout(idleTO);
+    idleTO=setTimeout(function(){ gallop(false); },200);
+  }
+  var idleTO=null;
 
-  /* ---- Ash: luma-key the white background to true transparency ---- */
-  function fallbackVideo(){ keyed=false; cv.classList.add('hidden'); v.classList.add('fallback'); }
+  /* ---------- Ash: alpha WebM first; canvas-key mp4 fallback; never ghosted ---------- */
+  var mode=null, useCanvas=false, keyed=true, ctx=null, rafOn=false;
+  var alphaOk = v.canPlayType('video/webm; codecs="vp9"')!=='';
+  function showVideo(){ v.classList.add('show'); cv.classList.add('hidden'); useCanvas=false; }
+  function showCanvas(){ v.classList.remove('show'); cv.classList.remove('hidden'); useCanvas=true;
+    if(!ctx)ctx=cv.getContext('2d',{willReadFrequently:true});
+    if(!rafOn){rafOn=true;requestAnimationFrame(frame);} }
   function frame(){
-    if(v.readyState>=2 && v.videoWidth){
-      if(cv.width!==v.videoWidth){ cv.width=v.videoWidth; cv.height=v.videoHeight; }
+    if(useCanvas&&v.readyState>=2&&v.videoWidth){
+      if(cv.width!==v.videoWidth){cv.width=v.videoWidth;cv.height=v.videoHeight;}
       ctx.drawImage(v,0,0,cv.width,cv.height);
       if(keyed){
         try{
           var im=ctx.getImageData(0,0,cv.width,cv.height), d=im.data, mn;
           for(var i=0;i<d.length;i+=4){
             mn=Math.min(d[i],d[i+1],d[i+2]);
-            if(mn>=248){ d[i+3]=0; } else if(mn>224){ d[i+3]=Math.round(255*(248-mn)/24); }
+            if(mn>=248){d[i+3]=0;}else if(mn>224){d[i+3]=Math.round(255*(248-mn)/24);}
           }
           ctx.putImageData(im,0,0);
-        }catch(e){ fallbackVideo(); }
+        }catch(e){ keyed=false; showVideo(); } /* tainted (file://): solid video, no blend */
       }
     }
-    requestAnimationFrame(frame);
+    if(rafOn)requestAnimationFrame(frame);
   }
-  function kick(){ var pr=v.play(); if(pr&&pr.catch)pr.catch(function(){}); }
-  v.addEventListener('error',fallbackVideo);
-  kick(); frame();
-  document.addEventListener('scroll',kick,{passive:true,once:true});
-  document.addEventListener('click',kick,{once:true});
+  if(alphaOk){ showVideo(); } else { showCanvas(); }
+  v.addEventListener('error',function(){ showVideo(); });
 
-  /* responsive: scrub-ride vs. static roster + ledger only */
-  var mode=null;
+  /* gallop only while scrolling — stop-motion freeze when still */
+  function gallop(on){
+    if(root.classList.contains('is-list'))return;
+    if(on){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); v.classList.add('galloping'); cv.classList.add('galloping'); }
+    else{ v.pause(); v.classList.remove('galloping'); cv.classList.remove('galloping'); }
+  }
+
+  /* responsive: scrub-ride vs. static roster */
   function fitMode(){
     var tight=window.innerWidth<640||window.innerHeight<560||reduce;
     var want=tight?'list':'ride';
-    if(want===mode) return;
+    if(want===mode)return;
     mode=want;
-    if(tight){ root.classList.add('is-list'); window.removeEventListener('scroll',onScroll); }
+    if(tight){ root.classList.add('is-list'); window.removeEventListener('scroll',onScroll); gallop(false); }
     else{ root.classList.remove('is-list'); window.addEventListener('scroll',onScroll,{passive:true}); apply(); }
   }
   fitMode();
   var rTO; window.addEventListener('resize',function(){clearTimeout(rTO);rTO=setTimeout(function(){fitMode();if(mode==='ride')apply();},160);});
+  window.addEventListener('resize',apply);
   apply();
 })();
 </script>
