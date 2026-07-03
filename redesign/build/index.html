@@ -41,7 +41,7 @@ section{position:relative}
   clip-path:polygon(0 0,100% 0,100% 22%,96% 58%,91% 30%,85% 66%,79% 34%,72% 72%,66% 38%,59% 70%,52% 30%,46% 64%,39% 34%,33% 74%,27% 40%,20% 66%,14% 30%,8% 60%,3% 34%,0 58%)}
 
 /* ============ 1 · GATE (koi) ============ */
-#gate{height:100vh;background:#03040a url("assets/koi_still.webp") center/cover;cursor:crosshair;overflow:hidden}
+#gate{height:100vh;background:#03040a url("assets/koi_still_dots.webp") center/cover;cursor:crosshair;overflow:hidden}
 #gate #c{position:absolute;inset:0;width:100%;height:100%;display:block}
 #gate .ui{position:absolute;color:#ECEAE3;font-family:'Cormorant Garamond',serif;z-index:5;pointer-events:none;text-shadow:0 2px 40px rgba(0,0,0,.96)}
 #gate #name{top:2.6vh;left:3.2vw;font-size:8.4vw;line-height:.9;font-weight:400;letter-spacing:.03em}
@@ -2907,12 +2907,15 @@ section{position:relative}
   const gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false});
   var tweenGate=null; /* (cellTo, ampTo 0..1, dur) — used by the drain seam */
   let gateLive=true;  /* shared by the engine's IO and the audio-consent gate */
-  if(!gl){
+  /* on file:// a video texture taints WebGL (upload throws) — skip the
+     engine entirely there and show the raw tank so the koi still MOVE */
+  const useGL = gl && location.protocol!=='file:';
+  if(!useGL){
     cv.style.display='none';
     V.style.cssText='display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.08)';
     V.play().catch(()=>{});
   }
-  if(gl){
+  if(useGL){
   /* ============ LIQUID ENGINE ============
      Pass A: a low-res velocity FIELD — the cursor splats energy in, the
      field diffuses (waves travel) and decays (water settles).
@@ -3074,13 +3077,12 @@ void main(){
   V.play().catch(()=>{});loop();
   } // end WebGL engine
 
-  // gate date · seq clock
+  // gate dateline — #seq stays the static specimen plate ("N° 001");
+  // a ticking seconds counter there read like a CCTV timestamp
   function tick(){const d=new Date();
     const mm=String(d.getMonth()+1).padStart(2,'0');
-    const hh=String(d.getHours()).padStart(2,'0'),mn=String(d.getMinutes()).padStart(2,'0'),ss=String(d.getSeconds()).padStart(2,'0');
-    document.getElementById('date').textContent=mm+' / '+d.getFullYear()+'  ·  HONG KONG';
-    document.getElementById('seq').textContent=hh+':'+mn+':'+ss;}
-  tick();setInterval(tick,1000);
+    document.getElementById('date').textContent=mm+' / '+d.getFullYear()+'  ·  HONG KONG';}
+  tick();setInterval(tick,60000);
 
   // ambient water audio — a barely-there deep-water room tone that swells
   // slowly with the vignette. No chirps, no bloops, nothing synthetic-sounding.
@@ -3099,14 +3101,16 @@ void main(){
     lfo.connect(lg); lg.connect(g.gain); lfo.start();
     masterG=g; nodes.push(src,g,lfo,lg);
   }
-  function stopAudio(){if(!AC)return;
+  function stopAudio(){if(!AC||AC.state==='closed')return;
+    const ac=AC; AC=null;
     try{
-      if(masterG){masterG.gain.cancelScheduledValues(AC.currentTime);
-        masterG.gain.setValueAtTime(masterG.gain.value,AC.currentTime);
-        masterG.gain.linearRampToValueAtTime(0.0001,AC.currentTime+0.5);}
-      setTimeout(()=>{try{nodes.forEach(n=>n.disconnect&&n.disconnect());AC.close();}catch(e){}},600);
+      if(masterG){masterG.gain.cancelScheduledValues(ac.currentTime);
+        masterG.gain.setValueAtTime(masterG.gain.value,ac.currentTime);
+        masterG.gain.linearRampToValueAtTime(0.0001,ac.currentTime+0.5);}
+      setTimeout(()=>{try{nodes.forEach(n=>n.disconnect&&n.disconnect());
+        if(ac.state!=='closed'){const p=ac.close();if(p&&p.catch)p.catch(()=>{});}}catch(e){}},600);
     }catch(e){}
-    started=false;}
+    started=false;masterG=null;nodes=[];}
   ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,()=>{
     if(gateLive)startAudio();   // only the tank hums, never the rest of the site
   },{once:true}));
@@ -3151,13 +3155,37 @@ void main(){
       return;
     }
     tweenGate(1.6,0,360);                       // 1 · dither resolves to the real tank
-    later(()=>{                                 // 2 · impact: flash + crack web + jolt
+    if(shatterV){                               // 2a · REAL shatter footage (when the
+      later(()=>{                               //      generated asset exists on disk)
+        flash.style.opacity='1';
+        setTimeout(()=>{flash.style.opacity='0';},70);
+        shatterV.style.display='block';
+        const pr=shatterV.play(); if(pr&&pr.catch)pr.catch(()=>{gate.classList.add('smash');});
+        shatterV.onended=()=>{startDrain();setTimeout(()=>{shatterV.style.display='none';},1400);};
+      },380);
+      return;
+    }
+    later(()=>{                                 // 2b · fallback: flash + crack web + jolt
       flash.style.opacity='1';
       setTimeout(()=>{flash.style.opacity='0';},70);
       gate.classList.add('smash');
     },380);
     later(startDrain,760);                      // 3 · the water level falls into paper
   });
+  /* shatter scaffold: if the generated glass-shatter clip exists, the click
+     sequence upgrades itself — dropping assets/gate/shatter.mp4 in later
+     requires zero code changes. Costs one lazy HEAD request, nothing else. */
+  let shatterV=null;
+  if(location.protocol!=='file:'){
+    fetch('assets/gate/shatter.mp4',{method:'HEAD'}).then(r=>{
+      if(!r.ok)return;
+      shatterV=document.createElement('video');
+      shatterV.src='assets/gate/shatter.mp4';
+      shatterV.muted=true;shatterV.playsInline=true;shatterV.preload='auto';
+      shatterV.style.cssText='display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:7;pointer-events:none';
+      gate.appendChild(shatterV);
+    }).catch(()=>{});
+  }
   gate.addEventListener('click',e=>{            // skippable: tap again to land now
     if(!breaking||e.target.id==='break')return;
     timers.forEach(clearTimeout);timers=[];cancelAnimationFrame(drainRAF);
