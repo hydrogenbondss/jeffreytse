@@ -124,6 +124,14 @@ section{position:relative}
 #works .bookmark{position:absolute;top:0;right:7%;z-index:5;padding:16px 9px 22px;font-family:'Courier Prime',monospace;font-size:.6rem;line-height:1.6;letter-spacing:.22em;text-transform:uppercase;text-align:center;color:#f4ece0;background:linear-gradient(180deg,#a13a2d,#6f2419);writing-mode:vertical-rl;text-orientation:mixed;box-shadow:0 16px 34px rgba(0,0,0,.55);clip-path:polygon(0 0,100% 0,100% 88%,50% 100%,0 88%);pointer-events:none}
 
 /* ============ WORKS · project index + detail modal ============ */
+/* the ECHO darkroom polaroid in the flattened artwork is a corrupted
+   two-room composite — a clean print is pasted over it, scrapbook-style */
+#works .echo-patch{position:absolute;left:14.35%;top:9.6%;width:19.3%;height:39.6%;z-index:2;
+  background:#f6f1e4;padding:8px 8px 30px;transform:rotate(-2.4deg);pointer-events:none;
+  box-shadow:0 3px 6px rgba(30,20,8,.28),0 14px 26px -8px rgba(30,20,8,.35)}
+#works .echo-patch img{width:100%;height:100%;object-fit:cover;display:block}
+#works .echo-patch::after{content:"";position:absolute;top:-10px;left:31%;width:38%;height:22px;
+  background:rgba(211,193,155,.72);transform:rotate(-2.5deg);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 #works .works-hotspots{position:absolute;inset:0}
 #works .work-hit{position:absolute;margin:0;padding:0;border:0;background:transparent;cursor:pointer;border-radius:8px;-webkit-tap-highlight-color:transparent}
 #works .work-hit:hover,#works .work-hit:focus-visible{background:rgba(244,236,224,.12);box-shadow:0 0 0 2px rgba(244,236,224,.85) inset;outline:none}
@@ -351,6 +359,7 @@ section{position:relative}
     <img src="assets/echo-page_works.png" alt="Selected work — ECHO · ROLL CALL · SPECTOR · Noru · PawsAid"
          width="1376" height="768" loading="lazy" decoding="async"
          onerror="this.style.display='none';this.closest('.works-spread').classList.add('pending')"></picture>
+    <div class="echo-patch" aria-hidden="true"><img src="assets/echo/darkroom_clean_frame.png" alt=""></div>
     <!-- clickable hotspots over the flattened scrapbook artwork — approximate
          pixel positions of each drawn piece, mapped from echo-page_works.png
          (1376x768) to percentages of this full-bleed frame -->
