@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Binary One — walk</title>
-<meta name="description" content="A cathedral built from binary. Walk it: WASD + mouse. It does not end, and the code never blurs.">
+<title>Cathedral of Small Hours — walk</title>
+<meta name="description" content="Cathedral of Small Hours — a cathedral built from binary. Walk it: WASD + mouse. It does not end, and the code never blurs.">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%;background:#000;overflow:hidden;
@@ -29,9 +29,9 @@
 <body>
 <canvas id="gl"></canvas>
 <div id="veil"></div><div id="scan"></div><div id="hud"></div>
-<div id="loc">BINARY ONE · NAVE ∞</div>
+<div id="loc">CATHEDRAL OF SMALL HOURS · NAVE ∞</div>
 <div id="intro">
-  <b>BINARY ONE</b>
+  <b>CATHEDRAL OF SMALL HOURS</b>
   <span>a cathedral of code — it does not end, and the code does not blur<br>
   CLICK to walk &nbsp;·&nbsp; W A S D move &nbsp;·&nbsp; mouse look &nbsp;·&nbsp; SHIFT run &nbsp;·&nbsp; ESC release</span>
 </div>
@@ -40,7 +40,7 @@
 "use strict";
 var cv=document.getElementById('gl');
 var gl=cv.getContext('webgl',{antialias:true});
-if(!gl){document.getElementById('intro').innerHTML='<b>BINARY ONE</b><span>this piece needs WebGL</span>';return;}
+if(!gl){document.getElementById('intro').innerHTML='<b>CATHEDRAL OF SMALL HOURS</b><span>this piece needs WebGL</span>';return;}
 
 /* ---------- shaders: glyphs are drawn analytically per-fragment from world
    coordinates, so a 0 or a 1 is exactly as sharp at 400 m as at 40 cm ---------- */

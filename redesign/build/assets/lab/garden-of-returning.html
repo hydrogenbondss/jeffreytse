@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fallow Ruins — walk</title>
-<meta name="description" content="An endless overgrown city, handed back to the plants. Walk it: WASD + mouse. The scenery keeps changing; it never ends.">
+<title>Garden of Returning — walk</title>
+<meta name="description" content="Garden of Returning — an endless overgrown city, handed back to the plants. Walk it: WASD + mouse. The scenery keeps changing; it never ends.">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%;background:#0b100c;overflow:hidden;
@@ -30,9 +30,9 @@
 <body>
 <canvas id="gl"></canvas>
 <div id="veil"></div><div id="grain"></div><div id="hud"></div>
-<div id="loc">FALLOW RUINS · DISTRICT ∞</div>
+<div id="loc">GARDEN OF RETURNING · DISTRICT ∞</div>
 <div id="intro">
-  <b>Fallow Ruins</b>
+  <b>Garden of Returning</b>
   <span>the city, handed back — keep walking, the scenery changes, it never ends<br>
   CLICK to walk &nbsp;·&nbsp; W A S D move &nbsp;·&nbsp; mouse look &nbsp;·&nbsp; SHIFT run &nbsp;·&nbsp; ESC release</span>
 </div>
@@ -41,7 +41,7 @@
 "use strict";
 var cv=document.getElementById('gl');
 var gl=cv.getContext('webgl',{antialias:true});
-if(!gl){document.getElementById('intro').innerHTML='<b>Fallow Ruins</b><span>this piece needs WebGL</span>';return;}
+if(!gl){document.getElementById('intro').innerHTML='<b>Garden of Returning</b><span>this piece needs WebGL</span>';return;}
 
 /* ============ shared noise (identical in JS + GLSL so feet meet ground) ============ */
 function hash2(x,z){var s=Math.sin(x*127.1+z*311.7)*43758.5453123;return s-Math.floor(s);}

@@ -291,7 +291,7 @@ section{position:relative}
           <ul><li>ECHO</li><li>ROLL CALL</li><li>SPECTOR</li><li>Noru</li><li>PawsAid</li></ul>
           <div class="cap">BRAND · DESIGN · NARRATIVE</div></div></div>
         <div class="col-3"><div class="mod"><h3><span class="n">02</span><span class="t">THE LAB</span></h3>
-          <ul><li>Binary One</li><li>Fallow Ruins</li><li>Love Bug</li><li>Feature World: Chaos</li><li>Turbo MG21</li><li>Ash-01</li></ul>
+          <ul><li>Cathedral of Small Hours</li><li>Garden of Returning</li><li>Love Bug</li><li>Feature World: Chaos</li><li>Turbo MG21</li><li>Ash-01</li></ul>
           <div class="cap">GENERATIVE · AI · INTERACTIVE</div></div></div>
         <div class="col-3"><div class="mod"><h3><span class="n">03</span><span class="t">TOOLS &amp; SOFTWARE</span></h3>
           <ul><li>React · TypeScript · JavaScript</li><li>Python · Ren'Py · Node · Bash</li><li>ComfyUI · LoRA · Midjourney</li><li>Runway · Higgsfield · ElevenLabs</li><li>After Effects · Premiere · Photoshop</li><li>Illustrator · Figma · CapCut</li><li>Vercel · Cloudflare · PostgreSQL</li></ul></div></div>
@@ -973,7 +973,7 @@ section{position:relative}
   #lab .lc-enterwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
     justify-content:flex-end;padding-bottom:12vh;gap:10px;
     background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,0) 40%,rgba(0,0,0,.62) 100%)}
-  #lab .lc-enterwrap b{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,5.6vw,4.6rem);
+  #lab .lc-enterwrap b{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.9rem,4.6vw,3.8rem);max-width:16ch;
     line-height:1;color:#f4f1e9}
   #lab .lc-enterwrap b em{font-style:italic;color:var(--acc)}
   #lab .lc-enterwrap i{font-style:normal;font-family:'Courier Prime',monospace;font-size:.6rem;
@@ -1015,8 +1015,8 @@ section{position:relative}
   <div class="lc-intro" aria-hidden="true"><b>Lab</b><span>walk the city &middot; drag or &#8592;&#8594;</span></div>
   <button class="lc-edge l" id="lcEdgeL" type="button" aria-label="Walk left">&#8249;</button>
   <button class="lc-edge r" id="lcEdgeR" type="button" aria-label="Walk right">&#8250;</button>
-  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)"><span>&#8592;</span> Binary One</button>
-  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)">Fallow Ruins <span>&#8594;</span></button>
+  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)"><span>&#8592;</span> Cathedral of Small Hours</button>
+  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)">Garden of Returning <span>&#8594;</span></button>
   <div id="lcMap" aria-hidden="true"><span class="lbl">Lab</span></div>
 
   <!-- GTA-style location title (hover label) -->
@@ -1035,17 +1035,17 @@ section{position:relative}
 
   <!-- structure approaches at the two ends -->
   <div class="lc-scene" id="lcBinary" hidden>
-    <button class="lc-structure" type="button" data-piece="binary" data-game="assets/lab/binary-one-walk.html"
+    <button class="lc-structure" type="button" data-piece="binary" data-game="assets/lab/cathedral-of-small-hours.html"
       style="--acc:var(--acc-binary);">
       <span class="lc-appr" style="background-image:url('assets/lab/binary_approach.png')" aria-hidden="true"></span>
-      <span class="lc-enterwrap"><b>Binary <em>One</em></b><i>a cathedral of code &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
+      <span class="lc-enterwrap"><b>Cathedral of <em>Small Hours</em></b><i>a cathedral of code &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
     </button>
   </div>
   <div class="lc-scene" id="lcFallow" hidden>
-    <button class="lc-structure" type="button" data-piece="fallow" data-game="assets/lab/fallow-ruins-walk.html"
+    <button class="lc-structure" type="button" data-piece="fallow" data-game="assets/lab/garden-of-returning.html"
       style="--acc:var(--acc-fallow);">
       <span class="lc-appr" style="background-image:url('assets/lab/fallow_approach.png')" aria-hidden="true"></span>
-      <span class="lc-enterwrap"><b>Fallow <em>Ruins</em></b><i>the overgrown city &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
+      <span class="lc-enterwrap"><b>Garden of <em>Returning</em></b><i>the overgrown city &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
     </button>
   </div>
   <button id="lcBack" type="button" hidden>&#8592; back to the street</button>
@@ -1166,29 +1166,29 @@ section{position:relative}
     /* ---- INTERACTIVE (poster + open-in-new-tab) ---- */
     binary:{
       cat:"Entrance — Interactive / WebGL",
-      name:"Binary One",
-      title:"Binary <em>One</em>",
+      name:"Cathedral of Small Hours",
+      title:"Cathedral of <em>Small Hours</em>",
       accent:"var(--acc-binary)",
       blurb:"A cathedral of binary you can walk into — an infinite sanctuary that never resolves out of the code.",
       tools:["JavaScript","WebGL","Canvas"],
       links:[
         // poster placeholder: assets/lab/binary-one-poster.png
-        {label:"Walk Binary One", href:A+"binary-one-walk.html", primary:true, blank:true}
+        {label:"Walk the Cathedral", href:A+"cathedral-of-small-hours.html", primary:true, blank:true}
       ],
-      media:[{type:"poster", src:A+"binary-one-poster.png", label:"Binary One — Poster"}]
+      media:[{type:"poster", src:A+"binary-one-poster.png", label:"Cathedral of Small Hours — Poster"}]
     },
     fallow:{
       cat:"Entrance — Interactive / WebGL",
-      name:"Fallow Ruins",
-      title:"Fallow <em>Ruins</em>",
+      name:"Garden of Returning",
+      title:"Garden of <em>Returning</em>",
       accent:"var(--acc-fallow)",
       blurb:"A realistic, overgrown ruin you move through — nature handed back the concrete, generated frame by frame.",
       tools:["JavaScript","WebGL","GLSL"],
       links:[
         // poster placeholder: assets/lab/fallow-ruins-poster.png
-        {label:"Walk Fallow Ruins", href:A+"fallow-ruins-walk.html", primary:true, blank:true}
+        {label:"Walk the Garden", href:A+"garden-of-returning.html", primary:true, blank:true}
       ],
-      media:[{type:"poster", src:A+"fallow-ruins-poster.png", label:"Fallow Ruins — Poster"}]
+      media:[{type:"poster", src:A+"fallow-ruins-poster.png", label:"Garden of Returning — Poster"}]
     },
     feature:{
       cat:"Sky — Interactive Physics",
@@ -1411,8 +1411,8 @@ section{position:relative}
     mapEl.appendChild(mk);
   });
   /* enterable structures at the two ends of the plate */
-  [{key:'binary',x:3.4,y:52,acc:'var(--acc-binary)',label:'Binary One'},
-   {key:'fallow',x:96.5,y:52,acc:'var(--acc-fallow)',label:'Fallow Ruins'}].forEach(function(d){
+  [{key:'binary',x:3.4,y:52,acc:'var(--acc-binary)',label:'Cathedral of Small Hours'},
+   {key:'fallow',x:96.5,y:52,acc:'var(--acc-fallow)',label:'Garden of Returning'}].forEach(function(d){
     var b=document.createElement('button');
     b.type='button';b.className='lc-door';b.dataset.piece=d.key;b.dataset.scene=d.key;
     b.style.left=d.x+'%';b.style.top=d.y+'%';b.style.setProperty('--acc',d.acc);
