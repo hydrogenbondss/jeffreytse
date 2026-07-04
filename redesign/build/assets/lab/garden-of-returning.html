@@ -22,9 +22,7 @@
   /* ---- arrival: the loading screen (honest — lifts on the first real frame) ---- */
   #load{position:fixed;inset:0;z-index:40;background:#060a07;transition:opacity .8s ease;cursor:default}
   #load.gone{opacity:0;pointer-events:none}
-  /* framed off the right side of the plate — the old name on the signboard
-     (left half) stays out of shot; the piece is Garden of Returning now */
-  #load .ld-bg{position:absolute;inset:0;background:url('fallow_approach.png') 82% 50%/cover no-repeat;
+  #load .ld-bg{position:absolute;inset:0;background:url('fallow_approach.png') center/cover no-repeat;
     filter:brightness(.9) saturate(1.06);transform:scale(1.02);animation:ldDrift 16s ease-in-out infinite alternate}
   @keyframes ldDrift{0%{transform:scale(1.02) translateX(-0.6%)}100%{transform:scale(1.06) translateX(0.6%)}}
   #load .ld-grad{position:absolute;inset:0;
