@@ -251,6 +251,13 @@ section{position:relative}
 
 <!-- ============ 1 · GATE ============ -->
 <section id="gate">
+<script>
+/* fail-safe: whatever else happens, the loader curtain always lifts */
+setTimeout(function(){
+  var l=document.getElementById('loader');
+  if(l){l.classList.add('done');setTimeout(function(){try{l.parentNode.removeChild(l);}catch(e){}},900);}
+},6000);
+</script>
   <canvas id="c"></canvas>
   <div class="sc" id="scTL"></div><div class="sc" id="scBL"></div><div id="vig"></div>
   <div class="ui" id="name">JEFFREY<br>N. TSE</div>
@@ -890,6 +897,8 @@ section{position:relative}
   #lab #world{position:absolute;left:0;top:0;height:100%;will-change:transform;
     background-position:center;background-repeat:no-repeat;background-size:cover}
   #lab #world #streetBg{position:absolute;inset:0;background:none;transform:none}
+  #lab #world.has-img{background-image:url("assets/lab/street_pano_4k.webp")}
+  #lab #world.has-img{background-image:-webkit-image-set(url("assets/lab/street_pano_4k.webp") 1x)}
   #lab #world.has-img{background-image:image-set(url("assets/lab/street_pano_4k.webp") type("image/webp"),url("assets/lab/street_pano.png") type("image/png"))}
   #lab .lc-fog{position:absolute;inset:0;pointer-events:none;z-index:2;
     background:radial-gradient(55% 45% at 28% 82%,rgba(120,150,255,.05),transparent 70%),
