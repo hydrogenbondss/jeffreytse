@@ -37,6 +37,10 @@ section{position:relative}
 @media(max-width:760px){#rail{display:none}}
 
 /* seam: the notebook page tears away into the scrapbook dark */
+/* landing from the pour: the WELCOME print pulls back to reveal the whole page */
+#hero.zoomin .wrap{transform-origin:50% 12%;animation:herozoom 1.25s cubic-bezier(.22,.61,.36,1) both}
+@keyframes herozoom{from{transform:scale(1.55) translateY(4vh)}to{transform:none}}
+@media(prefers-reduced-motion:reduce){#hero.zoomin .wrap{animation:none}}
 #works::before{content:"";position:absolute;left:0;right:0;top:-1px;height:34px;background:var(--paper);z-index:3;
   clip-path:polygon(0 0,100% 0,100% 22%,96% 58%,91% 30%,85% 66%,79% 34%,72% 72%,66% 38%,59% 70%,52% 30%,46% 64%,39% 34%,33% 74%,27% 40%,20% 66%,14% 30%,8% 60%,3% 34%,0 58%)}
 
@@ -905,6 +909,10 @@ setTimeout(function(){
                radial-gradient(48% 42% at 82% 72%,rgba(255,120,180,.045),transparent 70%);
     animation:lcfog 20s ease-in-out infinite alternate}
   @keyframes lcfog{0%{transform:translateX(-1.2%)}100%{transform:translateX(1.2%)}}
+  /* the city's life pass: fireworks, traffic light, neon breath — additive light
+     drawn in-plate so it pans with the street */
+  #lab #lcLife{position:absolute;inset:0;width:100%;height:100%;z-index:3;
+    pointer-events:none;mix-blend-mode:screen}
 
   /* in-scene hotspots: the objects are already in the plate — the marker is a
      small breathing point of light, never a box */
@@ -917,17 +925,6 @@ setTimeout(function(){
   #lab .lc-spot:hover i,#lab .lc-spot:focus-visible i{animation-duration:1.1s}
   #lab .lc-spot:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:50%}
 
-  /* the two enterable structures at the ends of the street */
-  #lab .lc-door{position:absolute;transform:translate(-50%,-50%);z-index:4;border:0;cursor:pointer;
-    width:clamp(64px,7vw,110px);height:clamp(120px,18vh,200px);background:transparent;padding:0}
-  #lab .lc-door i{display:block;width:100%;height:100%;border-radius:60px 60px 4px 4px;
-    border:1.5px solid color-mix(in srgb,var(--acc) 75%,transparent);
-    box-shadow:0 0 26px color-mix(in srgb,var(--acc) 40%,transparent),inset 0 0 30px color-mix(in srgb,var(--acc) 18%,transparent);
-    transition:box-shadow .3s ease}
-  #lab .lc-door:hover i,#lab .lc-door:focus-visible i{
-    box-shadow:0 0 44px color-mix(in srgb,var(--acc) 70%,transparent),inset 0 0 44px color-mix(in srgb,var(--acc) 30%,transparent)}
-  #lab .lc-door span{position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);white-space:nowrap;
-    font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--acc)}
 
   /* HUD */
   #lab .lc-intro{position:absolute;left:20px;top:16px;z-index:6;pointer-events:none}
@@ -942,13 +939,30 @@ setTimeout(function(){
   #lab .lc-edge:hover{background:rgba(5,6,10,.85)}
   #lab .lc-edge.l{left:16px}#lab .lc-edge.r{right:16px}
   #lab .lc-edge[disabled]{opacity:.14!important;cursor:default}
-  #lab .lc-hint{position:absolute;bottom:118px;z-index:6;display:flex;align-items:center;gap:8px;cursor:pointer;
-    font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:#f4f1e9;
-    background:rgba(5,6,10,.55);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);
-    padding:9px 13px;border-radius:4px;opacity:.9}
-  #lab .lc-hint:hover{background:rgba(5,6,10,.85)}
-  #lab .lc-hint.l{left:18px}#lab .lc-hint.r{right:18px}
-  #lab .lc-hint span{color:var(--acc)}
+  /* end-of-street waypoints — light in the scene, not chips: the piece's name
+     in the site serif, a breathing chevron, a beam that leads off-screen */
+  #lab .lc-hint{position:absolute;bottom:calc(clamp(120px,14vw,180px) + 44px);z-index:6;cursor:pointer;
+    display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:10px 6px;opacity:.95}
+  #lab .lc-hint.l{left:22px;align-items:flex-start;text-align:left}
+  #lab .lc-hint.r{right:22px;align-items:flex-end;text-align:right}
+  #lab .lc-hint .wp-arr{font-size:1.3rem;line-height:1;color:var(--acc);
+    text-shadow:0 0 16px var(--acc),0 0 40px color-mix(in srgb,var(--acc) 60%,transparent);
+    animation:wpbeckL 2s ease-in-out infinite}
+  #lab .lc-hint.r .wp-arr{animation-name:wpbeckR}
+  #lab .lc-hint .wp-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+    font-size:clamp(1.05rem,1.5vw,1.4rem);line-height:1.1;color:#f4f1e9;max-width:15ch;
+    text-shadow:0 2px 18px rgba(0,0,0,.85),0 0 26px color-mix(in srgb,var(--acc) 55%,transparent)}
+  #lab .lc-hint .wp-name em{color:var(--acc)}
+  #lab .lc-hint .wp-sub{font-family:'Courier Prime',monospace;font-size:.5rem;letter-spacing:.3em;
+    text-transform:uppercase;color:color-mix(in srgb,var(--acc) 75%,#c8cdd8);text-shadow:0 1px 8px rgba(0,0,0,.9)}
+  #lab .lc-hint::after{content:"";height:1px;width:130px;margin-top:4px;
+    background:linear-gradient(270deg,color-mix(in srgb,var(--acc) 90%,transparent),transparent);
+    box-shadow:0 0 12px color-mix(in srgb,var(--acc) 45%,transparent)}
+  #lab .lc-hint.l::after{background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 90%,transparent),transparent)}
+  #lab .lc-hint:hover .wp-name{color:#fff}
+  #lab .lc-hint:hover .wp-arr{animation-duration:1s}
+  @keyframes wpbeckL{0%,100%{transform:translateX(0);opacity:.75}50%{transform:translateX(-9px);opacity:1}}
+  @keyframes wpbeckR{0%,100%{transform:translateX(0);opacity:.75}50%{transform:translateX(9px);opacity:1}}
   /* the GTA minimap */
   #lab #lcMap{position:absolute;right:18px;bottom:18px;z-index:6;width:clamp(120px,14vw,180px);aspect-ratio:1/1;
     border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.28);
@@ -1017,6 +1031,7 @@ setTimeout(function(){
     <div id="streetBg" aria-hidden="true"></div>
     <div id="grain" aria-hidden="true"></div>
     <div class="lc-fog" aria-hidden="true"></div>
+    <canvas id="lcLife" aria-hidden="true"></canvas>
     <!-- in-scene hotspots injected by JS — the pieces themselves are baked into the plate -->
   </div>
   <div id="atmos" aria-hidden="true"></div>
@@ -1024,8 +1039,16 @@ setTimeout(function(){
   <div class="lc-intro" aria-hidden="true"><b>Lab</b><span>walk the city &middot; drag or &#8592;&#8594;</span></div>
   <button class="lc-edge l" id="lcEdgeL" type="button" aria-label="Walk left">&#8249;</button>
   <button class="lc-edge r" id="lcEdgeR" type="button" aria-label="Walk right">&#8250;</button>
-  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)"><span>&#8592;</span> Cathedral of Small Hours</button>
-  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)">Garden of Returning <span>&#8594;</span></button>
+  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)">
+    <span class="wp-arr" aria-hidden="true">&#8592;</span>
+    <span class="wp-name">Cathedral of <em>Small Hours</em></span>
+    <span class="wp-sub">down the street &middot; walkable</span>
+  </button>
+  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)">
+    <span class="wp-arr" aria-hidden="true">&#8594;</span>
+    <span class="wp-name">Garden of <em>Returning</em></span>
+    <span class="wp-sub">down the street &middot; walkable</span>
+  </button>
   <div id="lcMap" aria-hidden="true"><span class="lbl">Lab</span></div>
 
   <!-- GTA-style location title (hover label) -->
@@ -1403,8 +1426,8 @@ setTimeout(function(){
   /* in-scene pieces: tuned to where each element sits in the 4K plate */
   var SPOTS=[
     {key:'turbo',   x:13.5,y:27, acc:'var(--acc-turbo)'},
-    {key:'ash',     x:37,  y:22, acc:'var(--acc-ash)'},
-    {key:'feature', x:42.5,y:9,  acc:'var(--acc-feature)'},
+    {key:'ash',     x:41.5,y:33, acc:'var(--acc-ash)'},
+    {key:'feature', x:51,  y:13, acc:'var(--acc-feature)'},
     {key:'lovebug', x:60.5,y:39, acc:'var(--acc-lovebug)'},
     {key:'pabepabe',x:85,  y:62, acc:'var(--acc-pabepabe)'}
   ];
@@ -1419,16 +1442,8 @@ setTimeout(function(){
     mk.style.background=sp.acc;mk.style.left=(10+sp.x*0.8)+'%';mk.style.top=(26+(10+sp.x*0.8)*0.5)+'%';
     mapEl.appendChild(mk);
   });
-  /* enterable structures at the two ends of the plate */
-  [{key:'binary',x:3.4,y:52,acc:'var(--acc-binary)',label:'Cathedral of Small Hours'},
-   {key:'fallow',x:96.5,y:52,acc:'var(--acc-fallow)',label:'Garden of Returning'}].forEach(function(d){
-    var b=document.createElement('button');
-    b.type='button';b.className='lc-door';b.dataset.piece=d.key;b.dataset.scene=d.key;
-    b.style.left=d.x+'%';b.style.top=d.y+'%';b.style.setProperty('--acc',d.acc);
-    b.setAttribute('aria-label',d.label+' — approach the structure');
-    b.innerHTML='<i></i><span>'+d.label+'</span>';
-    world.appendChild(b);
-  });
+  /* the two ends of the street are announced by the edge waypoints (lcHintB /
+     lcHintF) — no fake arch chrome drawn over the photographic plate */
 
   /* walking: drag / horizontal wheel / arrows / edge buttons */
   var dragging=false,lastX=0;
@@ -1541,6 +1556,190 @@ setTimeout(function(){
   addEventListener('resize',sizeWorld);
   sizeWorld();
   wx=-(world.offsetWidth-(street.clientWidth||innerWidth))*0.02;applyWalk();
+
+  /* ---------- THE CITY LIVES ----------
+     A canvas inside #world (it pans with the street): firework bursts joining
+     the baked one, headlight/taillight pairs rolling the wet road, the heart
+     neon breathing, a sheen drifting across the billboard. Additive light
+     only — the plate stays the scene. Sleeps off-screen, during approaches,
+     takeovers and the walkable pieces. */
+  (function(){
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var cv=document.getElementById('lcLife');if(!cv)return;
+    var cx=cv.getContext('2d');if(!cx)return;
+    var W=1,H=1;
+    function fit(){
+      var w=world.offsetWidth||1,h=world.offsetHeight||1,s=Math.min(1,1920/w);
+      W=Math.max(1,Math.round(w*s));H=Math.max(1,Math.round(h*s));
+      cv.width=W;cv.height=H;
+    }
+    function X(p){return p*W/100}
+    function Y(p){return p*H/100}
+    /* fireworks over the towers, clear of the giant */
+    var shells=[],nextShell=900;
+    function burst(){
+      var bx=52+Math.random()*20,by=5+Math.random()*11;
+      var hues=[42,50,330,204],hue=hues[Math.random()*hues.length|0];
+      var n=44+(Math.random()*28|0),ps=[];
+      for(var i=0;i<n;i++)ps.push({a:Math.PI*2*i/n+Math.random()*.12,sp:.35+Math.random()*.65,tw:Math.random()*6.28});
+      shells.push({x:bx,y:by,hue:hue,ps:ps,t:0,life:2400+Math.random()*1100,r:2.1+Math.random()*2.4});
+    }
+    /* traffic: toward-lane headlights, away-lane taillights, meeting at the
+       street's vanishing point */
+    var LANES=[{n:[36,99],f:[48.5,64],tail:true},{n:[15,99],f:[46.5,64],tail:false}];
+    var cars=[],nextCar=600;
+    function spawnCar(){
+      var ln=LANES[Math.random()*LANES.length|0];
+      cars.push({ln:ln,t:ln.tail?0:1,v:(1/(9500+Math.random()*6000))*(ln.tail?1:-1)});
+    }
+    var last=0,heartT=Math.random()*9999,bbT=0;
+    function running(){
+      return labVisible&&curScene==='street'&&!current&&lcPlay.hidden&&!document.hidden;
+    }
+    function frame(ts){
+      requestAnimationFrame(frame);
+      if(!running()){last=ts;return;}
+      var dt=Math.min(50,(ts-last)||16);last=ts;
+      cx.clearRect(0,0,W,H);
+      cx.globalCompositeOperation='lighter';
+      /* fireworks */
+      nextShell-=dt;
+      if(nextShell<=0&&shells.length<3){burst();nextShell=2300+Math.random()*2800;}
+      for(var s=shells.length-1;s>=0;s--){
+        var sh=shells[s];sh.t+=dt;var q=sh.t/sh.life;
+        if(q>=1){shells.splice(s,1);continue;}
+        var R=X(sh.r)*Math.pow(q,.42),fade=(1-q)*(1-q);
+        for(var i=0;i<sh.ps.length;i++){
+          var p=sh.ps[i],px=X(sh.x)+Math.cos(p.a)*R*p.sp,
+              py=Y(sh.y)+Math.sin(p.a)*R*p.sp*.85+Y(1.6)*q*q,
+              tw=.55+.45*Math.sin(p.tw+sh.t*.02);
+          cx.fillStyle='hsla('+sh.hue+',90%,'+((70+22*tw)|0)+'%,'+(fade*tw).toFixed(3)+')';
+          cx.fillRect(px,py,2.2,2.2);
+        }
+        if(q<.2){
+          var fr=R*.5+9,g=cx.createRadialGradient(X(sh.x),Y(sh.y),0,X(sh.x),Y(sh.y),fr);
+          g.addColorStop(0,'hsla('+sh.hue+',95%,86%,'+(.5*(1-q/.2)).toFixed(3)+')');
+          g.addColorStop(1,'hsla('+sh.hue+',95%,86%,0)');
+          cx.fillStyle=g;cx.beginPath();cx.arc(X(sh.x),Y(sh.y),fr,0,6.29);cx.fill();
+        }
+      }
+      /* traffic */
+      nextCar-=dt;
+      if(nextCar<=0&&cars.length<3){spawnCar();nextCar=2400+Math.random()*3600;}
+      for(var c=cars.length-1;c>=0;c--){
+        var cr=cars[c];cr.t+=cr.v*dt;
+        if(cr.t<=0||cr.t>=1){cars.splice(c,1);continue;}
+        var ln=cr.ln,t=cr.t,
+            x=X(ln.n[0]+(ln.f[0]-ln.n[0])*t),
+            y=Y(ln.n[1]+(ln.f[1]-ln.n[1])*t),
+            sc=1-.86*t,
+            edge=Math.min(1,Math.min(t/.06,(1-t)/.06)),
+            sep=X(.5)*sc+1,rad=Math.max(1.6,X(.42)*sc),
+            col=ln.tail?'255,66,52':'255,238,196',
+            a=.5*edge;
+        for(var k=-1;k<=1;k+=2){
+          var lx=x+k*sep,g2=cx.createRadialGradient(lx,y,0,lx,y,rad*2.4);
+          g2.addColorStop(0,'rgba('+col+','+a.toFixed(3)+')');
+          g2.addColorStop(.35,'rgba('+col+','+(a*.35).toFixed(3)+')');
+          g2.addColorStop(1,'rgba('+col+',0)');
+          cx.fillStyle=g2;cx.beginPath();cx.arc(lx,y,rad*2.4,0,6.29);cx.fill();
+          var rg=cx.createLinearGradient(lx,y,lx,y+rad*7);
+          rg.addColorStop(0,'rgba('+col+','+(a*.28).toFixed(3)+')');
+          rg.addColorStop(1,'rgba('+col+',0)');
+          cx.fillStyle=rg;cx.fillRect(lx-rad*.5,y,rad,rad*7);
+        }
+      }
+      /* the heart neon breathes, with the rare flicker of a real tube */
+      heartT+=dt;
+      var hb=.5+.5*Math.sin(heartT*.0011),
+          flick=Math.sin(heartT*.017)>.995?.35:1,
+          ha=(.08+.15*hb)*flick,
+          hr=X(4.5),hx=X(66),hy=Y(44),
+          hg=cx.createRadialGradient(hx,hy,0,hx,hy,hr);
+      hg.addColorStop(0,'rgba(255,64,140,'+ha.toFixed(3)+')');
+      hg.addColorStop(1,'rgba(255,64,140,0)');
+      cx.fillStyle=hg;cx.beginPath();cx.arc(hx,hy,hr,0,6.29);cx.fill();
+      /* billboard sheen sweep */
+      bbT+=dt;var bq=(bbT%8600)/8600;
+      if(bq<.38){
+        var m=bq/.38,bx2=X(-2+32*m);
+        cx.save();cx.beginPath();cx.rect(X(1.2),Y(1),X(25.5),Y(52));cx.clip();
+        var bg2=cx.createLinearGradient(bx2-X(3),0,bx2+X(3),Y(26));
+        bg2.addColorStop(0,'rgba(185,240,255,0)');
+        bg2.addColorStop(.5,'rgba(185,240,255,.05)');
+        bg2.addColorStop(1,'rgba(185,240,255,0)');
+        cx.fillStyle=bg2;cx.fillRect(X(1.2),Y(1),X(25.5),Y(52));
+        cx.restore();
+      }
+    }
+    fit();
+    addEventListener('resize',fit);
+    requestAnimationFrame(frame);
+  })();
+
+  /* ---------- SCENE EXITS ----------
+     No hard cuts between worlds: as the next chapter's edge approaches, the
+     scene you are IN moves — pushes in, dims, gives way. Scroll-driven, both
+     directions, cheap (transform+filter only). The western handles its own
+     exit (the ride-off); the gate handles its own arrival (the pour). */
+  (function(){
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    /* the hero's arrival zoom must release its fill so scroll can drive it */
+    var hw=document.querySelector('#hero .wrap');
+    if(hw)hw.addEventListener('animationend',function(e){
+      if(e.animationName==='herozoom')document.getElementById('hero').classList.remove('zoomin');
+    });
+    function els(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
+    var BOUNDS=[
+      {next:'#works',tsel:'#hero .wrap',fx:function(el,q){
+        el.style.transform='translateY('+(-2.4*q).toFixed(3)+'vh) scale('+(1+.075*q).toFixed(4)+')';
+        el.style.filter='brightness('+(1-.32*q).toFixed(3)+')';}},
+      {next:'#lab',tsel:'#works .works-spread',fx:function(el,q){
+        el.style.transform='scale('+(1+.09*q).toFixed(4)+') rotate('+(-.7*q).toFixed(3)+'deg)';
+        el.style.filter='brightness('+(1-.72*q).toFixed(3)+') saturate('+(1-.25*q).toFixed(3)+')';}},
+      {next:'#client',tsel:'#lab #street',fx:function(el,q){
+        el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
+        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';}},
+      {next:'#archive',tsel:'#editorial',fx:function(el,q){
+        el.style.transform='scale('+(1+.06*q).toFixed(4)+')';
+        el.style.filter='brightness('+(1-.55*q).toFixed(3)+') saturate('+(1-.2*q).toFixed(3)+')';}},
+      {next:'#about',tsel:'#archive .stage',fx:function(el,q){
+        el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
+        el.style.filter='brightness('+(1-.42*q).toFixed(3)+')';}}
+    ];
+    /* this script sits mid-document — the later chapters don't exist yet,
+       so element lookups wait for the full DOM */
+    BOUNDS.forEach(function(b){b.q=-1;b.nextEl=null;b.targets=[];});
+    function resolveB(){
+      BOUNDS.forEach(function(b){
+        if(!b.nextEl)b.nextEl=document.querySelector(b.next);
+        if(!b.targets.length)b.targets=els(b.tsel);
+      });
+    }
+    var tick=false;
+    function apply(){
+      tick=false;
+      var vh=innerHeight||1;
+      BOUNDS.forEach(function(b){
+        if(!b.nextEl||!b.targets.length)return;
+        var top=b.nextEl.getBoundingClientRect().top;
+        var q=1-Math.max(0,Math.min(1,top/vh));
+        q=q*q*(3-2*q);
+        if(Math.abs(q-b.q)<.002)return;
+        b.q=q;
+        b.targets.forEach(function(el){
+          if(q<=0){el.style.transform='';el.style.filter='';return;}
+          b.fx(el,q);
+        });
+      });
+    }
+    function req(){if(!tick){tick=true;requestAnimationFrame(apply);}}
+    addEventListener('scroll',req,{passive:true});
+    addEventListener('resize',req);
+    if(document.readyState==='loading'){
+      document.addEventListener('DOMContentLoaded',function(){resolveB();apply();});
+    }else{resolveB();apply();}
+  })();
 
   // ---------- STREET MEDIA BUDGET ----------
   // pause every street video while the takeover is open / tab is hidden
@@ -3032,23 +3231,27 @@ setTimeout(function(){
       var CDN='assets/remote/';
       var AR = {
         'welcome-home':{kick:'Selected exhibition',title:'Welcome Home',
+          plates:[{src:'assets/remote/3b4b21ad-87a6-425f-a109-cdd32dc4c8cd.png',cap:'Olivia Qiu, Cube in Cube, 2017'}],
           role:'Curator · Wil Aballe Art Projects · Vancouver · 2019',
           body:['How does our sense of self come to inform the spaces we occupy — and how do the spaces we occupy inform our sense of self? Building on Steven Vertovec’s concept of superdiversity, Welcome Home examined home as a fluid essence capable of shifting alongside ourselves.','Three artists working in sculpture, performance, found objects, and sound installation reflected on their relationships to home: cycles of identity and self-acceptance, remembrance and belonging across cultural influences, and abstracted representations of interior and exterior space.','Featured work: “Cube in Cube,” resin, plastic, and oil, 2017, by Olivia Qiu.']},
         'finite-appearances':{kick:'Selected exhibition',title:'Finite Appearances',
           role:'Co-Curator · Wil Aballe Art Projects · Vancouver · 2018',
           body:['The body has always been mobilised as a site where presence is both inscribed and erased. Finite Appearances brought together works by Kelly Holmes made from imprinted bodily traces — plaster casts of hands, soap moulds, video documentation of a snow angel, and a floor-scattered arrangement of plaster navels.','The exhibition asked whether intimacy can be successfully represented in any medium, and whether the permanence of art inevitably contradicts an intimate act.'],
-          plates:[{src:CDN+'17713565-39f9-4041-91c5-a771df421209.png',cap:'Kelly Holmes, Soap Hands, 2017'},{src:CDN+'674eb835-63ca-41ec-b844-3dbc2fe22ac8.png',cap:'Installation view'}]},
+          plates:[{src:CDN+'17713565-39f9-4041-91c5-a771df421209.png',cap:'Kelly Holmes, Soap Hands, 2017'},{src:'assets/remote/00c952ca-9eca-4873-869c-bb18d048c53f.png',cap:'plaster casts'},{src:CDN+'674eb835-63ca-41ec-b844-3dbc2fe22ac8.png',cap:'Installation view'}]},
         'undergrowth':{kick:'Selected exhibition',title:'UNDERGROWTH',
           role:'Co-Curator · Audain Gallery · Vancouver · 2018',
+          plates:[{src:'assets/remote/95f58e44-dd68-4b78-94fc-232f577410a4.png',cap:'exhibition flyer, 2018'}],
           body:['The 2018 BFA/BA Graduating Exhibition at the Audain Gallery — what grows in the year everyone graduates.'],
           links:[{label:'Exhibition record',href:'https://ahva.ubc.ca/events/event/undergrowth-2018-bfa-ba-graduating-exhibition/'},{label:'Catalogue (PDF)',href:'https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf'}]},
         'insights':{kick:'Selected exhibition',title:'Insights Unseen and Unheard',
+          plates:[{src:'assets/remote/7505188d-b478-4305-a7f0-649e302c6ab6.png',cap:'Untitled, 2017 — installation view'},{src:'assets/remote/3f420efc-d6a8-49d1-83d0-d0bd3fb68fe2.png',cap:'the horizontal sequence'}],
           role:'Artist · Hatch Art Gallery · Vancouver · 2017',
           body:['A group exhibition bringing together artists working across photography, sound, and installation to examine questions of visibility and perception — what remains at the limits of what can be seen, heard, or communicated.','Jeffrey Tse contributed “Untitled, 2017,” a photographic series installed in a horizontal sequence across the gallery wall — one contribution among several, sitting within a broader conversation about bodies, spaces, and what photographs actually record.']},
         'resonance':{kick:'Selected exhibition',title:'Resonance',
           role:'Curator · JCCAC · Hong Kong · 2017',
           body:['Presented at the Jockey Club Creative Arts Centre in Hong Kong, Resonance brought together works exploring memory, identity, and emotional trace — the ways in which experience leaves marks that persist, evolve, and resurface.','The exhibition featured abstract acrylic paintings on circular canvases, examining relational experience as a structure rather than an event: something that accumulates, distorts, and continues long after its origin.']},
         'beitler':{kick:'Writing · scholarship',title:'The Offender Behind the Lens',
+          plates:[{src:'assets/remote/31a30bbc-46b9-4d3c-8ad6-56720517be39.png',cap:'presenting at the 14th Annual Symposium, UBC'}],
           role:'UBC Undergraduate Journal of Art History · 2019',
           body:['The ethical legacy of Beitler’s lynching photograph: what does it mean to circulate an image whose origin was the very crime it documents?','Presented at the 14th Annual Undergraduate Art History Symposium & UJAH Launch; cited in the Milwaukee Independent, 2020.'],
           links:[{label:'Press citation — Milwaukee Independent',href:'https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/'},{label:'Symposium record',href:'https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/'}]},
@@ -3174,6 +3377,12 @@ setTimeout(function(){
     V.style.cssText='display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.08)';
     V.play().catch(()=>{});
   }
+  /* Safari gates autoplay behind a gesture on file:// — any first touch wakes the tank */
+  function kickV(){ if(V.paused){ var kp=V.play(); if(kp&&kp.catch)kp.catch(function(){}); } }
+  ['pointerdown','pointermove','touchstart','keydown','wheel'].forEach(function(ev){
+    addEventListener(ev,kickV,{passive:true});
+  });
+  V.addEventListener('canplay',kickV);
   if(useGL){
   /* ============ LIQUID ENGINE ============
      Pass A: a low-res velocity FIELD — the cursor splats energy in, the
@@ -3386,6 +3595,8 @@ void main(){
   const media=[document.getElementById('c'),document.getElementById('v')].filter(Boolean);
   function land(){
     document.getElementById('hero').scrollIntoView({behavior:'auto'});
+    var heroEl=document.getElementById('hero');
+    if(!reduceG){ heroEl.classList.remove('zoomin'); void heroEl.offsetWidth; heroEl.classList.add('zoomin'); }
     gate.classList.remove('smash');
     drain.style.height='0';
     media.forEach(el=>{el.style.transform='';});
@@ -3482,34 +3693,47 @@ void main(){
       body:"ECHO is a branching, hand-authored story built in Ren’Py, carried by its rooms. Nia works in ceramics; Neo works in photography, and the world is staged in real lit spaces — a darkroom holding under a breathing red safelight, an apartment kept warm and close. The interface is part of the fiction. I directed the look, the rooms, and the narrative system end to end.",
       role:"Systems Architect · Art Director · Editorial Strategist",
       needs:"new in-game app name · which scene stills to surface · demo/play link",
-      media:[{type:"video",src:"assets/echo/darkroom.mp4",poster:"assets/echo/darkroom_poster.jpg",cap:"the darkroom — Neo"},{type:"img",src:"assets/echo/blake_apartment_day.png",cap:"the apartment"}]},
+      media:[{type:"video",src:"assets/echo/darkroom.mp4",poster:"assets/echo/darkroom_poster.jpg",cap:"the darkroom — Neo"},{type:"img",src:"assets/remote/368c1185-8826-42e9-8c80-f0968cbd2e59.png",cap:"in game — the Copper Room"},{type:"img",src:"assets/remote/79358781-7c91-4a87-baab-493b1a71d424.png",cap:"three to fall for — each playable as a man or a woman"},{type:"img",src:"assets/remote/6931cd71-ecdd-4454-b0bf-772b609c5f43.png",cap:"the apartment"},{type:"img",src:"assets/remote/19176b99-fa95-4b3f-bffa-c43769d0ed54.png",cap:"the back room"},{type:"img",src:"assets/echo/blake_apartment_day.png",cap:"the apartment — day"}]},
     rollcall:{name:"ROLL CALL",tag:"ARCHIVE · MATERIAL CULTURE",
       lede:"A museum for the overlooked — toilet-paper specimens from 21 countries, catalogued like artifacts.",
       body:"ROLL CALL is a material culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects — not just what it is, but who makes it, what it costs, where it ends up, what it's made of, and what that material actually means. The project is also a critical essay in physical form: its argument is that toilet paper encodes the invisible — supply chains, hygiene politics, colonial inheritance, and the economics of who gets what standard of living by default. The archive makes that argument the only way an archive can — through accumulation, and the formal weight of treating the mundane as evidence. Live at hydrogenbondss.github.io/Rollcall.",
       role:"Systems Architect · Art Director — archive, methodology, essay",
       needs:"specimen / archive screenshots to surface"},
-    spector:{name:"SPECTOR",tag:"BRAND · IDENTITY",
-      lede:"A purple aperture and a wordmark — an identity that looks through the lens, not at it.",
-      body:"SPECTOR is a brand identity organized around a single idea: a purple aperture that doubles as the dot of the mark, reading as a lens iris — precise, optical, deliberately cool. I directed the mark, the color, and the system it implies.",
-      role:"Art Director · Systems Architect",
-      needs:"what SPECTOR is for (product / studio / service)"},
+    spector:{name:"SPECTOR",tag:"PRODUCT · BRAND · IDENTITY",
+      lede:"The auto-paced teleprompter for smart glasses — scripts that keep up with the way you actually speak.",
+      body:"SPECTOR is an auto-paced teleprompter for smart glasses: the script lives in your lenses and scrolls itself to your speaking pace, on Ray-Ban Meta and beyond. The identity is built around a purple aperture that doubles as the mark — a lens iris: precise, optical, deliberately cool. I directed the brand, the dark optical design system, and the product surfaces from the dashboard to the in-lens view.",
+      role:"Systems Architect · Art Director — brand, product design",
+      needs:"",
+      media:[{type:"img",src:"assets/remote/a8b275a0-6daa-488f-bdb7-e1328277d043.png",cap:"in the lenses"},{type:"img",src:"assets/remote/61ef192b-2600-40dd-a088-a4437bd44ff1.png",cap:"dashboard · Ray-Ban Meta"},{type:"img",src:"assets/remote/50732ae2-c006-4894-ba1e-bfcf7332b061.png",cap:"compact mode"},{type:"img",src:"assets/remote/52cddf7e-97fd-450b-a0e3-033d0c6eaa7e.png",cap:"phone teleprompter"},{type:"img",src:"assets/remote/bf923fc5-b2d1-4baf-9bc2-d23a69de9421.png",cap:"SPECTOR"}]},
     noru:{name:"Noru",tag:"CHARACTER · STICKER BRAND",
       lede:"A red panda you can stick anywhere — a character built to travel.",
       body:"Noru is a red-panda character and sticker brand: a warm, simple, instantly readable mascot designed to live as die-cut stickers and small goods, built to hold up at thumbnail size. I handled the character design and the sticker-first identity around it.",
       role:"Art Director — character design, illustration",
-      needs:"scope (sticker pack vs wider line) · shop / drop link"},
+      needs:"scope (sticker pack vs wider line) · shop / drop link",
+      media:[{type:"img",src:"assets/remote/79a0b568-f1ad-4a61-a443-065785fc7faf.png",cap:"Noru — the twins"},
+             {type:"img",src:"assets/remote/11516daf-240c-45b4-86c2-8008692b0814.png",cap:"sticker sheet"},
+             {type:"img",src:"assets/remote/60369f97-1a17-4623-831a-197c59eb01c0.png",cap:"let's go"},
+             {type:"img",src:"assets/remote/ae2fd6d6-a580-4e36-8c7b-6bcf8810c949.png",cap:"soft day"},
+             {type:"img",src:"assets/remote/e04e629e-e2cb-4399-865d-b6d5d3dcf6f3.png",cap:"hmph"},
+             {type:"img",src:"assets/remote/320ec6e5-2ba3-4f8a-a879-fcb85c753dcc.png",cap:"in the app"}]},
     pawsaid:{name:"PawsAid",tag:"PRODUCT · BRAND · E-COMMERCE",
       lede:"Pet first-aid, properly kept. You don’t prepare because you expect emergencies — you prepare because they happen.",
       body:"PawsAid is a pet first-aid kit brand built from scratch — every element designed, engineered, and launched by the founding team. The line covers three kits — Essential → Pro → Plus — for dogs and cats, each developed with veterinary input and manufactured to professional standard. Its storefront is a bilingual React/TypeScript platform with chat support and a full CMS. I led brand identity, product design, engineering, and go-to-market from zero to launch. Live at pawsaid.hk.",
       role:"Systems Architect · Art Director · Editorial Strategist — brand, product, engineering, GTM",
-      needs:"per-SKU contents / pricing · pure-white product plates"}
+      needs:"per-SKU contents / pricing · pure-white product plates",
+      media:[{type:"img",src:"assets/remote/efd801e0-3d06-4d9d-a88b-442d398888be.png",cap:"the kit"},
+             {type:"img",src:"assets/remote/c6cc7331-16cf-404b-87ff-fed503d47dd0.png",cap:"what's inside"},
+             {type:"img",src:"assets/remote/d852637a-ac6f-42f7-97a4-af50b94afce8.png",cap:"packed for real emergencies"},
+             {type:"img",src:"assets/remote/f48c3cbd-3f77-45cd-914c-05998ba4b718.png",cap:"PawsAid Pro"},
+             {type:"img",src:"assets/remote/1f2726a8-f34d-465a-81ac-c40deefe77aa.png",cap:"at home"},
+             {type:"img",src:"assets/remote/62075ff3-0443-4aad-9c2a-58c4b537ddf2.png",cap:"because every second matters"}]}
   };
   const m=document.getElementById('pmodal');
   const set=(id,v)=>{document.getElementById(id).textContent=v;};
   let lastFocus=null;
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   function open(k){const d=P[k];if(!d)return;
-    set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-role',d.role);set('pm-needs',d.needs);
+    set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-role',d.role);set('pm-needs',d.needs||'');
     document.getElementById('pm-body').innerHTML=d.body.replace(/\b(hydrogenbondss\.github\.io\/Rollcall|pawsaid\.hk)\b/g,'<a href="https://$1" target="_blank" rel="noopener">$1</a>');
     const mm=document.getElementById('pm-media');mm.innerHTML='';
     (d.media||[]).forEach(it=>{const fig=document.createElement('figure');
