@@ -845,8 +845,6 @@ section{position:relative}
   /* ===== PLATE ANCHORS — every object glued to the street plate's real
      geometry. #world is a fixed-aspect cover box (JS-sized), so these
      percentages track the image itself at any viewport. ===== */
-  #world{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
-  #world #streetBg{background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260702_100110_667a29f6-5f6e-454c-9b2a-9a5775fb1454.png');background-size:100% 100%;transform:none}
   .m-turbo{left:34.5%;top:5%;width:23.5%;transform:none}
   .m-turbo .screen{width:100%;aspect-ratio:16/9}
   .m-turbo .screen::before{display:none}
@@ -882,99 +880,145 @@ section{position:relative}
     #lab .marker .dot::before{display:none;}
   }
 
+
+  /* ================= WALK-THE-CITY (restored approved lab-walk) =================
+     The panorama IS the scene: Turbo's billboard, PabePabe's window, the heart
+     neon, giant Ash and the fireworks are baked into the plate. You WALK past
+     them (drag / arrows / edge buttons), the GTA minimap tracks you, and the
+     two structures at the ends are enterable, walkable pieces. */
+  #lab #street{cursor:grab;touch-action:pan-y}
+  #lab #street.dragging{cursor:grabbing}
+  #lab #world{position:absolute;left:0;top:0;height:100%;will-change:transform;
+    background-position:center;background-repeat:no-repeat;background-size:cover}
+  #lab #world #streetBg{position:absolute;inset:0;background:none;transform:none}
+  #lab #world.has-img{background-image:image-set(url("assets/lab/street_pano_4k.webp") type("image/webp"),url("assets/lab/street_pano.png") type("image/png"))}
+  #lab .lc-fog{position:absolute;inset:0;pointer-events:none;z-index:2;
+    background:radial-gradient(55% 45% at 28% 82%,rgba(120,150,255,.05),transparent 70%),
+               radial-gradient(48% 42% at 82% 72%,rgba(255,120,180,.045),transparent 70%);
+    animation:lcfog 20s ease-in-out infinite alternate}
+  @keyframes lcfog{0%{transform:translateX(-1.2%)}100%{transform:translateX(1.2%)}}
+
+  /* in-scene hotspots: the objects are already in the plate — the marker is a
+     small breathing point of light, never a box */
+  #lab .lc-spot{position:absolute;transform:translate(-50%,-50%);z-index:4;border:0;background:transparent;
+    padding:26px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  #lab .lc-spot i{display:block;width:11px;height:11px;border-radius:50%;background:var(--acc,#fff);
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--acc,#fff) 22%,transparent),0 0 18px color-mix(in srgb,var(--acc,#fff) 85%,transparent);
+    animation:lcpulse 2.6s ease-in-out infinite}
+  @keyframes lcpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+  #lab .lc-spot:hover i,#lab .lc-spot:focus-visible i{animation-duration:1.1s}
+  #lab .lc-spot:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:50%}
+
+  /* the two enterable structures at the ends of the street */
+  #lab .lc-door{position:absolute;transform:translate(-50%,-50%);z-index:4;border:0;cursor:pointer;
+    width:clamp(64px,7vw,110px);height:clamp(120px,18vh,200px);background:transparent;padding:0}
+  #lab .lc-door i{display:block;width:100%;height:100%;border-radius:60px 60px 4px 4px;
+    border:1.5px solid color-mix(in srgb,var(--acc) 75%,transparent);
+    box-shadow:0 0 26px color-mix(in srgb,var(--acc) 40%,transparent),inset 0 0 30px color-mix(in srgb,var(--acc) 18%,transparent);
+    transition:box-shadow .3s ease}
+  #lab .lc-door:hover i,#lab .lc-door:focus-visible i{
+    box-shadow:0 0 44px color-mix(in srgb,var(--acc) 70%,transparent),inset 0 0 44px color-mix(in srgb,var(--acc) 30%,transparent)}
+  #lab .lc-door span{position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);white-space:nowrap;
+    font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--acc)}
+
+  /* HUD */
+  #lab .lc-intro{position:absolute;left:20px;top:16px;z-index:6;pointer-events:none}
+  #lab .lc-intro b{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+    font-size:2rem;line-height:1;color:#f4f1e9}
+  #lab .lc-intro span{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.24em;
+    text-transform:uppercase;color:#9aa3b2}
+  #lab .lc-edge{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:52px;height:52px;border-radius:50%;
+    display:grid;place-items:center;color:#fff;background:rgba(5,6,10,.5);border:1px solid rgba(255,255,255,.22);
+    cursor:pointer;font-size:1.3rem;line-height:1;opacity:0;transition:opacity .3s ease}
+  #lab:hover .lc-edge{opacity:.85}
+  #lab .lc-edge:hover{background:rgba(5,6,10,.85)}
+  #lab .lc-edge.l{left:16px}#lab .lc-edge.r{right:16px}
+  #lab .lc-edge[disabled]{opacity:.14!important;cursor:default}
+  #lab .lc-hint{position:absolute;bottom:118px;z-index:6;display:flex;align-items:center;gap:8px;cursor:pointer;
+    font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:#f4f1e9;
+    background:rgba(5,6,10,.55);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);
+    padding:9px 13px;border-radius:4px;opacity:.9}
+  #lab .lc-hint:hover{background:rgba(5,6,10,.85)}
+  #lab .lc-hint.l{left:18px}#lab .lc-hint.r{right:18px}
+  #lab .lc-hint span{color:var(--acc)}
+  /* the GTA minimap */
+  #lab #lcMap{position:absolute;right:18px;bottom:18px;z-index:6;width:clamp(120px,14vw,180px);aspect-ratio:1/1;
+    border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.28);
+    background:#0a0e16 url("assets/lab/map.png") center/cover no-repeat;
+    box-shadow:0 12px 40px rgba(0,0,0,.55)}
+  #lab #lcMap .you{position:absolute;width:10px;height:10px;border-radius:50%;background:#fff;
+    box-shadow:0 0 0 4px rgba(255,255,255,.25);transform:translate(-50%,-50%)}
+  #lab #lcMap .mk{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%)}
+  #lab #lcMap .lbl{position:absolute;left:12px;top:9px;font-family:'Courier Prime',monospace;font-size:.5rem;
+    letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+
+  /* cinematic arrival — the city, alive, then it hands you the street */
+  #lab #cityIntro{position:absolute;inset:0;z-index:12;background:#000;display:flex;align-items:center;
+    justify-content:center;transition:opacity .9s ease}
+  #lab #cityIntro.gone{opacity:0;visibility:hidden;pointer-events:none}
+  #lab #cityIntro video{width:100%;height:100%;object-fit:cover}
+  #lab #cityIntro .ci-ttl{position:absolute;left:6%;bottom:12%;pointer-events:none;text-shadow:0 4px 40px rgba(0,0,0,.7)}
+  #lab #cityIntro .ci-ttl b{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+    font-size:clamp(2.6rem,7vw,5.4rem);line-height:1;color:#f4f1e9}
+  #lab #cityIntro .ci-ttl span{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.32em;
+    text-transform:uppercase;color:#9aa3b2}
+  #lab #cityIntro .ci-skip{position:absolute;bottom:26px;right:26px;font-family:'Courier Prime',monospace;
+    font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.4);
+    border:1px solid rgba(255,255,255,.32);padding:11px 18px;border-radius:4px;cursor:pointer}
+  #lab #cityIntro .ci-skip:hover{background:rgba(0,0,0,.7)}
+
+  /* structure approach scenes */
+  #lab .lc-scene{position:absolute;inset:0;z-index:8;background:#05060a}
+  #lab .lc-structure{display:block;width:100%;height:100%;border:0;padding:0;cursor:pointer;position:relative;background:#05060a}
+  #lab .lc-appr{position:absolute;inset:0;background-size:cover;background-position:center}
+  #lab .lc-enterwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:flex-end;padding-bottom:12vh;gap:10px;
+    background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,0) 40%,rgba(0,0,0,.62) 100%)}
+  #lab .lc-enterwrap b{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,5.6vw,4.6rem);
+    line-height:1;color:#f4f1e9}
+  #lab .lc-enterwrap b em{font-style:italic;color:var(--acc)}
+  #lab .lc-enterwrap i{font-style:normal;font-family:'Courier Prime',monospace;font-size:.6rem;
+    letter-spacing:.3em;text-transform:uppercase;color:#9aa3b2}
+  #lab .lc-go{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+    color:#05060a;background:var(--acc);padding:12px 22px;border-radius:4px;margin-top:10px}
+  #lab .lc-structure:hover .lc-go{filter:brightness(1.12)}
+  #lab #lcBack{position:absolute;top:16px;left:16px;z-index:14;font-family:'Courier Prime',monospace;
+    font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#f4f1e9;background:rgba(5,6,10,.6);
+    border:1px solid rgba(255,255,255,.2);padding:9px 14px;border-radius:4px;cursor:pointer}
+  #lab #lcBack:hover{border-color:rgba(255,255,255,.55)}
+
+  /* the walkable piece, fullscreen */
+  #lcPlay{position:fixed;inset:0;z-index:95;background:#000}
+  #lcPlay[hidden]{display:none}
+  #lcPlay iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  #lcPlay #lcLeave{position:absolute;top:14px;left:14px;z-index:2;font-family:'Courier Prime',monospace;
+    font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.5);
+    border:1px solid rgba(255,255,255,.3);padding:10px 16px;border-radius:4px;cursor:pointer}
+  #lcPlay #lcLeave:hover{background:rgba(0,0,0,.85)}
+  @media(prefers-reduced-motion:reduce){
+    #lab .lc-spot i{animation:none}
+    #lab .lc-fog{animation:none}
+  }
+
 </style>
 <section id="lab" aria-label="The Lab — a living night street">
 
 <!-- ====================== THE STREET ====================== -->
-<main id="street" aria-label="Lab — a living night street to explore">
-  <!-- #world = the street plate + everything anchored INTO its geometry.
-       When the animated plate loop is approved, it drops in here with the
-       same cover-box so nothing shifts. -->
-  <div id="world">
-  <div id="streetBg" aria-hidden="true"></div>
-  <div id="grain" aria-hidden="true"></div>
-
-  <!-- ---- 5 STREET OBJECTS ---- -->
-
-  <!-- Turbo MG21 = billboard, its film playing on it -->
-  <button class="marker obj m-turbo" data-piece="turbo" style="--acc:var(--acc-turbo)"
-          aria-label="Turbo MG21, billboard playing the film. Open detail view.">
-    <span class="screen" aria-hidden="true">
-      <video src="assets/lab/turbo_mg21.mp4" autoplay muted loop playsinline preload="metadata"></video>
-    </span>
-    <span class="plate">Turbo MG21<small>Billboard</small></span>
-  </button>
-
-  <!-- PabePabe = lit boutique window, the bag film in the display -->
-  <button class="marker obj m-pabepabe" data-piece="pabepabe" style="--acc:var(--acc-pabepabe)"
-          aria-label="PabePabe, the boutique window with the bag films. Open detail view.">
-    <span class="screen" aria-hidden="true">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_044640_69aac7e3-3909-4e0d-af09-ea454ed1974b.png" alt="PabePabe boutique window displaying the bags" loading="lazy">
-    </span>
-    <span class="plate">PabePabe<small>Boutique Window &middot; The Trilogy</small></span>
-  </button>
-
-  <!-- Love Bug = neon-heart machine, live preview -->
-  <button class="marker obj m-lovebug" data-piece="lovebug" style="--acc:var(--acc-lovebug)"
-          aria-label="Love Bug, the neon heart machine. Open detail view.">
-    <span class="screen" aria-hidden="true">
-      <img class="idle" src="assets/lab/love-bug-poster.png" alt="" loading="lazy" decoding="async">
-      <iframe data-live="assets/lab/love-bug.html" tabindex="-1" title="Love Bug preview" loading="lazy" scrolling="no"></iframe>
-    </span>
-    <span class="plate">Love Bug<small>Neon Heart &middot; Interactive</small></span>
-  </button>
-
-  <!-- Ash-01 = the figure, towering -->
-  <button class="marker obj m-ash" data-piece="ash" style="--acc:var(--acc-ash)"
-          aria-label="Ash-01, the figure that towers over the street. Open detail view.">
-    <span class="screen" aria-hidden="true">
-      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/aec942eb-16d1-4e72-a993-4ea13de4b551.png" alt="Ash-01, the figure" loading="lazy">
-    </span>
-    <span class="plate">Ash-01<small>The Figure &middot; Original Character</small></span>
-  </button>
-
-  <!-- Feature World: Chaos = the sky, live particle preview -->
-  <button class="marker obj m-feature" data-piece="feature" style="--acc:var(--acc-feature)"
-          aria-label="Feature World Chaos, the particle sky. Open detail view.">
-    <span class="screen" aria-hidden="true">
-      <img class="idle" src="assets/lab/feature-world-chaos-poster.png" alt="" loading="lazy" decoding="async">
-      <iframe data-live="assets/lab/feature-world-chaos.html" tabindex="-1" title="Feature World preview" loading="lazy" scrolling="no"></iframe>
-    </span>
-    <span class="plate">Feature World: Chaos<small>Sky &middot; Interactive Physics</small></span>
-  </button>
-
-  <!-- ---- 2 DOORWAYS (live previews of the actual pieces) ---- -->
-
-  <!-- Binary One = building entrance -->
-  <button class="door d-binary" data-piece="binary" style="--acc:var(--acc-binary)"
-          aria-label="Binary One, a building you can enter. Open detail view.">
-    <span class="arch">
-      <iframe src="assets/lab/binary-one.html" tabindex="-1" title="Binary One preview" loading="lazy" scrolling="no" aria-hidden="true"></iframe>
-      <span class="veil" aria-hidden="true"></span>
-      <span class="threshold">Enter<span class="enter">Binary One</span></span>
-    </span>
-  </button>
-
-  <!-- Fallow Ruins = building entrance -->
-  <button class="door d-fallow" data-piece="fallow" style="--acc:var(--acc-fallow)"
-          aria-label="Fallow Ruins, a building you can enter. Open detail view.">
-    <span class="arch">
-      <iframe src="assets/lab/fallow-ruins.html" tabindex="-1" title="Fallow Ruins preview" loading="lazy" scrolling="no" aria-hidden="true"></iframe>
-      <span class="veil" aria-hidden="true"></span>
-      <span class="threshold">Enter<span class="enter">Fallow Ruins</span></span>
-    </span>
-  </button>
-
-  </div><!-- /world -->
+<main id="street" aria-label="Lab — a living night street; drag, use the arrows, or walk to either end">
+  <div id="world" class="has-img">
+    <div id="streetBg" aria-hidden="true"></div>
+    <div id="grain" aria-hidden="true"></div>
+    <div class="lc-fog" aria-hidden="true"></div>
+    <!-- in-scene hotspots injected by JS — the pieces themselves are baked into the plate -->
+  </div>
   <div id="atmos" aria-hidden="true"></div>
 
-  <header id="masthead">
-    <div>
-      <div class="eyebrow">Generative &middot; AI &middot; Interactive</div>
-      <h1 class="title"><em>Lab</em></h1>
-    </div>
-    <p class="hint">Each piece is a thing in the city.<br>Tap a screen, enter a door.</p>
-  </header>
+  <div class="lc-intro" aria-hidden="true"><b>Lab</b><span>walk the city &middot; drag or &#8592;&#8594;</span></div>
+  <button class="lc-edge l" id="lcEdgeL" type="button" aria-label="Walk left">&#8249;</button>
+  <button class="lc-edge r" id="lcEdgeR" type="button" aria-label="Walk right">&#8250;</button>
+  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)"><span>&#8592;</span> Binary One</button>
+  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)">Fallow Ruins <span>&#8594;</span></button>
+  <div id="lcMap" aria-hidden="true"><span class="lbl">Lab</span></div>
 
   <!-- GTA-style location title (hover label) -->
   <div id="locTitle" aria-hidden="true">
@@ -982,7 +1026,37 @@ section{position:relative}
     <div class="lt-name"></div>
     <div class="lt-rule"></div>
   </div>
+
+  <!-- cinematic arrival: the living city -->
+  <div id="cityIntro" hidden>
+    <video id="cityIntroVid" muted playsinline preload="none"></video>
+    <div class="ci-ttl"><b>Lab</b><span>enter the city</span></div>
+    <button class="ci-skip" id="ciSkip" type="button">walk the street &#8594;</button>
+  </div>
+
+  <!-- structure approaches at the two ends -->
+  <div class="lc-scene" id="lcBinary" hidden>
+    <button class="lc-structure" type="button" data-piece="binary" data-game="assets/lab/binary-one-walk.html"
+      style="--acc:var(--acc-binary);">
+      <span class="lc-appr" style="background-image:url('assets/lab/binary_approach.png')" aria-hidden="true"></span>
+      <span class="lc-enterwrap"><b>Binary <em>One</em></b><i>a cathedral of code &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
+    </button>
+  </div>
+  <div class="lc-scene" id="lcFallow" hidden>
+    <button class="lc-structure" type="button" data-piece="fallow" data-game="assets/lab/fallow-ruins-walk.html"
+      style="--acc:var(--acc-fallow);">
+      <span class="lc-appr" style="background-image:url('assets/lab/fallow_approach.png')" aria-hidden="true"></span>
+      <span class="lc-enterwrap"><b>Fallow <em>Ruins</em></b><i>the overgrown city &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
+    </button>
+  </div>
+  <button id="lcBack" type="button" hidden>&#8592; back to the street</button>
 </main>
+
+<!-- the walkable piece takes the whole screen -->
+<div id="lcPlay" hidden>
+  <iframe id="lcPlayFrame" title="Walkable piece" allow="pointer-lock; fullscreen"></iframe>
+  <button id="lcLeave" type="button">&#8592; leave &middot; back to the street</button>
+</div>
 
 <!-- GTA-style "walk through the doorway" transition — a growing threshold-light
      burst that sweeps from the clicked door's arch to fullscreen before the
@@ -1100,7 +1174,7 @@ section{position:relative}
       tools:["JavaScript","WebGL","Canvas"],
       links:[
         // poster placeholder: assets/lab/binary-one-poster.png
-        {label:"Open Binary One", href:A+"binary-one.html", primary:true, blank:true},
+        {label:"Walk Binary One", href:A+"binary-one-walk.html", primary:true, blank:true},
         {label:"Repository", href:"https://github.com/hydrogenbondss/cathedral-of-small-hours", blank:true}
       ],
       media:[{type:"poster", src:A+"binary-one-poster.png", label:"Binary One — Poster"}]
@@ -1114,7 +1188,7 @@ section{position:relative}
       tools:["JavaScript","WebGL","GLSL"],
       links:[
         // poster placeholder: assets/lab/fallow-ruins-poster.png
-        {label:"Open Fallow Ruins", href:A+"fallow-ruins.html", primary:true, blank:true},
+        {label:"Walk Fallow Ruins", href:A+"fallow-ruins-walk.html", primary:true, blank:true},
         {label:"Repository", href:"https://github.com/hydrogenbondss/garden-of-returning", blank:true}
       ],
       media:[{type:"poster", src:A+"fallow-ruins-poster.png", label:"Fallow Ruins — Poster"}]
@@ -1298,16 +1372,170 @@ section{position:relative}
     links.style.display = p.links.length ? "" : "none";
   }
 
-  // ---------- WORLD COVER-BOX (glues anchors to the plate) ----------
+  // ---------- WALK THE CITY: pan world, in-scene spots, minimap, structures ----------
+  var world=document.getElementById('world');
+  var AR=4096/1738;
+  var wx=0, minX=0;
+  function sizeWorld(){
+    var h=street.clientHeight||innerHeight;
+    var w=Math.max((street.clientWidth||innerWidth)*1.05, h*AR);
+    world.style.width=w+'px';
+    minX=Math.min(0,(street.clientWidth||innerWidth)-w);
+    wx=Math.max(minX,Math.min(0,wx));
+    applyWalk();
+  }
+  var mapEl=document.getElementById('lcMap');
+  var you=document.createElement('span');you.className='you';mapEl.appendChild(you);
+  function applyWalk(){
+    world.style.transform='translateX('+wx+'px)';
+    var vw=street.clientWidth||innerWidth;
+    var prog=(world.offsetWidth>vw)?(-wx)/(world.offsetWidth-vw):0;
+    you.style.left=(10+prog*80)+'%';
+    you.style.top=(26+(10+prog*80)*0.5)+'%';
+    document.getElementById('lcEdgeL').disabled=wx>=0;
+    document.getElementById('lcEdgeR').disabled=wx<=minX;
+  }
+  /* in-scene pieces: tuned to where each element sits in the 4K plate */
+  var SPOTS=[
+    {key:'turbo',   x:13.5,y:27, acc:'var(--acc-turbo)'},
+    {key:'ash',     x:37,  y:22, acc:'var(--acc-ash)'},
+    {key:'feature', x:42.5,y:9,  acc:'var(--acc-feature)'},
+    {key:'lovebug', x:60.5,y:39, acc:'var(--acc-lovebug)'},
+    {key:'pabepabe',x:85,  y:62, acc:'var(--acc-pabepabe)'}
+  ];
+  SPOTS.forEach(function(sp){
+    var b=document.createElement('button');
+    b.type='button';b.className='lc-spot';b.dataset.piece=sp.key;
+    b.style.left=sp.x+'%';b.style.top=sp.y+'%';b.style.setProperty('--acc',sp.acc);
+    b.setAttribute('aria-label',(PIECES[sp.key]?PIECES[sp.key].name:sp.key)+' — open the piece');
+    b.innerHTML='<i></i>';
+    world.appendChild(b);
+    var mk=document.createElement('span');mk.className='mk';
+    mk.style.background=sp.acc;mk.style.left=(10+sp.x*0.8)+'%';mk.style.top=(26+(10+sp.x*0.8)*0.5)+'%';
+    mapEl.appendChild(mk);
+  });
+  /* enterable structures at the two ends of the plate */
+  [{key:'binary',x:3.4,y:52,acc:'var(--acc-binary)',label:'Binary One'},
+   {key:'fallow',x:96.5,y:52,acc:'var(--acc-fallow)',label:'Fallow Ruins'}].forEach(function(d){
+    var b=document.createElement('button');
+    b.type='button';b.className='lc-door';b.dataset.piece=d.key;b.dataset.scene=d.key;
+    b.style.left=d.x+'%';b.style.top=d.y+'%';b.style.setProperty('--acc',d.acc);
+    b.setAttribute('aria-label',d.label+' — approach the structure');
+    b.innerHTML='<i></i><span>'+d.label+'</span>';
+    world.appendChild(b);
+  });
+
+  /* walking: drag / horizontal wheel / arrows / edge buttons */
+  var dragging=false,lastX=0;
+  street.addEventListener('pointerdown',function(e){
+    if(curScene!=='street'||e.target.closest('.lc-spot,.lc-door,button'))return;
+    dragging=true;lastX=e.clientX;street.classList.add('dragging');
+    try{street.setPointerCapture(e.pointerId);}catch(_){}
+  });
+  street.addEventListener('pointermove',function(e){
+    if(!dragging)return;
+    wx=Math.max(minX,Math.min(0,wx+e.clientX-lastX));lastX=e.clientX;applyWalk();
+  });
+  street.addEventListener('pointerup',function(e){dragging=false;street.classList.remove('dragging');
+    try{street.releasePointerCapture(e.pointerId);}catch(_){}});
+  street.addEventListener('wheel',function(e){
+    if(curScene!=='street')return;
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){wx=Math.max(minX,Math.min(0,wx-e.deltaX));applyWalk();e.preventDefault();}
+  },{passive:false});
+  function nudge(d){wx=Math.max(minX,Math.min(0,wx+d));applyWalk();}
+  document.getElementById('lcEdgeL').addEventListener('click',function(){nudge(innerWidth*0.5);});
+  document.getElementById('lcEdgeR').addEventListener('click',function(){nudge(-innerWidth*0.5);});
+  var labVisible=false;
+  new IntersectionObserver(function(es){es.forEach(function(en){labVisible=en.isIntersecting;});},{threshold:.35})
+    .observe(document.getElementById('lab'));
+  document.addEventListener('keydown',function(e){
+    if(!labVisible||current)return;
+    var play=document.getElementById('lcPlay');
+    if(!play.hidden){if(e.key==='Escape'){leaveGame();}return;}
+    if(curScene!=='street'){if(e.key==='Escape'){goScene('street');}return;}
+    if(e.key==='ArrowLeft'){nudge(innerWidth*0.4);e.preventDefault();}
+    if(e.key==='ArrowRight'){nudge(-innerWidth*0.4);e.preventDefault();}
+  });
+
+  /* scenes: street <-> structure approaches */
+  var curScene='street';
+  var lcScenes={binary:document.getElementById('lcBinary'),fallow:document.getElementById('lcFallow')};
+  var lcBack=document.getElementById('lcBack');
+  function goScene(name){
+    curScene=name;
+    Object.keys(lcScenes).forEach(function(k){lcScenes[k].hidden=(k!==name);});
+    lcBack.hidden=(name==='street');
+    ['lcMap','lcEdgeL','lcEdgeR','lcHintB','lcHintF'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.style.display=(name==='street')?'':'none';});
+    document.querySelector('#lab .lc-intro').style.display=(name==='street')?'':'none';
+  }
+  document.getElementById('lcHintB').addEventListener('click',function(){goScene('binary');});
+  document.getElementById('lcHintF').addEventListener('click',function(){goScene('fallow');});
+  lcBack.addEventListener('click',function(){goScene('street');});
+
+  /* enter a structure: the door-light burst sweeps, then the piece is WALKABLE */
+  var lcPlay=document.getElementById('lcPlay'),lcFrame=document.getElementById('lcPlayFrame');
+  function enterGame(url,btn){
+    var go=function(){
+      lcFrame.src=url;
+      lcPlay.hidden=false;
+      document.body.style.overflow='hidden';
+      document.getElementById('lcLeave').focus();
+    };
+    if(reduceMotionMQ.matches||!doorWalk){go();return;}
+    var r=btn.getBoundingClientRect();
+    var accent=getComputedStyle(btn).getPropertyValue('--acc').trim()||'#fff';
+    doorWalk.style.setProperty('--dw-acc',accent);
+    doorWalk.style.transition='none';
+    doorWalk.style.left=(r.left+r.width*0.3)+'px';
+    doorWalk.style.top=(r.top+r.height*0.3)+'px';
+    doorWalk.style.width=(r.width*0.4)+'px';
+    doorWalk.style.height=(r.height*0.4)+'px';
+    doorWalk.style.opacity='0';
+    doorWalk.classList.add('active');
+    void doorWalk.offsetWidth;
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      doorWalk.style.transition='left .8s cubic-bezier(.6,0,.15,1),top .8s cubic-bezier(.6,0,.15,1),width .8s cubic-bezier(.6,0,.15,1),height .8s cubic-bezier(.6,0,.15,1),opacity .6s ease-out';
+      doorWalk.style.left='-15vw';doorWalk.style.top='-15vh';
+      doorWalk.style.width='130vw';doorWalk.style.height='130vh';
+      doorWalk.style.opacity='1';
+    });});
+    setTimeout(function(){go();setTimeout(function(){doorWalk.classList.remove('active');doorWalk.style.cssText='';},450);},720);
+  }
+  function leaveGame(){
+    lcPlay.hidden=true;lcFrame.src='about:blank';
+    document.body.style.overflow='';
+    goScene('street');
+  }
+  document.getElementById('lcLeave').addEventListener('click',leaveGame);
+  document.querySelectorAll('#lab .lc-structure').forEach(function(st){
+    st.addEventListener('click',function(){enterGame(st.dataset.game,st);});
+  });
+
+  /* cinematic arrival: the living city plays once when you reach the Lab */
   (function(){
-    var w=document.getElementById("world"); if(!w) return;
-    var AR=1376/768;
-    function fit(){
-      var W=Math.max(innerWidth, innerHeight*AR), H=W/AR;
-      w.style.width=W+"px"; w.style.height=H+"px";
-    }
-    addEventListener("resize", fit); fit();
+    var intro=document.getElementById('cityIntro');
+    var v=document.getElementById('cityIntroVid');
+    var played=false,revealed=false;
+    function reveal(){if(revealed)return;revealed=true;intro.classList.add('gone');
+      setTimeout(function(){intro.hidden=true;try{v.pause();v.removeAttribute('src');v.load();}catch(_){}},1000);}
+    document.getElementById('ciSkip').addEventListener('click',reveal);
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    new IntersectionObserver(function(es,io){es.forEach(function(en){
+      if(!en.isIntersecting||played)return;
+      played=true;io.disconnect();
+      intro.hidden=false;
+      v.src='assets/lab/city_intro.mp4';
+      v.addEventListener('ended',reveal);
+      v.addEventListener('error',reveal);
+      var p=v.play();if(p&&p.catch)p.catch(function(){reveal();});
+      setTimeout(reveal,9000);
+    });},{threshold:.35}).observe(document.getElementById('lab'));
   })();
+
+  addEventListener('resize',sizeWorld);
+  sizeWorld();
+  wx=-(world.offsetWidth-(street.clientWidth||innerWidth))*0.02;applyWalk();
 
   // ---------- STREET MEDIA BUDGET ----------
   // pause every street video while the takeover is open / tab is hidden
@@ -1346,7 +1574,7 @@ section{position:relative}
     takeover.setAttribute("aria-hidden","false");
     hideLoc();
     // soften the street behind + stop paying for media nobody can see
-    streetBg.style.filter = "blur(6px) brightness(0.5)";
+    world.style.filter = "blur(6px) brightness(0.5)";
     pauseStreet(true);
 
     setActiveSlide(0);
@@ -1365,7 +1593,7 @@ section{position:relative}
     slidesEls.forEach(function(s){ var v = s.querySelector("video"); if(v) v.pause(); });
     takeover.classList.remove("open");
     takeover.setAttribute("aria-hidden","true");
-    streetBg.style.filter = "";
+    world.style.filter = "";
     pauseStreet(false);
     // safety net: clear any leftover door-walk state (should already be gone by now)
     if(street.classList.contains("walking")){ resetDoorWalk(document.querySelector(".door.walking-door")); }
@@ -1461,18 +1689,19 @@ section{position:relative}
     else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
   }
 
-  // ---------- WIRE STREET OBJECTS ----------
-  var markers = document.querySelectorAll(".marker, .door");
-  markers.forEach(function(el){
-    var key = el.getAttribute("data-piece");
-    el.addEventListener("mouseenter", function(){ showLoc(key); });
-    el.addEventListener("mouseleave", hideLoc);
-    el.addEventListener("focus", function(){ showLoc(key); });
-    el.addEventListener("blur", hideLoc);
-    el.addEventListener("click", function(){
-      if(el.classList.contains("door")){ walkThroughDoor(key, el); }
-      else { openPiece(key, el); }
-    });
+  // ---------- WIRE STREET OBJECTS (in-scene spots + structures) ----------
+  document.querySelectorAll('#lab .lc-spot,#lab .lc-door,#lab .lc-structure').forEach(function(el){
+    var key=el.dataset.piece;
+    el.addEventListener('mouseenter',function(){showLoc(key);});
+    el.addEventListener('mouseleave',hideLoc);
+    el.addEventListener('focus',function(){showLoc(key);});
+    el.addEventListener('blur',hideLoc);
+  });
+  document.querySelectorAll('#lab .lc-spot').forEach(function(el){
+    el.addEventListener('click',function(){openPiece(el.dataset.piece,el);});
+  });
+  document.querySelectorAll('#lab .lc-door').forEach(function(el){
+    el.addEventListener('click',function(){goScene(el.dataset.scene);});
   });
 
   // ---------- WIRE TAKEOVER CONTROLS ----------
@@ -2126,6 +2355,7 @@ section{position:relative}
     b.setAttribute('aria-label','Open the editorial: '+r.name);
     layer.appendChild(b);
   });
+})();
 </script>
 <style>
 /* ===== 07 · ARCHIVE (inlined from archive.html) ===== */

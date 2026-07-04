@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fallow Ruins — walk</title>
+<meta name="description" content="An endless overgrown city, handed back to the plants. Walk it: WASD + mouse. The scenery keeps changing; it never ends.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#0b100c;overflow:hidden;
+    font-family:'Courier New',ui-monospace,monospace;color:#cfe3c8;cursor:crosshair}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+  #veil{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(120% 120% at 50% 46%,transparent 44%,rgba(4,8,5,.7) 100%)}
+  #grain{position:fixed;inset:0;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+  #hud{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;pointer-events:none;opacity:.55}
+  #hud::before,#hud::after{content:"";position:absolute;background:#cfe3c8}
+  #hud::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}
+  #hud::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
+  #intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;background:rgba(5,9,6,.74);transition:opacity .5s ease;text-align:center;padding:0 8vw}
+  #intro.gone{opacity:0;pointer-events:none}
+  #intro b{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.7rem,5vw,3rem);letter-spacing:.08em}
+  #intro span{font-size:.72rem;letter-spacing:.22em;opacity:.8;line-height:2}
+  #loc{position:fixed;left:22px;bottom:18px;font-size:.6rem;letter-spacing:.24em;opacity:.55;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="veil"></div><div id="grain"></div><div id="hud"></div>
+<div id="loc">FALLOW RUINS · DISTRICT ∞</div>
+<div id="intro">
+  <b>Fallow Ruins</b>
+  <span>the city, handed back — keep walking, the scenery changes, it never ends<br>
+  CLICK to walk &nbsp;·&nbsp; W A S D move &nbsp;·&nbsp; mouse look &nbsp;·&nbsp; SHIFT run &nbsp;·&nbsp; ESC release</span>
+</div>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('gl');
+var gl=cv.getContext('webgl',{antialias:true});
+if(!gl){document.getElementById('intro').innerHTML='<b>Fallow Ruins</b><span>this piece needs WebGL</span>';return;}
+
+/* ============ shared noise (identical in JS + GLSL so feet meet ground) ============ */
+function hash2(x,z){var s=Math.sin(x*127.1+z*311.7)*43758.5453123;return s-Math.floor(s);}
+function vnoise(x,z){
+  var xi=Math.floor(x),zi=Math.floor(z),xf=x-xi,zf=z-zi;
+  var a=hash2(xi,zi),b=hash2(xi+1,zi),c=hash2(xi,zi+1),d=hash2(xi+1,zi+1);
+  var u=xf*xf*(3-2*xf),v=zf*zf*(3-2*zf);
+  return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v;
+}
+function ground(x,z){
+  return vnoise(x*0.05,z*0.05)*3.2+vnoise(x*0.16,z*0.16)*0.8+vnoise(x*0.45,z*0.45)*0.28-2.0;
+}
+
+var NOISE_GLSL=[
+'float hash2(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}',
+'float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);',
+'  float a=hash2(i),b=hash2(i+vec2(1.,0.)),c=hash2(i+vec2(0.,1.)),d=hash2(i+vec2(1.,1.));',
+'  vec2 u=f*f*(3.-2.*f);',
+'  return a+(b-a)*u.x+(c-a)*u.y+(a-b-c+d)*u.x*u.y;}',
+'float ground(vec2 p){return vnoise(p*0.05)*3.2+vnoise(p*0.16)*0.8+vnoise(p*0.45)*0.28-2.0;}'
+].join('\n');
+
+function sh(t,src){var s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(s);return s;}
+function prog(vs,fs){var p=gl.createProgram();
+  gl.attachShader(p,sh(gl.VERTEX_SHADER,vs));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));
+  gl.linkProgram(p);return p;}
+
+/* ============ terrain: a flat grid that follows the walker; height in the
+   vertex shader from the same noise — the land literally never ends ============ */
+var T_VS=[
+'attribute vec2 aXZ;',
+'uniform mat4 uProj,uView;','uniform vec2 uCenter;',
+'varying vec3 vW;','varying float vH;',
+NOISE_GLSL,
+'void main(){',
+'  vec2 xz=aXZ+uCenter;',
+'  float h=ground(xz);',
+'  vW=vec3(xz.x,h,xz.y);vH=h;',
+'  gl_Position=uProj*uView*vec4(vW,1.0);',
+'}'].join('\n');
+var T_FS=[
+'precision highp float;',
+'varying vec3 vW;','varying float vH;',
+'uniform vec3 uEye;','uniform float uT;',
+NOISE_GLSL,
+'void main(){',
+'  vec2 e=vec2(0.35,0.0);',
+'  vec3 n=normalize(vec3(ground(vW.xz-e.xy)-ground(vW.xz+e.xy),0.9,ground(vW.xz-e.yx)-ground(vW.xz+e.yx)));',
+'  float light=max(0.0,dot(n,normalize(vec3(-0.4,0.8,0.35))));',
+'  float moss=vnoise(vW.xz*0.6);',
+'  float cracks=step(0.86,vnoise(vW.xz*2.3));',                /* old paving showing through */
+'  float rough=vnoise(vW.xz*1.7);',
+'  vec3 grass=mix(vec3(0.075,0.13,0.06),vec3(0.20,0.28,0.11),moss);',
+'  grass*=0.82+0.36*rough;',
+'  vec3 stone=vec3(0.16,0.17,0.15);',
+'  vec3 col=mix(grass,stone,cracks*0.7);',
+'  col*=0.52+0.85*light;',
+'  float dist=length(vW-uEye);',
+'  float fog=1.0-exp(-dist*0.023);',
+'  vec3 sky=mix(vec3(0.11,0.16,0.13),vec3(0.58,0.55,0.40),0.34);',
+'  gl_FragColor=vec4(mix(col,sky,fog),1.0);',
+'}'].join('\n');
+var tPr=prog(T_VS,T_FS);
+var GRID=110,SPAN=170;
+var tv=[];
+for(var gz=0;gz<GRID;gz++)for(var gx=0;gx<GRID;gx++){
+  var x0=(gx/GRID-0.5)*SPAN,z0=(gz/GRID-0.5)*SPAN,
+      x1=((gx+1)/GRID-0.5)*SPAN,z1=((gz+1)/GRID-0.5)*SPAN;
+  tv.push(x0,z0, x1,z0, x1,z1, x0,z0, x1,z1, x0,z1);
+}
+var tBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,tBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(tv),gl.STATIC_DRAW);
+var T_N=tv.length/2;
+var tA=gl.getAttribLocation(tPr,'aXZ');
+var tU={proj:gl.getUniformLocation(tPr,'uProj'),view:gl.getUniformLocation(tPr,'uView'),
+  center:gl.getUniformLocation(tPr,'uCenter'),eye:gl.getUniformLocation(tPr,'uEye'),t:gl.getUniformLocation(tPr,'uT')};
+
+/* ============ ruins: dark overgrown blocks, placed by cell hash around the walker ============ */
+var R_VS=[
+'attribute vec3 aPos;','attribute vec3 aNrm;',
+'uniform mat4 uProj,uView;','uniform vec4 uPlace;',  /* x,z, yBase, scale */
+'uniform vec3 uSize;',
+'varying vec3 vW;','varying vec3 vN;','varying vec3 vLocal;',
+'void main(){',
+'  vec3 w=aPos*uSize*uPlace.w+vec3(uPlace.x,uPlace.z,0.0).xzy;',  /* offset y below */
+'  w.y+=uPlace.y;',
+'  vW=w;vN=aNrm;vLocal=aPos;',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'}'].join('\n');
+var R_FS=[
+'precision highp float;',
+'varying vec3 vW;','varying vec3 vN;','varying vec3 vLocal;',
+'uniform vec3 uEye;',
+NOISE_GLSL,
+'void main(){',
+'  vec3 N=normalize(vN);',
+'  float light=max(0.0,dot(N,normalize(vec3(-0.4,0.8,0.35))));',
+'  vec3 conc=vec3(0.105,0.11,0.10)*(0.35+0.85*light);',
+/* ivy: noise climbing from the ground up the faces */
+'  float climb=vnoise(vW.xz*0.9+vW.y*0.35);',
+'  float ivy=smoothstep(0.38,0.82,climb)*smoothstep(7.5,0.2,vW.y+2.0);',
+'  vec3 green=vec3(0.14,0.26,0.10)*(0.45+0.7*light);',
+'  vec3 col=mix(conc,green,ivy*0.85);',
+/* dark hollow windows on side faces */
+'  if(abs(N.y)<0.5){',
+'    vec2 uv=abs(N.x)>0.5?vLocal.zy:vLocal.xy;',
+'    vec2 f=fract(uv*vec2(3.0,4.0));',
+'    float win=step(0.25,f.x)*step(f.x,0.7)*step(0.3,f.y)*step(f.y,0.78);',
+'    float which=step(0.35,hash2(floor(uv*vec2(3.0,4.0))+floor(vW.zx)));',
+'    col=mix(col,vec3(0.02,0.03,0.02),win*which*0.9);',
+'  }',
+'  float dist=length(vW-uEye);',
+'  float fog=1.0-exp(-dist*0.023);',
+'  vec3 sky=mix(vec3(0.11,0.16,0.13),vec3(0.58,0.55,0.40),0.34);',
+'  gl_FragColor=vec4(mix(col,sky,fog),1.0);',
+'}'].join('\n');
+var rPr=prog(R_VS,R_FS);
+var rv=[],rn=[];
+function rq(a,b,c,d,n){rv.push(a[0],a[1],a[2],b[0],b[1],b[2],c[0],c[1],c[2],a[0],a[1],a[2],c[0],c[1],c[2],d[0],d[1],d[2]);
+  for(var i=0;i<6;i++)rn.push(n[0],n[1],n[2]);}
+/* unit box, y 0..1 */
+rq([-0.5,0,0.5],[0.5,0,0.5],[0.5,1,0.5],[-0.5,1,0.5],[0,0,1]);
+rq([0.5,0,-0.5],[-0.5,0,-0.5],[-0.5,1,-0.5],[0.5,1,-0.5],[0,0,-1]);
+rq([0.5,0,0.5],[0.5,0,-0.5],[0.5,1,-0.5],[0.5,1,0.5],[1,0,0]);
+rq([-0.5,0,-0.5],[-0.5,0,0.5],[-0.5,1,0.5],[-0.5,1,-0.5],[-1,0,0]);
+rq([-0.5,1,0.5],[0.5,1,0.5],[0.5,1,-0.5],[-0.5,1,-0.5],[0,1,0]);
+var rBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,rBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(rv),gl.STATIC_DRAW);
+var rnBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,rnBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(rn),gl.STATIC_DRAW);
+var R_N=rv.length/3;
+var rA=gl.getAttribLocation(rPr,'aPos'),rAN=gl.getAttribLocation(rPr,'aNrm');
+var rU={proj:gl.getUniformLocation(rPr,'uProj'),view:gl.getUniformLocation(rPr,'uView'),
+  place:gl.getUniformLocation(rPr,'uPlace'),size:gl.getUniformLocation(rPr,'uSize'),
+  eye:gl.getUniformLocation(rPr,'uEye')};
+
+/* ruin placement per 26m cell, deterministic */
+var RCELL=26;
+function ruinsNear(px,pz){
+  var out=[];
+  var cx=Math.floor(px/RCELL),cz=Math.floor(pz/RCELL);
+  for(var dz=-3;dz<=3;dz++)for(var dx=-3;dx<=3;dx++){
+    var ix=cx+dx,iz=cz+dz;
+    var r=hash2(ix*3.7,iz*9.1);
+    if(r<0.30)continue;                      /* not every block has a ruin */
+    var ox=(hash2(ix,iz)-0.5)*14+ (ix+0.5)*RCELL;
+    var oz=(hash2(iz,ix)-0.5)*14+ (iz+0.5)*RCELL;
+    var h=3.0+hash2(ix*1.3,iz*2.1)*13.0;      /* stump to tower */
+    var w=3.5+hash2(ix*2.9,iz*1.7)*5.0;
+    var d2=3.5+hash2(ix*4.3,iz*0.7)*5.0;
+    out.push({x:ox,z:oz,y:ground(ox,oz)-0.4,w:w,h:h,d:d2});
+  }
+  return out;
+}
+
+/* ============ grass: crossed billboards, swaying, re-seeded per cell ============ */
+var G_VS=[
+'attribute vec3 aPos;','attribute vec3 aSeed;',   /* seed: x,z, rand */
+'uniform mat4 uProj,uView;','uniform float uT;',
+'varying float vR;','varying float vY;','varying vec3 vW;',
+NOISE_GLSL,
+'void main(){',
+'  float g=ground(aSeed.xy);',
+'  float sway=sin(uT*1.4+aSeed.z*17.0)*0.16*aPos.y;',
+'  vec3 w=vec3(aSeed.x+aPos.x+sway,g+aPos.y,aSeed.y+aPos.z);',
+'  vR=aSeed.z;vY=aPos.y;vW=w;',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'}'].join('\n');
+var G_FS=[
+'precision highp float;',
+'varying float vR;','varying float vY;','varying vec3 vW;',
+'uniform vec3 uEye;',
+'void main(){',
+'  float dist=length(vW-uEye);',
+'  float fog=1.0-exp(-dist*0.023);',
+'  vec3 blade=mix(vec3(0.09,0.17,0.06),vec3(0.26,0.36,0.13),vR);',
+'  blade*=0.45+0.75*clamp(vY/0.78,0.0,1.0);',
+'  vec3 sky=mix(vec3(0.11,0.16,0.13),vec3(0.58,0.55,0.40),0.34);',
+'  gl_FragColor=vec4(mix(blade,sky,fog),1.0);',
+'}'].join('\n');
+var gPr=prog(G_VS,G_FS);
+var GC=2600;                     /* grass tufts kept around the walker */
+var gv=[],gs=[];
+function tuft(){ /* two crossed thin triangles */
+  gv.push(-0.10,0,0, 0.10,0,0, 0,0.78,0,  0,0,-0.10, 0,0,0.10, 0,0.78,0);
+}
+for(var i=0;i<GC;i++)tuft();
+var gBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(gv),gl.STATIC_DRAW);
+var gSeedArr=new Float32Array(GC*6*3);
+var gsBuf=gl.createBuffer();
+function reseed(px,pz){
+  for(var i=0;i<GC;i++){
+    var sx=px+(hash2(i,7)*2-1)*46, sz=pz+(hash2(3,i)*2-1)*46, r=hash2(i,i*1.7);
+    for(var k=0;k<6;k++){var o=(i*6+k)*3;gSeedArr[o]=sx;gSeedArr[o+1]=sz;gSeedArr[o+2]=r;}
+  }
+  gl.bindBuffer(gl.ARRAY_BUFFER,gsBuf);
+  gl.bufferData(gl.ARRAY_BUFFER,gSeedArr,gl.DYNAMIC_DRAW);
+}
+var gA=gl.getAttribLocation(gPr,'aPos'),gAS=gl.getAttribLocation(gPr,'aSeed');
+var gU={proj:gl.getUniformLocation(gPr,'uProj'),view:gl.getUniformLocation(gPr,'uView'),
+  t:gl.getUniformLocation(gPr,'uT'),eye:gl.getUniformLocation(gPr,'uEye')};
+
+/* ============ sky dome (big inverted box is enough behind fog) ============ */
+gl.clearColor(0.13,0.18,0.15,1);
+
+
+/* ============ sky: dusk gradient + a low, tired sun ============ */
+var S_VS=['attribute vec2 aP;','varying vec2 vP;','void main(){vP=aP;gl_Position=vec4(aP,0.9999,1.0);}'].join('\n');
+var S_FS=[
+'precision mediump float;','varying vec2 vP;',
+'uniform float uYaw,uPitch,uAsp;',
+'void main(){',
+'  float cy=cos(uYaw),sy=sin(uYaw),cp=cos(uPitch),sp=sin(uPitch);',
+'  vec3 fwd=vec3(-sy*cp,sp,-cy*cp);',
+'  vec3 right=vec3(cy,0.0,-sy);',
+'  vec3 up=normalize(cross(right,fwd));',
+'  vec3 dir=normalize(fwd+right*vP.x*uAsp*0.62+up*vP.y*0.62);',
+'  float h=clamp(dir.y*1.6+0.22,0.0,1.0);',
+'  vec3 col=mix(vec3(0.55,0.50,0.34),vec3(0.075,0.11,0.10),h);',
+'  vec3 sun=normalize(vec3(-0.5,0.10,0.42));',
+'  float g=pow(max(0.0,dot(dir,sun)),9.0);',
+'  col+=vec3(0.50,0.36,0.18)*g*0.55;',
+'  gl_FragColor=vec4(col,1.0);',
+'}'].join('\n');
+var sPr=prog(S_VS,S_FS);
+var sBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,sBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+var sA=gl.getAttribLocation(sPr,'aP');
+var sU={yaw:gl.getUniformLocation(sPr,'uYaw'),pitch:gl.getUniformLocation(sPr,'uPitch'),asp:gl.getUniformLocation(sPr,'uAsp')};
+
+/* ============ camera + controls ============ */
+function persp(fov,asp,n,f){var t=1/Math.tan(fov/2);
+  return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0];}
+function view(ex,ey,ez,yaw,pitch){
+  var cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+  var r=[cy,sy*sp,sy*cp, 0,cp,-sp, -sy,cy*sp,cy*cp];
+  return [r[0],r[1],r[2],0, r[3],r[4],r[5],0, r[6],r[7],r[8],0,
+    -(r[0]*ex+r[3]*ey+r[6]*ez),-(r[1]*ex+r[4]*ey+r[7]*ez),-(r[2]*ex+r[5]*ey+r[8]*ez),1];
+}
+var yaw=0.4,pitch=-0.02,px=3,pz=6;
+var keys={},locked=false,dragging=false,lx=0,ly=0;
+var intro=document.getElementById('intro');
+function hideIntro(){intro.classList.add('gone');}
+function enter(){hideIntro();if(cv.requestPointerLock)cv.requestPointerLock();}
+cv.addEventListener('click',enter);intro.addEventListener('click',enter);
+document.addEventListener('pointerlockchange',function(){locked=(document.pointerLockElement===cv);});
+document.addEventListener('mousemove',function(e){
+  if(locked){yaw-=e.movementX*0.0023;pitch-=e.movementY*0.0023;}
+  else if(dragging){yaw-=(e.clientX-lx)*0.004;pitch-=(e.clientY-ly)*0.004;lx=e.clientX;ly=e.clientY;}
+  pitch=Math.max(-1.3,Math.min(1.3,pitch));
+});
+cv.addEventListener('pointerdown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;});
+addEventListener('pointerup',function(){dragging=false;});
+addEventListener('keydown',function(e){keys[e.code]=true;
+  if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].indexOf(e.code)>=0)e.preventDefault();});
+addEventListener('keyup',function(e){keys[e.code]=false;});
+var tmove=false;
+cv.addEventListener('touchstart',function(e){var t=e.touches[0];
+  if(t.clientX<innerWidth/2){tmove=true;}else{dragging=true;lx=t.clientX;ly=t.clientY;}hideIntro();},{passive:true});
+cv.addEventListener('touchmove',function(e){var t=e.touches[0];
+  if(dragging&&t.clientX>=innerWidth/2){yaw-=(t.clientX-lx)*0.005;pitch-=(t.clientY-ly)*0.005;lx=t.clientX;ly=t.clientY;}},{passive:true});
+cv.addEventListener('touchend',function(){tmove=false;dragging=false;},{passive:true});
+
+function resize(){var d=Math.min(devicePixelRatio||1,2);
+  cv.width=innerWidth*d;cv.height=innerHeight*d;gl.viewport(0,0,cv.width,cv.height);}
+addEventListener('resize',resize);resize();
+gl.enable(gl.DEPTH_TEST);
+
+var lastSeed={x:1e9,z:1e9};
+var last=performance.now();
+(function frame(now){
+  var dt=Math.min(0.05,(now-last)/1000);last=now;
+  var run=(keys.ShiftLeft||keys.ShiftRight)?9.5:4.6;
+  var fx=Math.sin(yaw),fz=Math.cos(yaw);
+  var mx=0,mz=0;
+  if(keys.KeyW||keys.ArrowUp||tmove){mx-=fx;mz-=fz;}
+  if(keys.KeyS||keys.ArrowDown){mx+=fx;mz+=fz;}
+  if(keys.KeyA||keys.ArrowLeft){mx-=fz;mz+=fx;}
+  if(keys.KeyD||keys.ArrowRight){mx+=fz;mz-=fx;}
+  var l=Math.hypot(mx,mz);
+  if(l>0){px+=mx/l*run*dt;pz+=mz/l*run*dt;}
+  var eyeY=ground(px,pz)+1.72+(l>0?Math.sin(now*0.011)*0.05:0);
+
+  if(Math.hypot(px-lastSeed.x,pz-lastSeed.z)>34){reseed(px,pz);lastSeed={x:px,z:pz};}
+
+  var P=new Float32Array(persp(1.12,innerWidth/innerHeight,0.1,260));
+  var V=new Float32Array(view(px,eyeY,pz,yaw,pitch));
+  gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+
+  /* sky */
+  gl.useProgram(sPr);
+  gl.depthMask(false);
+  gl.uniform1f(sU.yaw,yaw);gl.uniform1f(sU.pitch,pitch);gl.uniform1f(sU.asp,innerWidth/innerHeight);
+  gl.bindBuffer(gl.ARRAY_BUFFER,sBuf);
+  gl.enableVertexAttribArray(sA);gl.vertexAttribPointer(sA,2,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLES,0,3);
+  gl.depthMask(true);
+
+  /* terrain */
+  gl.useProgram(tPr);
+  gl.uniformMatrix4fv(tU.proj,false,P);gl.uniformMatrix4fv(tU.view,false,V);
+  gl.uniform2f(tU.center,px,pz);gl.uniform3f(tU.eye,px,eyeY,pz);gl.uniform1f(tU.t,now*0.001);
+  gl.bindBuffer(gl.ARRAY_BUFFER,tBuf);
+  gl.enableVertexAttribArray(tA);gl.vertexAttribPointer(tA,2,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLES,0,T_N);
+
+  /* ruins */
+  gl.useProgram(rPr);
+  gl.uniformMatrix4fv(rU.proj,false,P);gl.uniformMatrix4fv(rU.view,false,V);
+  gl.uniform3f(rU.eye,px,eyeY,pz);
+  gl.bindBuffer(gl.ARRAY_BUFFER,rBuf);
+  gl.enableVertexAttribArray(rA);gl.vertexAttribPointer(rA,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,rnBuf);
+  gl.enableVertexAttribArray(rAN);gl.vertexAttribPointer(rAN,3,gl.FLOAT,false,0,0);
+  var rs=ruinsNear(px,pz);
+  for(var i=0;i<rs.length;i++){
+    var R=rs[i];
+    gl.uniform4f(rU.place,R.x,R.y,R.z,1.0);
+    gl.uniform3f(rU.size,R.w,R.h,R.d);
+    gl.drawArrays(gl.TRIANGLES,0,R_N);
+  }
+
+  /* grass */
+  gl.useProgram(gPr);
+  gl.uniformMatrix4fv(gU.proj,false,P);gl.uniformMatrix4fv(gU.view,false,V);
+  gl.uniform1f(gU.t,now*0.001);gl.uniform3f(gU.eye,px,eyeY,pz);
+  gl.bindBuffer(gl.ARRAY_BUFFER,gBuf);
+  gl.enableVertexAttribArray(gA);gl.vertexAttribPointer(gA,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,gsBuf);
+  gl.enableVertexAttribArray(gAS);gl.vertexAttribPointer(gAS,3,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLES,0,GC*6);
+
+  requestAnimationFrame(frame);
+})(last);
+reseed(px,pz);
+})();
+</script>
+</body>
+</html>

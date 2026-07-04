@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary One — walk</title>
+<meta name="description" content="A cathedral built from binary. Walk it: WASD + mouse. It does not end, and the code never blurs.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;
+    font-family:'Courier New',ui-monospace,monospace;color:#3bff7e;cursor:crosshair}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+  #veil{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(120% 120% at 50% 50%,transparent 42%,rgba(0,0,0,.66) 100%)}
+  #scan{position:fixed;inset:0;pointer-events:none;opacity:.07;
+    background:repeating-linear-gradient(0deg,rgba(59,255,126,.5) 0 1px,transparent 1px 3px)}
+  #hud{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;pointer-events:none;opacity:.65}
+  #hud::before,#hud::after{content:"";position:absolute;background:#3bff7e}
+  #hud::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}
+  #hud::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
+  #intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;background:rgba(0,0,0,.72);transition:opacity .5s ease;text-align:center;padding:0 8vw}
+  #intro.gone{opacity:0;pointer-events:none}
+  #intro b{font-size:clamp(1.6rem,5vw,3rem);letter-spacing:.3em;font-weight:400}
+  #intro span{font-size:.72rem;letter-spacing:.22em;opacity:.75;line-height:2}
+  #loc{position:fixed;left:22px;bottom:18px;font-size:.6rem;letter-spacing:.24em;opacity:.6;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="veil"></div><div id="scan"></div><div id="hud"></div>
+<div id="loc">BINARY ONE · NAVE ∞</div>
+<div id="intro">
+  <b>BINARY ONE</b>
+  <span>a cathedral of code — it does not end, and the code does not blur<br>
+  CLICK to walk &nbsp;·&nbsp; W A S D move &nbsp;·&nbsp; mouse look &nbsp;·&nbsp; SHIFT run &nbsp;·&nbsp; ESC release</span>
+</div>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('gl');
+var gl=cv.getContext('webgl',{antialias:true});
+if(!gl){document.getElementById('intro').innerHTML='<b>BINARY ONE</b><span>this piece needs WebGL</span>';return;}
+
+/* ---------- shaders: glyphs are drawn analytically per-fragment from world
+   coordinates, so a 0 or a 1 is exactly as sharp at 400 m as at 40 cm ---------- */
+var VS=[
+'attribute vec3 aPos;','attribute vec3 aNrm;',
+'uniform mat4 uProj;','uniform mat4 uView;','uniform float uZOff;',
+'varying vec3 vW;','varying vec3 vN;',
+'void main(){',
+'  vec3 w=aPos+vec3(0.0,0.0,uZOff);',
+'  vW=w; vN=aNrm;',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'}'].join('\n');
+
+var hasDeriv=!!gl.getExtension('OES_standard_derivatives');
+var FS=[
+hasDeriv?'#extension GL_OES_standard_derivatives : enable':'',
+'precision highp float;',
+'varying vec3 vW;','varying vec3 vN;',
+'uniform vec3 uEye;','uniform float uT;',
+'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}',
+/* glyph field over a 2D plane coordinate uv (world units) */
+'float glyph(vec2 uv, float w){',
+'  vec2 cell=floor(uv/0.62);',
+'  vec2 f=fract(uv/0.62);',                       /* 0..1 inside cell */
+'  float r=hash(cell);',
+'  float on=step(0.5,fract(r*7.31));',            /* which glyph: 0 or 1 */
+'  float g=0.0;',
+'  if(on>0.5){',                                   /* the ONE: a bar + serif */
+'    g=(1.0-smoothstep(0.10-w,0.10+w,abs(f.x-0.52)))*step(0.16,f.y)*step(f.y,0.86);',
+'    g=max(g,(1.0-smoothstep(0.05-w,0.05+w,abs(f.y-0.84)))*step(0.34,f.x)*step(f.x,0.62));',
+'  }else{',                                        /* the ZERO: a ring */
+'    vec2 c=(f-vec2(0.5,0.5))*vec2(1.0,0.78);',
+'    float d=length(c);',
+'    g=smoothstep(0.30+w,0.30-w,d)-smoothstep(0.185+w,0.185-w,d);',
+'  }',
+'  return g;',
+'}',
+'void main(){',
+'  vec3 N=normalize(vN);',
+/* pick the glyph plane by dominant normal axis */
+'  vec2 uv; float face;',
+'  if(abs(N.x)>0.5){uv=vec2(vW.z,vW.y);face=0.0;}',
+'  else if(abs(N.y)>0.5){uv=vec2(vW.x,vW.z);face=1.0;}',
+'  else{uv=vec2(vW.x,vW.y);face=2.0;}',
+'  float dEye=length(vW-uEye);',
+hasDeriv?'  float w=(fwidth(uv.x)+fwidth(uv.y))/0.62;':'  float w=clamp(dEye*0.0035,0.006,0.2);',
+'  float g=glyph(uv,w);',
+'  vec2 cell=floor(uv/0.62);',
+'  float twk=hash(cell+floor(vec2(0.0,uT*2.0)));',            /* slow per-cell shimmer */
+'  float colRain=pow(fract(hash(vec2(cell.x,0.0))*5.7+uT*0.07),3.0);', /* falling emphasis columns */
+'  float base=0.16+0.84*twk*0.35+colRain*0.9;',
+'  float dist=length(vW-uEye);',
+'  float fog=exp(-dist*0.045);',
+'  float breathe=0.9+0.1*sin(uT*0.7+vW.z*0.05);',
+'  vec3 green=vec3(0.23,1.0,0.49);',
+'  vec3 deep=vec3(0.008,0.05,0.02);',
+'  vec3 col=deep*(0.4+0.6*fog);',
+'  col+=green*g*base*breathe*fog;',
+/* floor gets a cool reflection streak toward the eye */
+'  if(face>0.5&&face<1.5&&vW.y<0.1){',
+'    float spec=pow(max(0.0,1.0-abs(vW.x-uEye.x)*0.08),3.0)*0.22*fog;',
+'    col+=green*spec;',
+'  }',
+'  gl_FragColor=vec4(col,1.0);',
+'}'].join('\n');
+
+function sh(t,src){var s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(s);return s;}
+var pr=gl.createProgram();
+gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));
+gl.linkProgram(pr);gl.useProgram(pr);
+
+/* ---------- geometry: one nave module, tiled along z ----------
+   floor slab, two column rows, two high walls, clerestory lintels */
+var P=[],Nn=[];
+function quad(a,b,c,d,n){P.push(a[0],a[1],a[2],b[0],b[1],b[2],c[0],c[1],c[2],a[0],a[1],a[2],c[0],c[1],c[2],d[0],d[1],d[2]);
+  for(var i=0;i<6;i++)Nn.push(n[0],n[1],n[2]);}
+function box(x0,y0,z0,x1,y1,z1){
+  quad([x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1],[0,0,1]);
+  quad([x1,y0,z0],[x0,y0,z0],[x0,y1,z0],[x1,y1,z0],[0,0,-1]);
+  quad([x1,y0,z1],[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[1,0,0]);
+  quad([x0,y0,z0],[x0,y0,z1],[x0,y1,z1],[x0,y1,z0],[-1,0,0]);
+  quad([x0,y1,z1],[x1,y1,z1],[x1,y1,z0],[x0,y1,z0],[0,1,0]);
+}
+var MOD=9.0;                       /* module length along z */
+/* floor + ceiling of the module (y up) */
+quad([-16,0,MOD],[16,0,MOD],[16,0,0],[-16,0,0],[0,1,0]);
+quad([-16,17,0],[16,17,0],[16,17,MOD],[-16,17,MOD],[0,-1,0]);
+/* column pair */
+box(-6.8,0,3.6,-5.6,13,4.8);
+box(  5.6,0,3.6, 6.8,13,4.8);
+/* capitals */
+box(-7.3,12.2,3.1,-5.1,13.0,5.3);
+box( 5.1,12.2,3.1, 7.3,13.0,5.3);
+/* side walls */
+quad([-16,0,0],[-16,0,MOD],[-16,17,MOD],[-16,17,0],[1,0,0]);
+quad([16,0,MOD],[16,0,0],[16,17,0],[16,17,MOD],[-1,0,0]);
+/* clerestory lintel beams */
+box(-16,10.5,4.0,-6.8,11.3,4.6);
+box( 6.8,10.5,4.0, 16,11.3,4.6);
+
+var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(P),gl.STATIC_DRAW);
+var nbuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nbuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(Nn),gl.STATIC_DRAW);
+var VERTS=P.length/3;
+
+var aPos=gl.getAttribLocation(pr,'aPos'),aNrm=gl.getAttribLocation(pr,'aNrm');
+var uProj=gl.getUniformLocation(pr,'uProj'),uView=gl.getUniformLocation(pr,'uView'),
+    uZOff=gl.getUniformLocation(pr,'uZOff'),uEye=gl.getUniformLocation(pr,'uEye'),
+    uT=gl.getUniformLocation(pr,'uT');
+
+/* ---------- matrices ---------- */
+function persp(fov,asp,n,f){var t=1/Math.tan(fov/2);
+  return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0];}
+function view(ex,ey,ez,yaw,pitch){
+  var cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+  /* rotate then translate (inverse camera) */
+  var r=[cy,sy*sp,sy*cp, 0,cp,-sp, -sy,cy*sp,cy*cp];
+  return [r[0],r[1],r[2],0, r[3],r[4],r[5],0, r[6],r[7],r[8],0,
+    -(r[0]*ex+r[3]*ey+r[6]*ez),-(r[1]*ex+r[4]*ey+r[7]*ez),-(r[2]*ex+r[5]*ey+r[8]*ez),1];
+}
+
+/* ---------- controls ---------- */
+var yaw=0,pitch=0,px=0,pz=4,py=1.7;
+var keys={},locked=false,dragging=false,lx=0,ly=0;
+var intro=document.getElementById('intro');
+function hideIntro(){intro.classList.add('gone');}
+function enter(){hideIntro();if(cv.requestPointerLock)cv.requestPointerLock();}
+cv.addEventListener('click',enter);intro.addEventListener('click',enter);
+document.addEventListener('pointerlockchange',function(){locked=(document.pointerLockElement===cv);});
+document.addEventListener('mousemove',function(e){
+  if(locked){yaw-=e.movementX*0.0023;pitch-=e.movementY*0.0023;}
+  else if(dragging){yaw-=(e.clientX-lx)*0.004;pitch-=(e.clientY-ly)*0.004;lx=e.clientX;ly=e.clientY;}
+  pitch=Math.max(-1.35,Math.min(1.35,pitch));
+});
+cv.addEventListener('pointerdown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;});
+addEventListener('pointerup',function(){dragging=false;});
+addEventListener('keydown',function(e){keys[e.code]=true;
+  if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].indexOf(e.code)>=0)e.preventDefault();});
+addEventListener('keyup',function(e){keys[e.code]=false;});
+/* touch: left half = move forward, drag right half = look */
+var tmove=false;
+cv.addEventListener('touchstart',function(e){var t=e.touches[0];
+  if(t.clientX<innerWidth/2){tmove=true;}else{dragging=true;lx=t.clientX;ly=t.clientY;}hideIntro();},{passive:true});
+cv.addEventListener('touchmove',function(e){var t=e.touches[0];
+  if(dragging&&t.clientX>=innerWidth/2){yaw-=(t.clientX-lx)*0.005;pitch-=(t.clientY-ly)*0.005;lx=t.clientX;ly=t.clientY;}},{passive:true});
+cv.addEventListener('touchend',function(){tmove=false;dragging=false;},{passive:true});
+
+function resize(){var d=Math.min(devicePixelRatio||1,2);
+  cv.width=innerWidth*d;cv.height=innerHeight*d;gl.viewport(0,0,cv.width,cv.height);}
+addEventListener('resize',resize);resize();
+
+gl.enable(gl.DEPTH_TEST);
+gl.clearColor(0.002,0.012,0.005,1);
+
+var last=performance.now();
+(function frame(now){
+  var dt=Math.min(0.05,(now-last)/1000);last=now;
+  var run=(keys.ShiftLeft||keys.ShiftRight)?8.4:4.2;
+  var fx=Math.sin(yaw),fz=Math.cos(yaw);
+  var mx=0,mz=0;
+  if(keys.KeyW||keys.ArrowUp||tmove){mx-=fx;mz-=fz;}
+  if(keys.KeyS||keys.ArrowDown){mx+=fx;mz+=fz;}
+  if(keys.KeyA||keys.ArrowLeft){mx-=fz;mz+=fx;}
+  if(keys.KeyD||keys.ArrowRight){mx+=fz;mz-=fx;}
+  var l=Math.hypot(mx,mz);
+  if(l>0){px+=mx/l*run*dt;pz+=mz/l*run*dt;}
+  /* stay inside the nave */
+  px=Math.max(-14.6,Math.min(14.6,px));
+  /* gentle head bob when moving */
+  py=1.7+(l>0?Math.sin(now*0.012)*0.045:0);
+
+  gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  gl.uniformMatrix4fv(uProj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
+  gl.uniformMatrix4fv(uView,false,new Float32Array(view(px,py,pz,yaw,pitch)));
+  gl.uniform3f(uEye,px,py,pz);
+  gl.uniform1f(uT,now*0.001);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.enableVertexAttribArray(aPos);gl.vertexAttribPointer(aPos,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,nbuf);
+  gl.enableVertexAttribArray(aNrm);gl.vertexAttribPointer(aNrm,3,gl.FLOAT,false,0,0);
+
+  /* tile the module around the walker — the nave never ends */
+  var base=Math.floor(pz/MOD);
+  for(var i=-14;i<=14;i++){
+    gl.uniform1f(uZOff,(base+i)*MOD);
+    gl.drawArrays(gl.TRIANGLES,0,VERTS);
+  }
+  requestAnimationFrame(frame);
+})(last);
+})();
+</script>
+</body>
+</html>
