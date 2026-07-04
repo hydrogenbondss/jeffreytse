@@ -195,6 +195,20 @@ function ruinsNear(px,pz){
     var d2=3.5+hash2(ix*4.3,iz*0.7)*5.0;
     out.push({x:ox,z:oz,y:ground(ox,oz)-0.4,w:w,h:h,d:d2});
   }
+  /* distant mega-towers — the dead skyline, looming through the haze */
+  var MCELL=90;
+  var mx0=Math.floor(px/MCELL),mz0=Math.floor(pz/MCELL);
+  for(var mdz=-2;mdz<=2;mdz++)for(var mdx=-2;mdx<=2;mdx++){
+    var jx=mx0+mdx,jz=mz0+mdz;
+    var mr=hash2(jx*7.3,jz*3.1);
+    if(mr<0.45)continue;
+    var ox2=(hash2(jx,jz)-0.5)*40+(jx+0.5)*MCELL;
+    var oz2=(hash2(jz,jx)-0.5)*40+(jz+0.5)*MCELL;
+    var d0=Math.hypot(ox2-px,oz2-pz);
+    if(d0<55)continue;                        /* keep them on the horizon */
+    out.push({x:ox2,z:oz2,y:ground(ox2,oz2)-1.0,
+      w:12+hash2(jx*2.2,jz*4.4)*16,h:26+hash2(jx*5.1,jz*1.9)*36,d:12+hash2(jx*0.7,jz*6.2)*16});
+  }
   return out;
 }
 
@@ -250,6 +264,46 @@ var gU={proj:gl.getUniformLocation(gPr,'uProj'),view:gl.getUniformLocation(gPr,'
 gl.clearColor(0.13,0.18,0.15,1);
 
 
+/* ============ spores — the air is alive ============ */
+var P_VS=[
+'attribute vec3 aSeed;',
+'uniform mat4 uProj,uView;','uniform float uT;','uniform vec3 uEye;',
+'varying float vA;',
+NOISE_GLSL,
+'void main(){',
+'  float r=aSeed.z;',
+'  vec3 w=vec3(aSeed.x+sin(uT*0.22+r*31.0)*2.4,',
+'              ground(aSeed.xy)+0.6+fract(r*17.0)*3.4+sin(uT*0.35+r*47.0)*0.5,',
+'              aSeed.y+cos(uT*0.19+r*23.0)*2.4);',
+'  float d=length(w-uEye);',
+'  vA=(0.25+0.5*fract(r*7.0))*exp(-d*0.05);',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'  gl_PointSize=clamp(140.0/max(d,1.0),1.5,7.0);',
+'}'].join('\n');
+var P_FS=[
+'precision mediump float;','varying float vA;',
+'void main(){',
+'  vec2 c=gl_PointCoord-0.5;',
+'  float a=smoothstep(0.5,0.08,length(c))*vA;',
+'  gl_FragColor=vec4(0.85,0.86,0.62,a);',
+'}'].join('\n');
+var pPr=prog(P_VS,P_FS);
+var PN=340;
+var pSeed=new Float32Array(PN*3);
+var pBuf=gl.createBuffer();
+function reseedMotes(px,pz){
+  for(var i=0;i<PN;i++){
+    pSeed[i*3]=px+(hash2(i,91)*2-1)*44;
+    pSeed[i*3+1]=pz+(hash2(37,i)*2-1)*44;
+    pSeed[i*3+2]=hash2(i*1.3,i*0.7);
+  }
+  gl.bindBuffer(gl.ARRAY_BUFFER,pBuf);
+  gl.bufferData(gl.ARRAY_BUFFER,pSeed,gl.DYNAMIC_DRAW);
+}
+var pA=gl.getAttribLocation(pPr,'aSeed');
+var pU={proj:gl.getUniformLocation(pPr,'uProj'),view:gl.getUniformLocation(pPr,'uView'),
+  t:gl.getUniformLocation(pPr,'uT'),eye:gl.getUniformLocation(pPr,'uEye')};
+
 /* ============ sky: dusk gradient + a low, tired sun ============ */
 var S_VS=['attribute vec2 aP;','varying vec2 vP;','void main(){vP=aP;gl_Position=vec4(aP,0.9999,1.0);}'].join('\n');
 var S_FS=[
@@ -287,7 +341,45 @@ var yaw=0.4,pitch=-0.02,px=3,pz=6;
 var keys={},locked=false,dragging=false,lx=0,ly=0;
 var intro=document.getElementById('intro');
 function hideIntro(){intro.classList.add('gone');}
-function enter(){hideIntro();if(cv.requestPointerLock)cv.requestPointerLock();}
+
+/* ============ wind — the sound design from Garden of Returning ============ */
+var audioCtx=null,windGain=null,droneGain=null,soundOn=true;
+function initAudio(){
+  if(audioCtx)return;
+  try{
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    var bufSize=audioCtx.sampleRate*2;
+    var buffer=audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
+    var data=buffer.getChannelData(0);
+    for(var i=0;i<bufSize;i++)data[i]=Math.random()*2-1;
+    var src=audioCtx.createBufferSource();src.buffer=buffer;src.loop=true;
+    var filt=audioCtx.createBiquadFilter();filt.type='bandpass';filt.frequency.value=220;filt.Q.value=0.5;
+    windGain=audioCtx.createGain();windGain.gain.value=0.05;
+    var lfo=audioCtx.createOscillator();lfo.frequency.value=0.07;
+    var lg=audioCtx.createGain();lg.gain.value=0.03;
+    lfo.connect(lg);lg.connect(windGain.gain);
+    src.connect(filt);filt.connect(windGain);windGain.connect(audioCtx.destination);
+    src.start();lfo.start();
+    var osc=audioCtx.createOscillator();osc.type='sine';osc.frequency.value=52;
+    droneGain=audioCtx.createGain();droneGain.gain.value=0.016;
+    osc.connect(droneGain);droneGain.connect(audioCtx.destination);osc.start();
+  }catch(e){}
+}
+function setSound(on){
+  soundOn=on;
+  var b=document.getElementById('snd');if(b)b.textContent=on?'sound on':'sound off';
+  if(windGain)windGain.gain.value=on?0.05:0;
+  if(droneGain)droneGain.gain.value=on?0.016:0;
+}
+(function(){
+  var b=document.createElement('button');b.id='snd';b.textContent='sound on';
+  b.style.cssText='position:fixed;top:16px;right:16px;z-index:30;background:rgba(11,16,12,.7);'+
+    'border:1px solid rgba(207,227,200,.25);color:rgba(207,227,200,.6);font-family:Courier New,monospace;'+
+    'font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;padding:.45rem .8rem;cursor:pointer';
+  b.addEventListener('click',function(e){e.stopPropagation();initAudio();setSound(!soundOn);});
+  document.body.appendChild(b);
+})();
+function enter(){hideIntro();initAudio();setSound(soundOn);if(cv.requestPointerLock)cv.requestPointerLock();}
 cv.addEventListener('click',enter);intro.addEventListener('click',enter);
 document.addEventListener('pointerlockchange',function(){locked=(document.pointerLockElement===cv);});
 document.addEventListener('mousemove',function(e){
@@ -327,7 +419,7 @@ var last=performance.now();
   if(l>0){px+=mx/l*run*dt;pz+=mz/l*run*dt;}
   var eyeY=ground(px,pz)+1.72+(l>0?Math.sin(now*0.011)*0.05:0);
 
-  if(Math.hypot(px-lastSeed.x,pz-lastSeed.z)>34){reseed(px,pz);lastSeed={x:px,z:pz};}
+  if(Math.hypot(px-lastSeed.x,pz-lastSeed.z)>34){reseed(px,pz);reseedMotes(px,pz);lastSeed={x:px,z:pz};}
 
   var P=new Float32Array(persp(1.12,innerWidth/innerHeight,0.1,260));
   var V=new Float32Array(view(px,eyeY,pz,yaw,pitch));
@@ -375,6 +467,17 @@ var last=performance.now();
   gl.bindBuffer(gl.ARRAY_BUFFER,gsBuf);
   gl.enableVertexAttribArray(gAS);gl.vertexAttribPointer(gAS,3,gl.FLOAT,false,0,0);
   gl.drawArrays(gl.TRIANGLES,0,GC*6);
+
+  /* spores — additive, no depth writes */
+  gl.useProgram(pPr);
+  gl.uniformMatrix4fv(pU.proj,false,P);gl.uniformMatrix4fv(pU.view,false,V);
+  gl.uniform1f(pU.t,now*0.001);gl.uniform3f(pU.eye,px,eyeY,pz);
+  gl.depthMask(false);
+  gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
+  gl.bindBuffer(gl.ARRAY_BUFFER,pBuf);
+  gl.enableVertexAttribArray(pA);gl.vertexAttribPointer(pA,3,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.POINTS,0,PN);
+  gl.disable(gl.BLEND);gl.depthMask(true);
 
   requestAnimationFrame(frame);
 })(last);

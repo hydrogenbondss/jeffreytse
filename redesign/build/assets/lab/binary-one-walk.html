@@ -153,6 +153,75 @@ var uProj=gl.getUniformLocation(pr,'uProj'),uView=gl.getUniformLocation(pr,'uVie
     uZOff=gl.getUniformLocation(pr,'uZOff'),uEye=gl.getUniformLocation(pr,'uEye'),
     uT=gl.getUniformLocation(pr,'uT');
 
+/* ---------- transept beacons: columns of light every few bays ---------- */
+var B_VS=[
+'attribute vec3 aPos;','uniform mat4 uProj,uView;','uniform float uZOff;',
+'varying vec3 vW;',
+'void main(){vec3 w=aPos+vec3(0.0,0.0,uZOff);vW=w;gl_Position=uProj*uView*vec4(w,1.0);}'].join('\n');
+var B_FS=[
+'precision mediump float;','varying vec3 vW;','uniform vec3 uEye;','uniform float uT;',
+'void main(){',
+'  float h=clamp(vW.y/17.0,0.0,1.0);',
+'  float core=1.0-abs(h-0.45)*1.5;',
+'  float pulse=0.82+0.18*sin(uT*0.8+vW.z*0.2);',
+'  float d=length(vW-uEye);',
+'  float a=max(core,0.0)*pulse*exp(-d*0.03)*0.5;',
+'  gl_FragColor=vec4(0.45,1.0,0.62,a);',
+'}'].join('\n');
+var bPr=(function(){var p=gl.createProgram();
+  gl.attachShader(p,sh(gl.VERTEX_SHADER,B_VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,B_FS));
+  gl.linkProgram(p);return p;})();
+var BQ=[];
+(function(){
+  function slab(x){
+    BQ.push(x-0.7,0,4.25, x+0.7,0,4.25, x+0.7,17,4.25, x-0.7,0,4.25, x+0.7,17,4.25, x-0.7,17,4.25);
+    BQ.push(x-0.7,0,4.55, x+0.7,0,4.55, x+0.7,17,4.55, x-0.7,0,4.55, x+0.7,17,4.55, x-0.7,17,4.55);
+  }
+  slab(-9.6); slab(9.6);
+})();
+var bBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(BQ),gl.STATIC_DRAW);
+var B_N=BQ.length/3;
+var bA=gl.getAttribLocation(bPr,'aPos');
+var bU={proj:gl.getUniformLocation(bPr,'uProj'),view:gl.getUniformLocation(bPr,'uView'),
+  z:gl.getUniformLocation(bPr,'uZOff'),eye:gl.getUniformLocation(bPr,'uEye'),t:gl.getUniformLocation(bPr,'uT')};
+
+/* ---------- data motes: bits rising slowly through the nave ---------- */
+var M_VS=[
+'attribute vec3 aSeed;','uniform mat4 uProj,uView;','uniform float uT;','uniform vec3 uEye;','uniform float uZBase;',
+'varying float vA;',
+'void main(){',
+'  float r=aSeed.z;',
+'  float y=mod(fract(r*13.0)*15.0+uT*(0.25+0.5*fract(r*5.0)),15.5);',
+'  vec3 w=vec3(aSeed.x+sin(uT*0.3+r*29.0)*0.8, y, uZBase+aSeed.y+cos(uT*0.24+r*41.0)*0.8);',
+'  float d=length(w-uEye);',
+'  vA=(0.2+0.5*fract(r*9.0))*exp(-d*0.05);',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'  gl_PointSize=clamp(90.0/max(d,1.0),1.2,5.0);',
+'}'].join('\n');
+var M_FS=[
+'precision mediump float;','varying float vA;',
+'void main(){',
+'  vec2 c=gl_PointCoord-0.5;',
+'  float a=smoothstep(0.5,0.1,length(c))*vA;',
+'  gl_FragColor=vec4(0.35,1.0,0.55,a);',
+'}'].join('\n');
+var mPr=(function(){var p=gl.createProgram();
+  gl.attachShader(p,sh(gl.VERTEX_SHADER,M_VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,M_FS));
+  gl.linkProgram(p);return p;})();
+var MN=260;
+var mSeed=new Float32Array(MN*3);
+for(var mi=0;mi<MN;mi++){
+  mSeed[mi*3]=(Math.sin(mi*127.1)*43758.5453%1)*26-13;
+  mSeed[mi*3+1]=((Math.sin(mi*311.7)*43758.5453%1+1)%1)*120-60;
+  mSeed[mi*3+2]=((Math.sin(mi*74.7)*12543.21%1)+1)%1;
+}
+var mBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,mBuf);
+gl.bufferData(gl.ARRAY_BUFFER,mSeed,gl.STATIC_DRAW);
+var mA=gl.getAttribLocation(mPr,'aSeed');
+var mU={proj:gl.getUniformLocation(mPr,'uProj'),view:gl.getUniformLocation(mPr,'uView'),
+  t:gl.getUniformLocation(mPr,'uT'),eye:gl.getUniformLocation(mPr,'uEye'),zb:gl.getUniformLocation(mPr,'uZBase')};
+
 /* ---------- matrices ---------- */
 function persp(fov,asp,n,f){var t=1/Math.tan(fov/2);
   return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0];}
@@ -169,7 +238,40 @@ var yaw=0,pitch=0,px=0,pz=4,py=1.7;
 var keys={},locked=false,dragging=false,lx=0,ly=0;
 var intro=document.getElementById('intro');
 function hideIntro(){intro.classList.add('gone');}
-function enter(){hideIntro();if(cv.requestPointerLock)cv.requestPointerLock();}
+
+/* ---------- the small-hours drone: two low sines + a breath of noise ---------- */
+var audioCtx=null,droneGain=null,soundOn=true;
+function initAudio(){
+  if(audioCtx)return;
+  try{
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    droneGain=audioCtx.createGain();droneGain.gain.value=0.022;
+    var o1=audioCtx.createOscillator();o1.type='sine';o1.frequency.value=55;
+    var o2=audioCtx.createOscillator();o2.type='sine';o2.frequency.value=55.6;
+    var o3=audioCtx.createOscillator();o3.type='sine';o3.frequency.value=110.3;
+    var g3=audioCtx.createGain();g3.gain.value=0.25;
+    var lfo=audioCtx.createOscillator();lfo.frequency.value=0.05;
+    var lg=audioCtx.createGain();lg.gain.value=0.012;
+    lfo.connect(lg);lg.connect(droneGain.gain);
+    o1.connect(droneGain);o2.connect(droneGain);o3.connect(g3);g3.connect(droneGain);
+    droneGain.connect(audioCtx.destination);
+    o1.start();o2.start();o3.start();lfo.start();
+  }catch(e){}
+}
+function setSound(on){
+  soundOn=on;
+  var b=document.getElementById('snd');if(b)b.textContent=on?'sound on':'sound off';
+  if(droneGain)droneGain.gain.value=on?0.022:0;
+}
+(function(){
+  var b=document.createElement('button');b.id='snd';b.textContent='sound on';
+  b.style.cssText='position:fixed;top:16px;right:16px;z-index:30;background:rgba(0,8,3,.7);'+
+    'border:1px solid rgba(59,255,126,.25);color:rgba(59,255,126,.55);font-family:Courier New,monospace;'+
+    'font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;padding:.45rem .8rem;cursor:pointer';
+  b.addEventListener('click',function(e){e.stopPropagation();initAudio();setSound(!soundOn);});
+  document.body.appendChild(b);
+})();
+function enter(){hideIntro();initAudio();setSound(soundOn);if(cv.requestPointerLock)cv.requestPointerLock();}
 cv.addEventListener('click',enter);intro.addEventListener('click',enter);
 document.addEventListener('pointerlockchange',function(){locked=(document.pointerLockElement===cv);});
 document.addEventListener('mousemove',function(e){
@@ -215,6 +317,7 @@ var last=performance.now();
   py=1.7+(l>0?Math.sin(now*0.012)*0.045:0);
 
   gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  gl.useProgram(pr);
   gl.uniformMatrix4fv(uProj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
   gl.uniformMatrix4fv(uView,false,new Float32Array(view(px,py,pz,yaw,pitch)));
   gl.uniform3f(uEye,px,py,pz);
@@ -231,6 +334,32 @@ var last=performance.now();
     gl.uniform1f(uZOff,(base+i)*MOD);
     gl.drawArrays(gl.TRIANGLES,0,VERTS);
   }
+
+  /* light + air: additive passes, no depth writes */
+  gl.depthMask(false);
+  gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
+  gl.useProgram(bPr);
+  gl.uniformMatrix4fv(bU.proj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
+  gl.uniformMatrix4fv(bU.view,false,new Float32Array(view(px,py,pz,yaw,pitch)));
+  gl.uniform3f(bU.eye,px,py,pz);gl.uniform1f(bU.t,now*0.001);
+  gl.bindBuffer(gl.ARRAY_BUFFER,bBuf);
+  gl.enableVertexAttribArray(bA);gl.vertexAttribPointer(bA,3,gl.FLOAT,false,0,0);
+  for(var bi=-14;bi<=14;bi++){
+    var mod6=((base+bi)%6+6)%6;
+    if(mod6!==2)continue;
+    gl.uniform1f(bU.z,(base+bi)*MOD);
+    gl.drawArrays(gl.TRIANGLES,0,B_N);
+  }
+  gl.useProgram(mPr);
+  gl.uniformMatrix4fv(mU.proj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
+  gl.uniformMatrix4fv(mU.view,false,new Float32Array(view(px,py,pz,yaw,pitch)));
+  gl.uniform3f(mU.eye,px,py,pz);gl.uniform1f(mU.t,now*0.001);
+  gl.uniform1f(mU.zb,Math.floor(pz/120)*120);
+  gl.bindBuffer(gl.ARRAY_BUFFER,mBuf);
+  gl.enableVertexAttribArray(mA);gl.vertexAttribPointer(mA,3,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.POINTS,0,MN);
+  gl.disable(gl.BLEND);gl.depthMask(true);
+
   requestAnimationFrame(frame);
 })(last);
 })();
