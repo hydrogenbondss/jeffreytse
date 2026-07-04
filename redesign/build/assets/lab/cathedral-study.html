@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Cathedral of Small Hours</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { background:#050508; width:100%; height:100%; overflow:hidden; cursor:none; }
+canvas { display:block; position:fixed; inset:0; }
+#ui {
+  position:fixed; inset:0; pointer-events:none; z-index:5;
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:2.2rem 2.4rem;
+}
+.ui-tl { font-family:'Courier New',monospace; font-size:.52rem; letter-spacing:.2em;
+  text-transform:uppercase; color:rgba(78,205,196,.28); line-height:1.9; }
+.ui-br { text-align:right; font-family:'Courier New',monospace; font-size:.48rem;
+  color:rgba(78,205,196,.18); letter-spacing:.12em; line-height:1.8; }
+.ui-bl { font-family:'Courier New',monospace; font-size:.48rem; letter-spacing:.18em;
+  color:rgba(78,205,196,.16); text-transform:uppercase;
+  animation:breathe 4s ease-in-out infinite; }
+@keyframes breathe { 0%,100%{opacity:.16} 50%{opacity:.38} }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div class="ui-tl">Cathedral of Small Hours<br>A figure made of language</div>
+    <div id="timeUI" style="font-family:'Courier New',monospace;font-size:.5rem;color:rgba(78,205,196,.25);letter-spacing:.12em;text-align:right"></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <div class="ui-bl">Approach · Dissolve · Return</div>
+    <div class="ui-br">Move close to dissolve<br>Click to shatter</div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H, DPR;
+
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(DPR, DPR);
+  buildFigure();
+}
+window.addEventListener('resize', resize);
+
+// ── WORD CORPUS ─────────────────────────────────────────────────────────────
+const WORDS = [
+  'observed','seen','witness','intimate','tender','distance','close',
+  'almost','presence','absence','night','breath','quiet','light','small',
+  'hours','system','memory','trace','remain','return','dissolve','form',
+  'become','here','still','held','soft','dark','deep','wait','feel',
+  'body','touch','slow','thin','sharp','warm','cold','near','far',
+  'made','real','lost','find','left','keep','give','stay','know',
+  'hold','break','split','fall','rise','pass','move','stop','look',
+  'open','close','end','begin','full','empty','alive','gone','new',
+  'archive','record','signal','echo','surface','layer','depth','frame',
+  'code','image','text','object','material','infrastructure','everyday',
+  'pattern','process','render','generate','collect','document','trace'
+];
+
+// ── FIGURE SILHOUETTE ───────────────────────────────────────────────────────
+// Human figure defined as relative path points (x,y as fraction of bounding box)
+const FIGURE_OUTLINE = [
+  // Head circle path (sampled as points)
+  ...Array.from({length:28}, (_,i) => {
+    const a = (i/28) * Math.PI * 2;
+    return { x: 0.5 + Math.cos(a) * 0.065, y: 0.06 + Math.sin(a) * 0.075, type:'head' };
+  }),
+  // Neck
+  {x:0.47,y:0.135},{x:0.5,y:0.145},{x:0.53,y:0.135},
+  // Left shoulder
+  {x:0.42,y:0.16},{x:0.36,y:0.19},{x:0.30,y:0.21},
+  // Left arm down
+  {x:0.27,y:0.27},{x:0.24,y:0.33},{x:0.22,y:0.39},
+  {x:0.21,y:0.45},{x:0.20,y:0.50},{x:0.20,y:0.54},
+  // Left hand
+  {x:0.19,y:0.56},{x:0.18,y:0.58},
+  // Left side torso
+  {x:0.29,y:0.22},{x:0.30,y:0.30},{x:0.31,y:0.38},{x:0.32,y:0.46},
+  // Left hip
+  {x:0.34,y:0.52},{x:0.36,y:0.56},
+  // Left leg
+  {x:0.38,y:0.60},{x:0.37,y:0.65},{x:0.36,y:0.70},
+  {x:0.35,y:0.75},{x:0.34,y:0.80},{x:0.35,y:0.85},
+  {x:0.36,y:0.90},{x:0.37,y:0.94},{x:0.38,y:0.97},
+  // Right leg
+  {x:0.50,y:0.97},{x:0.52,y:0.94},{x:0.53,y:0.90},
+  {x:0.54,y:0.85},{x:0.55,y:0.80},{x:0.55,y:0.75},
+  {x:0.54,y:0.70},{x:0.53,y:0.65},{x:0.52,y:0.60},
+  // Right hip
+  {x:0.54,y:0.56},{x:0.56,y:0.52},
+  // Right side torso
+  {x:0.58,y:0.46},{x:0.59,y:0.38},{x:0.60,y:0.30},{x:0.61,y:0.22},
+  // Right arm
+  {x:0.70,y:0.21},{x:0.64,y:0.19},{x:0.58,y:0.16},
+  {x:0.73,y:0.27},{x:0.76,y:0.33},{x:0.78,y:0.39},
+  {x:0.79,y:0.45},{x:0.80,y:0.50},{x:0.80,y:0.54},
+  {x:0.81,y:0.56},{x:0.82,y:0.58},
+  // Fill interior with extra points
+  ...Array.from({length:120}, (_,i) => {
+    // Interior body fill points
+    const row = Math.floor(i / 12);
+    const col = i % 12;
+    const ty = 0.13 + row * 0.07;
+    // Width varies by y position (body shape)
+    const halfW = ty < 0.15 ? 0.03 :
+                  ty < 0.25 ? 0.10 :
+                  ty < 0.45 ? 0.13 :
+                  ty < 0.58 ? 0.10 :
+                  ty < 0.75 ? 0.08 : 0.05;
+    const tx = 0.50 - halfW + (col / 11) * halfW * 2;
+    return { x: tx, y: ty, type: 'body' };
+  })
+];
+
+// ── PARTICLES ───────────────────────────────────────────────────────────────
+let particles = [];
+let shards = [];
+let mx = W/2, my = H/2;
+let time = 0;
+let shattered = false;
+let reforming = false;
+let reformTimer = 0;
+
+class Particle {
+  constructor(fx, fy, word, i) {
+    this.originX = fx;
+    this.originY = fy;
+    this.x = fx + (Math.random()-0.5) * W * 0.8;
+    this.y = fy + (Math.random()-0.5) * H * 0.8;
+    this.vx = 0; this.vy = 0;
+    this.word = word;
+    this.size = 7.5 + Math.random() * 2.5;
+    this.opacity = 0.45 + Math.random() * 0.35;
+    this.baseOpacity = this.opacity;
+    this.hue = 180 + Math.random() * 30;
+    this.phase = Math.random() * Math.PI * 2;
+    this.born = 0;
+    this.settled = false;
+    this.idx = i;
+  }
+
+  update(distToMouse, nearness) {
+    this.born++;
+    // Settle into position
+    const settled_speed = this.settled ? 0.04 : 0.12;
+    const tx = this.originX, ty = this.originY;
+
+    if (!shattered) {
+      // Float effect when near origin
+      const floatX = Math.sin(time * 0.5 + this.phase) * 1.2;
+      const floatY = Math.cos(time * 0.4 + this.phase * 1.3) * 0.8;
+
+      // Mouse repulsion
+      let repX = 0, repY = 0;
+      if (distToMouse < 160) {
+        const force = (1 - distToMouse / 160) * nearness * 35;
+        const angle = Math.atan2(this.y - my, this.x - mx);
+        repX = Math.cos(angle) * force;
+        repY = Math.sin(angle) * force;
+      }
+
+      this.vx += ((tx + floatX + repX) - this.x) * settled_speed;
+      this.vy += ((ty + floatY + repY) - this.y) * settled_speed;
+      this.vx *= 0.72; this.vy *= 0.72;
+      this.x += this.vx; this.y += this.vy;
+
+      if (Math.abs(this.x - tx) < 2 && Math.abs(this.y - ty) < 2) this.settled = true;
+
+      // Opacity based on mouse proximity
+      const proximity = Math.max(0, 1 - distToMouse / 200);
+      this.opacity = Math.max(0.06, this.baseOpacity - proximity * 0.35);
+    } else {
+      // Shatter — fly outward
+      this.vx += (Math.random()-0.5) * 0.6;
+      this.vy += (Math.random()-0.5) * 0.6 + 0.15;
+      this.x += this.vx; this.y += this.vy;
+      this.opacity *= 0.985;
+    }
+  }
+
+  draw() {
+    if (this.opacity < 0.02) return;
+    ctx.save();
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = `hsl(${this.hue},60%,68%)`;
+    ctx.font = `${this.size}px "Courier New"`;
+    ctx.fillText(this.word, this.x, this.y);
+    ctx.restore();
+  }
+}
+
+function buildFigure() {
+  particles = [];
+  const figH = H * 0.82;
+  const figW = figH * 0.42;
+  const cx = W * 0.5;
+  const cy = H * 0.52;
+
+  FIGURE_OUTLINE.forEach((pt, i) => {
+    const px = cx - figW*0.5 + pt.x * figW;
+    const py = cy - figH*0.5 + pt.y * figH;
+    const word = WORDS[i % WORDS.length];
+    particles.push(new Particle(px, py, word, i));
+  });
+}
+
+function shatter() {
+  if (shattered) return;
+  shattered = true;
+  reformTimer = 0;
+
+  // Pulse glow on click
+  glowPulse = 1.0;
+
+  setTimeout(() => {
+    shattered = false;
+    reforming = true;
+    buildFigure();
+    setTimeout(() => { reforming = false; }, 2000);
+  }, 3000);
+}
+
+let glowPulse = 0;
+
+function drawGlow() {
+  if (glowPulse > 0) {
+    const grad = ctx.createRadialGradient(mx, my, 0, mx, my, 300 * glowPulse);
+    grad.addColorStop(0, `rgba(78,205,196,${glowPulse * 0.12})`);
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+    glowPulse *= 0.92;
+  }
+
+  // Ambient center glow — teal
+  const ag = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, H * 0.4);
+  ag.addColorStop(0, 'rgba(78,205,196,.04)');
+  ag.addColorStop(1, 'transparent');
+  ctx.fillStyle = ag;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function drawCursor() {
+  // Teal crosshair cursor
+  ctx.strokeStyle = 'rgba(78,205,196,.6)';
+  ctx.lineWidth = 0.75;
+  const s = 10;
+  ctx.beginPath();
+  ctx.moveTo(mx - s, my); ctx.lineTo(mx + s, my);
+  ctx.moveTo(mx, my - s); ctx.lineTo(mx, my + s);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(mx, my, 3, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(78,205,196,.4)';
+  ctx.stroke();
+}
+
+function drawBackground() {
+  // Deep background
+  ctx.fillStyle = '#050508';
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle grid
+  ctx.strokeStyle = 'rgba(78,205,196,.018)';
+  ctx.lineWidth = 0.5;
+  const gs = 60;
+  for (let gx = 0; gx < W; gx += gs) {
+    ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+  }
+  for (let gy = 0; gy < H; gy += gs) {
+    ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+  }
+
+  // Teal corner accent
+  ctx.strokeStyle = 'rgba(78,205,196,.06)';
+  ctx.lineWidth = 0.75;
+  const cornerR = 200;
+  ctx.beginPath(); ctx.arc(0, 0, cornerR, 0, Math.PI * 0.5); ctx.stroke();
+  ctx.beginPath(); ctx.arc(W, H, cornerR, Math.PI, Math.PI * 1.5); ctx.stroke();
+}
+
+function render() {
+  time += 0.016;
+
+  drawBackground();
+  drawGlow();
+
+  // Update and draw particles
+  particles.forEach(p => {
+    const dx = p.x - mx, dy = p.y - my;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const nearness = shattered ? 0 : Math.max(0, 1 - dist / 200);
+    p.update(dist, nearness);
+    p.draw();
+  });
+
+  // Drift particles
+  if (!shattered && Math.random() < 0.08) {
+    const pi = Math.floor(Math.random() * particles.length);
+    const p = particles[pi];
+    // Small drift ring
+    ctx.beginPath();
+    ctx.arc(p.originX, p.originY, 2 + Math.random() * 4, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(78,205,196,.06)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  // Vignette
+  const vig = ctx.createRadialGradient(W/2, H/2, H*0.15, W/2, H/2, W*0.75);
+  vig.addColorStop(0, 'transparent');
+  vig.addColorStop(1, 'rgba(2,2,5,.72)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, W, H);
+
+  drawCursor();
+
+  // Update time UI
+  const now = new Date();
+  document.getElementById('timeUI').textContent =
+    now.getHours().toString().padStart(2,'0') + ':' +
+    now.getMinutes().toString().padStart(2,'0') + ':' +
+    now.getSeconds().toString().padStart(2,'0');
+
+  requestAnimationFrame(render);
+}
+
+// ── INPUT ──────────────────────────────────────────────────────────────────
+window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+window.addEventListener('click', shatter);
+
+window.addEventListener('touchmove', e => {
+  mx = e.touches[0].clientX;
+  my = e.touches[0].clientY;
+}, { passive:true });
+window.addEventListener('touchend', shatter);
+
+// ── START ──────────────────────────────────────────────────────────────────
+resize();
+render();
+</script>
+</body>
+</html>
