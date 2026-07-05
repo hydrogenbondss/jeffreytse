@@ -90,6 +90,30 @@ function prog(vs,fs){var p=gl.createProgram();
   gl.attachShader(p,sh(gl.VERTEX_SHADER,vs));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));
   gl.linkProgram(p);return p;}
 
+/* ============ photoreal dressing: three generated stills (Higgsfield Soul
+   Location) supply the skyline, the facade, and the ground grain that the
+   procedural geometry alone can't reach. Solid-color 1x1 placeholders keep
+   every sampler valid before the real image lands. ============ */
+function makeTex(r,g,b){
+  var t=gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D,t);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([r,g,b,255]));
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  return t;
+}
+function loadTex(tex,src){
+  var img=new Image();
+  img.onload=function(){gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);};
+  img.src=src;
+}
+var skyTex=makeTex(150,163,158),facadeTex=makeTex(90,94,80),groundTex=makeTex(88,96,72);
+loadTex(skyTex,'garden_skyline.jpg');
+loadTex(facadeTex,'garden_facade.jpg');
+loadTex(groundTex,'garden_ground.jpg');
+
 /* ============ terrain: a flat grid that follows the walker; height in the
    vertex shader from the same noise — the land literally never ends ============ */
 var T_VS=[
@@ -106,7 +130,7 @@ NOISE_GLSL,
 var T_FS=[
 'precision highp float;',
 'varying vec3 vW;','varying float vH;',
-'uniform vec3 uEye;','uniform float uT;',
+'uniform vec3 uEye;','uniform float uT;','uniform sampler2D uGround;',
 NOISE_GLSL,
 'void main(){',
 '  vec2 e=vec2(0.35,0.0);',
@@ -115,14 +139,16 @@ NOISE_GLSL,
 '  float moss=vnoise(vW.xz*0.6);',
 '  float cracks=step(0.86,vnoise(vW.xz*2.3));',                /* old paving showing through */
 '  float rough=vnoise(vW.xz*1.7);',
-'  vec3 grass=mix(vec3(0.075,0.13,0.06),vec3(0.20,0.28,0.11),moss);',
+'  vec3 grass=mix(vec3(0.06,0.115,0.07),vec3(0.17,0.25,0.135),moss);',
 '  grass*=0.82+0.36*rough;',
-'  vec3 stone=vec3(0.16,0.17,0.15);',
+'  vec3 stone=vec3(0.15,0.165,0.155);',
 '  vec3 col=mix(grass,stone,cracks*0.7);',
+'  vec3 grain=texture2D(uGround,fract(vW.xz*0.045)).rgb;',      /* real rubble/moss detail, tiled */
+'  col*=mix(vec3(1.0),grain*1.55,0.55);',
 '  col*=0.52+0.85*light;',
 '  float dist=length(vW-uEye);',
-'  float fog=1.0-exp(-dist*0.023);',
-'  vec3 sky=mix(vec3(0.11,0.16,0.13),vec3(0.58,0.55,0.40),0.34);',
+'  float fog=1.0-exp(-dist*0.02);',
+'  vec3 sky=mix(vec3(0.09,0.125,0.135),vec3(0.62,0.66,0.63),0.3);',   /* cool overcast haze, not sunset amber */
 '  gl_FragColor=vec4(mix(col,sky,fog),1.0);',
 '}'].join('\n');
 var tPr=prog(T_VS,T_FS);
@@ -138,7 +164,8 @@ gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(tv),gl.STATIC_DRAW);
 var T_N=tv.length/2;
 var tA=gl.getAttribLocation(tPr,'aXZ');
 var tU={proj:gl.getUniformLocation(tPr,'uProj'),view:gl.getUniformLocation(tPr,'uView'),
-  center:gl.getUniformLocation(tPr,'uCenter'),eye:gl.getUniformLocation(tPr,'uEye'),t:gl.getUniformLocation(tPr,'uT')};
+  center:gl.getUniformLocation(tPr,'uCenter'),eye:gl.getUniformLocation(tPr,'uEye'),t:gl.getUniformLocation(tPr,'uT'),
+  ground:gl.getUniformLocation(tPr,'uGround')};
 
 /* ============ ruins: dark overgrown blocks, placed by cell hash around the walker ============ */
 var R_VS=[
@@ -159,28 +186,40 @@ var R_VS=[
 var R_FS=[
 'precision highp float;',
 'varying vec3 vW;','varying vec3 vN;','varying vec3 vLocal;',
-'uniform vec3 uEye;','uniform float uWin;',   /* 1 = ruined building (windows), 0 = drystone */
+'uniform vec3 uEye;','uniform float uWin;',   /* 1 = ruined building (real facade photo), 0 = drystone/rubble */
+'uniform sampler2D uFacade;','uniform vec4 uPlace;',
 NOISE_GLSL,
 'void main(){',
 '  vec3 N=normalize(vN);',
 '  float light=max(0.0,dot(N,normalize(vec3(-0.4,0.8,0.35))));',
-'  vec3 conc=vec3(0.105,0.11,0.10)*(0.35+0.85*light);',
-/* ivy: noise climbing from the ground up the faces */
-'  float climb=vnoise(vW.xz*0.9+vW.y*0.35);',
-'  float ivy=smoothstep(0.38,0.82,climb)*smoothstep(7.5,0.2,vW.y+2.0);',
-'  vec3 green=vec3(0.14,0.26,0.10)*(0.45+0.7*light);',
-'  vec3 col=mix(conc,green,ivy*0.85);',
-/* dark hollow windows on side faces */
-'  if(abs(N.y)<0.5){',
-'    vec2 uv=abs(N.x)>0.5?vLocal.zy:vLocal.xy;',
-'    vec2 f=fract(uv*vec2(3.0,4.0));',
-'    float win=step(0.25,f.x)*step(f.x,0.7)*step(0.3,f.y)*step(f.y,0.78);',
-'    float which=step(0.35,hash2(floor(uv*vec2(3.0,4.0))+floor(vW.zx)));',
-'    col=mix(col,vec3(0.02,0.03,0.02),win*which*0.9*uWin);',
+'  vec3 col;',
+'  if(uWin>0.5&&abs(N.y)<0.5){',
+/* the real, hyperreal-fidelity ivy-tower photo — wrapped once per face so no
+   building tiles visibly against its neighbours; a per-BUILDING (not
+   per-fragment) hash flips alternating buildings so the infinite skyline
+   never reads as one repeated plate */
+'    vec2 base=abs(N.x)>0.5?vLocal.zy:vLocal.xy;',
+'    float cellId=hash2(uPlace.xz*0.1);',
+'    vec2 uv=vec2(base.x+0.5,base.y);',
+'    if(cellId>0.5)uv.x=1.0-uv.x;',
+'    vec3 photo=texture2D(uFacade,uv).rgb;',
+'    photo*=0.55+0.85*light;',
+'    float climb=vnoise(vW.xz*0.9+vW.y*0.35);',
+'    float ivy=smoothstep(0.5,0.86,climb)*smoothstep(8.5,0.2,vW.y+2.0);',
+'    vec3 green=vec3(0.13,0.24,0.095)*(0.45+0.7*light);',
+'    col=mix(photo,green,ivy*0.3);',
+'  }else{',
+'    vec3 conc=vec3(0.105,0.11,0.10)*(0.35+0.85*light);',
+'    float climb=vnoise(vW.xz*0.9+vW.y*0.35);',
+'    float ivy=smoothstep(0.38,0.82,climb)*smoothstep(7.5,0.2,vW.y+2.0);',
+'    vec3 green=vec3(0.14,0.26,0.10)*(0.45+0.7*light);',
+'    col=mix(conc,green,ivy*0.85);',
 '  }',
+/* roofs and the drystone wall keep the old procedural top/no-window read */
+'  if(uWin>0.5&&abs(N.y)>=0.5){col=mix(vec3(0.08,0.095,0.075)*(0.35+0.85*light),vec3(0.15,0.24,0.1)*(0.45+0.7*light),0.55);}',
 '  float dist=length(vW-uEye);',
-'  float fog=1.0-exp(-dist*0.023);',
-'  vec3 sky=mix(vec3(0.11,0.16,0.13),vec3(0.58,0.55,0.40),0.34);',
+'  float fog=1.0-exp(-dist*0.02);',
+'  vec3 sky=mix(vec3(0.09,0.125,0.135),vec3(0.62,0.66,0.63),0.3);',
 '  gl_FragColor=vec4(mix(col,sky,fog),1.0);',
 '}'].join('\n');
 var rPr=prog(R_VS,R_FS);
@@ -201,7 +240,8 @@ var R_N=rv.length/3;
 var rA=gl.getAttribLocation(rPr,'aPos'),rAN=gl.getAttribLocation(rPr,'aNrm');
 var rU={proj:gl.getUniformLocation(rPr,'uProj'),view:gl.getUniformLocation(rPr,'uView'),
   place:gl.getUniformLocation(rPr,'uPlace'),size:gl.getUniformLocation(rPr,'uSize'),
-  eye:gl.getUniformLocation(rPr,'uEye'),rot:gl.getUniformLocation(rPr,'uRot'),win:gl.getUniformLocation(rPr,'uWin')};
+  eye:gl.getUniformLocation(rPr,'uEye'),rot:gl.getUniformLocation(rPr,'uRot'),win:gl.getUniformLocation(rPr,'uWin'),
+  facade:gl.getUniformLocation(rPr,'uFacade')};
 
 /* ============ THE GARDEN — the destination this district hides ============
    A round drystone wall with one gate, denser flora inside, a ring of
@@ -231,6 +271,45 @@ var WALLS=[];
     var x2=GX+Math.cos(a2)*2.3,z2=GZ+Math.sin(a2)*2.3;
     WALLS.push({x:x2,z:z2,y:ground(x2,z2)-0.35,rot:a2+Math.PI/2,w:1.35,h:0.6,d:0.85});
   }
+})();
+
+/* ============ THE OVERPASS — a broken elevated road on the walk from spawn
+   to the garden gate: two standing spans, a collapsed centre section hanging
+   into the gap, pillars, rail stubs, and rubble/car husks scattered beneath —
+   the grounded foreground wreckage from the reference photography. Plain
+   weathered concrete (uWin=0), same material as the drystone wall. ============ */
+var OX=17,OZ=-18,OROT=0.62;
+var SETPIECES=[];
+(function(){
+  var oy=ground(OX,OZ)-0.3;
+  function local(dx,dz){
+    var c=Math.cos(OROT),s=Math.sin(OROT);
+    return {x:OX+dx*c-dz*s,z:OZ+dx*s+dz*c};
+  }
+  [[-14,-3],[5,14]].forEach(function(seg){
+    var mid=local((seg[0]+seg[1])/2,0);
+    SETPIECES.push({x:mid.x,z:mid.z,y:oy+5.6,rot:OROT,w:seg[1]-seg[0],h:0.55,d:3.4});
+    [-1.5,1.5].forEach(function(edge){
+      var railMid=local((seg[0]+seg[1])/2,edge);
+      SETPIECES.push({x:railMid.x,z:railMid.z,y:oy+6.0,rot:OROT,w:(seg[1]-seg[0])*0.94,h:0.55,d:0.18});
+    });
+  });
+  var drop=local(0,0);                                  /* the fallen centre span */
+  SETPIECES.push({x:drop.x,z:drop.z,y:oy+2.4,rot:OROT+0.17,w:6.5,h:0.55,d:3.4});
+  [-11,-8,8,11].forEach(function(dx){                    /* pillars under the standing decks */
+    var p=local(dx,0);
+    SETPIECES.push({x:p.x,z:p.z,y:oy,rot:OROT,w:0.9,h:5.6,d:0.9});
+  });
+  for(var k=0;k<9;k++){                                  /* rubble under the gap */
+    var rx=(hash2(k,4.4)-0.5)*13,rz=(hash2(k,9.9)-0.5)*8;
+    var p2=local(rx,rz);
+    SETPIECES.push({x:p2.x,z:p2.z,y:ground(p2.x,p2.z)-0.35,rot:hash2(k,1)*6.28,
+      w:0.9+hash2(k,2)*1.6,h:0.4+hash2(k,3)*1.1,d:0.9+hash2(k,5)*1.6});
+  }
+  [[3,-4],[-5,3.5]].forEach(function(c,ci){              /* two dead car husks, nose to the road */
+    var p3=local(c[0],c[1]);
+    SETPIECES.push({x:p3.x,z:p3.z,y:ground(p3.x,p3.z)-0.25,rot:OROT+(ci?2.4:-0.4)+hash2(ci,7)*0.3,w:1.8,h:0.62,d:4.0});
+  });
 })();
 
 /* the guide beacon: crossed additive quads of low warm light */
@@ -411,25 +490,36 @@ gl.bufferData(gl.ARRAY_BUFFER,gpSeed,gl.STATIC_DRAW);
 var S_VS=['attribute vec2 aP;','varying vec2 vP;','void main(){vP=aP;gl_Position=vec4(aP,0.9999,1.0);}'].join('\n');
 var S_FS=[
 'precision mediump float;','varying vec2 vP;',
-'uniform float uYaw,uPitch,uAsp;',
+'uniform float uYaw,uPitch,uAsp;','uniform sampler2D uSky;',
 'void main(){',
 '  float cy=cos(uYaw),sy=sin(uYaw),cp=cos(uPitch),sp=sin(uPitch);',
 '  vec3 fwd=vec3(-sy*cp,sp,-cy*cp);',
 '  vec3 right=vec3(cy,0.0,-sy);',
 '  vec3 up=normalize(cross(right,fwd));',
 '  vec3 dir=normalize(fwd+right*vP.x*uAsp*0.62+up*vP.y*0.62);',
+/* cool overcast gradient — misty grey-green, no visible sun disc */
 '  float h=clamp(dir.y*1.6+0.22,0.0,1.0);',
-'  vec3 col=mix(vec3(0.55,0.50,0.34),vec3(0.075,0.11,0.10),h);',
-'  vec3 sun=normalize(vec3(-0.5,0.10,0.42));',
-'  float g=pow(max(0.0,dot(dir,sun)),9.0);',
-'  col+=vec3(0.50,0.36,0.18)*g*0.55;',
+'  vec3 col=mix(vec3(0.60,0.63,0.60),vec3(0.065,0.095,0.10),h);',
+/* the real reclaimed skyline sits as ONE vista in the direction of the
+   garden beacon (the spawn faces it) — not wrapped 360°, which would just
+   repeat/warp a flat photo. It fades to the plain gradient off to the sides,
+   so turning around never shows a stitched seam or a stretched repeat. */
+'  float rawAng=atan(dir.x,-dir.z);',
+'  float refA=0.54;',
+'  float dA=atan(sin(rawAng-refA),cos(rawAng-refA));',
+'  float front=1.0-smoothstep(1.05,1.85,abs(dA));',
+'  float band=front*(1.0-smoothstep(0.05,0.34,abs(dir.y-0.06)));',
+'  vec3 skyline=texture2D(uSky,vec2(clamp(dA/2.2+0.5,0.0,1.0),clamp(0.42-dir.y*0.9,0.0,1.0))).rgb;',
+'  skyline=mix(skyline,vec3(0.58,0.63,0.62),0.22);',            /* haze it into the gradient */
+'  col=mix(col,skyline,band*0.92);',
 '  gl_FragColor=vec4(col,1.0);',
 '}'].join('\n');
 var sPr=prog(S_VS,S_FS);
 var sBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,sBuf);
 gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
 var sA=gl.getAttribLocation(sPr,'aP');
-var sU={yaw:gl.getUniformLocation(sPr,'uYaw'),pitch:gl.getUniformLocation(sPr,'uPitch'),asp:gl.getUniformLocation(sPr,'uAsp')};
+var sU={yaw:gl.getUniformLocation(sPr,'uYaw'),pitch:gl.getUniformLocation(sPr,'uPitch'),asp:gl.getUniformLocation(sPr,'uAsp'),
+  sky:gl.getUniformLocation(sPr,'uSky')};
 
 /* ============ camera + controls ============ */
 function persp(fov,asp,n,f){var t=1/Math.tan(fov/2);
@@ -573,6 +663,7 @@ var last=performance.now();
   gl.useProgram(sPr);
   gl.depthMask(false);
   gl.uniform1f(sU.yaw,yaw);gl.uniform1f(sU.pitch,pitch);gl.uniform1f(sU.asp,innerWidth/innerHeight);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,skyTex);gl.uniform1i(sU.sky,0);
   gl.bindBuffer(gl.ARRAY_BUFFER,sBuf);
   gl.enableVertexAttribArray(sA);gl.vertexAttribPointer(sA,2,gl.FLOAT,false,0,0);
   gl.drawArrays(gl.TRIANGLES,0,3);
@@ -582,6 +673,7 @@ var last=performance.now();
   gl.useProgram(tPr);
   gl.uniformMatrix4fv(tU.proj,false,P);gl.uniformMatrix4fv(tU.view,false,V);
   gl.uniform2f(tU.center,px,pz);gl.uniform3f(tU.eye,px,eyeY,pz);gl.uniform1f(tU.t,now*0.001);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,groundTex);gl.uniform1i(tU.ground,0);
   gl.bindBuffer(gl.ARRAY_BUFFER,tBuf);
   gl.enableVertexAttribArray(tA);gl.vertexAttribPointer(tA,2,gl.FLOAT,false,0,0);
   gl.drawArrays(gl.TRIANGLES,0,T_N);
@@ -590,6 +682,7 @@ var last=performance.now();
   gl.useProgram(rPr);
   gl.uniformMatrix4fv(rU.proj,false,P);gl.uniformMatrix4fv(rU.view,false,V);
   gl.uniform3f(rU.eye,px,eyeY,pz);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,facadeTex);gl.uniform1i(rU.facade,0);
   gl.bindBuffer(gl.ARRAY_BUFFER,rBuf);
   gl.enableVertexAttribArray(rA);gl.vertexAttribPointer(rA,3,gl.FLOAT,false,0,0);
   gl.bindBuffer(gl.ARRAY_BUFFER,rnBuf);
@@ -610,6 +703,15 @@ var last=performance.now();
     gl.uniform1f(rU.rot,Wl.rot);
     gl.uniform4f(rU.place,Wl.x,Wl.y,Wl.z,1.0);
     gl.uniform3f(rU.size,Wl.w,Wl.h,Wl.d);
+    gl.drawArrays(gl.TRIANGLES,0,R_N);
+  }
+  /* the broken overpass + its rubble/car husks — same plain concrete material */
+  for(var pi=0;pi<SETPIECES.length;pi++){
+    var Sp=SETPIECES[pi];
+    if(Math.hypot(Sp.x-px,Sp.z-pz)>150)continue;
+    gl.uniform1f(rU.rot,Sp.rot);
+    gl.uniform4f(rU.place,Sp.x,Sp.y,Sp.z,1.0);
+    gl.uniform3f(rU.size,Sp.w,Sp.h,Sp.d);
     gl.drawArrays(gl.TRIANGLES,0,R_N);
   }
 
