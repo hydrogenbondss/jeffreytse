@@ -2158,11 +2158,13 @@ setTimeout(function(){
 /* ---------- TITLE PLATE — still, silent-era western ---------- */
 #client .cw-titlecard{position:absolute;inset:0;z-index:24;display:flex;
   align-items:center;justify-content:center;text-align:center;pointer-events:none;overflow:hidden;color:var(--bone);
-  background:radial-gradient(120% 95% at 50% 42%,#3a2812 0%,#241708 55%,#120a04 100%)}
-#client .cw-titlecard::before{content:"";position:absolute;inset:4.5%;border:2px solid rgba(214,178,120,.55);
-  outline:1px solid rgba(214,178,120,.3);outline-offset:6px;border-radius:2px;pointer-events:none}
-#client .cw-titlecard::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='tg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tg)'/%3E%3C/svg%3E")}
+  background:#120a04}
+#client .cw-titlecard::before{content:"";position:absolute;inset:0;background-image:url("assets/west/desert_v2.png");
+  background-size:cover;background-position:center 62%;opacity:.85;animation:tcpan 22s ease-in-out infinite alternate;
+  pointer-events:none}
+#client .cw-titlecard::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(75% 65% at 50% 48%,rgba(10,6,2,.35) 0%,rgba(9,5,2,.72) 62%,#090502 100%)}
+@keyframes tcpan{0%{transform:scale(1.06) translateX(-1%)}100%{transform:scale(1.14) translateX(1%)}}
 #client .cw-titlecard .lt-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.3em;padding:0 8%}
 #client .tc-orn{font-family:'Rye',serif;color:#c98a3a;font-size:clamp(.9rem,2.2vw,1.3rem);letter-spacing:.5em;opacity:.9}
 #client .tc-name{font-family:'Special Elite',monospace;font-size:clamp(.7rem,1.6vw,.95rem);letter-spacing:.42em;
