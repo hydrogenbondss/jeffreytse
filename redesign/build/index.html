@@ -1699,7 +1699,8 @@ setTimeout(function(){
         el.style.filter='brightness('+(1-.72*q).toFixed(3)+') saturate('+(1-.25*q).toFixed(3)+')';}},
       {next:'#client',tsel:'#lab #street',fx:function(el,q){
         el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
-        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';}},
+        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';
+        window.__ashKQ=q;}},
       {next:'#archive',tsel:'#editorial',fx:function(el,q){
         el.style.transform='scale('+(1+.06*q).toFixed(4)+')';
         el.style.filter='brightness('+(1-.55*q).toFixed(3)+') saturate('+(1-.2*q).toFixed(3)+')';}},
@@ -1739,6 +1740,85 @@ setTimeout(function(){
     if(document.readyState==='loading'){
       document.addEventListener('DOMContentLoaded',function(){resolveB();apply();});
     }else{resolveB();apply();}
+  })();
+
+  /* ---------- ASH KALEIDOSCOPE: Lab -> Client Work ----------
+     Ash's real running clip fragments into mirrored, spinning wedges,
+     blending with the horse-rider clip mid-fragmentation, then unfolds
+     into a clean single image. Driven by window.__ashKQ (set by the
+     #client scene-exit above), not a separate scroll listener. */
+  (function(){
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var S=480,canvas,ctx,vRun,vRide,srcRun,sctxRun,srcRide,sctxRide,blended,bctx,kal,kctx,ready=false,t0=null;
+    function mk(){var c=document.createElement('canvas');c.width=c.height=S;return c;}
+    function fitDraw(sctx,video){
+      if(!video.videoWidth)return;
+      var vw=video.videoWidth,vh=video.videoHeight,s=Math.max(S/vw,S/vh),w=vw*s,h=vh*s;
+      sctx.clearRect(0,0,S,S);
+      sctx.drawImage(video,(S-w)/2,(S-h)/2,w,h);
+    }
+    function wedge(dctx,srcCanvas,segments,angle){
+      dctx.clearRect(0,0,S,S);
+      dctx.save();
+      dctx.translate(S/2,S/2);
+      var wa=Math.PI*2/segments;
+      for(var i=0;i<segments;i++){
+        dctx.save();
+        dctx.rotate(i*wa+angle);
+        if(i%2===1)dctx.scale(1,-1);
+        dctx.beginPath();
+        dctx.moveTo(0,0);
+        dctx.arc(0,0,S*0.72,-wa/2-0.02,wa/2+0.02);
+        dctx.closePath();
+        dctx.clip();
+        dctx.drawImage(srcCanvas,-S/2,-S/2,S,S);
+        dctx.restore();
+      }
+      dctx.restore();
+    }
+    function loop(ts){
+      requestAnimationFrame(loop);
+      if(!ready)return;
+      var q=window.__ashKQ||0;
+      var on=q>0.015&&q<0.985;
+      if(!on){canvas.style.opacity='0';return;}
+      canvas.style.opacity=(Math.sin(Math.min(1,q/.15)*Math.PI/2)*Math.sin(Math.min(1,(1-q)/.15)*Math.PI/2)).toFixed(3);
+      if(t0===null)t0=ts;
+      var t=(ts-t0)/1000;
+      if(vRun.paused)vRun.play().catch(function(){});
+      if(vRide.paused)vRide.play().catch(function(){});
+      fitDraw(sctxRun,vRun);
+      fitDraw(sctxRide,vRide);
+      var blendAmt=Math.max(0,Math.min(1,(q-.3)/.4));
+      bctx.clearRect(0,0,S,S);
+      bctx.globalAlpha=1;bctx.drawImage(srcRun,0,0);
+      bctx.globalAlpha=blendAmt;bctx.drawImage(srcRide,0,0);
+      bctx.globalAlpha=1;
+      var fold=Math.sin(Math.min(1,Math.max(0,q))*Math.PI);
+      var segs=6+Math.round(fold*6);
+      ctx.clearRect(0,0,S,S);
+      ctx.drawImage(blended,0,0);
+      if(fold>0.02){
+        wedge(kctx,blended,segs,t*0.6+q*4);
+        ctx.globalAlpha=fold;ctx.drawImage(kal,0,0);ctx.globalAlpha=1;
+      }
+      canvas.style.filter='hue-rotate('+(fold*70).toFixed(0)+'deg) saturate('+(1+fold*.8).toFixed(2)+')';
+    }
+    function init(){
+      canvas=document.getElementById('ashKaleido');
+      vRun=document.getElementById('ashKRun');
+      vRide=document.getElementById('ashKRide');
+      if(!canvas||!vRun||!vRide)return;
+      ctx=canvas.getContext('2d');
+      srcRun=mk();sctxRun=srcRun.getContext('2d');
+      srcRide=mk();sctxRide=srcRide.getContext('2d');
+      blended=mk();bctx=blended.getContext('2d');
+      kal=mk();kctx=kal.getContext('2d');
+      ready=true;
+      requestAnimationFrame(loop);
+    }
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+    else init();
   })();
 
   // ---------- STREET MEDIA BUDGET ----------
@@ -2148,7 +2228,26 @@ setTimeout(function(){
   #client .cw-flick,#client .tc-cue .chev,#client .cw-ash.galloping{animation:none!important}
 }
 
+/* SEAM · Lab -> Client Work: Ash's real running clip fragments into a
+   spinning kaleidoscope of mirrored wedges, blending into the horse-rider
+   clip mid-fragmentation, then unfolds back into a clean single image —
+   he never has to visually "become" a different-looking character in one
+   unbroken shape, the fracture does that work instead. */
+#ashKaleido{position:fixed;left:50%;top:50%;width:min(62vh,62vw);height:min(62vh,62vw);
+  transform:translate(-50%,-50%);border-radius:50%;z-index:60;pointer-events:none;
+  opacity:0;box-shadow:0 40px 100px -20px rgba(0,0,0,.6)}
+@media (prefers-reduced-motion:reduce){#ashKaleido{display:none!important}}
 </style>
+
+<canvas id="ashKaleido" aria-hidden="true" width="480" height="480"></canvas>
+<video id="ashKRun" muted loop playsinline preload="auto" style="display:none">
+  <source src="assets/lab/ash-run.webm" type='video/webm; codecs="vp9"'>
+  <source src="assets/lab/ash-run.mp4" type="video/mp4">
+</video>
+<video id="ashKRide" muted loop playsinline preload="auto" style="display:none">
+  <source src="assets/west/ash_ride_v4.webm" type='video/webm; codecs="vp9"'>
+  <source src="assets/west/ash_ride_v4.mp4" type="video/mp4">
+</video>
 
 <!-- SEAM · Lab → Client Work: the projector starts — a strip
      of film leader between the night street and the western's title plate. -->
