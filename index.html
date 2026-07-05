@@ -659,20 +659,15 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(78,205,196,.08);position:r
       </div>
     </section>
 
-    <section id="tools">
-      <div class="sec-hd"><span class="sec-n">00</span><span class="sec-t">Tools & Technologies</span><div class="sec-line"></div></div>
-      <div id="toolsGrid" class="tools-grid"></div>
-    </section>
-
     <section id="projects">
-      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">00</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
       <div id="pjList"></div>
     </section>
 
 
 
     <section id="writing">
-      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-t">Writing</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-t">Writing</span><div class="sec-line"></div></div>
       <div class="writing-tabs">
         <button class="writing-tab active" onclick="switchWriting('editorial',this)">Editorial</button>
         <button class="writing-tab" onclick="switchWriting('campaigns',this)">Campaigns</button>
@@ -686,13 +681,13 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(78,205,196,.08);position:r
     </section>
 
     <section id="creative">
-      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-t">Creative</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-t">Creative</span><div class="sec-line"></div></div>
       
       <div id="cg" class="cc-grid"></div>
     </section>
 
     <section id="curatorial">
-      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Exhibitions</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-t">Exhibitions</span><div class="sec-line"></div></div>
       <p class="cur-desc">Group and solo exhibitions exploring how identity, memory, and belonging are constructed, contested, and made visible. Click any exhibition to read more.</p>
       <div id="curList"></div>
     </section>
@@ -700,9 +695,14 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(78,205,196,.08);position:r
     
 
     <section id="research">
-      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-t">Research & Writing</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Research & Writing</span><div class="sec-line"></div></div>
       <p class="cur-desc">Academic research, critical essays, and press citations spanning spectatorship ethics, mediated intimacy, and material culture.</p>
       <div id="resList"></div>
+    </section>
+
+    <section id="tools">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-t">Tools & Technologies</span><div class="sec-line"></div></div>
+      <div id="toolsGrid" class="tools-grid"></div>
     </section>
 
     <section id="contact">
@@ -758,7 +758,18 @@ var b=[
    img:`${T}pawsaid-logo.jpg`,
    video:null,
    desc:`PawsAid started from a gap — there were no pet first aid kits that were actually good. Three tiers, each designed for a different situation: the Essential for basics, the Pro for more prepared owners, and the Plus for working animals and professionals. The brand, the packaging, and the platform were all built from scratch. Bilingual (English and Traditional Chinese). Live and shipping.`,
-   link:`https://pawsaid.hk`}
+   link:`https://pawsaid.hk`},
+  {n:`02`,title:`Noru`,cat:`Character · Sticker Brand`,year:`2026`,badge:`live`,bl:`Live`,
+   tagline:`A red panda you can stick anywhere.`,
+   role:`Art Director — character design, illustration`,
+   img:null,
+   desc:`A warm, instantly readable mascot designed to live as die-cut stickers and small goods, built to hold up at thumbnail size.`,
+   link:`https://noru-ai.web.app/#/onboarding`},
+  {n:`03`,title:`Love Bug`,cat:`Interactive · Narrative`,year:`2026`,badge:`live`,bl:`Live`,
+   tagline:`An interactive personality test that maps how you approach romance.`,
+   role:`Writer · Creative Developer`,
+   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/heart-decoder-thumb.jpg`,
+   desc:`Answer through real scenarios — and at the end, meet your archetype: a lens on how you love, what you protect, and what you want from the people you choose.`}
 ];
 
 var C=[
@@ -808,7 +819,7 @@ var C=[
    ]}
 ];
 
-var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`},{title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material transformation across three bag designs. Each film puts one bag through its own generative-video treatment — Ocarina Bag, Flute Soft Bag, Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`A neural-portrait character design carried through from a single still to full motion and voice.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`},{title:`Heart Decoder`,cat:`Interactive · Narrative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/heart-decoder-thumb.jpg`,desc:`An interactive personality test that maps how you approach romance. Answer through real scenarios and situations — and at the end, meet your archetype: a lens on how you love, what you protect, and what you want from the people you choose.`,role:`Writer · Creative Developer`},{title:`Noru`,cat:`Character · Sticker Brand`,year:`2026`,badge:`live`,img:null,desc:`A red panda you can stick anywhere — a warm, instantly readable mascot designed to live as die-cut stickers and small goods, built to hold up at thumbnail size.`,role:`Art Director — character design, illustration`,link:`https://noru-ai.web.app/#/onboarding`}];
+var x=[{title:`Cathedral of Small Hours`,cat:`Interactive · Generative`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/cathedral-thumb.jpg`,desc:`A figure made of language. Move toward it and it dissolves into the words it was made of. Back away and it reforms. Click to shatter. Time of day changes what you see.`,role:`Creative Developer`},{title:`Garden of Returning`,cat:`Generative Art`,year:`2026`,badge:`live`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/garden-thumb.jpg`,desc:`A reed field at dusk. Wind follows your cursor. Be still long enough and something appears beneath the surface. Procedural audio — wind, rain, crickets.`,role:`Creative Developer`},{title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material transformation across three bag designs. Each film puts one bag through its own generative-video treatment — Ocarina Bag, Flute Soft Bag, Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},{title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},{title:`Ash-01`,cat:`Character Design · AI`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/0311.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`A neural-portrait character design carried through from a single still to full motion and voice.`,role:`Character Designer & AI Director`},{title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`}];
 var S=[
 {year:"2026",title:"ROLL CALL",venue:"Material Culture Archive · Interactive",role:"Founder · Researcher",
 artists:"Solo — 43 specimens from Asia and beyond",
