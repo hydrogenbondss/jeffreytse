@@ -1699,29 +1699,7 @@ setTimeout(function(){
         el.style.filter='brightness('+(1-.72*q).toFixed(3)+') saturate('+(1-.25*q).toFixed(3)+')';}},
       {next:'#client',tsel:'#lab #street',fx:function(el,q){
         el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
-        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';
-        var am=document.getElementById('ashMorph');
-        if(!am)return;
-        var on=q>.02&&q<.99;
-        am.classList.toggle('on',on);
-        var a=am.querySelector('.am-a'),b=am.querySelector('.am-b'),fk=am.querySelector('.am-flick');
-        if(on&&a.paused)a.play().catch(function(){});
-        if(on&&b.paused)b.play().catch(function(){});
-        /* phase 1 (0->0.55): Ash walks — drifts left-and-toward-camera, bobbing */
-        var p1=Math.min(1,q/.55), scaleA=.4+1.7*p1*p1;
-        a.style.left=(41.5-24*p1)+'%'; a.style.top=(33+9*p1)+'%';
-        a.style.transform='translate(-50%,-50%) scale('+scaleA.toFixed(3)+')';
-        a.style.opacity=String(1-Math.max(0,Math.min(1,(q-.45)/.15)));
-        a.classList.toggle('walking',p1>0&&p1<1);
-        /* flicker cut ~ midpoint */
-        var fp=Math.max(0,Math.min(1,(q-.45)/.2));
-        fk.style.opacity=String((Math.sin(fp*Math.PI)*.9).toFixed(3));
-        /* phase 3 (0.55->1): he's already riding, settling into the exact
-           corner the real #cwAshVideo occupies so the swap is invisible */
-        var p3=Math.max(0,Math.min(1,(q-.55)/.45));
-        b.style.opacity=String(p3.toFixed(3));
-        b.style.left=(10+8*p3)+'%'; b.style.top=(80-13*p3)+'%';
-        b.style.transform='translate(-50%,-50%) scale('+(1.5-.8*p3).toFixed(3)+')';}},
+        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';}},
       {next:'#archive',tsel:'#editorial',fx:function(el,q){
         el.style.transform='scale('+(1+.06*q).toFixed(4)+')';
         el.style.filter='brightness('+(1-.55*q).toFixed(3)+') saturate('+(1-.2*q).toFixed(3)+')';}},
@@ -2170,35 +2148,9 @@ setTimeout(function(){
   #client .cw-flick,#client .tc-cue .chev,#client .cw-ash.galloping{animation:none!important}
 }
 
-/* SEAM · Lab -> Client Work: the giant Ash from the street WALKS toward camera
-   (his real ash01.mp4 motion clip, not a frozen frame), then a flicker-cut
-   dissolves him into the ash_ride_v4 clip already riding — same alpha video
-   Client Work itself uses, landing at the same corner the real #cwAshVideo
-   sits in, so the handoff at q=1 is invisible. */
-#ashMorph{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0}
-#ashMorph.on{opacity:1}
-#ashMorph video{position:absolute;will-change:transform,opacity}
-#ashMorph .am-a{left:41.5%;top:33%;height:50vh;width:auto;max-width:60vw;object-fit:cover;
-  border-radius:4px;box-shadow:0 30px 70px -20px rgba(0,0,0,.75);
-  opacity:1;transform:translate(-50%,-50%) scale(.4)}
-#ashMorph .am-a.walking{animation:amBob .5s ease-in-out infinite}
-@keyframes amBob{0%,100%{margin-top:0}50%{margin-top:1.2vh}}
-#ashMorph .am-b{left:10%;top:80%;height:60vh;width:auto;max-width:50vw;object-fit:contain;
-  opacity:0;transform:translate(-50%,-50%) scale(1.5)}
-#ashMorph .am-flick{position:absolute;inset:0;background:#0b0704;opacity:0}
-@media (prefers-reduced-motion:reduce){#ashMorph{display:none!important}}
 </style>
 
-<div id="ashMorph" aria-hidden="true">
-  <video class="am-a" src="assets/lab/ash01.mp4" poster="assets/remote/aec942eb-16d1-4e72-a993-4ea13de4b551.png" muted loop playsinline preload="auto"></video>
-  <video class="am-b" poster="assets/west/ash_ride_v4_still.png" muted loop playsinline preload="auto">
-    <source src="assets/west/ash_ride_v4.webm" type='video/webm; codecs="vp9"'>
-    <source src="assets/west/ash_ride_v4.mp4" type="video/mp4">
-  </video>
-  <div class="am-flick"></div>
-</div>
-
-<!-- SEAM · Lab → Client Work: the projector starts — Ash himself is the strip
+<!-- SEAM · Lab → Client Work: the projector starts — a strip
      of film leader between the night street and the western's title plate. -->
 
 <!-- ============ §05 · CLIENT WORK — STOP-MOTION WESTERN CARTOON (v7) ============ -->
