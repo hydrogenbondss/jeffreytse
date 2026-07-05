@@ -37,10 +37,7 @@
   body{
     font-family:'Inter',system-ui,-apple-system,sans-serif;
     color:var(--ink);
-    background:
-      radial-gradient(1200px 800px at 18% -10%, #faf4ee 0%, rgba(250,244,238,0) 55%),
-      radial-gradient(1100px 900px at 92% 110%, #ece6f0 0%, rgba(236,230,240,0) 55%),
-      linear-gradient(160deg, #f4f1ec 0%, #efe9e4 45%, #ece7ee 100%);
+    background:linear-gradient(180deg, #faf4ee 0%, #f7ecec 26%, #eeddd9 46%, #e6cdd2 62%, #dcc1cb 82%, #d3b8c6 100%);
     background-attachment:fixed;
     min-height:100%;
     overflow-x:hidden;
@@ -49,24 +46,48 @@
     line-height:1.6;
   }
 
-  /* slow living aurora behind everything */
+  /* a real place, held lightly: a still horizon at dusk, water below it.
+     no blob-gradient mesh — one calm skyline the whole piece happens inside. */
   .aura{
-    position:fixed;
-    inset:-20vmax;
-    z-index:0;
-    pointer-events:none;
-    filter:blur(60px);
-    opacity:.5;
-    background:
-      radial-gradient(38vmax 38vmax at 30% 30%, rgba(198,154,146,0.30), transparent 60%),
-      radial-gradient(34vmax 34vmax at 72% 64%, rgba(143,131,152,0.26), transparent 62%),
-      radial-gradient(30vmax 30vmax at 50% 88%, rgba(138,154,143,0.22), transparent 60%);
-    animation:drift 34s ease-in-out infinite alternate;
+    position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
   }
-  @keyframes drift{
-    0%{transform:translate3d(-2%, -1%, 0) scale(1);}
-    50%{transform:translate3d(2%, 2%, 0) scale(1.06);}
-    100%{transform:translate3d(-1%, 1%, 0) scale(1.02);}
+  .aura .waterline{
+    position:absolute;left:-8%;right:-8%;top:87%;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(168,115,108,.32) 26%, rgba(143,131,152,.32) 74%, transparent);
+    box-shadow:0 0 36px 6px rgba(198,154,146,.3);
+    animation:sheen 9s ease-in-out infinite;
+  }
+  .aura .sheen{
+    position:absolute;left:50%;top:88%;width:56%;height:20vh;
+    transform:translateX(-50%);
+    background:radial-gradient(closest-side, rgba(255,252,248,.5), transparent 75%);
+    filter:blur(26px);
+    animation:sheen 9s ease-in-out infinite;
+  }
+  .aura .ripple{
+    position:absolute;left:18%;right:18%;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+    opacity:.35;
+  }
+  .aura .ripple.r1{top:92%;animation:rippleDrift 13s ease-in-out infinite;}
+  .aura .ripple.r2{top:96%;animation:rippleDrift 17s ease-in-out infinite reverse;left:26%;right:26%;}
+  .aura .mote{
+    position:absolute;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle, rgba(255,250,243,.85), transparent 70%);
+    filter:blur(.5px);
+    animation:moteDrift 16s ease-in-out infinite;
+  }
+  @keyframes sheen{
+    0%,100%{opacity:.75;transform:translateX(-50%) scale(1);}
+    50%{opacity:1;transform:translateX(-50%) scale(1.05);}
+  }
+  @keyframes rippleDrift{
+    0%,100%{transform:translateX(0) scaleX(1);opacity:.35;}
+    50%{transform:translateX(2%) scaleX(1.08);opacity:.55;}
+  }
+  @keyframes moteDrift{
+    0%,100%{transform:translate3d(0,0,0);opacity:.15;}
+    50%{transform:translate3d(-6px,-14px,0);opacity:.65;}
   }
 
   .grain{
@@ -316,21 +337,17 @@
   .decode-line{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.15rem,3vw,1.5rem);color:var(--ink-soft);min-height:1.5em;transition:opacity .6s var(--ease);}
 
   /* reading */
+  /* the reading sits directly in the scene now — no card, no border.
+     a soft pool of light behind the words does the legibility work instead. */
   .reading-card{
-    background:linear-gradient(160deg, rgba(255,255,255,0.66), rgba(255,255,255,0.42));
-    border:1px solid rgba(255,255,255,0.6);
-    border-radius:28px;
-    padding:clamp(30px,5vw,52px);
-    box-shadow:var(--shadow);
-    backdrop-filter:blur(14px);
     position:relative;
-    overflow:hidden;
+    padding:0 clamp(4px,2vw,10px);
   }
   .reading-card::before{
-    content:"";position:absolute;inset:0;border-radius:28px;padding:1px;
-    background:linear-gradient(160deg,rgba(198,154,146,0.5),rgba(143,131,152,0.2),transparent);
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+    content:"";position:absolute;inset:-9% -10%;z-index:-1;
+    background:radial-gradient(60% 62% at 50% 38%, rgba(250,244,238,.7), rgba(250,244,238,0) 72%);
+    filter:blur(4px);
+    pointer-events:none;
   }
   .tag{
     font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;
@@ -372,7 +389,16 @@
 </style>
 </head>
 <body>
-  <div class="aura" aria-hidden="true"></div>
+  <div class="aura" aria-hidden="true">
+    <div class="waterline"></div>
+    <div class="sheen"></div>
+    <div class="ripple r1"></div>
+    <div class="ripple r2"></div>
+    <div class="mote" style="left:22%;top:38%;width:5px;height:5px;animation-delay:0s;"></div>
+    <div class="mote" style="left:68%;top:30%;width:4px;height:4px;animation-delay:3.2s;"></div>
+    <div class="mote" style="left:80%;top:48%;width:6px;height:6px;animation-delay:6.4s;"></div>
+    <div class="mote" style="left:38%;top:52%;width:3px;height:3px;animation-delay:9.6s;"></div>
+  </div>
   <div class="grain" aria-hidden="true"></div>
 
   <!-- shared svg gradient defs -->
