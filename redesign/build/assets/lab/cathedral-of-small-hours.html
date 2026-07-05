@@ -109,11 +109,18 @@ hasDeriv?'#extension GL_OES_standard_derivatives : enable':'',
 '  else{uv=vec2(vW.x,vW.y);face=2.0;}',
 '  float dEye=length(vW-uEye);',
 hasDeriv?'  float w=(fwidth(uv.x)+fwidth(uv.y))/0.62;':'  float w=clamp(dEye*0.0035,0.006,0.2);',
-'  float g=glyph(uv,w);',
-'  vec2 cell=floor(uv/0.62);',
+/* the rain: every column falls at its own speed, so the code is always
+   pouring down the walls, the floor, the ceiling — never a static texture */
+'  float colX=floor(uv.x/0.62);',
+'  float speed=2.6+hash(vec2(colX,7.1))*5.2;',
+'  float phase=hash(vec2(colX,3.3))*90.0;',
+'  vec2 uvFall=vec2(uv.x,uv.y+uT*speed+phase);',
+'  float g=glyph(uvFall,w);',
+'  vec2 cell=floor(uvFall/0.62);',
 '  float twk=hash(cell+floor(vec2(0.0,uT*2.0)));',            /* slow per-cell shimmer */
-'  float colRain=pow(fract(hash(vec2(cell.x,0.0))*5.7+uT*0.07),3.0);', /* falling emphasis columns */
-'  float base=0.16+0.84*twk*0.35+colRain*0.9;',
+'  float period=8.0;',
+'  float comet=pow(fract(uvFall.y/period),5.0);',              /* a bright head sweeping continuously down every column */
+'  float base=0.18+0.7*twk*0.35+comet*1.35;',
 '  float dist=length(vW-uEye);',
 '  float fog=exp(-dist*0.045);',
 '  float breathe=0.9+0.1*sin(uT*0.7+vW.z*0.05);',
@@ -121,6 +128,9 @@ hasDeriv?'  float w=(fwidth(uv.x)+fwidth(uv.y))/0.62;':'  float w=clamp(dEye*0.0
 '  vec3 deep=vec3(0.008,0.05,0.02);',
 '  vec3 col=deep*(0.4+0.6*fog);',
 '  col+=green*g*base*breathe*fog;',
+/* soft unconditional glow near each comet head — cheap fake bloom, so the
+   rain reads as luminous even where no glyph stroke sits */
+'  col+=green*comet*0.30*fog;',
 /* floor gets a cool reflection streak toward the eye */
 '  if(face>0.5&&face<1.5&&vW.y<0.1){',
 '    float spec=pow(max(0.0,1.0-abs(vW.x-uEye.x)*0.08),3.0)*0.22*fog;',
@@ -201,6 +211,16 @@ function fbox(x0,y0,z0,x1,y1,z1){
   fbox( 17,0,zi-0.4, 21,20,zo+2.6);
   fquad([-60,0,Z0+90],[60,0,Z0+90],[60,0,zi],[-60,0,zi],[0,1,0]);       /* forecourt floor */
 })();
+/* ---------- the altar: a fixed landmark well inside the endless nave —
+   made of the same falling code as everything else, findable by walking
+   straight in from the doorway. A dais, and a tall slab of pure code. ---------- */
+var ALTAR_Z=-10;
+(function(){
+  var az=ALTAR_Z;
+  fbox(-3.2,0,az-2.4, 3.2,0.85,az+2.4);          /* the dais */
+  fbox(-2.5,0.85,az-1.7, 2.5,1.35,az+1.7);       /* dais lip, one step up */
+  fbox(-0.6,1.35,az-0.6, 0.6,7.6,az+0.6);        /* the altar — a tall glowing slab of code */
+})();
 var fBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,fBuf);
 gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(FP),gl.STATIC_DRAW);
 var fnBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,fnBuf);
@@ -245,6 +265,10 @@ var B_N=BQ.length/3;
 var DQ=[];
 [[-2.8,-2.5],[2.5,2.8]].forEach(function(j){
   DQ.push(j[0],0,Z0-0.3, j[1],0,Z0-0.3, j[1],7.5,Z0-0.3, j[0],0,Z0-0.3, j[1],7.5,Z0-0.3, j[0],7.5,Z0-0.3);
+});
+/* the altar's own glow, flanking the slab, world coords, always drawn */
+[[-1.35,-0.95],[0.95,1.35]].forEach(function(j){
+  DQ.push(j[0],0,ALTAR_Z, j[1],0,ALTAR_Z, j[1],8.6,ALTAR_Z, j[0],0,ALTAR_Z, j[1],8.6,ALTAR_Z, j[0],8.6,ALTAR_Z);
 });
 var dBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,dBuf);
 gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(DQ),gl.STATIC_DRAW);
