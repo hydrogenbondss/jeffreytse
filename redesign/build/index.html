@@ -1692,15 +1692,10 @@ setTimeout(function(){
     function els(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
     var BOUNDS=[
       {next:'#works',tsel:'#hero .wrap',fx:function(el,q){
-        /* the page tears away at the corner as it lifts into the scrapbook dark */
-        var t=6+70*q;
-        el.style.transform='translateY('+(-2.4*q).toFixed(3)+'vh) scale('+(1+.075*q).toFixed(4)+') rotate('+(-1.6*q).toFixed(3)+'deg)';
-        el.style.filter='brightness('+(1-.32*q).toFixed(3)+')';
-        el.style.clipPath=q<.02?'none':'polygon(0 0,100% 0,100% 100%,'+(100-t*.55).toFixed(1)+'% 100%,'+(100-t).toFixed(1)+'% '+(100-t*.6).toFixed(1)+'%,0 100%)';}},
+        el.style.transform='translateY('+(-2.4*q).toFixed(3)+'vh) scale('+(1+.075*q).toFixed(4)+')';
+        el.style.filter='brightness('+(1-.32*q).toFixed(3)+')';}},
       {next:'#lab',tsel:'#works .works-spread',fx:function(el,q){
-        /* the scrapbook page turns into the night like a hand flipping it over */
-        el.style.transformOrigin='right center';
-        el.style.transform='perspective(1600px) rotateY(-'+(28*q).toFixed(2)+'deg) scale('+(1+.09*q).toFixed(4)+')';
+        el.style.transform='scale('+(1+.09*q).toFixed(4)+') rotate('+(-.7*q).toFixed(3)+'deg)';
         el.style.filter='brightness('+(1-.72*q).toFixed(3)+') saturate('+(1-.25*q).toFixed(3)+')';}},
       {next:'#client',tsel:'#lab #street',fx:function(el,q){
         el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
@@ -1728,13 +1723,10 @@ setTimeout(function(){
         b.style.left=(10+8*p3)+'%'; b.style.top=(80-13*p3)+'%';
         b.style.transform='translate(-50%,-50%) scale('+(1.5-.8*p3).toFixed(3)+')';}},
       {next:'#archive',tsel:'#editorial',fx:function(el,q){
-        /* the shop lights flicker once, like a switch, before the shelf goes dark */
-        var flick=(q>.28&&q<.5)?Math.sin((q-.28)/.22*Math.PI)*.4:0;
         el.style.transform='scale('+(1+.06*q).toFixed(4)+')';
-        el.style.filter='brightness('+Math.max(.02,(1-.55*q+flick)).toFixed(3)+') saturate('+(1-.2*q).toFixed(3)+')';}},
+        el.style.filter='brightness('+(1-.55*q).toFixed(3)+') saturate('+(1-.2*q).toFixed(3)+')';}},
       {next:'#about',tsel:'#archive .stage',fx:function(el,q){
-        /* the desk settles down and away, like a box being closed */
-        el.style.transform='translateY('+(1.8*q).toFixed(3)+'vh) scale('+(1+.05*q).toFixed(4)+') rotate('+(1.1*q).toFixed(3)+'deg)';
+        el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
         el.style.filter='brightness('+(1-.42*q).toFixed(3)+')';}}
     ];
     /* this script sits mid-document — the later chapters don't exist yet,
