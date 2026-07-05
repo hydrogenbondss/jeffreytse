@@ -968,6 +968,47 @@ if(cloudVid){
   });
 }
 
+// -- PARALLAX --
+var pxHeroCircle=document.querySelector(".h-geo-circle"),
+    pxHeroDots=document.querySelector(".h-geo-dots"),
+    pxHeroGlass=document.querySelector(".h-name-glass"),
+    pxHeroName=document.querySelector(".h-name"),
+    pxSecNums=null, pxPeeks=null, pxTicking=false;
+function refreshParallaxTargets(){
+  pxSecNums=[].slice.call(document.querySelectorAll(".sec-n"));
+  pxPeeks=[].slice.call(document.querySelectorAll(".pj-peek img"));
+}
+var reduceMotion=window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function applyParallax(){
+  pxTicking=false;
+  if(reduceMotion) return;
+  var vh=window.innerHeight, sy=window.scrollY;
+  // Hero: background elements drift slower than the page, foreground drifts slightly faster —
+  // real depth, not just a fade-in-once reveal.
+  var hp=Math.min(sy,vh*1.3);
+  if(pxHeroCircle) pxHeroCircle.style.transform="translateY(calc(-52% + "+(hp*0.32).toFixed(1)+"px)) scale("+(1+hp*0.00035).toFixed(3)+")";
+  if(pxHeroDots) pxHeroDots.style.transform="translateY("+(hp*0.46).toFixed(1)+"px)";
+  if(pxHeroGlass) pxHeroGlass.style.transform="translateY("+(hp*0.18).toFixed(1)+"px)";
+  if(pxHeroName) pxHeroName.style.transform="translateY("+(-hp*0.12).toFixed(1)+"px)";
+  // Section watermark numerals: subtle drift as each header crosses the viewport.
+  if(pxSecNums) pxSecNums.forEach(function(el){
+    var r=el.getBoundingClientRect();
+    if(r.bottom<-200||r.top>vh+200) return;
+    var d=((r.top+r.height/2)-vh/2)/vh;
+    el.style.transform="translateY(calc(-50% + "+(d*34).toFixed(1)+"px))";
+  });
+  // Project thumbnails: gentle image drift inside their frame as they pass through view.
+  document.querySelectorAll(".pj-peek img").forEach(function(el){
+    var r=el.parentElement.getBoundingClientRect();
+    if(r.bottom<-100||r.top>vh+100) return;
+    var d=((r.top+r.height/2)-vh/2)/vh;
+    el.style.transform="translateY("+(d*16).toFixed(1)+"px) scale(1.18)";
+  });
+}
+function onParallaxScroll(){ if(!pxTicking){ pxTicking=true; requestAnimationFrame(applyParallax); } }
+window.addEventListener("scroll",onParallaxScroll,{passive:true});
+window.addEventListener("resize",function(){ refreshParallaxTargets(); applyParallax(); });
+
 window.addEventListener("scroll",function(){
   var h=document.documentElement.scrollHeight-window.innerHeight;
   var pct=h>0?window.scrollY/h:0;
@@ -1716,6 +1757,9 @@ function revealOnScroll(){
     ring.style.cssText='position:absolute;border-radius:50%;border:1px solid rgba(78,205,196,'+cfg.o+');pointer-events:none;z-index:0;width:'+cfg.w+'px;height:'+cfg.w+'px;'+(cfg.t?'top:'+cfg.t+';':'')+(cfg.b?'bottom:'+cfg.b+';':'')+(cfg.r?'right:'+cfg.r+';':'')+(cfg.l?'left:'+cfg.l+';':'');
     s.style.overflow='hidden'; s.appendChild(ring);
   });
+
+  refreshParallaxTargets();
+  applyParallax();
 })();
 </script>
 
