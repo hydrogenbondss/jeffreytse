@@ -1073,16 +1073,8 @@ setTimeout(function(){
   <div class="lc-intro" aria-hidden="true"><b>Lab</b><span>walk the city &middot; drag or &#8592;&#8594;</span></div>
   <button class="lc-edge l" id="lcEdgeL" type="button" aria-label="Walk left">&#8249;</button>
   <button class="lc-edge r" id="lcEdgeR" type="button" aria-label="Walk right">&#8250;</button>
-  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)">
-    <span class="wp-arr" aria-hidden="true">&#8592;</span>
-    <span class="wp-name">Cathedral of <em>Small Hours</em></span>
-    <span class="wp-sub">down the street &middot; walkable</span>
-  </button>
-  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)">
-    <span class="wp-arr" aria-hidden="true">&#8594;</span>
-    <span class="wp-name">Garden of <em>Returning</em></span>
-    <span class="wp-sub">down the street &middot; walkable</span>
-  </button>
+  <button class="lc-hint l" id="lcHintB" type="button" style="--acc:var(--acc-binary)" hidden></button>
+  <button class="lc-hint r" id="lcHintF" type="button" style="--acc:var(--acc-fallow)" hidden></button>
   <div id="lcMap" aria-hidden="true"><span class="lbl">Lab</span></div>
 
   <!-- GTA-style location title (hover label) -->
@@ -1099,25 +1091,16 @@ setTimeout(function(){
     <button class="ci-skip" id="ciSkip" type="button">walk the street &#8594;</button>
   </div>
 
-  <!-- structure approaches at the two ends -->
-  <div class="lc-scene" id="lcBinary" hidden>
-    <button class="lc-structure" type="button" data-piece="binary" data-game="assets/lab/cathedral-of-small-hours.html"
-      style="--acc:var(--acc-binary);">
-      <span class="lc-appr" style="background-image:url('assets/lab/binary_approach.png')" aria-hidden="true"></span>
-      <span class="lc-enterwrap"><b>Cathedral of <em>Small Hours</em></b><i>a cathedral of code &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
-    </button>
-  </div>
-  <div class="lc-scene" id="lcFallow" hidden>
-    <button class="lc-structure" type="button" data-piece="fallow" data-game="assets/lab/garden-of-returning.html"
-      style="--acc:var(--acc-fallow);">
-      <span class="lc-appr" style="background-image:url('assets/lab/fallow_approach.png')" aria-hidden="true"></span>
-      <span class="lc-enterwrap"><b>Garden of <em>Returning</em></b><i>the overgrown city &middot; walkable</i><span class="lc-go">enter &#8594;</span></span>
-    </button>
-  </div>
   <button id="lcBack" type="button" hidden>&#8592; back to the street</button>
+  <!-- Cathedral of Small Hours / Garden of Returning walkable pieces removed:
+       real-time WebGL in an iframe read as laggy and fake, not hyperreal, and
+       the two entry hints below are hidden so nothing links to them anymore.
+       These stubs stay in the DOM (empty, permanently hidden) purely so the
+       existing lcScenes/goScene/enterGame JS below doesn't throw on a null
+       getElementById — do not remove without also cleaning up that JS. -->
+  <div class="lc-scene" id="lcBinary" hidden></div>
+  <div class="lc-scene" id="lcFallow" hidden></div>
 </main>
-
-<!-- the walkable piece takes the whole screen -->
 <div id="lcPlay" hidden>
   <iframe id="lcPlayFrame" title="Walkable piece" allow="pointer-lock; fullscreen"></iframe>
   <button id="lcLeave" type="button">&#8592; leave &middot; back to the street</button>
@@ -2263,7 +2246,6 @@ setTimeout(function(){
   align-items:center;justify-content:center;text-align:center;gap:.4em;
   background:radial-gradient(80% 80% at 50% 46%,#27190a,#120c05 70%,#070402);
   transform:translateX(100%);opacity:0;will-change:transform,opacity}
-#client .cw-endcard::before{content:"";position:absolute;inset:7%;border:2px double rgba(244,234,208,.4);border-radius:4px;pointer-events:none}
 /* night sweeps in ahead of the card — no hard cut against the desert sky */
 #client .cw-endcard::after{content:"";position:absolute;right:100%;top:0;bottom:0;width:30vw;pointer-events:none;
   background:linear-gradient(90deg,rgba(7,4,2,0),rgba(7,4,2,.55) 55%,#070402)}
@@ -2590,14 +2572,17 @@ setTimeout(function(){
     if(!allCaught) o=Math.min(o,0.02);
     endCard.style.transform='translateX('+((1-o)*100).toFixed(1)+'%)';
     endCard.style.opacity=o>0?'1':'0';
-    /* Ash rides off for the horizon as the card sweeps night across the desert */
+    /* Ash rides off for the horizon and clears the frame entirely before the
+       card is legible — he must actually disappear, not just shrink in place */
     var e=o*o*(3-2*o); /* smoothstep */
-    var ride='translate('+(e*window.innerWidth*0.34).toFixed(1)+'px,'+(-e*window.innerHeight*0.22).toFixed(1)+'px) scale('+(1-e*0.66).toFixed(3)+')';
+    var ride='translate('+(e*window.innerWidth*1.25).toFixed(1)+'px,'+(-e*window.innerHeight*0.3).toFixed(1)+'px) scale('+(1-e*0.85).toFixed(3)+')';
+    var gone=String(Math.max(0,1-e*1.6));
     v.style.transform=ride; cv.style.transform=ride;
-    var sh=document.querySelector('#client .cw-ashshadow'); if(sh)sh.style.opacity=String(1-e);
+    v.style.opacity=gone; cv.style.opacity=gone;
+    var sh=document.querySelector('#client .cw-ashshadow'); if(sh)sh.style.opacity=String(Math.max(0,1-e*1.6));
     var neon=document.getElementById('cwNeon'); if(neon)neon.classList.toggle('lit',o>0.72);
     if(o>0){ for(var i=0;i<N;i++) tryCatch(i); meta.innerHTML='<b>The End</b>'; act.style.opacity='0'; }
-    else{ v.style.transform=''; cv.style.transform=''; if(sh)sh.style.opacity=''; }
+    else{ v.style.transform=''; v.style.opacity=''; cv.style.transform=''; cv.style.opacity=''; if(sh)sh.style.opacity=''; }
   }
   function apply(){
     ticking=false;
@@ -2782,10 +2767,10 @@ setTimeout(function(){
      top band. Reads as a correction: (struck) Publications -> Archive,
      loosely circled with a sketchy doodle. */
   #archive .marker{
-    position:absolute;top:5.5%;left:3.6%;z-index:9;max-width:23%;
+    position:absolute;top:5.5%;left:50%;z-index:9;max-width:34%;text-align:center;
     font-family:'Permanent Marker',cursive;color:#141008;
     font-size:clamp(1.3rem,2.5vw,2rem);line-height:1.15;
-    transform:rotate(-3deg);opacity:.92;mix-blend-mode:multiply;
+    transform:translateX(-50%) rotate(-3deg);opacity:.92;mix-blend-mode:multiply;
     pointer-events:none}
   #archive .marker .words{position:relative;display:inline-block;padding:.12em .55em .2em}
   #archive .marker .struck{position:relative;display:inline-block;color:#141008;margin-right:.32em}
@@ -3936,6 +3921,7 @@ void main(){
     set('pm-tag',d.tag);set('pm-name',d.name);set('pm-lede',d.lede);set('pm-role',d.role);set('pm-needs',d.needs||'');
     document.getElementById('pm-body').innerHTML=d.body.replace(/\b(hydrogenbondss\.github\.io\/Rollcall|pawsaid\.hk)\b/g,'<a href="https://$1" target="_blank" rel="noopener">$1</a>');
     const mm=document.getElementById('pm-media');mm.innerHTML='';
+    mm.style.display=(d.media&&d.media.length)?'':'none';
     (d.media||[]).forEach(it=>{const fig=document.createElement('figure');
       if(it.type==='video'){const v=document.createElement('video');v.src=it.src;if(it.poster)v.poster=it.poster;v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('preload','metadata');fig.appendChild(v);if(!reduce)v.play().catch(()=>{});}
       else{const im=document.createElement('img');im.src=it.src;im.loading='lazy';im.alt=it.cap||'';fig.appendChild(im);}
