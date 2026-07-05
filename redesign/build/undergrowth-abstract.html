@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERGROWTH — tree-stump (TIINHOOD style)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     UNDERGROWTH — tree-stump, modelled closely on the TIINHOOD
+     reference. Generated stump photo + red perspective outline
+     and dots around the base, scattered lime labels (real
+     content), a big brush-handwritten line, brand mark. No chrome.
+     ============================================================ */
+  :root{
+    --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Space Mono',monospace; --brush:'Permanent Marker',cursive;
+    --lime:#c6f032; --red:#e8281f; --cream:#f2eee2; --ink:#16210f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--sans)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;color:var(--lime);
+    background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260630_180554_ecd8fdd7-e8e2-40e0-8f88-f1b3a6d95910.png");
+    background-size:cover;background-position:center;box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+
+  /* red perspective outline around the base */
+  .outline{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .outline polygon,.outline polyline{fill:none;stroke:var(--red);stroke-width:1.2;stroke-linejoin:miter;stroke-linecap:round}
+  .dot{position:absolute;z-index:2;width:14px;height:14px;border-radius:50%;background:var(--red)}
+
+  /* scattered lime labels (real content) */
+  .lab{position:absolute;z-index:3;font-family:var(--sans);font-weight:700;font-size:.66rem;line-height:1.05;
+    color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
+  .lab.s{font-weight:600;font-size:.56rem;color:var(--cream)}
+  .ll1{left:8%;top:44%} .ll2{right:9%;top:50%;text-align:right} .ll3{right:12%;top:62%;text-align:right} .ll4{left:10%;top:70%}
+  .free{position:absolute;right:9%;top:26%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.62rem;color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.45)}
+
+  /* big brush-handwritten line + printed echo */
+  .brush{position:absolute;left:6%;bottom:18%;z-index:3;font-family:var(--brush);font-size:clamp(1.9rem,8vw,3rem);
+    line-height:.96;color:var(--lime);width:64%;text-shadow:0 2px 7px rgba(0,0,0,.4)}
+  .echo{position:absolute;left:34%;bottom:31%;z-index:3;font-family:var(--sans);font-weight:700;font-size:.56rem;
+    color:var(--cream);transform:rotate(-2deg);text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+  /* brand mark, bottom-right */
+  .brand{position:absolute;right:6%;bottom:6%;z-index:3;text-align:right}
+  .brand b{display:block;font-family:var(--sans);font-weight:900;font-size:clamp(1.3rem,5vw,1.9rem);letter-spacing:.01em;
+    color:var(--lime);text-shadow:0 1px 5px rgba(0,0,0,.45);text-transform:uppercase}
+  .brand span{display:block;font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);
+    margin-top:3px;line-height:1.4;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <svg class="outline" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true">
+      <!-- ground-plane frame; back edge stops at the trunk (gap 28-72) so it reads as going behind the stump -->
+      <polyline points="28,96 14,96 2,138 98,138 86,96 72,96"/>
+    </svg>
+    <span class="dot" style="left:12%;top:63%"></span>
+    <span class="dot" style="right:12%;top:63%"></span>
+    <span class="dot" style="left:1%;top:91%"></span>
+    <span class="dot" style="right:1%;top:91%"></span>
+    <span class="dot" style="left:28%;top:92%"></span>
+    <span class="dot" style="right:28%;top:92%"></span>
+
+    <div class="free">(co-curated)</div>
+    <div class="lab ll1">Record—<br>the cohort</div>
+    <div class="lab ll2">Audain<br>Gallery</div>
+    <div class="lab ll3 s">2018</div>
+    <div class="lab ll4 s">BFA / BA<br>graduating show</div>
+
+    <div class="echo">what grows in the year everyone graduates</div>
+    <div class="brush">what grows in the<br>year everyone graduates?</div>
+
+    <div class="brand"><b>Undergrowth</b><span>Audain Gallery · Vancouver</span></div>
+  </article>
+  <p class="cap">UNDERGROWTH · generated tree-stump + TIINHOOD-style graphics — red outline + dots, scattered lime labels, brush handwriting, brand mark · no chrome.</p>
+</body>
+</html>

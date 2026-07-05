@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Editorial — Jeffrey N. Tse</title>
+<meta name="description" content="Fashion editorial as a record collection. Chief Editor & Interviewer at I.T Apparels, New York / Hong Kong, 2023–2025. A spinning-vinyl record viewer.">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0c;
+    --panel:#101013;
+    --ink:#f2efe9;
+    --ink-soft:rgba(242,239,233,.66);
+    --ink-faint:rgba(242,239,233,.40);
+    --hair:rgba(242,239,233,.10);
+    --accent:#e6c79a;
+    --hot:#ff5a5f;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --mono:'Courier Prime','Courier New',monospace;
+    --ui:'Inter',system-ui,-apple-system,sans-serif;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(110,90,150,.16), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--ui);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  #editorial{min-height:100vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,52px)}
+
+  /* ---- header ---- */
+  .ed-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:clamp(18px,3vw,30px)}
+  .ed-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+  .ed-title{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.95;letter-spacing:.01em}
+  .ed-title em{font-style:italic;color:var(--accent)}
+  .ed-credit{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--ink-soft);line-height:1.9;text-align:right;max-width:34ch}
+  .ed-credit b{color:var(--ink)}
+  /* read link */
+  .readlink{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#0a0a0c;background:var(--accent);padding:10px 16px;border-radius:5px;text-decoration:none;transition:.25s var(--ease)}
+  .readlink:hover{background:#fff}
+  .readlink[hidden]{display:none}
+  /* typographic plate cover (no photo yet) */
+  .feature .plate{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:8%}
+  .feature .plate.on{display:flex}
+  .feature .plate .pt{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.4vw,3rem);line-height:1.05;color:var(--ink)}
+  .feature .plate .ps{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--ink-soft);margin-top:14px;max-width:34ch}
+  .feature .plate .pn{font-family:var(--mono);font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-top:26px;border:1px dashed var(--hair);padding:5px 11px;border-radius:3px}
+
+  /* ---- main grid ---- */
+  .ed-grid{flex:1;display:grid;grid-template-columns:288px 1fr;gap:clamp(18px,2.4vw,34px);min-height:0}
+
+  /* ---- library rail ---- */
+  .lib{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:16px 14px;display:flex;flex-direction:column;min-height:0}
+  .lib h3{font-family:var(--mono);font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-faint);padding:4px 8px 12px}
+  .lib-list{display:flex;flex-direction:column;gap:3px;overflow:auto}
+  .lib-list::-webkit-scrollbar{width:0}
+  .rec{display:flex;align-items:center;gap:12px;padding:9px 8px;border-radius:9px;cursor:pointer;border:1px solid transparent;text-align:left;background:none;color:inherit;font:inherit;transition:background .25s var(--ease)}
+  .rec:hover{background:rgba(255,255,255,.04)}
+  .rec[aria-current="true"]{background:rgba(255,255,255,.07);border-color:var(--hair)}
+  .rec .thumb{width:46px;height:46px;border-radius:5px;flex:0 0 auto;background:#1a1a1f center/cover no-repeat;box-shadow:0 4px 12px rgba(0,0,0,.5);position:relative}
+  .rec .thumb::after{content:"";position:absolute;inset:0;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+  .rec .meta{min-width:0}
+  .rec .nm{font-size:.86rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rec .sb{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;color:var(--ink-faint);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rec[aria-current="true"] .eq{display:flex}
+  .eq{display:none;gap:2px;margin-left:auto;align-items:flex-end;height:13px}
+  .eq i{width:2px;background:var(--accent);animation:eq 1s var(--ease) infinite}
+  .eq i:nth-child(1){animation-delay:0s}.eq i:nth-child(2){animation-delay:.25s}.eq i:nth-child(3){animation-delay:.5s}
+  @keyframes eq{0%,100%{height:3px}50%{height:13px}}
+
+  /* ---- now-playing stage ---- */
+  .stage{display:flex;flex-direction:column;min-height:0;gap:clamp(14px,2vw,22px)}
+  .np-top{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,2.4vw,32px);align-items:center}
+
+  /* turntable */
+  .deck{position:relative;width:clamp(190px,22vw,260px);aspect-ratio:1/1;flex:0 0 auto}
+  .deck canvas{width:100%;height:100%;display:block}
+  .deck .fallback{position:absolute;inset:0;border-radius:50%;display:none;align-items:center;justify-content:center;background:
+     repeating-radial-gradient(circle at 50% 50%, #111 0 1px, #07070a 1px 3px);box-shadow:0 30px 70px -20px #000}
+  .deck.no3d .fallback{display:flex}
+  .deck.no3d canvas{display:none}
+  .deck .fallback .lbl{width:42%;height:42%;border-radius:50%;background:#222 center/cover no-repeat;box-shadow:0 0 0 4px #0a0a0c, inset 0 0 0 1px rgba(255,255,255,.1);animation:spin 8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* tonearm overlay */
+  .tonearm{position:absolute;top:-2%;right:-4%;width:54%;height:54%;pointer-events:none;transform-origin:84% 14%;transform:rotate(0deg);transition:transform .6s var(--ease);z-index:3}
+  .tonearm svg{width:100%;height:100%;overflow:visible}
+
+  .np-info{min-width:0}
+  .np-kicker{font-family:var(--mono);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+  .np-name{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1;margin-bottom:8px}
+  .np-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:18px}
+  /* scrubber */
+  .scrub{display:flex;align-items:center;gap:11px;margin-bottom:16px;max-width:440px}
+  .scrub .t{font-family:var(--mono);font-size:.58rem;color:var(--ink-faint);min-width:2.4em}
+  .bar{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.12);position:relative;cursor:pointer}
+  .bar .fill{position:absolute;inset:0 auto 0 0;border-radius:3px;background:linear-gradient(90deg,var(--accent),#fff);width:8%}
+  .bar .knob{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);left:8%;box-shadow:0 1px 6px rgba(0,0,0,.6)}
+  /* transport */
+  .transport{display:flex;align-items:center;gap:18px}
+  .tb{width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);background:rgba(255,255,255,.03);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s var(--ease)}
+  .tb:hover{background:var(--accent);color:#0a0a0c;border-color:transparent}
+  .tb.play{width:52px;height:52px;background:var(--ink);color:#0a0a0c;border:0}
+  .tb.play:hover{background:var(--accent)}
+  .tb svg{width:17px;height:17px;fill:currentColor}
+
+  /* featured photo */
+  .feature{position:relative;flex:1;min-height:0;border-radius:14px;overflow:hidden;background:#0e0e11;border:1px solid var(--hair);display:flex;align-items:center;justify-content:center}
+  .feature .media{position:absolute;inset:0;display:none}
+  .feature .media.on{display:block}
+  .feature img,.feature video{width:100%;height:100%;object-fit:cover;display:block}
+  .feature .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 24px 16px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
+  .feature .cap .l{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+  .feature .cap .c{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--ink-soft)}
+  .feature .vbadge{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:#0a0a0c;background:var(--accent);padding:4px 9px;border-radius:3px;display:none}
+  .feature.is-video .vbadge{display:block}
+
+  /* tracklist filmstrip */
+  .strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .strip::-webkit-scrollbar{height:0}
+  .trk{flex:0 0 auto;width:76px;cursor:pointer;text-align:left;background:none;border:0;color:inherit;font:inherit;opacity:.55;transition:opacity .25s var(--ease)}
+  .trk:hover{opacity:.85}
+  .trk[aria-current="true"]{opacity:1}
+  .trk .tk{width:76px;height:76px;border-radius:7px;background:#16161a center/cover no-repeat;box-shadow:0 6px 16px rgba(0,0,0,.45);position:relative;border:1px solid var(--hair)}
+  .trk[aria-current="true"] .tk{border-color:var(--accent)}
+  .trk .tk .pl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem}
+  .trk .tn{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:var(--ink-faint);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trk[aria-current="true"] .tn{color:var(--ink-soft)}
+
+  .ed-foot{margin-top:14px;font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;color:var(--ink-faint)}
+
+  @media(max-width:880px){
+    .ed-grid{grid-template-columns:1fr}
+    .lib{order:-1}
+    .lib-list{flex-direction:row;overflow-x:auto;gap:8px}
+    .rec{flex:0 0 auto;width:210px}
+    .ed-credit{text-align:left}
+    .np-top{grid-template-columns:1fr;justify-items:center;text-align:center}
+    .np-info{text-align:center}
+    .scrub,.transport{justify-content:center;margin-left:auto;margin-right:auto}
+    .feature{min-height:54vh}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .eq i,.deck .fallback .lbl{animation:none}
+  }
+</style>
+</head>
+<body>
+<section id="editorial" aria-label="Editorial — a fashion record collection">
+  <div class="ed-head">
+    <div>
+      <div class="ed-eyebrow">Chief Editor &amp; Interviewer &middot; I.T Apparels</div>
+      <h1 class="ed-title"><em>Editorials</em></h1>
+    </div>
+    <p class="ed-credit"><b>Fashion Editorial</b><br>New York / Hong Kong<br>2023&ndash;2025</p>
+  </div>
+
+  <div class="ed-grid">
+    <!-- LIBRARY -->
+    <aside class="lib">
+      <h3>Library</h3>
+      <div class="lib-list" id="libList" role="listbox" aria-label="Editorial records"></div>
+    </aside>
+
+    <!-- NOW PLAYING -->
+    <div class="stage">
+      <div class="np-top">
+        <div class="deck" id="deck">
+          <canvas id="vinyl"></canvas>
+          <div class="fallback"><div class="lbl" id="fbLabel"></div></div>
+          <div class="tonearm" id="tonearm" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="84" cy="14" r="9" fill="#1b1b1f" stroke="rgba(255,255,255,.18)"/>
+              <circle cx="84" cy="14" r="3" fill="#3a3a40"/>
+              <line x1="84" y1="14" x2="40" y2="58" stroke="#c9c9cf" stroke-width="3.4" stroke-linecap="round"/>
+              <rect x="33" y="54" width="11" height="8" rx="2" transform="rotate(45 38 58)" fill="#e7e7ec"/>
+            </svg>
+          </div>
+        </div>
+        <div class="np-info">
+          <div class="np-kicker" id="npKicker">Now Playing</div>
+          <h2 class="np-name" id="npName">&mdash;</h2>
+          <div class="np-sub" id="npSub">&mdash;</div>
+          <div class="scrub">
+            <span class="t" id="tPos">01</span>
+            <div class="bar" id="bar"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
+            <span class="t" id="tLen">01</span>
+          </div>
+          <div class="transport">
+            <button class="tb" id="prev" aria-label="Previous editorial"><svg viewBox="0 0 24 24"><path d="M7 6v12H5V6h2zm12 0v12l-9-6 9-6z"/></svg></button>
+            <button class="tb play" id="play" aria-label="Spin / pause record"><svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7L8 5z"/></svg></button>
+            <button class="tb" id="next" aria-label="Next editorial"><svg viewBox="0 0 24 24"><path d="M17 6v12h2V6h-2zM5 6v12l9-6-9-6z"/></svg></button>
+          </div>
+          <a class="readlink" id="readlink" href="#" target="_blank" rel="noopener">Read the editorial &#8599;</a>
+        </div>
+      </div>
+
+      <!-- FEATURED PHOTO -->
+      <div class="feature" id="feature">
+        <div class="cap"><span class="l" id="capL">&mdash;</span><span class="c" id="capC">01 / 01</span></div>
+      </div>
+      <div class="ed-foot" id="foot">Select a record from the library &mdash; each cover becomes the label on the vinyl.</div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var CDN="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/";
+  function u(id){return CDN+id+".png";}
+
+  /* ---------- DATA — I.T Apparels editorials (real titles + links) ---------- */
+  var RECORDS=[
+    { name:"NO ZIPPERS, NO APOLOGIES", sub:"Renaissance Renaissance — Cynthia Merhej’s Craft of Resistance", year:"FW25",
+      link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",
+      cover:u("fe2a6de7-22ee-4151-baf8-894b1ab7bec0") },
+    { name:"MARKGONG FALL 2025", sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia", year:"FW25",
+      link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",
+      cover:u("958a7f37-45e7-4b17-8b74-f88b2b35eab5") },
+    { name:"MASAYUKI INO", sub:"Doublet — Crafting Dreams into Reality", year:"Interview",
+      link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",
+      cover:null, plate:"#2b2b33" },
+    { name:"A BATHING APE®", sub:"Fall / Winter 2024 in Shanghai", year:"FW24",
+      link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",
+      cover:null, plate:"#243036" },
+    { name:"THE RISE OF BLOKECORE", sub:"Celebrating Football-Inspired Fashion", year:"",
+      link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",
+      cover:u("3d9d5a6e-cd0d-416b-a637-0b200b33ae4b") },
+    { name:"THE GOTHIC REALM OF DARK FASHION", sub:"Obsidian Elegance", year:"SS24",
+      link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",
+      cover:null, plate:"#191920" },
+    { name:"PONDER.ER SS24", sub:"Road Trip to Heaven", year:"SS24",
+      link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",
+      cover:u("3a1d91aa-e798-4736-8d20-d9d7a91237eb") },
+    { name:"WESTFALL", sub:"California Punk Culture", year:"SS24",
+      link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",
+      cover:u("22963cb0-dcd4-4720-a4e7-d45deef942e1") },
+    { name:"MOUNTWOOD", sub:"Adventure in the Great Outdoors", year:"",
+      link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",
+      cover:u("213d5de9-fc35-4828-aac3-0b7d6e33eb35") },
+    { name:"SUBI · SUBEZ YETI", sub:"Carhartt WIP — Crafting Community and Sound in Hong Kong’s Music Scene", year:"Interview",
+      link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",
+      cover:u("5d96aa7f-39f3-4918-bdb3-18d1f2c03edd") }
+  ];
+
+  var reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var curRec=0;
+
+  /* ---------- THREE.JS VINYL ---------- */
+  var deck=document.getElementById("deck");
+  var three=false, spinning=true, renderer, scene, camera, group, labelMesh;
+  function grooveTexture(){
+    var c=document.createElement("canvas");c.width=c.height=900;var x=c.getContext("2d");
+    x.fillStyle="#0b0b0d";x.fillRect(0,0,900,900);
+    for(var r=448;r>150;r-=1.4){
+      var v=10+Math.floor(Math.random()*10);
+      x.beginPath();x.arc(450,450,r,0,Math.PI*2);
+      x.strokeStyle="rgba("+v+","+v+","+(v+4)+",.9)";x.lineWidth=1;x.stroke();
+    }
+    var g=x.createLinearGradient(0,0,900,900);
+    g.addColorStop(0,"rgba(255,255,255,.06)");g.addColorStop(.5,"rgba(255,255,255,0)");g.addColorStop(1,"rgba(255,255,255,.05)");
+    x.fillStyle=g;x.beginPath();x.arc(450,450,448,0,Math.PI*2);x.fill();
+    var t=new THREE.CanvasTexture(c);t.anisotropy=4;return t;
+  }
+  function initThree(){
+    if(typeof THREE==="undefined") throw new Error("no three");
+    var cv=document.getElementById("vinyl");
+    renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+    var size=deck.clientWidth||240;
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setSize(size,size,false);
+    scene=new THREE.Scene();
+    camera=new THREE.PerspectiveCamera(32,1,0.1,100);camera.position.set(0,0,7.4);
+    group=new THREE.Group();scene.add(group);
+    var vinyl=new THREE.Mesh(new THREE.CircleGeometry(2.05,128),
+      new THREE.MeshStandardMaterial({map:grooveTexture(),roughness:.46,metalness:.42,color:0xffffff}));
+    group.add(vinyl);
+    var ring=new THREE.Mesh(new THREE.RingGeometry(2.02,2.12,128),
+      new THREE.MeshStandardMaterial({color:0x000000,roughness:.5,metalness:.3,side:THREE.DoubleSide}));
+    ring.position.z=-0.005;group.add(ring);
+    labelMesh=new THREE.Mesh(new THREE.CircleGeometry(0.74,96),
+      new THREE.MeshBasicMaterial({color:0x222227}));
+    labelMesh.position.z=0.012;group.add(labelMesh);
+    var hole=new THREE.Mesh(new THREE.CircleGeometry(0.045,24),new THREE.MeshBasicMaterial({color:0x000000}));
+    hole.position.z=0.02;group.add(hole);
+    scene.add(new THREE.AmbientLight(0xffffff,.55));
+    var key=new THREE.DirectionalLight(0xfff0dd,1.5);key.position.set(-4,5,6);scene.add(key);
+    var rim=new THREE.DirectionalLight(0x88aaff,.5);rim.position.set(5,-3,3);scene.add(rim);
+    three=true;
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(spinning && !reduce) group.rotation.z-=0.012;
+      renderer.render(scene,camera);
+    })();
+    addEventListener("resize",function(){var s=deck.clientWidth||240;renderer.setSize(s,s,false);});
+  }
+  function setLabel(r){
+    var fb=document.getElementById("fbLabel");
+    if(r.cover){
+      if(three){
+        var ld=new THREE.TextureLoader();ld.setCrossOrigin("anonymous");
+        ld.load(r.cover,function(t){
+          labelMesh.material=new THREE.MeshBasicMaterial({map:t});labelMesh.material.needsUpdate=true;
+        });
+      }
+      fb.style.backgroundImage="url('"+r.cover+"')";fb.style.backgroundColor="";
+    }else{
+      if(three && labelMesh){labelMesh.material=new THREE.MeshBasicMaterial({color:parseInt((r.plate||"#1c1c22").slice(1),16)});}
+      fb.style.backgroundImage="none";fb.style.backgroundColor=r.plate||"#1c1c22";
+    }
+  }
+  try{ initThree(); }catch(e){ deck.classList.add("no3d"); three=false; }
+
+  /* ---------- UI WIRING ---------- */
+  var feature=document.getElementById("feature"),
+      libList=document.getElementById("libList"),
+      N=RECORDS.length;
+
+  RECORDS.forEach(function(r,i){
+    var b=document.createElement("button");b.className="rec";b.setAttribute("role","option");
+    var thumb = r.cover
+      ? '<span class="thumb" style="background-image:url(\''+r.cover+'\')"></span>'
+      : '<span class="thumb" style="background:'+(r.plate||"#1c1c22")+'"></span>';
+    b.innerHTML=thumb+
+      '<span class="meta"><span class="nm">'+r.name+'</span><span class="sb">'+(r.year||"Editorial")+'</span></span>'+
+      '<span class="eq"><i></i><i></i><i></i></span>';
+    b.addEventListener("click",function(){ loadRecord(i); });
+    libList.appendChild(b);
+  });
+
+  function loadRecord(i){
+    curRec=i;var r=RECORDS[i];
+    Array.prototype.forEach.call(libList.children,function(c,k){c.setAttribute("aria-current",k===i?"true":"false");});
+    setLabel(r);
+    document.getElementById("tonearm").style.transform="rotate(14deg)";
+    document.getElementById("npName").textContent=r.name;
+    document.getElementById("npSub").textContent=r.sub+(r.year?("  ·  "+r.year):"");
+    // featured pane
+    Array.prototype.forEach.call(feature.querySelectorAll(".media,.plate"),function(m){m.remove();});
+    var cap=feature.querySelector(".cap"), el;
+    if(r.cover){
+      el=document.createElement("div");el.className="media on";
+      el.innerHTML='<img src="'+r.cover+'" alt="'+r.name+'" loading="lazy">';
+    }else{
+      el=document.createElement("div");el.className="plate on";el.style.background=r.plate||"#1c1c22";
+      el.innerHTML='<div><div class="pt">'+r.name+'</div><div class="ps">'+r.sub+'</div><div class="pn">cover image pending</div></div>';
+    }
+    feature.insertBefore(el,cap);
+    document.getElementById("capL").textContent=r.name;
+    document.getElementById("capC").textContent=String(i+1).padStart(2,"0")+" / "+String(N).padStart(2,"0");
+    // scrubber reflects position in the collection
+    document.getElementById("tPos").textContent=String(i+1).padStart(2,"0");
+    document.getElementById("tLen").textContent=String(N).padStart(2,"0");
+    var pct=N>1?(i/(N-1))*100:8;
+    document.getElementById("fill").style.width=pct+"%";
+    document.getElementById("knob").style.left=pct+"%";
+    // read link
+    var rl=document.getElementById("readlink");
+    if(r.link){rl.href=r.link;rl.hidden=false;}else{rl.hidden=true;}
+    spinning=true;syncPlayIcon();
+  }
+
+  function syncPlayIcon(){
+    document.getElementById("playIcon").innerHTML=spinning
+      ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'
+      : '<path d="M8 5v14l11-7L8 5z"/>';
+  }
+  document.getElementById("play").addEventListener("click",function(){spinning=!spinning;syncPlayIcon();});
+  document.getElementById("next").addEventListener("click",function(){loadRecord((curRec+1)%N);});
+  document.getElementById("prev").addEventListener("click",function(){loadRecord((curRec-1+N)%N);});
+  document.getElementById("bar").addEventListener("click",function(e){
+    var rect=this.getBoundingClientRect();var p=(e.clientX-rect.left)/rect.width;
+    loadRecord(Math.max(0,Math.min(N-1,Math.round(p*(N-1)))));
+  });
+  addEventListener("keydown",function(e){
+    if(e.key==="ArrowRight"){document.getElementById("next").click();}
+    if(e.key==="ArrowLeft"){document.getElementById("prev").click();}
+  });
+
+  loadRecord(0);
+})();
+</script>
+</body>
+</html>

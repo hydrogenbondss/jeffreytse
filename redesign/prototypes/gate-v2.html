@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeffrey N. Tse</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Courier+Prime&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#040608;cursor:none}
+#gate{position:fixed;inset:0;z-index:10;background:#040608}
+#gate-canvas{position:absolute;inset:0;width:100%;height:100%}
+#cursor{position:fixed;width:6px;height:6px;background:rgba(255,255,255,0.85);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cursor-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s,border-color 0.2s}
+#gate-ui{position:absolute;inset:0;z-index:5;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:2rem 2.5rem}
+.gate-top{display:flex;justify-content:space-between;align-items:flex-start}
+.gate-label{font-family:'Courier Prime',monospace;font-size:0.48rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.15);line-height:2}
+.gate-coords{font-family:'Courier Prime',monospace;font-size:0.45rem;letter-spacing:0.12em;color:rgba(255,255,255,0.1);text-align:right;line-height:2}
+.gate-bottom{display:flex;flex-direction:column;align-items:center;gap:1.2rem;padding-bottom:0.5rem}
+.gate-hint{font-family:'Courier Prime',monospace;font-size:0.45rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.18);animation:hint 3s ease-in-out infinite}
+@keyframes hint{0%,100%{opacity:0.1}50%{opacity:0.4}}
+#break-btn{pointer-events:all;cursor:none;font-family:'Courier Prime',monospace;font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(210,230,255,0.85);background:transparent;border:1px solid rgba(210,230,255,0.18);padding:0.7rem 2rem;transition:border-color 0.3s,color 0.3s,box-shadow 0.3s}
+#break-btn:hover{border-color:rgba(210,230,255,0.5);color:#fff;box-shadow:0 0 20px rgba(200,220,255,0.1)}
+#flash{position:fixed;inset:0;z-index:60;background:#e8f0ff;opacity:0;pointer-events:none}
+#shatter-overlay{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0}
+#shatter-svg{width:100%;height:100%}
+.shard{fill:rgba(210,230,255,0.1);stroke:rgba(255,255,255,0.4);stroke-width:0.3}
+#water-pour{position:fixed;inset:0;z-index:45;background:linear-gradient(180deg,rgba(2,10,25,0) 0%,rgba(3,15,35,0.8) 50%,rgba(5,20,45,0.97) 100%);clip-path:inset(100% 0 0 0);pointer-events:none}
+#hero{position:fixed;inset:0;z-index:1;background:#f4f0e8;display:flex;align-items:center;justify-content:center;opacity:0}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,11vw,9rem);font-weight:300;letter-spacing:-0.02em;color:#181410;line-height:0.9;text-align:center}
+.hero-titles{font-family:'Courier Prime',monospace;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(24,20,16,0.35);text-align:center;margin-top:1.8rem}
+/* Loading state */
+#loading{position:fixed;inset:0;z-index:20;background:#040608;display:flex;align-items:center;justify-content:center;font-family:'Courier Prime',monospace;font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.2);transition:opacity 0.5s}
+#loading.hidden{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="loading">Loading tank...</div>
+<div id="hero">
+  <div>
+    <div class="hero-name">Jeffrey<br>N. Tse</div>
+    <div class="hero-titles">Systems Architect &nbsp;·&nbsp; Art Director &nbsp;·&nbsp; Editorial Strategist</div>
+  </div>
+</div>
+<div id="gate">
+  <canvas id="gate-canvas"></canvas>
+  <div id="gate-ui">
+    <div class="gate-top">
+      <div class="gate-label">Jeffrey N. Tse<br>Portfolio — 2026</div>
+      <div class="gate-coords">22.3193° N<br>114.1694° E</div>
+    </div>
+    <div class="gate-bottom">
+      <div class="gate-hint">Move to disturb &nbsp;&nbsp;·&nbsp;&nbsp; Click to break</div>
+      <button id="break-btn" onclick="shatterGate(event)">[ CLICK TO BREAK ]</button>
+    </div>
+  </div>
+  <div id="shatter-overlay"><svg id="shatter-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg></div>
+  <div id="flash"></div>
+  <div id="water-pour"></div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const TANK_URL   = 'https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260628_032917_7723aaf2-f8b9-473a-8c4c-743e761012ca.png';
+const KOI_URLS   = [
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260628_032921_ebf16f15-55e9-43c8-90a8-2d3f5fc278cf.png', // red/white 1
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260628_032921_28373b4c-77cc-4fb0-adb9-d2993b1add27.png', // red/white 2
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260628_032925_cb0f71f5-55e4-4a79-99fa-c60a67cb36a3.png', // black
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260628_032928_18d2d5a6-89c2-4aa2-b222-30486f8b8780.png', // gold
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/hf_20260628_032921_bf908d31-1eff-442c-a128-9877d2be3835.png', // white
+];
+
+const PIXEL_SIZE = 5;       // dot size — the "pixel" in pixel dispersion
+const REPULSE_R  = 100;     // hover radius
+const REPULSE_F  = 6;       // repulsion force
+const RETURN_SPD = 0.07;    // snap-back speed
+const DAMPING    = 0.75;
+
+// ============================================================
+// CURSOR
+// ============================================================
+const cursorEl   = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = -9999, my = -9999;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursorEl.style.left = mx+'px'; cursorEl.style.top = my+'px';
+  cursorRing.style.left = mx+'px'; cursorRing.style.top = my+'px';
+});
+
+// ============================================================
+// CANVAS + PARTICLE SYSTEM
+// ============================================================
+const canvas = document.getElementById('gate-canvas');
+const ctx    = canvas.getContext('2d');
+let W, H;
+let particles = [];
+let broken = false;
+let tick = 0;
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', () => { resize(); buildParticles(); });
+
+// ---- Load image → sample pixels → build particle grid ----
+function imageToParticles(img, destX, destY, destW, destH, scale) {
+  // Draw image to offscreen canvas to sample pixel colours
+  const off = document.createElement('canvas');
+  const srcW = Math.round(destW / PIXEL_SIZE);
+  const srcH = Math.round(destH / PIXEL_SIZE);
+  off.width = srcW; off.height = srcH;
+  const octx = off.getContext('2d');
+  octx.drawImage(img, 0, 0, srcW, srcH);
+  const data = octx.getImageData(0, 0, srcW, srcH).data;
+  const pts = [];
+  for (let row = 0; row < srcH; row++) {
+    for (let col = 0; col < srcW; col++) {
+      const i = (row * srcW + col) * 4;
+      const r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
+      if (a < 20) continue; // skip fully transparent
+      // For koi on black bg: skip near-black pixels
+      if (r < 12 && g < 12 && b < 12) continue;
+      const x = destX + col * PIXEL_SIZE + PIXEL_SIZE/2;
+      const y = destY + row * PIXEL_SIZE + PIXEL_SIZE/2;
+      pts.push({
+        ox: x, oy: y, x, y,
+        vx: 0, vy: 0,
+        col: `rgb(${r},${g},${b})`,
+        alpha: a/255,
+        size: PIXEL_SIZE - 0.8,
+      });
+    }
+  }
+  return pts;
+}
+
+// Koi fish swim state
+const fishStates = KOI_URLS.map((_, i) => ({
+  x: 0, y: 0, vx: 0, vy: 0, angle: 0,
+  // Different starting positions spread across tank area (avoid bottom sand)
+  startX: 0, startY: 0,
+  w: 0, h: 0,
+  startIdx: 0, count: 0,
+}));
+
+let tankParticles = [];
+let allLoaded = false;
+
+async function loadImage(url) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload  = () => res(img);
+    img.onerror = () => rej(new Error('Failed: '+url));
+    img.src = url;
+  });
+}
+
+async function buildParticles() {
+  particles = [];
+  resize();
+
+  // Tank fills full screen
+  const tankImg = await loadImage(TANK_URL);
+  const tankPts = imageToParticles(tankImg, 0, 0, W, H, 1);
+  tankPts.forEach(p => { p.isTank = true; particles.push(p); });
+
+  // Koi fish — distributed across tank swim area
+  const swimArea = { x: W*0.08, y: H*0.1, w: W*0.84, h: H*0.72 };
+  const positions = [
+    { x: swimArea.x + swimArea.w*0.15, y: swimArea.y + swimArea.h*0.3  },
+    { x: swimArea.x + swimArea.w*0.6,  y: swimArea.y + swimArea.h*0.55 },
+    { x: swimArea.x + swimArea.w*0.38, y: swimArea.y + swimArea.h*0.2  },
+    { x: swimArea.x + swimArea.w*0.72, y: swimArea.y + swimArea.h*0.38 },
+    { x: swimArea.x + swimArea.w*0.25, y: swimArea.y + swimArea.h*0.65 },
+  ];
+  // Fish size — relative to tank
+  const fishW = Math.min(W*0.14, 160);
+  const fishH = fishW * 0.45;
+
+  for (let fi = 0; fi < KOI_URLS.length; fi++) {
+    const koiImg = await loadImage(KOI_URLS[fi]);
+    const pos = positions[fi];
+    const startIdx = particles.length;
+    const pts = imageToParticles(koiImg, pos.x - fishW/2, pos.y - fishH/2, fishW, fishH, 1);
+    pts.forEach(p => { p.isFish = true; p.fishId = fi; particles.push(p); });
+    fishStates[fi].x = pos.x;
+    fishStates[fi].y = pos.y;
+    fishStates[fi].w = fishW;
+    fishStates[fi].h = fishH;
+    fishStates[fi].startIdx = startIdx;
+    fishStates[fi].count = pts.length;
+    // Random gentle swim velocity
+    const speed = 0.3 + Math.random()*0.3;
+    const angle = Math.random()*Math.PI*2;
+    fishStates[fi].vx = Math.cos(angle)*speed;
+    fishStates[fi].vy = Math.sin(angle)*speed*0.4;
+  }
+
+  allLoaded = true;
+  document.getElementById('loading').classList.add('hidden');
+}
+
+// ---- Swim: move fish state → update particle origins ----
+function swimFish() {
+  const swimArea = { x: W*0.06, y: H*0.08, w: W*0.88, h: H*0.74 };
+
+  fishStates.forEach((fish, fi) => {
+    // Gentle random turn
+    fish.vx += (Math.random()-0.5)*0.04;
+    fish.vy += (Math.random()-0.5)*0.025;
+    // Speed cap
+    const spd = Math.sqrt(fish.vx*fish.vx+fish.vy*fish.vy);
+    const maxSpd = 0.7;
+    if(spd > maxSpd){ fish.vx *= maxSpd/spd; fish.vy *= maxSpd/spd; }
+    // Minimum speed so fish always move
+    const minSpd = 0.2;
+    if(spd < minSpd && spd > 0){ fish.vx *= minSpd/spd; fish.vy *= minSpd/spd; }
+
+    fish.x += fish.vx;
+    fish.y += fish.vy;
+
+    // Bounce off swim area walls
+    const margin = fish.w*0.6;
+    if(fish.x < swimArea.x+margin){ fish.vx = Math.abs(fish.vx); }
+    if(fish.x > swimArea.x+swimArea.w-margin){ fish.vx = -Math.abs(fish.vx); }
+    if(fish.y < swimArea.y+fish.h*0.5){ fish.vy = Math.abs(fish.vy); }
+    if(fish.y > swimArea.y+swimArea.h-fish.h*0.5){ fish.vy = -Math.abs(fish.vy); }
+
+    // Update each particle's origin to follow fish center
+    const dx = fish.x - (positions_cache[fi] ? positions_cache[fi].x : fish.x);
+    const dy = fish.y - (positions_cache[fi] ? positions_cache[fi].y : fish.y);
+    for(let i = fish.startIdx; i < fish.startIdx+fish.count && i < particles.length; i++){
+      const p = particles[i];
+      p.ox += dx; p.oy += dy;
+    }
+    if(!positions_cache[fi]) positions_cache[fi] = {};
+    positions_cache[fi].x = fish.x;
+    positions_cache[fi].y = fish.y;
+  });
+}
+
+const positions_cache = [];
+
+// ============================================================
+// RENDER LOOP
+// ============================================================
+function animate() {
+  if(broken) return;
+  requestAnimationFrame(animate);
+  if(!allLoaded) return;
+  tick++;
+
+  // Swim every 2 frames
+  if(tick % 2 === 0) swimFish();
+
+  ctx.clearRect(0,0,W,H);
+  let touching = false;
+
+  particles.forEach(p => {
+    // Repulsion
+    const dx = p.x - mx, dy = p.y - my;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    if(dist < REPULSE_R && dist > 0){
+      const force = (1 - dist/REPULSE_R) * REPULSE_F;
+      p.vx += (dx/dist)*force;
+      p.vy += (dy/dist)*force;
+      if(p.isFish) touching = true;
+    }
+    // Return
+    p.vx += (p.ox - p.x)*RETURN_SPD;
+    p.vy += (p.oy - p.y)*RETURN_SPD;
+    p.vx *= DAMPING; p.vy *= DAMPING;
+    p.x += p.vx; p.y += p.vy;
+
+    // Draw square pixel dot
+    ctx.globalAlpha = p.alpha || 1;
+    ctx.fillStyle = p.col;
+    ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
+  });
+  ctx.globalAlpha = 1;
+
+  // Cursor ring feedback
+  if(touching){
+    cursorRing.style.width = '52px'; cursorRing.style.height = '52px';
+    cursorRing.style.borderColor = 'rgba(200,220,255,0.5)';
+  } else {
+    cursorRing.style.width = '28px'; cursorRing.style.height = '28px';
+    cursorRing.style.borderColor = 'rgba(255,255,255,0.2)';
+  }
+}
+
+// ============================================================
+// SHATTER
+// ============================================================
+function shatterGate(e) {
+  if(broken || !allLoaded) return;
+  broken = true;
+  document.getElementById('break-btn').style.pointerEvents = 'none';
+
+  const cx = (e.clientX/W)*100;
+  const cy = (e.clientY/H)*100;
+  const shards = makeShards(cx, cy, 32);
+  const svg = document.getElementById('shatter-svg');
+  svg.innerHTML = '';
+  shards.forEach(pts => {
+    const poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('points', pts.map(p=>p.join(',')).join(' '));
+    poly.setAttribute('class','shard');
+    svg.appendChild(poly);
+  });
+
+  const overlay = document.getElementById('shatter-overlay');
+  const flash   = document.getElementById('flash');
+
+  // Crack appears
+  overlay.style.transition = 'opacity 0.05s';
+  overlay.style.opacity = '1';
+  playShatter();
+
+  // Flash
+  setTimeout(()=>{
+    flash.style.transition='opacity 0.07s';
+    flash.style.opacity='0.6';
+  },80);
+  setTimeout(()=>{
+    flash.style.transition='opacity 0.35s';
+    flash.style.opacity='0';
+  },160);
+
+  // Shards fall
+  setTimeout(()=>{
+    Array.from(svg.children).forEach((poly,i)=>{
+      const tx=(Math.random()-0.5)*140;
+      const ty=60+Math.random()*220;
+      const rot=(Math.random()-0.5)*55;
+      const dur=0.55+Math.random()*0.55;
+      const del=i*18+Math.random()*60;
+      poly.style.transition=`transform ${dur}s cubic-bezier(0.4,0,1,1) ${del}ms,opacity ${dur*0.7}s ease ${del}ms`;
+      poly.style.transformOrigin=`${20+Math.random()*60}% ${20+Math.random()*60}%`;
+      poly.style.transform=`translate(${tx}%,${ty}%) rotate(${rot}deg)`;
+      poly.style.opacity='0';
+    });
+  },200);
+
+  // Particle explosion
+  setTimeout(()=>{
+    particles.forEach(p=>{
+      const dx=p.x-e.clientX, dy=p.y-e.clientY;
+      const d=Math.sqrt(dx*dx+dy*dy)+1;
+      const f=(600/d)*(0.4+Math.random()*0.6);
+      p.vx=(dx/d)*f*0.12;
+      p.vy=(dy/d)*f*0.12+(Math.random()-0.35)*2.5;
+      p.gravity=0.07+Math.random()*0.06;
+      p.exploding=true;
+      p.alpha=p.alpha||1;
+    });
+    explode();
+  },140);
+
+  // Water pour
+  setTimeout(()=>{
+    const w=document.getElementById('water-pour');
+    w.style.transition='clip-path 1.1s cubic-bezier(0.4,0,0.2,1)';
+    w.style.clipPath='inset(0 0 0 0)';
+    setTimeout(()=>{ w.style.transition='opacity 0.9s'; w.style.opacity='0'; },1100);
+  },280);
+
+  // Reveal hero
+  setTimeout(()=>{
+    const gate=document.getElementById('gate');
+    const hero=document.getElementById('hero');
+    gate.style.transition='opacity 0.9s ease';
+    gate.style.opacity='0';
+    hero.style.transition='opacity 0.9s ease 0.2s';
+    hero.style.opacity='1';
+    setTimeout(()=>gate.style.display='none',1400);
+  },1500);
+}
+
+function explode(){
+  ctx.clearRect(0,0,W,H);
+  let live=false;
+  particles.forEach(p=>{
+    if(!p.exploding) return;
+    p.vy+=p.gravity||0.09;
+    p.vx*=0.97;
+    p.x+=p.vx; p.y+=p.vy;
+    p.alpha-=0.013;
+    if(p.alpha>0 && p.y<H+120){
+      ctx.globalAlpha=Math.max(0,p.alpha);
+      ctx.fillStyle=p.col;
+      ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+      live=true;
+    }
+  });
+  ctx.globalAlpha=1;
+  if(live) requestAnimationFrame(explode);
+}
+
+// ============================================================
+// VORONOI SHARDS
+// ============================================================
+function makeShards(cx,cy,n){
+  const sites=[[cx,cy]];
+  for(let i=0;i<n;i++){
+    const a=Math.random()*Math.PI*2;
+    const r=4+Math.random()*60;
+    sites.push([
+      Math.max(0.5,Math.min(99.5,cx+Math.cos(a)*r)),
+      Math.max(0.5,Math.min(99.5,cy+Math.sin(a)*r))
+    ]);
+  }
+  [[0,0],[100,0],[0,100],[100,100],[50,0],[0,50],[100,50],[50,100],
+   [25,0],[75,0],[0,25],[0,75],[100,25],[100,75],[25,100],[75,100]
+  ].forEach(s=>sites.push(s));
+
+  const RES=90;
+  const owner=new Int32Array((RES+1)*(RES+1));
+  for(let gy=0;gy<=RES;gy++){
+    for(let gx=0;gx<=RES;gx++){
+      const px=gx/RES*100,py=gy/RES*100;
+      let best=0,bestD=Infinity;
+      sites.forEach((s,i)=>{const d=(px-s[0])**2+(py-s[1])**2;if(d<bestD){bestD=d;best=i;}});
+      owner[gy*(RES+1)+gx]=best;
+    }
+  }
+  const cellPts=new Array(sites.length).fill(null).map(()=>[]);
+  for(let gy=0;gy<=RES;gy++)
+    for(let gx=0;gx<=RES;gx++)
+      cellPts[owner[gy*(RES+1)+gx]].push([gx/RES*100,gy/RES*100]);
+  return cellPts.filter(p=>p.length>=3).map(p=>hull(p));
+}
+
+function hull(pts){
+  pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
+  const cross=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
+  const lo=[],hi=[];
+  for(const p of pts){while(lo.length>=2&&cross(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}
+  for(let i=pts.length-1;i>=0;i--){const p=pts[i];while(hi.length>=2&&cross(hi[hi.length-2],hi[hi.length-1],p)<=0)hi.pop();hi.push(p);}
+  hi.pop();lo.pop();return lo.concat(hi);
+}
+
+// ============================================================
+// SHATTER SOUND
+// ============================================================
+function playShatter(){
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const len=ac.sampleRate*0.45;
+    const buf=ac.createBuffer(1,len,ac.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,1.4);
+    const src=ac.createBufferSource(); src.buffer=buf;
+    const hpf=ac.createBiquadFilter(); hpf.type='highpass'; hpf.frequency.value=1800;
+    const g=ac.createGain(); g.gain.setValueAtTime(0.35,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.45);
+    src.connect(hpf); hpf.connect(g); g.connect(ac.destination); src.start();
+    [1600,2200,3000,4200,5800].forEach((f,i)=>{
+      const o=ac.createOscillator(),og=ac.createGain();
+      o.frequency.value=f; o.type='sine';
+      og.gain.setValueAtTime(0.06,ac.currentTime+i*0.025);
+      og.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.025+0.12);
+      o.connect(og); og.connect(ac.destination);
+      o.start(ac.currentTime+i*0.025); o.stop(ac.currentTime+i*0.025+0.12);
+    });
+  }catch(e){}
+}
+
+// ============================================================
+// INIT
+// ============================================================
+resize();
+buildParticles().then(()=>animate());
+</script>
+</body>
+</html>

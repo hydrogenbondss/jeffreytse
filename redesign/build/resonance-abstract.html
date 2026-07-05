@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resonance — abstract type piece</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     RESONANCE — abstract type piece, "this-style" direction.
+     No image, no generation. Magenta riso ground; the motif is
+     CONCENTRIC RIPPLE RINGS (resonance / echo / circular canvas);
+     exploded type, scattered real labels, handwriting. Pure CSS.
+     Distinct palette + distinct abstract form vs UNDERGROWTH.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+    --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+    --mag:#c0246a; --cream:#f3efe2; --lime:#d6f02a; --ink:#2a0f1a; --orange:#ff7a1a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--mag);
+    color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.18;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* faint tiled type-texture */
+  .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+    line-height:1.7;letter-spacing:.34em;word-spacing:.5em;text-transform:uppercase;color:rgba(243,239,226,.1);overflow:hidden}
+
+  /* ripple rings — the resonance motif */
+  .glow{position:absolute;left:52%;top:40%;transform:translate(-50%,-50%);width:78%;aspect-ratio:1/1;z-index:1;
+    background:radial-gradient(circle at 50% 50%,rgba(243,239,226,.5),rgba(243,239,226,.12) 38%,transparent 60%)}
+  .rings{position:absolute;left:52%;top:40%;transform:translate(-50%,-50%);width:96%;aspect-ratio:1/1;z-index:2;border-radius:50%;
+    background:repeating-radial-gradient(circle at 50% 50%,transparent 0 15px,rgba(243,239,226,.55) 15px 16.5px)}
+  .rings.r2{left:22%;top:74%;width:52%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 11px,rgba(214,240,42,.6) 11px 12.5px)}
+
+  /* focal title, bottom */
+  .title{position:absolute;left:14px;bottom:54px;z-index:3;font-family:var(--anton);
+    font-size:clamp(2.4rem,10.5vw,3.8rem);line-height:.84;text-transform:uppercase;letter-spacing:.04em;color:var(--cream)}
+
+  /* scattered labels */
+  .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.62rem;line-height:1.12;
+    text-transform:uppercase;color:var(--cream)}
+  .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(243,239,226,.85)}
+  .lab.lime{color:var(--lime)}
+  .l1{left:15px;top:14px} .l2{right:15px;top:14px;text-align:right}
+  .l3{right:15px;bottom:54px;text-align:right} .l4{left:15px;bottom:16px}
+  .mark{position:absolute;right:15px;top:30%;z-index:4;font-family:var(--mark);
+    font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:56%;text-align:right;color:var(--cream);transform:rotate(-2deg)}
+  .mark em{color:var(--lime);font-style:normal}
+
+  .dot{position:absolute;z-index:4;width:13px;height:13px;border-radius:50%;background:var(--lime)}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <div class="tile">RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE RESONANCE</div>
+
+    <div class="glow"></div>
+    <div class="rings"></div>
+    <div class="rings r2"></div>
+
+    <h1 class="title">Reson&shy;ance</h1>
+
+    <div class="lab l1">Curator<br>2017</div>
+    <div class="lab l2 lime">JCCAC<br>Hong Kong</div>
+    <div class="lab s l3">abstract acrylic<br>on circular canvas</div>
+    <div class="lab s l4">memory · identity · trace</div>
+
+    <div class="mark">a feeling that <em>keeps coming back.</em></div>
+
+    <span class="dot" style="left:20%;top:26%"></span>
+    <span class="dot" style="right:24%;top:60%;background:var(--orange)"></span>
+    <span class="dot" style="left:64%;bottom:26%"></span>
+  </article>
+  <p class="cap">RESONANCE · abstract type piece — ripple rings (echo / circular canvas), exploded type, scattered labels · no image, no generation. Distinct palette + motif from UNDERGROWTH.</p>
+</body>
+</html>

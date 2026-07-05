@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cathedral of Small Hours — walk</title>
+<meta name="description" content="Cathedral of Small Hours — a cathedral built from binary. Walk it: WASD + mouse. It does not end, and the code never blurs.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;
+    font-family:'Courier New',ui-monospace,monospace;color:#3bff7e;cursor:crosshair}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+  #veil{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(120% 120% at 50% 50%,transparent 42%,rgba(0,0,0,.66) 100%)}
+  #scan{position:fixed;inset:0;pointer-events:none;opacity:.07;
+    background:repeating-linear-gradient(0deg,rgba(59,255,126,.5) 0 1px,transparent 1px 3px)}
+  #hud{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;pointer-events:none;opacity:.65}
+  #hud::before,#hud::after{content:"";position:absolute;background:#3bff7e}
+  #hud::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}
+  #hud::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
+  #loc{position:fixed;left:22px;bottom:18px;font-size:.6rem;letter-spacing:.24em;opacity:.6;pointer-events:none}
+  /* ---- arrival: the loading screen (honest — it lifts when the world has
+     actually drawn its first frame, never on a fake percentage) ---- */
+  #load{position:fixed;inset:0;z-index:40;background:#000;transition:opacity .8s ease;cursor:default}
+  #load.gone{opacity:0;pointer-events:none}
+  #load .ld-bg{position:absolute;inset:0;background:url('binary_approach.png') center/cover no-repeat;
+    filter:brightness(.86) saturate(1.05);transform:scale(1.02);animation:ldDrift 16s ease-in-out infinite alternate}
+  @keyframes ldDrift{0%{transform:scale(1.02) translateX(-0.6%)}100%{transform:scale(1.06) translateX(0.6%)}}
+  #load .ld-grad{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.45),transparent 30%,transparent 52%,rgba(0,0,0,.88) 100%)}
+  #load .ld-eyebrow{position:absolute;left:6%;bottom:23%;font-size:.62rem;letter-spacing:.34em;color:rgba(59,255,126,.75)}
+  #load .ld-title{position:absolute;left:6%;bottom:11%;font-family:Georgia,'Times New Roman',serif;font-style:italic;
+    font-weight:400;font-size:clamp(2.4rem,6.4vw,4.8rem);line-height:1.02;color:#eef4ea;max-width:14ch;
+    text-shadow:0 4px 44px rgba(0,0,0,.8)}
+  #load .ld-title em{font-style:italic;color:#3bff7e}
+  #load .ld-tip{position:absolute;right:6%;bottom:12%;max-width:34ch;text-align:right;font-size:.64rem;
+    letter-spacing:.2em;line-height:2;color:rgba(238,244,234,.78);transition:opacity .35s ease}
+  #load .ld-state{position:absolute;left:6%;bottom:6.5%;display:flex;align-items:center;gap:10px;
+    font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(59,255,126,.85)}
+  #load .ld-pulse{width:8px;height:8px;border-radius:50%;background:#3bff7e;
+    box-shadow:0 0 12px #3bff7e;animation:ldPulse 1.1s ease-in-out infinite}
+  @keyframes ldPulse{0%,100%{opacity:.25}50%{opacity:1}}
+  #load.ready{cursor:pointer}
+  #load.ready .ld-pulse{animation:none;opacity:1}
+  #load.ready .ld-state{color:#d9ffe6}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="veil"></div><div id="scan"></div><div id="hud"></div>
+<div id="loc">CATHEDRAL OF SMALL HOURS · FORECOURT</div>
+<div id="load">
+  <div class="ld-bg"></div>
+  <div class="ld-grad"></div>
+  <div class="ld-eyebrow">THE LAB &middot; WALKABLE PIECE</div>
+  <div class="ld-title">Cathedral of <em>Small Hours</em></div>
+  <div class="ld-tip" id="ldTip">a cathedral built from binary &mdash; the code never blurs</div>
+  <div class="ld-state"><span class="ld-pulse"></span><span id="ldMsg">raising the nave&hellip;</span></div>
+</div>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('gl');
+var gl=cv.getContext('webgl',{antialias:true});
+if(!gl){document.getElementById('ldMsg').textContent='this piece needs WebGL';return;}
+
+/* ---------- shaders: glyphs are drawn analytically per-fragment from world
+   coordinates, so a 0 or a 1 is exactly as sharp at 400 m as at 40 cm ---------- */
+var VS=[
+'attribute vec3 aPos;','attribute vec3 aNrm;',
+'uniform mat4 uProj;','uniform mat4 uView;','uniform float uZOff;',
+'varying vec3 vW;','varying vec3 vN;',
+'void main(){',
+'  vec3 w=aPos+vec3(0.0,0.0,uZOff);',
+'  vW=w; vN=aNrm;',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'}'].join('\n');
+
+var hasDeriv=!!gl.getExtension('OES_standard_derivatives');
+var FS=[
+hasDeriv?'#extension GL_OES_standard_derivatives : enable':'',
+'precision highp float;',
+'varying vec3 vW;','varying vec3 vN;',
+'uniform vec3 uEye;','uniform float uT;',
+'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}',
+/* glyph field over a 2D plane coordinate uv (world units) */
+'float glyph(vec2 uv, float w){',
+'  vec2 cell=floor(uv/0.62);',
+'  vec2 f=fract(uv/0.62);',                       /* 0..1 inside cell */
+'  float r=hash(cell);',
+'  float on=step(0.5,fract(r*7.31));',            /* which glyph: 0 or 1 */
+'  float g=0.0;',
+'  if(on>0.5){',                                   /* the ONE: a bar + serif */
+'    g=(1.0-smoothstep(0.10-w,0.10+w,abs(f.x-0.52)))*step(0.16,f.y)*step(f.y,0.86);',
+'    g=max(g,(1.0-smoothstep(0.05-w,0.05+w,abs(f.y-0.84)))*step(0.34,f.x)*step(f.x,0.62));',
+'  }else{',                                        /* the ZERO: a ring */
+'    vec2 c=(f-vec2(0.5,0.5))*vec2(1.0,0.78);',
+'    float d=length(c);',
+'    g=smoothstep(0.30+w,0.30-w,d)-smoothstep(0.185+w,0.185-w,d);',
+'  }',
+'  return g;',
+'}',
+'void main(){',
+'  vec3 N=normalize(vN);',
+/* pick the glyph plane by dominant normal axis */
+'  vec2 uv; float face;',
+'  if(abs(N.x)>0.5){uv=vec2(vW.z,vW.y);face=0.0;}',
+'  else if(abs(N.y)>0.5){uv=vec2(vW.x,vW.z);face=1.0;}',
+'  else{uv=vec2(vW.x,vW.y);face=2.0;}',
+'  float dEye=length(vW-uEye);',
+hasDeriv?'  float w=(fwidth(uv.x)+fwidth(uv.y))/0.62;':'  float w=clamp(dEye*0.0035,0.006,0.2);',
+/* the rain: every column falls at its own speed, so the code is always
+   pouring down the walls, the floor, the ceiling — never a static texture */
+'  float colX=floor(uv.x/0.62);',
+'  float speed=2.6+hash(vec2(colX,7.1))*5.2;',
+'  float phase=hash(vec2(colX,3.3))*90.0;',
+'  vec2 uvFall=vec2(uv.x,uv.y+uT*speed+phase);',
+'  float g=glyph(uvFall,w);',
+'  vec2 cell=floor(uvFall/0.62);',
+'  float twk=hash(cell+floor(vec2(0.0,uT*2.0)));',            /* slow per-cell shimmer */
+'  float period=8.0;',
+'  float comet=pow(fract(uvFall.y/period),5.0);',              /* a bright head sweeping continuously down every column */
+'  float base=0.18+0.7*twk*0.35+comet*1.35;',
+'  float dist=length(vW-uEye);',
+'  float fog=exp(-dist*0.045);',
+'  float breathe=0.9+0.1*sin(uT*0.7+vW.z*0.05);',
+'  vec3 green=vec3(0.23,1.0,0.49);',
+'  vec3 deep=vec3(0.008,0.05,0.02);',
+'  vec3 col=deep*(0.4+0.6*fog);',
+'  col+=green*g*base*breathe*fog;',
+/* soft unconditional glow near each comet head — cheap fake bloom, so the
+   rain reads as luminous even where no glyph stroke sits */
+'  col+=green*comet*0.30*fog;',
+/* floor gets a cool reflection streak toward the eye */
+'  if(face>0.5&&face<1.5&&vW.y<0.1){',
+'    float spec=pow(max(0.0,1.0-abs(vW.x-uEye.x)*0.08),3.0)*0.22*fog;',
+'    col+=green*spec;',
+'  }',
+'  gl_FragColor=vec4(col,1.0);',
+'}'].join('\n');
+
+function sh(t,src){var s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(s);return s;}
+var pr=gl.createProgram();
+gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));
+gl.linkProgram(pr);gl.useProgram(pr);
+
+/* ---------- geometry: one nave module, tiled along z ----------
+   floor slab, two column rows, two high walls, clerestory lintels */
+var P=[],Nn=[];
+function quad(a,b,c,d,n){P.push(a[0],a[1],a[2],b[0],b[1],b[2],c[0],c[1],c[2],a[0],a[1],a[2],c[0],c[1],c[2],d[0],d[1],d[2]);
+  for(var i=0;i<6;i++)Nn.push(n[0],n[1],n[2]);}
+function box(x0,y0,z0,x1,y1,z1){
+  quad([x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1],[0,0,1]);
+  quad([x1,y0,z0],[x0,y0,z0],[x0,y1,z0],[x1,y1,z0],[0,0,-1]);
+  quad([x1,y0,z1],[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[1,0,0]);
+  quad([x0,y0,z0],[x0,y0,z1],[x0,y1,z1],[x0,y1,z0],[-1,0,0]);
+  quad([x0,y1,z1],[x1,y1,z1],[x1,y1,z0],[x0,y1,z0],[0,1,0]);
+}
+var MOD=9.0;                       /* module length along z */
+/* floor + ceiling of the module (y up) */
+quad([-16,0,MOD],[16,0,MOD],[16,0,0],[-16,0,0],[0,1,0]);
+quad([-16,17,0],[16,17,0],[16,17,MOD],[-16,17,MOD],[0,-1,0]);
+/* column pair */
+box(-6.8,0,3.6,-5.6,13,4.8);
+box(  5.6,0,3.6, 6.8,13,4.8);
+/* capitals */
+box(-7.3,12.2,3.1,-5.1,13.0,5.3);
+box( 5.1,12.2,3.1, 7.3,13.0,5.3);
+/* side walls */
+quad([-16,0,0],[-16,0,MOD],[-16,17,MOD],[-16,17,0],[1,0,0]);
+quad([16,0,MOD],[16,0,0],[16,17,0],[16,17,MOD],[-1,0,0]);
+/* clerestory lintel beams */
+box(-16,10.5,4.0,-6.8,11.3,4.6);
+box( 6.8,10.5,4.0, 16,11.3,4.6);
+
+var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(P),gl.STATIC_DRAW);
+var nbuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nbuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(Nn),gl.STATIC_DRAW);
+var VERTS=P.length/3;
+
+/* ---------- the outside: forecourt + west front ----------
+   You arrive OUTSIDE. A glyph facade rises at z = Z0 with one doorway;
+   the endless nave exists only beyond it. World coordinates (uZOff = 0). */
+var Z0=30;
+var FP=[],FN=[];
+function fquad(a,b,c,d,n){FP.push(a[0],a[1],a[2],b[0],b[1],b[2],c[0],c[1],c[2],a[0],a[1],a[2],c[0],c[1],c[2],d[0],d[1],d[2]);
+  for(var i=0;i<6;i++)FN.push(n[0],n[1],n[2]);}
+function fbox(x0,y0,z0,x1,y1,z1){
+  fquad([x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1],[0,0,1]);
+  fquad([x1,y0,z0],[x0,y0,z0],[x0,y1,z0],[x1,y1,z0],[0,0,-1]);
+  fquad([x1,y0,z1],[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[1,0,0]);
+  fquad([x0,y0,z0],[x0,y0,z1],[x0,y1,z1],[x0,y1,z0],[-1,0,0]);
+  fquad([x0,y1,z1],[x1,y1,z1],[x1,y1,z0],[x0,y1,z0],[0,1,0]);
+}
+/* west front: two slabs + lintel around a 6m doorway, 24m tall */
+(function(){
+  var zi=Z0-0.6,zo=Z0;
+  [[-16,-3],[3,16]].forEach(function(s){
+    fquad([s[0],0,zo],[s[1],0,zo],[s[1],24,zo],[s[0],24,zo],[0,0,1]);   /* outer face */
+    fquad([s[1],0,zi],[s[0],0,zi],[s[0],24,zi],[s[1],24,zi],[0,0,-1]);  /* inner face */
+  });
+  fquad([-3,7.5,zo],[3,7.5,zo],[3,24,zo],[-3,24,zo],[0,0,1]);           /* lintel outer */
+  fquad([3,7.5,zi],[-3,7.5,zi],[-3,24,zi],[3,24,zi],[0,0,-1]);          /* lintel inner */
+  fquad([-3,0,zi],[-3,0,zo],[-3,7.5,zo],[-3,7.5,zi],[1,0,0]);           /* door jambs */
+  fquad([3,0,zo],[3,0,zi],[3,7.5,zi],[3,7.5,zo],[-1,0,0]);
+  fquad([-3,7.5,zo],[3,7.5,zo],[3,7.5,zi],[-3,7.5,zi],[0,-1,0]);        /* lintel soffit */
+  fquad([-16,24,zo],[16,24,zo],[16,24,zi],[-16,24,zi],[0,1,0]);         /* parapet */
+  fbox(-21,0,zi-0.4,-17,20,zo+2.6);                                     /* buttresses */
+  fbox( 17,0,zi-0.4, 21,20,zo+2.6);
+  fquad([-60,0,Z0+90],[60,0,Z0+90],[60,0,zi],[-60,0,zi],[0,1,0]);       /* forecourt floor */
+})();
+/* ---------- the altar: a fixed landmark well inside the endless nave —
+   made of the same falling code as everything else, findable by walking
+   straight in from the doorway. A dais, and a tall slab of pure code. ---------- */
+var ALTAR_Z=-10;
+(function(){
+  var az=ALTAR_Z;
+  fbox(-3.2,0,az-2.4, 3.2,0.85,az+2.4);          /* the dais */
+  fbox(-2.5,0.85,az-1.7, 2.5,1.35,az+1.7);       /* dais lip, one step up */
+  fbox(-0.6,1.35,az-0.6, 0.6,7.6,az+0.6);        /* the altar — a tall glowing slab of code */
+})();
+var fBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,fBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(FP),gl.STATIC_DRAW);
+var fnBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,fnBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(FN),gl.STATIC_DRAW);
+var F_N=FP.length/3;
+
+var aPos=gl.getAttribLocation(pr,'aPos'),aNrm=gl.getAttribLocation(pr,'aNrm');
+var uProj=gl.getUniformLocation(pr,'uProj'),uView=gl.getUniformLocation(pr,'uView'),
+    uZOff=gl.getUniformLocation(pr,'uZOff'),uEye=gl.getUniformLocation(pr,'uEye'),
+    uT=gl.getUniformLocation(pr,'uT');
+
+/* ---------- transept beacons: columns of light every few bays ---------- */
+var B_VS=[
+'attribute vec3 aPos;','uniform mat4 uProj,uView;','uniform float uZOff;',
+'varying vec3 vW;',
+'void main(){vec3 w=aPos+vec3(0.0,0.0,uZOff);vW=w;gl_Position=uProj*uView*vec4(w,1.0);}'].join('\n');
+var B_FS=[
+'precision mediump float;','varying vec3 vW;','uniform vec3 uEye;','uniform float uT;',
+'void main(){',
+'  float h=clamp(vW.y/17.0,0.0,1.0);',
+'  float core=1.0-abs(h-0.45)*1.5;',
+'  float pulse=0.82+0.18*sin(uT*0.8+vW.z*0.2);',
+'  float d=length(vW-uEye);',
+'  float a=max(core,0.0)*pulse*exp(-d*0.03)*0.5;',
+'  gl_FragColor=vec4(0.45,1.0,0.62,a);',
+'}'].join('\n');
+var bPr=(function(){var p=gl.createProgram();
+  gl.attachShader(p,sh(gl.VERTEX_SHADER,B_VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,B_FS));
+  gl.linkProgram(p);return p;})();
+var BQ=[];
+(function(){
+  function slab(x){
+    BQ.push(x-0.7,0,4.25, x+0.7,0,4.25, x+0.7,17,4.25, x-0.7,0,4.25, x+0.7,17,4.25, x-0.7,17,4.25);
+    BQ.push(x-0.7,0,4.55, x+0.7,0,4.55, x+0.7,17,4.55, x-0.7,0,4.55, x+0.7,17,4.55, x-0.7,17,4.55);
+  }
+  slab(-9.6); slab(9.6);
+})();
+var bBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(BQ),gl.STATIC_DRAW);
+var B_N=BQ.length/3;
+/* light spilling out of the doorway — two jamb slabs, world coords */
+var DQ=[];
+[[-2.8,-2.5],[2.5,2.8]].forEach(function(j){
+  DQ.push(j[0],0,Z0-0.3, j[1],0,Z0-0.3, j[1],7.5,Z0-0.3, j[0],0,Z0-0.3, j[1],7.5,Z0-0.3, j[0],7.5,Z0-0.3);
+});
+/* the altar's own glow, flanking the slab, world coords, always drawn */
+[[-1.35,-0.95],[0.95,1.35]].forEach(function(j){
+  DQ.push(j[0],0,ALTAR_Z, j[1],0,ALTAR_Z, j[1],8.6,ALTAR_Z, j[0],0,ALTAR_Z, j[1],8.6,ALTAR_Z, j[0],8.6,ALTAR_Z);
+});
+var dBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,dBuf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(DQ),gl.STATIC_DRAW);
+var D_N=DQ.length/3;
+var bA=gl.getAttribLocation(bPr,'aPos');
+var bU={proj:gl.getUniformLocation(bPr,'uProj'),view:gl.getUniformLocation(bPr,'uView'),
+  z:gl.getUniformLocation(bPr,'uZOff'),eye:gl.getUniformLocation(bPr,'uEye'),t:gl.getUniformLocation(bPr,'uT')};
+
+/* ---------- data motes: bits rising slowly through the nave ---------- */
+var M_VS=[
+'attribute vec3 aSeed;','uniform mat4 uProj,uView;','uniform float uT;','uniform vec3 uEye;','uniform float uZBase;',
+'varying float vA;',
+'void main(){',
+'  float r=aSeed.z;',
+'  float y=mod(fract(r*13.0)*15.0+uT*(0.25+0.5*fract(r*5.0)),15.5);',
+'  vec3 w=vec3(aSeed.x+sin(uT*0.3+r*29.0)*0.8, y, uZBase+aSeed.y+cos(uT*0.24+r*41.0)*0.8);',
+'  float d=length(w-uEye);',
+'  vA=(0.2+0.5*fract(r*9.0))*exp(-d*0.05);',
+'  gl_Position=uProj*uView*vec4(w,1.0);',
+'  gl_PointSize=clamp(90.0/max(d,1.0),1.2,5.0);',
+'}'].join('\n');
+var M_FS=[
+'precision mediump float;','varying float vA;',
+'void main(){',
+'  vec2 c=gl_PointCoord-0.5;',
+'  float a=smoothstep(0.5,0.1,length(c))*vA;',
+'  gl_FragColor=vec4(0.35,1.0,0.55,a);',
+'}'].join('\n');
+var mPr=(function(){var p=gl.createProgram();
+  gl.attachShader(p,sh(gl.VERTEX_SHADER,M_VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,M_FS));
+  gl.linkProgram(p);return p;})();
+var MN=260;
+var mSeed=new Float32Array(MN*3);
+for(var mi=0;mi<MN;mi++){
+  mSeed[mi*3]=(Math.sin(mi*127.1)*43758.5453%1)*26-13;
+  mSeed[mi*3+1]=((Math.sin(mi*311.7)*43758.5453%1+1)%1)*120-60;
+  mSeed[mi*3+2]=((Math.sin(mi*74.7)*12543.21%1)+1)%1;
+}
+var mBuf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,mBuf);
+gl.bufferData(gl.ARRAY_BUFFER,mSeed,gl.STATIC_DRAW);
+var mA=gl.getAttribLocation(mPr,'aSeed');
+var mU={proj:gl.getUniformLocation(mPr,'uProj'),view:gl.getUniformLocation(mPr,'uView'),
+  t:gl.getUniformLocation(mPr,'uT'),eye:gl.getUniformLocation(mPr,'uEye'),zb:gl.getUniformLocation(mPr,'uZBase')};
+
+/* ---------- matrices ---------- */
+function persp(fov,asp,n,f){var t=1/Math.tan(fov/2);
+  return [t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,2*f*n/(n-f),0];}
+function view(ex,ey,ez,yaw,pitch){
+  var cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+  /* rotate then translate (inverse camera) */
+  var r=[cy,sy*sp,sy*cp, 0,cp,-sp, -sy,cy*sp,cy*cp];
+  return [r[0],r[1],r[2],0, r[3],r[4],r[5],0, r[6],r[7],r[8],0,
+    -(r[0]*ex+r[3]*ey+r[6]*ez),-(r[1]*ex+r[4]*ey+r[7]*ez),-(r[2]*ex+r[5]*ey+r[8]*ez),1];
+}
+
+/* ---------- controls ---------- */
+var yaw=0,pitch=0,px=0,pz=Z0+26,py=1.7;   /* you arrive on the forecourt, facing the west front */
+var keys={},locked=false,dragging=false,lx=0,ly=0;
+
+/* ---------- loading gate: first real frame + a beat, never a fake bar ---------- */
+var loadEl=document.getElementById('load'),ldMsg=document.getElementById('ldMsg'),ldTipEl=document.getElementById('ldTip');
+var ldT0=performance.now(),ldFirst=0,ldReady=false,ldGone=false;
+var TIPS=[
+  'a cathedral built from binary — the code never blurs',
+  'W A S D move · mouse look · SHIFT run',
+  'the doorway on the west front is the only way in — and out',
+  'inside, the nave repeats — but never the same rain',
+  'ESC releases the mouse'];
+var tipI=0;
+setInterval(function(){
+  if(ldGone)return;
+  ldTipEl.style.opacity=0;
+  setTimeout(function(){tipI=(tipI+1)%TIPS.length;ldTipEl.textContent=TIPS[tipI];ldTipEl.style.opacity=1;},350);
+},3000);
+setInterval(function(){
+  if(ldReady||!ldFirst)return;
+  if(performance.now()-ldT0>2200&&performance.now()-ldFirst>250){
+    ldReady=true;loadEl.classList.add('ready');
+    ldMsg.textContent='ready — click to step onto the forecourt';
+  }
+},160);
+function dismissLoad(){
+  if(!ldReady||ldGone)return;
+  ldGone=true;loadEl.classList.add('gone');
+  setTimeout(function(){loadEl.style.display='none';},900);
+  enter();
+}
+loadEl.addEventListener('click',dismissLoad);
+addEventListener('keydown',function(e){if(e.code==='Enter')dismissLoad();});
+
+/* ---------- the small-hours drone: two low sines + a breath of noise ---------- */
+var audioCtx=null,droneGain=null,soundOn=true;
+function initAudio(){
+  if(audioCtx)return;
+  try{
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    droneGain=audioCtx.createGain();droneGain.gain.value=0.022;
+    var o1=audioCtx.createOscillator();o1.type='sine';o1.frequency.value=55;
+    var o2=audioCtx.createOscillator();o2.type='sine';o2.frequency.value=55.6;
+    var o3=audioCtx.createOscillator();o3.type='sine';o3.frequency.value=110.3;
+    var g3=audioCtx.createGain();g3.gain.value=0.25;
+    var lfo=audioCtx.createOscillator();lfo.frequency.value=0.05;
+    var lg=audioCtx.createGain();lg.gain.value=0.012;
+    lfo.connect(lg);lg.connect(droneGain.gain);
+    o1.connect(droneGain);o2.connect(droneGain);o3.connect(g3);g3.connect(droneGain);
+    droneGain.connect(audioCtx.destination);
+    o1.start();o2.start();o3.start();lfo.start();
+  }catch(e){}
+}
+function setSound(on){
+  soundOn=on;
+  var b=document.getElementById('snd');if(b)b.textContent=on?'sound on':'sound off';
+  if(droneGain)droneGain.gain.value=on?0.022:0;
+}
+(function(){
+  var b=document.createElement('button');b.id='snd';b.textContent='sound on';
+  b.style.cssText='position:fixed;top:16px;right:16px;z-index:30;background:rgba(0,8,3,.7);'+
+    'border:1px solid rgba(59,255,126,.25);color:rgba(59,255,126,.55);font-family:Courier New,monospace;'+
+    'font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;padding:.45rem .8rem;cursor:pointer';
+  b.addEventListener('click',function(e){e.stopPropagation();initAudio();setSound(!soundOn);});
+  document.body.appendChild(b);
+})();
+function enter(){initAudio();setSound(soundOn);if(cv.requestPointerLock)cv.requestPointerLock();}
+cv.addEventListener('click',enter);
+document.addEventListener('pointerlockchange',function(){locked=(document.pointerLockElement===cv);});
+document.addEventListener('mousemove',function(e){
+  if(locked){yaw-=e.movementX*0.0023;pitch-=e.movementY*0.0023;}
+  else if(dragging){yaw-=(e.clientX-lx)*0.004;pitch-=(e.clientY-ly)*0.004;lx=e.clientX;ly=e.clientY;}
+  pitch=Math.max(-1.35,Math.min(1.35,pitch));
+});
+cv.addEventListener('pointerdown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;});
+addEventListener('pointerup',function(){dragging=false;});
+addEventListener('keydown',function(e){keys[e.code]=true;
+  if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].indexOf(e.code)>=0)e.preventDefault();});
+addEventListener('keyup',function(e){keys[e.code]=false;});
+/* touch: left half = move forward, drag right half = look */
+var tmove=false;
+cv.addEventListener('touchstart',function(e){var t=e.touches[0];
+  if(t.clientX<innerWidth/2){tmove=true;}else{dragging=true;lx=t.clientX;ly=t.clientY;}},{passive:true});
+loadEl.addEventListener('touchstart',function(){dismissLoad();},{passive:true});
+cv.addEventListener('touchmove',function(e){var t=e.touches[0];
+  if(dragging&&t.clientX>=innerWidth/2){yaw-=(t.clientX-lx)*0.005;pitch-=(t.clientY-ly)*0.005;lx=t.clientX;ly=t.clientY;}},{passive:true});
+cv.addEventListener('touchend',function(){tmove=false;dragging=false;},{passive:true});
+
+function resize(){var d=Math.min(devicePixelRatio||1,2);
+  cv.width=innerWidth*d;cv.height=innerHeight*d;gl.viewport(0,0,cv.width,cv.height);}
+addEventListener('resize',resize);resize();
+
+gl.enable(gl.DEPTH_TEST);
+gl.clearColor(0.002,0.012,0.005,1);
+
+var locEl=document.getElementById('loc'),curZone='';
+var last=performance.now();
+(function frame(now){
+  var dt=Math.min(0.05,(now-last)/1000);last=now;
+  var run=(keys.ShiftLeft||keys.ShiftRight)?8.4:4.2;
+  var fx=Math.sin(yaw),fz=Math.cos(yaw);
+  var mx=0,mz=0;
+  if(keys.KeyW||keys.ArrowUp||tmove){mx-=fx;mz-=fz;}
+  if(keys.KeyS||keys.ArrowDown){mx+=fx;mz+=fz;}
+  if(keys.KeyA||keys.ArrowLeft){mx-=fz;mz+=fx;}
+  if(keys.KeyD||keys.ArrowRight){mx+=fz;mz-=fx;}
+  var l=Math.hypot(mx,mz);
+  var ppx=px,ppz=pz;
+  if(l>0){px+=mx/l*run*dt;pz+=mz/l*run*dt;}
+  /* zones: forecourt outside, doorway band, nave inside — the west front is solid */
+  if(pz>Z0-0.9&&pz<Z0+0.3){
+    if(Math.abs(px)<2.6){px=Math.max(-2.45,Math.min(2.45,px));}
+    else{pz=(ppz>=Z0+0.3)?Z0+0.3:(ppz<=Z0-0.9?Z0-0.9:ppz);px=ppx;}
+  }
+  if(pz<=Z0-0.9){px=Math.max(-14.6,Math.min(14.6,px));}
+  else if(pz>=Z0+0.3){px=Math.max(-58,Math.min(58,px));pz=Math.min(pz,Z0+84);}
+  /* gentle head bob when moving */
+  py=1.7+(l>0?Math.sin(now*0.012)*0.045:0);
+  /* where are we — HUD */
+  var zone=pz<Z0?'NAVE ∞':'FORECOURT';
+  if(zone!==curZone){curZone=zone;locEl.textContent='CATHEDRAL OF SMALL HOURS · '+zone;}
+
+  gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  gl.useProgram(pr);
+  gl.uniformMatrix4fv(uProj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
+  gl.uniformMatrix4fv(uView,false,new Float32Array(view(px,py,pz,yaw,pitch)));
+  gl.uniform3f(uEye,px,py,pz);
+  gl.uniform1f(uT,now*0.001);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.enableVertexAttribArray(aPos);gl.vertexAttribPointer(aPos,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,nbuf);
+  gl.enableVertexAttribArray(aNrm);gl.vertexAttribPointer(aNrm,3,gl.FLOAT,false,0,0);
+
+  /* tile the module around the walker — the nave never ends, but it only
+     exists BEHIND the west front (module must fit inside z <= Z0) */
+  var base=Math.floor(pz/MOD);
+  for(var i=-14;i<=14;i++){
+    var zOff=(base+i)*MOD;
+    if(zOff>Z0-MOD+0.001)continue;
+    gl.uniform1f(uZOff,zOff);
+    gl.drawArrays(gl.TRIANGLES,0,VERTS);
+  }
+  /* the west front + forecourt, in world coordinates */
+  gl.uniform1f(uZOff,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,fBuf);
+  gl.enableVertexAttribArray(aPos);gl.vertexAttribPointer(aPos,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,fnBuf);
+  gl.enableVertexAttribArray(aNrm);gl.vertexAttribPointer(aNrm,3,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLES,0,F_N);
+
+  /* light + air: additive passes, no depth writes */
+  gl.depthMask(false);
+  gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
+  gl.useProgram(bPr);
+  gl.uniformMatrix4fv(bU.proj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
+  gl.uniformMatrix4fv(bU.view,false,new Float32Array(view(px,py,pz,yaw,pitch)));
+  gl.uniform3f(bU.eye,px,py,pz);gl.uniform1f(bU.t,now*0.001);
+  gl.bindBuffer(gl.ARRAY_BUFFER,bBuf);
+  gl.enableVertexAttribArray(bA);gl.vertexAttribPointer(bA,3,gl.FLOAT,false,0,0);
+  for(var bi=-14;bi<=14;bi++){
+    var mod6=((base+bi)%6+6)%6;
+    if(mod6!==2)continue;
+    var bz=(base+bi)*MOD;
+    if(bz>Z0-MOD+0.001)continue;
+    gl.uniform1f(bU.z,bz);
+    gl.drawArrays(gl.TRIANGLES,0,B_N);
+  }
+  /* the doorway glows — light from the small hours spilling out */
+  gl.uniform1f(bU.z,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,dBuf);
+  gl.enableVertexAttribArray(bA);gl.vertexAttribPointer(bA,3,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLES,0,D_N);
+  gl.useProgram(mPr);
+  gl.uniformMatrix4fv(mU.proj,false,new Float32Array(persp(1.15,innerWidth/innerHeight,0.1,320)));
+  gl.uniformMatrix4fv(mU.view,false,new Float32Array(view(px,py,pz,yaw,pitch)));
+  gl.uniform3f(mU.eye,px,py,pz);gl.uniform1f(mU.t,now*0.001);
+  gl.uniform1f(mU.zb,Math.floor(pz/120)*120);
+  gl.bindBuffer(gl.ARRAY_BUFFER,mBuf);
+  gl.enableVertexAttribArray(mA);gl.vertexAttribPointer(mA,3,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.POINTS,0,MN);
+  gl.disable(gl.BLEND);gl.depthMask(true);
+
+  if(!ldFirst)ldFirst=performance.now();   /* the world has truly drawn */
+  requestAnimationFrame(frame);
+})(last);
+})();
+</script>
+</body>
+</html>

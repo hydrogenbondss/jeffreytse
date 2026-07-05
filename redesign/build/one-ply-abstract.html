@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>One-Ply Realism — abstract type piece</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ONE-PLY REALISM — abstract type piece, "this-style".
+     No generation. Tangerine riso ground; motif = an unspooling
+     PAPER STRIP with perforations (toilet paper / infrastructure);
+     exploded type, scattered theme-labels, real essay link. CSS.
+     Distinct palette + form vs UNDERGROWTH (blobs) & Resonance (rings).
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --sans:'Archivo',Helvetica,Arial,sans-serif;
+    --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+    --tang:#e8642a; --paper:#f6f1e6; --ink:#1c1208; --blue:#2536d8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--tang);
+    color:var(--ink);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .tile{position:absolute;inset:-6%;z-index:0;font-family:var(--anton);font-size:clamp(1.5rem,5.6vw,2.1rem);
+    line-height:1.7;letter-spacing:.32em;word-spacing:.5em;text-transform:uppercase;color:rgba(28,18,8,.1);overflow:hidden}
+
+  /* unspooling paper strip + perforations */
+  .strip{position:absolute;top:-5%;left:44%;width:23%;height:88%;z-index:1;background:var(--paper);
+    transform:rotate(4deg);box-shadow:0 0 0 1px rgba(28,18,8,.12),6px 0 14px rgba(0,0,0,.12);
+    background-image:repeating-linear-gradient(180deg,transparent 0 42px,rgba(28,18,8,.22) 42px 43px)}
+  /* the roll at the top of the strip */
+  .roll{position:absolute;top:6%;left:42%;width:27%;aspect-ratio:1/1;z-index:2;border-radius:50%;transform:rotate(4deg);
+    background:radial-gradient(circle at 50% 50%,var(--ink) 0 12%,var(--paper) 12% 20%,var(--ink) 20% 22%,var(--paper) 22%);
+    box-shadow:0 0 0 2px rgba(28,18,8,.2)}
+
+  /* focal title, top-left */
+  .title{position:absolute;left:14px;top:14px;z-index:3;font-family:var(--anton);
+    font-size:clamp(2.4rem,10.5vw,3.8rem);line-height:.82;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+  .title b{font-weight:400;color:var(--paper)}
+
+  .lab{position:absolute;z-index:4;font-family:var(--sans);font-weight:800;font-size:.6rem;line-height:1.12;
+    text-transform:uppercase;color:var(--ink)}
+  .lab.s{font-family:var(--mono);font-weight:400;font-size:.5rem;letter-spacing:.06em;color:rgba(28,18,8,.8)}
+  .lab.pap{color:var(--paper)}
+  .l1{right:15px;top:16px;text-align:right} .l2{left:15px;top:38%} .l3{right:15px;top:54%;text-align:right} .l4{left:15px;bottom:74px}
+  .mark{position:absolute;right:14px;bottom:44px;z-index:4;font-family:var(--mark);
+    font-size:clamp(1.35rem,5.2vw,2rem);line-height:.96;width:54%;text-align:right;color:var(--ink);transform:rotate(-2deg)}
+  .mark em{color:var(--blue);font-style:normal}
+
+  .readlink{position:absolute;left:15px;bottom:16px;z-index:4;font-family:var(--mono);font-weight:700;font-size:.56rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);padding-bottom:1px}
+  .readlink:hover,.readlink:focus-visible{color:var(--blue)}
+
+  .dot{position:absolute;z-index:4;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <div class="tile">ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM ONE-PLY REALISM</div>
+
+    <div class="strip"></div>
+    <div class="roll"></div>
+
+    <h1 class="title">One-Ply<br><b>Realism</b></h1>
+
+    <div class="lab l1 pap">Author<br>ROLL CALL · 2026</div>
+    <div class="lab s l2">supply chains<br>hygiene politics</div>
+    <div class="lab s l3 pap">colonial inheritance<br>economics of default</div>
+    <div class="lab l4">Material Culture<br>Archive</div>
+
+    <div class="mark">the most ignored <em>object in the room.</em></div>
+    <a class="readlink" href="https://hydrogenbondss.github.io/Rollcall/#/essay" target="_blank" rel="noopener">read the full essay →</a>
+
+    <span class="dot" style="left:24%;top:28%"></span>
+    <span class="dot" style="right:30%;top:46%;background:var(--ink)"></span>
+    <span class="dot" style="left:30%;bottom:32%"></span>
+  </article>
+  <p class="cap">ONE-PLY REALISM · abstract type piece — unspooling paper strip + perforations, exploded type, scattered theme-labels, real essay link · no generation.</p>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — Jeffrey N. Tse</title>
+<meta name="description" content="Archive: the scholarly and curatorial record of Jeffrey N. Tse — selected exhibitions, writing and publications. A catalogue index of the human, pre-AI, analogue practice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE — research-archive / catalogue index.
+     Anti-design on purpose: hairlines, accession numbers, footnotes.
+     The argument is the layout. No gradients, no glow, no hero art.
+     ============================================================ */
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+
+  :root{
+    --paper:#e9e6dd;          /* quiet, slightly foxed paper */
+    --paper-2:#e3dfd4;        /* recessed panels */
+    --ink:#1a1814;            /* near-black warm ink */
+    --ink-soft:#3a352c;
+    --meta:#6c6557;           /* muted catalogue grey */
+    --faint:#8e887a;          /* archival annotation */
+    --rule:rgba(26,24,20,.28);
+    --rule-soft:rgba(26,24,20,.16);
+    --hair:rgba(26,24,20,.42);
+    --accent:#7a2e22;         /* oxblood — used only for live links */
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --mono:'Courier Prime','Courier New',monospace;
+    --pad:clamp(20px,5.5vw,96px);
+    --col-acc:7.5rem;         /* accession column width */
+  }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--mono);
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    /* faint paper tooth — flat, no glow */
+    background-image:
+      repeating-linear-gradient(0deg,rgba(26,24,20,.014) 0 1px,transparent 1px 3px);
+  }
+  ::selection{background:rgba(122,46,34,.18)}
+
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(122,46,34,.35)}
+  a:hover,a:focus-visible{border-bottom-color:var(--accent);background:rgba(122,46,34,.06)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  img{display:block;max-width:100%}
+  sup{font-size:.62em;line-height:0}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+
+  /* ---------- MASTHEAD: like an archive box label ---------- */
+  .masthead{
+    padding:clamp(48px,9vh,128px) 0 0;
+  }
+  .filemark{
+    display:flex;flex-wrap:wrap;gap:.4em 2.2em;align-items:baseline;
+    font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--meta);
+    padding-bottom:14px;border-bottom:1px solid var(--hair);
+  }
+  .filemark .grow{flex:1 1 auto}
+  .masthead h1{
+    font-family:var(--serif);font-weight:300;
+    font-size:clamp(2.6rem,8vw,5.4rem);line-height:.96;
+    letter-spacing:.01em;margin:30px 0 0;
+  }
+  .masthead .sub{
+    font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--meta);margin-top:18px;
+  }
+  .colophon{
+    margin:30px 0 0;max-width:64ch;
+    font-family:var(--serif);font-size:1.18rem;line-height:1.62;
+    color:var(--ink-soft);
+  }
+  .colophon .mono{
+    font-family:var(--mono);font-size:.74rem;line-height:1.9;
+    letter-spacing:.04em;color:var(--meta);margin-top:18px;
+    max-width:62ch;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .series{padding:clamp(46px,7vh,92px) 0 0}
+  .series-head{
+    display:flex;flex-wrap:wrap;gap:.6em 1.4em;align-items:baseline;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;margin-bottom:0;
+  }
+  .series-head .no{
+    font-size:.66rem;letter-spacing:.3em;color:var(--meta);
+  }
+  .series-head h2{
+    font-size:.84rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--ink);
+  }
+  .series-head .count{
+    margin-left:auto;font-size:.66rem;letter-spacing:.22em;color:var(--faint);
+  }
+
+  /* ---------- RECORD ROWS (the index) ---------- */
+  .record{
+    display:grid;
+    grid-template-columns:var(--col-acc) 1fr;
+    gap:0 clamp(16px,3vw,40px);
+    padding:clamp(22px,3.4vh,34px) 0;
+    border-bottom:1px solid var(--rule-soft);
+  }
+  .record:last-child{border-bottom:0}
+
+  .acc{
+    font-size:.72rem;letter-spacing:.14em;color:var(--ink);
+    padding-top:.42em;
+  }
+  .acc .accn{font-weight:700}
+  .acc .accy{display:block;color:var(--faint);margin-top:.5em;letter-spacing:.2em}
+
+  .rec-body{min-width:0}
+  .rec-title{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.08;
+    letter-spacing:.005em;margin-bottom:.5em;
+  }
+  .rec-title .it{font-style:italic;font-weight:400}
+  .credit{
+    font-size:.7rem;letter-spacing:.1em;color:var(--meta);
+    text-transform:uppercase;margin-bottom:1.1em;
+    display:flex;flex-wrap:wrap;gap:.3em .9em;
+  }
+  .credit .role{color:var(--ink);font-weight:700}
+  .credit .dot{color:var(--rule)}
+  .abstract{
+    font-family:var(--serif);font-size:1.14rem;line-height:1.62;
+    color:var(--ink-soft);max-width:66ch;
+  }
+  .abstract + .abstract{margin-top:.9em}
+
+  .annot{
+    font-size:.7rem;line-height:1.85;letter-spacing:.03em;
+    color:var(--meta);margin-top:1.2em;max-width:70ch;
+  }
+  .annot .lbl{color:var(--faint);text-transform:uppercase;letter-spacing:.18em;margin-right:.6em}
+
+  /* refs / links list — footnote feel */
+  .refs{
+    list-style:none;margin-top:1.1em;
+    border-top:1px solid var(--rule-soft);
+  }
+  .refs li{
+    display:grid;grid-template-columns:auto 1fr;gap:.7em;
+    font-size:.7rem;line-height:1.7;letter-spacing:.02em;
+    padding:.62em 0;border-bottom:1px solid var(--rule-soft);
+    color:var(--meta);
+  }
+  .refs li .mk{color:var(--ink);font-weight:700;white-space:nowrap}
+  .refs li .ref-t{min-width:0;word-break:break-word}
+  .refs .ext::after{content:" \2197";color:var(--faint);font-weight:400}
+
+  /* scanned plates — small, captioned, in-line evidence */
+  .plates{
+    display:flex;flex-wrap:wrap;gap:clamp(14px,2.4vw,26px);
+    margin-top:1.4em;
+  }
+  figure.plate{margin:0;width:clamp(150px,40%,236px)}
+  figure.plate .frame{
+    border:1px solid var(--hair);
+    background:#cfcabd;
+    padding:7px;
+  }
+  figure.plate img{
+    width:100%;height:auto;
+    /* desaturate slightly: scanned-document feel, flat */
+    filter:grayscale(.32) contrast(.96) brightness(.99);
+  }
+  figure.plate video{width:100%;height:auto;display:block}
+  figure.plate figcaption{
+    font-size:.64rem;line-height:1.6;letter-spacing:.04em;
+    color:var(--meta);margin-top:.7em;
+  }
+  figure.plate figcaption .pno{color:var(--ink);font-weight:700;letter-spacing:.12em}
+
+  /* ---------- EDUCATION: compact two-line ledger ---------- */
+  .edu .record{grid-template-columns:var(--col-acc) 1fr}
+  .edu .rec-title{font-size:clamp(1.35rem,2.8vw,1.8rem);margin-bottom:.35em}
+  .edu .credit{margin-bottom:0}
+
+  /* ---------- COLOPHON / FOOT ---------- */
+  .endmatter{
+    padding:clamp(46px,7vh,90px) 0 clamp(56px,9vh,120px);
+    margin-top:clamp(40px,6vh,80px);
+    border-top:2px solid var(--ink);
+  }
+  .endmatter .lines{
+    font-size:.68rem;line-height:2;letter-spacing:.08em;color:var(--meta);
+  }
+  .endmatter .lines .k{color:var(--faint);text-transform:uppercase;letter-spacing:.2em;display:inline-block;min-width:11.5em}
+  .endmatter .stamp{
+    margin-top:26px;font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--faint);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:680px){
+    :root{--col-acc:1fr}
+    .record{grid-template-columns:1fr;gap:0}
+    .acc{
+      padding-top:0;margin-bottom:1em;
+      display:flex;gap:1.4em;align-items:baseline;
+    }
+    .acc .accy{display:inline;margin-top:0}
+    .edu .record{grid-template-columns:1fr}
+    figure.plate{width:clamp(132px,44%,200px)}
+  }
+
+  /* ---------- MOTION (there is essentially none; honour the pref anyway) ---------- */
+  @media (prefers-reduced-motion:no-preference){
+    .record,.series,.masthead>*{
+      animation:fade .8s ease both;
+    }
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<main class="archive" id="archive">
+
+  <!-- ========================= MASTHEAD ========================= -->
+  <header class="masthead wrap" aria-labelledby="arch-title">
+    <div class="filemark">
+      <span>Archive</span>
+      <span>Coll. J. N. Tse</span>
+      <span>Scholarly &amp; Curatorial Record</span>
+      <span class="grow"></span>
+      <span>Series I–II</span>
+    </div>
+    <h1 id="arch-title">Archive</h1>
+    <p class="sub">Selected Exhibitions &middot; Writing &amp; Scholarship</p>
+    <p class="colophon">
+      The record kept by hand — the human, pre-digital part of the practice. Catalogued
+      the way an archive catalogues: by accumulation, by citation, by the patient insistence
+      that each entry is evidence of something.
+      <span class="mono">
+        Items are listed in accession order. Roles (Curator, Co-Curator, Artist) are factual
+        positions held in specific exhibitions, not self-titles. External references resolve to
+        live sources where they survive.
+      </span>
+    </p>
+  </header>
+
+  <!-- ========================= SERIES I — EXHIBITIONS ========================= -->
+  <section class="series wrap" aria-labelledby="ser-ex">
+    <div class="series-head">
+      <span class="no">Series I</span>
+      <h2 id="ser-ex">Selected Exhibitions</h2>
+      <span class="count">EX-01 — EX-05</span>
+    </div>
+
+    <!-- EX-01 -->
+    <article class="record">
+      <div class="acc"><span class="accn">EX-01</span><span class="accy">2019</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title"><span class="it">Welcome Home</span></h3>
+        <p class="credit">
+          <span class="role">Curator</span><span class="dot">/</span>
+          <span>Wil Aballe Art Projects</span><span class="dot">/</span>
+          <span>Vancouver</span><span class="dot">/</span>
+          <span>2019</span>
+        </p>
+        <p class="abstract">
+          How does our sense of self come to inform the spaces we occupy — and how do the
+          spaces we occupy inform our sense of self? Building on Steven Vertovec's concept of
+          superdiversity, <span class="it">Welcome Home</span> examined home as a fluid essence
+          capable of shifting alongside ourselves. Three artists working in sculpture, performance,
+          found objects, and sound installation reflected on their relationships to home: cycles of
+          identity and self-acceptance, remembrance and belonging across cultural influences, and
+          abstracted representations of interior and exterior space.
+        </p>
+        <p class="annot"><span class="lbl">Featured work</span>“Cube in Cube,” resin, plastic, and oil, 2017, by Olivia Qiu.</p>
+      </div>
+    </article>
+
+    <!-- EX-02 -->
+    <article class="record">
+      <div class="acc"><span class="accn">EX-02</span><span class="accy">2018</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title"><span class="it">Finite Appearances</span></h3>
+        <p class="credit">
+          <span class="role">Co-Curator</span><span class="dot">/</span>
+          <span>Wil Aballe Art Projects</span><span class="dot">/</span>
+          <span>Vancouver</span><span class="dot">/</span>
+          <span>2018</span>
+        </p>
+        <p class="abstract">
+          The body has always been mobilised as a site where presence is both inscribed and erased.
+          <span class="it">Finite Appearances</span> brought together works by Kelly Holmes made from
+          imprinted bodily traces — plaster casts of hands, soap moulds, video documentation of a snow
+          angel, and a floor-scattered arrangement of plaster navels. The exhibition asked whether
+          intimacy can be successfully represented in any medium, and whether the permanence of art
+          inevitably contradicts an intimate act.
+        </p>
+        <div class="plates">
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/00c952ca-9eca-4873-869c-bb18d048c53f.png"
+                alt="Scanned plate: Kelly Holmes, Soap Hands, 2017 — cast soap forms of hands.">
+            </div>
+            <figcaption><span class="pno">Pl. 2.1</span> — Kelly Holmes, <span style="font-style:italic">Soap Hands</span>, 2017.</figcaption>
+          </figure>
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/7e554792-922d-4790-ba92-b444e64f0cd9.png"
+                alt="Scanned plate: installation / gallery view of Finite Appearances.">
+            </div>
+            <figcaption><span class="pno">Pl. 2.2</span> — Installation view, gallery.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <!-- EX-03 -->
+    <article class="record">
+      <div class="acc"><span class="accn">EX-03</span><span class="accy">2018</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title">UNDERGROWTH</h3>
+        <p class="credit">
+          <span class="role">Co-Curator</span><span class="dot">/</span>
+          <span>Audain Gallery</span><span class="dot">/</span>
+          <span>Vancouver</span><span class="dot">/</span>
+          <span>2018</span>
+        </p>
+        <p class="abstract">
+          2018 BFA/BA Graduating Exhibition, Audain Gallery.
+        </p>
+        <div class="plates">
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/95f58e44-dd68-4b78-94fc-232f577410a4.png"
+                alt="Scanned plate: UNDERGROWTH 2018 BFA/BA Graduating Exhibition poster.">
+            </div>
+            <figcaption><span class="pno">Pl. 3.1</span> — UNDERGROWTH, exhibition poster, 2018.</figcaption>
+          </figure>
+        </div>
+        <ul class="refs">
+          <li>
+            <span class="mk">Event</span>
+            <span class="ref-t"><a class="ext" href="https://ahva.ubc.ca/events/event/undergrowth-2018-bfa-ba-graduating-exhibition/" target="_blank" rel="noopener noreferrer">UNDERGROWTH — 2018 BFA/BA Graduating Exhibition (AHVA, UBC)</a></span>
+          </li>
+          <li>
+            <span class="mk">Catalogue</span>
+            <span class="ref-t"><a class="ext" href="https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf" target="_blank" rel="noopener noreferrer">2018_BFA_catalogue_Undergrowth_LR.pdf</a> (PDF)</span>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- EX-04 -->
+    <article class="record">
+      <div class="acc"><span class="accn">EX-04</span><span class="accy">2017</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title"><span class="it">Insights Unseen and Unheard</span></h3>
+        <p class="credit">
+          <span class="role">Artist</span><span class="dot">/</span>
+          <span>Hatch Art Gallery</span><span class="dot">/</span>
+          <span>Vancouver</span><span class="dot">/</span>
+          <span>2017</span>
+        </p>
+        <p class="abstract">
+          <span class="it">Insights Unseen and Unheard</span> was a group exhibition at Hatch Art Gallery
+          in Vancouver. The show brought together artists working across photography, sound, and
+          installation to examine questions of visibility and perception — what remains at the limits
+          of what can be seen, heard, or communicated.
+        </p>
+        <p class="abstract">
+          Jeffrey Tse contributed <span class="it">Impulsive Fragments</span> — one contribution among
+          several. The work sits within a broader conversation the exhibition was already having about
+          bodies, spaces, and what images actually record.
+        </p>
+        <p class="annot"><span class="lbl">Contribution</span><span style="font-style:italic">Impulsive Fragments</span> — Jeffrey Tse.</p>
+        <div class="plates">
+          <figure class="plate">
+            <div class="frame">
+              <video src="assets/archive/impulsive-fragments.mp4"
+                poster="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/075172b6-c5a5-4b4f-8b19-e19f7d1b0442.png"
+                muted loop autoplay playsinline></video>
+            </div>
+            <figcaption><span class="pno">Pl. 4.1</span> — Jeffrey Tse, <span style="font-style:italic">Impulsive Fragments</span> (video).</figcaption>
+          </figure>
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/075172b6-c5a5-4b4f-8b19-e19f7d1b0442.png"
+                alt="Scanned plate: Jeffrey Tse, Impulsive Fragments — still.">
+            </div>
+            <figcaption><span class="pno">Pl. 4.2</span> — Jeffrey Tse, <span style="font-style:italic">Impulsive Fragments</span> (still).</figcaption>
+          </figure>
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/1714a2f0-4d19-4f77-9cd9-c4de7baed614.png"
+                alt="Scanned plate: Insights Unseen and Unheard, installation view.">
+            </div>
+            <figcaption><span class="pno">Pl. 4.3</span> — Installation view.</figcaption>
+          </figure>
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/b1489c5b-9770-403a-9a3b-51d0a3585ea2.png"
+                alt="Scanned plate: Insights Unseen and Unheard, installation view.">
+            </div>
+            <figcaption><span class="pno">Pl. 4.4</span> — Installation view.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <!-- EX-05 -->
+    <article class="record">
+      <div class="acc"><span class="accn">EX-05</span><span class="accy">2017</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title"><span class="it">Resonance</span></h3>
+        <p class="credit">
+          <span class="role">Curator</span><span class="dot">/</span>
+          <span>JCCAC</span><span class="dot">/</span>
+          <span>Hong Kong</span><span class="dot">/</span>
+          <span>2017</span>
+        </p>
+        <p class="abstract">
+          Presented at the Jockey Club Creative Arts Centre in Hong Kong, <span class="it">Resonance</span>
+          brought together works exploring memory, identity, and emotional trace — the ways in which
+          experience leaves marks that persist, evolve, and resurface. The exhibition featured abstract
+          acrylic paintings on circular canvases, examining relational experience as a structure rather
+          than an event: something that accumulates, distorts, and continues long after its origin.
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ========================= SERIES II — WRITING ========================= -->
+  <section class="series wrap" aria-labelledby="ser-pub">
+    <div class="series-head">
+      <span class="no">Series II</span>
+      <h2 id="ser-pub">Writing, Scholarship &amp; Publications</h2>
+      <span class="count">PUB-01 — PUB-03</span>
+    </div>
+
+    <!-- PUB-01 -->
+    <article class="record">
+      <div class="acc"><span class="accn">PUB-01</span><span class="accy">2019</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title">The Offender Behind the Lens: The Ethical Legacy of Beitler's Lynching Photograph</h3>
+        <p class="credit">
+          <span class="role">Author</span><span class="dot">/</span>
+          <span>UBC Undergraduate Journal of Art History (UJAH)</span><span class="dot">/</span>
+          <span>2019</span>
+        </p>
+        <p class="abstract">
+          A study of the ethical legacy of the photographic record of racial violence — the position of
+          the lens, the responsibilities of looking, and what it means to circulate an image whose
+          original act was the crime it documents.
+        </p>
+        <p class="annot">
+          <span class="lbl">Cited in press</span>
+          <em>Milwaukee Independent</em>, 2020 — in coverage of the emotional strain of seeing images
+          and video of anti-Black violence.
+        </p>
+        <div class="plates">
+          <figure class="plate">
+            <div class="frame">
+              <img loading="lazy" decoding="async"
+                src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/31a30bbc-46b9-4d3c-8ad6-56720517be39.png"
+                alt="Scanned plate: 14th Annual Undergraduate Art History Symposium and UJAH launch.">
+            </div>
+            <figcaption><span class="pno">Pl. 6.1</span> — Symposium presentation, UJAH launch.</figcaption>
+          </figure>
+        </div>
+        <ul class="refs">
+          <li>
+            <span class="mk">Citation</span>
+            <span class="ref-t"><a class="ext" href="https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/" target="_blank" rel="noopener noreferrer">Milwaukee Independent — “The crushing emotional strain of seeing images and videos of anti-Black violence” (2020)</a></span>
+          </li>
+          <li>
+            <span class="mk">Symposium</span>
+            <span class="ref-t"><a class="ext" href="https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/" target="_blank" rel="noopener noreferrer">14th Annual Undergraduate Art History Symposium &amp; UJAH Launch (AHVA, UBC)</a></span>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- PUB-02 -->
+    <article class="record">
+      <div class="acc"><span class="accn">PUB-02</span><span class="accy">2026</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title">One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure</h3>
+        <p class="credit">
+          <span class="role">Author</span><span class="dot">/</span>
+          <span>ROLL CALL — Material Culture Archive</span><span class="dot">/</span>
+          <span>2026</span>
+        </p>
+        <p class="abstract">
+          A critical essay in the form of an archive: the claim that the most overlooked object of daily
+          life encodes the invisible — supply chains, hygiene politics, colonial inheritance, and the
+          economics of who gets what standard of living by default — and that an archive can make the
+          argument only through accumulation and the formal weight of treating the mundane as evidence.
+        </p>
+        <ul class="refs">
+          <li>
+            <span class="mk">Read</span>
+            <span class="ref-t"><a class="ext" href="https://hydrogenbondss.github.io/Rollcall/#/essay" target="_blank" rel="noopener noreferrer">One-Ply Realism — full essay (ROLL CALL)</a></span>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- PUB-03 -->
+    <article class="record">
+      <div class="acc"><span class="accn">PUB-03</span><span class="accy">2023</span></div>
+      <div class="rec-body">
+        <h3 class="rec-title">Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder</h3>
+        <p class="credit">
+          <span class="role">MSc Thesis</span><span class="dot">/</span>
+          <span>Hong Kong Polytechnic University</span><span class="dot">/</span>
+          <span>2023</span>
+        </p>
+        <p class="abstract">
+          Master's thesis examining the marketing legitimacy and consumer perception of online dating
+          through a comprehensive study of Tinder.
+        </p>
+        <p class="annot"><span class="lbl">Supervisor</span>Dr Vincent Leung.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ========================= ENDMATTER / COLOPHON ========================= -->
+  <footer class="endmatter wrap">
+    <div class="lines">
+      <div><span class="k">Fonds</span>Jeffrey N. Tse — Systems Architect · Art Director · Editorial Strategist</div>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

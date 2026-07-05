@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Works — Scrapbook · Jeffrey N. Tse</title>
+<meta name="description" content="Selected Work as a scrapbook: ECHO, SPECTOR, PawsAid, ROLL CALL, Noru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#f3eee2;          /* warm paper ink */
+  --mut:#b6a98f;          /* muted parchment */
+  --line:rgba(243,238,226,.14);
+  --accent:#e8c9a0;       /* warm gold (matches the koi/notebook world) */
+  --paper:#f0e7d4;        /* scrapbook paper */
+  --paper2:#e7dcc2;
+  --tape:rgba(231,222,193,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Cormorant Garamond',serif;color:var(--ink);
+  background:#241c12;                    /* dark warm background */
+  background-image:
+    radial-gradient(120% 90% at 50% -10%,rgba(94,72,40,.55),transparent 60%),
+    radial-gradient(90% 70% at 90% 110%,rgba(60,44,22,.5),transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  -webkit-font-smoothing:antialiased;
+  min-height:100%;
+}
+
+/* ================= SCRAPBOOK LANDING ================= */
+.scrapbook{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(48px,8vh,96px) clamp(20px,5vw,64px) 120px}
+
+.sb-head{margin-bottom:clamp(34px,6vh,66px)}
+.sb-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.sb-title{font-weight:300;font-size:clamp(2.6rem,7vw,5rem);line-height:.95;letter-spacing:.01em;color:#f6f0e3}
+.sb-title em{font-style:italic;color:var(--accent)}
+.sb-hint{font-family:'Caveat',cursive;font-size:1.55rem;color:var(--mut);margin-top:14px;transform:rotate(-2deg);display:inline-block}
+.sb-hint::before{content:"";display:inline-block;width:42px;height:1px;background:var(--mut);vertical-align:middle;margin-right:10px;transform:translateY(-3px)}
+
+/* collage grid — irregular, taped pieces */
+.collage{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:clamp(18px,3vw,40px) clamp(16px,2.4vw,34px);
+  align-items:start;
+}
+.piece{
+  position:relative;cursor:pointer;border:0;background:transparent;padding:0;text-align:left;
+  color:inherit;font:inherit;display:block;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),filter .35s ease;
+  will-change:transform;
+}
+.piece:focus-visible{outline:3px solid var(--accent);outline-offset:8px;border-radius:4px}
+.piece:hover,.piece:focus-visible{transform:rotate(0deg) translateY(-6px) scale(1.02);filter:saturate(1.08)}
+.piece:hover .pin,.piece:focus-visible .pin{transform:translateX(-50%) scale(1.08)}
+
+/* span / rotation per piece for a collage-y feel */
+.piece.p1{grid-column:1 / 6;transform:rotate(-3deg)}
+.piece.p2{grid-column:7 / 13;transform:rotate(2.4deg);margin-top:36px}
+.piece.p3{grid-column:1 / 5;transform:rotate(3.2deg);margin-top:18px}
+.piece.p4{grid-column:5 / 9;transform:rotate(-2deg)}
+.piece.p5{grid-column:9 / 13;transform:rotate(-3.6deg);margin-top:8px}
+
+/* the taped paper card */
+.card-paper{
+  position:relative;
+  background:linear-gradient(150deg,var(--paper),var(--paper2));
+  border-radius:3px;
+  box-shadow:0 18px 38px -16px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.18) inset;
+  padding:14px 14px 16px;
+}
+/* torn / deckle bottom edge */
+.card-paper::after{
+  content:"";position:absolute;left:0;right:0;bottom:-7px;height:9px;
+  background:
+    radial-gradient(7px 9px at 6px -2px,var(--paper2) 98%,transparent) repeat-x;
+  background-size:13px 9px;
+  filter:drop-shadow(0 2px 1px rgba(0,0,0,.25));
+}
+/* tape corners */
+.tape{position:absolute;width:74px;height:26px;background:var(--tape);
+  box-shadow:0 1px 3px rgba(0,0,0,.25);backdrop-filter:blur(.5px);
+  border-left:1px dashed rgba(0,0,0,.07);border-right:1px dashed rgba(0,0,0,.07)}
+.tape.tl{top:-12px;left:-16px;transform:rotate(-38deg)}
+.tape.tr{top:-12px;right:-16px;transform:rotate(40deg)}
+
+/* media inside the paper (photo / label) */
+.thumb{position:relative;aspect-ratio:4/3;border-radius:2px;overflow:hidden;background:#cdbfa0;
+  box-shadow:0 0 0 1px rgba(0,0,0,.06) inset}
+.thumb .img{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(1.05) contrast(1.02)}
+.thumb video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* text-only label card (no photo) */
+.labelcard{aspect-ratio:4/3;border-radius:2px;display:flex;flex-direction:column;justify-content:center;gap:10px;
+  padding:18px 20px;background:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 1px,transparent 1px 26px),
+    linear-gradient(160deg,#f4ecda,#e3d6b8);
+  box-shadow:0 0 0 1px rgba(0,0,0,.06) inset}
+.labelcard .lc-eye{font-family:'Courier Prime',monospace;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:#7a6a48}
+.labelcard .lc-name{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1;color:#34291a}
+.labelcard .lc-tag{font-family:'Courier Prime',monospace;font-size:.5rem;letter-spacing:.16em;color:#9c8a64;text-transform:uppercase}
+
+/* handwritten project name under each piece */
+.handwrite{font-family:'Caveat',cursive;font-size:1.9rem;line-height:1;color:#2b2114;margin-top:10px;padding-left:4px}
+.scribble{display:block;height:8px;margin-top:2px;color:#c0392b;opacity:.65}
+
+/* photo-corner doodle / arrow accents */
+.doodle{position:absolute;font-family:'Caveat',cursive;color:var(--accent);pointer-events:none;opacity:.9}
+.doodle.d1{font-size:1.4rem;top:-26px;right:24%;transform:rotate(-8deg);color:#e8c9a0}
+.doodle.d2{font-size:1.25rem;bottom:30px;left:-46px;transform:rotate(6deg);color:#cdbf9a}
+
+@media(max-width:760px){
+  .collage{display:flex;flex-direction:column;gap:34px}
+  .piece,.piece.p1,.piece.p2,.piece.p3,.piece.p4,.piece.p5{margin-top:0;transform:rotate(-1.5deg)}
+  .piece:nth-child(even){transform:rotate(1.8deg)}
+  .doodle.d2{display:none}
+}
+
+/* ================= POP-UP (matches reference mock) ================= */
+/* dim + blur the scrapbook when a card is open */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(20,15,8,.66);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:24px}
+.scrim.open{display:flex}
+
+.card{width:min(560px,94vw);max-height:88vh;overflow:auto;background:rgba(28,22,14,.9);backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:14px;box-shadow:0 40px 120px -30px #000,0 0 0 1px rgba(0,0,0,.4);position:relative;
+  animation:rise .4s cubic-bezier(.2,.7,.2,1);font-family:'Cormorant Garamond',serif}
+@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.card::-webkit-scrollbar{width:0}
+.close{position:absolute;top:12px;right:12px;z-index:5;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(12,9,5,.7);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.close:hover{background:var(--accent);color:#241c12}
+.close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* media gallery */
+.stage{position:relative;aspect-ratio:16/10;background:#160f08;overflow:hidden;border-radius:14px 14px 0 0}
+.stage[hidden]{display:none}
+.slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background-size:cover;background-position:center}
+.slide.on{display:flex}
+.slide video{width:100%;height:100%;object-fit:cover;background:#0c0905}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(12,9,5,.55);border:1px solid var(--line);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);z-index:3}
+.nav:hover{background:rgba(232,201,160,.9);color:#241c12}
+.nav:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav.prev{left:12px}.nav.next{right:12px}
+.dots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:3}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35)}
+.dots i.on{background:var(--accent);width:16px;border-radius:3px}
+
+.medialabel{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);padding:11px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.medialabel[hidden]{display:none}
+.medialabel b{color:var(--ink);font-weight:700}
+
+.body{padding:20px 22px 26px}
+.eyebrow{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.8rem,5vw,2.5rem);line-height:1;margin-bottom:14px}
+.blurb{color:#ddd2bd;font-size:1.06rem;line-height:1.55;margin-bottom:18px}
+
+/* large typographic panel for text-only projects */
+.tpanel{position:relative;padding:30px 24px 26px;border-bottom:1px solid var(--line);
+  background:
+    repeating-linear-gradient(0deg,rgba(232,201,160,.05) 0 1px,transparent 1px 30px),
+    radial-gradient(120% 80% at 20% 0,rgba(232,201,160,.1),transparent 60%)}
+.tpanel[hidden]{display:none}
+.tpanel .tp-mark{font-family:'Courier Prime',monospace;font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mut);margin-bottom:16px}
+.tpanel .tp-big{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,9vw,4.4rem);line-height:.92;letter-spacing:.01em;color:#f6f0e3}
+.tpanel .tp-big em{font-style:italic;color:var(--accent)}
+
+.h{font-family:'Courier Prime',monospace;font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);margin-bottom:9px}
+.h[hidden]{display:none}
+.tools{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+.tools[hidden]{display:none}
+.tools span{font-family:'Courier Prime',monospace;font-size:.62rem;color:#e3d8c2;border:1px solid var(--line);border-radius:3px;padding:5px 9px;background:rgba(243,238,226,.03)}
+.links{display:flex;flex-wrap:wrap;gap:9px}
+.links[hidden]{display:none}
+.links a{font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#241c12;background:var(--accent);padding:10px 16px;border-radius:4px;text-decoration:none}
+.links a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{scroll-behavior:auto !important}
+  .piece{transition:none}
+  .piece:hover,.piece:focus-visible{transform:none}
+  .card{animation:none}
+}
+</style>
+</head>
+<body>
+
+<main class="scrapbook">
+  <header class="sb-head">
+    <div class="sb-eyebrow">Selected Work &middot; Scrapbook</div>
+    <h1 class="sb-title">Pinned, taped, <em>kept</em>.</h1>
+    <span class="sb-hint">tap a piece</span>
+  </header>
+
+  <div class="collage" id="collage">
+    <span class="doodle d1">look here &darr;</span>
+    <!-- pieces injected by JS -->
+  </div>
+</main>
+
+<!-- ============== POP-UP ============== -->
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="popTitle">
+  <div class="card" id="card">
+    <button class="close" id="close" aria-label="Close">&times;</button>
+
+    <div class="stage" id="stage" hidden>
+      <button class="nav prev" id="prev" aria-label="Previous">&#8249;</button>
+      <button class="nav next" id="next" aria-label="Next">&#8250;</button>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <div class="medialabel" id="medialabel" hidden>
+      <span id="label"></span><span id="count"></span>
+    </div>
+
+    <div class="tpanel" id="tpanel" hidden>
+      <div class="tp-mark" id="tpMark"></div>
+      <div class="tp-big" id="tpBig"></div>
+    </div>
+
+    <div class="body">
+      <div class="eyebrow" id="eyebrow"></div>
+      <h2 class="title" id="popTitle"></h2>
+      <p class="blurb" id="blurb"></p>
+      <div class="h" id="toolsH" hidden>Tools &amp; Software</div>
+      <div class="tools" id="tools" hidden></div>
+      <div class="h" id="linksH" hidden>Links</div>
+      <div class="links" id="links" hidden></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const PROJECTS = [
+  {
+    id:'echo',
+    eyebrow:"Visual Novel · Ren'Py",
+    title:"ECHO",
+    hand:"ECHO",
+    blurb:"A narrative visual novel built in Ren'Py — an intimate, branching story about memory, intimacy, and the versions of ourselves we leave behind. Written, designed, and directed as a complete interactive world.",
+    tools:["Ren'Py","Python","Photoshop"],
+    links:[],
+    media:[
+      {type:'video', src:'assets/echo/darkroom.mp4', poster:'assets/echo/darkroom_poster.jpg', label:'Darkroom'},
+      {type:'image', src:'assets/echo/blake_apartment_day.png', label:"Blake's Apartment"}
+    ]
+  },
+  {
+    id:'spector',
+    eyebrow:"Product · Open Source",
+    title:"SPECTOR",
+    hand:"SPECTOR",
+    blurb:"An auto-paced teleprompter built for the smart-glasses era — rehearse on your phone, then perform eyes-up on Ray-Ban Meta, XREAL or Viture. Punctuation-aware adaptive pacing, a Comfort mode that spatially anchors the script with Kalman-filtered head-tracking, and post-run analytics on pacing, hesitation and WPM — all in a zero-dependency, open-source PWA. Eyes Forward.",
+    tools:["Vanilla JavaScript","Kalman Filter","DeviceOrientation API","Web Audio + Vibration","PWA · Service Worker","Vercel"],
+    links:[{label:"Visit SPECTOR", href:"https://www.spectorlabs.io/"}],
+    media:[]
+  },
+  {
+    id:'pawsaid',
+    eyebrow:"Brand · Packaging · Web",
+    title:"PawsAid",
+    hand:"PawsAid",
+    blurb:"A pet first-aid kit brand built end to end — three kits, Essential, Pro and Plus — with a bilingual storefront. Brand identity, packaging, and web, on pure-white product plates.",
+    tools:["Brand Identity","Packaging","React","TypeScript"],
+    links:[{label:"Visit PawsAid", href:"https://pawsaid.hk/"}],
+    media:[
+      {type:'image', src:'https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/62075ff3-0443-4aad-9c2a-58c4b537ddf2.png', label:'Kit — hero'}
+    ]
+  },
+  {
+    id:'rollcall',
+    eyebrow:"Material Culture Archive",
+    title:"ROLL CALL",
+    hand:"ROLL CALL",
+    blurb:"ROLL CALL is a material culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the attention usually reserved for museum objects — what it is, who makes it, what it costs, where it ends up, what it's made of, and what that material actually means. Scent profiles, distribution networks, the political geography of what gets called clean. The archive is also a critical essay in physical form: its argument is that toilet paper encodes the invisible — supply chains, hygiene politics, colonial inheritance — and it makes that argument the only way an archive can, through the patient insistence that each specimen matters.",
+    tools:["Research","Editorial","Web"],
+    links:[{label:"Enter the archive", href:"https://hydrogenbondss.github.io/Rollcall/"}],
+    media:[]
+  },
+  {
+    id:'noru',
+    eyebrow:"App · Mascot System",
+    title:"Noru",
+    hand:"Noru",
+    blurb:"Noru — a companion app and character system. A pair of panda companions carry a calm, daily check-in, with a full set of mascot expressions guiding the experience.",
+    tools:["Product Design","Illustration","UI"],
+    links:[],
+    media:[
+      {type:'image', src:'https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/79a0b568-f1ad-4a61-a443-065785fc7faf.png', label:'Noru — twins'},
+      {type:'image', src:'https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/320ec6e5-2ba3-4f8a-a879-fcb85c753dcc.png', label:'Welcome'},
+      {type:'image', src:'https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/4cc90877-d2da-4b77-93ce-73e89220d6b1.png', label:'Happy'},
+      {type:'image', src:'https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/e7c4f767-00cc-4f67-acfd-c71c56088fd5.png', label:'Cool'}
+    ]
+  }
+];
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------------- BUILD SCRAPBOOK ---------------- */
+const collage = document.getElementById('collage');
+const scribbleSVG = '<svg class="scribble" viewBox="0 0 160 8" preserveAspectRatio="none" width="140"><path d="M2 5 C 30 2, 60 8, 90 4 S 150 3, 158 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+PROJECTS.forEach((p, idx) => {
+  const btn = document.createElement('button');
+  btn.className = 'piece p' + (idx + 1);
+  btn.type = 'button';
+  btn.setAttribute('aria-haspopup', 'dialog');
+  btn.setAttribute('aria-label', 'Open ' + p.title);
+
+  const cover = p.media && p.media[0];
+  let mediaHTML;
+  if (cover && cover.type === 'image') {
+    mediaHTML = '<div class="thumb"><div class="img" style="background-image:url(\'' + cover.src + '\')"></div></div>';
+  } else if (cover && cover.type === 'video') {
+    const poster = cover.poster ? ' poster="' + cover.poster + '"' : '';
+    mediaHTML = '<div class="thumb"><video muted loop playsinline preload="metadata"' + poster + '><source src="' + cover.src + '"></video></div>';
+  } else {
+    // text-only piece -> label card
+    mediaHTML = '<div class="labelcard">'
+      + '<div class="lc-eye">' + esc(p.eyebrow) + '</div>'
+      + '<div class="lc-name">' + esc(p.title) + '</div>'
+      + '<div class="lc-tag">no. ' + String(idx + 1).padStart(2, '0') + ' &middot; specimen</div>'
+      + '</div>';
+  }
+
+  btn.innerHTML =
+      '<span class="tape tl"></span><span class="tape tr"></span>'
+    + '<div class="card-paper">' + mediaHTML + '</div>'
+    + '<div class="handwrite">' + esc(p.hand) + scribbleSVG + '</div>';
+
+  btn.addEventListener('click', () => openPopup(idx));
+  collage.appendChild(btn);
+});
+// trailing doodle
+const d2 = document.createElement('span');
+d2.className = 'doodle d2';
+d2.textContent = 'favourites';
+collage.appendChild(d2);
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* ---------------- POP-UP / GALLERY ---------------- */
+const scrim = document.getElementById('scrim');
+const card = document.getElementById('card');
+const stage = document.getElementById('stage');
+const medialabel = document.getElementById('medialabel');
+const tpanel = document.getElementById('tpanel');
+const elPrev = document.getElementById('prev');
+const elNext = document.getElementById('next');
+const elDots = document.getElementById('dots');
+const elLabel = document.getElementById('label');
+const elCount = document.getElementById('count');
+
+let media = [];   // current project's media
+let i = 0;        // current slide index
+let lastFocus = null;
+
+function buildSlides(p){
+  // remove any previously injected slides (keep nav + dots)
+  stage.querySelectorAll('.slide').forEach(s => s.remove());
+  media = p.media || [];
+  media.forEach((m, k) => {
+    const slide = document.createElement('div');
+    slide.className = 'slide' + (k === 0 ? ' on' : '');
+    if (m.type === 'image') {
+      slide.style.backgroundImage = "url('" + m.src + "')";
+    } else if (m.type === 'video') {
+      const v = document.createElement('video');
+      v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline','');
+      v.controls = true; v.preload = 'metadata';
+      if (m.poster) v.poster = m.poster;
+      const src = document.createElement('source');
+      src.src = m.src;
+      v.appendChild(src);
+      slide.appendChild(v);
+    }
+    // insert slides before the prev button so nav/dots stay on top
+    stage.insertBefore(slide, elPrev);
+  });
+}
+
+function renderGallery(){
+  const slides = stage.querySelectorAll('.slide');
+  slides.forEach((s, k) => {
+    const on = (k === i);
+    s.classList.toggle('on', on);
+    const v = s.querySelector('video');
+    if (v){
+      if (on && !reduceMotion){ v.play().catch(()=>{}); }
+      else { v.pause(); }
+    }
+  });
+  const m = media[i] || {};
+  const typeLabel = m.type === 'video' ? 'film' : 'still';
+  elLabel.innerHTML = '<b>' + esc(m.label || '') + '</b> — ' + typeLabel;
+  elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(media.length).padStart(2, '0');
+  elDots.innerHTML = '';
+  media.forEach((_, k) => {
+    const e = document.createElement('i');
+    if (k === i) e.className = 'on';
+    elDots.appendChild(e);
+  });
+  const multi = media.length > 1;
+  elPrev.style.display = multi ? '' : 'none';
+  elNext.style.display = multi ? '' : 'none';
+  elDots.style.display = multi ? '' : 'none';
+}
+
+function move(n){
+  if (!media.length) return;
+  i = (i + n + media.length) % media.length;
+  renderGallery();
+}
+
+function buildBody(p){
+  document.getElementById('eyebrow').textContent = p.eyebrow;
+  document.getElementById('popTitle').textContent = p.title;
+  document.getElementById('blurb').textContent = p.blurb;
+
+  const toolsH = document.getElementById('toolsH');
+  const tools = document.getElementById('tools');
+  if (p.tools && p.tools.length){
+    tools.innerHTML = p.tools.map(t => '<span>' + esc(t) + '</span>').join('');
+    toolsH.hidden = false; tools.hidden = false;
+  } else { toolsH.hidden = true; tools.hidden = true; }
+
+  const linksH = document.getElementById('linksH');
+  const links = document.getElementById('links');
+  if (p.links && p.links.length){
+    links.innerHTML = p.links.map(l =>
+      '<a href="' + l.href + '" target="_blank" rel="noopener">' + esc(l.label) + ' &#8599;</a>').join('');
+    linksH.hidden = false; links.hidden = false;
+  } else { linksH.hidden = true; links.hidden = true; }
+}
+
+function openPopup(idx){
+  const p = PROJECTS[idx];
+  i = 0;
+  buildBody(p);
+
+  if (p.media && p.media.length){
+    // gallery mode
+    tpanel.hidden = true;
+    stage.hidden = false;
+    medialabel.hidden = false;
+    buildSlides(p);
+    renderGallery();
+  } else {
+    // text-only -> large typographic panel, hide gallery
+    stage.hidden = true;
+    medialabel.hidden = true;
+    stage.querySelectorAll('.slide').forEach(s => s.remove());
+    media = [];
+    tpanel.hidden = false;
+    document.getElementById('tpMark').textContent = p.eyebrow;
+    // emphasise the title typographically
+    document.getElementById('tpBig').innerHTML = '<em>' + esc(p.title) + '</em>';
+  }
+
+  lastFocus = document.activeElement;
+  scrim.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('close').focus();
+  document.addEventListener('keydown', onKey);
+}
+
+function closePopup(){
+  scrim.classList.remove('open');
+  document.body.style.overflow = '';
+  // stop any playing video
+  stage.querySelectorAll('video').forEach(v => v.pause());
+  document.removeEventListener('keydown', onKey);
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+/* keyboard: Esc closes, arrows navigate, Tab is focus-trapped */
+function onKey(e){
+  if (e.key === 'Escape'){ closePopup(); return; }
+  if (e.key === 'ArrowRight'){ move(1); return; }
+  if (e.key === 'ArrowLeft'){ move(-1); return; }
+  if (e.key === 'Tab'){
+    const focusables = card.querySelectorAll('button:not([style*="display: none"]), a[href]');
+    const list = Array.prototype.filter.call(focusables, el => el.offsetParent !== null || el === document.activeElement);
+    if (!list.length) return;
+    const first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+}
+
+elPrev.addEventListener('click', () => move(-1));
+elNext.addEventListener('click', () => move(1));
+document.getElementById('close').addEventListener('click', closePopup);
+scrim.addEventListener('click', (e) => { if (e.target === scrim) closePopup(); });
+</script>
+</body>
+</html>

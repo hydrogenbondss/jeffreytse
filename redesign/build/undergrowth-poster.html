@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERGROWTH — artifact composition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     UNDERGROWTH — its OWN composition (artifact, not generated art).
+     The real exhibition poster scan is pinned on a flat forest
+     ground; type is a quiet annotation, not a headline. Distinct
+     from Welcome Home (centered + bottom title) and Finite
+     Appearances (full-bleed + vertical title). No generation.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --mono:'Space Mono',monospace; --mark:'Reenie Beanie',cursive;
+    --moss:#2f5a37; --cream:#efe9da; --red:#ef4a2e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#17171a;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;color:var(--cream);
+    background:var(--moss);box-shadow:0 30px 70px -24px rgba(0,0,0,.7)}
+  /* riso grain over the flat ground */
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;opacity:.16;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* credit, top-left (no title — the poster carries its own) */
+  .credit{position:absolute;top:15px;left:15px;z-index:3;font-family:var(--mono);font-size:.56rem;
+    letter-spacing:.06em;text-transform:uppercase;line-height:1.55;color:var(--cream)}
+  .credit b{color:var(--red);font-weight:700}
+
+  /* the real poster, pinned like a printed flyer */
+  .plate{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%) rotate(-2deg);z-index:2;
+    width:58%;background:var(--cream);padding:8px 8px 9px;box-shadow:7px 9px 0 rgba(0,0,0,.22)}
+  .plate img{width:100%;height:auto;display:block}
+  /* two "pins" */
+  .plate::before,.plate::after{content:"";position:absolute;width:11px;height:11px;border-radius:50%;
+    background:var(--red);box-shadow:inset 0 -2px 2px rgba(0,0,0,.3);z-index:3}
+  .plate::before{top:-4px;left:14px}
+  .plate::after{top:-4px;right:14px;background:#1a1a14}
+
+  /* handwritten thesis, bottom */
+  .hand{position:absolute;left:15px;bottom:16px;z-index:3;font-family:var(--mark);
+    font-size:clamp(1.4rem,5.4vw,2.05rem);line-height:.96;width:74%;color:var(--cream);transform:rotate(-1.5deg)}
+  .hand em{color:var(--red);font-style:normal}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <div class="credit"><b>Co-curated</b><br>Audain Gallery · Vancouver<br>2018 BFA/BA Grad Exhibition</div>
+    <figure class="plate">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/95f58e44-dd68-4b78-94fc-232f577410a4.png" alt="UNDERGROWTH 2018 BFA/BA Graduating Exhibition poster">
+    </figure>
+    <div class="hand">what grows in the year <em>everyone graduates?</em></div>
+  </article>
+  <p class="cap">UNDERGROWTH · artifact composition — the real poster pinned on a flat ground, type as annotation · no generation, no chrome.</p>
+</body>
+</html>

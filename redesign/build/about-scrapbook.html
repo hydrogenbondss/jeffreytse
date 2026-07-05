@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — Scrapbook · Jeffrey N. Tse</title>
+<meta name="description" content="About Jeffrey N. Tse — Systems Architect · Art Director · Editorial Strategist. A shoebox of keepsakes, and the way back to the gate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== shared visual system, echoing works-section.html ===== */
+:root{
+  --ink:#f3eee2;          /* warm paper ink */
+  --mut:#b6a98f;          /* muted parchment */
+  --line:rgba(243,238,226,.14);
+  --accent:#e8c9a0;       /* warm gold (matches the koi/notebook world) */
+  --paper:#f0e7d4;        /* scrapbook paper */
+  --paper2:#e7dcc2;
+  --tape:rgba(231,222,193,.55);
+  --red:#a01f1f;          /* scribble / handwritten red */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Cormorant Garamond',serif;color:var(--ink);
+  background:#241c12;                    /* dark warm background */
+  background-image:
+    radial-gradient(120% 90% at 50% -10%,rgba(94,72,40,.55),transparent 60%),
+    radial-gradient(90% 70% at 90% 110%,rgba(60,44,22,.5),transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  -webkit-font-smoothing:antialiased;
+  min-height:100%;
+}
+
+/* ================= SCRAPBOOK LAYOUT ================= */
+.scrapbook{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(48px,8vh,96px) clamp(20px,5vw,64px) 120px}
+
+.sb-head{margin-bottom:clamp(34px,6vh,66px);position:relative}
+.sb-eyebrow{font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.sb-title{font-weight:300;font-size:clamp(2.6rem,7vw,5rem);line-height:.95;letter-spacing:.01em;color:#f6f0e3}
+.sb-title em{font-style:italic;color:var(--accent)}
+.sb-titles{font-family:'Courier Prime',monospace;font-size:clamp(.62rem,1.6vw,.78rem);letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-top:18px}
+.sb-hint{font-family:'Caveat',cursive;font-size:1.55rem;color:var(--mut);margin-top:14px;transform:rotate(-2deg);display:inline-block}
+.sb-hint::before{content:"";display:inline-block;width:42px;height:1px;background:var(--mut);vertical-align:middle;margin-right:10px;transform:translateY(-3px)}
+
+/* the open shoebox — a deeper, lidded version of the works paper card */
+.shoebox{
+  position:relative;
+  background:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 1px,transparent 1px 28px),
+    linear-gradient(160deg,#d9cba8,#cdbf9c);
+  border:1px solid rgba(0,0,0,.14);
+  border-radius:8px;
+  box-shadow:
+    0 44px 90px -34px rgba(0,0,0,.75),
+    inset 0 2px 0 rgba(255,255,255,.28),
+    inset 0 -22px 46px rgba(0,0,0,.16);
+  padding:clamp(30px,5vw,60px) clamp(22px,4vw,52px) clamp(40px,6vw,64px);
+}
+/* the inner dashed "lid line" of the box */
+.shoebox::before{content:"";position:absolute;inset:10px;border:1px dashed rgba(0,0,0,.16);border-radius:5px;pointer-events:none}
+/* a stamped paper label on the box rim */
+.box-label{position:absolute;top:-15px;left:clamp(20px,5vw,46px);
+  background:#ece4d0;border:1px solid rgba(0,0,0,.18);
+  font-family:'Courier Prime',monospace;font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;color:#5d503a;
+  padding:6px 13px;transform:rotate(-2.2deg);box-shadow:0 6px 14px rgba(0,0,0,.22)}
+
+/* collage of keepsakes inside the box */
+.collage{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:clamp(22px,3.4vw,46px) clamp(16px,2.4vw,34px);
+  align-items:start;
+}
+
+/* a generic taped card (matches .card-paper from works) */
+.card-paper{
+  position:relative;
+  background:linear-gradient(150deg,var(--paper),var(--paper2));
+  border-radius:3px;
+  box-shadow:0 18px 38px -16px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.18) inset;
+  padding:14px 14px 16px;
+}
+.card-paper::after{
+  content:"";position:absolute;left:0;right:0;bottom:-7px;height:9px;
+  background:radial-gradient(7px 9px at 6px -2px,var(--paper2) 98%,transparent) repeat-x;
+  background-size:13px 9px;
+  filter:drop-shadow(0 2px 1px rgba(0,0,0,.25));
+}
+/* tape corners (identical technique to works) */
+.tape{position:absolute;width:74px;height:26px;background:var(--tape);
+  box-shadow:0 1px 3px rgba(0,0,0,.25);backdrop-filter:blur(.5px);
+  border-left:1px dashed rgba(0,0,0,.07);border-right:1px dashed rgba(0,0,0,.07)}
+.tape.tl{top:-12px;left:-16px;transform:rotate(-38deg)}
+.tape.tr{top:-12px;right:-16px;transform:rotate(40deg)}
+.tape.center{width:110px;left:50%;margin-left:-55px;top:-13px;transform:rotate(-3deg)}
+
+/* every keepsake is rotated & lifts on hover/focus like a works piece */
+.keep{
+  position:relative;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),filter .35s ease;
+  will-change:transform;
+}
+.keep:hover,.keep:focus-within{transform:rotate(0deg) translateY(-6px) scale(1.015);filter:saturate(1.06)}
+
+/* placements / rotations for a collage-y feel */
+.k-polaroid{grid-column:1 / 6;transform:rotate(-3.4deg)}
+.k-bio{grid-column:6 / 13;transform:rotate(1.4deg);margin-top:14px}
+.k-ticket{grid-column:1 / 5;transform:rotate(2.6deg);margin-top:6px}
+.k-note{grid-column:5 / 9;transform:rotate(-2.2deg)}
+.k-langs{grid-column:9 / 13;transform:rotate(3.2deg);margin-top:10px}
+
+/* ---- polaroid keepsake ---- */
+.polaroid .card-paper{background:#fbf8ef;padding:13px 13px 50px}
+.polaroid .card-paper::after{background:radial-gradient(7px 9px at 6px -2px,#efe9d8 98%,transparent) repeat-x;background-size:13px 9px}
+.photo{aspect-ratio:1/1;border-radius:2px;overflow:hidden;position:relative;
+  background:
+    radial-gradient(120% 90% at 30% 20%,#3a3024,#241c12 70%),
+    linear-gradient(160deg,#2b2114,#1b140c);
+  box-shadow:0 0 0 1px rgba(0,0,0,.18) inset;
+  display:flex;align-items:center;justify-content:center;text-align:center}
+/* "still developing" stamp — intentional, not a broken image */
+.photo .developing{font-family:'Courier Prime',monospace;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);opacity:.85;padding:0 16px;line-height:1.9}
+.photo::after{content:"";position:absolute;inset:0;mix-blend-mode:screen;opacity:.5;
+  background:radial-gradient(60% 50% at 50% 38%,rgba(232,201,160,.22),transparent 70%)}
+.cap{font-family:'Caveat',cursive;font-size:1.85rem;color:#2b2114;text-align:center;margin-top:12px;transform:rotate(-1.2deg)}
+
+/* ---- bio keepsake (text on paper) ---- */
+.bio .card-paper{padding:22px 22px 26px}
+.bio .hi{font-family:'Caveat',cursive;font-size:2rem;color:var(--red);line-height:1;margin-bottom:4px;transform:rotate(-1deg)}
+.bio h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.7rem,3.6vw,2.3rem);line-height:1;color:#241c12;margin-bottom:8px}
+.bio .titles{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#7a6a48;margin-bottom:16px}
+.bio p{font-family:'Cormorant Garamond',serif;font-size:1.06rem;line-height:1.66;color:#332715;margin-bottom:12px}
+.bio p:last-of-type{margin-bottom:0}
+.bio em{font-style:italic;color:#6b4a1c}
+
+/* ---- ticket-stub keepsake ---- */
+.ticket .stub{position:relative;border-radius:2px;overflow:hidden;
+  background:linear-gradient(150deg,#e9d9b2,#dcc99e);
+  box-shadow:0 0 0 1px rgba(0,0,0,.08) inset;
+  padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px}
+/* perforated edge between stub halves */
+.ticket .stub::before{content:"";position:absolute;left:0;right:0;top:54px;height:2px;
+  background:radial-gradient(2px 2px at 4px 1px,rgba(0,0,0,.28) 60%,transparent) repeat-x;background-size:9px 2px}
+.ticket .t-eye{font-family:'Courier Prime',monospace;font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:#7a6a48}
+.ticket .t-big{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.3rem,3vw,1.7rem);line-height:1.04;color:#2b2114}
+.ticket .t-rows{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.ticket .t-rows span{font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.06em;color:#5d503a;text-transform:uppercase}
+.ticket .t-rows b{color:#241c12}
+
+/* ---- handwritten note keepsake ---- */
+.note .pad{position:relative;border-radius:2px;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 27px,rgba(160,31,31,.14) 27px 28px),
+    linear-gradient(160deg,#f6efdd,#ece0c2);
+  box-shadow:0 0 0 1px rgba(0,0,0,.06) inset;
+  padding:20px 20px 22px}
+.note .pad::before{content:"";position:absolute;left:24px;top:0;bottom:0;width:1px;background:rgba(160,31,31,.3)}
+.note .scrawl{font-family:'Caveat',cursive;font-size:1.5rem;line-height:1.55;color:#2b2114;padding-left:14px}
+.note .scrawl b{color:var(--red);font-weight:700}
+
+/* ---- languages keepsake (small label) ---- */
+.langs .labelcard{border-radius:2px;display:flex;flex-direction:column;gap:9px;
+  padding:18px 18px;background:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 1px,transparent 1px 26px),
+    linear-gradient(160deg,#f4ecda,#e3d6b8);
+  box-shadow:0 0 0 1px rgba(0,0,0,.06) inset}
+.langs .lc-eye{font-family:'Courier Prime',monospace;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:#7a6a48}
+.langs ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.langs li{font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.04em;color:#3a2e1b;display:flex;justify-content:space-between;gap:10px}
+.langs li span{color:#8a7a56}
+
+/* handwritten label under each keepsake (echoes .handwrite) */
+.handwrite{font-family:'Caveat',cursive;font-size:1.7rem;line-height:1;color:#2b2114;margin-top:10px;padding-left:4px;color:#f0e7d4}
+.scribble{display:block;height:8px;margin-top:2px;color:var(--red);opacity:.7}
+
+/* ---- CV tag / taped label ---- */
+.cv-row{margin-top:clamp(36px,6vw,60px);display:flex;flex-wrap:wrap;align-items:center;gap:clamp(20px,4vw,48px);justify-content:space-between}
+.cv-tag{position:relative;display:inline-flex;align-items:center;gap:10px;
+  font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#241c12;background:linear-gradient(150deg,#efe6cf,#e2d4b2);
+  padding:14px 20px 15px;border-radius:3px;text-decoration:none;
+  box-shadow:0 14px 30px -14px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.2) inset;
+  transform:rotate(-1.6deg);transition:transform .3s cubic-bezier(.2,.7,.2,1),filter .3s ease}
+.cv-tag::before{content:"";position:absolute;top:-11px;left:50%;margin-left:-34px;width:68px;height:22px;background:var(--tape);
+  box-shadow:0 1px 3px rgba(0,0,0,.25);transform:rotate(-3deg)}
+/* punched hole + string of a luggage tag */
+.cv-tag::after{content:"";position:absolute;left:-6px;top:50%;width:9px;height:9px;margin-top:-4px;border-radius:50%;
+  background:#241c12;box-shadow:0 0 0 3px rgba(239,230,207,.9)}
+.cv-tag:hover,.cv-tag:focus-visible{transform:rotate(0deg) translateY(-3px);filter:saturate(1.06)}
+.cv-tag svg{width:14px;height:14px;fill:currentColor}
+.cv-tag:focus-visible{outline:3px solid var(--accent);outline-offset:6px}
+
+/* closing handwritten loop-back line */
+.loopback{text-align:right;flex:1 1 280px}
+.loop-line{font-family:'Caveat',cursive;font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.2;color:var(--accent);text-decoration:none;display:inline-block;transform:rotate(-2deg);transition:transform .3s ease,color .3s ease}
+.loop-line .arrow{display:inline-block;margin-left:6px;transition:transform .3s ease}
+.loop-line:hover,.loop-line:focus-visible{color:#f6f0e3}
+.loop-line:hover .arrow,.loop-line:focus-visible .arrow{transform:translateX(-6px) rotate(-8deg)}
+.loop-line:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:4px}
+.loop-sub{display:block;font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-top:8px}
+
+/* doodle / arrow accents (echo .doodle from works) */
+.doodle{position:absolute;font-family:'Caveat',cursive;color:var(--accent);pointer-events:none;opacity:.9;z-index:3}
+.doodle.d1{font-size:1.4rem;top:-10px;right:8%;transform:rotate(-8deg)}
+.doodle.d2{font-size:1.25rem;bottom:74px;left:-8px;transform:rotate(6deg);color:#cdbf9a}
+.doodle.d3{font-size:1.3rem;top:42%;right:-6px;transform:rotate(90deg);color:#cdbf9a}
+
+/* ---------- responsive ---------- */
+@media(max-width:820px){
+  .collage{display:flex;flex-direction:column;gap:34px}
+  .keep,.k-polaroid,.k-bio,.k-ticket,.k-note,.k-langs{margin-top:0;transform:rotate(-1.6deg)}
+  .keep:nth-child(even){transform:rotate(1.8deg)}
+  .doodle.d2,.doodle.d3{display:none}
+  .cv-row{flex-direction:column;align-items:flex-start;gap:30px}
+  .loopback{text-align:left}
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  *{scroll-behavior:auto !important;animation:none !important}
+  .keep,.keep:hover,.keep:focus-within,
+  .cv-tag,.cv-tag:hover,.cv-tag:focus-visible,
+  .loop-line,.loop-line:hover,.loop-line:focus-visible,
+  .loop-line .arrow{transition:none}
+  .keep:hover,.keep:focus-within{transform:none}
+  .cv-tag:hover,.cv-tag:focus-visible{transform:rotate(-1.6deg)}
+  .loop-line:hover .arrow,.loop-line:focus-visible .arrow{transform:none}
+}
+</style>
+</head>
+<body>
+
+<main class="scrapbook">
+  <header class="sb-head">
+    <div class="sb-eyebrow">About &middot; The Shoebox</div>
+    <h1 class="sb-title">Things worth <em>keeping</em>.</h1>
+    <p class="sb-titles">Jeffrey N. Tse &nbsp;&middot;&nbsp; Systems Architect &middot; Art Director &middot; Editorial Strategist</p>
+    <span class="sb-hint">open the lid</span>
+    <span class="doodle d1" aria-hidden="true">this one's mine &darr;</span>
+  </header>
+
+  <section class="shoebox" aria-label="A shoebox of keepsakes">
+    <span class="box-label">Keepsakes &middot; do not throw out</span>
+    <span class="doodle d2" aria-hidden="true">est. Hong Kong</span>
+    <span class="doodle d3" aria-hidden="true">handle with care</span>
+
+    <div class="collage">
+
+      <!-- POLAROID -->
+      <figure class="keep k-polaroid polaroid">
+        <span class="tape tl" aria-hidden="true"></span>
+        <span class="tape tr" aria-hidden="true"></span>
+        <div class="card-paper">
+          <div class="photo" role="img" aria-label="An empty polaroid frame, still developing — no portrait yet.">
+            <span class="developing" aria-hidden="true">still developing &middot; check back soon</span>
+          </div>
+          <figcaption class="cap">that's me &mdash; nearly</figcaption>
+        </div>
+      </figure>
+
+      <!-- BIO -->
+      <article class="keep k-bio bio">
+        <span class="tape tl" aria-hidden="true"></span>
+        <span class="tape tr" aria-hidden="true"></span>
+        <div class="card-paper">
+          <div class="hi" aria-hidden="true">Hello &mdash;</div>
+          <h2>Jeffrey N. Tse</h2>
+          <div class="titles">Systems Architect &middot; Art Director &middot; Editorial Strategist</div>
+          <p>He builds the structure underneath a thing and the way it reads on the surface &mdash; identity systems, editorial direction, and narrative work &mdash; and treats the seam between the two as the whole job. Trained in <em>Art History</em> at Hong Kong Polytechnic University, he came to design through looking hard at objects and asking who made them, what they cost, and where they end up.</p>
+          <p>These days that runs from <em>ECHO</em>, an interactive narrative, to <em>ROLL CALL</em>, a material-culture archive, to <em>SPECTOR</em> and a steady habit of cataloguing the overlooked. Based in Hong Kong.</p>
+        </div>
+        <div class="handwrite">the long version &rarr;</div>
+      </article>
+
+      <!-- TICKET STUB -->
+      <div class="keep k-ticket ticket">
+        <span class="tape tl" aria-hidden="true"></span>
+        <span class="tape tr" aria-hidden="true"></span>
+        <div class="card-paper">
+          <div class="stub">
+            <div class="t-eye">Admit one &middot; keep this half</div>
+            <div class="t-big">BA, Art History</div>
+            <div class="t-rows">
+              <span><b>Hong Kong Polytechnic University</b></span>
+              <span>Dean's Honour List &middot; GPA 4.1 / 4.33</span>
+              <span>Thesis &middot; 2023</span>
+            </div>
+          </div>
+        </div>
+        <div class="handwrite">where it started</div>
+      </div>
+
+      <!-- HANDWRITTEN NOTE -->
+      <div class="keep k-note note">
+        <span class="tape center" aria-hidden="true"></span>
+        <div class="card-paper">
+          <div class="pad">
+            <p class="scrawl">build the bones,<br>then the <b>look</b>.<br>the seam <b>is</b><br>the work.</p>
+          </div>
+        </div>
+        <div class="handwrite">note to self</div>
+      </div>
+
+      <!-- LANGUAGES LABEL -->
+      <div class="keep k-langs langs">
+        <span class="tape tl" aria-hidden="true"></span>
+        <span class="tape tr" aria-hidden="true"></span>
+        <div class="card-paper">
+          <div class="labelcard">
+            <div class="lc-eye">spoken &middot; written</div>
+            <ul>
+              <li>English <span>native</span></li>
+              <li>Cantonese <span>native</span></li>
+              <li>Mandarin <span>fluent</span></li>
+              <li>Japanese <span>basic</span></li>
+              <li>Russian <span>basic</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="handwrite">five tongues</div>
+      </div>
+
+    </div><!-- /collage -->
+
+    <div class="cv-row">
+      <a class="cv-tag" href="assets/JeffreyTse_CV.pdf" target="_blank" rel="noopener" aria-label="Download the full C.V. as a PDF">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zM5 18h14v2H5z"/></svg>
+        Pull the full C.V.
+      </a>
+
+      <p class="loopback">
+        <a class="loop-line" href="#gate" aria-label="Back to the start — the gate and the koi">
+          <span class="arrow" aria-hidden="true">&larr;</span> and now, back to where the koi began
+          <span class="loop-sub">the chain comes full circle</span>
+        </a>
+      </p>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

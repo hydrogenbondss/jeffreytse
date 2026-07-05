@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — poster proof v2 (Finite Appearances)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE — structured riso exhibition poster (CN/JP DNA).
+     Cream ground · coarse halftone hero · flat blue+black inks ·
+     bracketed Swiss type · date grid · mirrored title · serial.
+     ============================================================ */
+  :root{
+    --cream:#e7e4d9; --blue:#1f37e3; --ink:#16140f; --red:#e5332a;
+    --sans:'Archivo',Helvetica,Arial,sans-serif; --mono:'Space Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#cbcabf;display:flex;justify-content:center;padding:clamp(14px,4vw,52px);font-family:var(--sans)}
+  .poster{position:relative;width:min(520px,94vw);aspect-ratio:2/3;background:var(--cream);overflow:hidden;color:var(--ink);
+    box-shadow:0 30px 70px -24px rgba(0,0,0,.6)}
+  /* crumpled-paper grain */
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---- coarse-halftone duotone hero ---- */
+  .hero{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:74%;aspect-ratio:1/1;z-index:1}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:url(#duo) contrast(1.5) brightness(1.05)}
+  .hero .dots{position:absolute;inset:0;mix-blend-mode:screen;opacity:.85;
+    background-image:radial-gradient(var(--cream) 32%,transparent 36%);background-size:5px 5px}
+  .star{position:absolute;color:var(--blue);font-family:var(--sans);font-weight:900;z-index:2}
+
+  .type{position:absolute;inset:0;z-index:3}
+  /* title block, top-left */
+  .title{position:absolute;left:18px;top:16px;font-family:var(--sans);font-weight:900;font-size:clamp(2rem,7.4vw,3.2rem);
+    line-height:.84;text-transform:uppercase;letter-spacing:-.015em;color:var(--blue)}
+  .brackets{position:absolute;left:18px;top:clamp(96px,29vw,150px);font-family:var(--mono);font-weight:700;font-size:.56rem;
+    letter-spacing:.06em;line-height:1.7;color:var(--ink)}
+  .abstract{position:absolute;left:18px;top:clamp(150px,44vw,230px);width:46%;font-family:var(--mono);font-size:.5rem;line-height:1.6;color:var(--ink)}
+
+  /* big vertical accession, right edge */
+  .vert{position:absolute;right:8px;top:14px;writing-mode:vertical-rl;font-family:var(--sans);font-weight:900;
+    font-size:clamp(1.6rem,6vw,2.6rem);letter-spacing:.04em;color:var(--red)}
+
+  /* bottom listing grid */
+  .grid{position:absolute;left:18px;right:18px;bottom:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px 10px;
+    font-family:var(--mono);font-size:.5rem;line-height:1.5;letter-spacing:.02em;color:var(--ink);
+    border-top:1.5px solid var(--ink);padding-top:8px}
+  .grid b{color:var(--blue)}
+  .qr{position:absolute;left:18px;bottom:16px;width:34px;height:34px;
+    background:
+      conic-gradient(var(--ink) 90deg,transparent 0 180deg,var(--ink) 0 270deg,transparent 0) 0 0/12px 12px,
+      var(--cream);border:1px solid var(--ink)}
+  .serial{position:absolute;left:62px;bottom:18px;font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;color:var(--ink);line-height:1.5}
+
+  /* MIRRORED title, bottom-right — the signature move */
+  .mirror{position:absolute;right:14px;bottom:54px;transform:rotate(180deg);transform-origin:right bottom;
+    font-family:var(--sans);font-weight:900;font-size:clamp(.9rem,3vw,1.3rem);line-height:.9;text-transform:uppercase;
+    color:var(--ink);opacity:.78;text-align:left}
+  .mirror small{display:block;font-family:var(--mono);font-weight:700;font-size:.5rem;letter-spacing:.1em;opacity:.7;margin-top:3px}
+
+  .cap{font-family:var(--mono);font-size:.6rem;color:#6b6760;text-align:center;margin-top:14px;letter-spacing:.04em}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="duo">
+    <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB">
+      <feFuncR type="table" tableValues="0.12 0.91"/>
+      <feFuncG type="table" tableValues="0.21 0.89"/>
+      <feFuncB type="table" tableValues="0.89 0.85"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<div>
+  <article class="poster">
+    <div class="hero">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/00c952ca-9eca-4873-869c-bb18d048c53f.png" alt="Kelly Holmes, Soap Hands, 2017">
+      <div class="dots"></div>
+    </div>
+    <span class="star" style="left:12%;top:40%;font-size:1.1rem">✦</span>
+    <span class="star" style="right:16%;bottom:30%;font-size:.8rem">✦</span>
+
+    <div class="type">
+      <h1 class="title">Finite<br>Appear-<br>ances</h1>
+      <div class="brackets">[ WIL ABALLE ART PROJECTS ]<br>[ VANCOUVER · CA ]<br>[ CO-CURATED ]</div>
+      <div class="abstract">Plaster casts of hands, soap moulds, a snow-angel on video, a floor of plaster navels — can intimacy survive being made permanent?</div>
+
+      <div class="vert">EX·02 — 2018</div>
+
+      <div class="grid">
+        <div><b>ROLE</b><br>Co-Curator</div>
+        <div><b>ARTIST</b><br>Kelly Holmes</div>
+        <div><b>YEAR</b><br>2018</div>
+        <div><b>VENUE</b><br>WAAP</div>
+        <div><b>CITY</b><br>Vancouver</div>
+        <div><b>SERIES</b><br>I · Exhibitions</div>
+      </div>
+      <div class="qr" aria-hidden="true"></div>
+      <div class="serial">№ 2018·EX-02<br>ARCHIVE / J.N.TSE</div>
+
+      <div class="mirror">Finite<br>Appearances<small>v · a — c</small></div>
+    </div>
+  </article>
+  <p class="cap">PROOF v2 · Finite Appearances · coarse halftone + structured riso type · no generation</p>
+</div>
+</body>
+</html>

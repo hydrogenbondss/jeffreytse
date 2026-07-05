@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archive — poster proof v3 (Finite Appearances)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Reenie+Beanie&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCHIVE — poster proof v3.  FUSION:
+       · CRIMSON FLORA  -> clashing riso inks, glitched specimen
+                           photo, bilingual spec-codes, barcode, 藏
+       · MARGOT sheet   -> top header-rule grid, giant grotesque
+                           headline, connect-the-dot overlay,
+                           handwriting + drawn arrow over the photo
+     Real record: Finite Appearances (Kelly Holmes, WAAP, 2018).
+     No generation — type / SVG / CSS only.
+     ============================================================ */
+  :root{
+    --green:#c6e21a;     /* acid riso ground */
+    --green-d:#b2cf12;
+    --ink:#0e0e0a;       /* near-black ink   */
+    --mag:#e8275f;       /* crimson-magenta ink */
+    --pink:#ff5ca0;
+    --paper:#0e0e0a;
+    --anton:'Anton',Impact,sans-serif;
+    --sans:'Archivo',Helvetica,Arial,sans-serif;
+    --mono:'Space Mono',monospace;
+    --mark:'Reenie Beanie',cursive;
+    --cjk:'Noto Serif SC',serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#1d1d1a;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(14px,4vw,52px);font-family:var(--sans)}
+
+  .poster{position:relative;width:min(560px,94vw);aspect-ratio:2/3;background:var(--green);
+    overflow:hidden;color:var(--ink);box-shadow:0 34px 80px -28px rgba(0,0,0,.75)}
+
+  /* riso tooth / grain + faint mis-reg shadow on the whole sheet */
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:9;opacity:.16;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---------- top header-rule grid (Margot) ---------- */
+  .head{position:absolute;top:0;left:0;right:0;z-index:6;padding:9px 16px 0;
+    font-family:var(--mono);color:var(--ink)}
+  .head .r1{display:flex;justify-content:space-between;align-items:baseline;
+    font-weight:700;font-size:clamp(.46rem,1.6vw,.62rem);letter-spacing:.16em;text-transform:uppercase;
+    border-bottom:1.6px solid var(--ink);padding-bottom:5px}
+  .head .r2{display:flex;justify-content:space-between;
+    font-size:clamp(.4rem,1.4vw,.5rem);letter-spacing:.1em;text-transform:uppercase;color:#3a3a22;
+    padding-top:4px;border-bottom:1px solid var(--ink)}
+
+  /* ---------- giant headline ---------- */
+  .title{position:absolute;left:14px;top:clamp(54px,9vw,74px);z-index:5;
+    font-family:var(--anton);line-height:.8;text-transform:uppercase;letter-spacing:-.005em}
+  .title .l1{display:block;font-size:clamp(3.1rem,13vw,5.6rem);color:var(--ink)}
+  .title .l2{display:block;font-size:clamp(3.1rem,13vw,5.6rem);color:var(--mag)}
+  .title .sub{display:block;margin-top:6px;font-family:var(--mono);font-weight:700;
+    font-size:clamp(.46rem,1.6vw,.6rem);letter-spacing:.2em;color:var(--ink)}
+
+  /* ---------- glitched specimen photo ---------- */
+  .hero{position:absolute;left:51%;top:55%;transform:translate(-50%,-50%);
+    width:60%;aspect-ratio:4/5;z-index:2}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:url(#duo) contrast(1.45) brightness(1.04)}
+  /* halftone dot bloom on the photo */
+  .hero .dots{position:absolute;inset:0;mix-blend-mode:screen;opacity:.55;
+    background-image:radial-gradient(var(--green) 30%,transparent 34%);background-size:5px 5px}
+  /* pixel-sort corruption bands */
+  .hero .glitch{position:absolute;left:-6%;width:112%;height:7%;mix-blend-mode:multiply;opacity:.92;
+    background:
+      repeating-linear-gradient(90deg,var(--mag) 0 7px,transparent 7px 14px),
+      repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 18px)}
+  .hero .g1{top:34%}
+  .hero .g2{top:63%;height:4%;opacity:.8}
+  /* connect-the-dot scan overlay (Margot) */
+  .hero svg.net{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible}
+  .hero svg.net polyline{fill:none;stroke:var(--ink);stroke-width:1.4}
+  .hero svg.net circle{fill:var(--mag);stroke:var(--ink);stroke-width:1}
+  /* floating magenta mosaic squares */
+  .chip{position:absolute;z-index:3;background:var(--mag);mix-blend-mode:multiply}
+
+  /* ---------- scattered spec-codes ---------- */
+  .code{position:absolute;z-index:5;font-family:var(--mono);font-size:clamp(.42rem,1.45vw,.56rem);
+    line-height:1.5;letter-spacing:.04em;text-transform:uppercase}
+  .code.k1{left:14px;top:clamp(150px,30vw,210px);color:var(--ink)}
+  .code.k1 b{color:var(--mag)}
+  .code.k2{right:12px;top:clamp(150px,30vw,206px);text-align:right;color:var(--ink)}
+  .err{position:absolute;z-index:5;left:14px;bottom:clamp(150px,26vw,196px);
+    font-family:var(--mono);font-weight:700;letter-spacing:.04em;color:var(--mag);
+    font-size:clamp(.6rem,2.4vw,.92rem);line-height:1.05;text-transform:uppercase}
+  .err small{display:block;color:var(--ink);font-weight:400;font-size:.52rem;letter-spacing:.08em;margin-top:3px}
+
+  /* big vertical accession number (CRIMSON FLORA) */
+  .vert{position:absolute;right:6px;top:34%;z-index:4;writing-mode:vertical-rl;
+    font-family:var(--anton);font-size:clamp(2.6rem,11vw,4.4rem);color:var(--ink);
+    letter-spacing:.02em;line-height:.9}
+  .vert span{color:var(--mag)}
+
+  /* handwriting + drawn arrow over the photo (the human hand) */
+  .mark{position:absolute;left:4%;bottom:clamp(96px,18vw,150px);z-index:6;width:54%}
+  .mark p{font-family:var(--mark);font-size:clamp(1.5rem,5.6vw,2.3rem);line-height:.92;color:var(--ink)}
+  .mark svg{position:absolute;right:-34px;top:-6px;width:74px;height:60px;overflow:visible}
+  .mark svg path{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round}
+
+  /* ---------- footer rule + barcode + listing + serial + 藏 ---------- */
+  .foot{position:absolute;left:0;right:0;bottom:0;z-index:6;padding:0 14px 12px}
+  .foot .rule{height:0;border-top:1.6px solid var(--ink);margin-bottom:7px}
+  .foot .row{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+  .barcode{width:96px;height:34px;
+    background:
+      repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px 3px,var(--ink) 3px 4px,transparent 4px 7px,var(--ink) 7px 9px,transparent 9px 11px)}
+  .listing{flex:1;font-family:var(--mono);font-size:clamp(.4rem,1.4vw,.52rem);line-height:1.45;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .listing b{color:var(--mag)}
+  .serial{font-family:var(--mono);font-size:clamp(.4rem,1.4vw,.5rem);letter-spacing:.06em;
+    color:var(--ink);text-align:right;line-height:1.5;white-space:nowrap}
+  .cjk{position:absolute;right:8px;bottom:40px;z-index:5;font-family:var(--cjk);font-weight:900;
+    font-size:clamp(2.6rem,11vw,4.2rem);color:var(--mag);line-height:.8}
+  .star{position:absolute;z-index:6;color:var(--mag);font-family:var(--sans);font-weight:900}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;
+    letter-spacing:.04em;max-width:46ch;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- duotone: shadows -> ink, highlights -> magenta -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="duo">
+    <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0"/>
+    <feComponentTransfer color-interpolation-filters="sRGB">
+      <feFuncR type="table" tableValues="0.05 0.91"/>
+      <feFuncG type="table" tableValues="0.05 0.15"/>
+      <feFuncB type="table" tableValues="0.05 0.37"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<article class="poster">
+
+  <!-- header grid -->
+  <div class="head">
+    <div class="r1">
+      <span>Archive</span><span>Specimen</span><span>Series I · Exhibitions</span><span>No.02</span>
+    </div>
+    <div class="r2">
+      <span>Co-Curated</span><span>WAAP · Vancouver</span><span>2018</span><span>Open / by hand</span>
+    </div>
+  </div>
+
+  <!-- headline -->
+  <h1 class="title">
+    <span class="l1">Finite</span>
+    <span class="l2">Appear&shy;ances</span>
+    <span class="sub">An exhibition of Kelly Holmes — co-curated by J. N. Tse</span>
+  </h1>
+
+  <!-- glitched specimen photo -->
+  <div class="hero">
+    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3D9n01XOnau0mp9G8sIiSIuAWCf/00c952ca-9eca-4873-869c-bb18d048c53f.png" alt="Kelly Holmes, Soap Hands, 2017">
+    <div class="dots"></div>
+    <div class="glitch g1"></div>
+    <div class="glitch g2"></div>
+    <span class="chip" style="left:-4%;top:18%;width:9%;height:7%"></span>
+    <span class="chip" style="right:-3%;top:48%;width:6%;height:5%"></span>
+    <span class="chip" style="left:8%;bottom:6%;width:5%;height:4%"></span>
+    <svg class="net" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="22,40 50,26 74,44 66,72 40,82 22,40 50,55 74,44 40,82 50,55 66,72"/>
+      <circle cx="22" cy="40" r="2.4"/><circle cx="50" cy="26" r="2.4"/><circle cx="74" cy="44" r="2.4"/>
+      <circle cx="66" cy="72" r="2.4"/><circle cx="40" cy="82" r="2.4"/><circle cx="50" cy="55" r="2.4"/>
+    </svg>
+  </div>
+
+  <!-- scattered spec codes -->
+  <div class="code k1">
+    <b>FA·FIL</b> 0018·EX02·001101<br>
+    CLASS: SCULPTURE — CAST.03<br>
+    MEDIUM: PLASTER / SOAP / VIDEO
+  </div>
+  <div class="code k2">
+    ARTIST → KELLY HOLMES<br>
+    HOST: WIL ABALLE ART PROJECTS<br>
+    BIND: #C6E21A · #E8275F
+  </div>
+
+  <!-- big vertical accession -->
+  <div class="vert">EX·<span>02</span></div>
+
+  <!-- the curatorial 'error' line -->
+  <div class="err">ERROR:<br>INTIMACY NOT ARCHIVABLE
+    <small>— the cast keeps the shape, never the feeling.</small>
+  </div>
+
+  <!-- handwriting + arrow (human hand over the machine) -->
+  <div class="mark">
+    <p>can a cast hold the feeling — or only the shape it left?</p>
+    <svg viewBox="0 0 74 60" aria-hidden="true"><path d="M4 50 C 24 40, 30 8, 64 14"/><path d="M64 14 l-15 1 M64 14 l-7 13"/></svg>
+  </div>
+
+  <span class="star" style="left:60%;top:24%;font-size:1.2rem">✦</span>
+
+  <!-- bilingual texture: 藏 = to archive / to keep hidden -->
+  <div class="cjk">藏</div>
+
+  <!-- footer -->
+  <div class="foot">
+    <div class="rule"></div>
+    <div class="row">
+      <span class="barcode" aria-hidden="true"></span>
+      <span class="listing">
+        <b>Finite Appearances</b> · Kelly Holmes · Wil Aballe Art Projects · Vancouver · 2018<br>
+        Co-curated · plaster casts, soap moulds, snow-angel video, a floor of plaster navels
+      </span>
+      <span class="serial">© ARCHIVE<br>J. N. TSE<br>№ EX-02 / 2018</span>
+    </div>
+  </div>
+
+</article>
+
+<p class="cap">PROOF v3 · Finite Appearances · CRIMSON FLORA inks + glitch × MARGOT header-grid + handwriting · no generation. If this is the lane, every record runs through it.</p>
+
+</body>
+</html>

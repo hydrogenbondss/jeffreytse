@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Offender Behind the Lens — words as the image</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     THE OFFENDER BEHIND THE LENS — words as the image.
+     No motif, no blob, no box. The title carries the poster;
+     restraint is the design. Same family fonts (Anton + mono) +
+     grain so it belongs to the set, plus a serif for gravity.
+     Deep indigo ground ties softly to the HEADACHE-blue family.
+     ============================================================ */
+  :root{
+    --anton:'Anton',Impact,sans-serif; --serif:'Cormorant Garamond',Georgia,serif; --mono:'Space Mono',monospace;
+    --bg:#16182e; --cream:#e9e3d4; --dim:#8d8aa0; --ox:#c0563b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0c0c12;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(16px,4vw,52px);font-family:var(--anton)}
+
+  .poster{position:relative;width:min(540px,92vw);aspect-ratio:848/1264;overflow:hidden;background:var(--bg);
+    color:var(--cream);box-shadow:0 30px 70px -24px rgba(0,0,0,.75);
+    display:flex;flex-direction:column;padding:clamp(22px,5.5vw,34px) clamp(20px,5vw,30px)}
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:8;opacity:.16;mix-blend-mode:soft-light;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .eyebrow{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.56rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+    border-bottom:1px solid rgba(233,227,212,.16);padding-bottom:10px;flex:none;position:relative;z-index:3}
+
+  .title{font-family:var(--anton);font-size:clamp(2.8rem,12.5vw,4.6rem);line-height:.9;text-transform:uppercase;
+    letter-spacing:.005em;color:var(--cream);margin-top:clamp(26px,7vw,46px);position:relative;z-index:3}
+  .title span{color:var(--ox)}
+  .subtitle{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2vw,1.35rem);
+    color:var(--dim);line-height:1.25;margin-top:14px;position:relative;z-index:3}
+
+  .grave{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.4;
+    color:var(--cream);margin-top:auto;max-width:30ch;position:relative;z-index:3}
+
+  .withheld{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);
+    border-top:1px solid rgba(192,86,59,.5);padding-top:11px;margin-top:clamp(20px,5vw,30px);line-height:1.5;position:relative;z-index:3}
+  .withheld b{color:var(--cream)}
+
+  .foot{font-family:var(--mono);font-size:.5rem;letter-spacing:.04em;color:var(--dim);line-height:1.6;
+    margin-top:12px;flex:none;position:relative;z-index:3}
+  .foot a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(192,86,59,.5)}
+  .foot a:hover,.foot a:focus-visible{color:var(--ox)}
+
+  .cap{font-family:var(--mono);font-size:.62rem;color:#9a9a8a;text-align:center;margin-top:16px;letter-spacing:.04em;max-width:54ch;line-height:1.5}
+</style>
+</head>
+<body>
+  <article class="poster">
+    <div class="eyebrow"><span>Essay · UJAH · 2019</span><span>Jeffrey N. Tse</span></div>
+
+    <h1 class="title">The Offender<br>Behind the<br><span>Lens</span></h1>
+    <div class="subtitle">The ethical legacy of Beitler&rsquo;s lynching photograph.</div>
+
+    <p class="grave">What does it mean to circulate an image whose origin was the very crime it documents?</p>
+
+    <div class="withheld"><b>Photograph withheld.</b> To reproduce it would repeat the act the writing interrogates.</div>
+    <div class="foot"><a href="https://www.milwaukeeindependent.com/featured/crushing-emotional-strain-seeing-images-videos-anti-black-violence/" target="_blank" rel="noopener">Cited — Milwaukee Independent, 2020</a> &nbsp;·&nbsp; <a href="https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/" target="_blank" rel="noopener">UJAH Symposium, AHVA UBC</a></div>
+  </article>
+  <p class="cap">THE OFFENDER BEHIND THE LENS · words as the image — no motif, restraint carries it · same family fonts + grain, serif for gravity · no generation.</p>
+</body>
+</html>

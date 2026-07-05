@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Bug</title>
+<meta name="description" content="An interactive narrative that decodes how you love. A quiet, private piece of self-reflection — nothing saved, nothing shared.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Courier+Prime:wght@400;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     LOVE BUG — the neon heart, up close.
+     The street piece is a pink neon heart on wet brick; this is
+     what it feels like to step up to it at 2 a.m. Dark glass,
+     tube-light type, nothing cute. Same narrative, same logic.
+     ============================================================ */
+  :root{
+    --night:#0a070c;          /* deep night */
+    --night-2:#120b14;
+    --ink:#f2e9ef;            /* pale rose-white text */
+    --ink-soft:rgba(242,233,239,.72);
+    --ink-faint:rgba(242,233,239,.42);
+    --neon:#ff5d8a;           /* the heart's pink */
+    --neon-hot:#ff2f6d;
+    --neon-soft:#ff9dd6;
+    --amber:#ffc98a;          /* shop-window warmth */
+    --teal:#4ecdc4;
+    --line:rgba(255,120,170,.16);
+    --card:rgba(14,8,15,.7);
+    --glow:0 0 10px rgba(255,93,138,.55),0 0 34px rgba(255,47,109,.3);
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --ease-soft:cubic-bezier(.4,0,.2,1);
+    --ease-bounce:var(--ease);
+    /* legacy aliases so nothing breaks */
+    --paper:var(--night); --paper-2:var(--night-2);
+    --orange:var(--neon); --orange-deep:var(--neon-hot); --orange-soft:var(--neon-soft);
+    --coral:var(--neon-soft); --peach:var(--amber); --blush:var(--neon-soft);
+    --butter:var(--amber); --sky:var(--teal); --lilac:#b48cff; --mint:var(--teal);
+    --rose:var(--neon-soft); --rose-deep:var(--neon-hot); --sage:var(--teal);
+    --mauve:#b48cff; --gold:var(--amber);
+    --line-soft:rgba(255,120,170,.09);
+    --shadow:0 30px 80px -30px rgba(0,0,0,.85);
+    --shadow-soft:0 20px 50px -30px rgba(0,0,0,.8);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    color:var(--ink);
+    background:#07050a;
+    min-height:100%;overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.6;
+  }
+  /* the cute aura blobs are gone — the night does the work */
+  .aura{display:none;}
+  /* the real street, up close: the neon heart on wet brick, photographed —
+     this is the actual place the piece describes, not a drawn stand-in. */
+  .photo-bg{
+    position:fixed;inset:-3%;z-index:0;pointer-events:none;
+    background-image:url("love-bug-bg.jpg");
+    background-size:cover;background-position:34% 46%;
+    filter:saturate(1.08) brightness(.88);
+    animation:photoPan 30s ease-in-out infinite alternate;
+  }
+  .photo-bg::after{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg, rgba(7,4,8,.6) 0%, rgba(7,4,8,.22) 24%, rgba(7,4,8,.4) 58%, rgba(7,4,8,.88) 100%),
+      radial-gradient(60% 55% at 50% 40%, rgba(7,4,8,.08), rgba(7,4,8,.62) 100%);
+  }
+  @keyframes photoPan{
+    0%{transform:scale(1.08) translate3d(-1.4%,0,0);}
+    100%{transform:scale(1.17) translate3d(1.4%,-1.6%,0);}
+  }
+  .glow-veil{
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(60vmax 46vmax at 50% 34%, rgba(255,93,138,.07), transparent 70%);
+  }
+  .grain{
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* faint rain streaks on the glass between you and the sign */
+  .glow-veil::after{
+    content:"";position:absolute;inset:0;opacity:.05;
+    background:repeating-linear-gradient(101deg,transparent 0 22px,rgba(255,255,255,.5) 22px 22.6px,transparent 22.6px 60px);
+  }
+
+  .stage{
+    position:relative;z-index:2;min-height:100dvh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:clamp(24px,5vw,64px) clamp(16px,5vw,40px);
+  }
+  .frame{
+    width:min(680px,100%);position:relative;
+    padding:clamp(26px,5vw,52px) clamp(22px,5vw,52px);
+  }
+  .frame > *{position:relative;z-index:1;}
+
+  /* progress — a thin neon tube filling */
+  .progress{margin-bottom:clamp(26px,4vh,40px);opacity:0;animation:fadeIn 1.2s var(--ease) .3s forwards;}
+  .progress.hidden{display:none;}
+  .progress-meta{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;
+    font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ink-faint);
+  }
+  .progress-meta .count{color:var(--neon-soft);letter-spacing:.14em;font-family:'Courier Prime',monospace;}
+  .progress-track{height:2px;width:100%;background:rgba(255,120,170,.14);overflow:visible;position:relative;}
+  .progress-fill{
+    position:absolute;inset:0 auto 0 0;height:100%;width:0%;
+    background:var(--neon);box-shadow:var(--glow);
+    transition:width .9s var(--ease);
+  }
+  .progress-fill::after{
+    content:"";position:absolute;right:-3px;top:50%;transform:translateY(-50%);
+    width:6px;height:6px;border-radius:50%;background:#fff;
+    box-shadow:0 0 8px rgba(255,157,214,.9),0 0 18px rgba(255,47,109,.6);
+  }
+
+  .panel{display:none;animation:rise .9s var(--ease) both;}
+  .panel.show{display:block;}
+  .panel.leaving{animation:sink .5s var(--ease-soft) both;}
+  @keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(6px);}to{opacity:1;transform:none;filter:blur(0);}}
+  @keyframes sink{from{opacity:1;transform:none;}to{opacity:0;transform:translateY(-14px);}}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.6em;
+    font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--neon-soft);margin-bottom:1.3rem;
+    text-shadow:0 0 12px rgba(255,93,138,.5);
+  }
+  .eyebrow-wrap{text-align:center;}
+  .eyebrow .blink{
+    display:inline-block;width:.45em;height:.45em;border-radius:50%;
+    background:var(--neon);box-shadow:0 0 8px rgba(255,93,138,.9);
+    animation:pulseDot 2.4s var(--ease-soft) infinite;
+  }
+  @keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.25}}
+
+  h1,h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;line-height:1.06;color:var(--ink);}
+  h1{font-size:clamp(2.7rem,8vw,4.2rem);}
+  h2{font-size:clamp(1.9rem,5vw,2.8rem);}
+  .lede{
+    font-size:clamp(1.05rem,2.5vw,1.2rem);color:var(--ink-soft);
+    max-width:44ch;margin:1.4rem auto 0;text-align:center;line-height:1.66;
+  }
+  .center{text-align:center;}
+
+  /* the neon sign itself — drawn in tube strokes, humming */
+  .hero-art{
+    width:clamp(150px,36vw,190px);margin:0 auto clamp(16px,3vh,26px);display:block;overflow:visible;
+    filter:drop-shadow(0 0 14px rgba(255,93,138,.55)) drop-shadow(0 0 44px rgba(255,47,109,.28));
+    animation:neonhum 4.2s var(--ease-soft) infinite;
+  }
+  @keyframes neonhum{0%,100%{opacity:1}92%{opacity:1}94%{opacity:.72}96%{opacity:1}}
+  .hero-art .breathe{transform-origin:center;transform-box:fill-box;animation:beat 5s var(--ease-soft) infinite;}
+  @keyframes beat{0%,100%{transform:scale(1);}18%{transform:scale(1.03);}36%{transform:scale(1);}}
+  .twinkle{animation:twinkle 3.4s var(--ease-soft) infinite;}
+  .twinkle.t2{animation-delay:1.1s;}.twinkle.t3{animation-delay:2.2s;}
+  @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.9;}}
+  .mark{display:none;}
+
+  /* buttons — neon tube outlines */
+  .btn{
+    font-family:'Courier Prime',monospace;font-size:.78rem;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--neon-soft);
+    background:transparent;border:1.5px solid rgba(255,93,138,.55);border-radius:3px;
+    padding:1.1em 2.6em;cursor:pointer;
+    text-shadow:0 0 10px rgba(255,93,138,.5);
+    box-shadow:0 0 18px -6px rgba(255,47,109,.4),inset 0 0 18px -10px rgba(255,47,109,.4);
+    transition:all .35s var(--ease);position:relative;overflow:hidden;
+  }
+  .btn::after{display:none;}
+  .btn:hover{
+    color:#fff;border-color:var(--neon);
+    box-shadow:0 0 30px -4px rgba(255,47,109,.65),inset 0 0 28px -8px rgba(255,47,109,.5);
+    text-shadow:0 0 14px rgba(255,157,214,.9);
+  }
+  .btn:active{transform:scale(.985);}
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--neon);}
+  .btn.ghost{border-color:rgba(255,201,138,.4);color:var(--amber);
+    text-shadow:0 0 10px rgba(255,201,138,.4);box-shadow:0 0 16px -8px rgba(255,171,94,.35);}
+  .btn.ghost:hover{border-color:var(--amber);color:#fff;box-shadow:0 0 26px -6px rgba(255,171,94,.55);}
+
+  .actions{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:clamp(28px,5vh,42px);flex-wrap:wrap;}
+
+  .reassure{
+    display:inline-flex;align-items:center;gap:.6em;margin-top:clamp(20px,4vh,30px);
+    font-family:'Courier Prime',monospace;font-size:.62rem;letter-spacing:.1em;
+    color:var(--ink-faint);
+  }
+  .reassure-wrap{text-align:center;}
+  .reassure svg{width:1.2em;height:1.2em;flex:0 0 auto;opacity:.7;}
+
+  /* scenes — typographic; the words carry it */
+  .scene-art{display:none;}
+  .scene-no{
+    display:inline-block;font-family:'Courier Prime',monospace;
+    font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--amber);text-shadow:0 0 10px rgba(255,201,138,.35);
+    margin-bottom:1rem;
+  }
+  .scene-no-wrap{text-align:center;}
+  .scene-title{
+    font-family:'Cormorant Garamond',serif;font-weight:300;
+    font-size:clamp(1.9rem,5.2vw,2.7rem);line-height:1.08;text-align:center;
+    margin-bottom:1.1rem;color:var(--ink);
+  }
+  .scene-narr{
+    font-size:clamp(1.05rem,2.5vw,1.18rem);color:var(--ink-soft);
+    max-width:50ch;margin:0 auto;text-align:center;line-height:1.7;
+  }
+  .scene-q{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.3rem,3.4vw,1.6rem);color:var(--neon-soft);
+    text-shadow:0 0 16px rgba(255,93,138,.4);
+    text-align:center;margin:clamp(22px,4vh,32px) auto clamp(18px,3vh,24px);max-width:36ch;
+  }
+
+  .choices{display:flex;flex-direction:column;gap:10px;max-width:560px;margin:0 auto;}
+  .choice{
+    font-family:'Cormorant Garamond',serif;font-size:clamp(1.02rem,2.4vw,1.14rem);
+    line-height:1.5;color:var(--ink-soft);text-align:left;
+    background:var(--card);border:1px solid rgba(255,120,170,.14);border-radius:4px;
+    padding:1em 1.2em 1em 1em;cursor:pointer;backdrop-filter:blur(8px);
+    display:flex;align-items:center;gap:.9em;
+    transition:all .3s var(--ease);animation:choiceIn .65s var(--ease) both;
+  }
+  .choice .key{
+    flex:0 0 auto;width:1.9em;height:1.9em;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Courier Prime',monospace;font-size:.72rem;font-weight:700;
+    color:var(--neon-soft);border:1px solid rgba(255,93,138,.45);
+    transition:all .3s var(--ease);
+  }
+  .choice:hover{
+    color:var(--ink);border-color:rgba(255,93,138,.5);
+    background:rgba(30,16,26,.7);
+    box-shadow:0 0 24px -10px rgba(255,47,109,.5);
+  }
+  .choice:hover .key{color:#fff;border-color:var(--neon);box-shadow:0 0 12px rgba(255,47,109,.6);}
+  .choice:focus-visible{outline:none;border-color:var(--neon);box-shadow:0 0 0 2px rgba(255,93,138,.3);}
+  .choice.chosen{
+    border-color:var(--neon);color:#fff;background:rgba(50,16,32,.75);
+    box-shadow:0 0 30px -8px rgba(255,47,109,.7);
+  }
+  .choice.chosen .key{color:var(--night);background:var(--neon);border-color:var(--neon);}
+  @keyframes choiceIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+
+  /* decoding — neon rings turning */
+  .decoding{text-align:center;}
+  .orbit{width:clamp(140px,36vw,170px);height:clamp(140px,36vw,170px);margin:0 auto clamp(22px,4vh,32px);position:relative;
+    filter:drop-shadow(0 0 12px rgba(255,93,138,.4));}
+  .orbit svg{width:100%;height:100%;overflow:visible;}
+  .orbit .ring{fill:none;stroke-width:1.5;stroke-linecap:round;opacity:.7;transform-origin:center;}
+  .orbit .ring.r1{stroke:var(--neon);animation:spin 11s linear infinite;}
+  .orbit .ring.r2{stroke:var(--amber);animation:spin 8s linear infinite reverse;}
+  .orbit .ring.r3{stroke:var(--teal);animation:spin 6s linear infinite;}
+  .orbit .sat{transform-origin:90px 90px;}
+  .orbit .sat.s1{animation:spin 9s linear infinite;}
+  .orbit .sat.s2{animation:spin 7s linear infinite reverse;}
+  .orbit .sat.s3{animation:spin 5s linear infinite;}
+  .orbit .heart-core{transform-origin:center;transform-box:fill-box;animation:coreBeat 2.4s var(--ease-soft) infinite;
+    filter:drop-shadow(0 0 10px rgba(255,47,109,.8));}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes coreBeat{0%,100%{transform:scale(1);}30%{transform:scale(1.1);}45%{transform:scale(1);}}
+  .decode-line{
+    font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ink-soft);min-height:1.5em;transition:opacity .6s var(--ease);
+  }
+
+  /* result — the sign reads you back */
+  .result-emblem{display:none;}
+  .result-tag{
+    display:inline-block;font-family:'Courier Prime',monospace;
+    font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--amber);text-shadow:0 0 10px rgba(255,201,138,.35);margin-bottom:.9rem;
+  }
+  .result-tag-wrap{text-align:center;}
+  .result-name{
+    font-family:'Caveat',cursive;font-weight:600;
+    font-size:clamp(3rem,9vw,4.6rem);line-height:1;text-align:center;
+    color:var(--neon-soft);
+    text-shadow:0 0 14px rgba(255,93,138,.8),0 0 44px rgba(255,47,109,.45);
+  }
+  .result-tagline{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.2rem,3vw,1.5rem);color:var(--ink-soft);
+    text-align:center;max-width:32ch;margin:1.1rem auto 0;line-height:1.45;
+  }
+
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:clamp(28px,5vh,42px) 0 0;}
+  @media (max-width:480px){.cards{grid-template-columns:1fr;}}
+  .card{
+    background:var(--card);border:1px solid rgba(255,120,170,.13);border-radius:4px;
+    padding:1.25em 1.3em;backdrop-filter:blur(10px);
+    transition:border-color .35s var(--ease), box-shadow .35s var(--ease);
+    position:relative;overflow:hidden;
+  }
+  .card::before{display:none;}
+  .card:hover{border-color:rgba(255,93,138,.4);box-shadow:0 0 24px -12px rgba(255,47,109,.5);}
+  .card-icon{width:26px;height:26px;margin-bottom:.7rem;display:block;overflow:visible;opacity:.9;}
+  .card-label{
+    font-family:'Courier Prime',monospace;font-size:.56rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--amber);margin-bottom:.4rem;
+  }
+  .card-value{
+    font-family:'Cormorant Garamond',serif;font-weight:400;
+    font-size:clamp(1.3rem,3.1vw,1.5rem);color:var(--ink);line-height:1.16;margin-bottom:.45rem;
+  }
+  .card-note{font-size:.98rem;color:var(--ink-soft);line-height:1.5;}
+
+  .insight{
+    margin-top:14px;background:var(--card);
+    border:1px solid rgba(255,120,170,.13);border-radius:4px;
+    padding:clamp(22px,4vw,30px);backdrop-filter:blur(10px);
+    position:relative;overflow:hidden;
+  }
+  .insight + .insight{margin-top:12px;}
+  .insight-label{
+    display:flex;align-items:center;gap:.55em;
+    font-family:'Courier Prime',monospace;font-size:.58rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--neon-soft);margin-bottom:.7rem;
+    text-shadow:0 0 10px rgba(255,93,138,.4);
+  }
+  .insight-label svg{width:1.2em;height:1.2em;flex:0 0 auto;}
+  .insight-body{font-size:clamp(1.04rem,2.5vw,1.16rem);color:var(--ink-soft);line-height:1.68;}
+
+  .result-divider{
+    margin:clamp(28px,5vh,42px) auto clamp(20px,4vh,28px);
+    width:64px;height:8px;display:block;overflow:visible;opacity:.8;
+    filter:drop-shadow(0 0 6px rgba(255,93,138,.6));
+  }
+  .restart{margin-top:clamp(26px,5vh,40px);text-align:center;}
+  .footnote{
+    text-align:center;margin-top:clamp(26px,6vh,44px);
+    font-family:'Courier Prime',monospace;font-size:.6rem;letter-spacing:.08em;
+    color:var(--ink-faint);line-height:1.9;
+  }
+
+  .reveal > *{opacity:0;transform:translateY(12px);animation:revUp .9s var(--ease) forwards;}
+  @keyframes revUp{to{opacity:1;transform:none;}}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.12s!important;scroll-behavior:auto!important;}
+    .hero-art,.orbit .ring,.orbit .sat,.orbit .heart-core,.eyebrow .blink{animation:none!important;}
+    .eyebrow .blink{opacity:.7;}
+    .reveal > *{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+  <div class="photo-bg" aria-hidden="true"></div>
+  <div class="aura" aria-hidden="true">
+    <div class="blob b1"><svg viewBox="0 0 200 200"><path fill="#ffd1a6" d="M44.2,-58.6C56.4,-49.7,64.6,-35.5,68.8,-20.1C73,-4.7,73.2,11.9,67,25.9C60.7,39.9,48,51.3,33.6,59.1C19.2,66.9,3.1,71.1,-13.6,69.9C-30.3,68.7,-47.6,62.1,-58.9,49.7C-70.2,37.3,-75.5,19.1,-75.2,1.1C-74.9,-16.9,-69,-34.7,-57.6,-44.7C-46.2,-54.7,-29.3,-56.9,-13.7,-60.5C1.9,-64.1,16.1,-69.1,28.9,-67C41.7,-64.9,32,-67.5,44.2,-58.6Z" transform="translate(100 100)"/></svg></div>
+    <div class="blob b2"><svg viewBox="0 0 200 200"><path fill="#ffc6d2" d="M41.3,-55.7C52.6,-47.3,60.3,-34.3,64.5,-20.2C68.7,-6.1,69.4,9.1,64.3,22C59.2,34.9,48.3,45.5,35.6,54.1C22.9,62.7,8.4,69.3,-6.9,69.9C-22.2,70.5,-38.3,65.1,-50.4,54.6C-62.5,44.1,-70.6,28.5,-72.6,12.3C-74.6,-3.9,-70.5,-20.7,-61.5,-33.9C-52.5,-47.1,-38.6,-56.7,-24.4,-63.9C-10.2,-71.1,4.3,-75.9,17.6,-72.4C30.9,-68.9,30,-64.1,41.3,-55.7Z" transform="translate(100 100)"/></svg></div>
+    <div class="blob b3"><svg viewBox="0 0 200 200"><path fill="#cfe9d6" d="M38.5,-52.4C50.8,-43.4,61.9,-32.1,66.4,-18.4C70.9,-4.7,68.8,11.4,62.2,25.1C55.6,38.8,44.5,50.1,31.2,57.7C17.9,65.3,2.4,69.2,-13.6,68.2C-29.6,67.2,-46.1,61.3,-57.3,49.8C-68.5,38.3,-74.4,21.2,-74.8,3.9C-75.2,-13.4,-70.1,-30.9,-59.4,-43.6C-48.7,-56.3,-32.4,-64.2,-16.4,-66.8C-0.4,-69.4,15.3,-66.7,28.5,-62.4C41.7,-58.1,26.2,-61.4,38.5,-52.4Z" transform="translate(100 100)"/></svg></div>
+    <div class="blob b4"><svg viewBox="0 0 200 200"><path fill="#e3d2f6" d="M37.7,-50.9C49.4,-42.1,59.6,-31.3,64.2,-18.2C68.8,-5.1,67.8,10.3,61.6,23.2C55.4,36.1,44,46.5,31,54.2C18,61.9,3.4,66.9,-11.7,66.4C-26.8,65.9,-42.4,59.9,-53.9,49.1C-65.4,38.3,-72.8,22.7,-74.1,6.4C-75.4,-9.9,-70.6,-26.9,-60.4,-39.3C-50.2,-51.7,-34.6,-59.5,-19.3,-65.4C-4,-71.3,11,-75.3,24.3,-71.2C37.6,-67.1,26,-59.7,37.7,-50.9Z" transform="translate(100 100)"/></svg></div>
+  </div>
+  <div class="glow-veil" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ff9dd6"/>
+        <stop offset="1" stop-color="#ff2f6d"/>
+      </linearGradient>
+      <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffc98a"/>
+        <stop offset="1" stop-color="#ff6f9d"/>
+      </linearGradient>
+      <linearGradient id="coralg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ff7fb0"/>
+        <stop offset="1" stop-color="#ff2f6d"/>
+      </linearGradient>
+      <radialGradient id="sunlit" cx="50%" cy="38%" r="68%">
+        <stop offset="0" stop-color="#2a1622"/>
+        <stop offset="1" stop-color="#3a1c2c"/>
+      </radialGradient>
+      <linearGradient id="skyg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#173237"/>
+        <stop offset="1" stop-color="#2a5158"/>
+      </linearGradient>
+      <linearGradient id="lilacg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2a2040"/>
+        <stop offset="1" stop-color="#5a3f8f"/>
+      </linearGradient>
+      <linearGradient id="mintg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#15302a"/>
+        <stop offset="1" stop-color="#2c5a4a"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <main class="stage">
+    <div class="frame">
+
+      <div class="progress hidden" id="progress" aria-hidden="true">
+        <div class="progress-meta">
+          <span>The reading</span>
+          <span class="count" id="progCount">00 / 00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+      </div>
+
+      <!-- welcome -->
+      <section class="panel show" id="p-welcome" aria-labelledby="welcome-h" tabindex="-1">
+        <svg class="hero-art" viewBox="0 0 240 220" role="img" aria-label="A neon sign: a heart-shaped bug with antennae, glowing pink">
+          <g fill="none" stroke-linecap="round" class="breathe">
+            <!-- outer glow pass -->
+            <g stroke="#ff2f6d" stroke-width="9" opacity=".28">
+              <path d="M120 178 C 74 146 56 120 56 94 C 56 72 72 60 90 60 C 103 60 114 68 120 82 C 126 68 137 60 150 60 C 168 60 184 72 184 94 C 184 120 166 146 120 178 Z"/>
+              <path d="M104 66 C 96 48 88 38 78 30"/>
+              <path d="M136 66 C 144 48 152 38 162 30"/>
+            </g>
+            <!-- tube pass -->
+            <g stroke="#ff9dd6" stroke-width="3.5">
+              <path d="M120 178 C 74 146 56 120 56 94 C 56 72 72 60 90 60 C 103 60 114 68 120 82 C 126 68 137 60 150 60 C 168 60 184 72 184 94 C 184 120 166 146 120 178 Z"/>
+              <path d="M104 66 C 96 48 88 38 78 30"/>
+              <path d="M136 66 C 144 48 152 38 162 30"/>
+            </g>
+            <!-- antenna tips + eyes: small hot points -->
+            <g stroke="#fff" stroke-width="2">
+              <circle cx="76" cy="27" r="4"/>
+              <circle cx="164" cy="27" r="4"/>
+              <path d="M100 104 C 104 98 112 98 116 104" />
+              <path d="M124 104 C 128 98 136 98 140 104" />
+            </g>
+            <!-- mounting bolts, off-glow -->
+            <g stroke="rgba(242,233,239,.22)" stroke-width="2">
+              <circle cx="40" cy="40" r="2.5"/><circle cx="200" cy="40" r="2.5"/>
+              <circle cx="40" cy="180" r="2.5"/><circle cx="200" cy="180" r="2.5"/>
+            </g>
+          </g>
+        </svg>
+        <div class="eyebrow-wrap"><p class="eyebrow">Love Bug<span class="blink" aria-hidden="true"></span></p></div>
+        <h1 class="center" id="welcome-h">How do you love?</h1>
+        <p class="lede">A short, honest walk through a handful of intimate moments. You choose how you would respond, and the piece reads the pattern back to you — your attachment, your language, the shape of how you let people in.</p>
+        <p class="lede" style="margin-top:1rem;">There are no right answers, and no wrong ones. Only yours.</p>
+        <div class="actions">
+          <button class="btn" id="begin">Begin the reading</button>
+        </div>
+        <div class="reassure-wrap"><p class="reassure"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4 6.5V12c0 5 3.4 7.7 8 9 4.6-1.3 8-4 8-9V6.5L12 3Z" stroke="rgba(242,233,239,.5)" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#ff9dd6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Nothing is saved. Nothing is shared. This is only for you.</p></div>
+      </section>
+
+      <!-- scene (reused) -->
+      <section class="panel" id="p-scene" aria-labelledby="scene-title" tabindex="-1">
+        <div class="scene-art" id="sceneArt" aria-hidden="true"></div>
+        <div class="scene-no-wrap"><p class="scene-no" id="sceneNo">Scene 01</p></div>
+        <h2 class="scene-title" id="scene-title"></h2>
+        <p class="scene-narr" id="sceneNarr"></p>
+        <p class="scene-q" id="sceneQ"></p>
+        <div class="choices" id="sceneChoices" role="group" aria-label="Choose your response"></div>
+      </section>
+
+      <!-- decoding -->
+      <section class="panel decoding" id="p-decoding" aria-live="polite" tabindex="-1">
+        <div class="orbit" aria-hidden="true">
+          <svg viewBox="0 0 180 180">
+            <circle class="ring r1" cx="90" cy="90" r="76" stroke-dasharray="6 16"/>
+            <circle class="ring r2" cx="90" cy="90" r="58" stroke-dasharray="4 18"/>
+            <circle class="ring r3" cx="90" cy="90" r="40" stroke-dasharray="3 14"/>
+            <g class="sat s1"><circle cx="90" cy="14" r="6" fill="#ff5d8a"/></g>
+            <g class="sat s2"><circle cx="90" cy="32" r="3.5" fill="#ffc98a"/></g>
+            <g class="sat s3"><circle cx="90" cy="50" r="3" fill="#4ecdc4"/></g>
+            <path class="heart-core" d="M90 110 C 74 99 67 90 67 81 C 67 73 73 69 79 69 C 84 69 88 72 90 77 C 92 72 96 69 101 69 C 107 69 113 73 113 81 C 113 90 106 99 90 110 Z" fill="url(#coralg)"/>
+          </svg>
+        </div>
+        <p class="decode-line" id="decodeLine">reading the pattern</p>
+      </section>
+
+      <!-- result -->
+      <section class="panel" id="p-result" aria-labelledby="result-name" tabindex="-1">
+        <div class="reveal" id="resultReveal">
+          <div class="result-emblem" id="resultEmblem" aria-hidden="true"></div>
+          <div class="result-tag-wrap"><p class="result-tag">Your archetype</p></div>
+          <h2 class="result-name" id="result-name"></h2>
+          <p class="result-tagline" id="resultTagline"></p>
+
+          <div class="cards">
+            <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 8h18a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9l-6 5v-5H7a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3Z" fill="none" stroke="url(#warm)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.6" fill="#ff5d8a"/><circle cx="16" cy="15.5" r="1.6" fill="#ff5d8a"/><circle cx="20" cy="15.5" r="1.6" fill="#ff5d8a"/></svg>
+              <p class="card-label">Love Language</p>
+              <p class="card-value" id="cLove"></p>
+              <p class="card-note" id="cLoveNote"></p>
+            </div>
+            <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="16" r="6" fill="none" stroke="url(#warm)" stroke-width="2.2"/><circle cx="21" cy="16" r="6" fill="none" stroke="url(#lilacg)" stroke-width="2.2"/></svg>
+              <p class="card-label">Attachment Style</p>
+              <p class="card-value" id="cAttach"></p>
+              <p class="card-note" id="cAttachNote"></p>
+            </div>
+            <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27 C 7 21 4 16 4 11.5 C 4 7.5 7 5 10.5 5 C 13 5 15 6.5 16 9 C 17 6.5 19 5 21.5 5 C 25 5 28 7.5 28 11.5 C 28 16 25 21 16 27 Z" fill="none" stroke="url(#coralg)" stroke-width="2.2" stroke-linejoin="round"/></svg>
+              <p class="card-label">Ideal Match</p>
+              <p class="card-value" id="cMatch"></p>
+              <p class="card-note" id="cMatchNote"></p>
+            </div>
+            <div class="card">
+              <svg class="card-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4v24M4 16h24" stroke="url(#mintg)" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="16" r="11" fill="none" stroke="url(#warm)" stroke-width="2.2"/></svg>
+              <p class="card-label">Compatibility</p>
+              <p class="card-value" id="cCompat"></p>
+              <p class="card-note" id="cCompatNote"></p>
+            </div>
+          </div>
+
+          <svg class="result-divider" viewBox="0 0 64 8" aria-hidden="true"><circle cx="8" cy="4" r="2.5" fill="#ffc98a"/><circle cx="32" cy="4" r="3.5" fill="#ff5d8a"/><circle cx="56" cy="4" r="2.5" fill="#4ecdc4"/></svg>
+
+          <div class="insight">
+            <p class="insight-label"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="#ff9dd6" stroke-width="1.8"/><path d="M12 8v4l2.5 2.5" stroke="#ff9dd6" stroke-width="1.8" stroke-linecap="round"/></svg>The Pattern</p>
+            <p class="insight-body" id="iPattern"></p>
+          </div>
+          <div class="insight">
+            <p class="insight-label"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l2.2 5.6L20 9.6l-4.4 3.8L17 19l-5-3.2L7 19l1.4-5.6L4 9.6l5.8-1z" stroke="#ff9dd6" stroke-width="1.6" stroke-linejoin="round"/></svg>Your Superpower</p>
+            <p class="insight-body" id="iSuper"></p>
+          </div>
+        </div>
+
+        <div class="restart">
+          <button class="btn ghost" id="again">Begin again</button>
+        </div>
+        <p class="footnote">Love Bug — a small object from the studio of Jeffrey N. Tse.<br>Held only in this moment, then let go.</p>
+      </section>
+
+    </div>
+  </main>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function byId(id){return document.getElementById(id);}
+
+  /* ============================================================
+     SCENES
+     Each choice carries scoring weights:
+       att : attachment signal  (anxious | avoidant | secure | fearful)
+       arch: archetype affinity (dev | guard | storm | intel | heal | rest)
+     The final scene maps a strong base archetype.
+     ============================================================ */
+
+  var SCENES = [
+    {
+      title:"The Quiet Apartment",
+      narr:"It is Friday evening. You just got home, and the apartment is quiet — too quiet. You check your phone. No messages, or maybe a few, but not from the person on your mind.",
+      q:"What rises in you first?",
+      choices:[
+        {t:"A heaviness in my chest — a loneliness that feels like it might be permanent.", att:"anxious", arch:"dev"},
+        {t:"Relief, honestly. Peace. I have been needing this kind of silence.", att:"avoidant", arch:"guard"},
+        {t:"Restlessness. I should be out doing something, anything, with someone.", att:"fearful", arch:"rest"},
+        {t:"A flatness I can't quite name. I'm not sure what I feel anymore.", att:"avoidant", arch:"guard"}
+      ]
+    },
+    {
+      title:"The Memory",
+      narr:"Clearing out a drawer, you find an old ticket stub, a photograph, a folded note. It is from someone who hurt you — or someone you hurt. The memory floods back, uninvited.",
+      q:"What do you do with it?",
+      choices:[
+        {t:"Put it in a box. I can't throw it away, but I can't look at it either.", att:"anxious", arch:"dev"},
+        {t:"Throw it away at once. Clean slate. The past stays in the past.", att:"avoidant", arch:"guard"},
+        {t:"Text a close friend about it. I need to say it out loud to feel it.", att:"anxious", arch:"heal"},
+        {t:"Keep it with me all day, touching it quietly when no one is looking.", att:"anxious", arch:"storm"}
+      ]
+    },
+    {
+      title:"The Stranger",
+      narr:"A friend drags you to a party you didn't want to attend. Across the room, someone interesting. They are mid-conversation with someone else, laughing easily.",
+      q:"What is it that catches you?",
+      choices:[
+        {t:"The way they look at people — like they actually see who is in front of them.", att:"anxious", arch:"storm"},
+        {t:"They are holding a book I have never heard of. I want to know their mind.", att:"secure", arch:"intel"},
+        {t:"There is an unavailability about them. A ring, or just that distant energy.", att:"fearful", arch:"rest"},
+        {t:"They touch people's arms gently when they speak. I notice that I want that.", att:"anxious", arch:"heal"}
+      ]
+    },
+    {
+      title:"The First Night In",
+      narr:"It is late. You are with someone, the kind of late where the real conversations surface. They ask about the one who hurt you most. The room goes from light to heavy.",
+      q:"What do you let them see?",
+      choices:[
+        {t:"Everything. I show them the damage and hope it doesn't send them running.", att:"anxious", arch:"dev"},
+        {t:"Nothing real. I deflect with humour. They can't see the mess yet.", att:"avoidant", arch:"guard"},
+        {t:"Just enough to make them feel safe sharing theirs, while I stay careful.", att:"avoidant", arch:"intel"},
+        {t:"I turn it back to them. I would rather understand their wounds than name mine.", att:"anxious", arch:"heal"}
+      ]
+    },
+    {
+      title:"The Fight",
+      narr:"It was always going to happen. A small argument — about texting, about dishes, about something that was never really the thing. Voices rise. Or worse: they go quiet.",
+      q:"What is your instinct in that moment?",
+      choices:[
+        {t:"I go quiet too. I need space — but they read my silence as a punishment.", att:"avoidant", arch:"guard"},
+        {t:"I can't help the tears. I need them to feel how much this is hurting me.", att:"anxious", arch:"dev"},
+        {t:"It gets sharp. I reach for old wounds and make sure mine land hardest.", att:"fearful", arch:"storm"},
+        {t:"I slow it down. 'Let's figure out what we are actually fighting about.'", att:"secure", arch:"intel"}
+      ]
+    },
+    {
+      title:"The Message at 2 A.M.",
+      narr:"Your phone lights the ceiling. 'I miss you.' From the one who truly hurt you — the one you quietly measure everyone else against.",
+      q:"What is your first, honest instinct?",
+      choices:[
+        {t:"My stomach drops. I draft three replies and delete all of them.", att:"anxious", arch:"dev"},
+        {t:"Block the number. I cannot afford to go back into that.", att:"fearful", arch:"storm"},
+        {t:"Screenshot it and send it to the group chat. 'Look who resurfaced.'", att:"anxious", arch:"rest"},
+        {t:"A quiet, private satisfaction. I leave it unread, but I smile.", att:"avoidant", arch:"guard"}
+      ]
+    },
+    {
+      title:"The Pattern",
+      narr:"You are being honest with yourself now. You keep falling for the same kind of person — the unavailable one, the one who needs saving, the one who adores you on Monday and is gone by Friday.",
+      q:"If you had to say why, what would it be?",
+      choices:[
+        {t:"If I can mend them, maybe they will stay. Maybe they'll feel they owe me that.", att:"anxious", arch:"heal"},
+        {t:"Available people bore me. I need the chase, the uncertainty, the spark.", att:"avoidant", arch:"rest"},
+        {t:"I am drawn to intensity. Calm can feel like a trap, like something is wrong.", att:"fearful", arch:"storm"},
+        {t:"I keep choosing distance so I can want someone without truly being exposed.", att:"avoidant", arch:"guard"}
+      ]
+    },
+    {
+      title:"The Quiet Want",
+      narr:"You are alone, and your mind drifts to the thing you want most but rarely say aloud — the scene you return to when you can't sleep.",
+      q:"What does it look like?",
+      choices:[
+        {t:"Being completely cared for. Looked after. Told, and believed, that I am enough.", att:"anxious", arch:"heal"},
+        {t:"Being truly known by someone whose mind keeps pace with mine.", att:"secure", arch:"intel"},
+        {t:"Being chosen over everyone else. Being the one they could not walk past.", att:"anxious", arch:"dev"},
+        {t:"Something new and a little uncertain — a door I haven't opened yet.", att:"avoidant", arch:"rest"}
+      ]
+    },
+    {
+      title:"The Plateau",
+      narr:"Six months in. The early shimmer has worn off and the ordinary days have arrived. This is usually the point where you start to check out — or quietly look for the exit.",
+      q:"What would you need, to want to stay?",
+      choices:[
+        {t:"Reassurance, often. Tell me you love me. Show me you still choose this.", att:"anxious", arch:"dev"},
+        {t:"Room to breathe. I need to miss you a little to feel how much I want you.", att:"avoidant", arch:"guard"},
+        {t:"Newness. New places, new plans, a sense that we are still becoming.", att:"fearful", arch:"rest"},
+        {t:"Depth. I want to keep going further in — your fears, your dreams, the real you.", att:"secure", arch:"intel"}
+      ]
+    },
+    {
+      title:"The Closeness",
+      narr:"You are as close to someone as two people get. They have seen you at your worst; you have seen them undefended. This is the moment where you either fall further in or quietly panic.",
+      q:"What makes you feel safe enough to stay?",
+      choices:[
+        {t:"Eye contact that doesn't break, even when the honesty becomes intense.", att:"anxious", arch:"dev"},
+        {t:"Being able to let go — to trust someone else to hold things for a while.", att:"secure", arch:"heal"},
+        {t:"Being the steady one. Their ease in my hands is its own kind of comfort.", att:"avoidant", arch:"heal"},
+        {t:"Being able to laugh when something goes wrong, instead of bracing for it.", att:"secure", arch:"rest"}
+      ]
+    },
+    {
+      title:"The Small Thing",
+      narr:"They do something so small they don't even notice it. But it shifts something in your chest. A quiet thought arrives: this one is different.",
+      q:"What was it that landed?",
+      choices:[
+        {t:"They remembered something I mentioned weeks ago, in passing.", att:"anxious", arch:"dev"},
+        {t:"They were kind to a stranger — kindness with no audience to perform for.", att:"secure", arch:"heal"},
+        {t:"They disagreed with me. Real, considered, unafraid of the friction.", att:"secure", arch:"intel"},
+        {t:"They showed me something tender about themselves, without being asked.", att:"anxious", arch:"storm"}
+      ]
+    },
+    {
+      title:"The Ending",
+      narr:"It comes, the way it always eventually does. You are being left, or you are doing the leaving, or you are choosing to stay against the odds. The final honest moment.",
+      q:"What is your truest response?",
+      choices:[
+        {t:"I plead. I negotiate. I promise to change. Anything to keep this from ending.", att:"anxious", arch:"dev"},
+        {t:"I agree at once. I act fine. I fall apart later, alone, where no one sees.", att:"avoidant", arch:"guard"},
+        {t:"It turns to fire. I name every flaw and make sure they carry the regret.", att:"fearful", arch:"storm"},
+        {t:"I get analytical. 'Let's understand exactly where this went wrong.'", att:"secure", arch:"intel"}
+      ]
+    }
+  ];
+
+  /* ============================================================
+     ARCHETYPES
+     ============================================================ */
+  var ARCH = {
+    dev:{
+      name:"The Devoted Romantic",
+      tagline:"You don't fall often — but when you do, it is total.",
+      love:"Words and Presence",
+      loveNote:"You need to hear it. “I love you” is never redundant to you; it is oxygen.",
+      attach:"Anxious-Preoccupied",
+      attachNote:"You text first. You read timestamps. Love can feel, at times, indistinguishable from anxiety.",
+      match:"The Secure Anchor",
+      matchNote:"Someone patient enough to reassure you again and again, without ever resenting the asking.",
+      compat:"The Guarded Strategist",
+      compatNote:"They teach you that distance need not mean danger; you teach them that closeness is survivable.",
+      pattern:"Your intensity can quietly exhaust the people you love. You move from nothing to everything very fast, and you sometimes choose chaos because calm registers, falsely, as boredom. The work is learning that steadiness is not the absence of love — it is one of its rarer forms.",
+      superpower:"Your memory, and the attention behind it. You make people feel like the protagonist of their own life — their coffee order, their oldest fear, the song that undoes them. To be remembered by you is to feel, finally, seen."
+    },
+    guard:{
+      name:"The Guarded Strategist",
+      tagline:"You want to be chosen, yet you resist being seen.",
+      love:"Acts of Service",
+      loveNote:"Anyone can say the words. You trust the person who shows up and quietly fixes the thing that broke.",
+      attach:"Dismissive-Avoidant",
+      attachNote:"Independence is your armour. Needing someone can feel uncomfortably close to weakness.",
+      match:"The Patient Partner",
+      matchNote:"Someone who does not demand your transparency before you are ready to offer it.",
+      compat:"The Devoted Romantic",
+      compatNote:"They reach you through sheer warmth and persistence; you teach them a self-sufficiency they envy.",
+      pattern:"You sometimes choose people who are a little out of reach, because wanting from a safe distance costs less than being truly known. The exit stays mapped before the relationship even begins. The work is letting one person past the armour and finding the roof does not cave in.",
+      superpower:"Your steadiness and your restraint. You do not perform love, you build it — quietly, in the background, in the things that simply get handled. Being chosen by you feels earned, and so it lands deeper."
+    },
+    storm:{
+      name:"The Passionate Storm",
+      tagline:"You burn hot. You leave behind either scorched earth or deep devotion.",
+      love:"Touch and Intensity",
+      loveNote:"You love through presence — being there, fully, in the room. Distance reads to you as deprivation.",
+      attach:"Fearful-Avoidant",
+      attachNote:"You crave closeness and fear being swallowed by it at once. The push and the pull live in the same breath.",
+      match:"The Steady Rock",
+      matchNote:"Someone grounded enough to weather your weather without being pulled under by it.",
+      compat:"The Guarded Strategist",
+      compatNote:"They can hold your intensity without competing for it — a calm that meets your heat instead of fleeing it.",
+      pattern:"Your intensity can frighten people before it can reach them, and you sometimes mistake anxiety for chemistry — reading the racing heart as love when it is really alarm. The work is learning that a love which does not hurt is not, by definition, a love that isn't real.",
+      superpower:"Your raw authenticity. You do not do half-measures or polite distance. When you are with someone, they feel unmistakably alive — chosen, awake, and met by your whole self at once."
+    },
+    intel:{
+      name:"The Intellectual Seducer",
+      tagline:"Your mind is the way in.",
+      love:"Deep Conversation",
+      loveNote:"Small talk is a kind of torture. You fall in love at 3 A.M., mid-argument, when the real thinking starts.",
+      attach:"Secure-Avoidant",
+      attachNote:"You value your independence and guard it well. Boredom, not distance, is your true dealbreaker.",
+      match:"The Curious Challenger",
+      matchNote:"Someone sharp enough to push back, who treats your certainties as an invitation rather than a wall.",
+      compat:"The Devoted Romantic",
+      compatNote:"They bring the emotional depth you didn't know you were missing beneath all the analysis.",
+      pattern:"You would rather be alone than bored, and your high standards can quietly double as a moat. If no one is good enough, no one ever gets close enough to know you. The work is noticing when curiosity becomes a way of keeping the heart at a clinical distance.",
+      superpower:"Your insight. You connect the dots between someone's past and their present, and name the thing they have circled for years without landing on. Being understood by you feels like being read aloud, kindly, for the first time."
+    },
+    heal:{
+      name:"The Healing Nurturer",
+      tagline:"You love what needs mending, and hope the mending makes them stay.",
+      love:"Caregiving",
+      loveNote:"Your love language is “let me make your life a little easier” — said in actions more than words.",
+      attach:"Anxious-Caretaker",
+      attachNote:"You give in order to receive. Being needed can feel far safer than simply being wanted.",
+      match:"The Grateful Receiver",
+      matchNote:"Someone who appreciates your care without leaning on it until it hollows you out.",
+      compat:"The Guarded Strategist",
+      compatNote:"They need your warmth to thaw a little; you need their stability to stop pouring from an empty cup.",
+      pattern:"You fall for potential rather than people — the wounded, the unfinished, the almost. Fixing someone can become a way to earn a love you don't believe you deserve outright. The work is letting yourself be cared for, not only useful, and trusting you would still be chosen.",
+      superpower:"Your compassion. You make people feel worthy before they have done anything to earn it — and that early, unconditional belief is often the exact thing that lets them become who they were trying to be."
+    },
+    rest:{
+      name:"The Restless Explorer",
+      tagline:"You collect experiences. You struggle, quietly, to stay.",
+      love:"Novelty and Adventure",
+      loveNote:"Routine dulls the colour for you. You love through surprise — the next place, the next plan, the next door.",
+      attach:"Avoidant",
+      attachNote:"You tend to leave just as it gets comfortable, when comfort starts to feel like a closing door.",
+      match:"The Fellow Wanderer",
+      matchNote:"Someone who wants to keep growing alongside you, not anchor you in place.",
+      compat:"The Intellectual Seducer",
+      compatNote:"You both fiercely protect your independence, and somehow that mutual freedom is what lets you draw close.",
+      pattern:"You are drawn to honeymoon phases and slip away right as real intimacy begins — when the novelty thins and only the person, plainly, remains. The work is discovering that depth is its own frontier, and that staying can be the most unexplored country of all.",
+      superpower:"Your sense of possibility. You remind the people you love that life is short and wide, that the world is larger than their routine, and that it is never too late to begin something new."
+    }
+  };
+
+  /* decoding lines — quiet code/terminal motif, restrained */
+  var DECODE_LINES = [
+    "reading the pattern",
+    "tracing how you reach for people",
+    "weighing distance against want",
+    "resolving the shape of it"
+  ];
+
+  /* ============================================================
+     SCENE ART — one bespoke, soft, rounded motif per scene.
+     Premium, restrained line-and-shape illustration (no clip-art).
+     ============================================================ */
+  function svg(inner){
+    return '<svg viewBox="0 0 120 120" role="img" aria-hidden="true">' + inner + '</svg>';
+  }
+  var SCENE_ART = [
+    /* 01 The Quiet Apartment — a softly lit window at dusk */
+    svg('<rect x="30" y="22" width="60" height="76" rx="14" fill="#ffe7cf"/><rect x="38" y="30" width="44" height="60" rx="9" fill="url(#skyg)"/><path d="M60 30v60M38 60h44" stroke="#fffaf3" stroke-width="3"/><circle cx="74" cy="44" r="6" fill="#ffe1a8"/><path d="M30 98h60" stroke="#f26a3f" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="104" r="4" fill="#ff7e6b"/>'),
+    /* 02 The Memory — a folded note / paper keepsake with a small heart */
+    svg('<rect x="28" y="34" width="64" height="48" rx="10" fill="#fff4e3" stroke="#ffd9bd" stroke-width="3"/><path d="M28 46h64M28 58h44M28 70h54" stroke="#ffcaa0" stroke-width="3" stroke-linecap="round"/><path d="M84 84 C 76 79 73 75 73 71 C 73 67 76 65 79 65 C 81 65 83 66 84 69 C 85 66 87 65 89 65 C 92 65 95 67 95 71 C 95 75 92 79 84 84 Z" fill="#ff7e6b"/>'),
+    /* 03 The Stranger — two soft conversation bubbles, one warm one cool */
+    svg('<path d="M24 38h40a10 10 0 0 1 10 10v14a10 10 0 0 1-10 10H44l-10 9v-9h-10a10 10 0 0 1-10-10V48a10 10 0 0 1 10-10Z" fill="url(#warm)"/><path d="M66 58h24a8 8 0 0 1 8 8v10a8 8 0 0 1-8 8h-8l-7 6v-6a8 8 0 0 1-9-8V66a8 8 0 0 1 8-8Z" fill="url(#lilacg)"/>'),
+    /* 04 The First Night In — a candle flame, intimate low light */
+    svg('<rect x="48" y="56" width="24" height="44" rx="8" fill="#fff4e3" stroke="#ffd9bd" stroke-width="3"/><path d="M60 56 C 53 48 53 40 60 32 C 67 40 67 48 60 56 Z" fill="url(#coralg)"/><path d="M60 50 C 56 45 56 41 60 37 C 64 41 64 45 60 50 Z" fill="#ffe1a8"/><ellipse cx="60" cy="40" rx="22" ry="20" fill="#ffb877" opacity="0.28"/>'),
+    /* 05 The Fight — two soft shapes leaning apart, a thin tension line */
+    svg('<path d="M44 88 C 30 88 26 70 26 58 C 26 44 34 36 46 36 C 52 36 54 40 54 50 L 54 84 C 54 87 50 88 44 88 Z" fill="url(#warm)"/><path d="M76 88 C 90 88 94 70 94 58 C 94 44 86 36 74 36 C 68 36 66 40 66 50 L 66 84 C 66 87 70 88 76 88 Z" fill="url(#lilacg)"/><path d="M60 38 L 60 86" stroke="#fffaf3" stroke-width="4" stroke-dasharray="4 7" stroke-linecap="round"/>'),
+    /* 06 The Message at 2 A.M. — a phone glowing in the dark */
+    svg('<rect x="40" y="22" width="40" height="76" rx="12" fill="#fff4e3" stroke="#ffd9bd" stroke-width="3"/><rect x="46" y="30" width="28" height="48" rx="6" fill="url(#skyg)"/><path d="M60 76 C 53 71 50 67 50 63 C 50 59 53 57 56 57 C 58 57 60 58 60 61 C 60 58 62 57 64 57 C 67 57 70 59 70 63 C 70 67 67 71 60 76 Z" fill="#ff7e6b"/><circle cx="60" cy="88" r="3" fill="#ffcaa0"/><circle cx="92" cy="34" r="4" fill="#ffe1a8" class="twinkle"/>'),
+    /* 07 The Pattern — looping ribbon, a gentle repeated curve */
+    svg('<path d="M32 60 C 32 44 50 44 50 60 C 50 76 68 76 68 60 C 68 44 86 44 86 60 C 86 76 70 78 60 78" fill="none" stroke="url(#coralg)" stroke-width="6" stroke-linecap="round"/><circle cx="32" cy="60" r="6" fill="#ff5d8a"/><circle cx="88" cy="62" r="5" fill="#d8c6f0"/>'),
+    /* 08 The Quiet Want — a soft crescent moon with a small star */
+    svg('<path d="M76 32 A 32 32 0 1 0 76 96 A 26 26 0 1 1 76 32 Z" fill="url(#warm)"/><path d="M86 44 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6 z" fill="#ffe1a8" class="twinkle"/>'),
+    /* 09 The Plateau — a calm horizon, sun resting on a flat line */
+    svg('<circle cx="60" cy="60" r="20" fill="url(#warm)"/><ellipse cx="60" cy="58" rx="20" ry="20" fill="#ffe1a8" opacity="0.5"/><path d="M24 78h72" stroke="#ff7e6b" stroke-width="5" stroke-linecap="round"/><path d="M30 88h60" stroke="#ffcaa0" stroke-width="4" stroke-linecap="round"/>'),
+    /* 10 The Closeness — two soft hearts overlapping tenderly */
+    svg('<path d="M50 84 C 34 73 28 64 28 55 C 28 47 34 43 40 43 C 45 43 49 46 50 51 C 51 46 55 43 60 43 C 66 43 72 47 72 55 C 72 64 66 73 50 84 Z" fill="url(#lilacg)" opacity="0.85"/><path d="M70 88 C 54 77 48 68 48 59 C 48 51 54 47 60 47 C 65 47 69 50 70 55 C 71 50 75 47 80 47 C 86 47 92 51 92 59 C 92 68 86 77 70 88 Z" fill="url(#coralg)"/>'),
+    /* 11 The Small Thing — a tiny spark / blooming seed */
+    svg('<circle cx="60" cy="68" r="22" fill="url(#mintg)"/><path d="M60 68 C 60 54 54 46 48 42" stroke="#ff9dd6" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M60 56 C 50 54 44 48 42 40 C 52 40 60 46 60 56 Z" fill="#ffb877"/><path d="M60 56 C 70 54 76 48 78 40 C 68 40 60 46 60 56 Z" fill="#ff9d7a"/><path d="M60 38 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" fill="#ffe1a8" class="twinkle"/>'),
+    /* 12 The Ending — an open doorway with warm light beyond */
+    svg('<rect x="38" y="24" width="44" height="74" rx="8" fill="#ffe7cf" stroke="#ffd9bd" stroke-width="3"/><path d="M60 24 v74" stroke="#ffcaa0" stroke-width="3"/><path d="M62 28 h16 a4 4 0 0 1 4 4 v62 a4 4 0 0 1 -4 4 h-16 Z" fill="url(#warm)"/><circle cx="66" cy="62" r="3.5" fill="#fffaf3"/>')
+  ];
+
+  /* ============================================================
+     ARCHETYPE EMBLEMS — a distinct illustrated character per result.
+     Each shares the soft "love bug" creature DNA, recolored and
+     posed to express its archetype.
+     ============================================================ */
+  function emblem(inner){
+    return '<svg viewBox="0 0 160 160" role="img" aria-hidden="true">' +
+      '<ellipse cx="80" cy="80" rx="66" ry="62" fill="url(#sunlit)" opacity="0.5"/>' + inner + '</svg>';
+  }
+  var ARCH_EMBLEM = {
+    /* Devoted Romantic — creature holding a big radiant heart */
+    dev: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#coralg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#ffd9bd" opacity="0.6"/>'+
+      '<path d="M62 84 C 66 78 74 78 78 84M82 84 C 86 78 94 78 98 84" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 96 C 76 104 84 104 88 96" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.5"/><ellipse cx="102" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.5"/>'+
+      '<path d="M80 130 C 60 116 52 105 52 95 C 52 86 58 82 64 82 C 70 82 76 86 80 94 C 84 86 90 82 96 82 C 102 82 108 86 108 95 C 108 105 100 116 80 130 Z" fill="#ff5d63" opacity="0.92"/>'+
+      '</g>'+
+      '<path d="M40 36 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#ffb877" class="twinkle"/>'),
+    /* Guarded Strategist — creature behind a soft rounded shield */
+    guard: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#lilacg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#f1e6fb" opacity="0.7"/>'+
+      '<path d="M64 86 C 68 80 74 80 78 86M82 86 C 86 80 92 80 96 86" stroke="#5a4a6e" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M74 98 C 78 102 82 102 86 98" stroke="#5a4a6e" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M80 78 C 96 84 104 86 104 86 C 104 104 94 116 80 122 C 66 116 56 104 56 86 C 56 86 64 84 80 78 Z" fill="url(#warm)" opacity="0.95"/>'+
+      '<path d="M80 92 C 76 88 73 86 73 83 C 73 80 76 79 78 79 C 79 79 80 80 80 82 C 80 80 81 79 82 79 C 84 79 87 80 87 83 C 87 86 84 88 80 92 Z" fill="#fffaf3"/>'+
+      '</g>'),
+    /* Passionate Storm — creature wreathed in warm flame-petals */
+    storm: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 40 C 70 24 90 22 84 8 C 100 18 96 36 104 44 M80 40 C 90 24 70 22 76 8 C 60 18 64 36 56 44" fill="url(#coralg)" opacity="0.5"/>'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#coralg)"/>'+
+      '<path d="M44 86 C 30 78 24 64 28 50 C 36 60 40 70 50 74 Z M116 86 C 130 78 136 64 132 50 C 124 60 120 70 110 74 Z" fill="#ff9d7a" opacity="0.7"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#ffd9bd" opacity="0.55"/>'+
+      '<path d="M62 82 L 78 88 M98 82 L 82 88" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 100 C 76 96 84 96 88 100" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="96" rx="6.5" ry="4.5" fill="#ff5d63" opacity="0.55"/><ellipse cx="102" cy="96" rx="6.5" ry="4.5" fill="#ff5d63" opacity="0.55"/>'+
+      '</g>'),
+    /* Intellectual Seducer — creature with a thoughtful orbit / idea spark */
+    intel: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#skyg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#eaf6f7" opacity="0.7"/>'+
+      '<circle cx="66" cy="90" r="9" fill="none" stroke="#3f6b72" stroke-width="3"/><circle cx="94" cy="90" r="9" fill="none" stroke="#3f6b72" stroke-width="3"/><path d="M75 90 h10" stroke="#3f6b72" stroke-width="3" stroke-linecap="round"/><circle cx="66" cy="90" r="3" fill="#3f6b72"/><circle cx="94" cy="90" r="3" fill="#3f6b72"/>'+
+      '<path d="M72 106 C 76 110 84 110 88 106" stroke="#3f6b72" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+      '<g transform="translate(80 34)"><circle r="9" fill="#ffe1a8"/><path d="M-3 9 h6 M-2 13 h4" stroke="#ff9dd6" stroke-width="2.4" stroke-linecap="round"/><path d="M0 -16 v5 M14 -2 h-5 M-14 -2 h5 M10 -12 l-3 4 M-10 -12 l3 4" stroke="#ffb877" stroke-width="2.6" stroke-linecap="round"/></g>'+
+      '</g>'),
+    /* Healing Nurturer — creature offering a small sprout with care */
+    heal: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#mintg)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#eaf7ee" opacity="0.7"/>'+
+      '<path d="M62 86 C 66 80 74 80 78 86M82 86 C 86 80 94 80 98 86" stroke="#2f6b41" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 98 C 76 104 84 104 88 98" stroke="#2f6b41" stroke-width="3.2" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/><ellipse cx="102" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/>'+
+      '<g transform="translate(80 118)"><path d="M0 14 V0" stroke="#2f6b41" stroke-width="3.4" stroke-linecap="round"/><path d="M0 4 C -10 2 -14 -4 -15 -12 C -6 -11 -1 -5 0 4 Z" fill="#8ed0a0"/><path d="M0 0 C 10 -2 14 -8 15 -16 C 6 -15 1 -9 0 0 Z" fill="#a9dcb8"/></g>'+
+      '</g>'),
+    /* Restless Explorer — creature with a paper-plane / compass spark */
+    rest: emblem(
+      '<g class="breathe">'+
+      '<path d="M80 138 C 46 138 32 112 32 84 C 32 58 54 40 80 40 C 106 40 128 58 128 84 C 128 112 114 138 80 138 Z" fill="url(#warm)"/>'+
+      '<ellipse cx="80" cy="96" rx="34" ry="30" fill="#fff1dd" opacity="0.6"/>'+
+      '<path d="M62 84 C 66 78 74 78 78 84M82 84 C 86 78 94 78 98 84" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<path d="M72 96 C 76 104 84 104 88 96" stroke="#7a3b22" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+      '<ellipse cx="58" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/><ellipse cx="102" cy="94" rx="6.5" ry="4.5" fill="#ff8a8a" opacity="0.45"/>'+
+      '<g transform="translate(108 44) rotate(12)"><path d="M-18 0 L 16 -10 L 4 16 L 0 4 Z" fill="#fffaf3" stroke="#ff7e6b" stroke-width="2.4" stroke-linejoin="round"/><path d="M-18 0 L 4 4 L 0 4 Z" fill="#ffd9bd"/></g>'+
+      '<path d="M40 118 C 56 110 64 110 80 118" stroke="#ffcaa0" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-dasharray="2 6"/>'+
+      '</g>')
+  };
+
+  /* ============================================================
+     STATE + ELEMENTS
+     ============================================================ */
+  var state = { i:0, scores:null };
+
+  var panels = {
+    welcome: byId('p-welcome'),
+    scene:   byId('p-scene'),
+    decoding:byId('p-decoding'),
+    result:  byId('p-result')
+  };
+
+  var progress  = byId('progress');
+  var progFill  = byId('progFill');
+  var progCount = byId('progCount');
+
+  function pad(n){ return (n<10?'0':'') + n; }
+
+  function freshScores(){
+    return {
+      att:{anxious:0, avoidant:0, secure:0, fearful:0},
+      arch:{dev:0, guard:0, storm:0, intel:0, heal:0, rest:0}
+    };
+  }
+
+  /* ============================================================
+     PANEL TRANSITIONS + FOCUS
+     ============================================================ */
+  function go(toName, after){
+    var current = document.querySelector('.panel.show');
+    var next = panels[toName];
+    if(current === next){ if(after) after(); return; }
+
+    if(reduce){
+      if(current){ current.classList.remove('show'); }
+      next.classList.add('show');
+      focusPanel(next);
+      if(after) after();
+      return;
+    }
+    if(current){
+      current.classList.add('leaving');
+      var done = function(){
+        current.classList.remove('show','leaving');
+        current.removeEventListener('animationend', done);
+        next.classList.add('show');
+        focusPanel(next);
+        if(after) after();
+      };
+      current.addEventListener('animationend', done);
+    } else {
+      next.classList.add('show');
+      focusPanel(next);
+      if(after) after();
+    }
+  }
+
+  function focusPanel(p){
+    window.requestAnimationFrame(function(){
+      try { p.focus({preventScroll:true}); } catch(e){ p.focus(); }
+    });
+  }
+
+  function setProgress(step, total){
+    progress.classList.remove('hidden');
+    progCount.textContent = pad(step) + ' / ' + pad(total);
+    progFill.style.width = (step/total*100) + '%';
+  }
+
+  /* ============================================================
+     SCENE RENDERING
+     ============================================================ */
+  var KEYS = ['A','B','C','D'];
+
+  function renderScene(){
+    var sc = SCENES[state.i];
+    setProgress(state.i + 1, SCENES.length);
+
+    var art = byId('sceneArt');
+    if(art){ art.innerHTML = SCENE_ART[state.i] || ''; }
+
+    byId('sceneNo').textContent = 'Scene ' + pad(state.i + 1);
+    byId('scene-title').textContent = sc.title;
+    byId('sceneNarr').textContent = sc.narr;
+    byId('sceneQ').textContent = sc.q;
+
+    var wrap = byId('sceneChoices');
+    wrap.innerHTML = '';
+    sc.choices.forEach(function(ch, idx){
+      var b = document.createElement('button');
+      b.className = 'choice';
+      b.type = 'button';
+      b.style.animationDelay = (reduce ? 0 : (0.06 * idx + 0.12)) + 's';
+
+      var k = document.createElement('span');
+      k.className = 'key';
+      k.setAttribute('aria-hidden','true');
+      k.textContent = KEYS[idx];
+
+      var t = document.createElement('span');
+      t.textContent = ch.t;
+
+      b.appendChild(k);
+      b.appendChild(t);
+      b.addEventListener('click', function(){ pick(ch, b); });
+      wrap.appendChild(b);
+    });
+  }
+
+  function pick(ch, el){
+    // lock further clicks for this scene
+    var all = byId('sceneChoices').querySelectorAll('.choice');
+    all.forEach(function(c){ c.style.pointerEvents='none'; });
+    el.classList.add('chosen');
+
+    state.scores.att[ch.att]  += 1;
+    state.scores.arch[ch.arch] += 1;
+
+    var delay = reduce ? 120 : 360;
+    window.setTimeout(function(){
+      state.i++;
+      if(state.i < SCENES.length){
+        go('scene', renderScene);
+      } else {
+        runDecode();
+      }
+    }, delay);
+  }
+
+  /* ============================================================
+     RESOLVE ARCHETYPE
+     Archetype affinity is primary; attachment style breaks ties
+     and nudges toward a coherent reading.
+     ============================================================ */
+  function resolve(){
+    var s = state.scores;
+
+    // attachment-influenced bonus: reinforce archetypes whose
+    // attachment matches the dominant signal, so the reading coheres.
+    var attMap = {
+      dev:'anxious', heal:'anxious', storm:'fearful',
+      guard:'avoidant', rest:'avoidant', intel:'secure'
+    };
+    var domAtt = topKey(s.att);
+
+    var best = null, bestScore = -Infinity;
+    // stable, intentional priority on ties
+    var order = ['dev','guard','storm','intel','heal','rest'];
+    order.forEach(function(key){
+      var v = s.arch[key];
+      if(attMap[key] === domAtt) v += 0.5; // gentle coherence nudge
+      if(v > bestScore){ bestScore = v; best = key; }
+    });
+    return best;
+  }
+
+  function topKey(obj){
+    var best=null, bv=-Infinity;
+    Object.keys(obj).forEach(function(k){
+      if(obj[k] > bv){ bv = obj[k]; best = k; }
+    });
+    return best;
+  }
+
+  /* ============================================================
+     DECODING BEAT
+     ============================================================ */
+  function runDecode(){
+    progress.classList.add('hidden');
+    go('decoding');
+    var line = byId('decodeLine');
+    var i = 0;
+    line.textContent = DECODE_LINES[0];
+
+    if(reduce){
+      window.setTimeout(showResult, 650);
+      return;
+    }
+    var iv = window.setInterval(function(){
+      i++;
+      if(i >= DECODE_LINES.length){ return; }
+      line.style.opacity = 0;
+      window.setTimeout(function(){
+        line.textContent = DECODE_LINES[i];
+        line.style.opacity = 1;
+      }, 420);
+    }, 1150);
+
+    window.setTimeout(function(){
+      window.clearInterval(iv);
+      showResult();
+    }, 4500);
+  }
+
+  /* ============================================================
+     RESULT
+     ============================================================ */
+  function showResult(){
+    var key = resolve();
+    var a = ARCH[key];
+
+    var emb = byId('resultEmblem');
+    if(emb){ emb.innerHTML = ARCH_EMBLEM[key] || ''; }
+
+    byId('result-name').textContent   = a.name;
+    byId('resultTagline').textContent = a.tagline;
+
+    byId('cLove').textContent      = a.love;
+    byId('cLoveNote').textContent  = a.loveNote;
+    byId('cAttach').textContent    = a.attach;
+    byId('cAttachNote').textContent= a.attachNote;
+    byId('cMatch').textContent     = a.match;
+    byId('cMatchNote').textContent = a.matchNote;
+    byId('cCompat').textContent    = a.compat;
+    byId('cCompatNote').textContent= a.compatNote;
+
+    byId('iPattern').textContent   = a.pattern;
+    byId('iSuper').textContent     = a.superpower;
+
+    // staggered reveal
+    var box = byId('resultReveal');
+    var kids = box.children;
+    for(var k=0;k<kids.length;k++){
+      kids[k].style.animationDelay = (reduce ? 0 : (0.1 * k + 0.12)) + 's';
+    }
+    box.classList.remove('reveal');
+    void box.offsetWidth;
+    box.classList.add('reveal');
+
+    go('result', function(){
+      window.requestAnimationFrame(function(){
+        window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+      });
+    });
+  }
+
+  /* ============================================================
+     FLOW WIRING
+     ============================================================ */
+  byId('begin').addEventListener('click', function(){
+    state.i = 0;
+    state.scores = freshScores();
+    go('scene', renderScene);
+  });
+
+  byId('again').addEventListener('click', function(){
+    state.i = 0;
+    state.scores = freshScores();
+    progress.classList.add('hidden');
+    go('welcome');
+  });
+
+  /* keyboard: Enter / Space activates focused choice or button natively;
+     also allow number/letter keys 1-4 or A-D to pick a choice on a scene. */
+  document.addEventListener('keydown', function(e){
+    if(!panels.scene.classList.contains('show')) return;
+    var map = {'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+    var idx = map[e.key.toLowerCase()];
+    if(idx === undefined) return;
+    var btns = byId('sceneChoices').querySelectorAll('.choice');
+    if(btns[idx] && btns[idx].style.pointerEvents !== 'none'){
+      e.preventDefault();
+      btns[idx].click();
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
