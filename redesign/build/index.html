@@ -2065,10 +2065,30 @@ setTimeout(function(){
 #client .cw-track{position:relative;height:1200vh}
 #client .cw-stage{position:sticky;top:0;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#d9c9a6}
 
-#client .cw-world{position:absolute;top:0;left:0;height:100%;display:flex;will-change:transform}
-#client .cw-world .cw-bg{display:block;height:100vh;width:auto;flex:none}
+#client .cw-world{position:absolute;top:0;left:0;height:100%;display:flex;will-change:transform;--nw:calc(100vh * 1067 / 768)}
+#client .cw-world .cw-bg{display:block;height:100vh;flex:none;overflow:hidden;position:relative}
+#client .cw-world .cw-bg img{display:block;height:100vh;width:auto;max-width:none}
 #client .cw-world .cw-bg+.cw-bg{margin-left:-2px}
 #client .cw-world .cw-bg.flip{transform:scaleX(-1)}
+/* the single desert plate repeats 4x to build the ride's length; each
+   instance is reframed to a different slice of the source + regraded so the
+   same "mitten" butte never reads as an obvious mirrored double. Tiles 1 & 4
+   keep the full vista (heavily regraded + far apart in the scroll); tiles
+   2 & 3 crop to isolate one landmark each so the repeat is far less legible
+   as a copy-paste tile. No new imagery — same source file throughout. */
+#client .cw-world .cw-bg--a{width:var(--nw)}
+#client .cw-world .cw-bg--a img{filter:saturate(1.03) brightness(1.01)}
+#client .cw-world .cw-bg--b{width:calc(var(--nw) * .60)}
+#client .cw-world .cw-bg--b img{filter:brightness(.94) saturate(1.08) hue-rotate(-3deg)}
+#client .cw-world .cw-bg--c{width:calc(var(--nw) * .57)}
+#client .cw-world .cw-bg--c img{transform:translateX(calc(var(--nw) * -.43));filter:brightness(1.05) saturate(.95) hue-rotate(4deg) contrast(1.02)}
+#client .cw-world .cw-bg--d{width:calc(var(--nw) * .80)}
+#client .cw-world .cw-bg--d img{filter:brightness(.87) saturate(1.04) hue-rotate(-6deg) contrast(1.02)}
+/* soft dust-haze at each tile's outer edges so the cut between instances
+   reads as atmospheric shimmer rather than a hard photo-collage seam */
+#client .cw-world .cw-bg::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(46,27,10,.28),transparent 10%,transparent 90%,rgba(46,27,10,.28));
+  mix-blend-mode:multiply}
 
 #client .cw-sign{position:absolute;top:24%;width:clamp(170px,16vw,290px);z-index:1;text-align:center}
 #client .cw-sign .board{display:flex;align-items:center;justify-content:center;min-height:96px;background:#e9dcbe;
@@ -2287,10 +2307,10 @@ setTimeout(function(){
   <div class="cw-track" id="cwTrack">
     <div class="cw-stage" id="cwStage">
       <div class="cw-world" id="cwWorld">
-        <img class="cw-bg" src="assets/west/desert_v2.png" alt="">
-        <img class="cw-bg flip" src="assets/west/desert_v2.png" alt="">
-        <img class="cw-bg" src="assets/west/desert_v2.png" alt="">
-        <img class="cw-bg flip" src="assets/west/desert_v2.png" alt="">
+        <div class="cw-bg cw-bg--a"><img src="assets/west/desert_v2.png" alt=""></div>
+        <div class="cw-bg cw-bg--b flip"><img src="assets/west/desert_v2.png" alt=""></div>
+        <div class="cw-bg cw-bg--c"><img src="assets/west/desert_v2.png" alt=""></div>
+        <div class="cw-bg cw-bg--d flip"><img src="assets/west/desert_v2.png" alt=""></div>
         <div class="cw-trailsign" aria-hidden="true"><span>keep scrollin&rsquo; &rarr;</span></div>
         <!-- seven signboards injected by JS -->
       </div>
