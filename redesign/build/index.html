@@ -246,12 +246,46 @@ section{position:relative}
 #about .ab-links a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(22,18,11,.35);margin-right:18px}
 #about .ab-links a:hover{border-color:var(--ink)}
 @media(max-width:760px){#about .polaroid.p1,#about .polaroid.p2{transform:none}}
+
+/* ============ LOOP BACK — About's koi polaroid closes the chain ============
+   Every other boundary in the chain gets a custom in-scene exit; this is
+   the most important one, because it's the one that closes the loop. It's
+   click-triggered (a jump, not a scroll boundary), so the mechanism borrows
+   from the Gate's own click-to-enter language instead: the same koi still
+   the polaroid already shows swells out of its frame to fill the screen
+   (no new asset, no CSS trickery — it's the real photo), the Gate's own
+   closing vignette (see #gate #vig) draws in over it, a beat of held
+   black echoes the Gate's #fade curtain, then the tank — already live —
+   is revealed underneath. Real fallback: with reduced motion or without
+   JS, the anchor still just jumps to #gate. */
+#loopback{position:fixed;z-index:97;overflow:hidden;background:#03040a;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:left .78s cubic-bezier(.6,0,.15,1),top .78s cubic-bezier(.6,0,.15,1),
+             width .78s cubic-bezier(.6,0,.15,1),height .78s cubic-bezier(.6,0,.15,1)}
+#loopback.active{visibility:visible;opacity:1}
+#loopback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.14) contrast(1.08)}
+#loopback.close img{animation:lbripple 900ms ease-out}
+@keyframes lbripple{
+  0%{filter:saturate(1.14) contrast(1.08) blur(0)}
+  35%{filter:saturate(1.3) contrast(1.16) blur(2.5px)}
+  100%{filter:saturate(1.14) contrast(1.08) blur(0)}
+}
+#loopback .lb-vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 54%,transparent 30%,rgba(2,3,7,.62) 80%,rgba(2,3,7,.97) 100%);
+  opacity:0;transition:opacity .6s ease}
+#loopback.close .lb-vig{opacity:1}
+#loopback .lb-fade{position:absolute;inset:0;pointer-events:none;background:#03040a;opacity:0;
+  transition:opacity .5s ease}
+#loopback.black .lb-fade{opacity:1}
+@media(prefers-reduced-motion:reduce){#loopback{display:none}}
 </style>
 </head>
 <body>
 
 <div id="spine-grain" aria-hidden="true"></div>
 <nav id="rail" aria-label="Chapters"></nav>
+<div id="loopback" aria-hidden="true"><img src="assets/koi_still.png" alt=""><div class="lb-vig"></div><div class="lb-fade"></div></div>
 
 <!-- ============ 1 · GATE ============ -->
 <section id="gate">
@@ -3504,7 +3538,9 @@ setTimeout(function(){
      link above (p2, href="#gate") — that's the one deliberate closing
      beat. A second, separate "return to the gate" bar plus a duplicate
      "write me" pill (the email is already in .ab-links above) used to
-     follow here; removed as redundant. -->
+     follow here; removed as redundant. Its click-triggered transition
+     (swell → vignette → black → reveal) is wired up by the LOOP BACK
+     script near the end of body, once #gate and #loopback both exist. -->
 
 <!-- ============ WORKS · project detail modal ============ -->
 <div id="pmodal" hidden role="dialog" aria-modal="true" aria-label="Project detail">
@@ -3958,6 +3994,73 @@ void main(){
     if(e.isIntersecting){Object.values(links).forEach(x=>x.classList.remove('on'));a.classList.add('on');}
   }),{threshold:.45});
   CH.forEach(([id])=>{const s=document.getElementById(id);if(s)io.observe(s);});
+})();
+</script>
+
+<!-- ============ LOOP BACK · About's koi polaroid closes the chain ============
+     Click-triggered (a jump, not a scroll boundary) — so unlike the scroll-
+     scrubbed BOUNDS in the Lab's SCENE EXITS, this fires once on click, runs
+     its own short timeline, then lands. Same beats as the Gate's own
+     click-to-enter sequence (flash/shatter/fade/land), reused in spirit: the
+     koi still already in the polaroid swells to fill the screen, the Gate's
+     vignette closes over it, a breath of black holds, then the tank —
+     already live underneath — is revealed. Wrapped defensively: if anything
+     here throws, or the user prefers reduced motion, or JS never runs at
+     all, the plain href="#gate" jump beneath it still works untouched. -->
+<script>
+(function(){
+  try{
+    var link=document.querySelector('#about .polaroid.p2 a[href="#gate"]');
+    var gate=document.getElementById('gate');
+    var lb=document.getElementById('loopback');
+    if(!link||!gate||!lb)return;
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var busy=false;
+    link.addEventListener('click',function(e){
+      if(busy)return;
+      e.preventDefault();
+      busy=true;
+      var photo=link.querySelector('.photo')||link;
+      var r=photo.getBoundingClientRect();
+      lb.style.transition='none';
+      lb.style.left=r.left+'px';lb.style.top=r.top+'px';
+      lb.style.width=r.width+'px';lb.style.height=r.height+'px';
+      lb.classList.remove('close','black');
+      lb.classList.add('active');
+      void lb.offsetWidth; // flush the instant placement before animating
+      lb.style.transition='';
+      requestAnimationFrame(function(){
+        // 1 · the still swells from its polaroid frame to fill the screen
+        lb.style.left='0px';lb.style.top='0px';
+        lb.style.width=innerWidth+'px';lb.style.height=innerHeight+'px';
+        // 2 · the gate's own vignette closes in (with a brief ripple on the water)
+        setTimeout(function(){lb.classList.add('close');},150);
+        // 3 · a breath of held black, echoing the gate's #fade curtain
+        setTimeout(function(){lb.classList.add('black');},600);
+        // 4 · jump while fully covered — force scroll-behavior to auto so
+        //     both the hash update and the scroll are instant (matching
+        //     the gate's own land(), which does the same override), then
+        //     set the hash too so the URL/back-button behave exactly as a
+        //     plain href="#gate" click would have
+        setTimeout(function(){
+          var html=document.documentElement,prevSB=html.style.scrollBehavior;
+          html.style.scrollBehavior='auto';
+          try{location.hash='gate';}catch(err){}
+          try{gate.scrollIntoView({behavior:'auto'});}catch(err){}
+          html.style.scrollBehavior=prevSB;
+        },1150);
+        // 5 · the tank is already live by now (the gate's IntersectionObserver
+        //     resumes it on re-entry) — lift the black and the vignette
+        setTimeout(function(){lb.classList.remove('black','close');},1250);
+        // 6 · reset, ready for another visit
+        setTimeout(function(){
+          lb.classList.remove('active');
+          lb.style.cssText='';
+          busy=false;
+        },1850);
+      });
+    });
+  }catch(e){/* the plain anchor jump beneath this still works */}
 })();
 </script>
 </body>
