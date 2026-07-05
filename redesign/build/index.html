@@ -2442,6 +2442,10 @@ setTimeout(function(){
     tray.classList.add('on');
     var done=chips.children.length;
     endCount.textContent=done+' of '+N+' roped';
+    /* keep the live "Roped N of 7" readout in lockstep with the tray —
+       it used to only refresh on the next scroll tick (gated on !catching),
+       so it could visibly lag behind a chip that already flew into the tray */
+    meta.innerHTML='Roped <b>'+done+'</b> of '+N;
   }
 
   /* ---------- the CATCH: rope whips out, sign rocks, chip flies to tray ---------- */
