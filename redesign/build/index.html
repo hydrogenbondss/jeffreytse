@@ -1699,8 +1699,7 @@ setTimeout(function(){
         el.style.filter='brightness('+(1-.72*q).toFixed(3)+') saturate('+(1-.25*q).toFixed(3)+')';}},
       {next:'#client',tsel:'#lab #street',fx:function(el,q){
         el.style.transform='scale('+(1+.05*q).toFixed(4)+')';
-        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';
-        window.__ashKQ=q;}},
+        el.style.filter='brightness('+(1-.78*q).toFixed(3)+')';}},
       {next:'#archive',tsel:'#editorial',fx:function(el,q){
         el.style.transform='scale('+(1+.06*q).toFixed(4)+')';
         el.style.filter='brightness('+(1-.55*q).toFixed(3)+') saturate('+(1-.2*q).toFixed(3)+')';}},
@@ -1726,6 +1725,7 @@ setTimeout(function(){
         var top=b.nextEl.getBoundingClientRect().top;
         var q=1-Math.max(0,Math.min(1,top/vh));
         q=q*q*(3-2*q);
+        if(b.next==='#client')window.__ashKQ=q;
         if(Math.abs(q-b.q)<.002)return;
         b.q=q;
         b.targets.forEach(function(el){
@@ -1749,8 +1749,14 @@ setTimeout(function(){
      #client scene-exit above), not a separate scroll listener. */
   (function(){
     if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-    var S=480,canvas,ctx,vRun,vRide,srcRun,sctxRun,srcRide,sctxRide,blended,bctx,kal,kctx,ready=false,t0=null;
+    var S=480,canvas,ctx,scrim,vRun,vRide,srcRun,sctxRun,srcRide,sctxRide,blended,bctx,kal,kctx,ready=false,t0=null,wasOn=false;
     function mk(){var c=document.createElement('canvas');c.width=c.height=S;return c;}
+    function sizeCanvas(){
+      var r=canvas.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
+      var w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));
+      if(canvas.width!==w)canvas.width=w;
+      if(canvas.height!==h)canvas.height=h;
+    }
     function fitDraw(sctx,video){
       if(!video.videoWidth)return;
       var vw=video.videoWidth,vh=video.videoHeight,s=Math.max(S/vw,S/vh),w=vw*s,h=vh*s;
@@ -1781,8 +1787,23 @@ setTimeout(function(){
       if(!ready)return;
       var q=window.__ashKQ||0;
       var on=q>0.015&&q<0.985;
-      if(!on){canvas.style.opacity='0';return;}
-      canvas.style.opacity=(Math.sin(Math.min(1,q/.15)*Math.PI/2)*Math.sin(Math.min(1,(1-q)/.15)*Math.PI/2)).toFixed(3);
+      if(!on){
+        canvas.style.opacity='0';
+        scrim.style.opacity='0';
+        if(!vRun.paused)vRun.pause();
+        if(!vRide.paused)vRide.pause();
+        wasOn=false;
+        return;
+      }
+      if(!wasOn)t0=null;
+      wasOn=true;
+      sizeCanvas();
+      var env=(Math.sin(Math.min(1,q/.15)*Math.PI/2)*Math.sin(Math.min(1,(1-q)/.15)*Math.PI/2));
+      canvas.style.opacity=env.toFixed(3);
+      /* the scrim ramps to fully opaque faster than the portal fades in, so the
+         outgoing street and the incoming title card are never both peeking
+         through at the same time the portal is on screen */
+      scrim.style.opacity=Math.min(1,env*1.6).toFixed(3);
       if(t0===null)t0=ts;
       var t=(ts-t0)/1000;
       if(vRun.paused)vRun.play().catch(function(){});
@@ -1796,24 +1817,29 @@ setTimeout(function(){
       bctx.globalAlpha=1;
       var fold=Math.sin(Math.min(1,Math.max(0,q))*Math.PI);
       var segs=6+Math.round(fold*6);
-      ctx.clearRect(0,0,S,S);
-      ctx.drawImage(blended,0,0);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(blended,0,0,S,S,0,0,canvas.width,canvas.height);
       if(fold>0.02){
         wedge(kctx,blended,segs,t*0.6+q*4);
-        ctx.globalAlpha=fold;ctx.drawImage(kal,0,0);ctx.globalAlpha=1;
+        ctx.globalAlpha=fold;ctx.drawImage(kal,0,0,S,S,0,0,canvas.width,canvas.height);ctx.globalAlpha=1;
       }
-      canvas.style.filter='hue-rotate('+(fold*70).toFixed(0)+'deg) saturate('+(1+fold*.8).toFixed(2)+')';
+      /* stay in the warm register the site is transitioning into — a wide hue
+         sweep crosses into green/cyan and reads as a stock filter, not a grade */
+      canvas.style.filter='hue-rotate('+(fold*18).toFixed(0)+'deg) saturate('+(1+fold*.35).toFixed(2)+')';
     }
     function init(){
       canvas=document.getElementById('ashKaleido');
+      scrim=document.getElementById('ashKScrim');
       vRun=document.getElementById('ashKRun');
       vRide=document.getElementById('ashKRide');
-      if(!canvas||!vRun||!vRide)return;
+      if(!canvas||!scrim||!vRun||!vRide)return;
       ctx=canvas.getContext('2d');
       srcRun=mk();sctxRun=srcRun.getContext('2d');
       srcRide=mk();sctxRide=srcRide.getContext('2d');
       blended=mk();bctx=blended.getContext('2d');
       kal=mk();kctx=kal.getContext('2d');
+      sizeCanvas();
+      addEventListener('resize',sizeCanvas);
       ready=true;
       requestAnimationFrame(loop);
     }
@@ -2235,12 +2261,14 @@ setTimeout(function(){
    clip mid-fragmentation, then unfolds back into a clean single image —
    he never has to visually "become" a different-looking character in one
    unbroken shape, the fracture does that work instead. */
+#ashKScrim{position:fixed;inset:0;z-index:59;pointer-events:none;opacity:0;background:#0b0704}
 #ashKaleido{position:fixed;left:50%;top:50%;width:min(62vh,62vw);height:min(62vh,62vw);
   transform:translate(-50%,-50%);border-radius:50%;z-index:60;pointer-events:none;
   opacity:0;box-shadow:0 40px 100px -20px rgba(0,0,0,.6)}
-@media (prefers-reduced-motion:reduce){#ashKaleido{display:none!important}}
+@media (prefers-reduced-motion:reduce){#ashKaleido,#ashKScrim{display:none!important}}
 </style>
 
+<div id="ashKScrim" aria-hidden="true"></div>
 <canvas id="ashKaleido" aria-hidden="true" width="480" height="480"></canvas>
 <video id="ashKRun" muted loop playsinline preload="auto" style="display:none">
   <source src="assets/lab/ash-run.webm" type='video/webm; codecs="vp9"'>
