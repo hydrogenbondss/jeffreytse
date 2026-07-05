@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Endless cathedral made of falling green code">
+  <defs>
+    <radialGradient id="void" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#062617"/>
+      <stop offset="52%" stop-color="#020807"/>
+      <stop offset="100%" stop-color="#000"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="codeRain" width="34" height="120" patternUnits="userSpaceOnUse">
+      <text x="2" y="16" fill="#37ff8b" opacity=".55" font-family="monospace" font-size="15">0101</text>
+      <text x="4" y="38" fill="#80ffbb" opacity=".42" font-family="monospace" font-size="13">1010</text>
+      <text x="0" y="61" fill="#2bd875" opacity=".48" font-family="monospace" font-size="14">0011</text>
+      <text x="3" y="86" fill="#b8ffd4" opacity=".32" font-family="monospace" font-size="12">1100</text>
+      <text x="5" y="111" fill="#35f78b" opacity=".5" font-family="monospace" font-size="15">0110</text>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#void)"/>
+  <rect width="1600" height="900" fill="url(#codeRain)" opacity=".2"/>
+  <g filter="url(#glow)" fill="none" stroke="#35ff8d" stroke-linecap="round">
+    <path d="M90 855 C210 685 245 430 340 214 C430 405 470 665 580 855" stroke-width="4" opacity=".65"/>
+    <path d="M1020 855 C1130 665 1170 405 1260 214 C1356 430 1390 685 1512 855" stroke-width="4" opacity=".65"/>
+    <path d="M395 855 C475 645 548 396 800 130 C1052 396 1125 645 1205 855" stroke-width="5" opacity=".78"/>
+    <path d="M575 855 C620 630 674 410 800 250 C926 410 980 630 1025 855" stroke-width="3.5" opacity=".8"/>
+    <path d="M705 855 C725 650 752 490 800 382 C848 490 875 650 895 855" stroke-width="2.5" opacity=".85"/>
+  </g>
+  <g filter="url(#glow)">
+    <g fill="url(#codeRain)" stroke="#40ff98" stroke-width="2" opacity=".78">
+      <rect x="112" y="210" width="74" height="650"/>
+      <rect x="265" y="120" width="82" height="740"/>
+      <rect x="471" y="245" width="54" height="615"/>
+      <rect x="1068" y="245" width="54" height="615"/>
+      <rect x="1253" y="120" width="82" height="740"/>
+      <rect x="1415" y="210" width="74" height="650"/>
+    </g>
+    <g fill="none" stroke="#57ffa8" stroke-width="2.5" opacity=".8">
+      <path d="M145 210 v650 M306 120 v740 M498 245 v615 M1095 245 v615 M1294 120 v740 M1452 210 v650"/>
+      <path d="M112 318 h74 M265 232 h82 M471 348 h54 M1068 348 h54 M1253 232 h82 M1415 318 h74"/>
+      <path d="M112 612 h74 M265 550 h82 M471 632 h54 M1068 632 h54 M1253 550 h82 M1415 612 h74"/>
+    </g>
+  </g>
+  <g filter="url(#glow)" fill="none" stroke="#39ff91" opacity=".8">
+    <path d="M432 250 Q800 20 1168 250" stroke-width="3"/>
+    <path d="M535 315 Q800 112 1065 315" stroke-width="2.4"/>
+    <path d="M628 382 Q800 228 972 382" stroke-width="2"/>
+    <path d="M720 470 Q800 350 880 470" stroke-width="1.8"/>
+  </g>
+  <g filter="url(#glow)" stroke="#38ff8f" stroke-width="2" opacity=".66">
+    <path d="M0 875 L1600 875"/>
+    <path d="M800 430 L604 900 M800 430 L996 900 M800 430 L800 900"/>
+    <path d="M170 790 h330 M1100 790 h330 M210 820 h285 M1105 820 h285 M255 850 h230 M1115 850 h230"/>
+    <path d="M180 760 l70 -42 h210 M1140 718 h210 l70 42"/>
+  </g>
+  <g filter="url(#glow)" fill="#6effae" opacity=".85" font-family="monospace" font-size="18">
+    <text x="700" y="742">01001011</text>
+    <text x="694" y="773">10110100</text>
+    <text x="702" y="804">00101101</text>
+  </g>
+  <g fill="#7dffb8" opacity=".55">
+    <circle cx="760" cy="150" r="3"/>
+    <circle cx="912" cy="190" r="2.5"/>
+    <circle cx="1180" cy="92" r="2"/>
+    <circle cx="416" cy="118" r="2.5"/>
+    <circle cx="1328" cy="380" r="3"/>
+    <circle cx="212" cy="392" r="2"/>
+  </g>
+</svg>
