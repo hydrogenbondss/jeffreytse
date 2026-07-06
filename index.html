@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=DM+Mono:ital,wght@0,300;0,400;1,300&amp;family=Bricolage+Grotesque:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    FRUTIGER AERO DARK — Jeffrey N. Tse
@@ -36,7 +36,7 @@
   --glow:      rgba(240,240,240,.32);
   --glow-b:    rgba(170,170,170,.22);
   --sg:  'Inter', sans-serif;
-  --mono:'DM Mono', monospace;
+  --mono:'Inter', sans-serif;
   --display:'Bricolage Grotesque', sans-serif;
 }
 
@@ -215,18 +215,11 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .ab-links a{font-family:var(--mono);font-size:.7rem;color:rgba(240,240,240,.75);letter-spacing:.05em;transition:color .3s;text-decoration:none}
 .ab-links a:hover{color:var(--teal)}
 
-/* -- PROOF STRIP -- */
-.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(240,240,240,.12);border:1px solid rgba(240,240,240,.14)}
-.proof-card{background:rgba(28,28,28,.78);padding:1.35rem 1.2rem;min-height:132px;display:flex;flex-direction:column;justify-content:space-between}
-.proof-k{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(240,240,240,.55);margin-bottom:1rem}
-.proof-v{font-size:clamp(1.4rem,2.6vw,2.2rem);font-weight:700;letter-spacing:-.02em;color:rgba(240,240,240,.95);line-height:1}
-.proof-d{font-size:.78rem;line-height:1.55;color:rgba(235,235,235,.56);margin-top:.8rem}
-
 /* -- TOOLS -- */
 .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2rem}
 .tg-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,.7);margin-bottom:1rem}
 .tg-items{display:flex;flex-wrap:wrap;gap:.45rem}
-.tg-item{font-family:var(--mono);font-size:.68rem;padding:.28rem .72rem;border:1px solid rgba(240,240,240,.18);color:rgba(225,225,225,.55);border-radius:3px;transition:background .25s ease,border-color .25s ease,color .25s ease}
+.tg-item{font-family:var(--mono);font-size:.68rem;padding:.34rem .78rem;border:1px solid rgba(240,240,240,.18);color:rgba(225,225,225,.55);border-radius:999px;transition:background .25s ease,border-color .25s ease,color .25s ease}
 .tg-item:hover{border-color:rgba(240,240,240,.55);color:rgba(240,240,240,.95);background:rgba(240,240,240,.06)}
 
 /* -- PROJECTS — FA glass cards -- */
@@ -242,6 +235,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   border-bottom:1px solid rgba(240,240,240,.06);
   cursor:pointer;position:relative;overflow:hidden;
   transition:background .35s,border-color .35s,transform .25s,box-shadow .35s;
+  border-radius:18px;
 }
 /* FA: glossy sheen top stripe */
 .pj-row::before{
@@ -253,8 +247,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
   background:transparent;transition:background .4s;
 }
-.pj-row:first-child{border-radius:10px 10px 0 0}
-.pj-row:last-child{border-radius:0 0 10px 10px}
+.pj-row:first-child,.pj-row:last-child{border-radius:18px}
 .pj-row:hover{
   background:rgba(255,255,255,.16);
   border-color:rgba(240,240,240,.3);
@@ -271,14 +264,12 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .pj-title{font-size:1.08rem;font-weight:600;margin-bottom:.32rem}
 .pj-cat{font-family:var(--mono);font-size:.65rem;color:var(--fg-dim);margin-bottom:.55rem}
 .pj-tagline{font-size:.88rem;color:rgba(235,235,235,.62);line-height:1.6;max-width:540px}
-.pj-proof{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem;max-width:680px}
-.pj-proof span{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,240,240,.74);border:1px solid rgba(240,240,240,.18);background:rgba(255,255,255,.045);border-radius:999px;padding:.25rem .55rem}
 .pj-meta{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;padding-top:.2rem}
 .pj-yr{font-family:var(--mono);font-size:.62rem;color:var(--fg-dim)}
 .pj-badge{font-family:var(--mono);font-size:.58rem;padding:.25rem .65rem;border-radius:999px;letter-spacing:.08em;white-space:nowrap}
 .b-live{background:rgba(240,240,240,.15);color:rgba(240,240,240,1);border:1px solid rgba(240,240,240,.35);box-shadow:0 0 10px rgba(240,240,240,.1)}
 .b-dev{background:rgba(140,140,140,.1);color:rgba(140,140,140,.9);border:1px solid rgba(140,140,140,.28)}
-.pj-peek3d{width:130px;height:96px;overflow:hidden;border-radius:8px;flex-shrink:0;margin-top:.3rem;border:1px solid rgba(240,240,240,.14);position:relative;background:rgba(255,255,255,.03)}
+.pj-peek3d{width:130px;height:96px;overflow:hidden;border-radius:14px;flex-shrink:0;margin-top:.3rem;border:1px solid rgba(240,240,240,.14);position:relative;background:rgba(255,255,255,.03)}
 .pj-peek3d canvas{display:block;width:100%;height:100%}
 
 /* -- CREATIVE — Frutiger Aero gallery -- */
@@ -287,10 +278,11 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   position:relative;overflow:hidden;cursor:pointer;
   background:#0a0a10;aspect-ratio:1/1;
   transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s,z-index 0s;
+  border-radius:18px;
 }
 .cc.cc-wide{grid-column:span 2;aspect-ratio:16/10}
 .cc-portrait{grid-column:span 1;aspect-ratio:3/4!important}
-.cc-m{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.cc-m{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);pointer-events:none}
 .cc:hover{transform:scale(1.03) rotateY(-2.5deg) rotateX(1deg);z-index:3;box-shadow:16px 20px 55px rgba(0,0,0,.75),-2px 0 0 rgba(240,240,240,.3),0 0 30px rgba(240,240,240,.08)}
 .cc.cc-wide:hover{transform:scale(1.016) rotateY(-1.2deg) rotateX(.5deg)}
 .cc:hover .cc-m{transform:scale(1.04)}
@@ -324,10 +316,10 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   position:relative;align-items:start;
 }
 .cl-row::before{content:'';position:absolute;left:0;top:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
-.cl-row:first-child{border-radius:10px 10px 0 0}
-.cl-row:last-child{border-radius:0 0 10px 10px}
+.cl-row{border-radius:18px}
+.cl-row:first-child,.cl-row:last-child{border-radius:18px}
 .cl-row:hover{background:rgba(255,255,255,.16);border-color:rgba(240,240,240,.28);transform:translateX(3px);box-shadow:-3px 0 0 rgba(240,240,240,.7),0 8px 32px rgba(240,240,240,.1)}
-.cl-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:5px;opacity:.75;transition:opacity .3s;border:1px solid rgba(240,240,240,.1)}
+.cl-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;opacity:.75;transition:opacity .3s;border:1px solid rgba(240,240,240,.1)}
 .cl-row:hover .cl-thumb{opacity:1}
 .cl-body{display:flex;flex-direction:column;gap:.5rem}
 .cl-title{font-size:1.05rem;font-weight:600}
@@ -370,7 +362,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .cur-expanded.open{display:block}
 .cur-text{font-size:.9rem;line-height:1.78;color:var(--fg-dim);margin-bottom:1.2rem;max-width:680px}
 .cur-imgs{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.5rem}
-.cur-imgs img{height:200px;width:auto;object-fit:cover;border-radius:4px;flex-shrink:0;border:1px solid rgba(240,240,240,.12)}
+.cur-imgs img{height:200px;width:auto;object-fit:cover;border-radius:14px;flex-shrink:0;border:1px solid rgba(240,240,240,.12)}
 .cur-artists{font-family:var(--mono);font-size:.62rem;color:var(--fg-dim);margin-bottom:.8rem}
 
 /* -- EDITORIAL CAROUSEL -- */
@@ -380,7 +372,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .ed-carousel.grabbing{cursor:grabbing}
 .ed-card{
   position:relative;flex:0 0 380px;height:260px;overflow:hidden;cursor:pointer;
-  background:#1C1C1C;scroll-snap-align:start;border-radius:8px;
+  background:#1C1C1C;scroll-snap-align:start;border-radius:18px;
   /* FA: glass card */
   border:1px solid rgba(255,255,255,.1);
   box-shadow:0 4px 20px rgba(0,0,0,.4),0 0 0 1px rgba(240,240,240,.05);
@@ -464,14 +456,13 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .m-sub{font-family:var(--mono);font-size:.68rem;color:var(--fg-dim);margin-bottom:.9rem}
 .m-tagline{font-size:.9rem;color:rgba(240,240,240,.72);margin-bottom:.9rem;line-height:1.58;font-style:italic}
 .m-role{font-size:.85rem;color:var(--fg-dim);margin-bottom:.9rem}
-.m-proof{display:flex;flex-wrap:wrap;gap:.4rem;margin:.25rem 0 1.2rem}
-.m-proof span{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,240,240,.78);border:1px solid rgba(240,240,240,.2);background:rgba(255,255,255,.05);border-radius:999px;padding:.28rem .6rem}
 .m-desc{font-size:.87rem;line-height:1.78;color:rgba(235,235,235,.58);margin-bottom:.8rem}
 .m-desc p{margin-bottom:.8rem}
 .m-link{font-family:var(--mono);font-size:.7rem;color:rgba(240,240,240,.82);letter-spacing:.08em;text-decoration:none;transition:color .3s;display:inline-block;margin-top:.5rem}
 .m-link:hover{color:var(--teal)}
 .m-viewer{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.m-viewer img,.m-viewer video{max-width:100%;max-height:46vh;object-fit:contain;border-radius:4px}
+.m-viewer img,.m-viewer video{max-width:100%;max-height:46vh;object-fit:contain;border-radius:16px}
+.m-media{cursor:pointer}
 .m-caption{font-family:var(--mono);font-size:.58rem;color:var(--fg-dim);letter-spacing:.07em;margin-top:.9rem;text-align:center;padding:0 1rem;line-height:1.6}
 .m-nav{display:flex;align-items:center;gap:1.2rem;margin-top:1rem;justify-content:center}
 .m-nav-btn{
@@ -550,8 +541,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   .cl-row{grid-template-columns:1fr;gap:1rem}.cl-thumb{max-width:200px}
   .tools-grid{grid-template-columns:1fr}
   .ct-big{font-size:clamp(2rem,8vw,3.5rem)}
-  .proof-grid{grid-template-columns:1fr 1fr}
-  .proof-card{min-height:120px}
 }
 
 /* ============================================================
@@ -719,21 +708,11 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
           <p class="ab-p">The academic and curatorial background matters because it gives the products a point of view. The same attention that catalogues a toilet-paper specimen by ply, scent, price, and provenance also shapes the way a checkout flow, AI assistant, or teleprompter engine is designed: specific, legible, and built around how people actually behave.</p>
           <div class="ab-links">
             <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
-            <a href="https://instagram.com/hydrogenbonds" target="_blank">Instagram</a>
             <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
             <a href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
             <a href="assets/cv/JeffreyTse_CV.pdf" target="_blank" download>Download CV</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="proof">
-      <div class="proof-grid">
-        <div class="proof-card"><div><div class="proof-k">Lead Systems</div><div class="proof-v">6 projects</div></div><div class="proof-d">PawsAid, ROLL CALL, ECHO, SPECTOR, SELTA, and Noru span commerce, archive, narrative, PWA, AI coaching, and game surfaces.</div></div>
-        <div class="proof-card"><div><div class="proof-k">Archive Scope</div><div class="proof-v">43 / 21</div></div><div class="proof-d">ROLL CALL documents 43 specimens across 21 countries with consistent metadata.</div></div>
-        <div class="proof-card"><div><div class="proof-k">Technical Range</div><div class="proof-v">React to RAG</div></div><div class="proof-d">React, TypeScript, Python, Firebase, Supabase, tRPC, Drizzle, service workers, local-first logic, and AI workflows.</div></div>
-        <div class="proof-card"><div><div class="proof-k">Research Base</div><div class="proof-v">UBC + PolyU</div></div><div class="proof-d">Art history, marketing research, exhibitions, editorial strategy, and cited academic work.</div></div>
       </div>
     </section>
 
@@ -789,7 +768,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
       <p class="ct-sub">Open to creative technology commissions, interactive narrative projects, brand direction, and research collaborations. Based in Hong Kong, working globally.</p>
       <div class="ct-links">
         <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
-        <a href="https://instagram.com/hydrogenbonds" target="_blank">Instagram</a>
         <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
         <a href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
       </div>
@@ -802,7 +780,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
     </div>
     <div class="ft-right">
       <a href="mailto:jeffreynicholast@gmail.com">Email</a>
-      <a href="https://instagram.com/hydrogenbonds" target="_blank">Instagram</a>
       <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
     </div>
   </footer>
@@ -825,7 +802,6 @@ var b=[
   {n:`01`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A Hong Kong pet first-aid brand built from zero: product, bilingual store, AI support, and fulfillment workflow.`,
    role:`Co-Founder · Brand Direction · Product Design · Engineering`,
-   proof:[`Bilingual EN/繁中 platform`,`3 kit tiers`,`AI pet-health assistant`,`orders + admin tools`],
    showcase:`${T}pawsaid-logo.jpg`,
    images:[
      {src:`${T}pawsaid-logo.jpg`,caption:`PawsAid — Brand Identity`},
@@ -840,9 +816,8 @@ var b=[
    desc:`PawsAid started from a practical gap: Hong Kong pet owners did not have a clear, credible first-aid kit they could buy, understand, and actually use under stress.\n\nThe work spans the whole company surface: three kit tiers, product and packaging direction, bilingual English/Traditional Chinese commerce, order workflows, first-aid content, tutorials, a symptom checker, and Boris — an AI pet-health assistant designed with emergency guardrails and Hong Kong vet escalation in mind. The point is not just that the site exists. It is that the brand, product, operational flow, and support layer were designed as one system.`,
    link:`https://pawsaid.hk`},
   {n:`02`,title:`ROLL CALL`,cat:`Material Culture Archive · Interactive`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A public archive treating toilet paper as infrastructure: 43 specimens, 21 countries, one consistent research method.`,
+   tagline:`A material-culture archive that treats toilet paper as evidence: intimate, infrastructural, political, and weirdly revealing.`,
    role:`Founder · Researcher · Creative Technologist`,
-   proof:[`43 specimens`,`21 countries`,`accession records`,`World Bank data layer`],
    showcase:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-scatter.jpg`,
    images:[
      {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-scatter.jpg`,caption:`ROLL CALL — Exhibition install view`},
@@ -850,12 +825,11 @@ var b=[
    ],
    img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-scatter.jpg`,
    video:null,
-   desc:`ROLL CALL is a material-culture archive built around one of the most overlooked objects in daily life. The first edition documents 43 specimens across 21 countries, each treated through a consistent metadata schema: accession number, country, city, material, ply count, scent, price, manufacturing origin, retail availability, verification status, and environmental claims.\n\nThe project works because it is both critical essay and interface. It uses museum cataloguing logic, data visualisation, specimen comparison, World Bank context, and exhibition staging to argue that toilet paper encodes infrastructure: plumbing, supply chains, purchasing power, hygiene politics, and who gets to assume comfort as a default.`,
+   desc:`ROLL CALL is a material-culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects: not just what it is, but who makes it, what it costs, where it ends up, what it is made of, and what that material actually means.\n\nThe project is also a critical essay in physical and digital form. It argues that toilet paper encodes the invisible: supply chains, hygiene politics, colonial inheritance, plumbing standards, purchasing power, and the economics of who gets to assume comfort as a default. The archive makes that argument through accumulation and interface, treating the mundane as evidence rather than trivia.`,
    link:`https://hydrogenbondss.github.io/Rollcall/`},
   {n:`03`,title:`ECHO: Love and Logged`,cat:`Interactive Narrative · AI-Mediated Artwork`,year:`2026`,badge:`dev`,bl:`Prototype`,
    tagline:`A bilingual Ren'Py dating sim where an in-app assistant remembers every connection and starts watching back.`,
    role:`Creator · Writer · Art Director · Systems Designer`,
-   proof:[`Ren'Py 8.5.2`,`3 romance routes + Remy`,`NECTAR logging system`,`minigames + portrait setup`],
    showcase:`assets/echo/echo-ui-app.jpg`,
    images:[
      {src:`assets/echo/echo-ui-app.jpg`,caption:`ECHO — NECTAR app interface and Remy layer`},
@@ -868,7 +842,6 @@ var b=[
   {n:`04`,title:`SPECTOR`,cat:`Product · Open-Source PWA`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`An open-source, local-first teleprompter for the smart-glasses era.`,
    role:`Founder · Product · Engineering`,
-   proof:[`MIT open source`,`offline PWA`,`adaptive pacing`,`Kalman Comfort mode`],
    showcase:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp`,
    images:[
      {src:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp`,caption:`SPECTOR — smart-glasses teleprompter positioning`},
@@ -882,7 +855,6 @@ var b=[
   {n:`05`,title:`SELTA`,cat:`AI Product · Cantonese Coach · Telegram`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A Cantonese-native relationship and emotional-support coach for Hong Kong users, built around Remy.`,
    role:`Founder · Product Strategy · AI Systems · Brand Direction`,
-   proof:[`Cantonese style guardrails`,`Telegram bot`,`RAG over learned patterns`,`Supabase shared memory`],
    showcase:`assets/selta/remy-intro.png`,
    images:[
      {src:`assets/selta/remy-intro.png`,caption:`SELTA — Remy consumer-facing intro`},
@@ -895,7 +867,6 @@ var b=[
   {n:`06`,title:`Noru`,cat:`Mobile Game · PWA · Firebase`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.`,
    role:`Founder · Game Design · Product Engineering`,
-   proof:[`React 19 + TypeScript`,`Firebase realtime rooms`,`Daily challenge loop`,`Capacitor native path`],
    showcase:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/og-image.png`,
    images:[
      {src:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/og-image.png`,caption:`Noru — mobile-first trivia PWA`},
@@ -929,7 +900,7 @@ var C=[
      `Giant Pandas Campaign — English social content for An An, Ke Ke, and Lam Lam arrival`,
      `Halloween Fest 2024 — Social copy for haunted house promotions and character introductions`
    ],
-   link:`https://www.instagram.com/oceanparkhk/`},
+   link:`https://www.oceanpark.com.hk/en`},
   {title:`Hong Kong Tourism Board`,role:`Copywriter`,year:`2024`,
    img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,
    images:[
@@ -956,36 +927,30 @@ var C=[
 
 var x=[
   {title:`Cathedral of Small Hours`,cat:`Open World · Code Architecture`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   img:`assets/worlds/cathedral-code.svg`,
+   img:`assets/worlds/cathedral-hyperreal.jpg`,
    featured:true,
-   proof:[`endless cathedral`,`architecture as code`,`Matrix-like gothic space`,`first-person wandering`],
    desc:`Cathedral of Small Hours is conceived as an endless navigable cathedral where the player stands inside code itself. The walls, columns, arches, pews, floor, ceiling, and distant altar are all formed from cascading symbols and luminous green data, somewhere between a gothic nave and a Matrix-like hallucination.\n\nThe important shift is scale: this is not a small isolated sketch. It is an open spatial artwork. The player should feel small inside an impossible cathedral that keeps extending forward, repeating with variation, as if the building is being compiled around them in real time.`,
    role:`World Designer · Creative Developer`,
    link:`https://github.com/hydrogenbondss/cathedral-of-small-hours`,
    linkLabel:`View Source →`},
   {title:`Garden of Returning`,cat:`Open World · Post-Human Landscape`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   img:`assets/worlds/garden-returning.svg`,
+   img:`assets/worlds/garden-hyperreal.jpg`,
    featured:true,
-   proof:[`endless traversal`,`overgrown ruins`,`procedural familiarity`,`no arrival state`],
    desc:`Garden of Returning is an endless walking world set in a hyperreal post-human landscape: abandoned structures, collapsed interiors, concrete, wet air, vines, moss, trees, and city fragments slowly swallowed by green. There is no other person in sight and no clear destination.\n\nThe player keeps walking and never reaches the end. What changes is subtler: the world repeats with a sense of recognition, but the things passed are never exactly the same. The project is about the strange emotional loop of returning to a place that keeps mutating while still feeling familiar.`,
    role:`World Designer · Creative Developer`,
    link:`https://github.com/hydrogenbondss/garden-of-returning`,
    linkLabel:`View Source →`},
   {title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material transformation across three bag designs. Each film puts one bag through its own generative-video treatment — Ocarina Bag, Flute Soft Bag, Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},
   {title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},
-  {title:`Ash`,cat:`Character Design · AI`,year:`2026`,img:`assets/ash/ash-running-poster.jpg`,video:`assets/ash/ash-running.mp4`,desc:`Ash is a stylised character design developed from model-sheet thinking into motion: spiked black hair, red eyes, black hoodie graphics, cargo pants, boots, and hand-mark details carried across a running animation study.`,role:`Character Designer & AI Director`},
+  {title:`Ash`,cat:`Character Design · AI Motion`,year:`2026`,
+   img:`assets/ash/ash-running-poster.jpg`,
+   video:`assets/ash/ash-running.mp4`,
+   images:[{src:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation still`}],
+   desc:`Ash is one character project, not a loose motion test: model-sheet thinking, outfit language, facial attitude, and running animation all belong to the same design system. The hoodie graphics, red-eyed expression, boots, cargo silhouette, and hand-mark detail are carried into motion so the character reads consistently beyond a static still.`,
+   role:`Character Designer & AI Director`},
   {title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`}
 ];
 var S=[
-{year:"2026",title:"ROLL CALL",venue:"Material Culture Archive · Interactive",role:"Founder · Researcher",
-artists:"Solo — 43 specimens from Asia and beyond",
-img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-scatter.jpg",
-images:[
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-scatter.jpg",caption:"ROLL CALL — Exhibition install view"},
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-thumb.jpg",caption:"Specimen — catalogued with ply count, material composition, scent profile, and distribution network"}
-],
-link:"https://hydrogenbondss.github.io/Rollcall/",
-desc:"ROLL CALL is a material culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects — not just what it is, but who makes it, what it costs, where it ends up, what it's made of, and what that material actually means. Scent profiles. Distribution networks. The difference between a regional brand and a global one. The political geography of what gets called clean.\n\nThe project is also a critical essay in physical form. Its argument is that toilet paper encodes the invisible — supply chains, hygiene politics, colonial inheritance, and the economics of who gets what standard of living by default. The archive makes that argument the only way an archive can: through accumulation, through the patient insistence that each specimen matters, and through the formal weight of treating the mundane as evidence."},
 {year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Organizer",
 artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
 img:null,
@@ -1483,7 +1448,6 @@ function buildSections(){
     row.innerHTML="<div class='pj-n'>"+p.n+"</div>"+
       "<div><div class='pj-title'>"+p.title+"</div><div class='pj-cat'>"+p.cat+"</div>"+
       (p.tagline?"<div class='pj-tagline'>"+p.tagline+"</div>":"")+
-      (p.proof&&p.proof.length?"<div class='pj-proof'>"+p.proof.map(function(item){return "<span>"+item+"</span>";}).join("")+"</div>":"")+
       (p.role?"<div style='font-size:.8rem;color:rgba(238,238,238,.5);margin-top:.55rem'>"+p.role+"</div>":"")+"</div>"+
       "<div class='pj-meta'><div class='pj-yr'>"+p.year+"</div>"+
       "<span class='pj-badge "+(p.badge==="dev"?"b-dev":"b-live")+"'>"+p.bl+"</span>"+
@@ -1833,9 +1797,6 @@ function openModal(item){
     if(area) area.innerHTML=renderMedia(window._mIdx);
   };
 
-  var proofHtml=item.proof&&item.proof.length
-    ?"<div class='m-proof'>"+item.proof.map(function(p){return "<span>"+p+"</span>";}).join("")+"</div>"
-    :"";
   var descHtml=item.desc
     ?"<div class='m-desc'>"+item.desc.split(/\n\n+/).map(function(p){return "<p>"+p+"</p>";}).join("")+"</div>"
     :"";
@@ -1848,11 +1809,18 @@ function openModal(item){
     (item.sub?"<div class='m-sub'>"+item.sub+"</div>":"")+
     (item.tagline?"<div class='m-tagline'>"+item.tagline+"</div>":"")+
     (item.role?"<div class='m-role'>"+item.role+"</div>":"")+
-    proofHtml+
     descHtml+
     (item.link?"<a href='"+item.link+"' target='_blank' class='m-link'>"+(item.linkLabel||"View Project →")+"</a>":"")+
     "</div>";
   hardenExternalLinks();
+  var mediaArea=inner.querySelector(".m-media");
+  if(mediaArea){
+    mediaArea.addEventListener("click",function(e){
+      if(!window._mItems || window._mItems.length<2) return;
+      if(e.target.closest("button,a,video")) return;
+      mGo(1);
+    });
+  }
   modal.classList.add("open");
   modal.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
