@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jeffrey N. Tse — Product, AI, Culture, Worlds</title>
-<meta name="description" content="Portfolio of Jeffrey N. Tse: PawsAid, ROLL CALL, ECHO: Love and Logged, SPECTOR, SELTA, Noru, interactive worlds, writing, exhibitions, and research.">
+<title>Jeffrey N. Tse — Product, AI, Culture, Motion</title>
+<meta name="description" content="Portfolio of Jeffrey N. Tse: PawsAid, ROLL CALL, ECHO: Love and Logged, SPECTOR, SELTA, Noru, motion studies, writing, exhibitions, and research.">
 <meta property="og:title" content="Jeffrey N. Tse">
-<meta property="og:description" content="Product engineering, AI systems, cultural research, brand direction, and playable worlds.">
+<meta property="og:description" content="Product engineering, AI systems, cultural research, brand direction, and motion studies.">
 <meta property="og:type" content="website">
-<link rel="preload" as="image" href="assets/pawsaid/pro-kit.png">
-<link rel="preload" as="image" href="assets/worlds/cathedral-hyperreal.jpg">
-<link rel="preload" as="image" href="assets/worlds/garden-hyperreal.jpg">
+<link rel="preload" as="image" href="assets/pawsaid/logo.jpg">
+<link rel="preload" as="image" href="assets/rollcall-thumb.jpg">
+<link rel="preload" as="image" href="assets/spector-logo.png">
 <link rel="preload" as="image" href="assets/noru/home-current.png">
 <style>
 :root{
@@ -51,8 +51,8 @@ img,video{display:block;max-width:100%}
 .nav-cta{background:var(--paper)!important;color:var(--ink)!important;border-color:var(--paper)!important}
 .mobile-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:999px;padding:.7rem 1rem}
 main{min-height:100vh}
-.hero{min-height:100svh;padding:6rem clamp(1rem,3vw,2.25rem) 2.25rem;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(1.25rem,3vw,3rem);align-items:end;border-bottom:1px solid var(--line)}
-.hero-copy{max-width:1180px}
+.hero{min-height:100svh;padding:6rem clamp(1rem,3vw,2.25rem) 2.25rem;display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.25rem,3vw,3rem);align-items:end;border-bottom:1px solid var(--line)}
+.hero-copy{max-width:1360px}
 .eyebrow{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-size:.86rem;margin-bottom:1.5rem}
 .eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 28px rgba(230,53,37,.8)}
 h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:0;font-weight:860}
@@ -62,14 +62,6 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .statement strong{color:var(--acid);font-weight:650}
 .hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
 .linkbtn.primary{background:var(--acid);border-color:var(--acid);color:var(--ink);font-weight:720}
-.hero-proof{display:grid;gap:.75rem;align-self:stretch;min-height:620px}
-.proof-large{position:relative;overflow:hidden;border-radius:8px;border:1px solid var(--line-strong);background:#181713;min-height:420px}
-.proof-large img,.proof-large video{width:100%;height:100%;object-fit:cover}
-.proof-cap{position:absolute;left:1rem;right:1rem;bottom:1rem;display:flex;justify-content:space-between;gap:1rem;align-items:end;color:var(--paper);font-size:.9rem}
-.proof-cap span{background:rgba(15,15,13,.68);border:1px solid rgba(244,240,231,.18);border-radius:999px;padding:.55rem .75rem;backdrop-filter:blur(14px)}
-.proof-stack{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.proof-small{position:relative;overflow:hidden;min-height:170px;border-radius:8px;border:1px solid var(--line);background:#181713}
-.proof-small img,.proof-small video{width:100%;height:100%;object-fit:cover}
 .section{padding:clamp(5rem,9vw,8rem) clamp(1rem,3vw,2.25rem);border-bottom:1px solid var(--line)}
 .section-head{display:grid;grid-template-columns:120px minmax(0,1fr);gap:clamp(1rem,3vw,2rem);align-items:start;margin-bottom:2rem}
 .sec-no{color:var(--acid);font-size:.9rem}
@@ -82,6 +74,8 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .project-card:hover .project-media img,.project-card:hover .project-media video{transform:scale(1.035)}
 .project-media{position:relative;overflow:hidden;background-color:#171714;background-size:cover;background-position:center;min-height:420px}
 .project-media img,.project-media video{width:100%;height:100%;object-fit:cover;transition:transform 700ms var(--ease-out),filter 700ms var(--ease-out)}
+.identity-media{background:var(--paper)!important;padding:clamp(2rem,6vw,6rem);display:grid;place-items:center}
+.identity-media img{object-fit:contain!important;filter:none!important}
 .project-copy{padding:clamp(1.35rem,3vw,3.2rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
 .project-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.86rem}
 .badge{border:1px solid var(--line);border-radius:999px;padding:.45rem .65rem;color:rgba(244,240,231,.78)}
@@ -92,9 +86,6 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .project-card.featured{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);min-height:680px}
 .project-card.featured .project-media{min-height:680px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line)}
-#worldGrid{grid-template-columns:repeat(4,minmax(0,1fr))}
-#worldGrid .card:nth-child(-n+2){grid-column:span 2;min-height:520px}
-#worldGrid .card:nth-child(-n+2) .card-media{height:360px}
 .card{background:rgba(15,15,13,.96);min-height:410px;border:0;color:inherit;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;transition:background 180ms var(--ease-out),transform 160ms var(--ease-out)}
 .card:hover{background:#171714}
 .card-media{height:260px;overflow:hidden;background:
@@ -102,6 +93,8 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
   #1a1915;background-size:cover;background-position:center;position:relative}
 .card-media:after{content:"";position:absolute;inset:0;border:1px solid rgba(244,240,231,.08);pointer-events:none}
 .card-media img,.card-media video{width:100%;height:100%;object-fit:cover;filter:brightness(1.07) contrast(1.06) saturate(1.05);transition:transform 650ms var(--ease-out)}
+.card-media.identity-media{padding:2.5rem}
+.card-media.identity-media img{object-fit:contain}
 .card:hover .card-media img,.card:hover .card-media video{transform:scale(1.035)}
 .motion-badge{position:absolute;left:.75rem;top:.75rem;z-index:2;border:1px solid rgba(244,240,231,.34);background:rgba(15,15,13,.72);color:var(--paper);border-radius:999px;padding:.42rem .58rem;font-size:.72rem;line-height:1;backdrop-filter:blur(12px)}
 .card-body{padding:1.15rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
@@ -149,15 +142,13 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   .navlinks{display:none}.mobile-toggle{display:inline-flex}
   .nav.open .navlinks{display:flex;position:absolute;top:72px;left:1rem;right:1rem;flex-direction:column;align-items:stretch;background:rgba(15,15,13,.96);border:1px solid var(--line);border-radius:8px;padding:.5rem;backdrop-filter:blur(18px)}
   .hero,.project-card,.project-card.featured,.modal-grid,.about-grid,.contact{grid-template-columns:1fr}
-  .hero{padding-top:6rem;min-height:auto}.hero-proof{min-height:auto}.proof-large{min-height:320px}.project-card.featured .project-media,.project-media{min-height:360px}
+  .hero{padding-top:6rem;min-height:auto}.project-card.featured .project-media,.project-media{min-height:360px}
   .section-head{grid-template-columns:1fr}.grid,#worldGrid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row img{max-width:280px}.contact-links{justify-content:flex-start}
   .project-card:nth-child(even) .project-media,.project-card:nth-child(even) .project-copy{order:initial}
-  #worldGrid .card:nth-child(-n+2){grid-column:auto;min-height:410px}
-  #worldGrid .card:nth-child(-n+2) .card-media{height:260px}
 }
 @media (max-width:620px){
   h1{font-size:22vw}.hero-line:nth-child(2){-webkit-text-stroke:1px rgba(244,240,231,.5)}
-  .proof-stack{grid-template-columns:1fr}.section{padding:4rem 1rem}.project-copy{padding:1.2rem}.project-title{font-size:3rem}
+  .section{padding:4rem 1rem}.project-copy{padding:1.2rem}.project-title{font-size:3rem}
   .modal-media{min-height:420px}.media-stage img,.media-stage video{max-height:62svh}.modal-copy h2{font-size:3rem}
 }
 @media (prefers-reduced-motion:reduce){
@@ -172,7 +163,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <button class="mobile-toggle" id="menuBtn" type="button" aria-label="Open navigation">Menu</button>
   <div class="navlinks" id="navlinks">
     <a href="#work">Work</a>
-    <a href="#worlds">Worlds</a>
+    <a href="#worlds">Motion</a>
     <a href="#writing">Writing</a>
     <a href="#research">Research</a>
     <a href="#about">About</a>
@@ -184,28 +175,12 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="hero">
     <div class="hero-copy">
       <div class="eyebrow">Hong Kong · Product engineering · AI systems · cultural research</div>
-      <h1><span class="hero-line">Systems</span><span class="hero-line">with feeling.</span></h1>
-      <p class="statement">I build products, archives, assistants, games, and worlds where the technical system has a cultural point of view. <strong>The strongest work has proof: shipped software, real objects, playable prototypes, and writing that can survive scrutiny.</strong></p>
+      <h1><span class="hero-line">Jeffrey</span><span class="hero-line">N. Tse</span></h1>
+      <p class="statement">Product engineering, AI systems, brand direction, cultural research, and interactive narrative. <strong>The site now leads with work that has credible proof: shipped software, real objects, playable prototypes, and writing that can survive scrutiny.</strong></p>
       <div class="hero-actions">
         <a class="linkbtn primary" href="#work">View selected work</a>
         <a class="linkbtn" href="mailto:jeffreynicholast@gmail.com">Contact</a>
         <a class="linkbtn" href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
-      </div>
-    </div>
-    <div class="hero-proof">
-      <figure class="proof-large">
-        <img src="assets/pawsaid/pro-kit.png" alt="PawsAid PRO kit">
-        <figcaption class="proof-cap"><span>PawsAid</span><span>real product + commerce stack</span></figcaption>
-      </figure>
-      <div class="proof-stack">
-        <figure class="proof-small">
-          <img src="https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp" alt="ROLL CALL specimen render">
-          <figcaption class="proof-cap"><span>ROLL CALL</span></figcaption>
-        </figure>
-        <figure class="proof-small">
-          <video src="assets/ash/ash-hover.mp4" poster="assets/ash/ash-hover-poster.jpg" muted autoplay loop playsinline></video>
-          <figcaption class="proof-cap"><span>Ash</span></figcaption>
-        </figure>
       </div>
     </div>
   </section>
@@ -221,7 +196,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="section" id="worlds">
     <div class="section-head">
       <div class="sec-no">02 / Worlds</div>
-      <div><h2>Playable atmospheres.</h2><p class="section-intro">Character, motion, and browser worlds: work that should be read visually first, then opened when the prototype or motion piece matters.</p></div>
+      <div><h2>Motion studies.</h2><p class="section-intro">Character and AI motion work only: pieces with actual visual material, not claims the code cannot support.</p></div>
     </div>
     <div class="grid" id="worldGrid"></div>
   </section>
@@ -247,7 +222,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
       <div class="about-img"><img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse"></div>
       <div>
         <p class="about-text">Jeffrey N. Tse is a Hong Kong-based builder working across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
-        <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and open-world experiments. The through-line is attention to behaviour: what people trust, save, hide, repeat, buy, and remember.</p>
+        <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and AI motion. The through-line is attention to behaviour: what people trust, save, hide, repeat, buy, and remember.</p>
         <div class="hero-actions">
           <a class="linkbtn primary" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">Download CV</a>
           <a class="linkbtn" href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
@@ -294,7 +269,7 @@ const T="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/
 const projects=[
   {title:"PawsAid",year:"2026",cat:"Product · brand · e-commerce",status:"Live",featured:true,
    role:"Co-founder · CTO · product and brand direction",
-   img:"assets/pawsaid/pro-kit.png",
+   img:"assets/pawsaid/logo.jpg",thumb:"identity",
    tagline:"A Hong Kong pet first-aid brand with real kits, real commerce, and a support layer designed for stressful moments.",
    desc:"PawsAid should be shown as a product company, not a moodboard. The work covers the kit system, product hierarchy, brand direction, bilingual commerce, fulfilment flow, first-aid content, and Boris, an AI pet-health assistant with emergency guardrails and escalation toward veterinary care.\n\nThe important proof is that the object exists. The site, copy, product structure, and operational layer all orbit around a practical promise: make pet first aid easier to understand before panic takes over.",
    media:[
@@ -306,7 +281,7 @@ const projects=[
    links:[{label:"View PawsAid",url:"https://pawsaid.hk",style:"acid"},{label:"View PawsAid Instagram",url:"https://www.instagram.com/pawsaid.hk/"}]},
   {title:"ROLL CALL",year:"2026",cat:"Material-culture archive · interactive",status:"Live",
    role:"Founder · researcher · creative technologist",
-   img:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",
+   img:"assets/rollcall-thumb.jpg",
    tagline:"A public archive that treats toilet paper as field evidence: bodily comfort, class, travel, hotels, wrappers, and infrastructure.",
    desc:"ROLL CALL is deliberately funny until it becomes exact. Each specimen is recorded through origin, manufacturer, price, material, scent, ply, texture, wrapper, location, and the reason it entered the archive.\n\nThe archive works because the object is too ordinary to defend itself. A hotel roll, a premium supermarket pack, or a single-ply dispenser starts to reveal who gets privacy, softness, hygiene, and convenience as defaults.",
    media:[
@@ -328,7 +303,7 @@ const projects=[
    ]},
   {title:"SPECTOR",year:"2026",cat:"Open-source PWA · smart-glasses workflow",status:"Live",
    role:"Founder · product · engineering",
-   img:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp",
+   img:"assets/spector-logo.png",thumb:"identity",
    tagline:"A local-first teleprompter for creators preparing for smart-glasses and spatial display habits.",
    desc:"SPECTOR is a free, open-source teleprompter PWA. It is built around a simple bet: if glasses become a mainstream display surface, rehearsal tools should be local-first, accessible, and hardware-agnostic.\n\nThe product includes adaptive pacing, cue syntax, local script storage, mirror mode, offline installation, rehearsal analytics, and Comfort Mode for stabilising text in motion.",
    media:[
@@ -350,7 +325,7 @@ const projects=[
    links:[{label:"View SELTA",url:"https://selta-production.up.railway.app/",style:"acid"},{label:"View SELTA GitHub",url:"https://github.com/hydrogenbondss/SELTA"},{label:"View SELTA Instagram",url:"https://www.instagram.com/selta.hk/"}]},
   {title:"Noru",year:"2026",cat:"Mobile game · PWA · Firebase",status:"Live",
    role:"Founder · game design · product engineering",
-   img:"assets/noru/home-current.png",
+   img:"assets/noru/logo.png",thumb:"identity",
    tagline:"A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.",
    desc:"Noru is built as a game product, not just a mascot. Players can face AI bots, race a daily challenge, level up, unlock achievements, and share results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment.",
    media:[
@@ -362,14 +337,6 @@ const projects=[
 ];
 
 const worlds=[
-  {title:"Cathedral of Small Hours",year:"2026",cat:"Browser world · procedural environment",img:"assets/worlds/cathedral-hyperreal.jpg",
-   desc:"A first-person browser world where cathedral architecture becomes code: nave, columns, arches, floor, walls, and particles are drawn as an endless green interior.",
-   media:[{src:"assets/worlds/cathedral-hyperreal.jpg",caption:"Cathedral visual direction"}],
-   links:[{label:"View Cathedral of Small Hours",url:"https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html",style:"acid"},{label:"View Cathedral GitHub",url:"https://github.com/hydrogenbondss/cathedral-of-small-hours"}]},
-  {title:"Garden of Returning",year:"2026",cat:"Browser world · endless landscape",img:"assets/worlds/garden-hyperreal.jpg",
-   desc:"A first-person post-human landscape: overgrown concrete, ruined facades, repeating-but-not-identical structures, and a walk that keeps returning without becoming exactly the same.",
-   media:[{src:"assets/worlds/garden-hyperreal.jpg",caption:"Garden visual direction"}],
-   links:[{label:"View Garden of Returning",url:"https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/garden-of-returning/main/index.html",style:"acid"},{label:"View Garden GitHub",url:"https://github.com/hydrogenbondss/garden-of-returning"}]},
   {title:"Ash",year:"2026",cat:"Character design · AI motion",img:"assets/ash/ash-hover-poster.jpg",
    desc:"A stylised character and motion study. The portfolio shows the building encounter first, then the still, then the run cycle. The unrelated ride clip is intentionally not included.",
    media:[
@@ -459,9 +426,12 @@ function mediaBg(item){
   const src=(first&&first.poster)||item.img||"";
   return src ? ` style="background-image:url('${src.replace(/'/g,"%27")}')"` : "";
 }
+function mediaClass(item,base){
+  return item.thumb==="identity" ? `${base} identity-media` : base;
+}
 function renderProjects(){
   document.getElementById("projectList").innerHTML=projects.map((p,i)=>`<button class="project-card ${p.featured?"featured":""}" type="button" data-kind="project" data-i="${i}">
-    <div class="project-media"${mediaBg(p)}>${cardMedia(p)}</div>
+    <div class="${mediaClass(p,"project-media")}"${p.thumb==="identity"?"":mediaBg(p)}>${cardMedia(p)}</div>
     <div class="project-copy">
       <div><div class="project-top"><span>${String(i+1).padStart(2,"0")} / ${p.cat}</span><span class="badge">${p.status}</span></div><h3 class="project-title">${p.title}</h3><p class="project-tag">${p.tagline}</p><p class="project-role">${p.role}</p></div>
       <div class="project-foot"><span>${p.year}</span><span>View ${p.title} →</span></div>
@@ -470,7 +440,7 @@ function renderProjects(){
 }
 function renderGrid(id,list){
   document.getElementById(id).innerHTML=list.map((p,i)=>`<button class="card" type="button" data-kind="${id}" data-i="${i}">
-    <div class="card-media"${mediaBg(p)}>${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
+    <div class="${mediaClass(p,"card-media")}"${p.thumb==="identity"?"":mediaBg(p)}>${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
   </button>`).join("");
 }
 function renderRows(id,list){
