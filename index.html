@@ -77,8 +77,10 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .section-intro{max-width:780px;color:rgba(244,240,231,.74);font-size:clamp(1rem,1.5vw,1.28rem);line-height:1.55;margin:1rem 0 0}
 .project-list{display:grid;gap:1px;background:var(--line)}
 .project-card{background:rgba(15,15,13,.96);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:1px;min-height:520px;border:0;padding:0;text-align:left;cursor:pointer;color:inherit}
+.project-card:nth-child(even) .project-media{order:2}
+.project-card:nth-child(even) .project-copy{order:1}
 .project-card:hover .project-media img,.project-card:hover .project-media video{transform:scale(1.035)}
-.project-media{position:relative;overflow:hidden;background:#171714;min-height:420px}
+.project-media{position:relative;overflow:hidden;background-color:#171714;background-size:cover;background-position:center;min-height:420px}
 .project-media img,.project-media video{width:100%;height:100%;object-fit:cover;transition:transform 700ms var(--ease-out),filter 700ms var(--ease-out)}
 .project-copy{padding:clamp(1.35rem,3vw,3.2rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
 .project-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.86rem}
@@ -90,14 +92,18 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .project-card.featured{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);min-height:680px}
 .project-card.featured .project-media{min-height:680px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line)}
+#worldGrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+#worldGrid .card:nth-child(-n+2){grid-column:span 2;min-height:520px}
+#worldGrid .card:nth-child(-n+2) .card-media{height:360px}
 .card{background:rgba(15,15,13,.96);min-height:410px;border:0;color:inherit;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;transition:background 180ms var(--ease-out),transform 160ms var(--ease-out)}
 .card:hover{background:#171714}
 .card-media{height:260px;overflow:hidden;background:
   linear-gradient(135deg,rgba(244,240,231,.07),rgba(244,240,231,.015)),
-  #1a1915;position:relative}
+  #1a1915;background-size:cover;background-position:center;position:relative}
 .card-media:after{content:"";position:absolute;inset:0;border:1px solid rgba(244,240,231,.08);pointer-events:none}
 .card-media img,.card-media video{width:100%;height:100%;object-fit:cover;filter:brightness(1.07) contrast(1.06) saturate(1.05);transition:transform 650ms var(--ease-out)}
 .card:hover .card-media img,.card:hover .card-media video{transform:scale(1.035)}
+.motion-badge{position:absolute;left:.75rem;top:.75rem;z-index:2;border:1px solid rgba(244,240,231,.34);background:rgba(15,15,13,.72);color:var(--paper);border-radius:999px;padding:.42rem .58rem;font-size:.72rem;line-height:1;backdrop-filter:blur(12px)}
 .card-body{padding:1.15rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
 .kicker{color:var(--muted);font-size:.82rem}
 .card h3{margin:0;font-size:1.45rem;line-height:1.05;letter-spacing:0}
@@ -144,7 +150,10 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   .nav.open .navlinks{display:flex;position:absolute;top:72px;left:1rem;right:1rem;flex-direction:column;align-items:stretch;background:rgba(15,15,13,.96);border:1px solid var(--line);border-radius:8px;padding:.5rem;backdrop-filter:blur(18px)}
   .hero,.project-card,.project-card.featured,.modal-grid,.about-grid,.contact{grid-template-columns:1fr}
   .hero{padding-top:6rem;min-height:auto}.hero-proof{min-height:auto}.proof-large{min-height:320px}.project-card.featured .project-media,.project-media{min-height:360px}
-  .section-head{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row img{max-width:280px}.contact-links{justify-content:flex-start}
+  .section-head{grid-template-columns:1fr}.grid,#worldGrid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row img{max-width:280px}.contact-links{justify-content:flex-start}
+  .project-card:nth-child(even) .project-media,.project-card:nth-child(even) .project-copy{order:initial}
+  #worldGrid .card:nth-child(-n+2){grid-column:auto;min-height:410px}
+  #worldGrid .card:nth-child(-n+2) .card-media{height:260px}
 }
 @media (max-width:620px){
   h1{font-size:22vw}.hero-line:nth-child(2){-webkit-text-stroke:1px rgba(244,240,231,.5)}
@@ -204,7 +213,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="section" id="work">
     <div class="section-head">
       <div class="sec-no">01 / Selected</div>
-      <div><h2>Flagship systems.</h2><p class="section-intro">The portfolio leads with the work that can explain Jeffrey fastest: a real commerce brand, a public archive, a Ren'Py narrative artwork, an open-source PWA, a Cantonese AI product, and a mobile game.</p></div>
+      <div><h2>Flagship systems.</h2><p class="section-intro">The portfolio leads with shipped or playable work: a real pet first-aid product, a public archive, a Ren'Py narrative artwork, an open-source PWA, a Cantonese AI product, and a mobile game.</p></div>
     </div>
     <div class="project-list" id="projectList"></div>
   </section>
@@ -228,7 +237,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="section" id="research">
     <div class="section-head">
       <div class="sec-no">04 / Research</div>
-      <div><h2>Research with teeth.</h2><p class="section-intro">The research section should not read like coursework. It should show how Jeffrey thinks: through objects, platforms, images, spectatorship, and the small rituals that reveal larger systems.</p></div>
+      <div><h2>Research with teeth.</h2><p class="section-intro">Research here is treated as a working method: objects, platforms, images, spectatorship, and everyday rituals are read as systems with consequences.</p></div>
     </div>
     <div class="wide-list" id="researchList"></div>
   </section>
@@ -238,7 +247,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
       <div class="about-img"><img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse"></div>
       <div>
         <p class="about-text">Jeffrey N. Tse is a Hong Kong-based builder working across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
-        <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and open-world experiments. The through-line is not medium. It is attention: how people behave when a system asks them to trust it.</p>
+        <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and open-world experiments. The through-line is attention to behaviour: what people trust, save, hide, repeat, buy, and remember.</p>
         <div class="hero-actions">
           <a class="linkbtn primary" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">Download CV</a>
           <a class="linkbtn" href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
@@ -308,14 +317,14 @@ const projects=[
    links:[{label:"View ROLL CALL",url:"https://hydrogenbondss.github.io/Rollcall/",style:"acid"},{label:"View ROLL CALL GitHub",url:"https://github.com/hydrogenbondss/Rollcall"}]},
   {title:"ECHO: Love and Logged",year:"2026",cat:"Interactive narrative · Ren'Py artwork",status:"Prototype",
    role:"Creator · writer · art director · systems designer",
-   img:"assets/echo/portfolio/screen-dialogue.jpg",
+   img:"assets/echo/portfolio/screen-app.jpg",
    tagline:"An English Ren'Py narrative about late-night intimacy, route choice, and Remy, the assistant who remembers too much.",
-   desc:"ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player opens ECHO, creates a profile, meets Kite, Blake, and Neo or Nia, and moves through relationship routes shaped by memory, hesitation, and what the app quietly records.\n\nRemy begins as the soft-spoken assistant inside ECHO. Over time, she stops feeling like interface furniture and becomes the pressure point of the work: she counts what the player opens, saves what they delete, and turns ordinary romantic choices into evidence. The system includes player profile setup, pronoun logic, route variants, ECHO's archive/log structure, and route-specific interactions including cocktail mixing, photography, and LEGO building.",
+   desc:"ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player opens ECHO, creates a profile, meets Kite, Blake, and Neo or Nia, and moves through routes shaped by memory, hesitation, and what the app records.\n\nRemy begins as the assistant inside ECHO. Over time, she becomes the pressure point of the work: she counts what the player opens, saves what they delete, and turns ordinary choices into evidence. The system includes profile setup, pronoun logic, route variants, ECHO's archive/log structure, and route-specific interactions including cocktail mixing, photography, and LEGO building.",
    media:[
+    {src:"assets/echo/portfolio/screen-app.jpg",caption:"ECHO app interface and Remy layer"},
     {src:"assets/echo/portfolio/screen-dialogue.jpg",caption:"ECHO in-engine dialogue scene"},
     {src:"assets/echo/portfolio/banner-wide.jpg",caption:"The Copper Room atmosphere"},
-    {src:"assets/echo/portfolio/cast.jpg",caption:"Principal love interests and Remy"},
-    {src:"assets/echo/portfolio/screen-app.jpg",caption:"ECHO app interface and Remy layer"}
+    {src:"assets/echo/portfolio/cast.jpg",caption:"Principal routes and Remy"}
    ]},
   {title:"SPECTOR",year:"2026",cat:"Open-source PWA · smart-glasses workflow",status:"Live",
    role:"Founder · product · engineering",
@@ -354,7 +363,7 @@ const projects=[
 
 const worlds=[
   {title:"Cathedral of Small Hours",year:"2026",cat:"Browser world · procedural environment",img:"assets/worlds/cathedral-hyperreal.jpg",
-   desc:"A first-person browser environment where cathedral architecture becomes code: nave, columns, arches, floor, walls, and particles are drawn as an endless green computational interior.",
+   desc:"A first-person browser world where cathedral architecture becomes code: nave, columns, arches, floor, walls, and particles are drawn as an endless green interior.",
    media:[{src:"assets/worlds/cathedral-hyperreal.jpg",caption:"Cathedral visual direction"}],
    links:[{label:"View Cathedral of Small Hours",url:"https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html",style:"acid"},{label:"View Cathedral GitHub",url:"https://github.com/hydrogenbondss/cathedral-of-small-hours"}]},
   {title:"Garden of Returning",year:"2026",cat:"Browser world · endless landscape",img:"assets/worlds/garden-hyperreal.jpg",
@@ -380,11 +389,11 @@ const worlds=[
 
 const writing=[
   {title:"UNDERGROWTH",year:"2018",cat:"Co-curated exhibition · UBC Audain Gallery",img:"assets/exhibitions/undergrowth-poster.jpg",
-   desc:"The 2018 BFA/BA Visual Art graduating exhibition at UBC. The portfolio uses the verified exhibition poster and catalogue, not a placeholder.",
+   desc:"The 2018 BFA/BA Visual Art graduating exhibition at UBC, represented with the verified exhibition poster and catalogue.",
    media:[{src:"assets/exhibitions/undergrowth-poster.jpg",caption:"UNDERGROWTH exhibition poster"}],
    links:[{label:"View UNDERGROWTH Catalogue",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf",style:"acid"}]},
   {title:"Insights Unseen and Unheard",year:"2017",cat:"Group exhibition · Hatch Art Gallery",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
-   desc:"Includes Untitled, 2017 and Impulsive Fragments. The still and video sit together here because they belong to the same exhibition context.",
+   desc:"Includes Untitled, 2017 and Impulsive Fragments, kept together as one exhibition context with both still and video documentation.",
    media:[
     {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017"},
     {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 installation view"},
@@ -401,7 +410,7 @@ const writing=[
 
 const research=[
   {title:"One-Ply Realism",year:"2026",cat:"ROLL CALL essay",img:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",
-   desc:"A research essay that refuses to treat toilet paper as a punchline. It follows wrappers, ply, scent, softness, price, hotel bathrooms, supermarket shelves, and travel leftovers to ask why some forms of bodily comfort become invisible.",
+   desc:"The written arm of ROLL CALL. The essay follows wrappers, ply, scent, softness, price, hotel bathrooms, supermarket shelves, and travel leftovers to ask why some forms of bodily comfort become invisible.",
    links:[{label:"View One-Ply Realism",url:"https://hydrogenbondss.github.io/Rollcall/#/essay",style:"acid"}]},
   {title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating",year:"2023",cat:"MSc thesis · PolyU",img:"assets/echo/echo-ui-app.jpg",
    desc:"A study of Tinder as dating platform and marketing system: visibility, desirability metrics, self-presentation, and the gap between what users believe they are doing and what the platform is optimising."},
@@ -442,12 +451,17 @@ function closeModal(){
 }
 function cardMedia(item){
   const first=(item.media||[]).find(m=>m.type==="video");
-  if(first) return `<video class="motion-thumb" src="${first.src}" poster="${first.poster||item.img}" muted loop playsinline preload="auto"></video>`;
+  if(first) return `<video class="motion-thumb" src="${first.src}" poster="${first.poster||item.img}" muted loop playsinline preload="auto"></video><span class="motion-badge">Motion</span>`;
   return `<img src="${item.img}" alt="${item.title}" loading="eager" decoding="async">`;
+}
+function mediaBg(item){
+  const first=(item.media||[]).find(m=>m.type==="video");
+  const src=(first&&first.poster)||item.img||"";
+  return src ? ` style="background-image:url('${src.replace(/'/g,"%27")}')"` : "";
 }
 function renderProjects(){
   document.getElementById("projectList").innerHTML=projects.map((p,i)=>`<button class="project-card ${p.featured?"featured":""}" type="button" data-kind="project" data-i="${i}">
-    <div class="project-media">${cardMedia(p)}</div>
+    <div class="project-media"${mediaBg(p)}>${cardMedia(p)}</div>
     <div class="project-copy">
       <div><div class="project-top"><span>${String(i+1).padStart(2,"0")} / ${p.cat}</span><span class="badge">${p.status}</span></div><h3 class="project-title">${p.title}</h3><p class="project-tag">${p.tagline}</p><p class="project-role">${p.role}</p></div>
       <div class="project-foot"><span>${p.year}</span><span>View ${p.title} →</span></div>
@@ -456,7 +470,7 @@ function renderProjects(){
 }
 function renderGrid(id,list){
   document.getElementById(id).innerHTML=list.map((p,i)=>`<button class="card" type="button" data-kind="${id}" data-i="${i}">
-    <div class="card-media">${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
+    <div class="card-media"${mediaBg(p)}>${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
   </button>`).join("");
 }
 function renderRows(id,list){
