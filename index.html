@@ -1,1767 +1,491 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jeffrey N. Tse</title>
-<meta name="description" content="Jeffrey N. Tse builds AI-native products, cultural archives, interactive worlds, interactive narratives, and brand systems from Hong Kong: PawsAid, ROLL CALL, ECHO, SPECTOR, SELTA, Noru, editorial work, and research.">
-<meta property="og:title" content="Jeffrey N. Tse — AI Products · Cultural Systems · Brand Direction">
-<meta property="og:description" content="Builder of AI-native products, cultural archives, interactive worlds, interactive narratives, and brand systems from Hong Kong: PawsAid, ROLL CALL, ECHO, SPECTOR, SELTA, Noru, editorial work, and research.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231C1C1C'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='22' font-weight='700' fill='%23F0F0F0' text-anchor='middle'%3EJNT%3C/text%3E%3C/svg%3E">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jeffrey N. Tse — Product, AI, Culture, Worlds</title>
+<meta name="description" content="Portfolio of Jeffrey N. Tse: PawsAid, ROLL CALL, ECHO: Love and Logged, SPECTOR, SELTA, Noru, interactive worlds, writing, exhibitions, and research.">
+<meta property="og:title" content="Jeffrey N. Tse">
+<meta property="og:description" content="Product engineering, AI systems, cultural research, brand direction, and playable worlds.">
+<meta property="og:type" content="website">
+<link rel="preload" as="image" href="assets/pawsaid/pro-kit.png">
+<link rel="preload" as="image" href="assets/worlds/cathedral-hyperreal.jpg">
+<link rel="preload" as="image" href="assets/worlds/garden-hyperreal.jpg">
+<link rel="preload" as="image" href="assets/noru/home-current.png">
 <style>
-/* ============================================================
-   Jeffrey N. Tse — editorial dark system
-   ============================================================ */
-:root {
-  --bg:        #10100E;
-  --teal:      #F2F0E7;
-  --teal-b:    #CFC9B8;
-  --teal-dim:  rgba(240,240,240,.22);
-  --blue:      #A7B7FF;
-  --gold:      #D7FF63;
-  --ember:     #FF6A3D;
-  --fg:        #F2F0E7;
-  --fg-dim:    rgba(242,240,231,.58);
-  --fg-ghost:  rgba(235,235,235,.18);
-  --glass:     rgba(255,255,255,.11);
-  --glass-s:   rgba(255,255,255,.17);
-  --glass-bd:  rgba(255,255,255,.22);
-  --glass-bd2: rgba(240,240,240,.35);
-  --glow:      rgba(240,240,240,.32);
-  --glow-b:    rgba(170,170,170,.22);
-  --sg:  'Inter', sans-serif;
-  --mono:'Inter', sans-serif;
-  --display:'Bricolage Grotesque', sans-serif;
+:root{
+  --bg:#0f0f0d;
+  --paper:#f4f0e7;
+  --muted:#a7a199;
+  --line:rgba(244,240,231,.14);
+  --line-strong:rgba(244,240,231,.28);
+  --red:#e63525;
+  --acid:#d7ff63;
+  --blue:#98adff;
+  --ink:#171714;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-inout:cubic-bezier(.77,0,.175,1);
 }
-
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{overflow-x:hidden;scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--fg);
-  font-family:var(--sg);
-  font-weight:300;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg);color:var(--paper)}
+body{margin:0;background:
+  linear-gradient(90deg,rgba(244,240,231,.045) 1px,transparent 1px) 0 0/96px 96px,
+  linear-gradient(180deg,rgba(244,240,231,.035) 1px,transparent 1px) 0 0/96px 96px,
+  var(--bg);
+  color:var(--paper);font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");mix-blend-mode:soft-light;opacity:.25}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+img,video{display:block;max-width:100%}
+::selection{background:var(--acid);color:var(--ink)}
+.skip{position:absolute;left:-999px;top:auto}
+.skip:focus{left:1rem;top:1rem;z-index:100;background:var(--paper);color:var(--ink);padding:.75rem 1rem;border-radius:999px}
+.nav{position:fixed;z-index:40;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,3vw,2.25rem);border-bottom:1px solid transparent;transition:background .22s var(--ease-out),border-color .22s var(--ease-out),backdrop-filter .22s var(--ease-out)}
+.nav.scrolled{background:rgba(15,15,13,.72);border-color:var(--line);backdrop-filter:blur(18px) saturate(1.2)}
+.brand{font-weight:760;letter-spacing:0;font-size:1rem}
+.navlinks{display:flex;align-items:center;gap:.25rem}
+.navlinks a,.linkbtn,.m-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;padding:.7rem 1rem;line-height:1;font-size:.86rem;color:rgba(244,240,231,.82);transition:transform 160ms var(--ease-out),border-color 180ms var(--ease-out),background 180ms var(--ease-out),color 180ms var(--ease-out)}
+.navlinks a:hover,.linkbtn:hover,.m-link:hover{border-color:var(--paper);background:rgba(244,240,231,.08);color:var(--paper)}
+.navlinks a:active,.linkbtn:active,.m-link:active,.card:active,.media-control:active{transform:scale(.97)}
+.nav-cta{background:var(--paper)!important;color:var(--ink)!important;border-color:var(--paper)!important}
+.mobile-toggle{display:none;background:transparent;border:1px solid var(--line);border-radius:999px;padding:.7rem 1rem}
+main{min-height:100vh}
+.hero{min-height:100svh;padding:6rem clamp(1rem,3vw,2.25rem) 2.25rem;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(1.25rem,3vw,3rem);align-items:end;border-bottom:1px solid var(--line)}
+.hero-copy{max-width:1180px}
+.eyebrow{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-size:.86rem;margin-bottom:1.5rem}
+.eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 28px rgba(230,53,37,.8)}
+h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:0;font-weight:860}
+.hero-line{display:block}
+.hero-line:nth-child(2){color:transparent;-webkit-text-stroke:1.5px rgba(244,240,231,.48)}
+.statement{font-size:clamp(1.2rem,2vw,2rem);line-height:1.22;max-width:860px;margin:2rem 0 0;color:rgba(244,240,231,.9)}
+.statement strong{color:var(--acid);font-weight:650}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.linkbtn.primary{background:var(--acid);border-color:var(--acid);color:var(--ink);font-weight:720}
+.hero-proof{display:grid;gap:.75rem;align-self:stretch;min-height:620px}
+.proof-large{position:relative;overflow:hidden;border-radius:8px;border:1px solid var(--line-strong);background:#181713;min-height:420px}
+.proof-large img,.proof-large video{width:100%;height:100%;object-fit:cover}
+.proof-cap{position:absolute;left:1rem;right:1rem;bottom:1rem;display:flex;justify-content:space-between;gap:1rem;align-items:end;color:var(--paper);font-size:.9rem}
+.proof-cap span{background:rgba(15,15,13,.68);border:1px solid rgba(244,240,231,.18);border-radius:999px;padding:.55rem .75rem;backdrop-filter:blur(14px)}
+.proof-stack{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.proof-small{position:relative;overflow:hidden;min-height:170px;border-radius:8px;border:1px solid var(--line);background:#181713}
+.proof-small img,.proof-small video{width:100%;height:100%;object-fit:cover}
+.section{padding:clamp(5rem,9vw,8rem) clamp(1rem,3vw,2.25rem);border-bottom:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:120px minmax(0,1fr);gap:clamp(1rem,3vw,2rem);align-items:start;margin-bottom:2rem}
+.sec-no{color:var(--acid);font-size:.9rem}
+.section h2{font-size:clamp(2.4rem,6.4vw,7rem);line-height:.9;letter-spacing:0;margin:0;font-weight:820}
+.section-intro{max-width:780px;color:rgba(244,240,231,.74);font-size:clamp(1rem,1.5vw,1.28rem);line-height:1.55;margin:1rem 0 0}
+.project-list{display:grid;gap:1px;background:var(--line)}
+.project-card{background:rgba(15,15,13,.96);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:1px;min-height:520px;border:0;padding:0;text-align:left;cursor:pointer;color:inherit}
+.project-card:hover .project-media img,.project-card:hover .project-media video{transform:scale(1.035)}
+.project-media{position:relative;overflow:hidden;background:#171714;min-height:420px}
+.project-media img,.project-media video{width:100%;height:100%;object-fit:cover;transition:transform 700ms var(--ease-out),filter 700ms var(--ease-out)}
+.project-copy{padding:clamp(1.35rem,3vw,3.2rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
+.project-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.86rem}
+.badge{border:1px solid var(--line);border-radius:999px;padding:.45rem .65rem;color:rgba(244,240,231,.78)}
+.project-title{font-size:clamp(2.25rem,5vw,5.8rem);line-height:.88;margin:0;font-weight:830;letter-spacing:0}
+.project-tag{font-size:clamp(1.02rem,1.7vw,1.45rem);line-height:1.35;color:rgba(244,240,231,.85);max-width:760px;margin:1.1rem 0 0}
+.project-role{color:var(--muted);line-height:1.5;margin-top:1rem}
+.project-foot{display:flex;justify-content:space-between;gap:1rem;align-items:end;color:var(--muted);font-size:.92rem}
+.project-card.featured{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);min-height:680px}
+.project-card.featured .project-media{min-height:680px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line)}
+.card{background:rgba(15,15,13,.96);min-height:410px;border:0;color:inherit;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;transition:background 180ms var(--ease-out),transform 160ms var(--ease-out)}
+.card:hover{background:#171714}
+.card-media{height:260px;overflow:hidden;background:
+  linear-gradient(135deg,rgba(244,240,231,.07),rgba(244,240,231,.015)),
+  #1a1915;position:relative}
+.card-media:after{content:"";position:absolute;inset:0;border:1px solid rgba(244,240,231,.08);pointer-events:none}
+.card-media img,.card-media video{width:100%;height:100%;object-fit:cover;filter:brightness(1.07) contrast(1.06) saturate(1.05);transition:transform 650ms var(--ease-out)}
+.card:hover .card-media img,.card:hover .card-media video{transform:scale(1.035)}
+.card-body{padding:1.15rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
+.kicker{color:var(--muted);font-size:.82rem}
+.card h3{margin:0;font-size:1.45rem;line-height:1.05;letter-spacing:0}
+.card p{margin:0;color:rgba(244,240,231,.72);line-height:1.48}
+.wide-list{display:grid;gap:1px;background:var(--line)}
+.row{background:rgba(15,15,13,.96);display:grid;grid-template-columns:160px minmax(0,1fr) minmax(260px,.42fr);gap:1.5rem;align-items:start;padding:1.25rem;cursor:pointer;border:0;color:inherit;text-align:left}
+.row:hover{background:#171714}
+.row h3{margin:0;font-size:clamp(1.35rem,2.3vw,2.5rem);line-height:1}
+.row p{margin:.75rem 0 0;color:rgba(244,240,231,.72);line-height:1.5}
+.row img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:6px}
+.tools{display:flex;flex-wrap:wrap;gap:.6rem;max-width:1100px}
+.tool{border:1px solid var(--line);border-radius:999px;padding:.65rem .9rem;color:rgba(244,240,231,.82);background:rgba(244,240,231,.035)}
+.about-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(1.25rem,4vw,4rem);align-items:start}
+.about-img{border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#171714}
+.about-img img{width:100%;height:auto}
+.about-text{font-size:clamp(1.25rem,2.3vw,2.35rem);line-height:1.18;max-width:980px;margin:0}
+.about-small{color:rgba(244,240,231,.68);font-size:1.05rem;line-height:1.65;max-width:760px;margin:1.4rem 0 0}
+.contact{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:end}
+.contact h2{font-size:clamp(3.6rem,10vw,11rem);line-height:.86;margin:0}
+.contact-links{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:flex-end}
+footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.9rem}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(7,7,6,.82);backdrop-filter:blur(20px);display:none;align-items:stretch;justify-content:center;padding:0}
+.modal.open{display:flex}
+.modal-shell{width:min(1480px,100%);height:100%;background:var(--bg);border-left:1px solid var(--line);border-right:1px solid var(--line);overflow:auto}
+.modal-bar{position:sticky;top:0;z-index:3;background:rgba(15,15,13,.86);backdrop-filter:blur(18px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:.8rem clamp(1rem,2vw,1.5rem)}
+.modal-close{border:1px solid var(--line);background:rgba(244,240,231,.04);border-radius:999px;padding:.7rem 1rem;cursor:pointer}
+.modal-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.48fr);gap:1px;background:var(--line);min-height:calc(100svh - 62px)}
+.modal-media{background:#080807;display:flex;flex-direction:column;min-height:620px}
+.media-stage{position:relative;flex:1;display:grid;place-items:center;overflow:hidden;background:#080807}
+.media-stage img,.media-stage video{max-width:100%;max-height:calc(100svh - 170px);width:auto;height:auto;object-fit:contain}
+.media-controls{height:84px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:1rem;color:var(--muted)}
+.media-control{border:1px solid var(--line);background:transparent;border-radius:999px;min-width:92px;padding:.85rem 1rem;cursor:pointer}
+.media-control:disabled{opacity:.25;cursor:not-allowed}
+.modal-copy{background:var(--bg);padding:clamp(1.3rem,3vw,3rem);display:flex;flex-direction:column;gap:1.2rem}
+.modal-copy h2{font-size:clamp(2.5rem,5.8vw,6.5rem);line-height:.88;margin:0}
+.modal-copy p{color:rgba(244,240,231,.78);line-height:1.62;font-size:1.04rem;white-space:pre-line;margin:0}
+.modal-meta{display:flex;flex-wrap:wrap;gap:.55rem}
+.modal-meta span{border:1px solid var(--line);border-radius:999px;padding:.5rem .7rem;color:var(--muted);font-size:.86rem}
+.m-links{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:.5rem}
+.m-link.primary{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.m-link.acid{background:var(--acid);color:var(--ink);border-color:var(--acid)}
+@media (max-width:980px){
+  .navlinks{display:none}.mobile-toggle{display:inline-flex}
+  .nav.open .navlinks{display:flex;position:absolute;top:72px;left:1rem;right:1rem;flex-direction:column;align-items:stretch;background:rgba(15,15,13,.96);border:1px solid var(--line);border-radius:8px;padding:.5rem;backdrop-filter:blur(18px)}
+  .hero,.project-card,.project-card.featured,.modal-grid,.about-grid,.contact{grid-template-columns:1fr}
+  .hero{padding-top:6rem;min-height:auto}.hero-proof{min-height:auto}.proof-large{min-height:320px}.project-card.featured .project-media,.project-media{min-height:360px}
+  .section-head{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row img{max-width:280px}.contact-links{justify-content:flex-start}
 }
-
-/* Grain */
-body::after{
-  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
-  opacity:.05;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:200px;
+@media (max-width:620px){
+  h1{font-size:22vw}.hero-line:nth-child(2){-webkit-text-stroke:1px rgba(244,240,231,.5)}
+  .proof-stack{grid-template-columns:1fr}.section{padding:4rem 1rem}.project-copy{padding:1.2rem}.project-title{font-size:3rem}
+  .modal-media{min-height:420px}.media-stage img,.media-stage video{max-height:62svh}.modal-copy h2{font-size:3rem}
 }
-
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 12% 12%,rgba(215,255,99,.08),transparent 25%),
-    radial-gradient(circle at 82% 28%,rgba(167,183,255,.075),transparent 28%),
-    linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.026) 25%,transparent calc(25% + 1px),transparent calc(50% - 1px),rgba(255,255,255,.018) 50%,transparent calc(50% + 1px),transparent calc(75% - 1px),rgba(255,255,255,.026) 75%,transparent calc(75% + 1px)),
-    linear-gradient(180deg,rgba(255,255,255,.035),transparent 42%);
-}
-
-/* -- SCROLL REVEAL -- */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
-.reveal.in-view{opacity:1;transform:none}
-.r-d1{transition-delay:.07s}.r-d2{transition-delay:.14s}.r-d3{transition-delay:.21s}
-.r-d4{transition-delay:.28s}.r-d5{transition-delay:.35s}
-
-/* -- LOADER -- */
-#loader{position:fixed;inset:0;z-index:900;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
-#loader.out{opacity:0;visibility:hidden}
-.ld-name{font-size:clamp(2.4rem,6vw,5rem);font-weight:700;letter-spacing:-.04em}
-
-/* -- GATE -- */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:300;
-  display:flex;align-items:center;justify-content:space-between;gap:2rem;
-  padding:1.15rem 2.4rem;
-  background:rgba(28,28,28,.32);
-  border-bottom:1px solid rgba(240,240,240,.08);
-  backdrop-filter:blur(18px) saturate(1.3);
-  -webkit-backdrop-filter:blur(18px) saturate(1.3);
-  transition:background .3s,border-color .3s,box-shadow .3s;
-}
-#nav.scrolled{
-  background:rgba(28,28,28,.75);
-  border-bottom-color:rgba(240,240,240,.28);
-  box-shadow:0 1px 0 rgba(170,170,170,.06),0 16px 48px rgba(0,0,0,.6),0 0 80px rgba(240,240,240,.04);
-}
-.n-logo{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
-  color:rgba(240,240,240,.95);text-decoration:none;
-  background:rgba(240,240,240,.1);
-  border:1px solid rgba(240,240,240,.35);
-  padding:.32rem .7rem;border-radius:999px;
-  backdrop-filter:blur(8px);
-  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,color .25s ease;
-  box-shadow:0 0 12px rgba(240,240,240,.08);
-}
-.n-logo:hover{background:rgba(240,240,240,.18);border-color:rgba(240,240,240,.6);box-shadow:0 0 20px rgba(240,240,240,.2)}
-.n-links{display:flex;gap:2.4rem;list-style:none}
-.n-links a{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-dim);text-decoration:none;transition:color .3s}
-.n-links a:hover{color:var(--teal)}
-#nav-clock{font-family:var(--mono);font-size:.58rem;color:rgba(240,240,240,.85);letter-spacing:.06em;text-align:right;line-height:1.5}
-
-/* -- HERO -- */
-#hero{
-  min-height:92vh;
-  padding:0 2.4rem 3rem;
-  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);align-items:end;gap:3rem;
-  position:relative;overflow:hidden;
-}
-#hero::after{
-  content:'';position:absolute;inset:auto 0 0 0;height:38%;
-  background:linear-gradient(to top,var(--bg),transparent);
-  pointer-events:none;z-index:1;
-}
-.h-copy{position:relative;z-index:2;padding-bottom:1rem}
-.h-name{
-  position:relative;z-index:2;
-  font-family:var(--display);
-  font-size:clamp(4.8rem,12vw,12rem);
-  font-weight:600;line-height:.9;letter-spacing:-.03em;
-  padding-top:clamp(7rem,16vh,13rem);margin-bottom:1.4rem;
-}
-.h-line{display:block;overflow:hidden;transform:translateY(110%)}
-.h-line.visible{animation:lineReveal .9s cubic-bezier(.16,1,.3,1) both}
-@keyframes lineReveal{from{transform:translateY(105%)}to{transform:translateY(0)}}
-#h2{color:transparent;-webkit-text-stroke:1.5px rgba(235,235,235,.4);margin-left:clamp(1.5rem,5vw,6rem)}
-.h-bottom{display:flex;align-items:baseline;gap:2.5rem;position:relative;z-index:2;margin-bottom:1.4rem}
-.h-eye{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,240,.85)}
-.h-stmt{font-size:1.02rem;color:rgba(235,235,235,.72);font-weight:300;line-height:1.7;max-width:620px}
-.h-proof{
-  position:relative;z-index:2;align-self:center;width:100%;
-  display:grid;grid-template-columns:1.08fr .82fr;gap:12px;
-  padding-top:7.2rem;
-}
-.h-proof figure{
-  position:relative;overflow:hidden;border:1px solid rgba(240,240,240,.16);
-  background:#07080d;box-shadow:0 30px 90px rgba(0,0,0,.48);
-}
-.h-proof figure:first-child{grid-row:span 2;aspect-ratio:4/5;border-radius:22px}
-.h-proof figure:not(:first-child){aspect-ratio:4/3;border-radius:18px}
-.h-proof img,.h-proof video{width:100%;height:100%;display:block;object-fit:cover}
-.h-proof figcaption{
-  position:absolute;left:12px;right:12px;bottom:12px;
-  font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;
-  color:rgba(255,255,255,.82);text-shadow:0 1px 18px rgba(0,0,0,.85);
-}
-
-/* -- SECTIONS BASE -- */
-section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:relative;z-index:1}
-
-/* Sec header */
-.sec-hd{display:flex;align-items:center;gap:1.4rem;margin-bottom:3.8rem;position:relative}
-.sec-n{
-  font-family:var(--mono);font-size:clamp(4.5rem,9vw,8rem);font-weight:400;
-  color:rgba(240,240,240,.07);letter-spacing:-.02em;line-height:1;
-  position:absolute;left:-.4rem;top:50%;transform:translateY(-50%);
-  pointer-events:none;user-select:none;
-}
-.sec-t{
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  color:#151511;
-  background:var(--gold);
-  border:1.5px solid rgba(215,255,99,.85);
-  padding:.38rem 1rem;
-  transform:rotate(-.6deg);display:inline-block;
-  margin-left:clamp(5.5rem,10vw,8.5rem);position:relative;z-index:1;
-  box-shadow:0 0 16px rgba(240,240,240,.12);
-  transition:transform .3s,box-shadow .3s;
-}
-.sec-hd:hover .sec-t{transform:rotate(0deg);box-shadow:0 0 24px rgba(240,240,240,.2)}
-.sec-line{flex:1;height:1px;background:linear-gradient(to right,rgba(240,240,240,.35),rgba(170,170,170,.15),transparent)}
-.sec-hd-geo{position:absolute;right:0;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;border:1px solid rgba(240,240,240,.11);pointer-events:none}
-.sec-hd-geo::before{content:'';position:absolute;inset:11px;border-radius:50%;border:1px solid rgba(170,170,170,.07)}
-
-/* -- ABOUT -- */
-.ab-grid{display:grid;grid-template-columns:210px 1fr;gap:4.5rem;align-items:start}
-.ab-img{
-  width:210px;height:210px;object-fit:cover;object-position:center top;
-  border-radius:50%;display:block;
-  border:2px solid rgba(240,240,240,.3);
-  box-shadow:0 0 0 6px rgba(240,240,240,.07),0 0 40px rgba(240,240,240,.18),0 20px 60px rgba(0,0,0,.5);
-  transition:box-shadow .5s;
-}
-.ab-img:hover{box-shadow:0 0 0 8px rgba(240,240,240,.14),0 0 0 4px rgba(240,240,240,.4),0 24px 70px rgba(0,0,0,.6)}
-.ab-stats{display:flex;gap:3rem;margin-bottom:2rem}
-.ab-stat-n{display:block;font-size:3.2rem;font-weight:700;line-height:1;color:rgba(240,240,240,.95)}
-.ab-stat-l{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-dim)}
-.ab-focus{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;color:rgba(240,240,240,.85);margin-bottom:1.8rem;text-transform:uppercase}
-.ab-p{font-size:1rem;line-height:1.82;color:var(--fg-dim);margin-bottom:1.3rem}
-.ab-links{display:flex;flex-direction:column;gap:.6rem;margin-top:1.8rem}
-.ab-links a{font-family:var(--mono);font-size:.7rem;color:rgba(240,240,240,.75);letter-spacing:.05em;transition:color .3s;text-decoration:none}
-.ab-links a:hover{color:var(--teal)}
-
-/* -- TOOLS -- */
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2rem}
-.tg-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,.7);margin-bottom:1rem}
-.tg-items{display:flex;flex-wrap:wrap;gap:.45rem}
-.tg-item{font-family:var(--mono);font-size:.68rem;padding:.34rem .78rem;border:1px solid rgba(240,240,240,.18);color:rgba(225,225,225,.55);border-radius:999px;transition:background .25s ease,border-color .25s ease,color .25s ease}
-.tg-item:hover{border-color:rgba(240,240,240,.55);color:rgba(240,240,240,.95);background:rgba(240,240,240,.06)}
-
-/* -- PROJECTS -- */
-#pjList{display:flex;flex-direction:column;gap:3px}
-.pj-row{
-  display:grid;grid-template-columns:52px minmax(0,1fr) minmax(230px,300px);
-  align-items:start;gap:2rem;padding:2rem 1.8rem;
-  background:var(--glass);
-  backdrop-filter:blur(20px) saturate(1.5);
-  -webkit-backdrop-filter:blur(20px) saturate(1.5);
-  border:1px solid var(--glass-bd);
-  border-bottom:1px solid rgba(240,240,240,.06);
-  cursor:pointer;position:relative;overflow:hidden;
-  transition:background .35s,border-color .35s,transform .25s,box-shadow .35s;
-  border-radius:18px;
-}
-.pj-row::before{
-  content:'';position:absolute;left:0;top:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
-  transition:opacity .3s;
-}
-.pj-row::after{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:transparent;transition:background .4s;
-}
-.pj-row:first-child,.pj-row:last-child{border-radius:18px}
-.pj-row:hover{
-  background:rgba(255,255,255,.16);
-  border-color:rgba(240,240,240,.3);
-  transform:translateX(3px);
-  box-shadow:-3px 0 0 rgba(240,240,240,.7),0 8px 32px rgba(240,240,240,.12),0 0 60px rgba(240,240,240,.06);
-}
-.pj-row:hover::after{background:linear-gradient(to bottom,transparent,rgba(240,240,240,.9),transparent)}
-.pj-row:focus-visible,.cl-row:focus-visible,.cc:focus-visible,.cur-row:focus-visible,.res-row:focus-visible,.ed-card:focus-visible{
-  outline:2px solid rgba(240,240,240,.78);
-  outline-offset:3px;
-}
-.pj-n{font-family:var(--mono);font-size:.65rem;color:rgba(240,240,240,.85);padding-top:.25rem}
-.pj-title{font-size:1.08rem;font-weight:600;margin-bottom:.32rem}
-.pj-cat{font-family:var(--mono);font-size:.65rem;color:var(--fg-dim);margin-bottom:.55rem}
-.pj-tagline{font-size:.88rem;color:rgba(235,235,235,.62);line-height:1.6;max-width:540px}
-.pj-meta{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;padding-top:.2rem}
-.pj-yr{font-family:var(--mono);font-size:.62rem;color:var(--fg-dim)}
-.pj-badge{font-family:var(--mono);font-size:.58rem;padding:.25rem .65rem;border-radius:999px;letter-spacing:.08em;white-space:nowrap}
-.b-live{background:rgba(240,240,240,.15);color:rgba(240,240,240,1);border:1px solid rgba(240,240,240,.35);box-shadow:0 0 10px rgba(240,240,240,.1)}
-.b-dev{background:rgba(140,140,140,.1);color:rgba(140,140,140,.9);border:1px solid rgba(140,140,140,.28)}
-.pj-peek3d{width:100%;height:170px;overflow:hidden;border-radius:18px;flex-shrink:0;margin-top:.55rem;border:1px solid rgba(240,240,240,.14);position:relative;background:rgba(255,255,255,.03)}
-.pj-peek3d canvas{display:block;width:100%;height:100%}
-
-/* -- CREATIVE -- */
-.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:dense;gap:4px;perspective:1400px}
-.cc{
-  position:relative;overflow:hidden;cursor:pointer;
-  background:#0a0a10;aspect-ratio:1/1;
-  transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s,z-index 0s;
-  border-radius:18px;
-}
-.cc.cc-wide{grid-column:span 2;aspect-ratio:16/10}
-.cc-portrait{grid-column:span 1;aspect-ratio:3/4!important}
-.cc-m{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);pointer-events:none}
-.cc:hover{transform:scale(1.03) rotateY(-2.5deg) rotateX(1deg);z-index:3;box-shadow:16px 20px 55px rgba(0,0,0,.75),-2px 0 0 rgba(240,240,240,.3),0 0 30px rgba(240,240,240,.08)}
-.cc.cc-wide:hover{transform:scale(1.016) rotateY(-1.2deg) rotateX(.5deg)}
-.cc:hover .cc-m{transform:scale(1.04)}
-.cc-info{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:1.4rem;
-  background:rgba(28,28,28,.7);
-  backdrop-filter:blur(16px) saturate(1.4);
-  -webkit-backdrop-filter:blur(16px) saturate(1.4);
-  border-top:1px solid rgba(240,240,240,.18);
-  box-shadow:0 -1px 0 rgba(255,255,255,.06);
-  opacity:0;transform:translateY(6px);transition:opacity .25s ease-out,transform .25s cubic-bezier(.23,1,.32,1);
-}
-.cc:hover .cc-info{opacity:1;transform:none}
-.cc-cat{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,240,240,.75);margin-bottom:.38rem}
-.cc-title{font-size:1.02rem;font-weight:600;color:var(--fg)}
-
-/* -- CLIENTS -- */
-#clientList{display:flex;flex-direction:column;gap:3px}
-.cl-row{
-  display:grid;grid-template-columns:170px 1fr auto;
-  gap:2rem;padding:1.8rem 1.6rem;
-  background:var(--glass);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--glass-bd);
-  border-bottom:1px solid rgba(240,240,240,.06);
-  cursor:pointer;
-  transition:background .3s,transform .25s,box-shadow .3s;
-  position:relative;align-items:start;
-}
-.cl-row::before{content:'';position:absolute;left:0;top:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
-.cl-row{border-radius:18px}
-.cl-row:first-child,.cl-row:last-child{border-radius:18px}
-.cl-row:hover{background:rgba(255,255,255,.16);border-color:rgba(240,240,240,.28);transform:translateX(3px);box-shadow:-3px 0 0 rgba(240,240,240,.7),0 8px 32px rgba(240,240,240,.1)}
-.cl-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;opacity:.75;transition:opacity .3s;border:1px solid rgba(240,240,240,.1)}
-.cl-row:hover .cl-thumb{opacity:1}
-.cl-body{display:flex;flex-direction:column;gap:.5rem}
-.cl-title{font-size:1.05rem;font-weight:600}
-.cl-role{font-family:var(--mono);font-size:.62rem;color:rgba(240,240,240,.75);letter-spacing:.08em}
-.cl-items{margin-top:.5rem;display:flex;flex-direction:column;gap:.4rem}
-.cl-item{font-size:.82rem;color:rgba(235,235,235,.62);line-height:1.55;padding-left:.9rem;border-left:1.5px solid rgba(240,240,240,.2)}
-.cl-year{font-family:var(--mono);font-size:.62rem;color:var(--fg-ghost);white-space:nowrap;padding-top:.2rem}
-
-/* -- WRITING SECTION -- */
-.writing-tabs{display:flex;gap:3px;margin-bottom:3rem}
-.writing-tab{
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
-  padding:.45rem 1.1rem;cursor:pointer;background:var(--glass);
-  border:1px solid var(--glass-bd);color:var(--fg-dim);
-  transition:background .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease;
-  border-radius:999px;
-}
-.writing-tab.active{background:rgba(240,240,240,.15);border-color:rgba(240,240,240,.45);color:var(--teal);box-shadow:0 0 16px rgba(240,240,240,.1)}
-.writing-panel{display:none}.writing-panel.active{display:block}
-
-/* -- CURATORIAL -- */
-.cur-desc{font-size:.95rem;color:var(--fg-dim);line-height:1.78;margin-bottom:2.5rem;max-width:600px}
-.cur-row{
-  display:grid;grid-template-columns:80px 1fr auto;
-  gap:2rem;padding:1.8rem .4rem 1.8rem 0;
-  border-bottom:1px solid rgba(240,240,240,.09);
-  align-items:start;cursor:pointer;position:relative;
-  transition:background .3s,padding-left .3s;
-}
-.cur-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .4s}
-.cur-row:hover{background:linear-gradient(90deg,rgba(240,240,240,.045),transparent);padding-left:.8rem}
-.cur-row:hover::before{background:linear-gradient(to bottom,transparent,rgba(240,240,240,.8),transparent)}
-.cur-yr{font-family:var(--mono);font-size:.65rem;color:var(--fg-ghost);padding-top:.2rem}
-.cur-title{font-size:1rem;font-weight:500;margin-bottom:.32rem}
-.cur-venue{font-family:var(--mono);font-size:.66rem;color:var(--fg-dim)}
-.cur-role{font-family:var(--mono);font-size:.6rem;color:rgba(240,240,240,.72);letter-spacing:.08em;white-space:nowrap}
-.cur-expand{font-family:var(--mono);font-size:.65rem;color:rgba(240,240,240,.55);transition:color .3s;padding-top:.2rem}
-.cur-row:hover .cur-expand{color:rgba(240,240,240,.95)}
-.cur-expanded{display:none;padding:1.2rem .4rem 1.8rem;border-bottom:1px solid rgba(240,240,240,.09)}
-.cur-expanded.open{display:block}
-.cur-text{font-size:.9rem;line-height:1.78;color:var(--fg-dim);margin-bottom:1.2rem;max-width:680px}
-.cur-imgs{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.5rem}
-.cur-imgs img{height:200px;width:auto;object-fit:cover;border-radius:14px;flex-shrink:0;border:1px solid rgba(240,240,240,.12)}
-.cur-artists{font-family:var(--mono);font-size:.62rem;color:var(--fg-dim);margin-bottom:.8rem}
-
-/* -- EDITORIAL CAROUSEL -- */
-.ed-carousel-wrap{position:relative;margin:0 -1rem;padding:0 1rem;overflow:hidden}
-.ed-carousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:1rem;cursor:grab;user-select:none}
-.ed-carousel::-webkit-scrollbar{display:none}
-.ed-carousel.grabbing{cursor:grabbing}
-.ed-card{
-  position:relative;flex:0 0 380px;height:260px;overflow:hidden;cursor:pointer;
-  background:#1C1C1C;scroll-snap-align:start;border-radius:18px;
-  border:1px solid rgba(255,255,255,.1);
-  box-shadow:0 4px 20px rgba(0,0,0,.4),0 0 0 1px rgba(240,240,240,.05);
-  transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;
-}
-.ed-card::before{content:'';position:absolute;left:0;top:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);z-index:2}
-.ed-card:hover{transform:scale(1.035);z-index:2;box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(240,240,240,.2),0 0 30px rgba(240,240,240,.08)}
-.ed-card img{width:100%;height:100%;object-fit:cover;object-position:center 15%;transition:transform .6s,filter .4s}
-.ed-card:hover img{transform:scale(1.06);filter:brightness(1.1) saturate(1.1)}
-.ed-card-info{
-  position:absolute;bottom:0;left:0;right:0;padding:1rem 1.1rem 1.1rem;
-  background:linear-gradient(to top,rgba(4,5,14,.97) 0%,rgba(4,5,14,.7) 55%,transparent 100%);
-}
-.ed-card-title{font-size:.8rem;font-weight:600;color:rgba(235,235,235,.97);margin-bottom:.22rem;line-height:1.3}
-.ed-card-sub{font-family:var(--mono);font-size:.48rem;color:rgba(240,240,240,.65);letter-spacing:.1em;text-transform:uppercase}
-.ed-arrow{
-  position:absolute;top:50%;transform:translateY(-50%);z-index:10;
-  background:rgba(28,28,28,.85);border:1px solid rgba(240,240,240,.28);
-  color:rgba(240,240,240,.88);width:44px;height:44px;border-radius:50%;
-  cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
-  transition:background .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease;
-  backdrop-filter:blur(10px);
-  box-shadow:0 0 16px rgba(240,240,240,.08);
-}
-.ed-arrow:hover{background:rgba(240,240,240,.18);border-color:rgba(240,240,240,.7);color:var(--teal);box-shadow:0 0 24px rgba(240,240,240,.2)}
-.ed-arrow-l{left:6px}.ed-arrow-r{right:6px}
-
-/* -- RESEARCH -- */
-.res-row{padding:1.8rem 0;border-bottom:1px solid rgba(170,170,170,.09);cursor:pointer}
-.res-expand{color:rgba(232,232,232,.55);transition:color .3s}
-.res-row:hover .res-expand{color:rgba(240,240,240,.95)}
-.res-yr{font-family:var(--mono);font-size:.62rem;color:var(--fg-ghost);margin-bottom:.45rem}
-.res-title{font-size:1rem;font-weight:500;margin-bottom:.35rem}
-.res-venue{font-family:var(--mono);font-size:.65rem;color:var(--fg-dim);margin-bottom:.55rem}
-.res-desc{font-size:.85rem;color:rgba(235,235,235,.62);line-height:1.65;margin-bottom:.7rem}
-.res-type{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,240,240,.8);margin-bottom:.5rem;display:inline-block}
-.res-link{font-family:var(--mono);font-size:.65rem;color:rgba(240,240,240,.75);letter-spacing:.08em;margin-right:1rem;transition:opacity .3s;text-decoration:none}
-.res-link:hover{opacity:.7}
-.res-abstract{display:none;padding-left:1rem;margin-top:.8rem;border-left:2px solid rgba(240,240,240,.25)}
-.res-abstract.open{display:block}
-.res-abstract p{font-size:.88rem;line-height:1.78;color:var(--fg-dim);margin-bottom:.8rem}
-
-/* -- MODAL -- */
-.modal{
-  position:fixed;inset:0;z-index:800;background:rgba(4,5,12,.88);
-  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  display:flex;align-items:center;justify-content:center;padding:2rem;
-  opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .3s ease,visibility 0s linear .3s;
-}
-.modal.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease}
-.m-wrap{
-  background:rgba(13,14,24,.92);
-  backdrop-filter:blur(28px) saturate(1.6);
-  -webkit-backdrop-filter:blur(28px) saturate(1.6);
-  border:1px solid rgba(240,240,240,.18);
-  box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 1px 0 rgba(255,255,255,.1) inset,0 32px 80px rgba(0,0,0,.7),0 0 60px rgba(240,240,240,.06);
-  max-width:920px;width:100%;max-height:90vh;overflow-y:auto;
-  border-radius:12px;position:relative;
-  transform:scale(.96);transition:transform .3s cubic-bezier(.16,1,.3,1);
-}
-.modal.open .m-wrap{transform:scale(1)}
-.m-inner{display:grid;grid-template-columns:1.2fr 1fr;min-height:400px}
-.m-close{
-  position:sticky;top:0;display:flex;align-items:center;gap:.5rem;
-  padding:.9rem 1.4rem;
-  background:rgba(9,10,20,.97);
-  border:none;border-bottom:1px solid rgba(240,240,240,.14);
-  color:rgba(240,240,240,.85);cursor:pointer;
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  z-index:999;transition:color .3s;width:100%;grid-column:1/-1;
-  box-shadow:0 1px 0 rgba(255,255,255,.05);
-}
-.m-close:hover{color:var(--teal)}
-.m-media{background:rgba(6,7,14,.95);display:flex;align-items:center;justify-content:center;padding:2rem;min-height:300px;position:relative}
-.m-info{padding:2.4rem}
-.m-cat{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,.78);margin-bottom:.75rem}
-.m-title{font-size:1.38rem;font-weight:700;margin-bottom:.5rem}
-.m-sub{font-family:var(--mono);font-size:.68rem;color:var(--fg-dim);margin-bottom:.9rem}
-.m-tagline{font-size:.9rem;color:rgba(240,240,240,.72);margin-bottom:.9rem;line-height:1.58;font-style:italic}
-.m-role{font-size:.85rem;color:var(--fg-dim);margin-bottom:.9rem}
-.m-desc{font-size:.87rem;line-height:1.78;color:rgba(235,235,235,.58);margin-bottom:.8rem}
-.m-desc p{margin-bottom:.8rem}
-.m-links{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}
-.m-link{font-family:var(--mono);font-size:.68rem;color:#10100E;background:var(--gold);letter-spacing:.08em;text-decoration:none;transition:background .2s ease,color .2s ease,transform .12s ease-out;display:inline-flex;align-items:center;justify-content:center;padding:.62rem 1rem;border-radius:999px;border:1px solid rgba(215,255,99,.65)}
-.m-link:hover{background:#f1ffaf;color:#10100E}
-.m-link:active{transform:scale(.97)}
-.m-link.secondary{color:rgba(242,240,231,.78);background:rgba(242,240,231,.08);border-color:rgba(242,240,231,.22)}
-.m-link.secondary:hover{color:rgba(242,240,231,.96);background:rgba(242,240,231,.13)}
-.m-viewer{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.m-viewer img,.m-viewer video{max-width:100%;max-height:46vh;object-fit:contain;border-radius:16px}
-.m-media{cursor:pointer}
-.m-caption{font-family:var(--mono);font-size:.58rem;color:var(--fg-dim);letter-spacing:.07em;margin-top:.9rem;text-align:center;padding:0 1rem;line-height:1.6}
-.m-nav{display:flex;align-items:center;gap:1.2rem;margin-top:1rem;justify-content:center}
-.m-nav-btn{
-  background:rgba(240,240,240,.1);border:1px solid rgba(240,240,240,.3);
-  color:rgba(240,240,240,.92);padding:.42rem 1.2rem;cursor:pointer;
-  font-family:var(--mono);font-size:.78rem;border-radius:999px;
-  transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease,transform .12s ease-out;
-  box-shadow:0 0 10px rgba(240,240,240,.06);
-}
-.m-nav-btn:hover{background:rgba(240,240,240,.2);border-color:rgba(240,240,240,.65);box-shadow:0 0 18px rgba(240,240,240,.18)}
-.m-nav-btn:active{transform:scale(.97)}
-.m-nav-ct{font-family:var(--mono);font-size:.62rem;color:var(--fg-dim)}
-/* Carousel (PabePabe) */
-.carousel{position:relative;width:100%}
-.car-slide{display:none;align-items:center;justify-content:center}
-.car-slide.on{display:flex}
-.car-a{position:absolute;top:50%;transform:translateY(-50%);background:rgba(28,28,28,.75);border:none;color:var(--fg);cursor:pointer;padding:.5rem 1rem;font-size:1rem;z-index:2;border-radius:999px}
-.car-a.p{left:.5rem}.car-a.n{right:.5rem}
-.car-ds{display:flex;justify-content:center;gap:.5rem;padding:.8rem 0}
-.car-dot{width:6px;height:6px;border-radius:50%;background:var(--fg-ghost);cursor:pointer;border:none}
-.car-dot.on{background:rgba(240,240,240,.85)}
-
-/* -- CONTACT -- */
-#contact{text-align:center;padding:10rem 2.4rem 6rem}
-.ct-eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,240,.85);margin-bottom:1.6rem}
-.ct-big{font-family:var(--display);font-size:clamp(2.6rem,5.8vw,5.2rem);font-weight:700;margin-bottom:1.6rem;letter-spacing:-.02em;color:var(--fg)}
-.ct-sub{font-size:.95rem;color:var(--fg-dim);max-width:480px;line-height:1.78;margin:0 auto 3rem}
-.ct-links{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap}
-.ct-links a{font-family:var(--mono);font-size:.75rem;color:rgba(240,240,240,.78);letter-spacing:.1em;transition:color .3s;text-decoration:none}
-.ct-links a:hover{color:var(--teal)}
-
-/* -- FOOTER -- */
-#footer{padding:1.8rem 2.4rem;border-top:1px solid rgba(240,240,240,.15);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,rgba(240,240,240,.04),transparent)}
-.ft-left{display:flex;align-items:center;gap:1.5rem}
-.ft-logo{font-family:var(--mono);font-size:.65rem;letter-spacing:.25em;color:rgba(232,232,232,.55)}
-.ft-copy{font-family:var(--mono);font-size:.58rem;color:rgba(232,232,232,.5);letter-spacing:.05em}
-.ft-right{display:flex;gap:2rem}
-.ft-right a{font-family:var(--mono);font-size:.58rem;color:rgba(232,232,232,.55);letter-spacing:.1em;transition:color .3s;text-decoration:none}
-.ft-right a:hover{color:rgba(240,240,240,.85)}
-
-/* -- MOBILE -- */
-.n-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:400}
-.n-burger span{display:block;width:22px;height:1px;background:rgba(232,232,232,.6);transition:transform .25s cubic-bezier(.23,1,.32,1),opacity .2s ease}
-.n-burger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
-.n-burger.open span:nth-child(2){opacity:0}
-.n-burger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
-.n-mobile-overlay{display:none;position:fixed;inset:0;z-index:350;background:rgba(28,28,28,.9);backdrop-filter:blur(12px)}
-.n-mobile-overlay.open{display:block}
-@media(max-width:768px){
-  .cc-grid{grid-template-columns:1fr 1fr;grid-auto-flow:dense}
-  .cc.cc-wide{grid-column:span 2;aspect-ratio:16/9}
-  .ab-grid{grid-template-columns:1fr}
-  .ab-img{width:140px;height:140px}
-  .m-inner{grid-template-columns:1fr}
-  .n-links{display:flex;flex-direction:column;align-items:flex-start;position:fixed;top:0;right:0;bottom:0;width:72vw;max-width:280px;background:rgba(28,28,28,.97);z-index:380;padding:5rem 2.5rem 3rem;gap:2rem;overflow-y:auto;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
-  .n-links.open{transform:translateX(0)}
-  .n-links a{font-size:.9rem;letter-spacing:.1em}
-  .n-burger{display:flex}
-  #nav-clock{display:none}
-  .pj-row{grid-template-columns:36px 1fr}.pj-meta{display:none}.pj-peek3d{display:none}
-  #hero{padding:0 1.5rem;grid-template-columns:1fr;gap:1.5rem}
-  .h-name{font-size:clamp(4rem,14vw,8rem)}
-  .h-proof{padding-top:0;grid-template-columns:1fr 1fr}
-  .h-proof figure:first-child{grid-column:span 2;aspect-ratio:16/10}
-  section{padding:5rem 1.5rem}
-  #nav{padding:1.2rem 1.5rem}
-  .cur-row{grid-template-columns:60px 1fr;gap:1rem}.cur-role{display:none}
-  .cl-row{grid-template-columns:1fr;gap:1rem}.cl-thumb{max-width:200px}
-  .tools-grid{grid-template-columns:1fr}
-  .ct-big{font-size:clamp(2rem,8vw,3.5rem)}
-}
-
-/* ============================================================
-   Gate
-   ============================================================ */
-#gate{
-  position:fixed;inset:0;z-index:700;
-  display:flex;flex-direction:column;justify-content:space-between;
-  padding:2.6rem 3.2rem 4.2rem;
-  background:#1C1C1C;
-  user-select:none;-webkit-user-select:none;overflow:hidden;
-}
-#gate::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.08), transparent 18%, transparent 82%, rgba(255,255,255,.05)),
-    linear-gradient(180deg, transparent 0%, rgba(255,255,255,.045) 100%);
-}
-#gate::after{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(240,240,240,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(240,240,240,.018) 1px,transparent 1px);
-  background-size:56px 56px;
-}
-.g-top-bar{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:3}
-.g-time{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:rgba(240,240,240,.85)}
-.g-coords{font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;color:rgba(240,240,240,.85);text-align:right;line-height:1.9}
-.g-mid{flex:1;position:relative;z-index:2}
-.g-bottom{display:flex;flex-direction:column;align-items:flex-start;gap:0;position:relative;z-index:3}
-.g-divider{width:52px;height:1px;margin-bottom:1.4rem;background:linear-gradient(to right,rgba(240,240,240,.85),rgba(170,170,170,.3),transparent)}
-.g-name-wrap{overflow:hidden;margin-bottom:.6rem}
-.g-name-i{display:block;font-family:var(--display);font-size:clamp(3.2rem,7.5vw,6.8rem);font-weight:600;letter-spacing:-.02em;color:#EBEBEB;line-height:1;transform:translateY(110%);transition:transform 1.3s cubic-bezier(.16,1,.3,1)}
-.g-name-i.visible{transform:translateY(0)}
-.g-sub{font-family:var(--mono);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,240,.85);margin-bottom:1.8rem}
-.g-hint{font-family:var(--mono);font-size:.42rem;letter-spacing:.22em;color:rgba(233,233,233,.7);text-transform:uppercase;margin-bottom:.7rem;animation:ghint 3s ease-in-out infinite}
-@keyframes ghint{0%,100%{opacity:.75}50%{opacity:1}}
-.g-btn{
-  align-self:flex-start;width:auto;
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;
-  color:#08090D;background:#F0F0F0;
-  border:none;padding:.72rem 2rem;cursor:pointer;
-  border-radius:999px;font-weight:400;
-  box-shadow:0 0 28px rgba(240,240,240,.45),0 4px 18px rgba(0,0,0,.4);
-  transition:background .25s,box-shadow .25s,transform .2s;
-  display:inline-flex;align-items:center;gap:.7rem;
-}
-.g-btn:hover{background:#D0D0D0;box-shadow:0 0 44px rgba(240,240,240,.7),0 6px 22px rgba(0,0,0,.5);transform:translateY(-2px)}
-.g-btn:active{transform:scale(.97)}
-@media(max-width:768px){
-  #gate{padding:1.8rem 1.8rem 3.4rem}
-  .g-name-i{font-size:clamp(2.6rem,11vw,4.5rem)}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
 <body>
-<div id="app">
-  <div id="loader">
-    <div class="ld-name">Jeffrey N. Tse</div>
+<a class="skip" href="#work">Skip to work</a>
+<nav class="nav" id="nav">
+  <a class="brand" href="#">Jeffrey N. Tse</a>
+  <button class="mobile-toggle" id="menuBtn" type="button" aria-label="Open navigation">Menu</button>
+  <div class="navlinks" id="navlinks">
+    <a href="#work">Work</a>
+    <a href="#worlds">Worlds</a>
+    <a href="#writing">Writing</a>
+    <a href="#research">Research</a>
+    <a href="#about">About</a>
+    <a class="nav-cta" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">CV</a>
   </div>
+</nav>
 
-  <div id="gate">
-    <div class="g-top-bar">
-      <div class="g-time" id="g-time"></div>
-      <div class="g-coords">22.3193&deg; N &nbsp;114.1694&deg; E</div>
-    </div>
-
-    <div class="g-mid"></div>
-
-    <div class="g-bottom">
-      <div class="g-divider"></div>
-      <div class="g-name-wrap">
-        <div class="g-name-i" id="g-name-i">Jeffrey N. Tse</div>
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Hong Kong · Product engineering · AI systems · cultural research</div>
+      <h1><span class="hero-line">Systems</span><span class="hero-line">with feeling.</span></h1>
+      <p class="statement">I build products, archives, assistants, games, and worlds where the technical system has a cultural point of view. <strong>The strongest work has proof: shipped software, real objects, playable prototypes, and writing that can survive scrutiny.</strong></p>
+      <div class="hero-actions">
+        <a class="linkbtn primary" href="#work">View selected work</a>
+        <a class="linkbtn" href="mailto:jeffreynicholast@gmail.com">Contact</a>
+        <a class="linkbtn" href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
       </div>
-      <div class="g-sub">AI Products &nbsp;&middot;&nbsp; Cultural Systems &nbsp;&middot;&nbsp; Brand Direction</div>
-      <div class="g-hint">Click anywhere to enter</div>
-      <button class="g-btn" id="g-btn" onclick="enterSite()">Enter &rarr;</button>
     </div>
-  </div>
-  <nav id="nav">
-    <a href="#" class="n-logo">JNT</a>
-    <ul class="n-links" id="n-links">
-      <li><a href="#projects" onclick="closeMenu()">Work</a></li>
-      <li><a href="#creative" onclick="closeMenu()">Worlds</a></li>
-      <li><a href="#writing" onclick="closeMenu()">Writing</a></li>
-      <li><a href="#curatorial" onclick="closeMenu()">Exhibitions</a></li>
-      <li><a href="#research" onclick="closeMenu()">Research</a></li>
-      <li><a href="#tools" onclick="closeMenu()">Tools</a></li>
-      <li><a href="#about" onclick="closeMenu()">About</a></li>
-      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
-    </ul>
-    <div id="nav-clock"></div>
-    <button class="n-burger" id="n-burger" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false" aria-controls="n-links">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-  <div class="n-mobile-overlay" id="n-mobile-overlay" onclick="closeMenu()"></div>
-
-  <div id="world">
-    <section id="hero">
-      <div class="h-copy">
-        <h1 class="h-name">
-          <span class="h-line" id="h1">Jeffrey</span>
-          <span class="h-line" id="h2">N.&thinsp;Tse</span>
-        </h1>
-        <div class="h-bottom">
-          <div class="h-eye">Hong Kong</div>
-          <p class="h-stmt">Creative technologist and strategist building shipped products, public archives, AI-mediated narratives, brand systems, and playable worlds.</p>
-        </div>
-      </div>
-      <div class="h-proof" aria-label="Selected work preview">
-        <figure>
-          <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pawsaid-hero.jpg" alt="PawsAid product preview" loading="eager">
-          <figcaption>PawsAid</figcaption>
+    <div class="hero-proof">
+      <figure class="proof-large">
+        <img src="assets/pawsaid/pro-kit.png" alt="PawsAid PRO kit">
+        <figcaption class="proof-cap"><span>PawsAid</span><span>real product + commerce stack</span></figcaption>
+      </figure>
+      <div class="proof-stack">
+        <figure class="proof-small">
+          <img src="https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp" alt="ROLL CALL specimen render">
+          <figcaption class="proof-cap"><span>ROLL CALL</span></figcaption>
         </figure>
-        <figure>
-          <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-thumb.jpg" alt="ROLL CALL archive preview" loading="eager">
-          <figcaption>ROLL CALL</figcaption>
-        </figure>
-        <figure>
+        <figure class="proof-small">
           <video src="assets/ash/ash-hover.mp4" poster="assets/ash/ash-hover-poster.jpg" muted autoplay loop playsinline></video>
-          <figcaption>Ash</figcaption>
+          <figcaption class="proof-cap"><span>Ash</span></figcaption>
         </figure>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="projects">
-      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
-      <div id="pjList"></div>
-    </section>
+  <section class="section" id="work">
+    <div class="section-head">
+      <div class="sec-no">01 / Selected</div>
+      <div><h2>Flagship systems.</h2><p class="section-intro">The portfolio leads with the work that can explain Jeffrey fastest: a real commerce brand, a public archive, an AI-mediated narrative, an open-source PWA, a Cantonese AI product, and a mobile game.</p></div>
+    </div>
+    <div class="project-list" id="projectList"></div>
+  </section>
 
+  <section class="section" id="worlds">
+    <div class="section-head">
+      <div class="sec-no">02 / Worlds</div>
+      <div><h2>Playable atmospheres.</h2><p class="section-intro">Character, motion, and browser worlds: work that should be read visually first, then opened when the prototype or motion piece matters.</p></div>
+    </div>
+    <div class="grid" id="worldGrid"></div>
+  </section>
 
-    
+  <section class="section" id="writing">
+    <div class="section-head">
+      <div class="sec-no">03 / Writing</div>
+      <div><h2>Editorial and exhibitions.</h2><p class="section-intro">Fashion copy, exhibition work, and publication contexts. These support the product story by showing taste, research discipline, and audience fluency.</p></div>
+    </div>
+    <div class="wide-list" id="writingList"></div>
+  </section>
 
-    <section id="creative">
-      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-t">Worlds & Creative</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Playable environments, character systems, AI motion studies, and commissioned visual experiments. These are shown as worlds or media systems, not as generic concept art.</p>
-      <div id="cg" class="cc-grid"></div>
-    </section>
+  <section class="section" id="research">
+    <div class="section-head">
+      <div class="sec-no">04 / Research</div>
+      <div><h2>Research with teeth.</h2><p class="section-intro">The research section should not read like coursework. It should show how Jeffrey thinks: through objects, platforms, images, spectatorship, and the small rituals that reveal larger systems.</p></div>
+    </div>
+    <div class="wide-list" id="researchList"></div>
+  </section>
 
-    <section id="writing">
-      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-t">Writing</span><div class="sec-line"></div></div>
-      <div class="writing-tabs" role="tablist" aria-label="Writing categories">
-        <button type="button" id="tab-editorial" class="writing-tab active" role="tab" aria-selected="true" aria-controls="writingEditorial" onclick="switchWriting('editorial',this)">Editorial</button>
-        <button type="button" id="tab-campaigns" class="writing-tab" role="tab" aria-selected="false" aria-controls="writingCampaigns" onclick="switchWriting('campaigns',this)">Campaigns</button>
-      </div>
-      <div id="writingEditorial" class="writing-panel active" role="tabpanel" aria-labelledby="tab-editorial">
-        <div class="ed-carousel-wrap"><button class="ed-arrow ed-arrow-l" onclick="edScroll(-1)" aria-label="Scroll editorials left">&#8592;</button><div id="editorialGrid" class="ed-carousel"></div><button class="ed-arrow ed-arrow-r" onclick="edScroll(1)" aria-label="Scroll editorials right">&#8594;</button></div>
-      </div>
-      <div id="writingCampaigns" class="writing-panel" role="tabpanel" aria-labelledby="tab-campaigns" hidden>
-        <div id="clientList"></div>
-      </div>
-    </section>
-
-    <section id="curatorial">
-      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Exhibitions</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Curatorial and exhibition work across Vancouver and Hong Kong, focused on perception, memory, intimacy, home, and the body as evidence.</p>
-      <div id="curList"></div>
-    </section>
-
-    
-
-    <section id="research">
-      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-t">Research & Writing</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Research and essays on platform intimacy, spectatorship ethics, visual violence, and the politics hidden inside ordinary objects.</p>
-      <div id="resList"></div>
-    </section>
-
-    <section id="tools">
-      <div class="sec-hd"><span class="sec-n">06</span><span class="sec-t">Tools & Technologies</span><div class="sec-line"></div></div>
-      <div id="toolsGrid" class="tools-grid"></div>
-    </section>
-
-    <section id="about">
-      <div class="ab-grid">
-        <div class="ab-img-wrap"><img class="ab-img" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse" loading="lazy"></div>
-        <div>
-          <p class="ab-p">Jeffrey N. Tse works across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
-          <p class="ab-p">The work is built from specific material: pet first-aid logistics, toilet-paper specimens, dating-app behaviour, smart-glasses interfaces, Cantonese relationship language, and worlds that can be walked through.</p>
-          <div class="ab-links">
-            <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
-            <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
-            <a href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
-            <a href="assets/cv/JeffreyTse_CV.pdf" target="_blank" download>Download CV</a>
-          </div>
+  <section class="section" id="about">
+    <div class="about-grid">
+      <div class="about-img"><img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse"></div>
+      <div>
+        <p class="about-text">Jeffrey N. Tse is a Hong Kong-based builder working across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
+        <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and open-world experiments. The through-line is not medium. It is attention: how people behave when a system asks them to trust it.</p>
+        <div class="hero-actions">
+          <a class="linkbtn primary" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">Download CV</a>
+          <a class="linkbtn" href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
+          <a class="linkbtn" href="mailto:jeffreynicholast@gmail.com">Email</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="contact">
-      <div class="ct-eyebrow">Get in touch</div>
-      <div class="ct-big">Let's build<br>something.</div>
-      <p class="ct-sub">Open to product, creative technology, interactive narrative, brand, and research-led collaborations. Based in Hong Kong, working globally.</p>
-      <div class="ct-links">
-        <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
-        <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
-        <a href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
+  <section class="section contact" id="contact">
+    <h2>Let’s build<br>the sharp thing.</h2>
+    <div class="contact-links">
+      <a class="linkbtn primary" href="mailto:jeffreynicholast@gmail.com">Email</a>
+      <a class="linkbtn" href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
+      <a class="linkbtn" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">CV</a>
+    </div>
+  </section>
+</main>
+
+<footer><span>© 2026 Jeffrey N. Tse</span><span>Hong Kong / remote</span></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-shell">
+    <div class="modal-bar">
+      <span id="modalCount">1 / 1</span>
+      <button class="modal-close" type="button" id="closeModal">Back</button>
+    </div>
+    <div class="modal-grid">
+      <div class="modal-media">
+        <div class="media-stage" id="mediaStage"></div>
+        <div class="media-controls">
+          <button class="media-control" id="prevMedia" type="button">←</button>
+          <span id="mediaCaption"></span>
+          <button class="media-control" id="nextMedia" type="button">→</button>
+        </div>
       </div>
-    </section>
-
-  <footer id="footer">
-    <div class="ft-left">
-      <span class="ft-logo">JNT</span>
-      <span class="ft-copy">© 2026 Jeffrey N. Tse</span>
-    </div>
-    <div class="ft-right">
-      <a href="mailto:jeffreynicholast@gmail.com">Email</a>
-      <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
-    </div>
-  </footer>
-  </div>
-
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="m-wrap">
-      <button class="m-close" id="mClose" onclick="closeModal()">← Back</button>
-      <div class="m-inner" id="mInner"></div>
+      <div class="modal-copy" id="modalCopy"></div>
     </div>
   </div>
 </div>
 
 <script>
-// -- DATA --
-var T="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/";
-var b=[
-  {n:`01`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A Hong Kong pet first-aid brand: kits, commerce, care content, AI support, and fulfilment workflow.`,
-   role:`Co-Founder · Brand Direction · Product Design · Engineering`,
-   showcase:`${T}pawsaid-hero.jpg`,
-   images:[
-     {src:`${T}pawsaid-logo.jpg`,caption:`PawsAid logo`},
-     {src:`${T}pawsaid-campaign.png`,caption:`PawsAid campaign graphic`},
-     {src:`${T}pawsaid-kit-mini.jpg`,caption:`Mini Kit`},
-     {src:`${T}pawsaid-kit-pro.jpg`,caption:`Pro Kit`},
-     {src:`${T}pawsaid-kit-plus.jpg`,caption:`Plus Kit`},
-     {src:`${T}pawsaid-hero.jpg`,caption:`PawsAid kit lineup`}
+const T="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/";
+const projects=[
+  {title:"PawsAid",year:"2026",cat:"Product · brand · e-commerce",status:"Live",featured:true,
+   role:"Co-founder · CTO · product and brand direction",
+   img:"assets/pawsaid/pro-kit.png",
+   tagline:"A Hong Kong pet first-aid brand with real kits, real commerce, and a support layer designed for stressful moments.",
+   desc:"PawsAid should be shown as a product company, not a moodboard. The work covers the kit system, product hierarchy, brand direction, bilingual commerce, fulfilment flow, first-aid content, and Boris, an AI pet-health assistant with emergency guardrails and escalation toward veterinary care.\n\nThe important proof is that the object exists. The site, copy, product structure, and operational layer all orbit around a practical promise: make pet first aid easier to understand before panic takes over.",
+   media:[
+    {src:"assets/pawsaid/pro-kit.png",caption:"PawsAid PRO kit"},
+    {src:"assets/pawsaid/essential-kit.png",caption:"PawsAid Essential kit"},
+    {src:"assets/pawsaid/plus-kit.png",caption:"PawsAid Plus kit"},
+    {src:"assets/pawsaid/pawsaid-site.png",caption:"PawsAid.hk product page"}
    ],
-   img:`${T}pawsaid-hero.jpg`,
-   video:null,
-   desc:`PawsAid turns pet first-aid into a usable Hong Kong product: clear kit tiers, bilingual product pages, tutorial content, order flow, and support logic built around stressful real-world moments.\n\nThe work covers brand direction, product structure, packaging cues, commerce UX, fulfilment workflow, and Boris, an AI pet-health assistant designed with emergency guardrails and escalation to local veterinary care.`,
-   link:`https://pawsaid.hk`},
-  {n:`02`,title:`ROLL CALL`,cat:`Material Culture Archive · Interactive`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A public material-culture archive using toilet paper to read comfort, infrastructure, travel, and class.`,
-   role:`Founder · Researcher · Creative Technologist`,
-   showcase:`${T}rollcall-thumb.jpg`,
-   images:[
-     {src:`${T}rollcall-thumb.jpg`,caption:`ROLL CALL — portfolio thumbnail`},
-     {src:`${T}rollcall-scatter.jpg`,caption:`ROLL CALL — specimen scatter image`},
-     {src:`https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp`,caption:`ROLL CALL — specimen render from the live archive`}
+   links:[{label:"Visit PawsAid.hk",url:"https://pawsaid.hk",style:"acid"}]},
+  {title:"ROLL CALL",year:"2026",cat:"Material-culture archive · interactive",status:"Live",
+   role:"Founder · researcher · creative technologist",
+   img:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",
+   tagline:"A public archive that treats toilet paper as field evidence: bodily comfort, class, travel, hotels, wrappers, and infrastructure.",
+   desc:"ROLL CALL is deliberately funny until it becomes exact. Each specimen is recorded through origin, manufacturer, price, material, scent, ply, texture, wrapper, location, and the reason it entered the archive.\n\nThe archive works because the object is too ordinary to defend itself. A hotel roll, a premium supermarket pack, or a single-ply dispenser starts to reveal who gets privacy, softness, hygiene, and convenience as defaults.",
+   media:[
+    {src:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",caption:"Specimen render from the live archive"},
+    {src:`${T}rollcall-scatter.jpg`,caption:"Specimen scatter"},
+    {src:`${T}rollcall-thumb.jpg`,caption:"ROLL CALL archive image"}
    ],
-   img:`${T}rollcall-thumb.jpg`,
-   video:null,
-   desc:`ROLL CALL is a public archive of toilet paper specimens collected as if they were artworks, field notes, and logistical evidence at the same time. Each entry holds on to the unglamorous details: origin, manufacturer, price, material, scent, ply, texture, wrapper, location, and the reason it was encountered at all.\n\nThe joke disappears when the archive gets precise. A hotel roll, a scented pack, a single-ply dispenser, or a premium supermarket brand starts pointing outward to travel, class, hygiene design, supply chains, and the quiet assumption that comfort should be available on demand.`,
-   link:`https://hydrogenbondss.github.io/Rollcall/`},
-  {n:`03`,title:`ECHO: Love and Logged`,cat:`Interactive Narrative · AI-Mediated Artwork`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   tagline:`An English Ren'Py interactive narrative about intimacy, data capture, and an assistant that learns by watching.`,
-   role:`Creator · Writer · Art Director · Systems Designer`,
-   showcase:`assets/echo/echo-ui-app.jpg`,
-   images:[
-     {src:`assets/echo/echo-ui-app.jpg`,caption:`ECHO — NECTAR app interface and Remy layer`},
-     {src:`assets/echo/echo-copper-room.jpg`,caption:`ECHO — The Copper Room scene still`},
-     {src:`assets/echo/echo-character-sheet.jpg`,caption:`ECHO — principal love interests and gender variants`}
+   links:[{label:"Open ROLL CALL",url:"https://hydrogenbondss.github.io/Rollcall/",style:"acid"},{label:"View GitHub",url:"https://github.com/hydrogenbondss/Rollcall"}]},
+  {title:"ECHO: Love and Logged",year:"2026",cat:"Interactive narrative · AI-mediated artwork",status:"Prototype",
+   role:"Creator · writer · art director · systems designer",
+   img:"assets/echo/echo-ui-app.jpg",
+   tagline:"An English Ren'Py work about intimacy, surveillance, and the assistant that learns by watching the player love.",
+   desc:"ECHO: Love and Logged is an interactive digital artwork built in Ren'Py. The player moves through NECTAR, a fictional relationship app mediated by Remy, an assistant that records, organises, and eventually reframes the player's choices.\n\nThe system includes pronoun logic, route variants, a relationship log picker, and route-specific interactions such as cocktail mixing, photography framing, and LEGO building. Its hidden route shifts the work from romance interface to computational intimacy.",
+   media:[
+    {src:"assets/echo/echo-ui-app.jpg",caption:"NECTAR app interface and Remy layer"},
+    {src:"assets/echo/echo-copper-room.jpg",caption:"The Copper Room scene still"},
+    {src:"assets/echo/echo-character-sheet.jpg",caption:"Principal love interests and gender variants"}
+   ]},
+  {title:"SPECTOR",year:"2026",cat:"Open-source PWA · smart-glasses workflow",status:"Live",
+   role:"Founder · product · engineering",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp",
+   tagline:"A local-first teleprompter for creators preparing for smart-glasses and spatial display habits.",
+   desc:"SPECTOR is a free, open-source teleprompter PWA. It is built around a simple bet: if glasses become a mainstream display surface, rehearsal tools should be local-first, accessible, and hardware-agnostic.\n\nThe product includes adaptive pacing, cue syntax, local script storage, mirror mode, offline installation, rehearsal analytics, and Comfort Mode for stabilising text in motion.",
+   media:[
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp",caption:"Smart-glasses teleprompter positioning"},
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/docs/images/readme-player.png",caption:"Teleprompter player UI"},
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/comfort-comparison.webp",caption:"Comfort Mode comparison"}
    ],
-   img:`assets/echo/echo-ui-app.jpg`,
-   desc:`ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player moves through NECTAR, a fictional relationship app mediated by Remy, a soft-spoken assistant that records, organises, and eventually reframes the player's choices.\n\nThe system includes pronoun logic, route variants, a relationship log picker, and route-specific interactions: cocktail mixing, photography framing, and LEGO building. Its hidden route shifts the story from romance interface to computational intimacy: what happens when an assistant learns love by turning attention into data.`,
-   link:null},
-  {n:`04`,title:`SPECTOR`,cat:`Product · Open-Source PWA`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`An open-source, local-first teleprompter for the smart-glasses era.`,
-   role:`Founder · Product · Engineering`,
-   showcase:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp`,
-   images:[
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp`,caption:`SPECTOR — smart-glasses teleprompter positioning`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/docs/images/readme-player.png`,caption:`SPECTOR — teleprompter player UI`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/comfort-comparison.webp`,caption:`Comfort Mode — spatially anchored vs jittering`}
+   links:[{label:"Open SPECTOR",url:"https://www.spectorlabs.io/",style:"acid"},{label:"View GitHub",url:"https://github.com/hydrogenbondss/SPECTOR"}]},
+  {title:"SELTA",year:"2026",cat:"AI product · Cantonese coach · Telegram",status:"Live",
+   role:"Founder · product strategy · AI systems · brand direction",
+   img:"assets/selta/remy-intro.png",
+   tagline:"A Cantonese-native relationship and emotional-support coach for Hong Kong users, fronted by Remy.",
+   desc:"SELTA is not framed as a companion, therapist, or pickup tool. It is a practical emotional-support product tuned for Hong Kong relationship behaviour: code-switching, short replies, honest decoding, and one concrete next step.\n\nThe system combines Gemini chat, safety screening, semantic retrieval, a Telegram front end, local chat storage, Supabase sync, and a learning pipeline for Cantonese relationship language.",
+   media:[
+    {src:"assets/selta/remy-intro.png",caption:"Remy consumer-facing intro"},
+    {src:"assets/selta/remy-truth-1.png",caption:"Non-romantic coach framing"},
+    {src:"assets/selta/reel1-detong-sin.png",caption:"Launch creative in Cantonese text-message format"}
    ],
-   img:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp`,
-   video:null,
-   desc:`SPECTOR is a free, open-source teleprompter PWA for creators preparing for smart-glasses workflows. It is built around a simple bet: if glasses become a mainstream display surface, rehearsal tools should be local-first, accessible, and hardware-agnostic.\n\nThe product includes adaptive pacing, cue syntax, local script storage, mirror mode, offline installation, rehearsal analytics, and a Comfort mode that filters motion so text feels spatially anchored instead of jittery. Say, an early switch-scan AAC composer, extends the same local-first accessibility logic into communication.`,
-   link:`https://www.spectorlabs.io/`},
-  {n:`05`,title:`SELTA`,cat:`AI Product · Cantonese Coach · Telegram`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A Cantonese-native relationship and emotional-support coach for Hong Kong users, built around Remy.`,
-   role:`Founder · Product Strategy · AI Systems · Brand Direction`,
-   showcase:`assets/selta/remy-intro.png`,
-   images:[
-     {src:`assets/selta/remy-intro.png`,caption:`SELTA — Remy consumer-facing intro`},
-     {src:`assets/selta/remy-truth-1.png`,caption:`Remy — honest, non-romantic coach framing`},
-     {src:`assets/selta/reel1-detong-sin.png`,caption:`Launch creative — Cantonese fake-text overlay format`}
+   links:[{label:"Open SELTA",url:"https://selta-production.up.railway.app/",style:"acid"},{label:"View GitHub",url:"https://github.com/hydrogenbondss/SELTA"}]},
+  {title:"Noru",year:"2026",cat:"Mobile game · PWA · Firebase",status:"Live",
+   role:"Founder · game design · product engineering",
+   img:"assets/noru/home-current.png",
+   tagline:"A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.",
+   desc:"Noru is built as a game product, not just a mascot. Players can face AI bots, race a daily challenge, level up, unlock achievements, and share results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment.",
+   media:[
+    {src:"assets/noru/home-current.png",caption:"Noru onboarding screen"},
+    {src:"assets/noru/latest.png",caption:"Noru app screen"},
+    {src:"assets/noru/app-icon.png",caption:"Noru app icon"}
    ],
-   img:`assets/selta/remy-intro.png`,
-   desc:`SELTA is an AI relationship and emotional-support product for Hong Kong users, fronted by Remy: a Cantonese-native coach, not a companion, therapist, or pickup tool.\n\nThe system combines Gemini chat, safety screening, semantic retrieval, a Telegram front end, local chat storage, Supabase sync, and a learning pipeline for Cantonese relationship language. The product is tuned for Hong Kong emotional behaviour: code-switching, short replies, honest decoding, one concrete next step, and crisis-safety handling when needed.`,
-   link:`https://selta-production.up.railway.app/`},
-  {n:`06`,title:`Noru`,cat:`Mobile Game · PWA · Firebase`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.`,
-   role:`Founder · Game Design · Product Engineering`,
-   showcase:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/og-image.png`,
-   images:[
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/og-image.png`,caption:`Noru — mobile-first trivia PWA`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/images/noru-logo.png`,caption:`Noru — character and brand system`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/images/app-icon.png`,caption:`Noru — app icon`}
-   ],
-   img:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/og-image.png`,
-   desc:`Noru is a mobile-first trivia PWA built as a game product, not just a mascot. Players can face AI bots, race a daily challenge, level up, unlock achievements, and share results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment. The work ties character design to onboarding, game loops, content, haptics, monetisation, and multiplayer safety planning.`,
-   link:`https://noru-ai.web.app/#/onboarding`}
+   links:[{label:"Play Noru",url:"https://noru-ai.web.app/#/onboarding",style:"acid"},{label:"View GitHub",url:"https://github.com/hydrogenbondss/Noru"}]}
 ];
 
-var C=[
-  {title:`Samsung`,role:`Social Copywriter`,year:`2024–2025`,
-   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg`,
-   images:[
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg`,caption:`Earth Hour 2025 — Samsung x WWF bilingual campaign`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,caption:`SmartThings AI Home — ecosystem launch`}
-   ],
-   items:[
-     `SmartThings meets AI Home — English social copy and banner content for Samsung's AI Home ecosystem launch`,
-     `Earth Hour 2025 — Bilingual campaign copy for Samsung x WWF "Give an Hour for Earth" partnership`
-   ],
-   link:`https://www.linkedin.com/company/samsung-hongkong-macau/`},
-  {title:`Ocean Park`,role:`Social Copywriter`,year:`2024`,
-   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,
-   images:[
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,caption:`Giant Pandas — An An, Ke Ke, and Lam Lam arrival`},
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ocean-park-halloween-fest-hk.jpg`,caption:`Halloween Fest 2024 — haunted house promotions and character introductions`}
-   ],
-   items:[
-     `Giant Pandas Campaign — English social content for An An, Ke Ke, and Lam Lam arrival`,
-     `Halloween Fest 2024 — Social copy for haunted house promotions and character introductions`
-   ],
-   link:`https://www.oceanpark.com.hk/en`},
-  {title:`Hong Kong Tourism Board`,role:`Copywriter`,year:`2024`,
-   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,
-   images:[
-     {src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/panda-main-visual-twins-generic-desktop-entc.jpg`,caption:`HKTB Giant Panda campaign — landing page copy`}
-   ],
-   items:[
-     `Giant Panda Campaign — Supers and banner copy for HKTB's Giant Panda campaign landing page, supporting Hong Kong's positioning as a panda tourism destination`
-   ],
-   link:`https://www.discoverhongkong.com/eng/what-s-new/panda.html`},
-  {title:`MTR`,role:`Press Release Writer`,year:`2024`,
-   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg`,
-   images:[{src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/MTR45.jpg`,caption:`MTR 45th Anniversary — Yolica campaign press release`}],
-   items:[
-     `45th Anniversary Campaign — Press release featuring girl group Yolica celebrating Hong Kong's transit legacy`
-   ],
-   link:`https://www.marketing-interactive.com/mtr-taps-girl-group-yolica-to-celebrate-45-year-legacy`},
-  {title:`China Mobile`,role:`Press Release Writer · Content Strategist`,year:`2021`,
-   img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/china-mobile-full.jpg`,
-   images:[{src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/china-mobile-full.jpg`,caption:`5G E-Sports Cup — UTV Live at ACGHK 2021`}],
-   items:[
-     `5G E-Sports Cup — Launch strategy and press release for UTV Live streaming platform debut at ACGHK 2021`
+const worlds=[
+  {title:"Cathedral of Small Hours",year:"2026",cat:"Browser world · procedural environment",img:"assets/worlds/cathedral-hyperreal.jpg",
+   desc:"A first-person browser environment where cathedral architecture becomes code: nave, columns, arches, floor, walls, and particles are drawn as an endless green computational interior.",
+   media:[{src:"assets/worlds/cathedral-hyperreal.jpg",caption:"Cathedral visual direction"}],
+   links:[{label:"Open World",url:"https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html",style:"acid"},{label:"View GitHub",url:"https://github.com/hydrogenbondss/cathedral-of-small-hours"}]},
+  {title:"Garden of Returning",year:"2026",cat:"Browser world · endless landscape",img:"assets/worlds/garden-hyperreal.jpg",
+   desc:"A first-person post-human landscape: overgrown concrete, ruined facades, repeating-but-not-identical structures, and a walk that keeps returning without becoming exactly the same.",
+   media:[{src:"assets/worlds/garden-hyperreal.jpg",caption:"Garden visual direction"}],
+   links:[{label:"Open World",url:"https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/garden-of-returning/main/index.html",style:"acid"},{label:"View GitHub",url:"https://github.com/hydrogenbondss/garden-of-returning"}]},
+  {title:"Ash",year:"2026",cat:"Character design · AI motion",img:"assets/ash/ash-hover-poster.jpg",
+   desc:"A stylised character and motion study. The portfolio shows the building encounter first, then the still, then the run cycle. The unrelated ride clip is intentionally not included.",
+   media:[
+    {type:"video",src:"assets/ash/ash-hover.mp4",poster:"assets/ash/ash-hover-poster.jpg",caption:"Ash building encounter motion"},
+    {src:"assets/ash/ash-hover-poster.jpg",caption:"Ash building encounter still"},
+    {type:"video",src:"assets/ash/ash-running.mp4",poster:"assets/ash/ash-running-poster.jpg",caption:"Ash running animation"},
+    {src:"assets/ash/ash-running-poster.jpg",caption:"Ash running still"}
+   ]},
+  {title:"PabePabe Trilogy",year:"2026",cat:"AI creative direction",img:`${T}PBPBocarina.jpg`,
+   desc:"Commissioned generative-video trilogy for PabePabe. Each film gives one bag its own material behaviour: Ocarina, Flute Soft, and Horn.",
+   media:[
+    {type:"video",src:`${T}PBPBOCARINA_VIDEO_FINAL.mp4`,poster:`${T}PBPBocarina.jpg`,caption:"Ocarina Bag"},
+    {type:"video",src:`${T}PBPB_flutebagmotion.mp4`,poster:`${T}pabepabeflutebag.jpg`,caption:"Flute Soft Bag"},
+    {type:"video",src:`${T}pbpbhornbagv2.mp4`,poster:`${T}PBPBHornBag.jpg`,caption:"Horn Bag"}
    ]}
 ];
 
-var x=[
-  {title:`Cathedral of Small Hours`,cat:`Open World · Code Architecture`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   img:`${T}cathedral-thumb.jpg`,
-   featured:true,
-   desc:`Cathedral of Small Hours is a first-person browser world: an endless code cathedral with luminous arches, columns, pews, floor lines, ceiling structure, rose-window geometry, and falling language.\n\nThe player moves through a nave that keeps extending forward. The space repeats with variation, so the building feels less like a backdrop and more like architecture being compiled around the player in real time.`,
-   role:`World Designer · Creative Developer`,
-   link:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html`,
-   linkLabel:`Play Prototype →`,
-   links:[
-     {label:`Play Prototype →`,url:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html`},
-     {label:`View GitHub →`,url:`https://github.com/hydrogenbondss/cathedral-of-small-hours`,secondary:true}
+const writing=[
+  {title:"UNDERGROWTH",year:"2018",cat:"Co-curated exhibition · UBC Audain Gallery",img:"assets/exhibitions/undergrowth-poster.jpg",
+   desc:"The 2018 BFA/BA Visual Art graduating exhibition at UBC. The portfolio uses the verified exhibition poster and catalogue, not a placeholder.",
+   media:[{src:"assets/exhibitions/undergrowth-poster.jpg",caption:"UNDERGROWTH exhibition poster"}],
+   links:[{label:"Catalogue",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf",style:"acid"}]},
+  {title:"Insights Unseen and Unheard",year:"2017",cat:"Group exhibition · Hatch Art Gallery",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
+   desc:"Includes Untitled, 2017 and Impulsive Fragments. The still and video sit together here because they belong to the same exhibition context.",
+   media:[
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017"},
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 installation view"},
+    {src:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments still"},
+    {type:"video",src:"assets/exhibitions/impulsive-fragments.mp4",poster:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments video"}
    ]},
-  {title:`Garden of Returning`,cat:`Open World · Post-Human Landscape`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   img:`${T}garden-thumb.jpg`,
-   featured:true,
-   desc:`Garden of Returning is a first-person browser world set in an endless post-human landscape: abandoned structures, wet concrete, ruined facades, fog, vines, moss, trees, and city fragments being slowly reclaimed.\n\nThe player walks without reaching an end. The world loops through familiar structures with procedural variation, creating the feeling of passing the same place again, except it has changed.`,
-   role:`World Designer · Creative Developer`,
-   link:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/garden-of-returning/main/index.html`,
-   linkLabel:`Play Prototype →`,
-   links:[
-     {label:`Play Prototype →`,url:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/garden-of-returning/main/index.html`},
-     {label:`View GitHub →`,url:`https://github.com/hydrogenbondss/garden-of-returning`,secondary:true}
-   ]},
-  {title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned generative-video trilogy for PabePabe. Each film gives one bag its own material behaviour: Ocarina, Flute Soft, and Horn.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},
-  {title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`AI-driven motion test for Gentle Monster's Turbo MG21 goggle frame. The study focuses on luxury product scale, reflective material, and cinematic reveal.`,role:`AI Motion Designer`},
-  {title:`Ash`,cat:`Character Design · AI Motion`,year:`2026`,
-   img:`assets/ash/ash-hover-poster.jpg`,
-   carousel:[
-     {type:`video`,src:`assets/ash/ash-hover.mp4`,thumb:`assets/ash/ash-hover-poster.jpg`,caption:`Ash — building encounter motion`},
-     {type:`img`,src:`assets/ash/ash-hover-poster.jpg`,caption:`Ash — building encounter still`},
-     {type:`video`,src:`assets/ash/ash-running.mp4`,thumb:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation`},
-     {type:`img`,src:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation still`}
-   ],
-   desc:`Ash is a character-system study: silhouette, expression, clothing language, motion, and scale all need to read as one identity. The building encounter tests the character at cinematic scale; the run cycle tests whether the design still holds when animated.`,
-   role:`Character Designer & AI Director`},
-  {title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Touch-based web experiment built around particle collision, motion density, and controlled visual disorder.`,role:`Creative Developer`}
-];
-var S=[
-{year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Organizer",
-artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
-img:null,
-desc:"Welcome Home examined home as something unstable: a place, a memory, a set of objects, and a condition that changes with the person carrying it. The exhibition brought together sculpture, performance, found objects, and sound installation around identity, belonging, and the spaces people learn to inhabit."},
-{year:"2018",title:"Finite Appearances",venue:"Wil Aballe Art Projects · Vancouver",role:"Co-Organizer",
-artists:"Kelly Holmes",
-img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/finite-appearances-gallery.jpg",
-images:[
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/finite-appearances-soap-hands.jpg",caption:"Kelly Holmes, Soap Hands, 2017."},
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/finite-appearances-gallery.jpg",caption:"Kelly Holmes, Snow Angel, 2017 (video, wall-mounted); Navels, 2017 (floor sculpture). Installation view, Wil Aballe Art Projects."}
-],
-desc:"Finite Appearances brought together works by Kelly Holmes made from bodily traces: plaster casts, soap moulds, video documentation, and floor-scattered plaster navels. The exhibition asked what happens when intimate, temporary gestures are turned into objects that remain."},
-{year:"2018",title:"UNDERGROWTH",venue:"Audain Gallery · Vancouver",role:"Co-Organizer",
-artists:"2018 BFA/BA Visual Art Graduating Exhibition · UBC",
-img:"assets/exhibitions/undergrowth-poster.jpg",
-images:[
-  {src:"assets/exhibitions/undergrowth-poster.jpg",caption:"UNDERGROWTH — Exhibition poster, Audain Gallery · UBC 2018"}
-],
-desc:"UNDERGROWTH was the 2018 BFA/BA Visual Art graduating exhibition at the University of British Columbia, presented at the Audain Gallery. The exhibition brought together painting, sculpture, video, and installation around what grows beneath the visible surface: private rituals, personal geographies, displacement, intimacy, and belonging.",
-links:[{label:"View Exhibition Catalogue →",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf"}]},
-{year:"2017",title:"Insights Unseen and Unheard",venue:"Hatch Art Gallery · Vancouver",role:"Contributor",
-artists:"Group Exhibition",
-img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
-images:[
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017 — Jeffrey Tse"},
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 — Jeffrey Tse (installation view, Hatch Art Gallery)"},
-  {src:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments — still image"},
-  {type:"video",src:"assets/exhibitions/impulsive-fragments.mp4",poster:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments — video"}
-],
-desc:"Insights Unseen and Unheard brought together photography, sound, video, and installation around the limits of perception: what can be seen, heard, remembered, or missed.\n\nJeffrey Tse contributed Untitled, 2017 and Impulsive Fragments. Both works sit inside the exhibition's larger concern with bodies, spaces, and what still or moving images are able to record."},
-{year:"2017",title:"Resonance",venue:"JCCAC · Hong Kong",role:"Organizer",
-artists:"Group Exhibition",
-img:null,
-desc:"Presented at JCCAC in Hong Kong, Resonance focused on memory, identity, and emotional trace. The exhibition featured abstract acrylic paintings on circular canvases, treating relational experience as something that accumulates, distorts, and returns."}
-];
-var R=[
-  {type:"essay",year:"2026",title:"One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure",venue:"ROLL CALL — Material Culture Archive",
-  desc:"A research essay from ROLL CALL that refuses to treat toilet paper as a punchline. It follows the object through wrappers, ply, scent, softness, price, hotel bathrooms, supermarket shelves, and travel leftovers, asking why some forms of bodily comfort are allowed to become invisible.\n\nThe writing keeps the archive's deadpan method: measure the object carefully, record where it came from, then let the absurd specificity expose the systems around it.",links:[{label:"Read Essay →",url:"https://hydrogenbondss.github.io/Rollcall/#/essay"}]},
-  {type:"thesis",year:"2023",title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder",venue:"MSc Marketing Management · The Hong Kong Polytechnic University",
-  desc:"This thesis examines Tinder as both dating platform and marketing system. It looks at visibility, desirability metrics, self-presentation, and the gap between what users believe they are doing and what the platform is designed to optimise.\n\nSupervised by Dr Vincent Leung. The broader question is how digital platforms reshape relational behaviour at scale, and what that means for marketing research.",links:[]},
-  {type:"press",year:"2020",title:"Research cited: The Crushing Emotional Strain of Seeing Images of Anti-Black Violence",venue:"Milwaukee Independent",
-  desc:"Milwaukee Independent cited undergraduate research by Jeffrey Tse in an article on the psychological burden carried by Black viewers encountering images of anti-Black violence in news and social feeds.\n\nThe cited research examined spectatorship ethics: who bears the cost of visual documentation, the people harmed or the public imagined as its audience.",links:[]},
-  {type:"research",year:"2019",title:"The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler's Lynching Photograph",venue:"UBC Undergraduate Journal of Art History · 14th Annual Symposium",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/beitler-symposium.jpg",
-  desc:"This paper examines Lawrence Beitler's 1930 photograph of the Marion, Indiana lynching of Thomas Shipp and Abner Smith, arguing that the photographer cannot be separated from the violence the image depicts.\n\nPresented at the 14th Annual UBC Art History Symposium, the paper reads the photograph not only as documentation but as participation: framing, timing, circulation, and commercial reproduction all extend the harm.",links:[{label:"Symposium →",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/"}]}
+  {title:"Samsung, I.T, Ocean Park, HKTB",year:"2020–2025",cat:"Editorial and campaign writing",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg",
+   desc:"Commercial writing and editorial strategy across consumer technology, fashion retail, tourism, and public-facing campaigns.",
+   media:[
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg",caption:"Samsung x WWF Earth Hour bilingual campaign"},
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/hk-fashion-asia-showroom-iteshop-mar-hero-dt.jpg",caption:"I.T editorial / campaign writing"}
+   ]}
 ];
 
-var tools=[
-  {label:"Languages & Frameworks",items:["React","TypeScript","JavaScript","Python","HTML/CSS","Node.js","Ren'Py","Bash"]},
-  {label:"Product Infrastructure",items:["Firebase","Cloud Functions","Supabase","Telegram Bots","tRPC","Drizzle ORM","PostgreSQL","PWA","Stripe"]},
-  {label:"AI & Generative Production",items:["LLM Workflows","Gemini","RAG","Embeddings","ComfyUI","LoRA Training","Midjourney","Runway Gen-2","Kaggle"]},
-  {label:"Design & Motion",items:["Figma","UI/UX","Brand Systems","Character Design","After Effects","Premiere Pro","Photoshop","Illustrator"]}
+const research=[
+  {title:"One-Ply Realism",year:"2026",cat:"ROLL CALL essay",img:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",
+   desc:"A research essay that refuses to treat toilet paper as a punchline. It follows wrappers, ply, scent, softness, price, hotel bathrooms, supermarket shelves, and travel leftovers to ask why some forms of bodily comfort become invisible.",
+   links:[{label:"Read Essay",url:"https://hydrogenbondss.github.io/Rollcall/#/essay",style:"acid"}]},
+  {title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating",year:"2023",cat:"MSc thesis · PolyU",img:"assets/echo/echo-ui-app.jpg",
+   desc:"A study of Tinder as dating platform and marketing system: visibility, desirability metrics, self-presentation, and the gap between what users believe they are doing and what the platform is optimising."},
+  {title:"The Offender Behind the Lens",year:"2019",cat:"UBC Undergraduate Journal of Art History",img:`${T}beitler-symposium.jpg`,
+   desc:"A paper on Lawrence Beitler's 1930 lynching photograph, arguing that photographer, framing, circulation, and reproduction cannot be separated from the violence the image depicts.",
+   links:[{label:"Symposium",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/",style:"acid"}]}
 ];
 
-// -- CLOCK --
-function pad(n){return String(n).padStart(2,"0")}
-function tick(){
-  var d=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Hong_Kong"}));
-  var t=pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds());
-  var el=document.getElementById("nav-clock");
-  if(el) el.innerHTML=t+" HKT<br>"+d.toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short"});
-  var gt=document.getElementById("g-time");
-  if(gt) gt.textContent=pad(d.getHours())+":"+pad(d.getMinutes())+" HKT";
+const tools=["React","TypeScript","JavaScript","Python","Node.js","Firebase","Supabase","Cloud Functions","Telegram Bots","tRPC","Drizzle ORM","PostgreSQL","PWA","Ren'Py","Gemini","RAG","Embeddings","ComfyUI","LoRA Training","Midjourney","Runway","Figma","After Effects","Premiere Pro","Photoshop","Illustrator","Kaggle"];
+let active=null,mediaIndex=0,lastFocus=null;
+const modal=document.getElementById("modal"),stage=document.getElementById("mediaStage"),caption=document.getElementById("mediaCaption"),count=document.getElementById("modalCount"),copy=document.getElementById("modalCopy"),prev=document.getElementById("prevMedia"),next=document.getElementById("nextMedia");
+
+function mediaMarkup(item){
+  if(item.type==="video") return `<video src="${item.src}" poster="${item.poster||""}" controls autoplay muted loop playsinline></video>`;
+  return `<img src="${item.src}" alt="${item.caption||active.title}">`;
 }
-tick(); setInterval(tick,1000);
-
-// -- PARALLAX --
-var pxHeroName=document.querySelector(".h-name"),
-    pxSecNums=null, pxTicking=false;
-function refreshParallaxTargets(){
-  pxSecNums=[].slice.call(document.querySelectorAll(".sec-n"));
+function showMedia(i){
+  const list=active.media&&active.media.length?active.media:[{src:active.img,caption:active.title}];
+  mediaIndex=(i+list.length)%list.length;
+  const item=list[mediaIndex];
+  stage.innerHTML=mediaMarkup(item);
+  caption.textContent=item.caption||"";
+  count.textContent=`${mediaIndex+1} / ${list.length}`;
+  prev.disabled=list.length<2;
+  next.disabled=list.length<2;
 }
-var reduceMotion=window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-function applyParallax(){
-  pxTicking=false;
-  if(reduceMotion) return;
-  var vh=window.innerHeight, sy=window.scrollY;
-  // Hero: background elements drift slower than the page, foreground drifts slightly faster —
-  // real depth, not just a fade-in-once reveal.
-  var hp=Math.min(sy,vh*1.3);
-  if(pxHeroName) pxHeroName.style.transform="translateY("+(-hp*0.12).toFixed(1)+"px)";
-  // Section watermark numerals: subtle drift as each header crosses the viewport.
-  if(pxSecNums) pxSecNums.forEach(function(el){
-    var r=el.getBoundingClientRect();
-    if(r.bottom<-200||r.top>vh+200) return;
-    var d=((r.top+r.height/2)-vh/2)/vh;
-    el.style.transform="translateY(calc(-50% + "+(d*34).toFixed(1)+"px))";
-  });
-}
-function onParallaxScroll(){ if(!pxTicking){ pxTicking=true; requestAnimationFrame(applyParallax); } }
-window.addEventListener("scroll",onParallaxScroll,{passive:true});
-window.addEventListener("resize",function(){ refreshParallaxTargets(); applyParallax(); });
-
-window.addEventListener("scroll",function(){
-  var nav=document.getElementById("nav");
-  if(nav) nav.classList.toggle("scrolled",window.scrollY>50);
-},{passive:true});
-
-// -- GATE ANIMATION --
-setTimeout(function(){
-  var ni=document.getElementById("g-name-i");
-  if(ni) ni.classList.add("visible");
-},300);
-
-// Gate: click anywhere to enter
-document.getElementById('gate').addEventListener('click', function(e){
-  if(e.target.id === 'g-btn' || e.target.closest('#g-btn')) return; // button handles itself
-  enterSite();
-});
-
-// -- LOADER --
-(function(){
-  var loader=document.getElementById("loader");
-  if(!loader) return;
-  setTimeout(function(){
-    loader.style.transition="opacity .9s";
-    loader.style.opacity="0";
-    setTimeout(function(){loader.style.display="none";},900);
-  },1200);
-})();
-
-// -- ENTER --
-var entered=false;
-var sectionsBuilt=false;
-var modalReturnFocus=null;
-function initSiteContent(){
-  if(sectionsBuilt) return;
-  sectionsBuilt=true;
-  buildSections();
-  bindCardTilt();
-  revealOnScroll();
-  refreshParallaxTargets();
-  applyParallax();
-}
-function enterSite(){
-  if(entered) return;
-  entered=true;
-  try{sessionStorage.setItem("jnt-entered","1");}catch(e){}
-  initSiteContent();
-  var gate=document.getElementById("gate");
-  var world=document.getElementById("world");
-  if(!gate||!world) return;
-  gate.style.transition="opacity 1.4s";
-  gate.style.opacity="0";
-  setTimeout(function(){
-    gate.style.display="none";
-    setTimeout(function(){document.getElementById("h1").classList.add("visible");},100);
-    setTimeout(function(){document.getElementById("h2").classList.add("visible");},200);
-  },1400);
-}
-initSiteContent();
-try{
-  var gateSkip=document.getElementById("gate");
-  if(gateSkip) gateSkip.style.display="none";
-  entered=true;
-  setTimeout(function(){
-    var h1=document.getElementById("h1"), h2=document.getElementById("h2");
-    if(h1) h1.classList.add("visible");
-    if(h2) h2.classList.add("visible");
-  },50);
-}catch(e){
-  setTimeout(function(){ enterSite(); },50);
-}
-
-// -- BUILD SECTIONS --
-function buildSections(){
-  // Vgrid removed
-
-  // Tools
-  var tg=document.getElementById("toolsGrid");
-  if(tg) tools.forEach(function(cat){
-    var d=document.createElement("div");
-    d.className="tg-cat";
-    d.innerHTML="<div class='tg-label'>"+cat.label+"</div><div class='tg-items'>"+
-      cat.items.map(function(i){return "<span class='tg-item'>"+i+"</span>";}).join("")+"</div>";
-    tg.appendChild(d);
-  });
-
-  // Projects
-  var pl=document.getElementById("pjList");
-  if(pl) b.forEach(function(p){
-    var row=document.createElement("div");
-    row.className="pj-row";
-    row.innerHTML="<div class='pj-n'>"+p.n+"</div>"+
-      "<div><div class='pj-title'>"+p.title+"</div><div class='pj-cat'>"+p.cat+"</div>"+
-      (p.tagline?"<div class='pj-tagline'>"+p.tagline+"</div>":"")+
-      (p.role?"<div style='font-size:.8rem;color:rgba(238,238,238,.5);margin-top:.55rem'>"+p.role+"</div>":"")+"</div>"+
-      "<div class='pj-meta'><div class='pj-yr'>"+p.year+"</div>"+
-      "<span class='pj-badge "+(p.badge==="dev"?"b-dev":"b-live")+"'>"+p.bl+"</span>"+
-      "<div class='pj-peek3d'"+(p.showcase?" data-img='"+p.showcase+"'":"")+" aria-hidden='true'></div></div>";
-    row.addEventListener("click",function(){openModal(p);});
-    makeActionable(row,"Open "+p.title);
-    pl.appendChild(row);
-  });
-  hardenExternalLinks();
-  if(pl && window.initProjectPeek3D){
-    document.querySelectorAll(".pj-peek3d").forEach(function(el){ window.initProjectPeek3D(el); });
-  }
-
-  // Clients / Freelance
-  var cl=document.getElementById('clientList');
-  if(cl) C.forEach(function(c){
-    var row=document.createElement('div');
-    row.className='cl-row';
-    var items=c.items.map(function(it){return "<div class='cl-item'>"+it+"</div>";}).join('');
-    row.innerHTML=
-      "<img class='cl-thumb' src='"+c.img+"' loading='lazy' alt='"+c.title+"'>"+
-      "<div class='cl-body'>"+
-        "<div class='cl-title'>"+c.title+"</div>"+
-        "<div class='cl-role'>"+c.role+"</div>"+
-        "<div class='cl-items'>"+items+"</div>"+
-      "</div>"+
-      "<div class='cl-year'>"+c.year+"</div>";
-    row.addEventListener('click',function(){ openModal({title:c.title,cat:'Freelance · '+c.role,year:c.year,images:c.images,desc:c.items.join('\n\n'),link:c.link}); });
-    makeActionable(row,"Open "+c.title);
-    cl.appendChild(row);
-  });
-
-  // Creative
-  var cg=document.getElementById("cg");
-  if(cg) x.forEach(function(item){
-    var card=document.createElement("div");
-    // Video items are wide (2 cols), static items are square (1 col)
-    var hasVideo = item.video || (item.carousel && item.carousel.some(function(s){return s.type==="video";}));
-    var isWide = item.featured || hasVideo || item.link;
-    var isPortrait = false;
-    card.className="cc"+(isWide?" cc-wide":"")+(isPortrait?" cc-portrait":"");
-
-    // For PabePabe (carousel), use first video as the card video
-    var cardVideo = item.video;
-    var cardPoster = item.img;
-    if(!cardVideo && item.carousel){
-      var firstVid = item.carousel.find(function(s){return s.type==="video";});
-      if(firstVid){ cardVideo=firstVid.src; cardPoster=firstVid.thumb||item.img; }
-    }
-
-    card.innerHTML=(cardVideo?
-      "<video class='cc-m' src='"+cardVideo+"' poster='"+cardPoster+"' muted loop playsinline preload='metadata'></video>":
-      (item.img?"<img class='cc-m' src='"+item.img+"' loading='lazy' alt='"+item.title+"'>":"<div class='cc-m cc-noimg'></div>"))+
-      "<div class='cc-veil'></div>"+
-      (item.badge?"<span class='pj-badge "+(item.badge==="dev"?"b-dev":"b-live")+"' style='position:absolute;top:12px;right:12px;z-index:2'>"+(item.bl||item.badge)+"</span>":"")+
-      "<div class='cc-info'><div class='cc-cat'>"+item.cat+" · "+item.year+"</div><div class='cc-title'>"+item.title+"</div></div>";
-
-    if(cardVideo){
-      var v=card.querySelector("video");
-      card.addEventListener("mouseenter",function(){v.play().catch(function(){});});
-      card.addEventListener("mouseleave",function(){v.pause();});
-    }
-    card.addEventListener("click",function(){ openModal(item); });
-    makeActionable(card,"Open "+item.title);
-    cg.appendChild(card);
-  });
-
-  // Curatorial
-  var cl=document.getElementById("curList");
-  if(cl) S.forEach(function(ex){
-    var row=document.createElement("div");
-    row.className="cur-row";
-    row.style.cursor="pointer";
-    row.innerHTML="<div class='cur-yr'>"+ex.year+"</div>"+
-      "<div><div class='cur-title'>"+ex.title+"</div>"+
-      "<div class='cur-venue'>"+ex.venue+"</div>"+
-      (ex.artists?"<div class='cur-artists'>"+ex.artists+"</div>":"")+
-      "</div>"+
-      "<div class='cur-role'>"+ex.role+" <span class='cur-expand'>↗</span></div>";
-    row.addEventListener("click",function(){
-      var mi=document.getElementById("mInner");
-      if(!mi)return;
-      var modal=document.getElementById("modal");
-      // Build image gallery if multiple images
-      var imgHtml="";
-      if(ex.images&&ex.images.length){
-        // 1-at-a-time viewer
-        window._mItems=ex.images.map(function(im){return{type:im.type||"img",src:im.src,poster:im.poster||"",caption:im.caption||""};});
-        window._mIdx=0;
-        function renderCurMedia(idx){
-          var m=window._mItems[idx];
-          var media=m.type==="video"
-            ?"<video src='"+m.src+"' "+(m.poster?"poster='"+m.poster+"'":"")+" controls muted playsinline></video>"
-            :"<img src='"+m.src+"' alt='"+(m.caption||ex.title)+"'>";
-          var cap=m.caption?"<div class='m-caption'>"+m.caption+"</div>":"";
-          var nav=window._mItems.length>1?"<div class='m-nav'><button type='button' class='m-nav-btn' onclick='mGo(-1);event.stopPropagation();' aria-label='Previous media'>←</button><span class='m-nav-ct'>"+(idx+1)+" / "+window._mItems.length+"</span><button type='button' class='m-nav-btn' onclick='mGo(1);event.stopPropagation();' aria-label='Next media'>→</button></div>":"";
-          return "<div class='m-viewer'>"+media+cap+nav+"</div>";
-        }
-        window.mGo=function(dir){window._mIdx=(window._mIdx+dir+window._mItems.length)%window._mItems.length;var a=document.querySelector(".m-media");if(a)a.innerHTML=renderCurMedia(window._mIdx);};
-        imgHtml=renderCurMedia(0);
-      } else if(ex.img){
-        imgHtml="<img src='"+ex.img+"' alt='"+ex.title+"' style='width:100%;max-height:360px;object-fit:cover;object-position:center;display:block'>";
-      }
-      // Build links
-      var exLinks="";
-      if(ex.links&&ex.links.length){
-        exLinks="<div style='margin-top:2rem'>"+ex.links.map(function(l){return "<a href='"+l.url+"' target='_blank' style='font-family:var(--mono);font-size:.62rem;color:var(--gold);letter-spacing:.08em;transition:opacity .3s'>"+l.label+"</a>";}).join("")+"</div>";
-      }
-      mi.innerHTML=imgHtml+
-        "<div style='padding:2rem 2.4rem 2.8rem'>"+
-        "<div style='font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:.7rem'>"+ex.role+"</div>"+
-        "<div style='font-size:1.8rem;font-weight:700;margin-bottom:.4rem;letter-spacing:-.025em;line-height:1.1'>"+ex.title+"</div>"+
-        "<div style='font-family:var(--mono);font-size:.56rem;color:rgba(232,232,232,.35);letter-spacing:.08em;margin-bottom:.25rem'>"+ex.venue+" · "+ex.year+"</div>"+
-        (ex.artists?"<div style='font-family:var(--mono);font-size:.54rem;color:rgba(232,232,232,.25);letter-spacing:.06em;margin-bottom:1.8rem;margin-top:.15rem'>"+ex.artists+"</div>":"<div style='margin-bottom:1.6rem'></div>")+
-        "<div style='font-size:.92rem;line-height:1.85;color:rgba(232,232,232,.66);max-width:560px'>"+ex.desc+"</div>"+
-        exLinks+
-        "</div>";
-      modal.classList.add("open");
-      document.body.style.overflow="hidden";
-    });
-    makeActionable(row,"Open "+ex.title);
-    cl.appendChild(row);
-  });
-
-  // Editorial
-  var editorialItems=[
-    {title:"MARKGONG FALL 2025",
-     sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia",
-     role:"Chief Editor · I.T Apparels",year:"2025",pos:"center top",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-markgong-fw25.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025",
-     desc:"Markgong Fall/Winter 2025. Editorial direction and interview for I.T Apparels. Shot in New York."},
-    {title:"NO ZIPPERS, NO APOLOGIES",
-     sub:"Renaissance Renaissance: Cynthia Merhej's Craft of Resistance",
-     role:"Chief Editor · I.T Apparels",year:"2025",
-     pos:"center top",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-no-zippers.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies",
-     desc:"Interview and editorial with Cynthia Merhej on craft, resistance, and the refusal of convenience in contemporary fashion design."},
-    {title:"MASAYUKI INO",
-     sub:"Crafting Dreams into Reality",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 20%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-masayuki-ino.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview",
-     desc:"Interview with Doublet designer Masayuki Ino. Editorial direction and interview for I.T Apparels Hong Kong."},
-    {title:"*A BATHING APE®",
-     sub:"Fall/Winter 2024 in Shanghai — Runway Show",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center top",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-bape-fw24-shanghai.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show",
-     desc:"A BATHING APE® Fall/Winter 2024 runway show in Shanghai. Editorial coverage for I.T Apparels."},
-    {title:"THE RISE OF BLOKECORE",
-     sub:"Celebrating Football-Inspired Fashion",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 25%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-blokecore.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion",
-     desc:"Editorial on the rise of Blokecore — football-inspired fashion moving from the pitch to the street. I.T Apparels."},
-    {title:"DISCOVER THE MEANING OF LOVE",
-     sub:"Love is...",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 30%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-discover-love.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love",
-     desc:"A Valentine's Day editorial for I.T Apparels Hong Kong exploring different forms of love through portraiture."},
-    {title:"THE GOTHIC REALM OF DARK FASHION",
-     sub:"Obsidian Elegance",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 15%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-dark-goth.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24",
-     desc:"Dark gothic aesthetic editorial for I.T Apparels Hong Kong."},
-    {title:"MOUNTWOOD",
-     sub:"Adventure in the Great Outdoors",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 20%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-mountwood.jpg",
-     link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors",
-     desc:"MOUNTWOOD outdoor gear editorial for I.T Apparels."},
-    {title:"SUBI (SUBEZ YETI)",
-     sub:"Crafting Community and Sound in Hong Kong's Music Scene",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center top",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-subi.jpg",
-     link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview",
-     desc:"Interview with Subi (Subez Yeti) on building community and sound in Hong Kong's independent music scene. Featuring Carhartt WIP."},
-    {title:"JERSEY TEES",
-     sub:"From Pitch to Streets",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center top",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-jersey-tees.jpg",
-     link:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets",
-     desc:"Editorial on jersey tees moving from the football pitch to the streets. I.T Apparels."},
-    {title:"IN THE STUDIO WITH TAKU",
-     sub:"Beyond the Brush — ft. Carhartt WIP SS24",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 20%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-carhartt-taku.jpg",
-     link:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush",
-     desc:"Studio visit and interview with artist Taku, featuring the Carhartt WIP SS24 Collection."},
-    {title:"SS24' PONDER.ER",
-     sub:"Road Trip to Heaven",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 20%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-ponderer.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24",
-     desc:"PONDER.ER Spring/Summer 2024 editorial for I.T Apparels."},
-    {title:"WESTFALL",
-     sub:"California Punk Culture",
-     role:"Chief Editor · I.T Apparels",year:"2024",
-     pos:"center 20%",
-     img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-westfall.jpg",
-     link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival",
-     desc:"WESTFALL SS24 editorial for I.T Apparels. California punk culture."}
-  ];
-  var eg=document.getElementById("editorialGrid");
-  if(eg) editorialItems.forEach(function(item){
-    var card=document.createElement("div");
-    card.className="ed-card";
-    var imgPos=item.pos||"center 15%";
-    card.innerHTML="<img src='"+item.img+"' alt='"+item.title+"' loading='lazy' style='object-position:"+imgPos+"'>"+
-      "<div class='ed-card-info'>"+
-      "<div class='ed-card-title'>"+item.title+"</div>"+
-      "<div class='ed-card-sub'>"+item.sub+"</div>"+
-      "</div>";
-    card.addEventListener("click",function(){
-      if(item.link){
-        window.open(item.link,"_blank","noopener");
-      } else {
-        openModal({title:item.title,cat:"Fashion Editorial",year:item.year||"2024",
-          role:item.role||"Chief Editor",img:item.img,desc:item.desc||"",link:null});
-      }
-    });
-    makeActionable(card,item.link?"Open "+item.title+" editorial":"Open "+item.title);
-    eg.appendChild(card);
-  });
-
-  // Research
-  var rl=document.getElementById("resList");
-  if(rl) R.forEach(function(r){
-    var row=document.createElement("div");
-    row.className="res-row";
-    row.style.cursor="pointer";
-    var links=r.links&&r.links.length?r.links.map(function(l){
-      return "<a href='"+l.url+"' target='_blank' class='res-link'>"+l.label+"</a>";
-    }).join(""):"";
-    var typeIcon=r.type==="thesis"?"THESIS":r.type==="press"?"PRESS CITATION":r.type==="essay"?"ESSAY":"PAPER";
-    row.innerHTML="<div class='res-yr'>"+r.year+"</div>"+
-      "<div class='res-main'>"+
-      "<div class='res-type'>"+typeIcon+"</div>"+
-      "<div class='res-title'>"+r.title+" <span class='res-expand' style='font-size:.7em'>↗</span></div>"+
-      "<div class='res-venue'>"+r.venue+"</div>"+
-      (links?"<div class='res-links'>"+links+"</div>":"")+
-      "</div>";
-    row.addEventListener("click",function(e){
-      if(e.target.classList.contains("res-link")||e.target.tagName==="A") return;
-      var modal=document.getElementById("modal");
-      var mi=document.getElementById("mInner");
-      if(!modal||!mi) return;
-      mi.innerHTML=(r.img?"<img src='"+r.img+"' alt='"+r.title+"' style='width:100%;max-height:300px;object-fit:cover;object-position:center top;display:block'>":"")+
-        "<div style='padding:2rem 2.4rem 2.8rem'>"+
-        "<div style='font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:.7rem'>"+typeIcon+"</div>"+
-        "<div style='font-size:1.6rem;font-weight:700;margin-bottom:.45rem;letter-spacing:-.02em;line-height:1.2;color:var(--fg)'>"+r.title+"</div>"+
-        "<div style='font-family:var(--mono);font-size:.56rem;color:rgba(232,232,232,.35);letter-spacing:.08em;margin-bottom:1.8rem'>"+r.venue+" · "+r.year+"</div>"+
-        (r.desc?"<div style='font-size:.92rem;line-height:1.85;color:rgba(232,232,232,.66);max-width:540px'>"+r.desc+"</div>":"")+
-        (links?"<div style='margin-top:2rem'>"+links+"</div>":"")+
-        "</div>";
-      modal.classList.add("open");
-      document.body.style.overflow="hidden";
-    });
-    makeActionable(row,"Open "+r.title);
-    rl.appendChild(row);
-  });
-  hardenExternalLinks();
-}
-
-function hardenExternalLinks(){
-  document.querySelectorAll('a[target="_blank"]').forEach(function(a){
-    a.rel="noopener noreferrer";
-  });
-}
-hardenExternalLinks();
-
-function makeActionable(el,label){
-  if(!el || el.dataset.actionable) return;
-  el.dataset.actionable="1";
-  el.setAttribute("role","button");
-  el.setAttribute("tabindex","0");
-  if(label) el.setAttribute("aria-label",label);
-  el.addEventListener("keydown",function(e){
-    if(e.key==="Enter"||e.key===" "){
-      e.preventDefault();
-      el.click();
-    }
-  });
-}
-
-// -- MODAL --
-function openModal(item){
-  var modal=document.getElementById("modal");
-  var inner=document.getElementById("mInner");
-  if(!modal||!inner) return;
-  modalReturnFocus=document.activeElement instanceof HTMLElement ? document.activeElement : null;
-
-  // Build unified media array (images[] > carousel[] > video+img)
-  var mediaItems=[];
-  if(item.images && item.images.length){
-    item.images.forEach(function(im){
-      mediaItems.push({type:im.type||"img", src:im.src, poster:im.poster||"", caption:im.caption||""});
-    });
-    // if there's also a video, prepend it or append
-    if(item.video) mediaItems.unshift({type:"video",src:item.video,poster:item.img,caption:"Video"});
-  } else if(item.carousel && item.carousel.length){
-    item.carousel.forEach(function(s){
-      mediaItems.push({type:s.type,src:s.src,poster:s.thumb||item.img,caption:s.caption||""});
-    });
-  } else if(item.video){
-    mediaItems.push({type:"video",src:item.video,poster:item.img,caption:""});
-    if(item.img) mediaItems.push({type:"img",src:item.img,caption:""});
-  } else if(item.img){
-    mediaItems.push({type:"img",src:item.img,caption:""});
-  }
-
-  window._mItems=mediaItems;
-  window._mIdx=0;
-
-  function renderMedia(idx){
-    var m=mediaItems[idx];
-    if(!m) return "";
-    var el=m.type==="video"
-      ?"<video src='"+m.src+"' "+(m.poster?"poster='"+m.poster+"'":"")+" controls autoplay muted loop playsinline></video>"
-      :"<img src='"+m.src+"' alt='"+m.caption+"'>";
-    var cap=m.caption?"<div class='m-caption'>"+m.caption+"</div>":"";
-    var nav=mediaItems.length>1
-      ?"<div class='m-nav'>"
-        +"<button type='button' class='m-nav-btn' onclick='mGo(-1);event.stopPropagation();' aria-label='Previous media'>←</button>"
-        +"<span class='m-nav-ct'>"+(idx+1)+" / "+mediaItems.length+"</span>"
-        +"<button type='button' class='m-nav-btn' onclick='mGo(1);event.stopPropagation();' aria-label='Next media'>→</button>"
-        +"</div>"
-      :"";
-    return "<div class='m-viewer'>"+el+cap+nav+"</div>";
-  }
-
-  window.mGo=function(dir){
-    window._mIdx=(window._mIdx+dir+window._mItems.length)%window._mItems.length;
-    var viewer=document.querySelector(".m-viewer");
-    var area=document.querySelector(".m-media");
-    if(area) area.innerHTML=renderMedia(window._mIdx);
-  };
-
-  var descHtml=item.desc
-    ?"<div class='m-desc'>"+item.desc.split(/\n\n+/).map(function(p){return "<p>"+p+"</p>";}).join("")+"</div>"
-    :"";
-  var linkItems=item.links&&item.links.length
-    ?item.links
-    :(item.link?[{label:item.linkLabel||"View Project →",url:item.link}]:[]);
-  var linkHtml=linkItems.length
-    ?"<div class='m-links'>"+linkItems.map(function(l,i){
-      return "<a href='"+l.url+"' target='_blank' class='m-link "+(l.secondary||i>0?"secondary":"")+"'>"+l.label+"</a>";
-    }).join("")+"</div>"
-    :"";
-
-  inner.innerHTML=
-    "<div class='m-media'>"+renderMedia(0)+"</div>"+
-    "<div class='m-info'>"+
-    "<div class='m-cat'>"+(item.cat||"")+"</div>"+
-    "<h2 class='m-title' id='modalTitle'>"+item.title+"</h2>"+
-    (item.sub?"<div class='m-sub'>"+item.sub+"</div>":"")+
-    (item.tagline?"<div class='m-tagline'>"+item.tagline+"</div>":"")+
-    (item.role?"<div class='m-role'>"+item.role+"</div>":"")+
-    descHtml+
-    linkHtml+
-    "</div>";
-  hardenExternalLinks();
-  var mediaArea=inner.querySelector(".m-media");
-  if(mediaArea){
-    mediaArea.addEventListener("click",function(e){
-      if(!window._mItems || window._mItems.length<2) return;
-      if(e.target.closest("button,a,video")) return;
-      mGo(1);
-    });
-  }
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden","false");
-  document.body.style.overflow="hidden";
-  setTimeout(function(){
-    var close=document.getElementById("mClose");
-    if(close) close.focus({preventScroll:true});
-  },0);
-}
-function carGo(dir){
-  var car=document.getElementById("car");
-  if(!car) return;
-  var slides=car.querySelectorAll(".car-slide");
-  var dots=car.querySelectorAll(".car-dot");
-  slides[window._carIdx].classList.remove("on");
-  dots[window._carIdx].classList.remove("on");
-  window._carIdx=(window._carIdx+dir+slides.length)%slides.length;
-  slides[window._carIdx].classList.add("on");
-  dots[window._carIdx].classList.add("on");
+function openItem(item){
+  active=item; mediaIndex=0; lastFocus=document.activeElement;
+  const links=(item.links||[]).map(l=>`<a class="m-link ${l.style||""}" href="${l.url}" target="_blank">${l.label}</a>`).join("");
+  copy.innerHTML=`<div class="modal-meta"><span>${item.year||""}</span><span>${item.cat||""}</span>${item.status?`<span>${item.status}</span>`:""}</div><h2>${item.title}</h2><p>${item.desc||item.tagline||""}</p>${item.role?`<p>${item.role}</p>`:""}${links?`<div class="m-links">${links}</div>`:""}`;
+  showMedia(0);
+  modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
+  document.getElementById("closeModal").focus();
 }
 function closeModal(){
-  var modal=document.getElementById("modal");
-  if(modal){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-  }
-  document.body.style.overflow="";
-  document.querySelectorAll(".modal video").forEach(function(v){v.pause();});
-  if(modalReturnFocus && document.contains(modalReturnFocus)){
-    modalReturnFocus.focus({preventScroll:true});
-  }
-  modalReturnFocus=null;
+  modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow="";
+  stage.innerHTML=""; active=null; if(lastFocus) lastFocus.focus();
 }
-function toggleMenu(){
-  var links=document.getElementById("n-links");
-  var burger=document.getElementById("n-burger");
-  var overlay=document.getElementById("n-mobile-overlay");
-  if(!links) return;
-  var isOpen=links.classList.contains("open");
-  links.classList.toggle("open");
-  burger.classList.toggle("open");
-  overlay.classList.toggle("open");
-  if(burger) burger.setAttribute("aria-expanded",isOpen?"false":"true");
-  document.body.style.overflow=isOpen?"":"hidden";
+function cardMedia(item){
+  const first=(item.media||[]).find(m=>m.type==="video");
+  if(first) return `<video src="${first.src}" poster="${first.poster||item.img}" muted loop playsinline preload="metadata"></video>`;
+  return `<img src="${item.img}" alt="${item.title}" loading="eager" decoding="async">`;
 }
-function closeMenu(){
-  var links=document.getElementById("n-links");
-  var burger=document.getElementById("n-burger");
-  var overlay=document.getElementById("n-mobile-overlay");
-  if(links) links.classList.remove("open");
-  if(burger) burger.classList.remove("open");
-  if(overlay) overlay.classList.remove("open");
-  if(burger) burger.setAttribute("aria-expanded","false");
-  document.body.style.overflow="";
+function renderProjects(){
+  document.getElementById("projectList").innerHTML=projects.map((p,i)=>`<button class="project-card ${p.featured?"featured":""}" type="button" data-kind="project" data-i="${i}">
+    <div class="project-media">${cardMedia(p)}</div>
+    <div class="project-copy">
+      <div><div class="project-top"><span>${String(i+1).padStart(2,"0")} / ${p.cat}</span><span class="badge">${p.status}</span></div><h3 class="project-title">${p.title}</h3><p class="project-tag">${p.tagline}</p><p class="project-role">${p.role}</p></div>
+      <div class="project-foot"><span>${p.year}</span><span>Open case →</span></div>
+    </div>
+  </button>`).join("");
 }
-function switchWriting(name,btn){
-  var editorial=document.getElementById("writingEditorial");
-  var campaigns=document.getElementById("writingCampaigns");
-  document.querySelectorAll(".writing-tab").forEach(function(tab){
-    tab.classList.remove("active");
-    tab.setAttribute("aria-selected","false");
+function renderGrid(id,list){
+  document.getElementById(id).innerHTML=list.map((p,i)=>`<button class="card" type="button" data-kind="${id}" data-i="${i}">
+    <div class="card-media">${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
+  </button>`).join("");
+}
+function renderRows(id,list){
+  document.getElementById(id).innerHTML=list.map((p,i)=>`<button class="row" type="button" data-kind="${id}" data-i="${i}">
+    <div class="kicker">${p.year}<br>${p.cat}</div><div><h3>${p.title}</h3><p>${p.desc}</p></div>${p.img?`<img src="${p.img}" alt="${p.title}" loading="eager" decoding="async">`:"<div></div>"}
+  </button>`).join("");
+}
+function hydrate(){
+  renderProjects(); renderGrid("worldGrid",worlds); renderRows("writingList",writing); renderRows("researchList",research);
+  const toolsWrap=document.createElement("div"); toolsWrap.className="tools"; toolsWrap.innerHTML=tools.map(t=>`<span class="tool">${t}</span>`).join("");
+  document.getElementById("about").appendChild(toolsWrap);
+  document.body.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-kind]"); if(!btn) return;
+    const map={project:projects,worldGrid:worlds,writingList:writing,researchList:research};
+    openItem(map[btn.dataset.kind][Number(btn.dataset.i)]);
   });
-  if(btn){
-    btn.classList.add("active");
-    btn.setAttribute("aria-selected","true");
-  }
-  if(editorial){
-    editorial.classList.toggle("active",name==="editorial");
-    editorial.hidden=name!=="editorial";
-  }
-  if(campaigns){
-    campaigns.classList.toggle("active",name==="campaigns");
-    campaigns.hidden=name!=="campaigns";
-  }
-}
-document.addEventListener("keydown",function(e){
-  var modal=document.getElementById("modal");
-  var isOpen=modal && modal.classList.contains("open");
-  if(e.key==="Escape" && isOpen){
-    closeModal();
-    return;
-  }
-  if(e.key!=="Tab" || !isOpen) return;
-  var focusable=modal.querySelectorAll('a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])');
-  if(!focusable.length) return;
-  var first=focusable[0];
-  var last=focusable[focusable.length-1];
-  if(e.shiftKey && document.activeElement===first){
-    e.preventDefault();
-    last.focus();
-  } else if(!e.shiftKey && document.activeElement===last){
-    e.preventDefault();
-    first.focus();
-  }
-});
-document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal();});
-
-// Creative card mouse parallax (bound after cards exist — buildSections() creates .cc dynamically)
-function bindCardTilt(){
-  document.querySelectorAll('.cc').forEach(function(card){
-    if(card.dataset.tiltBound) return;
-    card.dataset.tiltBound="1";
-    card.addEventListener('mousemove',function(e){
-      var rect=card.getBoundingClientRect();
-      var x=(e.clientX-rect.left)/rect.width-.5;
-      var y=(e.clientY-rect.top)/rect.height-.5;
-      var n=card.classList.contains('cc-wide')?2:3;
-      card.style.transform='scale(1.03) rotateY('+((-x*n).toFixed(2))+'deg) rotateX('+((y*n*.5).toFixed(2))+'deg)';
-    });
-    card.addEventListener('mouseleave',function(){card.style.transform='';});
+  document.querySelectorAll(".card video,.project-card video").forEach(v=>{
+    v.addEventListener("mouseenter",()=>v.play().catch(()=>{}));
+    v.addEventListener("mouseleave",()=>{v.pause(); v.currentTime=0;});
   });
 }
-
-// Scroll reveal
-function revealOnScroll(){
-  var els=document.querySelectorAll(".pj-row,.cur-row,.res-row,.cc,.sec-hd,.tg-cat");
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.style.opacity="1";
-        e.target.style.transform="none";
-        obs.unobserve(e.target);
-      }
-    });
-  },{threshold:0.05,rootMargin:"0px 0px -40px 0px"});
-  els.forEach(function(el,i){
-    el.style.opacity="0";
-    el.style.transform="translateY(12px)";
-    el.style.transition="opacity .45s ease "+(i%4*40)+"ms, transform .45s ease "+(i%4*40)+"ms";
-    obs.observe(el);
-  });
-}
+document.getElementById("closeModal").addEventListener("click",closeModal);
+prev.addEventListener("click",()=>active&&showMedia(mediaIndex-1));
+next.addEventListener("click",()=>active&&showMedia(mediaIndex+1));
+modal.addEventListener("click",e=>{if(e.target===modal) closeModal();});
+window.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open")) closeModal(); if(active&&e.key==="ArrowLeft") showMedia(mediaIndex-1); if(active&&e.key==="ArrowRight") showMedia(mediaIndex+1);});
+window.addEventListener("scroll",()=>document.getElementById("nav").classList.toggle("scrolled",scrollY>24),{passive:true});
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("nav").classList.toggle("open"));
+document.getElementById("navlinks").addEventListener("click",()=>document.getElementById("nav").classList.remove("open"));
+hydrate();
 </script>
-
-<script>
-/* -- STRUCTURAL INIT ------------------------------------------- */
-(function() {
-  // 1. Geometric accent on section headers
-  document.querySelectorAll('.sec-hd').forEach(function(hd) {
-    if (!hd.querySelector('.sec-hd-geo')) {
-      var geo = document.createElement('span');
-      geo.className = 'sec-hd-geo';
-      hd.appendChild(geo);
-    }
-  });
-
-  // 2. Editorial drag-scroll
-  var edCar = document.getElementById('editorialGrid');
-  if (edCar) {
-    var isDown=false,startX,scrollL;
-    edCar.addEventListener('mousedown',function(e){isDown=true;edCar.classList.add('grabbing');startX=e.pageX-edCar.offsetLeft;scrollL=edCar.scrollLeft;});
-    edCar.addEventListener('mouseleave',function(){isDown=false;edCar.classList.remove('grabbing');});
-    edCar.addEventListener('mouseup',function(){isDown=false;edCar.classList.remove('grabbing');});
-    edCar.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();edCar.scrollLeft=scrollL-(e.pageX-edCar.offsetLeft-startX)*1.5;});
-  }
-  window.edScroll=function(dir){var c=document.getElementById('editorialGrid');if(c)c.scrollBy({left:dir*400,behavior:'smooth'});};
-
-  // 3. Scroll reveal
-  var selectors=['.pj-row','.cc','.ed-card','.cur-row','.res-row','.tg-cat','.ab-grid'];
-  selectors.forEach(function(sel){
-    document.querySelectorAll(sel).forEach(function(el,i){
-      el.classList.add('reveal');
-      var d=Math.min(i%5,4);
-      if(d>0) el.classList.add('reveal-d'+d);
-    });
-  });
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');obs.unobserve(e.target);}});
-  },{threshold:.06,rootMargin:'0px 0px -30px 0px'});
-  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
-
-  // 4. Creative card mouse parallax — bound for real once cards exist (see enterSite)
-  bindCardTilt();
-
-  refreshParallaxTargets();
-  applyParallax();
-})();
-</script>
-
-<script type="importmap">
-{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
-</script>
-<script type="module">
-/* -- PROJECT PEEK: real WebGL/Three.js card (lit box, real specular highlight) -- */
-import * as THREE from "three";
-
-var reduceMotion3D = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-var peekScenes = [];
-
-function fitCover(tex, boxAspect){
-  var img = tex.image;
-  if(!img || !img.width || !img.height) return;
-  var imgAspect = img.width/img.height;
-  tex.repeat.set(1,1); tex.offset.set(0,0);
-  if(boxAspect < imgAspect){
-    tex.repeat.x = boxAspect/imgAspect;
-    tex.offset.x = (1-tex.repeat.x)/2;
-  } else {
-    tex.repeat.y = imgAspect/boxAspect;
-    tex.offset.y = (1-tex.repeat.y)/2;
-  }
-  tex.needsUpdate = true;
-}
-
-function makePeek(container){
-  if(!container || container._peekInit) return;
-  container._peekInit = true;
-  try{
-    var w = container.clientWidth || 130, h = container.clientHeight || 96;
-    var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
-    renderer.setSize(w, h);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
-
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(32, w/h, 0.1, 10);
-    camera.position.set(0, 0, 2.3);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-    var key = new THREE.DirectionalLight(0xffffff, 1.3);
-    key.position.set(1.4, 1.6, 2.2);
-    scene.add(key);
-    var rim = new THREE.DirectionalLight(0xC9E8FF, 0.35);
-    rim.position.set(-1.5, -0.6, -1);
-    scene.add(rim);
-
-    var boxW=1.62, boxH=1.16;
-    var edgeMat = new THREE.MeshStandardMaterial({color:0x2a2a2a, roughness:0.7, metalness:0.15});
-    var frontMat = new THREE.MeshStandardMaterial({color:0xe8e8e8, roughness:0.55, metalness:0.1});
-    var imgUrl = container.getAttribute("data-img");
-    if(imgUrl){
-      new THREE.TextureLoader().load(imgUrl, function(tex){
-        tex.colorSpace = THREE.SRGBColorSpace;
-        fitCover(tex, boxW/boxH);
-        frontMat.map = tex;
-        frontMat.color.set(0xffffff);
-        frontMat.needsUpdate = true;
-      });
-    }
-    var mats = [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, edgeMat];
-    var geo = new THREE.BoxGeometry(boxW, boxH, 0.07);
-    var mesh = new THREE.Mesh(geo, mats);
-    scene.add(mesh);
-
-    var current = {x:-0.06, y:0.12};
-    var target = {x:-0.06, y:0.12};
-    mesh.rotation.x = current.x;
-    mesh.rotation.y = current.y;
-
-    container.addEventListener("mousemove", function(e){
-      var r = container.getBoundingClientRect();
-      var nx = (e.clientX-r.left)/r.width-0.5;
-      var ny = (e.clientY-r.top)/r.height-0.5;
-      target.y = nx*0.55;
-      target.x = -ny*0.4-0.06;
-    });
-    container.addEventListener("mouseleave", function(){
-      target.x=-0.06; target.y=0.12;
-    });
-
-    if(window.ResizeObserver){
-      new ResizeObserver(function(){
-        var cw=container.clientWidth, ch=container.clientHeight;
-        if(cw<10||ch<10) return;
-        renderer.setSize(cw,ch);
-        camera.aspect=cw/ch;
-        camera.updateProjectionMatrix();
-      }).observe(container);
-    }
-
-    peekScenes.push({renderer:renderer,scene:scene,camera:camera,mesh:mesh,target:target,current:current,t:Math.random()*10});
-    renderer.render(scene, camera);
-  } catch(e){ /* no WebGL support — container stays empty, no console noise */ }
-}
-
-function tick(){
-  requestAnimationFrame(tick);
-  peekScenes.forEach(function(s){
-    s.t += 0.012;
-    var idle = reduceMotion3D ? 0 : Math.sin(s.t*0.6)*0.05;
-    s.current.x += (s.target.x-s.current.x)*0.06;
-    s.current.y += (s.target.y-s.current.y)*0.06;
-    s.mesh.rotation.x = s.current.x;
-    s.mesh.rotation.y = s.current.y+idle;
-    s.renderer.render(s.scene, s.camera);
-  });
-}
-requestAnimationFrame(tick);
-
-window.initProjectPeek3D = makePeek;
-document.querySelectorAll(".pj-peek3d").forEach(function(el){ makePeek(el); });
-</script>
-
 </body>
 </html>
