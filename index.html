@@ -7,15 +7,14 @@
 <meta name="description" content="Jeffrey N. Tse builds AI-native products, cultural archives, interactive worlds, interactive narratives, and brand systems from Hong Kong: PawsAid, ROLL CALL, ECHO, SPECTOR, SELTA, Noru, editorial work, and research.">
 <meta property="og:title" content="Jeffrey N. Tse — AI Products · Cultural Systems · Brand Direction">
 <meta property="og:description" content="Builder of AI-native products, cultural archives, interactive worlds, interactive narratives, and brand systems from Hong Kong: PawsAid, ROLL CALL, ECHO, SPECTOR, SELTA, Noru, editorial work, and research.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231C1C1C'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='22' font-weight='700' fill='%23F0F0F0' text-anchor='middle'%3EJNT%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231C1C1C'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='22' font-weight='700' fill='%23F0F0F0' text-anchor='middle'%3EJNT%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Bricolage+Grotesque:wght@500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   FRUTIGER AERO DARK — Jeffrey N. Tse
-   Real glass. Real glow. Real presence.
+   Jeffrey N. Tse — editorial dark system
    ============================================================ */
 :root {
   --bg:        #1C1C1C;
@@ -27,12 +26,10 @@
   --fg:        #EBEBEB;
   --fg-dim:    rgba(235,235,235,.55);
   --fg-ghost:  rgba(235,235,235,.18);
-  /* REAL glass — not 4% */
   --glass:     rgba(255,255,255,.11);
   --glass-s:   rgba(255,255,255,.17);
   --glass-bd:  rgba(255,255,255,.22);
   --glass-bd2: rgba(240,240,240,.35);
-  /* REAL glow */
   --glow:      rgba(240,240,240,.32);
   --glow-b:    rgba(170,170,170,.22);
   --sg:  'Inter', sans-serif;
@@ -59,13 +56,11 @@ body::after{
   background-size:200px;
 }
 
-/* FRUTIGER AERO: three visible ambient orbs */
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 70% 50% at -8% 108%, rgba(240,240,240,.32) 0%,transparent 60%),
-    radial-gradient(ellipse 55% 40% at 108% -5%, rgba(170,170,170,.24) 0%,transparent 55%),
-    radial-gradient(ellipse 35% 28% at 58% 42%, rgba(240,240,240,.1) 0%,transparent 65%);
+    linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.035) 25%,transparent calc(25% + 1px),transparent calc(50% - 1px),rgba(255,255,255,.026) 50%,transparent calc(50% + 1px),transparent calc(75% - 1px),rgba(255,255,255,.035) 75%,transparent calc(75% + 1px)),
+    linear-gradient(180deg,rgba(255,255,255,.035),transparent 42%);
 }
 
 /* -- SCROLL REVEAL -- */
@@ -80,7 +75,6 @@ body::before{
 .ld-name{font-size:clamp(2.4rem,6vw,5rem);font-weight:700;letter-spacing:-.04em}
 
 /* -- GATE -- */
-/* Aurora horizon — VIVID teal glow at bottom */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:300;
   display:flex;align-items:center;justify-content:space-between;gap:2rem;
@@ -99,7 +93,6 @@ body::before{
 .n-logo{
   font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;
   color:rgba(240,240,240,.95);text-decoration:none;
-  /* FA: glass pill logo */
   background:rgba(240,240,240,.1);
   border:1px solid rgba(240,240,240,.35);
   padding:.32rem .7rem;border-radius:999px;
@@ -115,29 +108,10 @@ body::before{
 
 /* -- HERO -- */
 #hero{
-  min-height:100vh;
-  padding:0 2.4rem;
+  min-height:88vh;
+  padding:0 2.4rem 3rem;
   display:flex;flex-direction:column;justify-content:flex-end;
   position:relative;overflow:hidden;
-}
-.h-geo-circle{
-  position:absolute;right:-8vw;top:50%;transform:translateY(-52%);
-  width:55vw;height:55vw;border-radius:50%;pointer-events:none;z-index:0;
-  border:1px solid rgba(240,240,240,.09);
-}
-.h-geo-circle::before{content:'';position:absolute;inset:15%;border-radius:50%;border:1px solid rgba(170,170,170,.06)}
-.h-geo-circle::after{content:'';position:absolute;inset:32%;border-radius:50%;border:1px solid rgba(240,240,240,.04)}
-.h-geo-dots{position:absolute;right:4rem;top:33%;pointer-events:none;z-index:1}
-.h-geo-dots::before{
-  content:'';position:absolute;border-radius:50%;width:7px;height:7px;
-  top:0;right:0;background:rgba(240,240,240,.35);
-  box-shadow:-22px 15px 0 rgba(170,170,170,.22),-40px 6px 0 rgba(240,240,240,.18),-10px 32px 0 rgba(225,225,225,.2),-34px 36px 0 rgba(170,170,170,.14);
-}
-/* FA: glass panel left-behind name */
-.h-name-glass{
-  position:absolute;left:0;top:0;bottom:0;width:min(680px,54vw);
-  background:linear-gradient(135deg,rgba(240,240,240,.07) 0%,rgba(170,170,170,.04) 50%,transparent 100%);
-  border-right:1px solid rgba(240,240,240,.09);pointer-events:none;z-index:0;
 }
 .h-name{
   position:relative;z-index:2;
@@ -153,18 +127,6 @@ body::before{
 .h-bottom{display:flex;align-items:baseline;gap:2.5rem;position:relative;z-index:2;margin-bottom:1.4rem}
 .h-eye{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,240,.85)}
 .h-stmt{font-size:.95rem;color:var(--fg-dim);font-weight:300;line-height:1.65;max-width:480px}
-/* Ticker */
-.h-ticker{
-  position:relative;overflow:hidden;z-index:2;
-  background:linear-gradient(90deg,var(--bg),rgba(13,14,24,.96),var(--bg));
-  border-top:1px solid rgba(240,240,240,.22);
-  border-bottom:1px solid rgba(240,240,240,.1);
-  padding:.75rem 0;margin:0 -2.4rem;
-}
-.h-ticker::before{content:'';position:absolute;left:0;top:0;bottom:0;width:70px;background:linear-gradient(to right,var(--bg),transparent);z-index:1}
-.h-ticker::after{content:'';position:absolute;right:0;top:0;bottom:0;width:70px;background:linear-gradient(to left,var(--bg),transparent);z-index:1}
-.h-ticker-inner{display:flex;white-space:nowrap;animation:tickerScroll 30s linear infinite;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,240,.72)}
-@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* -- SECTIONS BASE -- */
 section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:relative;z-index:1}
@@ -177,11 +139,9 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   position:absolute;left:-.4rem;top:50%;transform:translateY(-50%);
   pointer-events:none;user-select:none;
 }
-/* FA: stamp label — visible, thick border */
 .sec-t{
   font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
   color:var(--teal);
-  /* REAL glass stamp */
   background:rgba(240,240,240,.1);
   border:1.5px solid rgba(240,240,240,.45);
   padding:.38rem 1rem;
@@ -201,7 +161,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   width:210px;height:210px;object-fit:cover;object-position:center top;
   border-radius:50%;display:block;
   border:2px solid rgba(240,240,240,.3);
-  /* FA: teal glow ring */
   box-shadow:0 0 0 6px rgba(240,240,240,.07),0 0 40px rgba(240,240,240,.18),0 20px 60px rgba(0,0,0,.5);
   transition:box-shadow .5s;
 }
@@ -222,12 +181,11 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .tg-item{font-family:var(--mono);font-size:.68rem;padding:.34rem .78rem;border:1px solid rgba(240,240,240,.18);color:rgba(225,225,225,.55);border-radius:999px;transition:background .25s ease,border-color .25s ease,color .25s ease}
 .tg-item:hover{border-color:rgba(240,240,240,.55);color:rgba(240,240,240,.95);background:rgba(240,240,240,.06)}
 
-/* -- PROJECTS — FA glass cards -- */
+/* -- PROJECTS -- */
 #pjList{display:flex;flex-direction:column;gap:3px}
 .pj-row{
   display:grid;grid-template-columns:52px 1fr auto;
   align-items:start;gap:2rem;padding:2rem 1.8rem;
-  /* REAL glass */
   background:var(--glass);
   backdrop-filter:blur(20px) saturate(1.5);
   -webkit-backdrop-filter:blur(20px) saturate(1.5);
@@ -237,7 +195,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   transition:background .35s,border-color .35s,transform .25s,box-shadow .35s;
   border-radius:18px;
 }
-/* FA: glossy sheen top stripe */
 .pj-row::before{
   content:'';position:absolute;left:0;top:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
@@ -252,7 +209,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   background:rgba(255,255,255,.16);
   border-color:rgba(240,240,240,.3);
   transform:translateX(3px);
-  /* FA: glow on hover */
   box-shadow:-3px 0 0 rgba(240,240,240,.7),0 8px 32px rgba(240,240,240,.12),0 0 60px rgba(240,240,240,.06);
 }
 .pj-row:hover::after{background:linear-gradient(to bottom,transparent,rgba(240,240,240,.9),transparent)}
@@ -272,7 +228,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .pj-peek3d{width:130px;height:96px;overflow:hidden;border-radius:14px;flex-shrink:0;margin-top:.3rem;border:1px solid rgba(240,240,240,.14);position:relative;background:rgba(255,255,255,.03)}
 .pj-peek3d canvas{display:block;width:100%;height:100%}
 
-/* -- CREATIVE — Frutiger Aero gallery -- */
+/* -- CREATIVE -- */
 .cc-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:dense;gap:4px;perspective:1400px}
 .cc{
   position:relative;overflow:hidden;cursor:pointer;
@@ -286,7 +242,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .cc:hover{transform:scale(1.03) rotateY(-2.5deg) rotateX(1deg);z-index:3;box-shadow:16px 20px 55px rgba(0,0,0,.75),-2px 0 0 rgba(240,240,240,.3),0 0 30px rgba(240,240,240,.08)}
 .cc.cc-wide:hover{transform:scale(1.016) rotateY(-1.2deg) rotateX(.5deg)}
 .cc:hover .cc-m{transform:scale(1.04)}
-/* FA: glass info overlay */
 .cc-info{
   position:absolute;bottom:0;left:0;right:0;
   padding:1.4rem;
@@ -294,7 +249,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   backdrop-filter:blur(16px) saturate(1.4);
   -webkit-backdrop-filter:blur(16px) saturate(1.4);
   border-top:1px solid rgba(240,240,240,.18);
-  /* FA: top sheen on glass panel */
   box-shadow:0 -1px 0 rgba(255,255,255,.06);
   opacity:0;transform:translateY(6px);transition:opacity .25s ease-out,transform .25s cubic-bezier(.23,1,.32,1);
 }
@@ -373,7 +327,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .ed-card{
   position:relative;flex:0 0 380px;height:260px;overflow:hidden;cursor:pointer;
   background:#1C1C1C;scroll-snap-align:start;border-radius:18px;
-  /* FA: glass card */
   border:1px solid rgba(255,255,255,.1);
   box-shadow:0 4px 20px rgba(0,0,0,.4),0 0 0 1px rgba(240,240,240,.05);
   transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;
@@ -415,7 +368,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .res-abstract.open{display:block}
 .res-abstract p{font-size:.88rem;line-height:1.78;color:var(--fg-dim);margin-bottom:.8rem}
 
-/* -- MODAL — FA deep glass -- */
+/* -- MODAL -- */
 .modal{
   position:fixed;inset:0;z-index:800;background:rgba(4,5,12,.88);
   backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
@@ -425,12 +378,10 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 }
 .modal.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease}
 .m-wrap{
-  /* FA: strong glass panel */
   background:rgba(13,14,24,.92);
   backdrop-filter:blur(28px) saturate(1.6);
   -webkit-backdrop-filter:blur(28px) saturate(1.6);
   border:1px solid rgba(240,240,240,.18);
-  /* FA: top sheen */
   box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 1px 0 rgba(255,255,255,.1) inset,0 32px 80px rgba(0,0,0,.7),0 0 60px rgba(240,240,240,.06);
   max-width:920px;width:100%;max-height:90vh;overflow-y:auto;
   border-radius:12px;position:relative;
@@ -502,9 +453,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .ft-right a{font-family:var(--mono);font-size:.58rem;color:rgba(232,232,232,.55);letter-spacing:.1em;transition:color .3s;text-decoration:none}
 .ft-right a:hover{color:rgba(240,240,240,.85)}
 
-/* -- SCROLL % -- */
-#scroll-pct{position:fixed;bottom:1.5rem;right:2rem;z-index:200;font-family:var(--mono);font-size:.62rem;color:rgba(240,240,240,.85)}
-
 /* -- MOBILE -- */
 .n-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:400}
 .n-burger span{display:block;width:22px;height:1px;background:rgba(232,232,232,.6);transition:transform .25s cubic-bezier(.23,1,.32,1),opacity .2s ease}
@@ -513,14 +461,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .n-burger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
 .n-mobile-overlay{display:none;position:fixed;inset:0;z-index:350;background:rgba(28,28,28,.9);backdrop-filter:blur(12px)}
 .n-mobile-overlay.open{display:block}
-#sky{position:fixed;inset:0;z-index:0;pointer-events:none;background:#1C1C1C}
-#stars-layer{position:fixed;inset:0;z-index:1;pointer-events:none}
-#sun{
-  position:fixed;width:80px;height:80px;border-radius:50%;
-  z-index:1;pointer-events:none;display:none;opacity:0;
-  background:radial-gradient(circle at 35% 32%,rgba(245,245,245,.95) 0%,rgba(215,215,215,.5) 32%,rgba(200,200,200,.14) 62%,transparent 78%);
-  filter:blur(2px);
-}
 @media(max-width:768px){
   .cc-grid{grid-template-columns:1fr 1fr;grid-auto-flow:dense}
   .cc.cc-wide{grid-column:span 2;aspect-ratio:16/9}
@@ -544,7 +484,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 }
 
 /* ============================================================
-   GATE - Frutiger Aero entrance
+   Gate
    ============================================================ */
 #gate{
   position:fixed;inset:0;z-index:700;
@@ -556,38 +496,18 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 #gate::before{
   content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(ellipse 85% 42% at 50% 112%, rgba(240,240,240,.42) 0%,rgba(240,240,240,.1) 40%,transparent 65%),
-    radial-gradient(ellipse 55% 32% at 15% 88%, rgba(170,170,170,.18) 0%,transparent 55%),
-    radial-gradient(ellipse 38% 28% at 88% 14%, rgba(240,240,240,.12) 0%,transparent 55%);
+    linear-gradient(90deg, rgba(255,255,255,.08), transparent 18%, transparent 82%, rgba(255,255,255,.05)),
+    linear-gradient(180deg, transparent 0%, rgba(255,255,255,.045) 100%);
 }
 #gate::after{
   content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background-image:linear-gradient(rgba(240,240,240,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(240,240,240,.018) 1px,transparent 1px);
   background-size:56px 56px;
 }
-#gate-c{position:absolute;inset:0;z-index:1;pointer-events:none}
-.g-orbs{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.g-orb{position:absolute;border-radius:50%;
-  background:radial-gradient(circle at 35% 32%,rgba(250,250,250,.95) 0%,rgba(240,240,240,.55) 32%,rgba(240,240,240,.14) 62%,transparent 78%);
-  animation:gorbFloat 9s ease-in-out infinite;will-change:transform}
-.g-orb-1{width:220px;height:220px;left:8%;top:18%;filter:blur(1px);animation-duration:11s}
-.g-orb-2{width:120px;height:120px;left:22%;top:56%;filter:blur(3px);opacity:.8;animation-duration:8.5s;animation-delay:-2s}
-.g-orb-3{width:340px;height:340px;right:6%;top:8%;filter:blur(6px);opacity:.55;animation-duration:13s;animation-delay:-5s;
-  background:radial-gradient(circle at 35% 32%,rgba(205,205,205,.85) 0%,rgba(170,170,170,.5) 32%,rgba(170,170,170,.12) 62%,transparent 78%)}
-.g-orb-4{width:160px;height:160px;right:16%;top:52%;filter:blur(4px);opacity:.7;animation-duration:10s;animation-delay:-3.5s}
-.g-orb-5{width:90px;height:90px;left:48%;top:30%;filter:blur(2px);opacity:.6;animation-duration:7.5s;animation-delay:-1s;
-  background:radial-gradient(circle at 35% 32%,rgba(205,205,205,.85) 0%,rgba(170,170,170,.5) 32%,rgba(170,170,170,.12) 62%,transparent 78%)}
-@keyframes gorbFloat{0%,100%{transform:translate(0,0)}50%{transform:translate(1.5%,-3%)}}
-@media(prefers-reduced-motion:reduce){.g-orb{animation:none}}
 .g-top-bar{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:3}
 .g-time{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:rgba(240,240,240,.85)}
 .g-coords{font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;color:rgba(240,240,240,.85);text-align:right;line-height:1.9}
 .g-mid{flex:1;position:relative;z-index:2}
-.g-pulse{position:absolute;top:40%;left:30%;transform:translate(-50%,-50%);pointer-events:none}
-.g-pulse::before,.g-pulse::after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(240,240,240,.1);transform:translate(-50%,-50%);animation:gpulse 5.5s ease-in-out infinite}
-.g-pulse::before{width:440px;height:440px}
-.g-pulse::after{width:270px;height:270px;animation-delay:-1.8s;border-color:rgba(170,170,170,.08)}
-@keyframes gpulse{0%,100%{opacity:.2;transform:translate(-50%,-50%) scale(.93)}50%{opacity:.5;transform:translate(-50%,-50%) scale(1.07)}}
 .g-bottom{display:flex;flex-direction:column;align-items:flex-start;gap:0;position:relative;z-index:3}
 .g-divider{width:52px;height:1px;margin-bottom:1.4rem;background:linear-gradient(to right,rgba(240,240,240,.85),rgba(170,170,170,.3),transparent)}
 .g-name-wrap{overflow:hidden;margin-bottom:.6rem}
@@ -611,41 +531,22 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 @media(max-width:768px){
   #gate{padding:1.8rem 1.8rem 3.4rem}
   .g-name-i{font-size:clamp(2.6rem,11vw,4.5rem)}
-  .g-pulse::before{width:260px;height:260px}
-  .g-pulse::after{width:160px;height:160px}
 }
 </style>
 </head>
 <body>
 <div id="app">
-  <div id="sky"></div>
-  
-  <video id="cloud-vid" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/clouds-scroll.mp4" muted playsinline preload="metadata" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;pointer-events:none;display:none"></video>
-  <div id="stars-layer"></div>
-  <div id="sun"></div>
-
   <div id="loader">
     <div class="ld-name">Jeffrey N. Tse</div>
   </div>
 
   <div id="gate">
-    <canvas id="gate-c"></canvas>
-    <div class="g-orbs" aria-hidden="true">
-      <span class="g-orb g-orb-1"></span>
-      <span class="g-orb g-orb-2"></span>
-      <span class="g-orb g-orb-3"></span>
-      <span class="g-orb g-orb-4"></span>
-      <span class="g-orb g-orb-5"></span>
-    </div>
-
     <div class="g-top-bar">
       <div class="g-time" id="g-time"></div>
       <div class="g-coords">22.3193&deg; N &nbsp;114.1694&deg; E</div>
     </div>
 
-    <div class="g-mid">
-      <div class="g-pulse"></div>
-    </div>
+    <div class="g-mid"></div>
 
     <div class="g-bottom">
       <div class="g-divider"></div>
@@ -656,11 +557,12 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
       <div class="g-hint">Click anywhere to enter</div>
       <button class="g-btn" id="g-btn" onclick="enterSite()">Enter &rarr;</button>
     </div>
-  </div>  <nav id="nav">
+  </div>
+  <nav id="nav">
     <a href="#" class="n-logo">JNT</a>
     <ul class="n-links" id="n-links">
-      <li><a href="#about" onclick="closeMenu()">About</a></li>
       <li><a href="#projects" onclick="closeMenu()">Work</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
       <li><a href="#writing" onclick="closeMenu()">Writing</a></li>
       <li><a href="#creative" onclick="closeMenu()">Worlds</a></li>
       <li><a href="#curatorial" onclick="closeMenu()">Exhibitions</a></li>
@@ -677,25 +579,21 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 
   <div id="world">
     <section id="hero">
-      <div class="h-geo-circle"></div>
-      <div class="h-geo-dot"></div>
-      <div class="h-geo-dots"></div>
-      <div class="h-name-glass"></div>
       <h1 class="h-name">
         <span class="h-line" id="h1">Jeffrey</span>
         <span class="h-line" id="h2">N.&thinsp;Tse</span>
       </h1>
       <div class="h-bottom">
         <div class="h-eye">Hong Kong</div>
-        <p class="h-stmt">Builds strange, useful systems: pet first-aid commerce, a toilet-paper archive, an AI-haunted dating sim, a smart-glasses teleprompter, and a Cantonese-native relationship coach.</p>
-      </div>
-      <div class="h-ticker">
-        <div class="h-ticker-inner">
-          PawsAid &nbsp;·&nbsp; ROLL CALL &nbsp;·&nbsp; ECHO &nbsp;·&nbsp; SPECTOR &nbsp;·&nbsp; SELTA &nbsp;·&nbsp; Noru &nbsp;·&nbsp; Product Engineering &nbsp;·&nbsp; AI Systems &nbsp;·&nbsp; Interactive Narrative &nbsp;·&nbsp; Brand Direction &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp;
-          PawsAid &nbsp;·&nbsp; ROLL CALL &nbsp;·&nbsp; ECHO &nbsp;·&nbsp; SPECTOR &nbsp;·&nbsp; SELTA &nbsp;·&nbsp; Noru &nbsp;·&nbsp; Product Engineering &nbsp;·&nbsp; AI Systems &nbsp;·&nbsp; Interactive Narrative &nbsp;·&nbsp; Brand Direction &nbsp;·&nbsp; Material Culture &nbsp;·&nbsp;
-        </div>
+        <p class="h-stmt">Designs and ships software, archives, and worlds where technical systems meet cultural behavior.</p>
       </div>
     </section>
+
+    <section id="projects">
+      <div class="sec-hd"><span class="sec-n">00</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
+      <div id="pjList"></div>
+    </section>
+
 
     
 
@@ -704,8 +602,8 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
         <div class="ab-img-wrap"><img class="ab-img" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse" loading="lazy"></div>
         <div>
           
-          <p class="ab-p">Jeffrey N. Tse is a Hong Kong-based builder working across product engineering, brand systems, cultural research, and AI-assisted creative production. His strongest work does not sit neatly in one lane: PawsAid is a real pet first-aid brand and bilingual commerce stack; ROLL CALL is a public archive with a research methodology; ECHO is an AI-mediated interactive narrative; SPECTOR is an open-source PWA for the smart-glasses era; SELTA is a Cantonese-native AI relationship coach.</p>
-          <p class="ab-p">The academic and curatorial background matters because it gives the products a point of view. The same attention that catalogues a toilet-paper specimen by ply, scent, price, and provenance also shapes the way a checkout flow, AI assistant, or teleprompter engine is designed: specific, legible, and built around how people actually behave.</p>
+          <p class="ab-p">Jeffrey N. Tse is a Hong Kong-based creative technologist and strategist working across product, narrative, AI systems, brand, and cultural research.</p>
+          <p class="ab-p">His work starts from close observation: overlooked behaviours, objects, and interfaces become systems people can use, read, play, or question.</p>
           <div class="ab-links">
             <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
             <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
@@ -714,11 +612,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
           </div>
         </div>
       </div>
-    </section>
-
-    <section id="projects">
-      <div class="sec-hd"><span class="sec-n">00</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
-      <div id="pjList"></div>
     </section>
 
 
@@ -784,8 +677,6 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
     </div>
   </footer>
   </div>
-
-  <div id="scroll-pct"><span id="spn">00</span>%</div>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="m-wrap">
@@ -1014,86 +905,8 @@ function tick(){
 }
 tick(); setInterval(tick,1000);
 
-// -- SKY --
-var skyEl=document.getElementById("sky");
-var skyC=[
-  {t:0,top:[30,30,30],bot:[22,22,22]},
-  {t:.2,top:[35,35,35],bot:[27,27,27]},
-  {t:.4,top:[41,41,41],bot:[30,30,30]},
-  {t:.6,top:[37,37,37],bot:[27,27,27]},
-  {t:.8,top:[32,32,32],bot:[23,23,23]},
-  {t:1,top:[30,30,30],bot:[22,22,22]}
-];
-function lerpC(a,b,t){return a.map(function(v,i){return Math.round(v+(b[i]-v)*t)}).join(",")}
-function setSky(pct){
-  var i=0;
-  while(i<skyC.length-2&&!(pct<=skyC[i+1].t)) i++;
-  var a=skyC[i],nb=skyC[i+1]||skyC[i];
-  var f=nb.t>a.t?(pct-a.t)/(nb.t-a.t):1;
-  if(skyEl) skyEl.style.background="linear-gradient(180deg,rgb("+lerpC(a.top,nb.top,f)+") 0%,rgb("+lerpC(a.bot,nb.bot,f)+") 100%)";
-}
-setSky(0);
-
-// -- WORLD STARS: animated drift + scroll parallax --
-var sl=document.getElementById("stars-layer");
-var wStars=[];
-if(sl){
-  var wsc=document.createElement("canvas");
-  wsc.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:15";
-  wsc.width=window.innerWidth; wsc.height=window.innerHeight;
-  var wctx=wsc.getContext("2d");
-  for(var wi=0;wi<180;wi++) wStars.push({
-    x:Math.random(), y:Math.random(),
-    r:.15+Math.random()*.7,
-    a:.07+Math.random()*.42,
-    dx:(Math.random()-.5)*.00007,
-    dy:(Math.random()-.5)*.00004,
-    phase:Math.random()*Math.PI*2,
-    speed:.2+Math.random()*.5,
-    depth:.2+Math.random()*.8
-  });
-  sl.appendChild(wsc);
-  (function animWorldStars(){
-    if(!wctx){requestAnimationFrame(animWorldStars);return;}
-    var sw=wsc.width, sh=wsc.height;
-    wctx.clearRect(0,0,sw,sh);
-    var wt=performance.now()*.001;
-    var scrollPct=window.scrollY/Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
-    var starVis=Math.max(0,1-scrollPct*2.5);
-    if(starVis>0.01){
-      wStars.forEach(function(s){
-        s.x=(s.x+s.dx+1)%1;
-        s.y=(s.y+s.dy+1)%1;
-        var tw=.55+.45*Math.sin(wt*s.speed+s.phase);
-        var al=s.a*tw*starVis;
-        var vy=(s.y*sh+window.scrollY*0.05*s.depth)%sh;
-        wctx.beginPath();
-        wctx.arc(s.x*sw,vy,s.r,0,Math.PI*2);
-        wctx.fillStyle="rgba(210,210,210,"+al+")";
-        wctx.fill();
-      });
-    }
-    requestAnimationFrame(animWorldStars);
-  })();
-  window.addEventListener("resize",function(){
-    wsc.width=window.innerWidth; wsc.height=window.innerHeight;
-  });
-}
-
-// -- SCROLL --
-// Cloud video setup
-var cloudVid = document.getElementById("cloud-vid");
-if(cloudVid){
-  cloudVid.addEventListener("loadedmetadata", function(){
-    cloudVid.currentTime = 0;
-  });
-}
-
 // -- PARALLAX --
-var pxHeroCircle=document.querySelector(".h-geo-circle"),
-    pxHeroDots=document.querySelector(".h-geo-dots"),
-    pxHeroGlass=document.querySelector(".h-name-glass"),
-    pxHeroName=document.querySelector(".h-name"),
+var pxHeroName=document.querySelector(".h-name"),
     pxSecNums=null, pxTicking=false;
 function refreshParallaxTargets(){
   pxSecNums=[].slice.call(document.querySelectorAll(".sec-n"));
@@ -1106,9 +919,6 @@ function applyParallax(){
   // Hero: background elements drift slower than the page, foreground drifts slightly faster —
   // real depth, not just a fade-in-once reveal.
   var hp=Math.min(sy,vh*1.3);
-  if(pxHeroCircle) pxHeroCircle.style.transform="translateY(calc(-52% + "+(hp*0.32).toFixed(1)+"px)) scale("+(1+hp*0.00035).toFixed(3)+")";
-  if(pxHeroDots) pxHeroDots.style.transform="translateY("+(hp*0.46).toFixed(1)+"px)";
-  if(pxHeroGlass) pxHeroGlass.style.transform="translateY("+(hp*0.18).toFixed(1)+"px)";
   if(pxHeroName) pxHeroName.style.transform="translateY("+(-hp*0.12).toFixed(1)+"px)";
   // Section watermark numerals: subtle drift as each header crosses the viewport.
   if(pxSecNums) pxSecNums.forEach(function(el){
@@ -1123,238 +933,9 @@ window.addEventListener("scroll",onParallaxScroll,{passive:true});
 window.addEventListener("resize",function(){ refreshParallaxTargets(); applyParallax(); });
 
 window.addEventListener("scroll",function(){
-  var h=document.documentElement.scrollHeight-window.innerHeight;
-  var pct=h>0?window.scrollY/h:0;
-  var sp=document.getElementById("spn");
-  if(sp) sp.textContent=String(Math.round(pct*100)).padStart(2,"0");
-  setSky(pct);
-  // Sun arc
-  var sun=document.getElementById("sun");
-  if(sun && pct > 0.07 && pct < 0.88){
-    sun.style.display="block";
-    var sunPct=(pct-0.07)/0.81;
-    var angle=sunPct*Math.PI*0.9;
-    var sx=window.innerWidth*0.68+Math.cos(Math.PI*0.1-angle)*window.innerWidth*0.44;
-    var sy=window.innerHeight*(0.72-Math.sin(angle)*0.55);
-    var intensity=Math.sin(angle);
-    sun.style.opacity=intensity*0.9;
-    sun.style.left=(sx-40)+"px";
-    sun.style.top=(sy-40)+"px";
-  } else if(sun){ sun.style.display="none"; }
-  // Scrub cloud video
-  if(cloudVid && pct > 0.05 && pct < 0.92){
-    if(cloudVid.style.display!=="block") cloudVid.style.display="block";
-    if(!cloudVid.dataset.loaded){
-      cloudVid.dataset.loaded="1";
-      cloudVid.load();
-    }
-    if(cloudVid.duration) cloudVid.currentTime = pct * cloudVid.duration;
-    cloudVid.style.opacity = Math.min((pct-0.05)/0.15, 1) * Math.min((0.92-pct)/0.1, 1) * 0.6;
-  } else if(cloudVid){
-    cloudVid.style.opacity = "0";
-    if(pct <= 0.02 || pct >= 0.95) cloudVid.style.display="none";
-  }
   var nav=document.getElementById("nav");
   if(nav) nav.classList.toggle("scrolled",window.scrollY>50);
 },{passive:true});
-
-// -- GATE: GALAXY + CURSOR TRAILING STARS --
-setTimeout(function(){
-var gc_el=document.getElementById("gate-c");
-if(gc_el){
-  var _dpr=window.devicePixelRatio||1;
-  var gW=window.innerWidth;
-  var gH=window.innerHeight;
-  gc_el.width=gW*_dpr; gc_el.height=gH*_dpr;
-  gc_el.style.width=gW+"px"; gc_el.style.height=gH+"px";
-  var gc=gc_el.getContext("2d");
-  gc.scale(_dpr,_dpr);
-  var gmx=gW/2, gmy=gH/2;
-  var trailStars=[]; // stars that follow cursor
-  var explosions=[];
-  var gateEl=document.getElementById("gate");
-
-  // -- BACKGROUND STARS --
-  var gStars=[];
-  function makeGalaxy(){
-    gStars=[];
-    // Far stars — dense, tiny
-    for(var i=0;i<320;i++) gStars.push({
-      x:Math.random()*gW, y:Math.random()*gH,
-      r:.15+Math.random()*.45,
-      a:.04+Math.random()*.2,
-      phase:Math.random()*Math.PI*2,
-      speed:.4+Math.random()*.8,
-      dx:(Math.random()-.5)*.12,
-      dy:(Math.random()-.5)*.08
-    });
-    // Mid stars
-    for(var i=0;i<80;i++) gStars.push({
-      x:Math.random()*gW, y:Math.random()*gH,
-      r:.4+Math.random()*.7,
-      a:.1+Math.random()*.3,
-      phase:Math.random()*Math.PI*2,
-      speed:.25+Math.random()*.5,
-      dx:(Math.random()-.5)*.1,
-      dy:(Math.random()-.5)*.07
-    });
-    // Bright foreground stars — few but impactful
-    for(var i=0;i<18;i++) gStars.push({
-      x:Math.random()*gW, y:Math.random()*gH,
-      r:.9+Math.random()*1.4,
-      a:.35+Math.random()*.5,
-      phase:Math.random()*Math.PI*2,
-      speed:.12+Math.random()*.25,
-      dx:(Math.random()-.5)*.06,
-      dy:(Math.random()-.5)*.04,
-      bright:true
-    });
-  }
-  makeGalaxy();
-
-  // -- CURSOR TRAIL: spawn stars at cursor position --
-  var lastSpawnX=gmx, lastSpawnY=gmy;
-  gateEl.addEventListener("mousemove",function(e){
-    gmx=e.clientX; gmy=e.clientY;
-    var dist=Math.hypot(gmx-lastSpawnX,gmy-lastSpawnY);
-    // Spawn trail stars based on movement speed
-    if(dist>2){
-      var count=Math.min(6,Math.floor(dist/5));
-      for(var i=0;i<count;i++){
-        var t=i/count;
-        trailStars.push({
-          x:lastSpawnX+(gmx-lastSpawnX)*t + (Math.random()-.5)*6,
-          y:lastSpawnY+(gmy-lastSpawnY)*t + (Math.random()-.5)*6,
-          r:.8+Math.random()*2.2,
-          a:0.9+Math.random()*.1,
-          vx:(Math.random()-.5)*.8,
-          vy:(Math.random()-.5)*.8 - .5,
-          life:1,
-          decay:.012+Math.random()*.018,
-          hue:Math.random()>.7?42:0 // mostly white, some gold
-        });
-      }
-      lastSpawnX=gmx; lastSpawnY=gmy;
-    }
-  });
-
-  gateEl.addEventListener("mouseleave",function(){
-    gmx=gW/2; gmy=gH/2;
-  });
-
-  // -- CLICK EXPLOSION --
-  gateEl.addEventListener("click",function(e){
-    var burst=[];
-    for(var i=0;i<80;i++){
-      var angle=Math.random()*Math.PI*2;
-      var speed=.8+Math.random()*5;
-      var isGold=Math.random()>.6;
-      burst.push({
-        x:e.clientX, y:e.clientY,
-        vx:Math.cos(angle)*speed,
-        vy:Math.sin(angle)*speed,
-        r:.3+Math.random()*1.5,
-        a:1,
-        decay:.012+Math.random()*.02,
-        gold:isGold
-      });
-    }
-    explosions.push(burst);
-    // Also spawn a ring burst
-    for(var i=0;i<30;i++){
-      var angle=(i/30)*Math.PI*2;
-      var speed=3+Math.random()*2;
-      burst.push({
-        x:e.clientX, y:e.clientY,
-        vx:Math.cos(angle)*speed,
-        vy:Math.sin(angle)*speed,
-        r:.2+Math.random()*.6,
-        a:.8,
-        decay:.008+Math.random()*.015,
-        gold:true
-      });
-    }
-  });
-
-  // -- RENDER --
-  function drawGate(){
-    // Fade trail instead of full clear — creates motion blur effect
-    gc.fillStyle="rgba(28,28,28,0.15)";
-    gc.fillRect(0,0,gW,gH);
-    var t=performance.now()*.001;
-
-    // Background stars — drift + twinkle + glow
-    gStars.forEach(function(s){
-      s.x=(s.x+(s.dx||0)+gW)%gW;
-      s.y=(s.y+(s.dy||0)+gH)%gH;
-      var tw=.5+.5*Math.sin(t*s.speed+s.phase);
-      var al=s.a*(.55+.45*tw);
-      if(s.bright){
-        // Halo glow for bright stars
-        var grd=gc.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*6);
-        grd.addColorStop(0,"rgba(222,222,222,"+al+")");
-        grd.addColorStop(.4,"rgba(205,205,205,"+(al*.35)+")");
-        grd.addColorStop(1,"rgba(0,0,0,0)");
-        gc.fillStyle=grd;
-        gc.beginPath();gc.arc(s.x,s.y,s.r*6,0,Math.PI*2);gc.fill();
-        // Core
-        gc.fillStyle="rgba(238,238,238,"+Math.min(1,al*1.5)+")";
-        gc.beginPath();gc.arc(s.x,s.y,s.r,0,Math.PI*2);gc.fill();
-      } else {
-        gc.fillStyle="rgba(206,206,206,"+al+")";
-        gc.beginPath();gc.arc(s.x,s.y,s.r,0,Math.PI*2);gc.fill();
-      }
-    });
-
-    // Cursor trail stars
-    trailStars=trailStars.filter(function(s){ return s.life>0; });
-    trailStars.forEach(function(s){
-      s.x+=s.vx; s.y+=s.vy;
-      s.vy-=.01; // float up slightly
-      s.life-=s.decay;
-      var al=s.life*s.a;
-      gc.beginPath();
-      gc.arc(s.x,s.y,Math.max(0.01,s.r*s.life),0,Math.PI*2);
-      if(s.hue===42){
-        gc.fillStyle="rgba(200,200,200,"+al+")"; // gold
-      } else {
-        gc.fillStyle="rgba(225,225,225,"+al+")"; // white
-      }
-      gc.fill();
-    });
-
-    // Explosions
-    explosions.forEach(function(burst,bi){
-      var alive=false;
-      burst.forEach(function(p){
-        if(p.a<=0) return;
-        p.x+=p.vx; p.y+=p.vy;
-        p.vy+=.04;
-        p.vx*=.98; p.vy*=.98;
-        p.a-=p.decay;
-        var al=Math.max(0,p.a);
-        gc.beginPath();
-        if(p.r>0){gc.arc(p.x,p.y,Math.max(0.01,p.r),0,Math.PI*2);
-        gc.fillStyle=p.gold?"rgba(200,200,200,"+al+")":"rgba(225,225,225,"+al+")";
-        gc.fill();}
-        if(p.a>0) alive=true;
-      });
-      if(!alive) explosions.splice(bi,1);
-    });
-
-    requestAnimationFrame(drawGate);
-  }
-  drawGate();
-
-  window.addEventListener("resize",function(){
-    gW=window.innerWidth; gH=window.innerHeight;
-    gc_el.width=gW*_dpr; gc_el.height=gH*_dpr;
-    gc_el.style.width=gW+"px"; gc_el.style.height=gH+"px";
-    gc.scale(_dpr,_dpr);
-    makeGalaxy();
-  });
-}
-},50);
 
 // -- GATE ANIMATION --
 setTimeout(function(){
@@ -1993,15 +1574,6 @@ function revealOnScroll(){
 
   // 4. Creative card mouse parallax — bound for real once cards exist (see enterSite)
   bindCardTilt();
-
-  // 5. Floating Frutiger Aero rings on sections
-  [{id:'creative',w:300,t:'8%',r:'-70px',o:.06},{id:'editorial',w:200,t:'20%',l:'-50px',o:.05},{id:'curatorial',w:260,b:'10%',r:'-60px',o:.05}].forEach(function(cfg){
-    var s=document.getElementById(cfg.id);
-    if(!s) return;
-    var ring=document.createElement('div');
-    ring.style.cssText='position:absolute;border-radius:50%;border:1px solid rgba(240,240,240,'+cfg.o+');pointer-events:none;z-index:0;width:'+cfg.w+'px;height:'+cfg.w+'px;'+(cfg.t?'top:'+cfg.t+';':'')+(cfg.b?'bottom:'+cfg.b+';':'')+(cfg.r?'right:'+cfg.r+';':'')+(cfg.l?'left:'+cfg.l+';':'');
-    s.style.overflow='hidden'; s.appendChild(ring);
-  });
 
   refreshParallaxTargets();
   applyParallax();
