@@ -442,7 +442,7 @@ function closeModal(){
 }
 function cardMedia(item){
   const first=(item.media||[]).find(m=>m.type==="video");
-  if(first) return `<video src="${first.src}" poster="${first.poster||item.img}" muted loop playsinline preload="metadata"></video>`;
+  if(first) return `<video class="motion-thumb" src="${first.src}" poster="${first.poster||item.img}" muted loop playsinline preload="auto"></video>`;
   return `<img src="${item.img}" alt="${item.title}" loading="eager" decoding="async">`;
 }
 function renderProjects(){
@@ -473,9 +473,15 @@ function hydrate(){
     const map={project:projects,worldGrid:worlds,writingList:writing,researchList:research};
     openItem(map[btn.dataset.kind][Number(btn.dataset.i)]);
   });
-  document.querySelectorAll(".card video,.project-card video").forEach(v=>{
-    v.addEventListener("mouseenter",()=>v.play().catch(()=>{}));
-    v.addEventListener("mouseleave",()=>{v.pause(); v.currentTime=0;});
+  document.querySelectorAll(".card,.project-card").forEach(card=>{
+    const v=card.querySelector("video");
+    if(!v) return;
+    const play=()=>v.play().catch(()=>{});
+    const reset=()=>{v.pause(); v.currentTime=0;};
+    card.addEventListener("pointerenter",play);
+    card.addEventListener("focusin",play);
+    card.addEventListener("pointerleave",reset);
+    card.addEventListener("focusout",reset);
   });
 }
 document.getElementById("closeModal").addEventListener("click",closeModal);
