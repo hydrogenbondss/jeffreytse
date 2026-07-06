@@ -108,15 +108,21 @@ body::before{
 
 /* -- HERO -- */
 #hero{
-  min-height:88vh;
+  min-height:92vh;
   padding:0 2.4rem 3rem;
-  display:flex;flex-direction:column;justify-content:flex-end;
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);align-items:end;gap:3rem;
   position:relative;overflow:hidden;
 }
+#hero::after{
+  content:'';position:absolute;inset:auto 0 0 0;height:38%;
+  background:linear-gradient(to top,var(--bg),transparent);
+  pointer-events:none;z-index:1;
+}
+.h-copy{position:relative;z-index:2;padding-bottom:1rem}
 .h-name{
   position:relative;z-index:2;
   font-family:var(--display);
-  font-size:clamp(5.5rem,15vw,14rem);
+  font-size:clamp(4.8rem,12vw,12rem);
   font-weight:600;line-height:.9;letter-spacing:-.03em;
   padding-top:clamp(7rem,16vh,13rem);margin-bottom:1.4rem;
 }
@@ -126,7 +132,24 @@ body::before{
 #h2{color:transparent;-webkit-text-stroke:1.5px rgba(235,235,235,.4);margin-left:clamp(1.5rem,5vw,6rem)}
 .h-bottom{display:flex;align-items:baseline;gap:2.5rem;position:relative;z-index:2;margin-bottom:1.4rem}
 .h-eye{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,240,.85)}
-.h-stmt{font-size:.95rem;color:var(--fg-dim);font-weight:300;line-height:1.65;max-width:480px}
+.h-stmt{font-size:1.02rem;color:rgba(235,235,235,.72);font-weight:300;line-height:1.7;max-width:620px}
+.h-proof{
+  position:relative;z-index:2;align-self:center;width:100%;
+  display:grid;grid-template-columns:1.08fr .82fr;gap:12px;
+  padding-top:7.2rem;
+}
+.h-proof figure{
+  position:relative;overflow:hidden;border:1px solid rgba(240,240,240,.16);
+  background:#07080d;box-shadow:0 30px 90px rgba(0,0,0,.48);
+}
+.h-proof figure:first-child{grid-row:span 2;aspect-ratio:4/5;border-radius:22px}
+.h-proof figure:not(:first-child){aspect-ratio:4/3;border-radius:18px}
+.h-proof img,.h-proof video{width:100%;height:100%;display:block;object-fit:cover}
+.h-proof figcaption{
+  position:absolute;left:12px;right:12px;bottom:12px;
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.82);text-shadow:0 1px 18px rgba(0,0,0,.85);
+}
 
 /* -- SECTIONS BASE -- */
 section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:relative;z-index:1}
@@ -184,7 +207,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 /* -- PROJECTS -- */
 #pjList{display:flex;flex-direction:column;gap:3px}
 .pj-row{
-  display:grid;grid-template-columns:52px 1fr auto;
+  display:grid;grid-template-columns:52px minmax(0,1fr) minmax(230px,300px);
   align-items:start;gap:2rem;padding:2rem 1.8rem;
   background:var(--glass);
   backdrop-filter:blur(20px) saturate(1.5);
@@ -225,7 +248,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .pj-badge{font-family:var(--mono);font-size:.58rem;padding:.25rem .65rem;border-radius:999px;letter-spacing:.08em;white-space:nowrap}
 .b-live{background:rgba(240,240,240,.15);color:rgba(240,240,240,1);border:1px solid rgba(240,240,240,.35);box-shadow:0 0 10px rgba(240,240,240,.1)}
 .b-dev{background:rgba(140,140,140,.1);color:rgba(140,140,140,.9);border:1px solid rgba(140,140,140,.28)}
-.pj-peek3d{width:130px;height:96px;overflow:hidden;border-radius:14px;flex-shrink:0;margin-top:.3rem;border:1px solid rgba(240,240,240,.14);position:relative;background:rgba(255,255,255,.03)}
+.pj-peek3d{width:100%;height:170px;overflow:hidden;border-radius:18px;flex-shrink:0;margin-top:.55rem;border:1px solid rgba(240,240,240,.14);position:relative;background:rgba(255,255,255,.03)}
 .pj-peek3d canvas{display:block;width:100%;height:100%}
 
 /* -- CREATIVE -- */
@@ -400,7 +423,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   box-shadow:0 1px 0 rgba(255,255,255,.05);
 }
 .m-close:hover{color:var(--teal)}
-.m-media{background:rgba(6,7,14,.95);display:flex;align-items:center;justify-content:center;padding:2rem;min-height:300px}
+.m-media{background:rgba(6,7,14,.95);display:flex;align-items:center;justify-content:center;padding:2rem;min-height:300px;position:relative}
 .m-info{padding:2.4rem}
 .m-cat{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,.78);margin-bottom:.75rem}
 .m-title{font-size:1.38rem;font-weight:700;margin-bottom:.5rem}
@@ -424,6 +447,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   box-shadow:0 0 10px rgba(240,240,240,.06);
 }
 .m-nav-btn:hover{background:rgba(240,240,240,.2);border-color:rgba(240,240,240,.65);box-shadow:0 0 18px rgba(240,240,240,.18)}
+.m-nav-btn:active{transform:scale(.97)}
 .m-nav-ct{font-family:var(--mono);font-size:.62rem;color:var(--fg-dim)}
 /* Carousel (PabePabe) */
 .carousel{position:relative;width:100%}
@@ -473,8 +497,10 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
   .n-burger{display:flex}
   #nav-clock{display:none}
   .pj-row{grid-template-columns:36px 1fr}.pj-meta{display:none}.pj-peek3d{display:none}
-  #hero{padding:0 1.5rem}
+  #hero{padding:0 1.5rem;grid-template-columns:1fr;gap:1.5rem}
   .h-name{font-size:clamp(4rem,14vw,8rem)}
+  .h-proof{padding-top:0;grid-template-columns:1fr 1fr}
+  .h-proof figure:first-child{grid-column:span 2;aspect-ratio:16/10}
   section{padding:5rem 1.5rem}
   #nav{padding:1.2rem 1.5rem}
   .cur-row{grid-template-columns:60px 1fr;gap:1rem}.cur-role{display:none}
@@ -579,13 +605,29 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 
   <div id="world">
     <section id="hero">
-      <h1 class="h-name">
-        <span class="h-line" id="h1">Jeffrey</span>
-        <span class="h-line" id="h2">N.&thinsp;Tse</span>
-      </h1>
-      <div class="h-bottom">
-        <div class="h-eye">Hong Kong</div>
-        <p class="h-stmt">Designs and ships software, archives, and worlds where technical systems meet cultural behavior.</p>
+      <div class="h-copy">
+        <h1 class="h-name">
+          <span class="h-line" id="h1">Jeffrey</span>
+          <span class="h-line" id="h2">N.&thinsp;Tse</span>
+        </h1>
+        <div class="h-bottom">
+          <div class="h-eye">Hong Kong</div>
+          <p class="h-stmt">Creative technologist and strategist building AI products, cultural archives, interactive narratives, brand systems, and playable worlds.</p>
+        </div>
+      </div>
+      <div class="h-proof" aria-label="Selected work preview">
+        <figure>
+          <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pawsaid-thumb.jpg" alt="PawsAid product preview" loading="eager">
+          <figcaption>PawsAid</figcaption>
+        </figure>
+        <figure>
+          <img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/rollcall-thumb.jpg" alt="ROLL CALL archive preview" loading="eager">
+          <figcaption>ROLL CALL</figcaption>
+        </figure>
+        <figure>
+          <video src="assets/ash/ash-hover.mp4" poster="assets/ash/ash-hover-poster.jpg" muted autoplay loop playsinline></video>
+          <figcaption>Ash</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -693,7 +735,7 @@ var b=[
   {n:`01`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A Hong Kong pet first-aid brand built from zero: product, bilingual store, AI support, and fulfillment workflow.`,
    role:`Co-Founder · Brand Direction · Product Design · Engineering`,
-   showcase:`${T}pawsaid-hero.jpg`,
+   showcase:`${T}pawsaid-thumb.jpg`,
    images:[
      {src:`${T}pawsaid-logo.jpg`,caption:`PawsAid logo`},
      {src:`${T}pawsaid-campaign.png`,caption:`PawsAid campaign graphic`},
@@ -702,25 +744,25 @@ var b=[
      {src:`${T}pawsaid-kit-plus.jpg`,caption:`Plus Kit`},
      {src:`${T}pawsaid-hero.jpg`,caption:`PawsAid kit lineup`}
    ],
-   img:`${T}pawsaid-hero.jpg`,
+   img:`${T}pawsaid-thumb.jpg`,
    video:null,
    desc:`PawsAid started from a practical gap: Hong Kong pet owners did not have a clear, credible first-aid kit they could buy, understand, and actually use under stress.\n\nThe work spans the whole company surface: three kit tiers, product and packaging direction, bilingual English/Traditional Chinese commerce, order workflows, first-aid content, tutorials, a symptom checker, and Boris — an AI pet-health assistant designed with emergency guardrails and Hong Kong vet escalation in mind. The point is not just that the site exists. It is that the brand, product, operational flow, and support layer were designed as one system.`,
    link:`https://pawsaid.hk`},
   {n:`02`,title:`ROLL CALL`,cat:`Material Culture Archive · Interactive`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A material-culture archive that treats toilet paper as evidence: intimate, infrastructural, political, and weirdly revealing.`,
    role:`Founder · Researcher · Creative Technologist`,
-   showcase:`https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp`,
+   showcase:`${T}rollcall-thumb.jpg`,
    images:[
-     {src:`https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp`,caption:`ROLL CALL — Nepia Oshiri Celeb specimen render used in the live archive`},
-     {src:`https://hydrogenbondss.github.io/Rollcall/images/exhibition-archive-wall.webp`,caption:`ROLL CALL — Archive Wall image used on the live exhibition page`},
-     {src:`https://hydrogenbondss.github.io/Rollcall/images/exhibition-extinction-corner.webp`,caption:`ROLL CALL — Extinction Corner image used on the live exhibition page`}
+     {src:`${T}rollcall-thumb.jpg`,caption:`ROLL CALL — portfolio thumbnail`},
+     {src:`${T}rollcall-scatter.jpg`,caption:`ROLL CALL — specimen scatter image`},
+     {src:`https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp`,caption:`ROLL CALL — specimen render from the live archive`}
    ],
-   img:`https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp`,
+   img:`${T}rollcall-thumb.jpg`,
    video:null,
    desc:`ROLL CALL is a material-culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects: not just what it is, but who makes it, what it costs, where it ends up, what it is made of, and what that material actually means.\n\nThe project is also a critical essay in physical and digital form. It argues that toilet paper encodes the invisible: supply chains, hygiene politics, colonial inheritance, plumbing standards, purchasing power, and the economics of who gets to assume comfort as a default. The archive makes that argument through accumulation and interface, treating the mundane as evidence rather than trivia.`,
    link:`https://hydrogenbondss.github.io/Rollcall/`},
   {n:`03`,title:`ECHO: Love and Logged`,cat:`Interactive Narrative · AI-Mediated Artwork`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   tagline:`A bilingual Ren'Py dating sim where an in-app assistant remembers every connection and starts watching back.`,
+   tagline:`An English Ren'Py interactive narrative where an in-app assistant remembers every connection and starts watching back.`,
    role:`Creator · Writer · Art Director · Systems Designer`,
    showcase:`assets/echo/echo-ui-app.jpg`,
    images:[
@@ -729,7 +771,7 @@ var b=[
      {src:`assets/echo/echo-character-sheet.jpg`,caption:`ECHO — principal love interests and gender variants`}
    ],
    img:`assets/echo/echo-ui-app.jpg`,
-   desc:`ECHO: Love and Logged is a bilingual interactive digital artwork built in Ren'Py. It begins like a late-night Hong Kong dating sim: the player chooses a portrait, name, gender, and relationship preference, then meets Kite, Blake, and Neo/Nia through NECTAR, a fictional dating app with a soft-spoken assistant named Remy.\n\nThe structure is more ambitious than a linear visual novel. Love interests can be gender-swapped through variant logic, player pronouns flow through the script, and the NECTAR log picker asks players which fragments of a relationship become data. Route-specific minigames turn attention into interaction: cocktail mixing for Kite, photography framing for Neo/Nia, LEGO building for Blake. After the main relationships, Remy's hidden route reframes the game as a story about computational intimacy, observation, memory, and what happens when a system learns love by watching it.`,
+   desc:`ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player chooses a portrait, name, gender, and relationship preference, then moves through NECTAR, a fictional relationship app with a soft-spoken assistant named Remy.\n\nThe structure is more ambitious than a linear visual novel. Love interests can be gender-swapped through variant logic, player pronouns flow through the script, and the NECTAR log picker asks players which fragments of a relationship become data. Route-specific minigames turn attention into interaction: cocktail mixing for Kite, photography framing for Neo/Nia, LEGO building for Blake. After the main relationships, Remy's hidden route reframes the work as a story about computational intimacy, observation, memory, and what happens when a system learns love by watching it.`,
    link:null},
   {n:`04`,title:`SPECTOR`,cat:`Product · Open-Source PWA`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`An open-source, local-first teleprompter for the smart-glasses era.`,
@@ -819,14 +861,14 @@ var C=[
 
 var x=[
   {title:`Cathedral of Small Hours`,cat:`Open World · Code Architecture`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   img:`assets/worlds/cathedral-hyperreal.jpg`,
+   img:`${T}cathedral-thumb.jpg`,
    featured:true,
    desc:`Cathedral of Small Hours is conceived as an endless navigable cathedral where the player stands inside code itself. The walls, columns, arches, pews, floor, ceiling, and distant altar are all formed from cascading symbols and luminous green data, somewhere between a gothic nave and a Matrix-like hallucination.\n\nThe important shift is scale: this is not a small isolated sketch. It is an open spatial artwork. The player should feel small inside an impossible cathedral that keeps extending forward, repeating with variation, as if the building is being compiled around them in real time.`,
    role:`World Designer · Creative Developer`,
    link:`https://github.com/hydrogenbondss/cathedral-of-small-hours`,
    linkLabel:`View GitHub →`},
   {title:`Garden of Returning`,cat:`Open World · Post-Human Landscape`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   img:`assets/worlds/garden-hyperreal.jpg`,
+   img:`${T}garden-thumb.jpg`,
    featured:true,
    desc:`Garden of Returning is an endless walking world set in a hyperreal post-human landscape: abandoned structures, collapsed interiors, concrete, wet air, vines, moss, trees, and city fragments slowly swallowed by green. There is no other person in sight and no clear destination.\n\nThe player keeps walking and never reaches the end. What changes is subtler: the world repeats with a sense of recognition, but the things passed are never exactly the same. The project is about the strange emotional loop of returning to a place that keeps mutating while still feeling familiar.`,
    role:`World Designer · Creative Developer`,
@@ -835,9 +877,13 @@ var x=[
   {title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material transformation across three bag designs. Each film puts one bag through its own generative-video treatment — Ocarina Bag, Flute Soft Bag, Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},
   {title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},
   {title:`Ash`,cat:`Character Design · AI Motion`,year:`2026`,
-   img:`assets/ash/ash-running-poster.jpg`,
-   video:`assets/ash/ash-running.mp4`,
-   images:[{src:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation still`}],
+   img:`assets/ash/ash-hover-poster.jpg`,
+   carousel:[
+     {type:`video`,src:`assets/ash/ash-hover.mp4`,thumb:`assets/ash/ash-hover-poster.jpg`,caption:`Ash — building encounter motion`},
+     {type:`img`,src:`assets/ash/ash-hover-poster.jpg`,caption:`Ash — building encounter still`},
+     {type:`video`,src:`assets/ash/ash-running.mp4`,thumb:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation`},
+     {type:`img`,src:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation still`}
+   ],
    desc:`Ash is one character project, not a loose motion test: model-sheet thinking, outfit language, facial attitude, and running animation all belong to the same design system. The hoodie graphics, red-eyed expression, boots, cargo silhouette, and hand-mark detail are carried into motion so the character reads consistently beyond a static still.`,
    role:`Character Designer & AI Director`},
   {title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`}
@@ -868,9 +914,11 @@ artists:"Group Exhibition",
 img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
 images:[
   {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017 — Jeffrey Tse"},
-  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 — Jeffrey Tse (installation view, Hatch Art Gallery)"}
+  {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 — Jeffrey Tse (installation view, Hatch Art Gallery)"},
+  {src:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments — still image"},
+  {type:"video",src:"assets/exhibitions/impulsive-fragments.mp4",poster:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments — video"}
 ],
-desc:"Insights Unseen and Unheard was a group exhibition at Hatch Art Gallery in Vancouver. The show brought together artists working across photography, sound, and installation to examine questions of visibility and perception — what remains at the limits of what can be seen, heard, or communicated.\n\nJeffrey Tse contributed Untitled, 2017, a photographic series installed in a horizontal sequence across the gallery wall. One contribution among several — the work sits within a broader conversation the exhibition was already having about bodies, spaces, and what photographs actually record."},
+desc:"Insights Unseen and Unheard was a group exhibition at Hatch Art Gallery in Vancouver. The show brought together artists working across photography, sound, and installation to examine questions of visibility and perception — what remains at the limits of what can be seen, heard, or communicated.\n\nJeffrey Tse contributed Untitled, 2017 and Impulsive Fragments. The works sit within a broader conversation the exhibition was already having about bodies, spaces, perception, and what images or moving images actually record."},
 {year:"2017",title:"Resonance",venue:"JCCAC · Hong Kong",role:"Organizer",
 artists:"Group Exhibition",
 img:null,
@@ -992,20 +1040,16 @@ function enterSite(){
 }
 initSiteContent();
 try{
-  if(sessionStorage.getItem("jnt-entered")==="1"){
-    var gateSkip=document.getElementById("gate");
-    if(gateSkip) gateSkip.style.display="none";
-    entered=true;
-    setTimeout(function(){
-      var h1=document.getElementById("h1"), h2=document.getElementById("h2");
-      if(h1) h1.classList.add("visible");
-      if(h2) h2.classList.add("visible");
-    },50);
-  } else {
-    setTimeout(function(){ enterSite(); },4200);
-  }
+  var gateSkip=document.getElementById("gate");
+  if(gateSkip) gateSkip.style.display="none";
+  entered=true;
+  setTimeout(function(){
+    var h1=document.getElementById("h1"), h2=document.getElementById("h2");
+    if(h1) h1.classList.add("visible");
+    if(h2) h2.classList.add("visible");
+  },50);
 }catch(e){
-  setTimeout(function(){ enterSite(); },4200);
+  setTimeout(function(){ enterSite(); },50);
 }
 
 // -- BUILD SECTIONS --
@@ -1117,13 +1161,16 @@ function buildSections(){
       var imgHtml="";
       if(ex.images&&ex.images.length){
         // 1-at-a-time viewer
-        window._mItems=ex.images.map(function(im){return{type:"img",src:im.src,caption:im.caption||""};});
+        window._mItems=ex.images.map(function(im){return{type:im.type||"img",src:im.src,poster:im.poster||"",caption:im.caption||""};});
         window._mIdx=0;
         function renderCurMedia(idx){
           var m=window._mItems[idx];
+          var media=m.type==="video"
+            ?"<video src='"+m.src+"' "+(m.poster?"poster='"+m.poster+"'":"")+" controls muted playsinline></video>"
+            :"<img src='"+m.src+"' alt='"+(m.caption||ex.title)+"'>";
           var cap=m.caption?"<div class='m-caption'>"+m.caption+"</div>":"";
-          var nav=window._mItems.length>1?"<div class='m-nav'><button class='m-nav-btn' onclick='mGo(-1)' aria-label='Previous image'>←</button><span class='m-nav-ct'>"+(idx+1)+" / "+window._mItems.length+"</span><button class='m-nav-btn' onclick='mGo(1)' aria-label='Next image'>→</button></div>":"";
-          return "<div class='m-viewer'><img src='"+m.src+"' alt='"+(m.caption||ex.title)+"'>"+cap+nav+"</div>";
+          var nav=window._mItems.length>1?"<div class='m-nav'><button type='button' class='m-nav-btn' onclick='mGo(-1);event.stopPropagation();' aria-label='Previous media'>←</button><span class='m-nav-ct'>"+(idx+1)+" / "+window._mItems.length+"</span><button type='button' class='m-nav-btn' onclick='mGo(1);event.stopPropagation();' aria-label='Next media'>→</button></div>":"";
+          return "<div class='m-viewer'>"+media+cap+nav+"</div>";
         }
         window.mGo=function(dir){window._mIdx=(window._mIdx+dir+window._mItems.length)%window._mItems.length;var a=document.querySelector(".m-media");if(a)a.innerHTML=renderCurMedia(window._mIdx);};
         imgHtml=renderCurMedia(0);
@@ -1337,7 +1384,7 @@ function openModal(item){
   var mediaItems=[];
   if(item.images && item.images.length){
     item.images.forEach(function(im){
-      mediaItems.push({type:"img", src:im.src, caption:im.caption||""});
+      mediaItems.push({type:im.type||"img", src:im.src, poster:im.poster||"", caption:im.caption||""});
     });
     // if there's also a video, prepend it or append
     if(item.video) mediaItems.unshift({type:"video",src:item.video,poster:item.img,caption:"Video"});
@@ -1364,9 +1411,9 @@ function openModal(item){
     var cap=m.caption?"<div class='m-caption'>"+m.caption+"</div>":"";
     var nav=mediaItems.length>1
       ?"<div class='m-nav'>"
-        +"<button class='m-nav-btn' onclick='mGo(-1)' aria-label='Previous image'>←</button>"
+        +"<button type='button' class='m-nav-btn' onclick='mGo(-1);event.stopPropagation();' aria-label='Previous media'>←</button>"
         +"<span class='m-nav-ct'>"+(idx+1)+" / "+mediaItems.length+"</span>"
-        +"<button class='m-nav-btn' onclick='mGo(1)' aria-label='Next image'>→</button>"
+        +"<button type='button' class='m-nav-btn' onclick='mGo(1);event.stopPropagation();' aria-label='Next media'>→</button>"
         +"</div>"
       :"";
     return "<div class='m-viewer'>"+el+cap+nav+"</div>";
