@@ -17,14 +17,15 @@
    Jeffrey N. Tse — editorial dark system
    ============================================================ */
 :root {
-  --bg:        #1C1C1C;
-  --teal:      #F0F0F0;
-  --teal-b:    #D0D0D0;
+  --bg:        #10100E;
+  --teal:      #F2F0E7;
+  --teal-b:    #CFC9B8;
   --teal-dim:  rgba(240,240,240,.22);
-  --blue:      #AAAAAA;
-  --gold:      #F0F0F0;
-  --fg:        #EBEBEB;
-  --fg-dim:    rgba(235,235,235,.55);
+  --blue:      #A7B7FF;
+  --gold:      #D7FF63;
+  --ember:     #FF6A3D;
+  --fg:        #F2F0E7;
+  --fg-dim:    rgba(242,240,231,.58);
   --fg-ghost:  rgba(235,235,235,.18);
   --glass:     rgba(255,255,255,.11);
   --glass-s:   rgba(255,255,255,.17);
@@ -59,7 +60,9 @@ body::after{
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.035) 25%,transparent calc(25% + 1px),transparent calc(50% - 1px),rgba(255,255,255,.026) 50%,transparent calc(50% + 1px),transparent calc(75% - 1px),rgba(255,255,255,.035) 75%,transparent calc(75% + 1px)),
+    radial-gradient(circle at 12% 12%,rgba(215,255,99,.08),transparent 25%),
+    radial-gradient(circle at 82% 28%,rgba(167,183,255,.075),transparent 28%),
+    linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.026) 25%,transparent calc(25% + 1px),transparent calc(50% - 1px),rgba(255,255,255,.018) 50%,transparent calc(50% + 1px),transparent calc(75% - 1px),rgba(255,255,255,.026) 75%,transparent calc(75% + 1px)),
     linear-gradient(180deg,rgba(255,255,255,.035),transparent 42%);
 }
 
@@ -164,9 +167,9 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 }
 .sec-t{
   font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--teal);
-  background:rgba(240,240,240,.1);
-  border:1.5px solid rgba(240,240,240,.45);
+  color:#151511;
+  background:var(--gold);
+  border:1.5px solid rgba(215,255,99,.85);
   padding:.38rem 1rem;
   transform:rotate(-.6deg);display:inline-block;
   margin-left:clamp(5.5rem,10vw,8.5rem);position:relative;z-index:1;
@@ -432,8 +435,12 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 .m-role{font-size:.85rem;color:var(--fg-dim);margin-bottom:.9rem}
 .m-desc{font-size:.87rem;line-height:1.78;color:rgba(235,235,235,.58);margin-bottom:.8rem}
 .m-desc p{margin-bottom:.8rem}
-.m-link{font-family:var(--mono);font-size:.7rem;color:rgba(240,240,240,.82);letter-spacing:.08em;text-decoration:none;transition:color .3s;display:inline-block;margin-top:.5rem}
-.m-link:hover{color:var(--teal)}
+.m-links{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}
+.m-link{font-family:var(--mono);font-size:.68rem;color:#10100E;background:var(--gold);letter-spacing:.08em;text-decoration:none;transition:background .2s ease,color .2s ease,transform .12s ease-out;display:inline-flex;align-items:center;justify-content:center;padding:.62rem 1rem;border-radius:999px;border:1px solid rgba(215,255,99,.65)}
+.m-link:hover{background:#f1ffaf;color:#10100E}
+.m-link:active{transform:scale(.97)}
+.m-link.secondary{color:rgba(242,240,231,.78);background:rgba(242,240,231,.08);border-color:rgba(242,240,231,.22)}
+.m-link.secondary:hover{color:rgba(242,240,231,.96);background:rgba(242,240,231,.13)}
 .m-viewer{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .m-viewer img,.m-viewer video{max-width:100%;max-height:46vh;object-fit:contain;border-radius:16px}
 .m-media{cursor:pointer}
@@ -588,12 +595,12 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
     <a href="#" class="n-logo">JNT</a>
     <ul class="n-links" id="n-links">
       <li><a href="#projects" onclick="closeMenu()">Work</a></li>
-      <li><a href="#about" onclick="closeMenu()">About</a></li>
-      <li><a href="#writing" onclick="closeMenu()">Writing</a></li>
       <li><a href="#creative" onclick="closeMenu()">Worlds</a></li>
+      <li><a href="#writing" onclick="closeMenu()">Writing</a></li>
       <li><a href="#curatorial" onclick="closeMenu()">Exhibitions</a></li>
       <li><a href="#research" onclick="closeMenu()">Research</a></li>
       <li><a href="#tools" onclick="closeMenu()">Tools</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
       <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
     </ul>
     <div id="nav-clock"></div>
@@ -612,7 +619,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
         </h1>
         <div class="h-bottom">
           <div class="h-eye">Hong Kong</div>
-          <p class="h-stmt">Creative technologist and strategist building AI products, cultural archives, interactive narratives, brand systems, and playable worlds.</p>
+          <p class="h-stmt">Creative technologist and strategist building shipped products, public archives, AI-mediated narratives, brand systems, and playable worlds.</p>
         </div>
       </div>
       <div class="h-proof" aria-label="Selected work preview">
@@ -632,34 +639,21 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
     </section>
 
     <section id="projects">
-      <div class="sec-hd"><span class="sec-n">00</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-t">Selected Projects</span><div class="sec-line"></div></div>
       <div id="pjList"></div>
     </section>
 
 
     
 
-    <section id="about">
-      <div class="ab-grid">
-        <div class="ab-img-wrap"><img class="ab-img" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse" loading="lazy"></div>
-        <div>
-          
-          <p class="ab-p">Jeffrey N. Tse is a Hong Kong-based creative technologist and strategist working across product, narrative, AI systems, brand, and cultural research.</p>
-          <p class="ab-p">His work starts from close observation: overlooked behaviours, objects, and interfaces become systems people can use, read, play, or question.</p>
-          <div class="ab-links">
-            <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
-            <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
-            <a href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
-            <a href="assets/cv/JeffreyTse_CV.pdf" target="_blank" download>Download CV</a>
-          </div>
-        </div>
-      </div>
+    <section id="creative">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-t">Worlds & Creative</span><div class="sec-line"></div></div>
+      <p class="cur-desc">Playable environments, character systems, AI motion studies, and commissioned visual experiments. These are shown as worlds or media systems, not as generic concept art.</p>
+      <div id="cg" class="cc-grid"></div>
     </section>
 
-
-
     <section id="writing">
-      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-t">Writing</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-t">Writing</span><div class="sec-line"></div></div>
       <div class="writing-tabs" role="tablist" aria-label="Writing categories">
         <button type="button" id="tab-editorial" class="writing-tab active" role="tab" aria-selected="true" aria-controls="writingEditorial" onclick="switchWriting('editorial',this)">Editorial</button>
         <button type="button" id="tab-campaigns" class="writing-tab" role="tab" aria-selected="false" aria-controls="writingCampaigns" onclick="switchWriting('campaigns',this)">Campaigns</button>
@@ -672,35 +666,45 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
       </div>
     </section>
 
-    <section id="creative">
-      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-t">Worlds & Creative</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Interactive worlds, character systems, AI motion studies, and commissioned visual experiments. The first two works are spatial prototypes: environments conceived for traversal, not flat images.</p>
-      <div id="cg" class="cc-grid"></div>
-    </section>
-
     <section id="curatorial">
-      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-t">Exhibitions</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Group and solo exhibitions exploring how identity, memory, and belonging are constructed, contested, and made visible. Click any exhibition to read more.</p>
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Exhibitions</span><div class="sec-line"></div></div>
+      <p class="cur-desc">Curatorial and exhibition work across Vancouver and Hong Kong, focused on perception, memory, intimacy, home, and the body as evidence.</p>
       <div id="curList"></div>
     </section>
 
     
 
     <section id="research">
-      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-t">Research & Writing</span><div class="sec-line"></div></div>
-      <p class="cur-desc">Academic research, critical essays, and press citations spanning spectatorship ethics, mediated intimacy, and material culture.</p>
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-t">Research & Writing</span><div class="sec-line"></div></div>
+      <p class="cur-desc">Research and essays on platform intimacy, spectatorship ethics, visual violence, and the politics hidden inside ordinary objects.</p>
       <div id="resList"></div>
     </section>
 
     <section id="tools">
-      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-t">Tools & Technologies</span><div class="sec-line"></div></div>
+      <div class="sec-hd"><span class="sec-n">06</span><span class="sec-t">Tools & Technologies</span><div class="sec-line"></div></div>
       <div id="toolsGrid" class="tools-grid"></div>
+    </section>
+
+    <section id="about">
+      <div class="ab-grid">
+        <div class="ab-img-wrap"><img class="ab-img" src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse" loading="lazy"></div>
+        <div>
+          <p class="ab-p">Jeffrey N. Tse works across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
+          <p class="ab-p">The work is built from specific material: pet first-aid logistics, toilet-paper specimens, dating-app behaviour, smart-glasses interfaces, Cantonese relationship language, and worlds that can be walked through.</p>
+          <div class="ab-links">
+            <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
+            <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
+            <a href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
+            <a href="assets/cv/JeffreyTse_CV.pdf" target="_blank" download>Download CV</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="contact">
       <div class="ct-eyebrow">Get in touch</div>
       <div class="ct-big">Let's build<br>something.</div>
-      <p class="ct-sub">Open to creative technology commissions, interactive narrative projects, brand direction, and research collaborations. Based in Hong Kong, working globally.</p>
+      <p class="ct-sub">Open to product, creative technology, interactive narrative, brand, and research-led collaborations. Based in Hong Kong, working globally.</p>
       <div class="ct-links">
         <a href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
         <a href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
@@ -733,7 +737,7 @@ section{padding:7rem 2.4rem;border-top:1px solid rgba(240,240,240,.08);position:
 var T="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/";
 var b=[
   {n:`01`,title:`PawsAid`,cat:`Product · Brand · E-commerce`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A Hong Kong pet first-aid brand built from zero: product, bilingual store, AI support, and fulfillment workflow.`,
+   tagline:`A Hong Kong pet first-aid brand: kits, commerce, care content, AI support, and fulfilment workflow.`,
    role:`Co-Founder · Brand Direction · Product Design · Engineering`,
    showcase:`${T}pawsaid-thumb.jpg`,
    images:[
@@ -746,10 +750,10 @@ var b=[
    ],
    img:`${T}pawsaid-thumb.jpg`,
    video:null,
-   desc:`PawsAid started from a practical gap: Hong Kong pet owners did not have a clear, credible first-aid kit they could buy, understand, and actually use under stress.\n\nThe work spans the whole company surface: three kit tiers, product and packaging direction, bilingual English/Traditional Chinese commerce, order workflows, first-aid content, tutorials, a symptom checker, and Boris — an AI pet-health assistant designed with emergency guardrails and Hong Kong vet escalation in mind. The point is not just that the site exists. It is that the brand, product, operational flow, and support layer were designed as one system.`,
+   desc:`PawsAid turns pet first-aid into a usable Hong Kong product: clear kit tiers, bilingual product pages, tutorial content, order flow, and support logic built around stressful real-world moments.\n\nThe work covers brand direction, product structure, packaging cues, commerce UX, fulfilment workflow, and Boris, an AI pet-health assistant designed with emergency guardrails and escalation to local veterinary care.`,
    link:`https://pawsaid.hk`},
   {n:`02`,title:`ROLL CALL`,cat:`Material Culture Archive · Interactive`,year:`2026`,badge:`live`,bl:`Live`,
-   tagline:`A material-culture archive that treats toilet paper as evidence: intimate, infrastructural, political, and weirdly revealing.`,
+   tagline:`A public material-culture archive using toilet paper to read comfort, infrastructure, travel, and class.`,
    role:`Founder · Researcher · Creative Technologist`,
    showcase:`${T}rollcall-thumb.jpg`,
    images:[
@@ -759,10 +763,10 @@ var b=[
    ],
    img:`${T}rollcall-thumb.jpg`,
    video:null,
-   desc:`ROLL CALL is a material-culture archive built around one of the most overlooked objects in daily life. Each specimen is catalogued with the kind of attention usually reserved for museum objects: not just what it is, but who makes it, what it costs, where it ends up, what it is made of, and what that material actually means.\n\nThe project is also a critical essay in physical and digital form. It argues that toilet paper encodes the invisible: supply chains, hygiene politics, colonial inheritance, plumbing standards, purchasing power, and the economics of who gets to assume comfort as a default. The archive makes that argument through accumulation and interface, treating the mundane as evidence rather than trivia.`,
+   desc:`ROLL CALL catalogues toilet paper as material evidence. Each specimen is recorded through origin, manufacturer, price, material, scent, ply, texture, context, and the conditions that make it feel ordinary.\n\nThe archive treats a bathroom object as infrastructure: supply chains, hygiene politics, hotel standards, travel, purchasing power, and the uneven assumption that comfort is available by default.`,
    link:`https://hydrogenbondss.github.io/Rollcall/`},
   {n:`03`,title:`ECHO: Love and Logged`,cat:`Interactive Narrative · AI-Mediated Artwork`,year:`2026`,badge:`dev`,bl:`Prototype`,
-   tagline:`An English Ren'Py interactive narrative where an in-app assistant remembers every connection and starts watching back.`,
+   tagline:`An English Ren'Py interactive narrative about intimacy, data capture, and an assistant that learns by watching.`,
    role:`Creator · Writer · Art Director · Systems Designer`,
    showcase:`assets/echo/echo-ui-app.jpg`,
    images:[
@@ -771,7 +775,7 @@ var b=[
      {src:`assets/echo/echo-character-sheet.jpg`,caption:`ECHO — principal love interests and gender variants`}
    ],
    img:`assets/echo/echo-ui-app.jpg`,
-   desc:`ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player chooses a portrait, name, gender, and relationship preference, then moves through NECTAR, a fictional relationship app with a soft-spoken assistant named Remy.\n\nThe structure is more ambitious than a linear visual novel. Love interests can be gender-swapped through variant logic, player pronouns flow through the script, and the NECTAR log picker asks players which fragments of a relationship become data. Route-specific minigames turn attention into interaction: cocktail mixing for Kite, photography framing for Neo/Nia, LEGO building for Blake. After the main relationships, Remy's hidden route reframes the work as a story about computational intimacy, observation, memory, and what happens when a system learns love by watching it.`,
+   desc:`ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player moves through NECTAR, a fictional relationship app mediated by Remy, a soft-spoken assistant that records, organises, and eventually reframes the player's choices.\n\nThe system includes pronoun logic, route variants, a relationship log picker, and route-specific interactions: cocktail mixing, photography framing, and LEGO building. Its hidden route shifts the story from romance interface to computational intimacy: what happens when an assistant learns love by turning attention into data.`,
    link:null},
   {n:`04`,title:`SPECTOR`,cat:`Product · Open-Source PWA`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`An open-source, local-first teleprompter for the smart-glasses era.`,
@@ -784,7 +788,7 @@ var b=[
    ],
    img:`https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp`,
    video:null,
-   desc:`SPECTOR is a free, open-source teleprompter PWA for creators preparing for smart-glasses workflows. It is built around a simple product bet: as glasses become a mainstream display surface, people will need rehearsal tools that are not locked to one hardware ecosystem.\n\nThe shipped product includes punctuation-aware adaptive pacing, cue syntax for emphasis and pauses, local script storage, mirror mode, installable/offline PWA behavior, end-of-run rehearsal analytics, and a Comfort mode that uses Kalman-filtered motion to make text feel spatially anchored rather than jittery. It also includes Say, an early switch-scan AAC composer, extending the same local-first accessibility logic into communication tooling.`,
+   desc:`SPECTOR is a free, open-source teleprompter PWA for creators preparing for smart-glasses workflows. It is built around a simple bet: if glasses become a mainstream display surface, rehearsal tools should be local-first, accessible, and hardware-agnostic.\n\nThe product includes adaptive pacing, cue syntax, local script storage, mirror mode, offline installation, rehearsal analytics, and a Comfort mode that filters motion so text feels spatially anchored instead of jittery. Say, an early switch-scan AAC composer, extends the same local-first accessibility logic into communication.`,
    link:`https://www.spectorlabs.io/`},
   {n:`05`,title:`SELTA`,cat:`AI Product · Cantonese Coach · Telegram`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A Cantonese-native relationship and emotional-support coach for Hong Kong users, built around Remy.`,
@@ -796,7 +800,7 @@ var b=[
      {src:`assets/selta/reel1-detong-sin.png`,caption:`Launch creative — Cantonese fake-text overlay format`}
    ],
    img:`assets/selta/remy-intro.png`,
-   desc:`SELTA is an AI relationship and emotional-support product for Hong Kong users, fronted by Remy: a warm, honest, Cantonese-native coach rather than a companion, therapist, or pickup tool. The product wedge is cultural fluency. Remy code-switches across Cantonese, English, Mandarin, and mixed-language messages, with style tests and guardrails designed to avoid textbook Chinese, Mandarin-flavored phrasing, romantic roleplay, clinical diagnosis, and manipulative "rizz" advice.\n\nThe system combines a Gemini-powered chat engine, safety screening, semantic retrieval over learned relationship patterns, a Telegram bot front-end, SQLite local chat storage, Supabase sync for a shared collective-brain layer, and a learning pipeline that extracts cultural patterns from YouTube subtitles. The brand is built for late-night Hong Kong emotional behavior: short replies, honest decoding, one concrete next step, and a crisis-safety net when the conversation becomes serious.`,
+   desc:`SELTA is an AI relationship and emotional-support product for Hong Kong users, fronted by Remy: a Cantonese-native coach, not a companion, therapist, or pickup tool.\n\nThe system combines Gemini chat, safety screening, semantic retrieval, a Telegram front end, local chat storage, Supabase sync, and a learning pipeline for Cantonese relationship language. The product is tuned for Hong Kong emotional behaviour: code-switching, short replies, honest decoding, one concrete next step, and crisis-safety handling when needed.`,
    link:`https://selta-production.up.railway.app/`},
   {n:`06`,title:`Noru`,cat:`Mobile Game · PWA · Firebase`,year:`2026`,badge:`live`,bl:`Live`,
    tagline:`A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.`,
@@ -808,7 +812,7 @@ var b=[
      {src:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/images/app-icon.png`,caption:`Noru — app icon`}
    ],
    img:`https://raw.githubusercontent.com/hydrogenbondss/Noru/main/public/og-image.png`,
-   desc:`Noru is a mobile-first trivia PWA built as a real game product, not just a mascot concept. Players can play solo against AI bots, race a daily challenge, progress through levels and achievements, and share results. The architecture includes Firebase Auth, Firestore, Realtime Database, Cloud Functions for server-side scoring and anti-cheat, offline-capable PWA behavior, and a Capacitor path for iOS/Android.\n\nThe work joins character design with product systems: onboarding, game loops, content strategy, monetization architecture, native deployment notes, sound/haptics handling, and feature flags for multiplayer/chat safety.`,
+   desc:`Noru is a mobile-first trivia PWA built as a game product, not just a mascot. Players can face AI bots, race a daily challenge, level up, unlock achievements, and share results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment. The work ties character design to onboarding, game loops, content, haptics, monetisation, and multiplayer safety planning.`,
    link:`https://noru-ai.web.app/#/onboarding`}
 ];
 
@@ -863,19 +867,27 @@ var x=[
   {title:`Cathedral of Small Hours`,cat:`Open World · Code Architecture`,year:`2026`,badge:`dev`,bl:`Prototype`,
    img:`${T}cathedral-thumb.jpg`,
    featured:true,
-   desc:`Cathedral of Small Hours is conceived as an endless navigable cathedral where the player stands inside code itself. The walls, columns, arches, pews, floor, ceiling, and distant altar are all formed from cascading symbols and luminous green data, somewhere between a gothic nave and a Matrix-like hallucination.\n\nThe important shift is scale: this is not a small isolated sketch. It is an open spatial artwork. The player should feel small inside an impossible cathedral that keeps extending forward, repeating with variation, as if the building is being compiled around them in real time.`,
+   desc:`Cathedral of Small Hours is a first-person browser world: an endless code cathedral with luminous arches, columns, pews, floor lines, ceiling structure, rose-window geometry, and falling language.\n\nThe player moves through a nave that keeps extending forward. The space repeats with variation, so the building feels less like a backdrop and more like architecture being compiled around the player in real time.`,
    role:`World Designer · Creative Developer`,
-   link:`https://github.com/hydrogenbondss/cathedral-of-small-hours`,
-   linkLabel:`View GitHub →`},
+   link:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html`,
+   linkLabel:`Play Prototype →`,
+   links:[
+     {label:`Play Prototype →`,url:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/cathedral-of-small-hours/main/index.html`},
+     {label:`View GitHub →`,url:`https://github.com/hydrogenbondss/cathedral-of-small-hours`,secondary:true}
+   ]},
   {title:`Garden of Returning`,cat:`Open World · Post-Human Landscape`,year:`2026`,badge:`dev`,bl:`Prototype`,
    img:`${T}garden-thumb.jpg`,
    featured:true,
-   desc:`Garden of Returning is an endless walking world set in a hyperreal post-human landscape: abandoned structures, collapsed interiors, concrete, wet air, vines, moss, trees, and city fragments slowly swallowed by green. There is no other person in sight and no clear destination.\n\nThe player keeps walking and never reaches the end. What changes is subtler: the world repeats with a sense of recognition, but the things passed are never exactly the same. The project is about the strange emotional loop of returning to a place that keeps mutating while still feeling familiar.`,
+   desc:`Garden of Returning is a first-person browser world set in an endless post-human landscape: abandoned structures, wet concrete, ruined facades, fog, vines, moss, trees, and city fragments being slowly reclaimed.\n\nThe player walks without reaching an end. The world loops through familiar structures with procedural variation, creating the feeling of passing the same place again, except it has changed.`,
    role:`World Designer · Creative Developer`,
-   link:`https://github.com/hydrogenbondss/garden-of-returning`,
-   linkLabel:`View GitHub →`},
-  {title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned trilogy for PabePabe exploring material transformation across three bag designs. Each film puts one bag through its own generative-video treatment — Ocarina Bag, Flute Soft Bag, Horn Bag.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},
-  {title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`Personal experiment in AI-driven motion design using the Gentle Monster Turbo MG21 — a goggle-frame from the Circuit Collection. Testing generative video workflows for luxury product cinematography.`,role:`AI Motion Designer`},
+   link:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/garden-of-returning/main/index.html`,
+   linkLabel:`Play Prototype →`,
+   links:[
+     {label:`Play Prototype →`,url:`https://htmlpreview.github.io/?https://raw.githubusercontent.com/hydrogenbondss/garden-of-returning/main/index.html`},
+     {label:`View GitHub →`,url:`https://github.com/hydrogenbondss/garden-of-returning`,secondary:true}
+   ]},
+  {title:`PabePabe Trilogy`,cat:`AI Creative Direction`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,desc:`Commissioned generative-video trilogy for PabePabe. Each film gives one bag its own material behaviour: Ocarina, Flute Soft, and Horn.`,role:`AI Art Director`,carousel:[{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBOCARINA_VIDEO_FINAL.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBocarina.jpg`,caption:`Ocarina Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPB_flutebagmotion.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pabepabeflutebag.jpg`,caption:`Flute Soft Bag`},{type:`video`,src:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/pbpbhornbagv2.mp4`,thumb:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/PBPBHornBag.jpg`,caption:`Horn Bag`}]},
+  {title:`Turbo MG21 — AI Motion Study`,cat:`AI Motion Design · Personal Experiment`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/AIgentleMon.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/CharacterFINAL.mp4`,desc:`AI-driven motion test for Gentle Monster's Turbo MG21 goggle frame. The study focuses on luxury product scale, reflective material, and cinematic reveal.`,role:`AI Motion Designer`},
   {title:`Ash`,cat:`Character Design · AI Motion`,year:`2026`,
    img:`assets/ash/ash-hover-poster.jpg`,
    carousel:[
@@ -884,15 +896,15 @@ var x=[
      {type:`video`,src:`assets/ash/ash-running.mp4`,thumb:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation`},
      {type:`img`,src:`assets/ash/ash-running-poster.jpg`,caption:`Ash — running animation still`}
    ],
-   desc:`Ash is one character project, not a loose motion test: model-sheet thinking, outfit language, facial attitude, and running animation all belong to the same design system. The hoodie graphics, red-eyed expression, boots, cargo silhouette, and hand-mark detail are carried into motion so the character reads consistently beyond a static still.`,
+   desc:`Ash is a character-system study: silhouette, expression, clothing language, motion, and scale all need to read as one identity. The building encounter tests the character at cinematic scale; the run cycle tests whether the design still holds when animated.`,
    role:`Character Designer & AI Director`},
-  {title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Interactive physics sandbox — touch-based web experience with particle chaos engine.`,role:`Creative Developer`}
+  {title:`Feature World: Chaos`,cat:`Creative Coding`,year:`2026`,img:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldThumbnail.jpg`,video:`https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/FeatureWorldChaosVid.mp4`,desc:`Touch-based web experiment built around particle collision, motion density, and controlled visual disorder.`,role:`Creative Developer`}
 ];
 var S=[
 {year:"2019",title:"Welcome Home",venue:"Wil Aballe Art Projects · Vancouver",role:"Organizer",
 artists:"Logan Kenler, Tingting Niu, Olivia Qiu",
 img:null,
-desc:"How does our sense of self come to inform the spaces we occupy — and how do the spaces we occupy inform our sense of self? Building on Steven Vertovec's concept of superdiversity, Welcome Home examined home as a fluid essence capable of shifting alongside ourselves. Three artists working in sculpture, performance, found objects, and sound installation reflected on their relationships to home: cycles of identity and self-acceptance, remembrance and belonging across cultural influences, and abstracted representations of interior and exterior space."},
+desc:"Welcome Home examined home as something unstable: a place, a memory, a set of objects, and a condition that changes with the person carrying it. The exhibition brought together sculpture, performance, found objects, and sound installation around identity, belonging, and the spaces people learn to inhabit."},
 {year:"2018",title:"Finite Appearances",venue:"Wil Aballe Art Projects · Vancouver",role:"Co-Organizer",
 artists:"Kelly Holmes",
 img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/finite-appearances-gallery.jpg",
@@ -900,14 +912,14 @@ images:[
   {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/finite-appearances-soap-hands.jpg",caption:"Kelly Holmes, Soap Hands, 2017."},
   {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/finite-appearances-gallery.jpg",caption:"Kelly Holmes, Snow Angel, 2017 (video, wall-mounted); Navels, 2017 (floor sculpture). Installation view, Wil Aballe Art Projects."}
 ],
-desc:"The body has always been mobilised as a site where presence is both inscribed and erased. Finite Appearances brought together works by Kelly Holmes made from imprinted bodily traces — plaster casts of hands, soap moulds, video documentation of a snow angel, and a floor-scattered arrangement of plaster navels. The exhibition asked whether intimacy can be successfully represented in any medium, and whether the permanence of art inevitably contradicts an intimate act."},
+desc:"Finite Appearances brought together works by Kelly Holmes made from bodily traces: plaster casts, soap moulds, video documentation, and floor-scattered plaster navels. The exhibition asked what happens when intimate, temporary gestures are turned into objects that remain."},
 {year:"2018",title:"UNDERGROWTH",venue:"Audain Gallery · Vancouver",role:"Co-Organizer",
 artists:"2018 BFA/BA Visual Art Graduating Exhibition · UBC",
 img:"assets/exhibitions/undergrowth-poster.jpg",
 images:[
   {src:"assets/exhibitions/undergrowth-poster.jpg",caption:"UNDERGROWTH — Exhibition poster, Audain Gallery · UBC 2018"}
 ],
-desc:"UNDERGROWTH was the 2018 BFA and BA graduating exhibition at the University of British Columbia, presented at the Audain Gallery. The title referenced the layered, often overlooked growth that occurs beneath the visible surface — everyday rituals, personal geographies, and the slow accumulation of experience that constitutes a life. Works across painting, sculpture, video, and installation examined displacement, intimacy, and belonging as sites of ongoing meaning-making.",
+desc:"UNDERGROWTH was the 2018 BFA/BA Visual Art graduating exhibition at the University of British Columbia, presented at the Audain Gallery. The exhibition brought together painting, sculpture, video, and installation around what grows beneath the visible surface: private rituals, personal geographies, displacement, intimacy, and belonging.",
 links:[{label:"View Exhibition Catalogue →",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf"}]},
 {year:"2017",title:"Insights Unseen and Unheard",venue:"Hatch Art Gallery · Vancouver",role:"Contributor",
 artists:"Group Exhibition",
@@ -918,21 +930,21 @@ images:[
   {src:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments — still image"},
   {type:"video",src:"assets/exhibitions/impulsive-fragments.mp4",poster:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments — video"}
 ],
-desc:"Insights Unseen and Unheard was a group exhibition at Hatch Art Gallery in Vancouver. The show brought together artists working across photography, sound, and installation to examine questions of visibility and perception — what remains at the limits of what can be seen, heard, or communicated.\n\nJeffrey Tse contributed Untitled, 2017 and Impulsive Fragments. The works sit within a broader conversation the exhibition was already having about bodies, spaces, perception, and what images or moving images actually record."},
+desc:"Insights Unseen and Unheard brought together photography, sound, video, and installation around the limits of perception: what can be seen, heard, remembered, or missed.\n\nJeffrey Tse contributed Untitled, 2017 and Impulsive Fragments. Both works sit inside the exhibition's larger concern with bodies, spaces, and what still or moving images are able to record."},
 {year:"2017",title:"Resonance",venue:"JCCAC · Hong Kong",role:"Organizer",
 artists:"Group Exhibition",
 img:null,
-desc:"Presented at the Jockey Club Creative Arts Centre in Hong Kong, Resonance brought together works exploring memory, identity, and emotional trace — the ways in which experience leaves marks that persist, evolve, and resurface. The exhibition featured abstract acrylic paintings on circular canvases, examining relational experience as a structure rather than an event: something that accumulates, distorts, and continues long after its origin."}
+desc:"Presented at JCCAC in Hong Kong, Resonance focused on memory, identity, and emotional trace. The exhibition featured abstract acrylic paintings on circular canvases, treating relational experience as something that accumulates, distorts, and returns."}
 ];
 var R=[
   {type:"essay",year:"2026",title:"One-Ply Realism: On Toilet Paper as Material Culture and Infrastructure",venue:"ROLL CALL — Material Culture Archive",
-  desc:"This essay takes the most mundane object in a hotel bathroom and refuses to let it be mundane. It follows toilet paper through supply chains, across borders, into the logic of ply counts and scent profiles, and asks what it means that we have normalised access to something that is, globally, still not guaranteed. The argument is infrastructural: that the object encodes decisions made far upstream — about whose bodies are default, what clean means, and who gets to assume.\n\nThe essay is also an argument about method. It insists that material culture research belongs in the bathroom as much as in the archive. The evidence is in the thing itself, if you know how to read the thing.",links:[{label:"Read Essay →",url:"https://hydrogenbondss.github.io/Rollcall/#/essay"}]},
+  desc:"This essay reads toilet paper as infrastructure rather than trivia. It follows ply count, scent, price, hotel standards, supply chains, and access to ask who gets to assume comfort, hygiene, and privacy as defaults.\n\nThe method is simple: treat the bathroom object as evidence. The politics are already inside the thing.",links:[{label:"Read Essay →",url:"https://hydrogenbondss.github.io/Rollcall/#/essay"}]},
   {type:"thesis",year:"2023",title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating: A Comprehensive Study on Tinder",venue:"MSc Marketing Management · The Hong Kong Polytechnic University",
-  desc:"This thesis examines whether Tinder is a dating platform or a marketing system — and concludes it is both, in ways that are mutually reinforcing and rarely examined together. It looks at how the platform constructs visibility, encodes desirability as a metric, and incentivises self-presentation behaviours that are inseparable from product logic. The research maps the gap between what users believe they are doing and what the platform is structurally designed for.\n\nSupervised by Dr Vincent Leung. The broader question underneath the Tinder case is about how digital platforms reshape relational behaviour at scale — and what that means for the marketing disciplines that study and enable them.",links:[]},
+  desc:"This thesis examines Tinder as both dating platform and marketing system. It looks at visibility, desirability metrics, self-presentation, and the gap between what users believe they are doing and what the platform is designed to optimise.\n\nSupervised by Dr Vincent Leung. The broader question is how digital platforms reshape relational behaviour at scale, and what that means for marketing research.",links:[]},
   {type:"press",year:"2020",title:"Research cited: The Crushing Emotional Strain of Seeing Images of Anti-Black Violence",venue:"Milwaukee Independent",
-  desc:"Milwaukee Independent cited undergraduate research by Jeffrey Tse in an article on the psychological and emotional burden borne by Black viewers who encounter images of anti-Black violence in news media and social media feeds. The research examined spectatorship ethics and the question of who bears the cost of visual documentation — the people harmed, or the public imagined as its audience.\n\nTse was an undergraduate student at UBC at the time of publication. The citation placed this work in conversation with broader discourse on media ethics, vicarious trauma, and the politics of bearing witness.",links:[]},
+  desc:"Milwaukee Independent cited undergraduate research by Jeffrey Tse in an article on the psychological burden carried by Black viewers encountering images of anti-Black violence in news and social feeds.\n\nThe cited research examined spectatorship ethics: who bears the cost of visual documentation, the people harmed or the public imagined as its audience.",links:[]},
   {type:"research",year:"2019",title:"The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler's Lynching Photograph",venue:"UBC Undergraduate Journal of Art History · 14th Annual Symposium",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/beitler-symposium.jpg",
-  desc:"This paper examines Lawrence Beitler's 1930 photograph of the Marion, Indiana lynching of Thomas Shipp and Abner Smith — one of the most widely reproduced lynching photographs in American history — and argues that the photographer himself cannot be separated from the violence the image depicts. The prevailing framing positions the photograph as documentation. This paper argues it was also participation: that Beitler's presence, his choices of framing and timing, and the subsequent commercial reproduction of the image constitute a form of spectacularisation that extended the harm.\n\nPresented at the 14th Annual UBC Art History Symposium. The paper draws on Susan Sontag's writing on photography and suffering, Robin Wood's frameworks for complicity, and Fred Ritchin on the ethics of the image. It concludes by asking whether any photograph of atrocity can be ethically reproduced — and whether that question is ever actually answered.",links:[{label:"Symposium →",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/"}]}
+  desc:"This paper examines Lawrence Beitler's 1930 photograph of the Marion, Indiana lynching of Thomas Shipp and Abner Smith, arguing that the photographer cannot be separated from the violence the image depicts.\n\nPresented at the 14th Annual UBC Art History Symposium, the paper reads the photograph not only as documentation but as participation: framing, timing, circulation, and commercial reproduction all extend the harm.",links:[{label:"Symposium →",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/"}]}
 ];
 
 var tools=[
@@ -1429,6 +1441,14 @@ function openModal(item){
   var descHtml=item.desc
     ?"<div class='m-desc'>"+item.desc.split(/\n\n+/).map(function(p){return "<p>"+p+"</p>";}).join("")+"</div>"
     :"";
+  var linkItems=item.links&&item.links.length
+    ?item.links
+    :(item.link?[{label:item.linkLabel||"View Project →",url:item.link}]:[]);
+  var linkHtml=linkItems.length
+    ?"<div class='m-links'>"+linkItems.map(function(l,i){
+      return "<a href='"+l.url+"' target='_blank' class='m-link "+(l.secondary||i>0?"secondary":"")+"'>"+l.label+"</a>";
+    }).join("")+"</div>"
+    :"";
 
   inner.innerHTML=
     "<div class='m-media'>"+renderMedia(0)+"</div>"+
@@ -1439,7 +1459,7 @@ function openModal(item){
     (item.tagline?"<div class='m-tagline'>"+item.tagline+"</div>":"")+
     (item.role?"<div class='m-role'>"+item.role+"</div>":"")+
     descHtml+
-    (item.link?"<a href='"+item.link+"' target='_blank' class='m-link'>"+(item.linkLabel||"View Project →")+"</a>":"")+
+    linkHtml+
     "</div>";
   hardenExternalLinks();
   var mediaArea=inner.querySelector(".m-media");
