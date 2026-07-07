@@ -8,8 +8,8 @@
 <meta property="og:title" content="Jeffrey N. Tse">
 <meta property="og:description" content="Product engineering, AI systems, cultural research, brand direction, and motion studies.">
 <meta property="og:type" content="website">
-<link rel="preload" as="image" href="assets/pawsaid/hero.jpg">
-<link rel="preload" as="image" href="assets/rollcall-screenshot.png">
+<link rel="preload" as="image" href="assets/pawsaid/logo-transparent.png">
+<link rel="preload" as="image" href="assets/rollcall-title.svg">
 <link rel="preload" as="image" href="assets/spector-logo.png">
 <link rel="preload" as="image" href="assets/noru/home-current.png">
 <style>
@@ -76,11 +76,12 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .project-media img,.project-media video{width:100%;height:100%;object-fit:cover;transition:transform 700ms var(--ease-out),filter 700ms var(--ease-out)}
 .identity-media{background:#0b0b0a!important;padding:clamp(2rem,5vw,5rem);display:grid;place-items:center}
 .identity-media img{object-fit:contain!important;filter:none!important;max-width:min(70%,720px);max-height:70%}
+.light-media{background:var(--paper)!important}
 .contain-media img,.contain-media video{object-fit:contain!important;background:#080807}
 .brand-lockup{width:100%;height:100%;display:grid;place-items:center;background:#080807;color:var(--paper)}
 .brand-lockup-inner{display:flex;align-items:center;gap:clamp(1rem,2vw,2rem)}
-.brand-lockup img{width:clamp(72px,10vw,150px)!important;height:auto!important;object-fit:contain!important;filter:none!important}
-.brand-lockup span{font-size:clamp(3rem,8vw,8rem);font-weight:760;letter-spacing:.22em;text-transform:uppercase}
+.brand-lockup img{width:clamp(60px,8vw,120px)!important;height:auto!important;object-fit:contain!important;filter:none!important}
+.brand-lockup span{font-size:clamp(2.2rem,5vw,5.2rem);font-weight:760;letter-spacing:.16em;text-transform:uppercase}
 .project-copy{padding:clamp(1.35rem,3vw,3.2rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
 .project-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.86rem}
 .badge{border:1px solid var(--line);border-radius:999px;padding:.45rem .65rem;color:rgba(244,240,231,.78)}
@@ -135,6 +136,8 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
 .modal-media{background:#080807;display:flex;flex-direction:column;min-height:620px}
 .media-stage{position:relative;flex:1;display:grid;place-items:center;overflow:hidden;background:#080807}
 .media-stage img,.media-stage video{max-width:100%;max-height:calc(100svh - 170px);width:auto;height:auto;object-fit:contain}
+.media-light{width:100%;height:100%;background:var(--paper);display:grid;place-items:center;padding:clamp(2rem,6vw,6rem)}
+.media-light img{max-width:min(76%,860px);max-height:70%;object-fit:contain}
 .media-controls{height:84px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:1rem;color:var(--muted)}
 .media-control{border:1px solid var(--line);background:transparent;border-radius:999px;min-width:92px;padding:.85rem 1rem;cursor:pointer}
 .media-control:disabled{opacity:.25;cursor:not-allowed}
@@ -280,34 +283,32 @@ const T="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/
 const projects=[
   {title:"PawsAid",year:"2026",cat:"Product · brand · e-commerce",status:"Live",featured:true,
    role:"Co-founder · CTO · product and brand direction",
-   img:"assets/pawsaid/hero.jpg",
-   tagline:"Pet first-aid kits for dogs and cats in Hong Kong, supported by bilingual commerce, care guides, and Boris.",
-   desc:"PawsAid brings pet first-aid kit design, bilingual shopping flow, educational care content, and Boris into one product system. The work covers kit hierarchy, product copy, launch visuals, commerce structure, and emergency-aware assistant design.\n\nThe product hierarchy is shown in order: Essential, Pro, and Plus.",
+   img:"assets/pawsaid/logo-transparent.png",thumb:"identity",tone:"light",
+   tagline:"A Hong Kong pet first-aid brand with bilingual commerce, care guides, and an emergency-aware assistant layer.",
+   desc:"PawsAid combines kit design, bilingual product content, launch visuals, e-commerce structure, care education, and Boris, an assistant layer designed around urgent pet-health questions.\n\nThe kit campaign image shows the product hierarchy together: Essential, Pro, and Plus.",
    media:[
-    {src:"assets/pawsaid/essential-kit.png",caption:"PawsAid Essential kit"},
-    {src:"assets/pawsaid/pro-kit.png",caption:"PawsAid Pro kit"},
-    {src:"assets/pawsaid/plus-kit.png",caption:"PawsAid Plus kit"},
+    {src:"assets/pawsaid/logo-transparent.png",caption:"PawsAid logo",bg:"light"},
     {src:"assets/pawsaid/hero.jpg",caption:"PawsAid three-kit campaign image"},
     {src:"assets/pawsaid/campaign.png",caption:"PawsAid launch campaign image"}
    ],
    links:[{label:"View PawsAid",url:"https://pawsaid.hk",style:"acid"},{label:"View PawsAid Instagram",url:"https://www.instagram.com/pawsaid.hk/"}]},
   {title:"ROLL CALL",year:"2026",cat:"Material-culture archive · interactive",status:"Live",
    role:"Founder · researcher · creative technologist",
-   img:"assets/rollcall-screenshot.png",
-   tagline:"A public archive that treats toilet paper as field evidence: bodily comfort, class, travel, hotels, wrappers, and infrastructure.",
-   desc:"ROLL CALL is deliberately funny until it becomes exact. Each specimen is recorded through origin, manufacturer, price, material, scent, ply, texture, wrapper, location, and the reason it entered the archive.\n\nThe archive works because the object is too ordinary to defend itself. A hotel roll, a premium supermarket pack, or a single-ply dispenser starts to reveal who gets privacy, softness, hygiene, and convenience as defaults.",
+   img:"assets/rollcall-title.svg",
+   tagline:"A material-culture archive that studies toilet paper through design, hospitality, travel, privacy, and bodily comfort.",
+   desc:"ROLL CALL catalogues toilet paper as an everyday object with social, economic, and sensory consequences. Each entry treats packaging, texture, scent, price, place, and circumstance as evidence rather than trivia.\n\nThe project moves between archive, essay, and interface: a public collection that asks why a disposable object can reveal so much about comfort, access, and routine.",
    media:[
-    {src:"assets/rollcall-screenshot.png",caption:"ROLL CALL title image"},
-    {src:`${T}rollcall-scatter.jpg`,caption:"Specimen scatter"},
+    {src:"assets/rollcall-title.svg",caption:"ROLL CALL title image"},
+    {src:"assets/rollcall-holographic-roll.png",caption:"Holographic toilet paper specimen from ROLL CALL"},
     {src:"assets/rollcall-thumb.jpg",caption:"ROLL CALL installation image"},
     {src:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",caption:"Specimen render from the live archive"}
    ],
    links:[{label:"View ROLL CALL",url:"https://hydrogenbondss.github.io/Rollcall/",style:"acid"},{label:"View ROLL CALL GitHub",url:"https://github.com/hydrogenbondss/Rollcall"}]},
   {title:"ECHO: Love and Logged",year:"2026",cat:"Interactive narrative · Ren'Py artwork",status:"Prototype",
    role:"Creator · writer · art director · systems designer",
-   img:"assets/echo/portfolio/screen-dialogue.jpg",
-   tagline:"An English Ren'Py narrative artwork about profiles, routes, memory, and the way an interface shapes romantic choice.",
-   desc:"ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player creates a profile inside ECHO, meets Kite, Blake, and Neo or Nia, and moves through route-specific scenes shaped by attention, memory, and choice.\n\nThe system includes player profile setup, pronoun logic, route variants, ECHO's archive/log structure, and route-specific interactions including cocktail mixing, photography, and LEGO building. Remy is presented as the assistant inside the app, not as a spoiler or genre twist.",
+   img:"assets/echo/portfolio/screen-dialogue.jpg",fit:"contain",
+   tagline:"An English Ren'Py interactive artwork about profiles, route choice, memory, and romantic attention inside an app interface.",
+   desc:"ECHO: Love and Logged is built in Ren'Py around a fictional relationship app. The player creates a profile, meets Kite, Blake, and Neo or Nia, and moves through routes shaped by what they choose to notice, save, ignore, and revisit.\n\nThe system includes profile setup, pronoun logic, route variants, archive/log screens, and route-specific interactions including cocktail mixing, photography, and LEGO building.",
    media:[
     {src:"assets/echo/portfolio/screen-dialogue.jpg",caption:"ECHO in-engine dialogue scene"},
     {src:"assets/echo/portfolio/banner-wide.jpg",caption:"The Copper Room atmosphere"},
@@ -324,11 +325,11 @@ const projects=[
     {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/docs/images/readme-player.png",caption:"Teleprompter player UI"}
    ],
    links:[{label:"View SPECTOR",url:"https://www.spectorlabs.io/",style:"acid"},{label:"View SPECTOR GitHub",url:"https://github.com/hydrogenbondss/SPECTOR"},{label:"View SPECTOR Instagram",url:"https://www.instagram.com/spectorlabs/"}]},
-  {title:"SELTA",year:"2026",cat:"AI product · Cantonese coach · Telegram",status:"Live",
+  {title:"SELTA",year:"2026",cat:"AI product · Cantonese web app",status:"Live",
    role:"Founder · product strategy · AI systems · brand direction",
    img:"assets/selta/remy-intro.png",
-   tagline:"A Cantonese-native relationship support product for Hong Kong users who want direct, emotionally literate advice in their own language.",
-   desc:"SELTA is not framed as a companion, therapist, or pickup tool. It is a practical relationship and emotional-support product tuned for Hong Kong behaviour: code-switching, short replies, honest decoding, and one concrete next step.\n\nThe user-facing coach is Remy, a calm Cantonese persona designed to make the product feel direct without becoming romantic or clinically cold. The system combines Gemini chat, safety screening, semantic retrieval, a Telegram front end, local chat storage, Supabase sync, and a learning pipeline for Cantonese relationship language.",
+   tagline:"A Cantonese relationship-support web app for Hong Kong users who want direct, emotionally literate guidance in their own language.",
+   desc:"SELTA is a relationship-support product tuned for Hong Kong language and behaviour: Cantonese, English code-switching, short-message context, emotional decoding, and one concrete next step.\n\nThe web app combines Gemini chat, safety screening, semantic retrieval, Supabase-backed storage, and a learning pipeline for Cantonese relationship language.",
    media:[
     {src:"assets/selta/remy-intro.png",caption:"SELTA coach introduction"},
     {src:"assets/selta/remy-truth-1.png",caption:"Non-romantic relationship coach framing"},
@@ -337,13 +338,13 @@ const projects=[
    links:[{label:"View SELTA",url:"https://selta-production.up.railway.app/",style:"acid"},{label:"View SELTA GitHub",url:"https://github.com/hydrogenbondss/SELTA"},{label:"View SELTA Instagram",url:"https://www.instagram.com/selta.hk/"}]},
   {title:"Noru",year:"2026",cat:"Mobile game · PWA · Firebase",status:"Live",
    role:"Founder · game design · product engineering",
-   img:"assets/noru/repo-icon.png",thumb:"identity",
+   img:"assets/noru/logo.png",thumb:"identity",tone:"light",
    tagline:"A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.",
-   desc:"Noru is built as a game product, not just a mascot. Players can face AI bots, race a daily challenge, level up, unlock achievements, and share results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment.",
+   desc:"Noru is a mobile-first trivia game built around quick sessions, bot opponents, daily challenges, progression, achievements, and shareable results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment.",
    media:[
-    {src:"assets/noru/repo-icon.png",caption:"Noru current app icon"},
+    {src:"assets/noru/logo.png",caption:"Noru logo",bg:"light"},
     {src:"assets/noru/home-current.png",caption:"Noru onboarding screen"},
-    {src:"assets/noru/icon-512.png",caption:"Noru mascot icon"}
+    {src:"assets/noru/icon-512.png",caption:"Noru mascot"}
    ],
    links:[{label:"View Noru",url:"https://noru-ai.web.app/#/onboarding",style:"acid"},{label:"View Noru GitHub",url:"https://github.com/hydrogenbondss/Noru"},{label:"View Noru Instagram",url:"https://www.instagram.com/noru.game/"}]}
 ];
@@ -427,12 +428,13 @@ const research=[
    desc:"Press citation connected to research on Beitler's lynching photograph and the ethical afterlife of violent historical images. This belongs in the research section as citation context, not as a visual thumbnail."}
 ];
 
-const tools=["React","TypeScript","JavaScript","Python","Node.js","Firebase","Supabase","Cloud Functions","Telegram Bots","tRPC","Drizzle ORM","PostgreSQL","PWA","Ren'Py","Gemini","RAG","Embeddings","ComfyUI","LoRA Training","Midjourney","Runway","Figma","After Effects","Premiere Pro","Photoshop","Illustrator","Kaggle"];
+const tools=["React","TypeScript","JavaScript","Python","Node.js","Firebase","Supabase","Cloud Functions","tRPC","Drizzle ORM","PostgreSQL","PWA","Ren'Py","Gemini","RAG","Embeddings","ComfyUI","LoRA Training","Midjourney","Runway","Figma","After Effects","Premiere Pro","Photoshop","Illustrator","Kaggle"];
 let active=null,mediaIndex=0,lastFocus=null;
 const modal=document.getElementById("modal"),stage=document.getElementById("mediaStage"),caption=document.getElementById("mediaCaption"),count=document.getElementById("modalCount"),copy=document.getElementById("modalCopy"),prev=document.getElementById("prevMedia"),next=document.getElementById("nextMedia");
 
 function mediaMarkup(item){
   if(item.type==="video") return `<video src="${item.src}" poster="${item.poster||""}" controls autoplay muted loop playsinline></video>`;
+  if(item.bg==="light") return `<div class="media-light"><img src="${item.src}" alt="${item.caption||active.title}"></div>`;
   return `<img src="${item.src}" alt="${item.caption||active.title}">`;
 }
 function showMedia(i){
@@ -475,7 +477,7 @@ function mediaBg(item){
   return src ? ` style="background-image:url('${src.replace(/'/g,"%27")}')"` : "";
 }
 function mediaClass(item,base){
-  return [base,item.thumb==="identity"?"identity-media":"",item.fit==="contain"?"contain-media":""].filter(Boolean).join(" ");
+  return [base,item.thumb==="identity"?"identity-media":"",item.tone==="light"?"light-media":"",item.fit==="contain"?"contain-media":""].filter(Boolean).join(" ");
 }
 function renderProjects(){
   document.getElementById("projectList").innerHTML=projects.map((p,i)=>`<button class="project-card ${p.featured?"featured":""}" type="button" data-kind="project" data-i="${i}">
