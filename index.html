@@ -107,8 +107,8 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .kicker{color:var(--muted);font-size:.82rem}
 .card h3{margin:0;font-size:1.45rem;line-height:1.05;letter-spacing:0}
 .card p{margin:0;color:rgba(244,240,231,.72);line-height:1.48}
-.editorial-grid{display:flex;flex-wrap:wrap;gap:1px;background:var(--line)}
-.editorial-card{position:relative;display:block;flex:1 1 320px;aspect-ratio:16/10;overflow:hidden;background:#171714;color:var(--paper)}
+.editorial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line)}
+.editorial-card{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#171714;color:var(--paper)}
 .editorial-card img{width:100%;height:100%;object-fit:cover;transition:transform 650ms var(--ease-out),filter 650ms var(--ease-out)}
 .editorial-card:hover img{transform:scale(1.035);filter:brightness(1.08) contrast(1.04)}
 .editorial-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(15,15,13,.78),rgba(15,15,13,.12) 48%,transparent);opacity:.86;transition:opacity 180ms var(--ease-out)}
