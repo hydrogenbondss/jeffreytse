@@ -132,7 +132,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
 .modal-shell{width:min(1480px,100%);height:100%;background:var(--bg);border-left:1px solid var(--line);border-right:1px solid var(--line);overflow:auto}
 .modal-bar{position:sticky;top:0;z-index:3;background:rgba(15,15,13,.86);backdrop-filter:blur(18px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:.8rem clamp(1rem,2vw,1.5rem)}
 .modal-close{border:1px solid var(--line);background:rgba(244,240,231,.04);border-radius:999px;padding:.7rem 1rem;cursor:pointer}
-.modal-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.48fr);gap:1px;background:var(--line);min-height:calc(100svh - 62px)}
+.modal-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,.54fr);gap:1px;background:var(--line);min-height:calc(100svh - 62px)}
 .modal-media{background:#080807;display:flex;flex-direction:column;min-height:620px}
 .media-stage{position:relative;flex:1;display:grid;place-items:center;overflow:hidden;background:#080807}
 .media-stage img,.media-stage video{max-width:100%;max-height:calc(100svh - 170px);width:auto;height:auto;object-fit:contain}
@@ -141,8 +141,8 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
 .media-controls{height:84px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:1rem;color:var(--muted)}
 .media-control{border:1px solid var(--line);background:transparent;border-radius:999px;min-width:92px;padding:.85rem 1rem;cursor:pointer}
 .media-control:disabled{opacity:.25;cursor:not-allowed}
-.modal-copy{background:var(--bg);padding:clamp(1.3rem,3vw,3rem);display:flex;flex-direction:column;gap:1.2rem}
-.modal-copy h2{font-size:clamp(2.5rem,5.8vw,6.5rem);line-height:.88;margin:0}
+.modal-copy{background:var(--bg);padding:clamp(1.3rem,3vw,3rem);display:flex;flex-direction:column;gap:1.2rem;min-width:0;overflow:hidden}
+.modal-copy h2{font-size:clamp(2.3rem,4.25vw,5rem);line-height:.94;margin:0;max-width:100%;overflow-wrap:break-word;text-wrap:balance}
 .modal-copy p{color:rgba(244,240,231,.78);line-height:1.62;font-size:1.04rem;white-space:pre-line;margin:0}
 .modal-meta{display:flex;flex-wrap:wrap;gap:.55rem}
 .modal-meta span{border:1px solid var(--line);border-radius:999px;padding:.5rem .7rem;color:var(--muted);font-size:.86rem}
@@ -160,7 +160,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
 @media (max-width:620px){
   h1{font-size:22vw}.hero-line:nth-child(2){-webkit-text-stroke:1px rgba(244,240,231,.5)}
   .section{padding:4rem 1rem}.project-copy{padding:1.2rem}.project-title{font-size:3rem}
-  .modal-media{min-height:420px}.media-stage img,.media-stage video{max-height:62svh}.modal-copy h2{font-size:3rem}
+  .modal-media{min-height:420px}.media-stage img,.media-stage video{max-height:62svh}.modal-copy h2{font-size:2.7rem}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -407,7 +407,7 @@ const exhibitions=[
   {title:"Resonance",year:"2017",cat:"Curated exhibition · JCCAC, Hong Kong",
    desc:"Presented at the Jockey Club Creative Arts Centre in Hong Kong, Resonance brought together works exploring memory, identity, and emotional trace: the ways experience leaves marks that persist, evolve, and resurface. The exhibition featured abstract acrylic paintings on circular canvases, treating relational experience as a structure rather than an event."},
   {title:"Insights Unseen and Unheard",year:"2017",cat:"Group exhibition · Hatch Art Gallery",img:"assets/exhibitions/sight-unseen-untitled-1.jpg",
-   desc:"Includes Untitled, 2017 and Impulsive Fragments, kept together as one exhibition context with both still and video documentation.",
+   desc:"Group exhibition at Hatch Art Gallery presenting Untitled, 2017 and Impulsive Fragments. Documentation includes still images and video.",
    media:[
     {src:"assets/exhibitions/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017"},
     {src:"assets/exhibitions/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 installation view"},
