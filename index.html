@@ -79,9 +79,9 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .light-media{background:var(--paper)!important}
 .contain-media img,.contain-media video{object-fit:contain!important;background:#080807}
 .brand-lockup{width:100%;height:100%;display:grid;place-items:center;background:#080807;color:var(--paper)}
-.brand-lockup-inner{display:flex;align-items:center;gap:clamp(1rem,2vw,2rem)}
-.brand-lockup img{width:clamp(60px,8vw,120px)!important;height:auto!important;object-fit:contain!important;filter:none!important}
-.brand-lockup span{font-size:clamp(2.2rem,5vw,5.2rem);font-weight:760;letter-spacing:.16em;text-transform:uppercase}
+.brand-lockup-inner{display:flex;align-items:center;justify-content:center;gap:clamp(.7rem,1.5vw,1.4rem);max-width:84%;min-width:0}
+.brand-lockup img{width:clamp(44px,6vw,96px)!important;height:auto!important;object-fit:contain!important;filter:none!important;flex:0 0 auto}
+.brand-lockup span{font-size:clamp(1.55rem,3.8vw,3.8rem);font-weight:760;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
 .project-copy{padding:clamp(1.35rem,3vw,3.2rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
 .project-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.86rem}
 .badge{border:1px solid var(--line);border-radius:999px;padding:.45rem .65rem;color:rgba(244,240,231,.78)}
@@ -175,8 +175,9 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <div class="navlinks" id="navlinks">
     <a href="#work">Work</a>
     <a href="#motion">Motion</a>
+    <a href="#writing">Exhibitions</a>
     <a href="#campaigns">Campaign</a>
-    <a href="#writing">Writing</a>
+    <a href="#editorial">Editorial</a>
     <a href="#research">Research</a>
     <a href="#about">About</a>
     <a class="nav-cta" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">CV</a>
@@ -222,14 +223,22 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="section" id="campaigns">
     <div class="section-head">
       <div class="sec-no">04 / Campaign</div>
-      <div><h2>Campaign and editorial.</h2><p class="section-intro">Commercial writing, editorial strategy, and public-facing campaign work shown as separate contexts instead of one collapsed row.</p></div>
+      <div><h2>Campaigns.</h2><p class="section-intro">Public-facing campaign writing across technology, tourism, entertainment, and destination contexts.</p></div>
     </div>
     <div class="wide-list" id="campaignList"></div>
   </section>
 
+  <section class="section" id="editorial">
+    <div class="section-head">
+      <div class="sec-no">05 / Editorial</div>
+      <div><h2>Editorial.</h2><p class="section-intro">Fashion editorial and interview-led writing kept separate from campaign work.</p></div>
+    </div>
+    <div class="wide-list" id="editorialList"></div>
+  </section>
+
   <section class="section" id="research">
     <div class="section-head">
-      <div class="sec-no">05 / Research</div>
+      <div class="sec-no">06 / Research</div>
       <div><h2>Writing and research.</h2><p class="section-intro">Academic writing, essays, and citations. This section is text-led unless a work has a specific image or publication context worth opening.</p></div>
     </div>
     <div class="wide-list" id="researchList"></div>
@@ -240,7 +249,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
       <div class="about-img"><img src="assets/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse"></div>
       <div>
         <p class="about-text">Jeffrey N. Tse is a Hong Kong-based builder working across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
-        <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and AI motion. The through-line is attention to behaviour: what people trust, save, hide, repeat, buy, and remember.</p>
+        <p class="about-small">His work combines shipped products, research-led archives, exhibition practice, and AI-assisted image and motion experiments. Across software, writing, and visual systems, the focus is on making complex ideas legible without flattening their context.</p>
       </div>
     </div>
   </section>
@@ -350,13 +359,15 @@ const projects=[
 ];
 
 const motionWorks=[
-  {title:"Ash",year:"2026",cat:"Character design · AI motion",img:"assets/ash/ash-hover-poster.jpg",fit:"contain",
-   desc:"Character sheet, stills, and motion tests for Ash. The building encounter leads the media set, followed by the still, run cycle, and character sheet.",
+  {title:"ASH-01",year:"2026",cat:"Character design · AI motion",img:"assets/ash/ash-hover-poster.jpg",fit:"contain",
+   desc:"Character and motion study for ASH-01. The media set keeps the building encounter, still frame, and run cycle together instead of splitting them across separate entries.",
    media:[
     {type:"video",src:"assets/ash/ash-hover.mp4",poster:"assets/ash/ash-hover-poster.jpg",caption:"Ash building encounter motion"},
     {src:"assets/ash/ash-hover-poster.jpg",caption:"Ash building encounter still"},
     {type:"video",src:"assets/ash/ash-running.mp4",poster:"assets/ash/ash-running-poster.jpg",caption:"Ash running animation"},
-    {src:"assets/ash/ash-running-poster.jpg",caption:"Ash running still"}
+    {src:"assets/ash/ash-running-poster.jpg",caption:"Ash running still"},
+    {src:"assets/ash/ash-01-character.jpg",caption:"ASH-01 building still"},
+    {type:"video",src:"assets/ash/ash-01-character-motion.mp4",poster:"assets/ash/ash-01-character.jpg",caption:"ASH-01 motion source"}
    ]},
   {title:"PabePabe Trilogy",year:"2026",cat:"AI creative direction",img:"assets/pabepabe-ocarina.jpg",
    desc:"Commissioned generative-video trilogy for PabePabe. Each film gives one bag its own material behaviour: Ocarina, Flute Soft, and Horn.",
@@ -369,19 +380,32 @@ const motionWorks=[
     {src:"assets/pabepabe-horn.jpg",caption:"Horn still"}
    ],
    links:[{label:"View PabePabe",url:"https://www.pabepabe.com/",style:"acid"}]},
-  {title:"Feature World",year:"2026",cat:"Interactive experiment",img:"assets/feature-world-thumbnail.jpg",
-   desc:"Browser-based visual experiment built around collapsing interface language, chaos, and playable screen-space tension.",
-   media:[{src:"assets/feature-world-thumbnail.jpg",caption:"Feature World thumbnail"}]},
+  {title:"Feature World",year:"2026",cat:"Interactive experiment",img:"assets/feature-world-thumbnail.jpg",fit:"contain",
+   desc:"Interactive creative-coding experiment built around touch, screen-space physics, and controlled visual chaos.",
+   media:[
+    {type:"video",src:"assets/feature-world-chaos.mp4",poster:"assets/feature-world-thumbnail.jpg",caption:"Feature World motion"},
+    {src:"assets/feature-world-thumbnail.jpg",caption:"Feature World thumbnail"}
+   ]},
   {title:"Turbo MG21",year:"2026",cat:"AI motion study",img:"assets/turbo-mg21.jpg",
    desc:"AI motion and product-visual study for a speculative headset object.",
    media:[{src:"assets/turbo-mg21.jpg",caption:"Turbo MG21 still"}]}
 ];
 
 const exhibitions=[
+  {title:"Welcome Home",year:"2019",cat:"Curated exhibition · Wil Aballe Art Projects, Vancouver",
+   desc:"How does our sense of self come to inform the spaces we occupy, and how do the spaces we occupy inform our sense of self? Building on Steven Vertovec's concept of superdiversity, Welcome Home examined home as a fluid condition that shifts alongside ourselves. The exhibition brought together sculpture, performance, found objects, and sound installation around identity, belonging, remembrance, and interior and exterior space."},
+  {title:"Finite Appearances",year:"2018",cat:"Co-curated exhibition · Wil Aballe Art Projects, Vancouver",img:"assets/exhibitions/finite-appearances-gallery.jpg",
+   desc:"Research-driven exhibition exploring bodily traces, intimacy, ephemerality, and the documentation of presence through performance remnants and archival gestures.",
+   media:[
+    {src:"assets/exhibitions/finite-appearances-gallery.jpg",caption:"Finite Appearances gallery view"},
+    {src:"assets/exhibitions/finite-appearances-soap-hands.jpg",caption:"Finite Appearances object documentation"}
+   ]},
   {title:"UNDERGROWTH",year:"2018",cat:"Co-curated exhibition · UBC Audain Gallery",img:"assets/exhibitions/undergrowth-poster.jpg",
    desc:"The 2018 BFA/BA Visual Art graduating exhibition at UBC, represented with the verified exhibition poster and catalogue.",
    media:[{src:"assets/exhibitions/undergrowth-poster.jpg",caption:"UNDERGROWTH exhibition poster"}],
    links:[{label:"View UNDERGROWTH Catalogue",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf",style:"acid"}]},
+  {title:"Resonance",year:"2017",cat:"Curated exhibition · JCCAC, Hong Kong",
+   desc:"Presented at the Jockey Club Creative Arts Centre in Hong Kong, Resonance brought together works exploring memory, identity, and emotional trace: the ways experience leaves marks that persist, evolve, and resurface. The exhibition featured abstract acrylic paintings on circular canvases, treating relational experience as a structure rather than an event."},
   {title:"Insights Unseen and Unheard",year:"2017",cat:"Group exhibition · Hatch Art Gallery",img:"assets/exhibitions/sight-unseen-untitled-1.jpg",
    desc:"Includes Untitled, 2017 and Impulsive Fragments, kept together as one exhibition context with both still and video documentation.",
    media:[
@@ -390,28 +414,24 @@ const exhibitions=[
     {src:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments still"},
     {type:"video",src:"assets/exhibitions/impulsive-fragments.mp4",poster:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments video"}
    ]}
-  ,
-  {title:"Finite Appearances",year:"2017",cat:"Exhibition documentation",img:"assets/exhibitions/finite-appearances-gallery.jpg",
-   desc:"Gallery documentation for Finite Appearances, including installation view and soap-hands object documentation.",
-   media:[
-    {src:"assets/exhibitions/finite-appearances-gallery.jpg",caption:"Finite Appearances gallery view"},
-    {src:"assets/exhibitions/finite-appearances-soap-hands.jpg",caption:"Finite Appearances object documentation"}
-   ]}
 ];
 
 const campaigns=[
   {title:"Samsung x WWF Earth Hour",year:"2020–2025",cat:"Bilingual campaign writing",img:"assets/campaign-earthday.jpg",
    desc:"Campaign writing for a public-facing sustainability collaboration, balancing brand clarity with environmental messaging.",
    media:[{src:"assets/campaign-earthday.jpg",caption:"Samsung x WWF Earth Hour"}]},
-  {title:"I.T — Fashion Editorial",year:"2020–2025",cat:"Fashion retail editorial",img:"assets/campaign-it-bape.jpg",
-   desc:"Fashion retail editorial and campaign copy for I.T, including seasonal product storytelling and designer-led features.",
-   media:[{src:"assets/campaign-it-bape.jpg",caption:"I.T editorial campaign image"}]},
   {title:"Ocean Park Halloween Fest",year:"2020–2025",cat:"Tourism and entertainment campaign",img:"assets/campaign-ocean-park.jpg",
    desc:"Public-facing campaign writing for a high-traffic entertainment and tourism context.",
    media:[{src:"assets/campaign-ocean-park.jpg",caption:"Ocean Park Halloween Fest"}]},
   {title:"Hong Kong Tourism Board",year:"2020–2025",cat:"Tourism campaign writing",img:"assets/campaign-hktb-panda.jpg",
    desc:"Tourism campaign copy and public-facing messaging for Hong Kong audience contexts.",
    media:[{src:"assets/campaign-hktb-panda.jpg",caption:"HKTB campaign image"}]}
+];
+
+const editorials=[
+  {title:"Fashion Editorials",year:"2023–2025",cat:"Fashion editorial · I.T Apparels",img:"assets/campaign-it-bape.jpg",
+   desc:"Chief Editor work across fashion retail and editorial contexts, including Markgong FW25, Doublet, A BATHING APE, and Carhartt WIP across New York and Hong Kong.",
+   media:[{src:"assets/campaign-it-bape.jpg",caption:"Fashion editorial image"}]}
 ];
 
 const research=[
@@ -499,12 +519,12 @@ function renderRows(id,list,showImages=true){
   </button>`).join("");
 }
 function hydrate(){
-  renderProjects(); renderGrid("motionGrid",motionWorks); renderRows("exhibitionList",exhibitions); renderRows("campaignList",campaigns); renderRows("researchList",research,false);
+  renderProjects(); renderGrid("motionGrid",motionWorks); renderRows("exhibitionList",exhibitions,false); renderRows("campaignList",campaigns); renderRows("editorialList",editorials); renderRows("researchList",research,false);
   const toolsWrap=document.createElement("div"); toolsWrap.className="tools"; toolsWrap.innerHTML=tools.map(t=>`<span class="tool">${t}</span>`).join("");
   document.getElementById("about").appendChild(toolsWrap);
   document.body.addEventListener("click",e=>{
     const btn=e.target.closest("[data-kind]"); if(!btn) return;
-    const map={project:projects,motionGrid:motionWorks,exhibitionList:exhibitions,campaignList:campaigns,researchList:research};
+    const map={project:projects,motionGrid:motionWorks,exhibitionList:exhibitions,campaignList:campaigns,editorialList:editorials,researchList:research};
     openItem(map[btn.dataset.kind][Number(btn.dataset.i)]);
   });
   document.querySelectorAll(".card,.project-card").forEach(card=>{
