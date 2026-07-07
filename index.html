@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Jeffrey N. Tse — Product, AI, Culture, Motion</title>
-<meta name="description" content="Portfolio of Jeffrey N. Tse: PawsAid, ROLL CALL, ECHO: Love and Logged, SPECTOR, SELTA, Noru, motion studies, writing, exhibitions, and research.">
+<meta name="description" content="Portfolio of Jeffrey N. Tse: PawsAid, ROLL CALL, ECHO: Love and Logged, Spector, SELTA, Noru, motion studies, campaign writing, exhibitions, and research.">
 <meta property="og:title" content="Jeffrey N. Tse">
 <meta property="og:description" content="Product engineering, AI systems, cultural research, brand direction, and motion studies.">
 <meta property="og:type" content="website">
-<link rel="preload" as="image" href="assets/pawsaid/logo.jpg">
-<link rel="preload" as="image" href="assets/rollcall-thumb.jpg">
+<link rel="preload" as="image" href="assets/pawsaid/hero.jpg">
+<link rel="preload" as="image" href="assets/rollcall-screenshot.png">
 <link rel="preload" as="image" href="assets/spector-logo.png">
 <link rel="preload" as="image" href="assets/noru/home-current.png">
 <style>
@@ -68,14 +68,19 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .section h2{font-size:clamp(2.4rem,6.4vw,7rem);line-height:.9;letter-spacing:0;margin:0;font-weight:820}
 .section-intro{max-width:780px;color:rgba(244,240,231,.74);font-size:clamp(1rem,1.5vw,1.28rem);line-height:1.55;margin:1rem 0 0}
 .project-list{display:grid;gap:1px;background:var(--line)}
-.project-card{background:rgba(15,15,13,.96);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:1px;min-height:520px;border:0;padding:0;text-align:left;cursor:pointer;color:inherit}
+.project-card{background:rgba(15,15,13,.96);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1px;min-height:500px;border:0;padding:0;text-align:left;cursor:pointer;color:inherit}
 .project-card:nth-child(even) .project-media{order:2}
 .project-card:nth-child(even) .project-copy{order:1}
 .project-card:hover .project-media img,.project-card:hover .project-media video{transform:scale(1.035)}
-.project-media{position:relative;overflow:hidden;background-color:#171714;background-size:cover;background-position:center;min-height:420px}
+.project-media{position:relative;overflow:hidden;background-color:#171714;background-size:cover;background-position:center;min-height:500px}
 .project-media img,.project-media video{width:100%;height:100%;object-fit:cover;transition:transform 700ms var(--ease-out),filter 700ms var(--ease-out)}
-.identity-media{background:var(--paper)!important;padding:clamp(2rem,6vw,6rem);display:grid;place-items:center}
-.identity-media img{object-fit:contain!important;filter:none!important}
+.identity-media{background:#0b0b0a!important;padding:clamp(2rem,5vw,5rem);display:grid;place-items:center}
+.identity-media img{object-fit:contain!important;filter:none!important;max-width:min(70%,720px);max-height:70%}
+.contain-media img,.contain-media video{object-fit:contain!important;background:#080807}
+.brand-lockup{width:100%;height:100%;display:grid;place-items:center;background:#080807;color:var(--paper)}
+.brand-lockup-inner{display:flex;align-items:center;gap:clamp(1rem,2vw,2rem)}
+.brand-lockup img{width:clamp(72px,10vw,150px)!important;height:auto!important;object-fit:contain!important;filter:none!important}
+.brand-lockup span{font-size:clamp(3rem,8vw,8rem);font-weight:760;letter-spacing:.22em;text-transform:uppercase}
 .project-copy{padding:clamp(1.35rem,3vw,3.2rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
 .project-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.86rem}
 .badge{border:1px solid var(--line);border-radius:999px;padding:.45rem .65rem;color:rgba(244,240,231,.78)}
@@ -83,8 +88,8 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .project-tag{font-size:clamp(1.02rem,1.7vw,1.45rem);line-height:1.35;color:rgba(244,240,231,.85);max-width:760px;margin:1.1rem 0 0}
 .project-role{color:var(--muted);line-height:1.5;margin-top:1rem}
 .project-foot{display:flex;justify-content:space-between;gap:1rem;align-items:end;color:var(--muted);font-size:.92rem}
-.project-card.featured{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);min-height:680px}
-.project-card.featured .project-media{min-height:680px}
+.project-card.featured{min-height:540px}
+.project-card.featured .project-media{min-height:540px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line)}
 .card{background:rgba(15,15,13,.96);min-height:410px;border:0;color:inherit;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;transition:background 180ms var(--ease-out),transform 160ms var(--ease-out)}
 .card:hover{background:#171714}
@@ -115,9 +120,9 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .about-img img{width:100%;height:auto}
 .about-text{font-size:clamp(1.25rem,2.3vw,2.35rem);line-height:1.18;max-width:980px;margin:0}
 .about-small{color:rgba(244,240,231,.68);font-size:1.05rem;line-height:1.65;max-width:760px;margin:1.4rem 0 0}
-.contact{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:end}
+.contact{display:grid;gap:2rem;align-items:start}
 .contact h2{font-size:clamp(3.6rem,10vw,11rem);line-height:.86;margin:0}
-.contact-links{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:flex-end}
+.contact-links{display:flex;flex-wrap:wrap;gap:.7rem}
 footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.9rem}
 .modal{position:fixed;inset:0;z-index:80;background:rgba(7,7,6,.82);backdrop-filter:blur(20px);display:none;align-items:stretch;justify-content:center;padding:0}
 .modal.open{display:flex}
@@ -146,7 +151,7 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   .nav.open .navlinks{display:flex;position:absolute;top:72px;left:1rem;right:1rem;flex-direction:column;align-items:stretch;background:rgba(15,15,13,.96);border:1px solid var(--line);border-radius:8px;padding:.5rem;backdrop-filter:blur(18px)}
   .hero,.project-card,.project-card.featured,.modal-grid,.about-grid,.contact{grid-template-columns:1fr}
   .hero{padding-top:6rem;min-height:auto}.project-card.featured .project-media,.project-media{min-height:360px}
-  .section-head{grid-template-columns:1fr}.grid,#worldGrid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row img{max-width:280px}.contact-links{justify-content:flex-start}
+  .section-head{grid-template-columns:1fr}.grid,#motionGrid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.row img{max-width:280px}.contact-links{justify-content:flex-start}
   .project-card:nth-child(even) .project-media,.project-card:nth-child(even) .project-copy{order:initial}
 }
 @media (max-width:620px){
@@ -166,7 +171,8 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <button class="mobile-toggle" id="menuBtn" type="button" aria-label="Open navigation">Menu</button>
   <div class="navlinks" id="navlinks">
     <a href="#work">Work</a>
-    <a href="#worlds">Motion</a>
+    <a href="#motion">Motion</a>
+    <a href="#campaigns">Campaign</a>
     <a href="#writing">Writing</a>
     <a href="#research">Research</a>
     <a href="#about">About</a>
@@ -179,11 +185,9 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
     <div class="hero-copy">
       <div class="eyebrow">Hong Kong · Product engineering · AI systems · cultural research</div>
       <h1><span class="hero-line">Jeffrey</span><span class="hero-line">N. Tse</span></h1>
-      <p class="statement">Product engineering, AI systems, brand direction, cultural research, and interactive narrative. <strong>The site now leads with work that has credible proof: shipped software, real objects, playable prototypes, and writing that can survive scrutiny.</strong></p>
+      <p class="statement">Product engineering, AI systems, brand direction, cultural research, and interactive narrative.</p>
       <div class="hero-actions">
         <a class="linkbtn primary" href="#work">View selected work</a>
-        <a class="linkbtn" href="mailto:jeffreynicholast@gmail.com">Contact</a>
-        <a class="linkbtn" href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
       </div>
     </div>
   </section>
@@ -191,55 +195,59 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="section" id="work">
     <div class="section-head">
       <div class="sec-no">01 / Selected</div>
-      <div><h2>Flagship systems.</h2><p class="section-intro">The portfolio leads with shipped or playable work: a real pet first-aid product, a public archive, a Ren'Py narrative artwork, an open-source PWA, a Cantonese AI product, and a mobile game.</p></div>
+      <div><h2>Selected work.</h2><p class="section-intro">Products, archives, interactive narrative, AI tools, and game systems with enough material behind them to be judged on the work itself.</p></div>
     </div>
     <div class="project-list" id="projectList"></div>
   </section>
 
-  <section class="section" id="worlds">
+  <section class="section" id="motion">
     <div class="section-head">
-      <div class="sec-no">02 / Worlds</div>
-      <div><h2>Motion studies.</h2><p class="section-intro">Character and AI motion work only: pieces with actual visual material, not claims the code cannot support.</p></div>
+      <div class="sec-no">02 / Motion</div>
+      <div><h2>Motion studies.</h2><p class="section-intro">Character, product, and AI motion experiments with the strongest available source material, stills, and hover-play video.</p></div>
     </div>
-    <div class="grid" id="worldGrid"></div>
+    <div class="grid" id="motionGrid"></div>
   </section>
 
   <section class="section" id="writing">
     <div class="section-head">
-      <div class="sec-no">03 / Writing</div>
-      <div><h2>Editorial and exhibitions.</h2><p class="section-intro">Fashion copy, exhibition work, and publication contexts. These support the product story by showing taste, research discipline, and audience fluency.</p></div>
+      <div class="sec-no">03 / Exhibitions</div>
+      <div><h2>Exhibitions.</h2><p class="section-intro">Exhibition contexts and artwork documentation, kept separate from campaign and commercial writing.</p></div>
     </div>
-    <div class="wide-list" id="writingList"></div>
+    <div class="wide-list" id="exhibitionList"></div>
+  </section>
+
+  <section class="section" id="campaigns">
+    <div class="section-head">
+      <div class="sec-no">04 / Campaign</div>
+      <div><h2>Campaign and editorial.</h2><p class="section-intro">Commercial writing, editorial strategy, and public-facing campaign work shown as separate contexts instead of one collapsed row.</p></div>
+    </div>
+    <div class="wide-list" id="campaignList"></div>
   </section>
 
   <section class="section" id="research">
     <div class="section-head">
-      <div class="sec-no">04 / Research</div>
-      <div><h2>Research with teeth.</h2><p class="section-intro">Research here is treated as a working method: objects, platforms, images, spectatorship, and everyday rituals are read as systems with consequences.</p></div>
+      <div class="sec-no">05 / Research</div>
+      <div><h2>Writing and research.</h2><p class="section-intro">Academic writing, essays, and citations. This section is text-led unless a work has a specific image or publication context worth opening.</p></div>
     </div>
     <div class="wide-list" id="researchList"></div>
   </section>
 
   <section class="section" id="about">
     <div class="about-grid">
-      <div class="about-img"><img src="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse"></div>
+      <div class="about-img"><img src="assets/Jeffrey_Profile.jpg" alt="Jeffrey N. Tse"></div>
       <div>
         <p class="about-text">Jeffrey N. Tse is a Hong Kong-based builder working across product engineering, AI systems, cultural research, brand direction, and interactive narrative.</p>
         <p class="about-small">The work moves between practical and strange surfaces: pet first-aid logistics, toilet paper as material culture, smart-glasses rehearsal tools, Cantonese relationship language, game systems, and AI motion. The through-line is attention to behaviour: what people trust, save, hide, repeat, buy, and remember.</p>
-        <div class="hero-actions">
-          <a class="linkbtn primary" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">Download CV</a>
-          <a class="linkbtn" href="https://www.kaggle.com/jeffreyntse" target="_blank">Kaggle</a>
-          <a class="linkbtn" href="mailto:jeffreynicholast@gmail.com">Email</a>
-        </div>
       </div>
     </div>
   </section>
 
   <section class="section contact" id="contact">
-    <h2>Let’s build<br>the sharp thing.</h2>
+    <h2>Contact.</h2>
     <div class="contact-links">
-      <a class="linkbtn primary" href="mailto:jeffreynicholast@gmail.com">Email</a>
-      <a class="linkbtn" href="https://github.com/hydrogenbondss" target="_blank">GitHub</a>
+      <a class="linkbtn primary" href="mailto:jeffreynicholast@gmail.com">jeffreynicholast@gmail.com</a>
+      <a class="linkbtn" href="https://github.com/hydrogenbondss" target="_blank">github.com/hydrogenbondss</a>
+      <a class="linkbtn" href="https://www.kaggle.com/jeffreyntse" target="_blank">kaggle.com/jeffreyntse</a>
       <a class="linkbtn" href="assets/cv/JeffreyTse_CV.pdf" target="_blank">CV</a>
     </div>
   </section>
@@ -272,47 +280,48 @@ const T="https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/
 const projects=[
   {title:"PawsAid",year:"2026",cat:"Product · brand · e-commerce",status:"Live",featured:true,
    role:"Co-founder · CTO · product and brand direction",
-   img:"assets/pawsaid/logo.jpg",thumb:"identity",
-   tagline:"A Hong Kong pet first-aid brand with real kits, real commerce, and a support layer designed for stressful moments.",
-   desc:"PawsAid should be shown as a product company, not a moodboard. The work covers the kit system, product hierarchy, brand direction, bilingual commerce, fulfilment flow, first-aid content, and Boris, an AI pet-health assistant with emergency guardrails and escalation toward veterinary care.\n\nThe important proof is that the object exists. The site, copy, product structure, and operational layer all orbit around a practical promise: make pet first aid easier to understand before panic takes over.",
+   img:"assets/pawsaid/hero.jpg",
+   tagline:"Pet first-aid kits for dogs and cats in Hong Kong, supported by bilingual commerce, care guides, and Boris.",
+   desc:"PawsAid brings pet first-aid kit design, bilingual shopping flow, educational care content, and Boris into one product system. The work covers kit hierarchy, product copy, launch visuals, commerce structure, and emergency-aware assistant design.\n\nThe product hierarchy is shown in order: Essential, Pro, and Plus.",
    media:[
-    {src:"assets/pawsaid/pro-kit.png",caption:"PawsAid PRO kit"},
     {src:"assets/pawsaid/essential-kit.png",caption:"PawsAid Essential kit"},
+    {src:"assets/pawsaid/pro-kit.png",caption:"PawsAid Pro kit"},
     {src:"assets/pawsaid/plus-kit.png",caption:"PawsAid Plus kit"},
-    {src:"assets/pawsaid/pawsaid-site.png",caption:"PawsAid.hk product page"}
+    {src:"assets/pawsaid/hero.jpg",caption:"PawsAid three-kit campaign image"},
+    {src:"assets/pawsaid/campaign.png",caption:"PawsAid launch campaign image"}
    ],
    links:[{label:"View PawsAid",url:"https://pawsaid.hk",style:"acid"},{label:"View PawsAid Instagram",url:"https://www.instagram.com/pawsaid.hk/"}]},
   {title:"ROLL CALL",year:"2026",cat:"Material-culture archive · interactive",status:"Live",
    role:"Founder · researcher · creative technologist",
-   img:"assets/rollcall-thumb.jpg",
+   img:"assets/rollcall-screenshot.png",
    tagline:"A public archive that treats toilet paper as field evidence: bodily comfort, class, travel, hotels, wrappers, and infrastructure.",
    desc:"ROLL CALL is deliberately funny until it becomes exact. Each specimen is recorded through origin, manufacturer, price, material, scent, ply, texture, wrapper, location, and the reason it entered the archive.\n\nThe archive works because the object is too ordinary to defend itself. A hotel roll, a premium supermarket pack, or a single-ply dispenser starts to reveal who gets privacy, softness, hygiene, and convenience as defaults.",
    media:[
-    {src:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",caption:"Specimen render from the live archive"},
+    {src:"assets/rollcall-screenshot.png",caption:"ROLL CALL title image"},
     {src:`${T}rollcall-scatter.jpg`,caption:"Specimen scatter"},
-    {src:`${T}rollcall-thumb.jpg`,caption:"ROLL CALL archive image"}
+    {src:"assets/rollcall-thumb.jpg",caption:"ROLL CALL installation image"},
+    {src:"https://hydrogenbondss.github.io/Rollcall/images/nepia-oshiri-celeb-render.webp",caption:"Specimen render from the live archive"}
    ],
    links:[{label:"View ROLL CALL",url:"https://hydrogenbondss.github.io/Rollcall/",style:"acid"},{label:"View ROLL CALL GitHub",url:"https://github.com/hydrogenbondss/Rollcall"}]},
   {title:"ECHO: Love and Logged",year:"2026",cat:"Interactive narrative · Ren'Py artwork",status:"Prototype",
    role:"Creator · writer · art director · systems designer",
-   img:"assets/echo/portfolio/screen-app.jpg",
-   tagline:"An English Ren'Py narrative about late-night intimacy, route choice, and Remy, the assistant who remembers too much.",
-   desc:"ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player opens ECHO, creates a profile, meets Kite, Blake, and Neo or Nia, and moves through routes shaped by memory, hesitation, and what the app records.\n\nRemy begins as the assistant inside ECHO. Over time, she becomes the pressure point of the work: she counts what the player opens, saves what they delete, and turns ordinary choices into evidence. The system includes profile setup, pronoun logic, route variants, ECHO's archive/log structure, and route-specific interactions including cocktail mixing, photography, and LEGO building.",
+   img:"assets/echo/portfolio/screen-dialogue.jpg",
+   tagline:"An English Ren'Py narrative artwork about profiles, routes, memory, and the way an interface shapes romantic choice.",
+   desc:"ECHO: Love and Logged is an English interactive digital artwork built in Ren'Py. The player creates a profile inside ECHO, meets Kite, Blake, and Neo or Nia, and moves through route-specific scenes shaped by attention, memory, and choice.\n\nThe system includes player profile setup, pronoun logic, route variants, ECHO's archive/log structure, and route-specific interactions including cocktail mixing, photography, and LEGO building. Remy is presented as the assistant inside the app, not as a spoiler or genre twist.",
    media:[
-    {src:"assets/echo/portfolio/screen-app.jpg",caption:"ECHO app interface and Remy layer"},
     {src:"assets/echo/portfolio/screen-dialogue.jpg",caption:"ECHO in-engine dialogue scene"},
     {src:"assets/echo/portfolio/banner-wide.jpg",caption:"The Copper Room atmosphere"},
-    {src:"assets/echo/portfolio/cast.jpg",caption:"Principal routes and Remy"}
+    {src:"assets/echo/portfolio/cast.jpg",caption:"Principal routes and Remy"},
+    {src:"assets/echo/portfolio/screen-app.jpg",caption:"ECHO app interface"}
    ]},
   {title:"SPECTOR",year:"2026",cat:"Open-source PWA · smart-glasses workflow",status:"Live",
    role:"Founder · product · engineering",
-   img:"assets/spector-logo.png",thumb:"identity",
+   img:"assets/spector-logo.png",lockup:"SPECTOR",
    tagline:"A local-first teleprompter for creators preparing for smart-glasses and spatial display habits.",
    desc:"SPECTOR is a free, open-source teleprompter PWA. It is built around a simple bet: if glasses become a mainstream display surface, rehearsal tools should be local-first, accessible, and hardware-agnostic.\n\nThe product includes adaptive pacing, cue syntax, local script storage, mirror mode, offline installation, rehearsal analytics, and Comfort Mode for stabilising text in motion.",
    media:[
     {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/hero-glasses.webp",caption:"Smart-glasses teleprompter positioning"},
-    {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/docs/images/readme-player.png",caption:"Teleprompter player UI"},
-    {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/public/images/comfort-comparison.webp",caption:"Comfort Mode comparison"}
+    {src:"https://raw.githubusercontent.com/hydrogenbondss/SPECTOR/main/docs/images/readme-player.png",caption:"Teleprompter player UI"}
    ],
    links:[{label:"View SPECTOR",url:"https://www.spectorlabs.io/",style:"acid"},{label:"View SPECTOR GitHub",url:"https://github.com/hydrogenbondss/SPECTOR"},{label:"View SPECTOR Instagram",url:"https://www.instagram.com/spectorlabs/"}]},
   {title:"SELTA",year:"2026",cat:"AI product · Cantonese coach · Telegram",status:"Live",
@@ -328,66 +337,94 @@ const projects=[
    links:[{label:"View SELTA",url:"https://selta-production.up.railway.app/",style:"acid"},{label:"View SELTA GitHub",url:"https://github.com/hydrogenbondss/SELTA"},{label:"View SELTA Instagram",url:"https://www.instagram.com/selta.hk/"}]},
   {title:"Noru",year:"2026",cat:"Mobile game · PWA · Firebase",status:"Live",
    role:"Founder · game design · product engineering",
-   img:"assets/noru/logo.png",thumb:"identity",
+   img:"assets/noru/repo-icon.png",thumb:"identity",
    tagline:"A mobile-first trivia game with solo bots, daily challenges, progression, and real-time multiplayer architecture.",
    desc:"Noru is built as a game product, not just a mascot. Players can face AI bots, race a daily challenge, level up, unlock achievements, and share results.\n\nThe architecture uses Firebase Auth, Firestore, Realtime Database, Cloud Functions for scoring and anti-cheat, offline-capable PWA behaviour, and a Capacitor path for native deployment.",
    media:[
+    {src:"assets/noru/repo-icon.png",caption:"Noru current app icon"},
     {src:"assets/noru/home-current.png",caption:"Noru onboarding screen"},
-    {src:"assets/noru/latest.png",caption:"Noru app screen"},
-    {src:"assets/noru/app-icon.png",caption:"Noru app icon"}
+    {src:"assets/noru/icon-512.png",caption:"Noru mascot icon"}
    ],
    links:[{label:"View Noru",url:"https://noru-ai.web.app/#/onboarding",style:"acid"},{label:"View Noru GitHub",url:"https://github.com/hydrogenbondss/Noru"},{label:"View Noru Instagram",url:"https://www.instagram.com/noru.game/"}]}
 ];
 
-const worlds=[
-  {title:"Ash",year:"2026",cat:"Character design · AI motion",img:"assets/ash/ash-hover-poster.jpg",
-   desc:"A stylised character and motion study. The portfolio shows the building encounter first, then the still, then the run cycle. The unrelated ride clip is intentionally not included.",
+const motionWorks=[
+  {title:"Ash",year:"2026",cat:"Character design · AI motion",img:"assets/ash/ash-hover-poster.jpg",fit:"contain",
+   desc:"Character sheet, stills, and motion tests for Ash. The building encounter leads the media set, followed by the still, run cycle, and character sheet.",
    media:[
     {type:"video",src:"assets/ash/ash-hover.mp4",poster:"assets/ash/ash-hover-poster.jpg",caption:"Ash building encounter motion"},
     {src:"assets/ash/ash-hover-poster.jpg",caption:"Ash building encounter still"},
     {type:"video",src:"assets/ash/ash-running.mp4",poster:"assets/ash/ash-running-poster.jpg",caption:"Ash running animation"},
     {src:"assets/ash/ash-running-poster.jpg",caption:"Ash running still"}
    ]},
-  {title:"PabePabe Trilogy",year:"2026",cat:"AI creative direction",img:`${T}PBPBocarina.jpg`,
+  {title:"PabePabe Trilogy",year:"2026",cat:"AI creative direction",img:"assets/pabepabe-ocarina.jpg",
    desc:"Commissioned generative-video trilogy for PabePabe. Each film gives one bag its own material behaviour: Ocarina, Flute Soft, and Horn.",
    media:[
-    {type:"video",src:`${T}PBPBOCARINA_VIDEO_FINAL.mp4`,poster:`${T}PBPBocarina.jpg`,caption:"Ocarina Bag"},
-    {type:"video",src:`${T}PBPB_flutebagmotion.mp4`,poster:`${T}pabepabeflutebag.jpg`,caption:"Flute Soft Bag"},
-    {type:"video",src:`${T}pbpbhornbagv2.mp4`,poster:`${T}PBPBHornBag.jpg`,caption:"Horn Bag"}
-   ]}
+    {type:"video",src:`${T}PBPBOCARINA_VIDEO_FINAL.mp4`,poster:"assets/pabepabe-ocarina.jpg",caption:"Ocarina Bag"},
+    {src:"assets/pabepabe-ocarina.jpg",caption:"Ocarina still"},
+    {type:"video",src:`${T}PBPB_flutebagmotion.mp4`,poster:"assets/pabepabe-flute.jpg",caption:"Flute Soft Bag"},
+    {src:"assets/pabepabe-flute.jpg",caption:"Flute Soft still"},
+    {type:"video",src:`${T}pbpbhornbagv2.mp4`,poster:"assets/pabepabe-horn.jpg",caption:"Horn Bag"},
+    {src:"assets/pabepabe-horn.jpg",caption:"Horn still"}
+   ],
+   links:[{label:"View PabePabe",url:"https://www.pabepabe.com/",style:"acid"}]},
+  {title:"Feature World",year:"2026",cat:"Interactive experiment",img:"assets/feature-world-thumbnail.jpg",
+   desc:"Browser-based visual experiment built around collapsing interface language, chaos, and playable screen-space tension.",
+   media:[{src:"assets/feature-world-thumbnail.jpg",caption:"Feature World thumbnail"}]},
+  {title:"Turbo MG21",year:"2026",cat:"AI motion study",img:"assets/turbo-mg21.jpg",
+   desc:"AI motion and product-visual study for a speculative headset object.",
+   media:[{src:"assets/turbo-mg21.jpg",caption:"Turbo MG21 still"}]}
 ];
 
-const writing=[
+const exhibitions=[
   {title:"UNDERGROWTH",year:"2018",cat:"Co-curated exhibition · UBC Audain Gallery",img:"assets/exhibitions/undergrowth-poster.jpg",
    desc:"The 2018 BFA/BA Visual Art graduating exhibition at UBC, represented with the verified exhibition poster and catalogue.",
    media:[{src:"assets/exhibitions/undergrowth-poster.jpg",caption:"UNDERGROWTH exhibition poster"}],
    links:[{label:"View UNDERGROWTH Catalogue",url:"https://ahva.ubc.ca/wp-content/uploads/sites/37/2019/10/2018_BFA_catalogue_Undergrowth_LR.pdf",style:"acid"}]},
-  {title:"Insights Unseen and Unheard",year:"2017",cat:"Group exhibition · Hatch Art Gallery",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",
+  {title:"Insights Unseen and Unheard",year:"2017",cat:"Group exhibition · Hatch Art Gallery",img:"assets/exhibitions/sight-unseen-untitled-1.jpg",
    desc:"Includes Untitled, 2017 and Impulsive Fragments, kept together as one exhibition context with both still and video documentation.",
    media:[
-    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017"},
-    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 installation view"},
+    {src:"assets/exhibitions/sight-unseen-untitled-1.jpg",caption:"Untitled, 2017"},
+    {src:"assets/exhibitions/sight-unseen-untitled-2.jpg",caption:"Untitled, 2017 installation view"},
     {src:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments still"},
     {type:"video",src:"assets/exhibitions/impulsive-fragments.mp4",poster:"assets/exhibitions/impulsive-fragments.jpg",caption:"Impulsive Fragments video"}
-   ]},
-  {title:"Samsung, I.T, Ocean Park, HKTB",year:"2020–2025",cat:"Editorial and campaign writing",img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg",
-   desc:"Commercial writing and editorial strategy across consumer technology, fashion retail, tourism, and public-facing campaigns.",
+   ]}
+  ,
+  {title:"Finite Appearances",year:"2017",cat:"Exhibition documentation",img:"assets/exhibitions/finite-appearances-gallery.jpg",
+   desc:"Gallery documentation for Finite Appearances, including installation view and soap-hands object documentation.",
    media:[
-    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/earthday.jpg",caption:"Samsung x WWF Earth Hour bilingual campaign"},
-    {src:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/hk-fashion-asia-showroom-iteshop-mar-hero-dt.jpg",caption:"I.T editorial / campaign writing"}
+    {src:"assets/exhibitions/finite-appearances-gallery.jpg",caption:"Finite Appearances gallery view"},
+    {src:"assets/exhibitions/finite-appearances-soap-hands.jpg",caption:"Finite Appearances object documentation"}
    ]}
 ];
 
+const campaigns=[
+  {title:"Samsung x WWF Earth Hour",year:"2020–2025",cat:"Bilingual campaign writing",img:"assets/campaign-earthday.jpg",
+   desc:"Campaign writing for a public-facing sustainability collaboration, balancing brand clarity with environmental messaging.",
+   media:[{src:"assets/campaign-earthday.jpg",caption:"Samsung x WWF Earth Hour"}]},
+  {title:"I.T — Fashion Editorial",year:"2020–2025",cat:"Fashion retail editorial",img:"assets/campaign-it-bape.jpg",
+   desc:"Fashion retail editorial and campaign copy for I.T, including seasonal product storytelling and designer-led features.",
+   media:[{src:"assets/campaign-it-bape.jpg",caption:"I.T editorial campaign image"}]},
+  {title:"Ocean Park Halloween Fest",year:"2020–2025",cat:"Tourism and entertainment campaign",img:"assets/campaign-ocean-park.jpg",
+   desc:"Public-facing campaign writing for a high-traffic entertainment and tourism context.",
+   media:[{src:"assets/campaign-ocean-park.jpg",caption:"Ocean Park Halloween Fest"}]},
+  {title:"Hong Kong Tourism Board",year:"2020–2025",cat:"Tourism campaign writing",img:"assets/campaign-hktb-panda.jpg",
+   desc:"Tourism campaign copy and public-facing messaging for Hong Kong audience contexts.",
+   media:[{src:"assets/campaign-hktb-panda.jpg",caption:"HKTB campaign image"}]}
+];
+
 const research=[
-  {title:"One-Ply Realism",year:"2026",cat:"ROLL CALL essay",
-   desc:"The written arm of ROLL CALL: an essay on toilet paper as material culture, infrastructure, bodily comfort, and the politics hidden inside an object people are trained not to discuss.",
+  {title:"One-Ply Realism: On toilet paper as material culture and infrastructure",year:"2026",cat:"Essay · ROLL CALL",hideMeta:true,
+   desc:"An essay from ROLL CALL that reads toilet paper through material culture and infrastructure: ply, scent, softness, price, wrappers, hotel bathrooms, supermarket shelves, travel leftovers, and the quiet assumption that comfort, hygiene, and privacy are equally available to everyone.\n\nThe essay sits beside the archive rather than summarising it. It turns a disposable bathroom object into evidence of class, hospitality, supply chains, bodily etiquette, and the small systems people usually handle without looking at them.",
    links:[{label:"View One-Ply Realism",url:"https://hydrogenbondss.github.io/Rollcall/#/essay",style:"acid"}]},
-  {title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating",year:"2023",cat:"MSc thesis · PolyU",
-   desc:"A study of Tinder as dating platform and marketing system: visibility, desirability metrics, self-presentation, and the gap between what users believe they are doing and what the platform is optimising."},
-  {title:"The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler's Lynching Photograph",year:"2019",cat:"UBC Undergraduate Journal of Art History",img:`${T}beitler-symposium.jpg`,
-   desc:"A paper on Lawrence Beitler's 1930 lynching photograph. The work focuses on how authorship, spectatorship, framing, circulation, and reproduction participate in the violence of the image rather than sitting outside it.",
+  {title:"Determining the Marketing Legitimacy and Consumer Perception of Online Dating",year:"2023",cat:"MSc thesis · The Hong Kong Polytechnic University",hideMeta:true,
+   desc:"MSc research on Tinder as both dating platform and marketing system. The thesis examines visibility, desirability metrics, self-presentation, perceived legitimacy, and the gap between how users understand online dating and how the platform structures attention, choice, and value.\n\nThe work connects consumer perception, platform design, and relationship behaviour rather than treating dating apps as only a social trend or only a technical product."},
+  {title:"The Offender Behind the Lens: The Enduring Ethical Legacy of Beitler's Lynching Photograph",year:"2019",cat:"Undergraduate Journal of Art History · UBC",img:`${T}beitler-symposium.jpg`,hideMeta:true,
+   desc:"Presented through UBC's Undergraduate Art History context, this paper examines Lawrence Beitler's 1930 lynching photograph through authorship, spectatorship, framing, circulation, and reproduction.\n\nThe argument is not only about what the image depicts. It asks how the photographer, the camera, the printed object, and later viewers remain implicated in the violence that the photograph appears to document from a distance.",
    media:[{src:`${T}beitler-symposium.jpg`,caption:"UBC Undergraduate Art History Symposium"}],
-   links:[{label:"View UBC Symposium",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/",style:"acid"}]}
+   links:[{label:"View UBC Symposium",url:"https://ahva.ubc.ca/events/event/14th-annual-undergraduate-art-history-symposium-and-ujah-launch/",style:"acid"}]},
+  {title:"Press Citation — Milwaukee Independent",year:"2020",cat:"Citation · Milwaukee Independent",hideMeta:true,
+   desc:"Press citation connected to research on Beitler's lynching photograph and the ethical afterlife of violent historical images. This belongs in the research section as citation context, not as a visual thumbnail."}
 ];
 
 const tools=["React","TypeScript","JavaScript","Python","Node.js","Firebase","Supabase","Cloud Functions","Telegram Bots","tRPC","Drizzle ORM","PostgreSQL","PWA","Ren'Py","Gemini","RAG","Embeddings","ComfyUI","LoRA Training","Midjourney","Runway","Figma","After Effects","Premiere Pro","Photoshop","Illustrator","Kaggle"];
@@ -414,7 +451,9 @@ function openItem(item){
   const hasMedia=Boolean((item.media&&item.media.length)||item.img);
   modal.classList.toggle("no-media",!hasMedia);
   const links=(item.links||[]).map(l=>`<a class="m-link ${l.style||""}" href="${l.url}" target="_blank">${l.label}</a>`).join("");
-  copy.innerHTML=`<div class="modal-meta"><span>${item.year||""}</span><span>${item.cat||""}</span>${item.status?`<span>${item.status}</span>`:""}</div><h2>${item.title}</h2><p>${item.desc||item.tagline||""}</p>${item.role?`<p>${item.role}</p>`:""}${links?`<div class="m-links">${links}</div>`:""}`;
+  const meta=item.hideMeta?"":`<div class="modal-meta"><span>${item.year||""}</span><span>${item.cat||""}</span>${item.status?`<span>${item.status}</span>`:""}</div>`;
+  const context=item.hideMeta?`<p class="kicker">${[item.year,item.cat].filter(Boolean).join(" · ")}</p>`:"";
+  copy.innerHTML=`${meta}<h2>${item.title}</h2>${context}<p>${item.desc||item.tagline||""}</p>${item.role?`<p>${item.role}</p>`:""}${links?`<div class="m-links">${links}</div>`:""}`;
   showMedia(0);
   modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
   document.getElementById("closeModal").focus();
@@ -425,6 +464,7 @@ function closeModal(){
   stage.innerHTML=""; active=null; if(lastFocus) lastFocus.focus();
 }
 function cardMedia(item){
+  if(item.lockup) return `<div class="brand-lockup"><div class="brand-lockup-inner"><img src="${item.img}" alt=""><span>${item.lockup}</span></div></div>`;
   const first=(item.media||[]).find(m=>m.type==="video");
   if(first) return `<video class="motion-thumb" src="${first.src}" poster="${first.poster||item.img}" muted loop playsinline preload="auto"></video><span class="motion-badge">Motion</span>`;
   return `<img src="${item.img}" alt="${item.title}" loading="eager" decoding="async">`;
@@ -435,11 +475,11 @@ function mediaBg(item){
   return src ? ` style="background-image:url('${src.replace(/'/g,"%27")}')"` : "";
 }
 function mediaClass(item,base){
-  return item.thumb==="identity" ? `${base} identity-media` : base;
+  return [base,item.thumb==="identity"?"identity-media":"",item.fit==="contain"?"contain-media":""].filter(Boolean).join(" ");
 }
 function renderProjects(){
   document.getElementById("projectList").innerHTML=projects.map((p,i)=>`<button class="project-card ${p.featured?"featured":""}" type="button" data-kind="project" data-i="${i}">
-    <div class="${mediaClass(p,"project-media")}"${p.thumb==="identity"?"":mediaBg(p)}>${cardMedia(p)}</div>
+    <div class="${mediaClass(p,"project-media")}"${p.thumb==="identity"||p.lockup?"":mediaBg(p)}>${cardMedia(p)}</div>
     <div class="project-copy">
       <div><div class="project-top"><span>${String(i+1).padStart(2,"0")} / ${p.cat}</span><span class="badge">${p.status}</span></div><h3 class="project-title">${p.title}</h3><p class="project-tag">${p.tagline}</p><p class="project-role">${p.role}</p></div>
       <div class="project-foot"><span>${p.year}</span><span>View ${p.title} →</span></div>
@@ -448,7 +488,7 @@ function renderProjects(){
 }
 function renderGrid(id,list){
   document.getElementById(id).innerHTML=list.map((p,i)=>`<button class="card" type="button" data-kind="${id}" data-i="${i}">
-    <div class="${mediaClass(p,"card-media")}"${p.thumb==="identity"?"":mediaBg(p)}>${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
+    <div class="${mediaClass(p,"card-media")}"${p.thumb==="identity"||p.lockup?"":mediaBg(p)}>${cardMedia(p)}</div><div class="card-body"><div class="kicker">${p.year} · ${p.cat}</div><h3>${p.title}</h3><p>${p.desc}</p></div>
   </button>`).join("");
 }
 function renderRows(id,list,showImages=true){
@@ -457,12 +497,12 @@ function renderRows(id,list,showImages=true){
   </button>`).join("");
 }
 function hydrate(){
-  renderProjects(); renderGrid("worldGrid",worlds); renderRows("writingList",writing); renderRows("researchList",research,false);
+  renderProjects(); renderGrid("motionGrid",motionWorks); renderRows("exhibitionList",exhibitions); renderRows("campaignList",campaigns); renderRows("researchList",research,false);
   const toolsWrap=document.createElement("div"); toolsWrap.className="tools"; toolsWrap.innerHTML=tools.map(t=>`<span class="tool">${t}</span>`).join("");
   document.getElementById("about").appendChild(toolsWrap);
   document.body.addEventListener("click",e=>{
     const btn=e.target.closest("[data-kind]"); if(!btn) return;
-    const map={project:projects,worldGrid:worlds,writingList:writing,researchList:research};
+    const map={project:projects,motionGrid:motionWorks,exhibitionList:exhibitions,campaignList:campaigns,researchList:research};
     openItem(map[btn.dataset.kind][Number(btn.dataset.i)]);
   });
   document.querySelectorAll(".card,.project-card").forEach(card=>{
