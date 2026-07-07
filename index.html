@@ -107,6 +107,15 @@ h1{font-size:clamp(4.4rem,13vw,13.6rem);line-height:.82;letter-spacing:0;margin:
 .kicker{color:var(--muted);font-size:.82rem}
 .card h3{margin:0;font-size:1.45rem;line-height:1.05;letter-spacing:0}
 .card p{margin:0;color:rgba(244,240,231,.72);line-height:1.48}
+.editorial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line)}
+.editorial-card{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#171714;color:var(--paper)}
+.editorial-card img{width:100%;height:100%;object-fit:cover;transition:transform 650ms var(--ease-out),filter 650ms var(--ease-out)}
+.editorial-card:hover img{transform:scale(1.035);filter:brightness(1.08) contrast(1.04)}
+.editorial-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(15,15,13,.78),rgba(15,15,13,.12) 48%,transparent);opacity:.86;transition:opacity 180ms var(--ease-out)}
+.editorial-card:hover:after{opacity:.72}
+.editorial-card-copy{position:absolute;z-index:2;left:1rem;right:1rem;bottom:1rem}
+.editorial-card-title{font-size:1.05rem;line-height:1.05;font-weight:760}
+.editorial-card-sub{margin-top:.35rem;color:rgba(244,240,231,.72);font-size:.82rem;line-height:1.25}
 .wide-list{display:grid;gap:1px;background:var(--line)}
 .row{background:rgba(15,15,13,.96);display:grid;grid-template-columns:160px minmax(0,1fr) minmax(260px,.42fr);gap:1.5rem;align-items:start;padding:1.25rem;cursor:pointer;border:0;color:inherit;text-align:left}
 .row.no-row-image{grid-template-columns:160px minmax(0,1fr)}
@@ -231,9 +240,9 @@ footer{padding:1.25rem clamp(1rem,3vw,2.25rem);display:flex;justify-content:spac
   <section class="section" id="editorial">
     <div class="section-head">
       <div class="sec-no">05 / Editorial</div>
-      <div><h2>Editorial.</h2><p class="section-intro">Fashion editorial and interview-led writing kept separate from campaign work.</p></div>
+      <div><h2>Editorial.</h2><p class="section-intro">Selected fashion editorials and interviews for I.T Apparels.</p></div>
     </div>
-    <div class="wide-list" id="editorialList"></div>
+    <div class="editorial-grid" id="editorialList"></div>
   </section>
 
   <section class="section" id="research">
@@ -435,15 +444,45 @@ const campaigns=[
 ];
 
 const editorials=[
-  {title:"Markgong FW25",year:"2023–2025",cat:"Fashion editorial · I.T Apparels",
-   desc:"Chief Editor work for Markgong FW25, developed through I.T Apparels' retail and publication context."},
-  {title:"Doublet",year:"2023–2025",cat:"Fashion editorial · I.T Apparels",
-   desc:"Fashion editorial writing for Doublet, translating collection language, designer context, and product detail for a retail audience."},
-  {title:"A BATHING APE",year:"2023–2025",cat:"Fashion editorial · I.T Apparels",
-   desc:"Fashion editorial and campaign-adjacent writing for A BATHING APE, balancing brand voice, product language, and audience-facing retail copy.",
-   media:[{src:"assets/campaign-it-bape.jpg",caption:"A BATHING APE editorial image"}]},
-  {title:"Carhartt WIP",year:"2023–2025",cat:"Fashion editorial · I.T Apparels",
-   desc:"Editorial writing for Carhartt WIP across retail storytelling, product context, and audience-facing fashion copy."}
+  {title:"MARKGONG FALL 2025",sub:"Reimagining Rebellion Through Contrast and Cultural Nostalgia",year:"2025",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-markgong-fw25.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/markgong-fall-winter-2025"},
+  {title:"NO ZIPPERS, NO APOLOGIES",sub:"Renaissance Renaissance: Cynthia Merhej's Craft of Resistance",year:"2025",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-no-zippers.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/renaissance-renaissance-no-zippers-no-apologies"},
+  {title:"MASAYUKI INO",sub:"Crafting Dreams into Reality",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-masayuki-ino.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/doublet-masayuki-ino-interview"},
+  {title:"A BATHING APE",sub:"Fall/Winter 2024 in Shanghai — Runway Show",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-bape-fw24-shanghai.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/bape-fw24-runway-show"},
+  {title:"THE RISE OF BLOKECORE",sub:"Celebrating Football-Inspired Fashion",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-blokecore.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/rise-of-blokecore-jersey-fashion"},
+  {title:"DISCOVER THE MEANING OF LOVE",sub:"Love is...",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-discover-love.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/discover-the-meaning-of-love"},
+  {title:"THE GOTHIC REALM OF DARK FASHION",sub:"Obsidian Elegance",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-dark-goth.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/gothic-dark-fashion-ss24"},
+  {title:"MOUNTWOOD",sub:"Adventure in the Great Outdoors",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-mountwood.jpg",
+   link:"https://hk.iteshop.com/sit/editorial/mountwood-adventure-in-the-great-outdoors"},
+  {title:"SUBI (SUBEZ YETI)",sub:"Crafting Community and Sound in Hong Kong's Music Scene",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-subi.jpg",
+   link:"https://hk.iteshop.com/sit/editorial/carhartt-wip-subi-subez-yeti-interview"},
+  {title:"JERSEY TEES",sub:"From Pitch to Streets",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-jersey-tees.jpg",
+   link:"https://hk.iteshop.com/sit/editorial/jersey-tees-from-pitch-to-streets"},
+  {title:"IN THE STUDIO WITH TAKU",sub:"Beyond the Brush — ft. Carhartt WIP SS24",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-carhartt-taku.jpg",
+   link:"https://hk.iteshop.com/sit/editorial/taku-carhartt-wip-beyond-the-brush"},
+  {title:"SS24' PONDER.ER",sub:"Road Trip to Heaven",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-ponderer.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/ponder-er-women-ss24"},
+  {title:"WESTFALL",sub:"California Punk Culture",year:"2024",
+   img:"https://raw.githubusercontent.com/hydrogenbondss/portfolio-assets/main/ed-westfall.jpg",
+   link:"https://hk.iteshop.com/bit/editorial/westfall-ss24-new-arrival"}
 ];
 
 const research=[
@@ -530,8 +569,14 @@ function renderRows(id,list,showImages=true){
     <div class="kicker">${p.year}<br>${p.cat}</div><div><h3>${p.title}</h3><p>${p.desc}</p></div>${showImages&&p.img?`<img src="${p.img}" alt="${p.title}" loading="eager" decoding="async">`:""}
   </button>`).join("");
 }
+function renderEditorials(){
+  document.getElementById("editorialList").innerHTML=editorials.map(p=>`<a class="editorial-card" href="${p.link}" target="_blank" rel="noopener">
+    <img src="${p.img}" alt="${p.title}" loading="lazy" decoding="async">
+    <div class="editorial-card-copy"><div class="editorial-card-title">${p.title}</div><div class="editorial-card-sub">${p.sub}</div></div>
+  </a>`).join("");
+}
 function hydrate(){
-  renderProjects(); renderGrid("motionGrid",motionWorks); renderRows("exhibitionList",exhibitions,false); renderRows("campaignList",campaigns); renderRows("editorialList",editorials); renderRows("researchList",research,false);
+  renderProjects(); renderGrid("motionGrid",motionWorks); renderRows("exhibitionList",exhibitions,false); renderRows("campaignList",campaigns); renderEditorials(); renderRows("researchList",research,false);
   const toolsWrap=document.createElement("div"); toolsWrap.className="tools"; toolsWrap.innerHTML=tools.map(t=>`<span class="tool">${t}</span>`).join("");
   document.getElementById("about").appendChild(toolsWrap);
   document.body.addEventListener("click",e=>{
