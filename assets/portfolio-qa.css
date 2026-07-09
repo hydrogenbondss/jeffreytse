@@ -1,0 +1,138 @@
+/* Final QA polish: non-content visual guardrails for the deployed bundle. */
+:root {
+  --qa-radius-sm: 10px;
+  --qa-radius-md: 16px;
+  --qa-radius-lg: 24px;
+  --qa-border: rgba(240, 240, 240, 0.14);
+  --qa-border-strong: rgba(196, 168, 130, 0.34);
+  --qa-bg: #0a0a0a;
+  --qa-panel: rgba(16, 16, 14, 0.92);
+  --qa-accent: #c4a882;
+}
+
+html {
+  background: var(--qa-bg);
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a[href],
+.btn-lift {
+  border-radius: 999px !important;
+}
+
+nav a,
+nav button {
+  border-radius: 999px !important;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.project-card,
+.motion-card,
+.edit-card,
+.client-row,
+.exhib-item,
+.research-item {
+  border-color: var(--qa-border) !important;
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.project-card,
+.motion-card,
+.edit-card {
+  border-radius: var(--qa-radius-md) !important;
+  background: var(--qa-panel) !important;
+}
+
+.client-row,
+.exhib-item,
+.research-item {
+  border-radius: var(--qa-radius-lg) !important;
+}
+
+.project-card:hover,
+.motion-card:hover,
+.edit-card:hover,
+.client-row:hover,
+.exhib-item:hover,
+.research-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--qa-border-strong) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+
+.project-card img,
+.motion-card img,
+.motion-card video,
+.client-img,
+.edit-card img {
+  object-position: center center !important;
+}
+
+.project-card img.object-contain,
+.motion-card img.object-contain {
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.project-card [style*="border-radius: 2"],
+.project-card span,
+.motion-card span,
+.research-item span,
+.exhib-item span {
+  border-radius: 999px !important;
+}
+
+.section-label {
+  letter-spacing: 0.12em !important;
+}
+
+[code-path^="src/components/ProjectModal"] > div {
+  border-radius: var(--qa-radius-lg) !important;
+  border: 1px solid var(--qa-border) !important;
+}
+
+[code-path^="src/components/ProjectModal"] img,
+[code-path^="src/components/ProjectModal"] video {
+  border-radius: var(--qa-radius-sm) !important;
+}
+
+[code-path^="src/components/ProjectModal"] button,
+[code-path^="src/components/ProjectModal"] a {
+  border-radius: 999px !important;
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    width: min(86vw, 420px) !important;
+  }
+
+  .work-header,
+  .motion-header,
+  .client-header,
+  .edit-header,
+  .exhib-header,
+  .research-header {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  [code-path^="src/components/ProjectModal"] > div {
+    border-radius: var(--qa-radius-md) !important;
+  }
+}
