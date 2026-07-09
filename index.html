@@ -35,7 +35,7 @@
         window.addEventListener("hashchange", scheduleReset);
         window.addEventListener("load", scheduleReset);
 
-        if (["/cathedral", "/garden"].includes(window.location.pathname)) {
+        if (["/cathedral", "/garden"].some((route) => window.location.pathname.endsWith(route))) {
           history.replaceState(null, "", "/");
           scheduleReset();
         }
@@ -43,6 +43,7 @@
     </script>
     <script type="module" crossorigin src="./assets/index-Bl2O-kNd.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css">
+    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css">
     <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css">
   </head>
   <body>
