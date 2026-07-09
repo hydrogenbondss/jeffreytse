@@ -437,11 +437,11 @@ footer {
   color: var(--jnt-muted) !important;
 }
 
-div[code-path^="src/components/ProjectModal"] {
+div[code-path="src/components/ProjectModal.tsx:53:5"] {
   background: rgba(3, 3, 2, 0.78) !important;
 }
 
-div[code-path^="src/components/ProjectModal"] > div {
+div[code-path="src/components/ProjectModal.tsx:59:7"] {
   max-width: min(1500px, calc(100vw - 2rem)) !important;
   margin: 1rem 0 !important;
   max-height: calc(100svh - 2rem) !important;
@@ -470,6 +470,27 @@ div[code-path^="src/components/ProjectModal"] div[code-path="src/components/Proj
 div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] {
   padding: clamp(1rem, 2vw, 1.5rem) !important;
   background: #0d0d0a !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:134:15"] {
+  background: #f4f0e8 !important;
+  border: 1px solid rgba(244, 240, 232, 0.14) !important;
+  border-radius: 22px !important;
+  padding: clamp(2rem, 6vw, 5rem) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:134:15"] img {
+  max-height: min(54svh, 560px) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparent.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/noru/logo.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/thumbnails/turbo-mg21-whitebg.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/thumbnails/turbo-mg21-angle2.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/thumbnails/china-mobile-logo.png"] {
+  background: #f4f0e8 !important;
+  object-fit: contain !important;
+  padding: clamp(0.4rem, 1vw, 0.9rem) !important;
 }
 
 div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] img,
