@@ -5,6 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jeffrey N. Tse</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='85' fill='%23000' font-family='Georgia,serif' font-weight='700'>JT</text></svg>" />
+    <script>
+      (() => {
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+        const resetScroll = () => {
+          window.scrollTo(0, 0);
+          document.body && (document.body.scrollTop = 0);
+          document.documentElement && (document.documentElement.scrollTop = 0);
+        };
+
+        const scheduleReset = () => {
+          resetScroll();
+          requestAnimationFrame(resetScroll);
+          setTimeout(resetScroll, 60);
+        };
+
+        ["pushState", "replaceState"].forEach((method) => {
+          const original = history[method];
+          history[method] = function patchedHistoryMethod(...args) {
+            const result = original.apply(this, args);
+            window.dispatchEvent(new Event("portfolio:navigation"));
+            scheduleReset();
+            return result;
+          };
+        });
+
+        window.addEventListener("popstate", scheduleReset);
+        window.addEventListener("hashchange", scheduleReset);
+        window.addEventListener("load", scheduleReset);
+
+        if (["/cathedral", "/garden"].includes(window.location.pathname)) {
+          history.replaceState(null, "", "/");
+          scheduleReset();
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="./assets/index-Bl2O-kNd.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css">
     <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css">

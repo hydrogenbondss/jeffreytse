@@ -12,6 +12,7 @@
 
 html {
   background: var(--qa-bg);
+  scroll-behavior: auto !important;
 }
 
 body {
