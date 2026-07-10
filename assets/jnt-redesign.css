@@ -889,3 +889,350 @@ div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparen
     max-height: min(32svh, 340px) !important;
   }
 }
+
+/* Modal system visual pass: tighter media, clearer hierarchy, quieter chrome. */
+div[code-path="src/components/ProjectModal.tsx:53:5"] {
+  align-items: center !important;
+  padding: clamp(0.65rem, 1.8vw, 1.25rem) !important;
+  background:
+    radial-gradient(circle at 50% 6%, rgba(215, 255, 95, 0.07), transparent 32rem),
+    rgba(3, 3, 2, 0.9) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:59:7"] {
+  width: 100% !important;
+  max-width: min(1180px, calc(100vw - 2rem)) !important;
+  max-height: calc(100svh - clamp(1rem, 4vw, 2.5rem)) !important;
+  margin: 0 !important;
+  border-radius: 24px !important;
+  overflow: auto !important;
+  background:
+    linear-gradient(180deg, rgba(9, 10, 7, 0.98), rgba(5, 6, 4, 0.98)),
+    var(--jnt-black) !important;
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(244, 240, 232, 0.07) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] .sticky {
+  min-height: 64px !important;
+  padding: 0.75rem clamp(1rem, 2.2vw, 1.4rem) !important;
+  border-bottom: 1px solid rgba(244, 240, 232, 0.1) !important;
+  background: rgba(6, 7, 5, 0.92) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:69:11"] {
+  min-width: 0 !important;
+  gap: 0.72rem !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:69:11"] span {
+  white-space: nowrap !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:78:17"] {
+  max-width: min(56vw, 520px) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:82:11"] {
+  min-width: 5.25rem !important;
+  min-height: 2.6rem !important;
+  border-radius: 999px !important;
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 160ms ease,
+    color 160ms ease !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:82:11"]:active {
+  transform: scale(0.97) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] .grid.min-h-\[calc\(100svh-60px\)\] {
+  min-height: auto !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:94:9"] {
+  min-height: clamp(220px, 31svh, 390px) !important;
+  max-height: clamp(260px, 38svh, 470px) !important;
+  height: auto !important;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(244, 240, 232, 0.06), transparent 28rem),
+    rgba(3, 4, 3, 0.88) !important;
+  border-bottom: 1px solid rgba(244, 240, 232, 0.08) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:120:11"] {
+  min-height: clamp(220px, 31svh, 390px) !important;
+  max-height: clamp(260px, 38svh, 470px) !important;
+  height: auto !important;
+  padding: clamp(0.75rem, 1.6vw, 1.25rem) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:120:11"] img,
+div[code-path="src/components/ProjectModal.tsx:120:11"] video {
+  width: auto !important;
+  max-width: 100% !important;
+  max-height: min(31svh, 390px) !important;
+  object-fit: contain !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:134:15"] {
+  width: min(880px, 100%) !important;
+  min-height: auto !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  padding: clamp(1rem, 2.6vw, 2rem) !important;
+  border-radius: 18px !important;
+  background: #f4f0e8 !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(5, 6, 4, 0.08),
+    0 22px 60px rgba(0, 0, 0, 0.22) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:134:15"] img {
+  max-height: min(25svh, 280px) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparent.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/noru/logo.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/spector-logo"],
+div[code-path^="src/components/ProjectModal"] img[src*="/rollcall-title"] {
+  max-width: min(70%, 640px) !important;
+  max-height: min(20svh, 210px) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparent.png"] {
+  background: #f4f0e8 !important;
+  padding: clamp(0.55rem, 1vw, 0.9rem) !important;
+  border: 0 !important;
+  filter: none !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:98:15"],
+[code-path="src/components/ProjectModal.tsx:108:15"] {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  border: 1px solid rgba(244, 240, 232, 0.16) !important;
+  background: rgba(244, 240, 232, 0.08) !important;
+  color: rgba(244, 240, 232, 0.74) !important;
+  backdrop-filter: blur(14px) !important;
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 160ms ease,
+    color 160ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [code-path="src/components/ProjectModal.tsx:98:15"]:hover,
+  [code-path="src/components/ProjectModal.tsx:108:15"]:hover {
+    transform: translateY(-1px) !important;
+    background: rgba(215, 255, 95, 0.16) !important;
+    color: var(--jnt-acid) !important;
+  }
+}
+
+[code-path="src/components/ProjectModal.tsx:98:15"]:active,
+[code-path="src/components/ProjectModal.tsx:108:15"]:active {
+  transform: scale(0.96) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:154:11"] {
+  gap: 0.65rem !important;
+  padding: 0.75rem clamp(1rem, 2vw, 1.25rem) !important;
+  background: rgba(7, 8, 6, 0.92) !important;
+  border-bottom: 1px solid rgba(244, 240, 232, 0.08) !important;
+  scrollbar-width: thin;
+}
+
+[code-path="src/components/ProjectModal.tsx:156:15"] {
+  width: 68px !important;
+  height: 50px !important;
+  border-radius: 14px !important;
+  background: rgba(244, 240, 232, 0.08) !important;
+  opacity: 0.68 !important;
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 160ms ease,
+    border-color 160ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [code-path="src/components/ProjectModal.tsx:156:15"]:hover {
+    transform: translateY(-1px) !important;
+    opacity: 1 !important;
+  }
+}
+
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/pawsaid/logo-transparent.png"]),
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/noru/logo.png"]),
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/spector-logo"]),
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/rollcall-title"]) {
+  background: #f4f0e8 !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:156:15"] img,
+[code-path="src/components/ProjectModal.tsx:156:15"] video {
+  border-radius: 12px !important;
+  object-fit: cover !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/pawsaid/logo-transparent.png"]) img,
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/noru/logo.png"]) img,
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/spector-logo"]) img,
+[code-path="src/components/ProjectModal.tsx:156:15"]:has(img[src*="/rollcall-title"]) img {
+  object-fit: contain !important;
+  padding: 0.35rem !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:182:9"] {
+  width: 100% !important;
+  max-width: min(900px, 100%) !important;
+  margin: 0 auto !important;
+  padding: clamp(1.6rem, 3vw, 3rem) clamp(1.2rem, 4vw, 3.75rem) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:185:13"] {
+  gap: 0.5rem !important;
+  margin-bottom: 1.1rem !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:187:17"] {
+  border-color: rgba(244, 240, 232, 0.14) !important;
+  border-radius: 999px !important;
+  background: rgba(244, 240, 232, 0.035) !important;
+  color: rgba(244, 240, 232, 0.68) !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:199:11"] {
+  max-width: 12ch !important;
+  margin-bottom: clamp(1rem, 2vw, 1.45rem) !important;
+  font-size: clamp(2.25rem, 4.4vw, 4.6rem) !important;
+  line-height: 0.92 !important;
+  letter-spacing: -0.045em !important;
+  text-wrap: balance;
+}
+
+[code-path="src/components/ProjectModal.tsx:213:13"],
+[code-path="src/components/ProjectModal.tsx:228:13"] {
+  max-width: 72ch !important;
+  margin-bottom: clamp(1.25rem, 2vw, 2rem) !important;
+  color: rgba(244, 240, 232, 0.74) !important;
+  font-size: clamp(0.98rem, 1.08vw, 1.08rem) !important;
+  line-height: 1.76 !important;
+  text-wrap: pretty;
+}
+
+div[code-path="src/components/ProjectModal.tsx:235:13"] {
+  display: grid !important;
+  grid-template-columns: minmax(92px, 0.22fr) minmax(0, 1fr) !important;
+  gap: 1rem !important;
+  align-items: baseline !important;
+  margin: 0 0 1.5rem !important;
+  padding: 1rem 0 !important;
+  border-top: 1px solid rgba(244, 240, 232, 0.1) !important;
+  border-bottom: 1px solid rgba(244, 240, 232, 0.1) !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:236:15"] {
+  color: var(--jnt-acid) !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:237:15"] {
+  color: rgba(244, 240, 232, 0.78) !important;
+}
+
+div[code-path="src/components/ProjectModal.tsx:243:13"] {
+  gap: 0.75rem !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:245:17"] {
+  min-height: 2.8rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease !important;
+}
+
+[code-path="src/components/ProjectModal.tsx:245:17"]:active {
+  transform: scale(0.975) !important;
+}
+
+@media (max-width: 700px) {
+  div[code-path="src/components/ProjectModal.tsx:53:5"] {
+    align-items: stretch !important;
+    padding: 0.35rem !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:59:7"] {
+    max-width: calc(100vw - 0.7rem) !important;
+    max-height: calc(100svh - 0.7rem) !important;
+    border-radius: 18px !important;
+  }
+
+  div[code-path^="src/components/ProjectModal"] .sticky {
+    min-height: 58px !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:69:11"] {
+    max-width: calc(100% - 6rem) !important;
+    overflow: hidden !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:78:17"] {
+    max-width: 42vw !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:94:9"],
+  div[code-path="src/components/ProjectModal.tsx:120:11"] {
+    min-height: clamp(180px, 29svh, 300px) !important;
+    max-height: clamp(210px, 33svh, 340px) !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:120:11"] img,
+  div[code-path="src/components/ProjectModal.tsx:120:11"] video {
+    max-height: min(29svh, 300px) !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:134:15"] {
+    width: 100% !important;
+    padding: 0.85rem !important;
+    border-radius: 14px !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:134:15"] img {
+    max-height: min(22svh, 230px) !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:154:11"] {
+    padding: 0.65rem 0.75rem !important;
+  }
+
+  [code-path="src/components/ProjectModal.tsx:156:15"] {
+    width: 58px !important;
+    height: 44px !important;
+    border-radius: 13px !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:182:9"] {
+    padding: 1.35rem 1rem 2rem !important;
+  }
+
+  [code-path="src/components/ProjectModal.tsx:199:11"] {
+    max-width: 11ch !important;
+    font-size: clamp(2.15rem, 12vw, 3.4rem) !important;
+  }
+
+  div[code-path="src/components/ProjectModal.tsx:235:13"] {
+    grid-template-columns: 1fr !important;
+    gap: 0.35rem !important;
+  }
+}
