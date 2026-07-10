@@ -35,17 +35,17 @@
         window.addEventListener("hashchange", scheduleReset);
         window.addEventListener("load", scheduleReset);
 
-        if (["/cathedral", "/garden"].some((route) => window.location.pathname.endsWith(route))) {
+        if (["/cathedral", "/garden", "/feature-world"].some((route) => window.location.pathname.endsWith(route))) {
           const base = window.location.pathname.startsWith("/jeffreytse/") ? "/jeffreytse/" : "/";
           history.replaceState(null, "", base);
           scheduleReset();
         }
       })();
     </script>
-    <script type="module" crossorigin src="./assets/index-Bl2O-kNd.js?v=20260710-modal-pass"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css?v=20260710-modal-pass">
-    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css?v=20260710-modal-pass">
-    <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css?v=20260710-modal-pass">
+    <script type="module" crossorigin src="./assets/index-Bl2O-kNd.js?v=20260710-feature-modal"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css?v=20260710-feature-modal">
+    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css?v=20260710-feature-modal">
+    <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css?v=20260710-feature-modal">
   </head>
   <body>
     <div id="root"></div>
