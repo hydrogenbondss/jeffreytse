@@ -285,3 +285,63 @@ section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
     min-width: min(100%, 17rem);
   }
 }
+
+/* Exhibition pass: text-first cards with readable metadata. */
+.exhib-item {
+  grid-template-columns: minmax(260px, 0.3fr) minmax(0, 1fr) !important;
+  gap: clamp(1.5rem, 3.5vw, 4rem) !important;
+  align-items: start !important;
+}
+
+.exhib-item > div:first-child {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 1.1rem;
+  align-items: start;
+}
+
+.exhib-item > div:first-child::before {
+  grid-column: 1 / -1;
+}
+
+.exhib-item .font-display.text-2xl {
+  grid-row: 2;
+  font-size: clamp(1.85rem, 2.3vw, 2.45rem) !important;
+  line-height: 0.95 !important;
+}
+
+.exhib-item .section-label {
+  grid-row: 2;
+  max-width: none !important;
+  margin-top: 0 !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  letter-spacing: 0.025em !important;
+  line-height: 1.35 !important;
+}
+
+.exhib-item h3 {
+  font-size: clamp(1.75rem, 3.4vw, 3.4rem) !important;
+  line-height: 0.98 !important;
+  max-width: 12ch;
+}
+
+.exhib-item p {
+  max-width: 760px !important;
+  color: rgba(244, 240, 232, 0.66) !important;
+}
+
+@media (max-width: 760px) {
+  .exhib-item {
+    grid-template-columns: 1fr !important;
+  }
+
+  .exhib-item > div:first-child {
+    display: block;
+  }
+
+  .exhib-item h3 {
+    max-width: none;
+  }
+}
