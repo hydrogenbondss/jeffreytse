@@ -214,6 +214,21 @@ section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:
   margin-top: clamp(1.9rem, 3.6vw, 2.7rem) !important;
 }
 
+section[code-path^="src/sections/Hero"] h1 {
+  font-family: "Bodoni 72 Poster", "Bodoni 72", Didot, "Bodoni Moda", "Libre Bodoni", "Playfair Display", Georgia, serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 0.76 !important;
+  color: #f4f2ee !important;
+}
+
+section[code-path^="src/sections/Hero"] h1 span {
+  font-family: inherit !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  color: inherit !important;
+}
+
 section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] a {
   min-width: clamp(9.25rem, 15vw, 13rem);
   padding: 1rem 1.45rem !important;
