@@ -345,3 +345,50 @@ section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
     max-width: none;
   }
 }
+
+/* Client work pass: campaign rows should read as polished case entries. */
+.client-row {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.38fr) !important;
+  gap: clamp(1.5rem, 3vw, 3rem) !important;
+  align-items: stretch !important;
+}
+
+.client-row .section-label {
+  color: rgba(244, 240, 232, 0.54) !important;
+  letter-spacing: 0.045em !important;
+  line-height: 1.35 !important;
+}
+
+.client-row h3 {
+  font-size: clamp(1.85rem, 3vw, 3.25rem) !important;
+  line-height: 0.98 !important;
+}
+
+.client-row p {
+  max-width: 680px !important;
+  color: rgba(244, 240, 232, 0.66) !important;
+}
+
+.client-row > div:last-child {
+  min-height: 190px !important;
+  height: clamp(190px, 18vw, 260px) !important;
+}
+
+.client-row .client-img {
+  object-position: center center !important;
+}
+
+.client-row img.object-contain,
+.client-row img[src*="china-mobile-logo"] {
+  padding: clamp(1rem, 2vw, 1.5rem) !important;
+}
+
+@media (max-width: 820px) {
+  .client-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .client-row > div:last-child {
+    height: clamp(180px, 44vw, 280px) !important;
+  }
+}
