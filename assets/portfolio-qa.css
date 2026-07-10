@@ -137,3 +137,136 @@ video {
     border-radius: var(--qa-radius-md) !important;
   }
 }
+
+/* Final hero and navigation polish. */
+nav[code-path^="src/components/Navigation"] {
+  padding: clamp(0.9rem, 1.6vw, 1.35rem) 0 !important;
+  background: linear-gradient(180deg, rgba(8, 8, 6, 0.72), rgba(8, 8, 6, 0)) !important;
+  border-bottom: 0 !important;
+  backdrop-filter: none !important;
+}
+
+nav[code-path^="src/components/Navigation"] > div {
+  width: min(1480px, calc(100% - 6vw)) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+nav[code-path^="src/components/Navigation"] a:first-child {
+  padding: 0 !important;
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-size: clamp(1.45rem, 1.7vw, 1.95rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+  color: #f4f0e8 !important;
+}
+
+nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
+  gap: clamp(0.85rem, 1.4vw, 1.45rem) !important;
+  padding: 0.42rem 0.5rem 0.42rem 1.1rem !important;
+  border: 1px solid rgba(244, 240, 232, 0.1) !important;
+  border-radius: 999px !important;
+  background: rgba(8, 8, 6, 0.34) !important;
+  box-shadow: 0 16px 70px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+nav[code-path^="src/components/Navigation"] .hidden.md\:flex a {
+  padding: 0.42rem 0 !important;
+  border-radius: 0 !important;
+  color: rgba(244, 240, 232, 0.62) !important;
+  font-size: 0.78rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+}
+
+nav[code-path^="src/components/Navigation"] .hidden.md\:flex a:hover {
+  background: transparent !important;
+  color: #f4f0e8 !important;
+}
+
+nav[code-path^="src/components/Navigation"] .hidden.md\:flex a span {
+  bottom: -0.34rem !important;
+  background: #c8a46f !important;
+}
+
+nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[href$=".pdf"] {
+  margin-left: 0.25rem !important;
+  padding: 0.5rem 0.95rem !important;
+  border: 1px solid rgba(244, 240, 232, 0.22) !important;
+  border-radius: 999px !important;
+  background: rgba(244, 240, 232, 0.08) !important;
+  color: #f4f0e8 !important;
+}
+
+nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[href$=".pdf"]:hover {
+  border-color: rgba(196, 168, 130, 0.54) !important;
+  background: rgba(196, 168, 130, 0.14) !important;
+  color: #f4f0e8 !important;
+}
+
+section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] {
+  gap: 0.75rem !important;
+  margin-top: clamp(1.9rem, 3.6vw, 2.7rem) !important;
+}
+
+section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] a {
+  min-width: clamp(9.25rem, 15vw, 13rem);
+  padding: 1rem 1.45rem !important;
+  border: 1px solid rgba(244, 240, 232, 0.18) !important;
+  font-size: 0.75rem !important;
+  font-weight: 650 !important;
+  letter-spacing: 0.12em !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-transform: uppercase;
+  box-shadow: none !important;
+  backdrop-filter: blur(14px);
+}
+
+section[code-path^="src/sections/Hero"] a[href^="mailto:"] {
+  background: rgba(196, 168, 130, 0.94) !important;
+  border-color: rgba(196, 168, 130, 0.72) !important;
+  color: #090907 !important;
+}
+
+section[code-path^="src/sections/Hero"] a[href^="mailto:"]:hover {
+  background: #d7bd93 !important;
+  border-color: #d7bd93 !important;
+  box-shadow: 0 18px 60px rgba(196, 168, 130, 0.16) !important;
+}
+
+section[code-path^="src/sections/Hero"] a[href="#work"] {
+  background: rgba(8, 8, 6, 0.44) !important;
+  border-color: rgba(215, 255, 95, 0.48) !important;
+  color: #f4f0e8 !important;
+  box-shadow: inset 0 0 0 1px rgba(244, 240, 232, 0.04), 0 0 38px rgba(215, 255, 95, 0.08) !important;
+}
+
+section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
+  background: rgba(215, 255, 95, 0.12) !important;
+  border-color: rgba(215, 255, 95, 0.7) !important;
+  color: #f4f0e8 !important;
+}
+
+@media (max-width: 768px) {
+  nav[code-path^="src/components/Navigation"] > div {
+    width: calc(100% - 2rem) !important;
+  }
+
+  nav[code-path^="src/components/Navigation"] button {
+    border: 1px solid rgba(244, 240, 232, 0.16) !important;
+    padding: 0.62rem 1rem !important;
+    background: rgba(8, 8, 6, 0.42) !important;
+    color: #f4f0e8 !important;
+    backdrop-filter: blur(14px);
+  }
+
+  section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] a {
+    min-width: min(100%, 17rem);
+  }
+}
