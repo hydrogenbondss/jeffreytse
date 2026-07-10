@@ -833,3 +833,52 @@ div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparen
     max-width: none;
   }
 }
+
+/* Modal media should support the project, not swallow the page. */
+div[code-path^="src/components/ProjectModal"] .grid.min-h-\[calc\(100svh-60px\)\] {
+  min-height: auto !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:94:9"],
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] {
+  min-height: clamp(280px, 42svh, 520px) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] {
+  padding: clamp(0.75rem, 1.25vw, 1rem) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:134:15"] {
+  width: min(1120px, 100%) !important;
+  margin: 0 auto !important;
+  padding: clamp(1rem, 3vw, 2.5rem) !important;
+  border-radius: 18px !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] img,
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] video {
+  max-height: min(42svh, 500px) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:134:15"] img {
+  max-height: min(34svh, 360px) !important;
+}
+
+div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparent.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/noru/logo.png"],
+div[code-path^="src/components/ProjectModal"] img[src*="/spector-logo"] {
+  max-width: min(72%, 720px) !important;
+  max-height: min(24svh, 260px) !important;
+}
+
+@media (max-width: 900px) {
+  div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:94:9"],
+  div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] {
+    min-height: clamp(220px, 34svh, 380px) !important;
+  }
+
+  div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] img,
+  div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] video {
+    max-height: min(34svh, 380px) !important;
+  }
+}
