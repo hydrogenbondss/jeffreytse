@@ -22,12 +22,10 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 18% 8%, rgba(215, 255, 95, 0.09), transparent 25rem),
-    radial-gradient(circle at 86% 18%, rgba(255, 89, 79, 0.06), transparent 26rem),
-    linear-gradient(rgba(244, 240, 232, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244, 240, 232, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(244, 240, 232, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 240, 232, 0.035) 1px, transparent 1px),
     var(--jnt-bg) !important;
-  background-size: auto, auto, 96px 96px, 96px 96px, auto !important;
+  background-size: 96px 96px, 96px 96px, auto !important;
   color: var(--jnt-ink) !important;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
@@ -38,9 +36,7 @@ body::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(8, 8, 6, 0.2), rgba(8, 8, 6, 0.82)),
-    radial-gradient(circle at 50% -10%, transparent 0, rgba(8, 8, 6, 0.62) 58%);
+  background: rgba(8, 8, 6, 0.18);
 }
 
 #root {
@@ -93,9 +89,9 @@ video {
 
 nav[code-path^="src/components/Navigation"] {
   padding: 1rem 0 !important;
-  background: linear-gradient(180deg, rgba(8, 8, 6, 0.84), rgba(8, 8, 6, 0.44)) !important;
+  background: rgba(8, 8, 6, 0.66) !important;
   border-bottom: 1px solid transparent !important;
-  backdrop-filter: blur(18px) saturate(120%) !important;
+  backdrop-filter: none !important;
 }
 
 nav[code-path^="src/components/Navigation"] > div {
@@ -103,7 +99,7 @@ nav[code-path^="src/components/Navigation"] > div {
   border-radius: 999px !important;
   padding: 0.7rem 0.9rem !important;
   background: rgba(12, 12, 9, 0.72) !important;
-  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.24);
+  box-shadow: none;
 }
 
 nav[code-path^="src/components/Navigation"] a:first-child {
@@ -152,7 +148,7 @@ section[code-path^="src/sections/Hero"] .section-label {
 
 section[code-path^="src/sections/Hero"] .section-label span {
   background: var(--jnt-acid) !important;
-  box-shadow: 0 0 24px rgba(215, 255, 95, 0.42);
+  box-shadow: none;
 }
 
 section[code-path^="src/sections/Hero"] h1 {
@@ -188,7 +184,7 @@ section[code-path^="src/sections/Hero"] a[href="#work"] {
   border-color: var(--jnt-acid) !important;
   background: var(--jnt-acid) !important;
   color: #0a0a07 !important;
-  box-shadow: 0 0 0 1px rgba(215, 255, 95, 0.25), 0 18px 60px rgba(215, 255, 95, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(10, 10, 7, 0.08);
 }
 
 section[id] {
@@ -261,7 +257,7 @@ section[id] h2 {
   border: 1px solid var(--jnt-line) !important;
   border-radius: var(--jnt-radius) !important;
   background: var(--jnt-panel) !important;
-  box-shadow: 0 28px 100px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
   transition: transform 0.7s var(--jnt-ease), border-color 0.7s var(--jnt-ease), background 0.7s var(--jnt-ease);
 }
 
@@ -288,7 +284,7 @@ section[id] h2 {
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(1.5rem, 3vw, 3.5rem) !important;
-  background: linear-gradient(180deg, rgba(18, 18, 13, 0.95), rgba(10, 10, 7, 0.98)) !important;
+  background: rgba(10, 10, 7, 0.98) !important;
 }
 
 .project-img,
@@ -446,10 +442,10 @@ div[code-path="src/components/ProjectModal.tsx:59:7"] {
   margin: 1rem 0 !important;
   max-height: calc(100svh - 2rem) !important;
   border: 1px solid var(--jnt-line-strong) !important;
-  border-radius: 28px !important;
+  border-radius: 20px !important;
   background: var(--jnt-panel-solid) !important;
   overflow: auto !important;
-  box-shadow: 0 30px 120px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
 }
 
 div[code-path^="src/components/ProjectModal"] .sticky {
@@ -662,7 +658,7 @@ section[code-path^="src/sections/Hero"] h1 {
   font-size: clamp(4.8rem, 10.5vw, 11rem) !important;
   line-height: 0.82 !important;
   letter-spacing: -0.045em !important;
-  text-shadow: 0 24px 90px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 8px 28px rgba(0, 0, 0, 0.34);
 }
 
 section[code-path^="src/sections/Hero"] h1::after {
@@ -906,9 +902,7 @@ div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo.jpg"] {
 div[code-path="src/components/ProjectModal.tsx:53:5"] {
   align-items: center !important;
   padding: clamp(0.65rem, 1.8vw, 1.25rem) !important;
-  background:
-    radial-gradient(circle at 50% 6%, rgba(215, 255, 95, 0.07), transparent 32rem),
-    rgba(3, 3, 2, 0.9) !important;
+  background: rgba(3, 3, 2, 0.9) !important;
 }
 
 div[code-path="src/components/ProjectModal.tsx:59:7"] {
@@ -916,13 +910,11 @@ div[code-path="src/components/ProjectModal.tsx:59:7"] {
   max-width: min(1180px, calc(100vw - 2rem)) !important;
   max-height: calc(100svh - clamp(1rem, 4vw, 2.5rem)) !important;
   margin: 0 !important;
-  border-radius: 24px !important;
+  border-radius: 20px !important;
   overflow: auto !important;
-  background:
-    linear-gradient(180deg, rgba(9, 10, 7, 0.98), rgba(5, 6, 4, 0.98)),
-    var(--jnt-black) !important;
+  background: rgba(7, 8, 6, 0.98) !important;
   box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.55),
+    0 18px 44px rgba(0, 0, 0, 0.46),
     inset 0 0 0 1px rgba(244, 240, 232, 0.07) !important;
 }
 
@@ -931,7 +923,7 @@ div[code-path^="src/components/ProjectModal"] .sticky {
   padding: 0.75rem clamp(1rem, 2.2vw, 1.4rem) !important;
   border-bottom: 1px solid rgba(244, 240, 232, 0.1) !important;
   background: rgba(6, 7, 5, 0.92) !important;
-  backdrop-filter: blur(18px) !important;
+  backdrop-filter: none !important;
 }
 
 div[code-path="src/components/ProjectModal.tsx:69:11"] {
@@ -971,9 +963,7 @@ div[code-path="src/components/ProjectModal.tsx:94:9"] {
   min-height: clamp(190px, 27svh, 330px) !important;
   max-height: clamp(230px, 34svh, 390px) !important;
   height: auto !important;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(244, 240, 232, 0.06), transparent 28rem),
-    rgba(3, 4, 3, 0.88) !important;
+  background: rgba(3, 4, 3, 0.88) !important;
   border-bottom: 1px solid rgba(244, 240, 232, 0.08) !important;
 }
 
@@ -1002,7 +992,7 @@ div[code-path="src/components/ProjectModal.tsx:134:15"] {
   background: #f4f0e8 !important;
   box-shadow:
     inset 0 0 0 1px rgba(5, 6, 4, 0.08),
-    0 22px 60px rgba(0, 0, 0, 0.22) !important;
+    0 12px 28px rgba(0, 0, 0, 0.18) !important;
 }
 
 div[code-path="src/components/ProjectModal.tsx:134:15"] img {
@@ -1038,7 +1028,7 @@ div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo.jpg"] {
   border: 1px solid rgba(244, 240, 232, 0.16) !important;
   background: rgba(244, 240, 232, 0.08) !important;
   color: rgba(244, 240, 232, 0.74) !important;
-  backdrop-filter: blur(14px) !important;
+  backdrop-filter: none !important;
   transition:
     transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
     background-color 160ms ease,
