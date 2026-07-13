@@ -12,8 +12,23 @@
   --jnt-acid: #d7ff5f;
   --jnt-warm: #c8a46f;
   --jnt-red: #ff594f;
-  --jnt-radius: 24px;
+  --jnt-radius-sm: 12px;
+  --jnt-radius-md: 18px;
+  --jnt-radius-lg: 24px;
+  --jnt-radius-pill: 999px;
+  --jnt-radius: var(--jnt-radius-lg);
+  --jnt-shadow-xs: 0 8px 20px rgba(0, 0, 0, 0.16);
+  --jnt-shadow-sm: 0 12px 32px rgba(0, 0, 0, 0.2);
+  --jnt-shadow-md: 0 18px 44px rgba(0, 0, 0, 0.42);
+  --jnt-inset-hairline: inset 0 0 0 1px rgba(244, 240, 232, 0.04);
+  --jnt-duration-fast: 160ms;
+  --jnt-duration-med: 420ms;
+  --jnt-duration-slow: 700ms;
+  --jnt-duration-media: 900ms;
   --jnt-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --jnt-leading-tight: 0.92;
+  --jnt-leading-title: 0.98;
+  --jnt-leading-body: 1.72;
 }
 
 html {
@@ -71,6 +86,7 @@ body::before {
 
 p {
   color: var(--jnt-muted) !important;
+  line-height: var(--jnt-leading-body);
 }
 
 img,
@@ -80,7 +96,7 @@ video {
 
 #root a,
 #root button {
-  border-radius: 999px;
+  border-radius: var(--jnt-radius-pill);
 }
 
 #root button {
@@ -96,7 +112,7 @@ nav[code-path^="src/components/Navigation"] {
 
 nav[code-path^="src/components/Navigation"] > div {
   border: 1px solid var(--jnt-line) !important;
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
   padding: 0.7rem 0.9rem !important;
   background: rgba(12, 12, 9, 0.72) !important;
   box-shadow: none;
@@ -113,13 +129,13 @@ nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
   gap: 0.3rem !important;
   padding: 0.18rem !important;
   border: 1px solid var(--jnt-line) !important;
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
   background: rgba(244, 240, 232, 0.035) !important;
 }
 
 nav[code-path^="src/components/Navigation"] .hidden.md\:flex a {
   padding: 0.62rem 1rem !important;
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
   color: var(--jnt-muted) !important;
 }
 
@@ -177,7 +193,7 @@ section[code-path^="src/sections/Hero"] a[href="#work"],
 .text-\[11px\].uppercase,
 div[code-path^="src/components/ProjectModal"] a,
 div[code-path^="src/components/ProjectModal"] button {
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
 }
 
 section[code-path^="src/sections/Hero"] a[href="#work"] {
@@ -257,8 +273,8 @@ section[id] h2 {
   border: 1px solid var(--jnt-line) !important;
   border-radius: var(--jnt-radius) !important;
   background: var(--jnt-panel) !important;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
-  transition: transform 0.7s var(--jnt-ease), border-color 0.7s var(--jnt-ease), background 0.7s var(--jnt-ease);
+  box-shadow: var(--jnt-shadow-sm);
+  transition: transform var(--jnt-duration-slow) var(--jnt-ease), border-color var(--jnt-duration-slow) var(--jnt-ease), background var(--jnt-duration-slow) var(--jnt-ease);
 }
 
 .project-row:hover,
@@ -293,7 +309,7 @@ section[id] h2 {
   top: 0 !important;
   height: 100% !important;
   object-position: center center !important;
-  transition: transform 1s var(--jnt-ease), filter 1s var(--jnt-ease) !important;
+  transition: transform var(--jnt-duration-media) var(--jnt-ease), filter var(--jnt-duration-media) var(--jnt-ease) !important;
 }
 
 .project-row:hover .project-img,
@@ -326,12 +342,12 @@ section[id] h2 {
 .exhib-item {
   border-color: var(--jnt-line) !important;
   background: rgba(15, 15, 11, 0.72) !important;
-  transition: transform 0.55s var(--jnt-ease), border-color 0.55s var(--jnt-ease), background 0.55s var(--jnt-ease);
+  transition: transform var(--jnt-duration-med) var(--jnt-ease), border-color var(--jnt-duration-med) var(--jnt-ease), background var(--jnt-duration-med) var(--jnt-ease);
 }
 
 .motion-card,
 .edit-card {
-  border-radius: 18px !important;
+  border-radius: var(--jnt-radius-md) !important;
   border: 1px solid var(--jnt-line) !important;
   background: var(--jnt-panel) !important;
 }
@@ -351,20 +367,20 @@ section[id] h2 {
 }
 
 .client-row {
-  border-radius: 22px !important;
+  border-radius: var(--jnt-radius-lg) !important;
   padding: clamp(1.2rem, 2.5vw, 2.25rem) !important;
   margin-bottom: 0.8rem !important;
   border: 1px solid var(--jnt-line) !important;
 }
 
 .client-row > div:last-child {
-  border-radius: 16px !important;
+  border-radius: var(--jnt-radius-sm) !important;
   border: 1px solid var(--jnt-line) !important;
   background: #10100c !important;
 }
 
 .edit-card {
-  box-shadow: inset 0 0 0 1px rgba(244, 240, 232, 0.03);
+  box-shadow: var(--jnt-inset-hairline);
 }
 
 .edit-card img {
@@ -373,7 +389,7 @@ section[id] h2 {
 
 .exhib-item,
 .research-item {
-  border-radius: 18px !important;
+  border-radius: var(--jnt-radius-md) !important;
   border: 1px solid transparent !important;
   padding: clamp(1.2rem, 2.5vw, 2rem) !important;
 }
@@ -391,7 +407,7 @@ section[id] h2 {
 
 .tool-tag {
   border-color: var(--jnt-line) !important;
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
   background: rgba(244, 240, 232, 0.035) !important;
   color: var(--jnt-muted) !important;
 }
@@ -442,10 +458,10 @@ div[code-path="src/components/ProjectModal.tsx:59:7"] {
   margin: 1rem 0 !important;
   max-height: calc(100svh - 2rem) !important;
   border: 1px solid var(--jnt-line-strong) !important;
-  border-radius: 20px !important;
+  border-radius: var(--jnt-radius-lg) !important;
   background: var(--jnt-panel-solid) !important;
   overflow: auto !important;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+  box-shadow: var(--jnt-shadow-md);
 }
 
 div[code-path^="src/components/ProjectModal"] .sticky {
@@ -471,7 +487,7 @@ div[code-path^="src/components/ProjectModal"] div[code-path="src/components/Proj
 div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:134:15"] {
   background: #f4f0e8 !important;
   border: 1px solid rgba(244, 240, 232, 0.14) !important;
-  border-radius: 22px !important;
+  border-radius: var(--jnt-radius-lg) !important;
   padding: clamp(2rem, 6vw, 5rem) !important;
 }
 
@@ -502,7 +518,7 @@ div[code-path^="src/components/ProjectModal"] div[code-path="src/components/Proj
 
 div[code-path^="src/components/ProjectModal"] img,
 div[code-path^="src/components/ProjectModal"] video {
-  border-radius: 14px !important;
+  border-radius: var(--jnt-radius-sm) !important;
 }
 
 div[code-path^="src/components/ProjectModal"] h2 {
@@ -513,7 +529,7 @@ div[code-path^="src/components/ProjectModal"] h2 {
 div[code-path^="src/components/ProjectModal"] p {
   color: var(--jnt-muted) !important;
   font-size: 0.96rem !important;
-  line-height: 1.72 !important;
+  line-height: var(--jnt-leading-body) !important;
 }
 
 div[code-path^="src/components/ProjectModal"] a {
@@ -533,7 +549,7 @@ div[code-path^="src/components/ProjectModal"] a {
 
 @media (max-width: 900px) {
   nav[code-path^="src/components/Navigation"] > div {
-    border-radius: 22px !important;
+    border-radius: var(--jnt-radius-lg) !important;
   }
 
   section[code-path^="src/sections/Hero"] {
@@ -588,13 +604,13 @@ div[code-path^="src/components/ProjectModal"] a {
     max-width: calc(100vw - 0.75rem) !important;
     margin: 0.375rem 0 !important;
     height: calc(100svh - 0.75rem) !important;
-    border-radius: 18px !important;
+    border-radius: var(--jnt-radius-md) !important;
   }
 }
 
 @media (max-width: 640px) {
   body {
-    background-size: auto, auto, 64px 64px, 64px 64px, auto !important;
+    background-size: 64px 64px, 64px 64px, auto !important;
   }
 
   nav[code-path^="src/components/Navigation"] {
@@ -658,7 +674,7 @@ section[code-path^="src/sections/Hero"] h1 {
   font-size: clamp(4.8rem, 10.5vw, 11rem) !important;
   line-height: 0.82 !important;
   letter-spacing: -0.045em !important;
-  text-shadow: 0 8px 28px rgba(0, 0, 0, 0.34);
+  text-shadow: none;
 }
 
 section[code-path^="src/sections/Hero"] h1::after {
@@ -680,11 +696,11 @@ section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:
 
 section[code-path^="src/sections/Hero"] a {
   transition:
-    transform 160ms var(--jnt-ease),
-    background 180ms ease-out,
-    border-color 180ms ease-out,
-    color 180ms ease-out,
-    box-shadow 180ms ease-out !important;
+    transform var(--jnt-duration-fast) var(--jnt-ease),
+    background var(--jnt-duration-fast) ease-out,
+    border-color var(--jnt-duration-fast) ease-out,
+    color var(--jnt-duration-fast) ease-out,
+    box-shadow var(--jnt-duration-fast) ease-out !important;
 }
 
 section[code-path^="src/sections/Hero"] a:active,
@@ -780,14 +796,6 @@ div[code-path^="src/components/ProjectModal"] div[code-path="src/components/Proj
   display: none !important;
 }
 
-div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo-transparent.png"] {
-  background: transparent !important;
-  padding: 0 !important;
-  filter:
-    drop-shadow(0 0 1px rgba(244, 240, 232, 0.72))
-    drop-shadow(0 18px 42px rgba(0, 0, 0, 0.35));
-}
-
 div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo.jpg"] {
   background: #f4f0e8 !important;
   filter: none !important;
@@ -854,7 +862,7 @@ div[code-path^="src/components/ProjectModal"] div[code-path="src/components/Proj
   width: min(1120px, 100%) !important;
   margin: 0 auto !important;
   padding: clamp(1rem, 3vw, 2.5rem) !important;
-  border-radius: 18px !important;
+  border-radius: var(--jnt-radius-md) !important;
 }
 
 div[code-path^="src/components/ProjectModal"] div[code-path="src/components/ProjectModal.tsx:120:11"] img,
@@ -910,11 +918,11 @@ div[code-path="src/components/ProjectModal.tsx:59:7"] {
   max-width: min(1180px, calc(100vw - 2rem)) !important;
   max-height: calc(100svh - clamp(1rem, 4vw, 2.5rem)) !important;
   margin: 0 !important;
-  border-radius: 20px !important;
+  border-radius: var(--jnt-radius-lg) !important;
   overflow: auto !important;
   background: rgba(7, 8, 6, 0.98) !important;
   box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.46),
+    var(--jnt-shadow-md),
     inset 0 0 0 1px rgba(244, 240, 232, 0.07) !important;
 }
 
@@ -944,11 +952,11 @@ div[code-path="src/components/ProjectModal.tsx:78:17"] {
 [code-path="src/components/ProjectModal.tsx:82:11"] {
   min-width: 5.25rem !important;
   min-height: 2.6rem !important;
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
   transition:
-    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
-    background-color 160ms ease,
-    color 160ms ease !important;
+    transform var(--jnt-duration-fast) var(--jnt-ease),
+    background-color var(--jnt-duration-fast) ease,
+    color var(--jnt-duration-fast) ease !important;
 }
 
 [code-path="src/components/ProjectModal.tsx:82:11"]:active {
@@ -988,11 +996,11 @@ div[code-path="src/components/ProjectModal.tsx:134:15"] {
   height: auto !important;
   margin: 0 auto !important;
   padding: clamp(1rem, 2.6vw, 2rem) !important;
-  border-radius: 18px !important;
+  border-radius: var(--jnt-radius-md) !important;
   background: #f4f0e8 !important;
   box-shadow:
     inset 0 0 0 1px rgba(5, 6, 4, 0.08),
-    0 12px 28px rgba(0, 0, 0, 0.18) !important;
+    var(--jnt-shadow-sm) !important;
 }
 
 div[code-path="src/components/ProjectModal.tsx:134:15"] img {
@@ -1030,9 +1038,9 @@ div[code-path^="src/components/ProjectModal"] img[src*="/pawsaid/logo.jpg"] {
   color: rgba(244, 240, 232, 0.74) !important;
   backdrop-filter: none !important;
   transition:
-    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
-    background-color 160ms ease,
-    color 160ms ease !important;
+    transform var(--jnt-duration-fast) var(--jnt-ease),
+    background-color var(--jnt-duration-fast) ease,
+    color var(--jnt-duration-fast) ease !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1060,13 +1068,13 @@ div[code-path="src/components/ProjectModal.tsx:154:11"] {
 [code-path="src/components/ProjectModal.tsx:156:15"] {
   width: 68px !important;
   height: 50px !important;
-  border-radius: 14px !important;
+  border-radius: var(--jnt-radius-sm) !important;
   background: rgba(244, 240, 232, 0.08) !important;
   opacity: 0.68 !important;
   transition:
-    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
-    opacity 160ms ease,
-    border-color 160ms ease !important;
+    transform var(--jnt-duration-fast) var(--jnt-ease),
+    opacity var(--jnt-duration-fast) ease,
+    border-color var(--jnt-duration-fast) ease !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1086,7 +1094,7 @@ div[code-path="src/components/ProjectModal.tsx:154:11"] {
 
 [code-path="src/components/ProjectModal.tsx:156:15"] img,
 [code-path="src/components/ProjectModal.tsx:156:15"] video {
-  border-radius: 12px !important;
+  border-radius: var(--jnt-radius-sm) !important;
   object-fit: cover !important;
 }
 
@@ -1113,7 +1121,7 @@ div[code-path="src/components/ProjectModal.tsx:185:13"] {
 
 [code-path="src/components/ProjectModal.tsx:187:17"] {
   border-color: rgba(244, 240, 232, 0.14) !important;
-  border-radius: 999px !important;
+  border-radius: var(--jnt-radius-pill) !important;
   background: rgba(244, 240, 232, 0.035) !important;
   color: rgba(244, 240, 232, 0.68) !important;
 }
@@ -1122,7 +1130,7 @@ div[code-path="src/components/ProjectModal.tsx:185:13"] {
   max-width: min(100%, 16ch) !important;
   margin-bottom: clamp(1rem, 2vw, 1.45rem) !important;
   font-size: clamp(2.15rem, 4.1vw, 4.25rem) !important;
-  line-height: 0.92 !important;
+  line-height: var(--jnt-leading-tight) !important;
   letter-spacing: -0.045em !important;
   overflow-wrap: break-word !important;
   text-wrap: balance;
@@ -1138,9 +1146,9 @@ div[code-path="src/components/ProjectModal.tsx:185:13"] {
   bottom: 0.35rem;
   width: 1.15rem;
   height: 1.15rem;
-  border-radius: 999px;
+  border-radius: var(--jnt-radius-pill);
   background: rgba(244, 240, 232, 0.92);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  box-shadow: var(--jnt-shadow-xs);
 }
 
 .media-thumb-play::after {
@@ -1157,7 +1165,7 @@ div[code-path="src/components/ProjectModal.tsx:185:13"] {
   margin-bottom: clamp(1.25rem, 2vw, 2rem) !important;
   color: rgba(244, 240, 232, 0.74) !important;
   font-size: clamp(0.98rem, 1.08vw, 1.08rem) !important;
-  line-height: 1.76 !important;
+  line-height: var(--jnt-leading-body) !important;
   text-wrap: pretty;
 }
 
@@ -1189,10 +1197,10 @@ div[code-path="src/components/ProjectModal.tsx:243:13"] {
   display: inline-flex !important;
   align-items: center !important;
   transition:
-    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
-    background-color 160ms ease,
-    color 160ms ease,
-    border-color 160ms ease !important;
+    transform var(--jnt-duration-fast) var(--jnt-ease),
+    background-color var(--jnt-duration-fast) ease,
+    color var(--jnt-duration-fast) ease,
+    border-color var(--jnt-duration-fast) ease !important;
 }
 
 [code-path="src/components/ProjectModal.tsx:245:17"]:active {
@@ -1208,7 +1216,7 @@ div[code-path="src/components/ProjectModal.tsx:243:13"] {
   div[code-path="src/components/ProjectModal.tsx:59:7"] {
     max-width: calc(100vw - 0.7rem) !important;
     max-height: calc(100svh - 0.7rem) !important;
-    border-radius: 18px !important;
+    border-radius: var(--jnt-radius-md) !important;
   }
 
   div[code-path^="src/components/ProjectModal"] .sticky {
@@ -1240,7 +1248,7 @@ div[code-path="src/components/ProjectModal.tsx:243:13"] {
   div[code-path="src/components/ProjectModal.tsx:134:15"] {
     width: 100% !important;
     padding: 0.85rem !important;
-    border-radius: 14px !important;
+    border-radius: var(--jnt-radius-sm) !important;
   }
 
   div[code-path="src/components/ProjectModal.tsx:134:15"] img {
@@ -1254,7 +1262,7 @@ div[code-path="src/components/ProjectModal.tsx:243:13"] {
   [code-path="src/components/ProjectModal.tsx:156:15"] {
     width: 58px !important;
     height: 44px !important;
-    border-radius: 13px !important;
+    border-radius: var(--jnt-radius-sm) !important;
   }
 
   div[code-path="src/components/ProjectModal.tsx:182:9"] {

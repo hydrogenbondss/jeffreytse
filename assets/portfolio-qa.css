@@ -1,13 +1,14 @@
 /* Final QA polish: non-content visual guardrails for the deployed bundle. */
 :root {
-  --qa-radius-sm: 10px;
-  --qa-radius-md: 16px;
-  --qa-radius-lg: 24px;
-  --qa-border: rgba(240, 240, 240, 0.14);
+  --qa-radius-sm: var(--jnt-radius-sm);
+  --qa-radius-md: var(--jnt-radius-md);
+  --qa-radius-lg: var(--jnt-radius-lg);
+  --qa-radius-pill: var(--jnt-radius-pill);
+  --qa-border: var(--jnt-line);
   --qa-border-strong: rgba(196, 168, 130, 0.34);
-  --qa-bg: #0a0a0a;
-  --qa-panel: rgba(16, 16, 14, 0.92);
-  --qa-accent: #c4a882;
+  --qa-bg: var(--jnt-bg);
+  --qa-panel: var(--jnt-panel);
+  --qa-accent: var(--jnt-warm);
 }
 
 html {
@@ -27,12 +28,12 @@ button {
 button,
 a[href],
 .btn-lift {
-  border-radius: 999px !important;
+  border-radius: var(--qa-radius-pill) !important;
 }
 
 nav a,
 nav button {
-  border-radius: 999px !important;
+  border-radius: var(--qa-radius-pill) !important;
 }
 
 img,
@@ -48,10 +49,10 @@ video {
 .research-item {
   border-color: var(--qa-border) !important;
   transition:
-    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transform var(--jnt-duration-med) var(--jnt-ease),
+    border-color var(--jnt-duration-med) var(--jnt-ease),
+    background-color var(--jnt-duration-med) var(--jnt-ease),
+    box-shadow var(--jnt-duration-med) var(--jnt-ease) !important;
 }
 
 .project-card,
@@ -75,7 +76,7 @@ video {
 .research-item:hover {
   transform: translateY(-4px);
   border-color: var(--qa-border-strong) !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--jnt-shadow-sm);
 }
 
 .project-card img,
@@ -96,7 +97,7 @@ video {
 .motion-card span,
 .research-item span,
 .exhib-item span {
-  border-radius: 999px !important;
+  border-radius: var(--qa-radius-pill) !important;
 }
 
 .section-label {
@@ -115,7 +116,7 @@ video {
 
 [code-path^="src/components/ProjectModal"] button,
 [code-path^="src/components/ProjectModal"] a {
-  border-radius: 999px !important;
+  border-radius: var(--qa-radius-pill) !important;
 }
 
 @media (max-width: 768px) {
@@ -168,9 +169,9 @@ nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
   gap: clamp(0.85rem, 1.4vw, 1.45rem) !important;
   padding: 0.42rem 0.5rem 0.42rem 1.1rem !important;
   border: 1px solid rgba(244, 240, 232, 0.1) !important;
-  border-radius: 999px !important;
+  border-radius: var(--qa-radius-pill) !important;
   background: rgba(8, 8, 6, 0.34) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--jnt-shadow-xs);
   backdrop-filter: none;
 }
 
@@ -198,7 +199,7 @@ nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[href$=".pdf"] {
   margin-left: 0.25rem !important;
   padding: 0.5rem 0.95rem !important;
   border: 1px solid rgba(244, 240, 232, 0.22) !important;
-  border-radius: 999px !important;
+  border-radius: var(--qa-radius-pill) !important;
   background: rgba(244, 240, 232, 0.08) !important;
   color: #f4f0e8 !important;
 }
@@ -259,7 +260,7 @@ section[code-path^="src/sections/Hero"] a[href="#work"] {
   background: rgba(8, 8, 6, 0.44) !important;
   border-color: rgba(215, 255, 95, 0.48) !important;
   color: #f4f0e8 !important;
-  box-shadow: inset 0 0 0 1px rgba(244, 240, 232, 0.04) !important;
+  box-shadow: var(--jnt-inset-hairline) !important;
 }
 
 section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
