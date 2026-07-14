@@ -26,8 +26,9 @@ button {
 }
 
 button,
-a[href],
-.btn-lift {
+.btn-lift,
+.contact-link,
+a[role="button"] {
   border-radius: var(--qa-radius-pill) !important;
 }
 
@@ -258,18 +259,23 @@ section[code-path^="src/sections/Hero"] a[href^="mailto:"]:hover {
 
 section[code-path^="src/sections/Hero"] a[href="#work"] {
   background: rgba(8, 8, 6, 0.44) !important;
-  border-color: rgba(215, 255, 95, 0.48) !important;
+  border-color: rgba(200, 164, 111, 0.48) !important;
   color: #f4f0e8 !important;
   box-shadow: var(--jnt-inset-hairline) !important;
 }
 
 section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
-  background: rgba(215, 255, 95, 0.12) !important;
-  border-color: rgba(215, 255, 95, 0.7) !important;
+  background: rgba(200, 164, 111, 0.12) !important;
+  border-color: rgba(200, 164, 111, 0.7) !important;
   color: #f4f0e8 !important;
 }
 
 @media (max-width: 768px) {
+  nav[code-path^="src/components/Navigation"] {
+    background: rgba(8, 8, 6, 0.94) !important;
+    border-bottom: 1px solid rgba(244, 240, 232, 0.09) !important;
+  }
+
   nav[code-path^="src/components/Navigation"] > div {
     width: calc(100% - 2rem) !important;
   }

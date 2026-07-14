@@ -3,3 +3,9 @@
 Single-page portfolio for Jeffrey N. Tse, foregrounding AI-native products, cultural systems, interactive narrative, motion studies, editorial work, and research.
 
 Primary project story: PawsAid, ROLL CALL, ECHO: Love and Logged, SPECTOR, SELTA, and Noru.
+
+Run the portfolio integrity check before publishing:
+
+```sh
+node scripts/audit-portfolio.mjs
+```
