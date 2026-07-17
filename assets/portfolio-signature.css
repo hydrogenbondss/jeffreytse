@@ -115,7 +115,7 @@ body {
   z-index: 2;
   box-sizing: border-box;
   width: min(92vw, 980px);
-  padding: 4.5rem 1.5rem 2rem;
+  padding: 4.5rem 1.5rem calc(2rem + clamp(140px, 18svh, 190px));
 }
 
 .folio-boot-title {
@@ -170,6 +170,7 @@ body {
 }
 
 .folio-boot-scroll {
+  display: none;
   position: absolute;
   bottom: 1.5rem;
   left: 50%;
@@ -199,14 +200,112 @@ section[code-path^="src/sections/Hero"] {
   overflow: visible !important;
 }
 
-.folio-orb {
+section[code-path^="src/sections/Hero"] > div.absolute.bottom-8 {
+  display: none !important;
+}
+
+section[code-path^="src/sections/Hero"] a.folio-strip,
+.folio-strip,
+.folio-strip-cell,
+.folio-strip-cell img {
+  border-radius: 0 !important;
+}
+
+.folio-strip {
   position: absolute;
-  top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  z-index: 0;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  border-top: 1px solid rgba(244, 240, 232, 0.14);
+  text-decoration: none;
+  animation: folio-strip-reveal 1.1s var(--folio-ease) 0.25s backwards;
+}
+
+.folio-strip-track {
+  display: flex;
+  width: max-content;
+  animation: folio-strip-drift 64s linear infinite;
+}
+
+.folio-strip:hover .folio-strip-track {
+  animation-play-state: paused;
+}
+
+.folio-strip-set {
+  display: flex;
+}
+
+.folio-strip-cell {
+  position: relative;
+  width: clamp(200px, 21vw, 320px);
+  margin: 0;
+  border-right: 1px solid rgba(244, 240, 232, 0.14);
+}
+
+.folio-strip-cell img {
+  display: block;
   width: 100%;
-  height: 150svh;
-  pointer-events: none;
+  height: clamp(112px, 15svh, 150px);
+  object-fit: cover;
+  opacity: 0.82;
+  transition: opacity 0.45s var(--folio-ease);
+}
+
+.folio-strip-cell:hover img {
+  opacity: 1;
+}
+
+.folio-strip-cell figcaption {
+  display: flex;
+  gap: 0.55rem;
+  align-items: baseline;
+  padding: 0.55rem 0.85rem 0.65rem;
+  color: rgba(244, 240, 232, 0.78);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.folio-strip-cell figcaption span {
+  color: var(--folio-copper);
+}
+
+@keyframes folio-strip-drift {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes folio-strip-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folio-strip,
+  .folio-strip-track {
+    animation: none;
+  }
+
+  .folio-strip {
+    overflow-x: auto;
+  }
 }
 
 nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[aria-current="location"] {
@@ -487,8 +586,8 @@ section[id]:not(#work) {
     margin-left: auto;
   }
 
-  .folio-orb {
-    height: 132svh;
+  .folio-strip-cell figcaption {
+    font-size: 0.56rem;
   }
 
   #work::before {

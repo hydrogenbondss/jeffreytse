@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cathedral of Small Hours</title>
+<meta name="description" content="An endless first-person code cathedral where human silhouettes resolve from streams of falling words.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#020403;color:#9dffbd;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;background:#020403}
+#hud{position:fixed;inset:0;z-index:2;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:22px}
+.top,.bottom{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;line-height:1.8;color:rgba(135,255,172,.58);text-shadow:0 0 12px rgba(50,255,110,.22)}
+.right{text-align:right}
+.hint{color:rgba(190,255,206,.42)}
+.reticle{position:fixed;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%);z-index:3;pointer-events:none}
+.reticle:before,.reticle:after{content:"";position:absolute;background:rgba(143,255,174,.38);box-shadow:0 0 12px rgba(64,255,122,.35)}
+.reticle:before{left:9px;top:0;width:1px;height:20px}.reticle:after{left:0;top:9px;width:20px;height:1px}
+#enter{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 48%,rgba(16,55,28,.22),rgba(1,3,2,.96) 62%);transition:opacity .55s ease,visibility .55s ease}
+#enter.hidden{opacity:0;visibility:hidden;pointer-events:none}
+#enter button{pointer-events:auto;border:1px solid rgba(135,255,172,.36);background:rgba(2,8,4,.74);color:rgba(215,255,222,.88);border-radius:999px;padding:15px 28px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 42px rgba(52,255,108,.18);transition:transform .16s ease-out,border-color .2s ease,background .2s ease}
+#enter button:hover{border-color:rgba(168,255,190,.72);background:rgba(14,36,18,.82)}
+#enter button:active{transform:scale(.97)}
+#enter .subtitle{position:absolute;bottom:30%;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(135,255,172,.35);text-align:center;line-height:1.8}
+@media(max-width:700px){#hud{padding:16px}.label{font-size:9px}.bottom{align-items:flex-end}.hint{max-width:210px}}
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="hud">
+  <div class="top">
+    <div class="label">Cathedral of Small Hours<br>Endless code nave</div>
+    <div class="label right" id="readout">Z 0000<br>aisle 00</div>
+  </div>
+  <div class="bottom">
+    <div class="label hint">WASD / arrows to walk &middot; pointer to look &middot; scroll to advance</div>
+    <div class="label right">Walls &middot; pews &middot; arches &middot; floor<br>compiled from language</div>
+  </div>
+</div>
+<div class="reticle" aria-hidden="true"></div>
+<div id="enter">
+  <button id="start">Enter Cathedral</button>
+  <div class="subtitle">Headphones recommended &middot; Falling words form human silhouettes</div>
+</div>
+
+<script>
+// ─── Audio Engine ───
+let audioCtx, drone, chantGain, reverb;
+function initAudio(){
+  if(audioCtx)return;
+  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  
+  // Cathedral drone
+  const osc1=audioCtx.createOscillator(),osc2=audioCtx.createOscillator(),osc3=audioCtx.createOscillator();
+  const g1=audioCtx.createGain(),g2=audioCtx.createGain(),g3=audioCtx.createGain();
+  [osc1,osc2,osc3].forEach(o=>o.start());
+  osc1.type='sine';osc1.frequency.value=55;g1.gain.value=0.04;
+  osc2.type='sine';osc2.frequency.value=82.4;g2.gain.value=0.025;
+  osc3.type='triangle';osc3.frequency.value=110;g3.gain.value=0.015;
+  
+  // Low-pass filter for muffled cathedral sound
+  const lp=audioCtx.createBiquadFilter();
+  lp.type='lowpass';lp.frequency.value=800;lp.Q.value=1.2;
+  
+  // Reverb via delay
+  const delay=audioCtx.createDelay();delay.delayTime.value=2.5;
+  const fb=audioCtx.createGain();fb.gain.value=0.4;
+  const wet=audioCtx.createGain();wet.gain.value=0.3;
+  
+  osc1.connect(g1);osc2.connect(g2);osc3.connect(g3);
+  g1.connect(lp);g2.connect(lp);g3.connect(lp);
+  lp.connect(audioCtx.destination);
+  lp.connect(delay);delay.connect(fb);fb.connect(delay);
+  fb.connect(wet);wet.connect(audioCtx.destination);
+  
+  drone={osc1,osc2,osc3,g1,g2,g3,lp};
+}
+
+const canvas=document.getElementById("scene");
+const ctx=canvas.getContext("2d");
+const readout=document.getElementById("readout");
+let W=0,H=0,DPR=1,cx=0,cy=0;
+let z=0,lane=0,targetLane=0,lookX=0,lookY=0,targetLookX=0,targetLookY=0;
+let last=performance.now(),time=0,audioStarted=false;
+const keys=new Set();
+const glyphs=["const","return","void","if","else","while","render","memory","body","signal","archive","trace","0101","1010","null","async","await","echo","small","hours","class","vector","light","threshold","cathedral","compile","function","promise","gather","listen","become"];
+
+// Human silhouette words that emerge
+const silhouetteWords=["we","were","here","together","alone","waiting","breathing","becoming","returning","remembering","listening","gathering","becoming","present","absent","watching","becoming","still","quiet","present"];
+
+function resize(){
+  DPR=Math.min(devicePixelRatio||1,2);
+  W=innerWidth;H=innerHeight;cx=W/2;cy=H/2;
+  canvas.width=W*DPR;canvas.height=H*DPR;
+  canvas.style.width=W+"px";canvas.style.height=H+"px";
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+addEventListener("resize",resize,{passive:true});resize();
+
+function rng(n){return (Math.sin(n*127.1+311.7)*43758.5453)%1;}
+function noise(n){return Math.abs(rng(n));}
+function lerp(a,b,t){return a+(b-a)*t}
+function project(x,y,depth){
+  const f=620/(depth+1);
+  return {x:cx+(x+lane*34)*f+lookX*90/depth,y:cy+(y+lookY*24)*f,f};
+}
+function line3(a,b,color,width,alpha){
+  const p=project(a.x,a.y,a.z),q=project(b.x,b.y,b.z);
+  ctx.globalAlpha=alpha==null?1:alpha;
+  ctx.strokeStyle=color;ctx.lineWidth=Math.max(.35,width*(p.f+q.f)*.5/220);
+  ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+  ctx.globalAlpha=1;
+}
+function text3(text,x,y,depth,size,alpha,rot){
+  const p=project(x,y,depth);
+  if(p.f<4||p.x<-120||p.x>W+120||p.y<-120||p.y>H+120)return;
+  ctx.save();
+  ctx.globalAlpha=alpha;
+  ctx.translate(p.x,p.y);
+  ctx.rotate(rot||0);
+  ctx.fillStyle="#75ff9b";
+  ctx.shadowColor="rgba(70,255,120,.75)";
+  ctx.shadowBlur=10*p.f/220;
+  ctx.font=Math.max(5,size*p.f/220)+"px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
+  ctx.fillText(text,0,0);
+  ctx.restore();
+}
+
+// Draw human silhouette from aggregated word positions
+const silhouettes=[];
+function spawnSilhouette(){
+  const aisle=Math.floor(z/220);
+  if(silhouettes.find(s=>s.aisle===aisle))return;
+  const count=3+Math.floor(noise(aisle*7)*6);
+  const figures=[];
+  for(let f=0;f<count;f++){
+    const baseX=(noise(aisle*13+f*5)-.5)*420;
+    const baseY=noise(aisle*17+f*3)*20;
+    const baseZ=80+noise(aisle*19+f)*1600;
+    const words=[];
+    const wordCount=12+Math.floor(noise(aisle*23+f)*20);
+    for(let w=0;w<wordCount;w++){
+      const angle=(w/wordCount)*Math.PI*2+noise(aisle*29+w)*0.5;
+      const radius=15+noise(aisle*31+w)*35;
+      const wx=baseX+Math.cos(angle)*radius*(0.3+noise(aisle*37+w)*0.7);
+      const wy=baseY-30-Math.abs(Math.sin(angle))*70-noise(aisle*41+w)*30;
+      const wz=baseZ+noise(aisle*43+w)*80;
+      words.push({x:wx,y:wy,z:wz,word:silhouetteWords[(aisle*f+w)%silhouetteWords.length],phase:noise(aisle*47+w)*Math.PI*2});
+    }
+    figures.push({words,life:0,born:time});
+  }
+  silhouettes.push({aisle,figures});
+  while(silhouettes.length>8)silhouettes.shift();
+}
+
+function drawSilhouettes(){
+  const currentAisle=Math.floor(z/220);
+  silhouettes.forEach(sil=>{
+    const fade=1-Math.min(1,Math.abs(sil.aisle-currentAisle)/4);
+    sil.figures.forEach(fig=>{
+      fig.life=Math.min(1,fig.life+0.003);
+      const figFade=fade*fig.life;
+      fig.words.forEach(w=>{
+        const p=project(w.x,w.y,w.z);
+        if(p.f<3||p.x<-80||p.x>W+80)return;
+        const pulse=0.5+0.5*Math.sin(time*0.8+w.phase);
+        const wordAlpha=figFade*0.35*pulse;
+        ctx.save();
+        ctx.globalAlpha=wordAlpha;
+        ctx.translate(p.x,p.y);
+        ctx.fillStyle="#a8ffc8";
+        ctx.shadowColor="rgba(100,255,140,.9)";
+        ctx.shadowBlur=14*p.f/220;
+        ctx.font=Math.max(6,(7+Math.sin(w.phase)*2)*p.f/220)+"px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
+        ctx.fillText(w.word,0,0);
+        ctx.restore();
+      });
+    });
+  });
+}
+
+function drawBackground(){
+  const g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,"#010302");
+  g.addColorStop(.48,"#041006");
+  g.addColorStop(1,"#000201");
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  const glow=ctx.createRadialGradient(cx,cy+H*.08,0,cx,cy+H*.08,Math.max(W,H)*.72);
+  glow.addColorStop(0,"rgba(68,255,116,.13)");
+  glow.addColorStop(.34,"rgba(20,120,54,.07)");
+  glow.addColorStop(1,"transparent");
+  ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+}
+
+function drawCodeRain(){
+  ctx.save();
+  ctx.font="11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
+  for(let i=0;i<140;i++){
+    const x=(i*83+noise(i)*W+time*5*(i%3+1))%(W+80)-40;
+    const y=(i*149+time*54*(.4+noise(i+2))+noise(i+10)*H*0.3)%(H+140)-70;
+    const a=.04+noise(i+8)*.14;
+    const glyph=glyphs[i%glyphs.length];
+    ctx.fillStyle=`rgba(105,255,142,${a})`;
+    ctx.fillText(glyph,x,y);
+    // Occasional brighter drop
+    if(noise(i+time*0.1)>0.97){
+      ctx.fillStyle=`rgba(180,255,200,${a*2})`;
+      ctx.fillText(glyph,x,y-12);
+    }
+  }
+  ctx.restore();
+}
+
+function drawRose(depth){
+  const p=project(0,-260,depth);
+  const r=95*p.f/240;
+  if(r<8)return;
+  ctx.save();ctx.translate(p.x,p.y);ctx.globalAlpha=.5;ctx.strokeStyle="rgba(120,255,160,.55)";ctx.lineWidth=Math.max(.6,p.f/260);
+  for(let i=0;i<18;i++){
+    const a=i*Math.PI/9+time*.02;
+    ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);ctx.stroke();
+  }
+  ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.stroke();
+  ctx.beginPath();ctx.arc(0,0,r*.46,0,Math.PI*2);ctx.stroke();
+  ctx.restore();
+}
+
+function drawArchitecture(){
+  const seg=220;
+  const base=z%seg;
+  const start=-base+80;
+  for(let d=start;d<2500;d+=seg){
+    const depth=d+120;
+    const fade=Math.min(1,depth/700)*Math.max(0,1-depth/2700);
+    const phase=Math.floor((z+d)/seg);
+    const aisleShift=(noise(phase)-.5)*18;
+    const left=-270+aisleShift,right=270+aisleShift;
+    const floor=180,ceil=-250;
+    const color=`rgba(94,255,135,${.26*fade})`;
+    line3({x:left,y:floor,z:depth},{x:right,y:floor,z:depth},color,1.4,fade);
+    line3({x:left,y:ceil,z:depth},{x:right,y:ceil,z:depth},color,1.1,fade);
+    line3({x:left,y:floor,z:depth},{x:left,y:-60,z:depth},color,2.1,fade);
+    line3({x:right,y:floor,z:depth},{x:right,y:-60,z:depth},color,2.1,fade);
+    for(let t=0;t<=1;t+=.05){
+      const a=Math.PI*(1-t);
+      const x=Math.cos(a)*270+aisleShift;
+      const y=-60-Math.sin(a)*190;
+      if(t>0) line3({x:px,y:py,z:depth},{x,y,z:depth},`rgba(110,255,150,${.34*fade})`,1.2,fade);
+      var px=x,py=y;
+    }
+    for(const side of [-1,1]){
+      const x=side*(118+noise(phase+side)*16);
+      line3({x,y:floor,z:depth},{x:x+side*12,y:floor+20,z:depth-130},`rgba(75,255,125,${.2*fade})`,1,fade);
+      for(let k=0;k<5;k++){
+        text3(glyphs[(phase*7+k)%glyphs.length],side*(300+14*k),-210+k*76,depth,8,.28*fade,Math.PI/2*side);
+      }
+    }
+    drawRose(depth+40);
+  }
+  for(let d=80;d<2400;d+=90){
+    const fade=Math.max(0,1-d/2500);
+    line3({x:-120,y:180,z:d},{x:120,y:180,z:d+40},`rgba(72,255,122,${.13*fade})`,.7,fade);
+    text3(glyphs[Math.floor((z+d)/60)%glyphs.length],-42+(noise(d)*84),190,d,7,.22*fade,0);
+  }
+}
+
+function drawPews(){
+  for(let i=0;i<34;i++){
+    const d=((i*115-z*1.05)%2200+2200)%2200+70;
+    const fade=Math.max(0,1-d/2300);
+    for(const side of [-1,1]){
+      const x0=side*95,x1=side*235;
+      line3({x:x0,y:165,z:d},{x:x1,y:156,z:d+34},`rgba(76,255,124,${.17*fade})`,1.2,fade);
+      line3({x:x0,y:136,z:d},{x:x1,y:126,z:d+34},`rgba(100,255,150,${.13*fade})`,1,fade);
+      text3("010101",side*150,146,d+18,6,.16*fade,side*.08);
+    }
+  }
+}
+
+function update(dt){
+  time+=dt;
+  const moving=keys.has("w")||keys.has("arrowup")||keys.has("s")||keys.has("arrowdown");
+  const dir=(keys.has("s")||keys.has("arrowdown"))?-1:1;
+  if(moving)z+=dir*dt*150;
+  z+=dt*20;
+  if(keys.has("a")||keys.has("arrowleft"))targetLane+=dt*2.2;
+  if(keys.has("d")||keys.has("arrowright"))targetLane-=dt*2.2;
+  targetLane=Math.max(-2.2,Math.min(2.2,targetLane));
+  lane=lerp(lane,targetLane,.08);
+  lookX=lerp(lookX,targetLookX,.08);lookY=lerp(lookY,targetLookY,.08);
+  
+  spawnSilhouette();
+  
+  if(audioStarted&&drone){
+    drone.g1.gain.value=0.04+Math.sin(time*0.2)*0.01;
+    drone.lp.frequency.value=600+Math.sin(time*0.3)*200;
+  }
+  
+  readout.innerHTML="Z "+String(Math.floor(z)).padStart(4,"0")+"<br>aisle "+String(Math.abs(Math.floor(z/220))%99).padStart(2,"0");
+}
+
+function render(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  update(dt);
+  drawBackground();
+  drawCodeRain();
+  drawArchitecture();
+  drawPews();
+  drawSilhouettes();
+  ctx.fillStyle="rgba(0,0,0,.32)";ctx.fillRect(0,0,W,H);
+  const vig=ctx.createRadialGradient(cx,cy,H*.12,cx,cy,Math.max(W,H)*.72);
+  vig.addColorStop(0,"transparent");vig.addColorStop(1,"rgba(0,0,0,.72)");
+  ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
+  requestAnimationFrame(render);
+}
+addEventListener("keydown",e=>keys.add(e.key.toLowerCase()));
+addEventListener("keyup",e=>keys.delete(e.key.toLowerCase()));
+addEventListener("mousemove",e=>{targetLookX=(e.clientX/W-.5)*2;targetLookY=(e.clientY/H-.5)*2;});
+addEventListener("wheel",e=>{z+=e.deltaY*.8;},{passive:true});
+let touchY=null;
+addEventListener("touchstart",e=>{touchY=e.touches[0].clientY;},{passive:true});
+addEventListener("touchmove",e=>{if(touchY!=null){z+=(touchY-e.touches[0].clientY)*1.2;touchY=e.touches[0].clientY;}},{passive:true});
+document.getElementById("start").addEventListener("click",()=>{
+  document.getElementById("enter").classList.add("hidden");
+  canvas.requestPointerLock&&canvas.requestPointerLock();
+  initAudio();audioStarted=true;
+  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+});
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

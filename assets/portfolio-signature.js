@@ -2,7 +2,6 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const sections = ["work", "motion", "writing", "campaigns", "editorial", "research", "about"];
-  let activeCanvas = null;
 
   function installProgress() {
     if (document.querySelector(".folio-progress")) return;
@@ -74,195 +73,56 @@
     });
   }
 
-  function createSpherePoints(count) {
-    const points = [];
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    for (let index = 0; index < count; index += 1) {
-      const y = 1 - (index / (count - 1)) * 2;
-      const radius = Math.sqrt(1 - y * y);
-      const angle = golden * index;
-      points.push({
-        x: Math.cos(angle) * radius,
-        y,
-        z: Math.sin(angle) * radius,
-        size: index % 17 === 0 ? 2.9 : index % 7 === 0 ? 2 : 1.25,
-      });
-    }
-    return points;
-  }
+  const heroWorks = [
+    { src: "./assets/thumbnails/pawsaid-cropped.jpg", label: "PawsAid", index: "01" },
+    { src: "./assets/rollcall-site.jpg", label: "ROLL CALL", index: "02" },
+    { src: "./assets/echo/portfolio/banner-wide.jpg", label: "ECHO: Love and Logged", index: "03" },
+    { src: "./assets/thumbnails/spector-hero-glasses.webp", label: "SPECTOR", index: "04" },
+    { src: "./assets/thumbnails/selta-laptop-mockup.jpg", label: "SELTA", index: "05" },
+    { src: "./assets/thumbnails/noru-feature.png", label: "Noru", index: "06" },
+  ];
 
-  function createEdges(points) {
-    const edges = new Set();
-    points.forEach((point, index) => {
-      points
-        .map((candidate, candidateIndex) => ({
-          candidateIndex,
-          distance: candidateIndex === index
-            ? Infinity
-            : (point.x - candidate.x) ** 2 + (point.y - candidate.y) ** 2 + (point.z - candidate.z) ** 2,
-        }))
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 3)
-        .forEach(({ candidateIndex }) => {
-          edges.add(index < candidateIndex ? `${index}:${candidateIndex}` : `${candidateIndex}:${index}`);
-        });
-    });
-    return [...edges].map((edge) => edge.split(":").map(Number));
-  }
-
-  function installOrb() {
+  function installHeroStrip() {
     const hero = document.querySelector('section[code-path^="src/sections/Hero"]');
-    if (!hero || hero.querySelector(".folio-orb") || activeCanvas?.isConnected) return;
+    if (!hero || hero.querySelector(".folio-strip")) return;
 
-    if (activeCanvas && !activeCanvas.isConnected) activeCanvas = null;
+    const strip = document.createElement("a");
+    strip.className = "folio-strip";
+    strip.href = "#work";
+    strip.setAttribute("aria-label", "Browse selected work");
 
-    const canvas = document.createElement("canvas");
-    canvas.className = "folio-orb";
-    canvas.setAttribute("aria-hidden", "true");
-    hero.prepend(canvas);
-    activeCanvas = canvas;
+    const track = document.createElement("div");
+    track.className = "folio-strip-track";
 
-    const context = canvas.getContext("2d", { alpha: true });
-    if (!context) return;
-
-    const points = createSpherePoints(window.innerWidth < 700 ? 86 : 132);
-    const edges = createEdges(points);
-    const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    let width = 0;
-    let height = 0;
-    let ratio = 1;
-    let scrollProgress = 0;
-    let visible = true;
-    let frame = 0;
-    let lastFrame = 0;
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      width = Math.max(1, rect.width);
-      height = Math.max(1, rect.height);
-      ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.width = Math.round(width * ratio);
-      canvas.height = Math.round(height * ratio);
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    };
-
-    const updateScroll = () => {
-      const rect = hero.getBoundingClientRect();
-      const travel = Math.max(1, hero.offsetHeight * 0.92);
-      scrollProgress = Math.min(1, Math.max(0, -rect.top / travel));
-      if (reduceMotion.matches) draw(performance.now());
-    };
-
-    const updatePointer = (event) => {
-      if (!finePointer.matches) return;
-      pointer.targetX = (event.clientX / window.innerWidth - 0.5) * 0.62;
-      pointer.targetY = (event.clientY / window.innerHeight - 0.5) * 0.42;
-    };
-
-    function draw(time) {
-      context.clearRect(0, 0, width, height);
-      pointer.x += (pointer.targetX - pointer.x) * 0.055;
-      pointer.y += (pointer.targetY - pointer.y) * 0.055;
-
-      const compact = width < 700;
-      const radius = Math.min(width * (compact ? 0.58 : 0.34), height * 0.31);
-      const centerX = width / 2;
-      const centerY = Math.min(height * 0.39, window.innerHeight * 0.5);
-      const rotation = reduceMotion.matches ? 0.28 : time * 0.000065;
-      const cosineY = Math.cos(rotation + pointer.x);
-      const sineY = Math.sin(rotation + pointer.x);
-      const cosineX = Math.cos(-0.13 + pointer.y);
-      const sineX = Math.sin(-0.13 + pointer.y);
-      const burst = Math.pow(scrollProgress, 1.55);
-      const projected = points.map((point, index) => {
-        const rotatedX = point.x * cosineY - point.z * sineY;
-        const rotatedZ = point.x * sineY + point.z * cosineY;
-        const rotatedY = point.y * cosineX - rotatedZ * sineX;
-        const depth = point.y * sineX + rotatedZ * cosineX;
-        const perspective = 1 / (1.2 - depth * 0.23);
-        const seed = index * 12.9898;
-        const driftX = Math.sin(seed) * width * 0.34 * burst;
-        const driftY = (Math.cos(seed * 0.73) * height * 0.18 + height * 0.24) * burst;
-        return {
-          x: centerX + rotatedX * radius * perspective + driftX,
-          y: centerY + rotatedY * radius * perspective + driftY,
-          depth,
-          alpha: Math.max(0.16, 0.68 + depth * 0.26) * (1 - burst * 0.28),
-          size: point.size * (0.86 + perspective * 0.26),
-        };
+    const renderSet = (ariaHidden) => {
+      const set = document.createElement("div");
+      set.className = "folio-strip-set";
+      if (ariaHidden) set.setAttribute("aria-hidden", "true");
+      heroWorks.forEach((work) => {
+        const cell = document.createElement("figure");
+        cell.className = "folio-strip-cell";
+        const image = document.createElement("img");
+        image.src = work.src;
+        image.alt = ariaHidden ? "" : work.label;
+        image.loading = "eager";
+        image.decoding = "async";
+        const caption = document.createElement("figcaption");
+        caption.innerHTML = `<span>${work.index}</span>${work.label}`;
+        cell.append(image, caption);
+        set.append(cell);
       });
+      return set;
+    };
 
-      context.lineWidth = 0.65;
-      edges.forEach(([from, to]) => {
-        const a = projected[from];
-        const b = projected[to];
-        context.strokeStyle = `rgba(200, 164, 111, ${Math.min(a.alpha, b.alpha) * 0.2})`;
-        context.beginPath();
-        context.moveTo(a.x, a.y);
-        context.lineTo(b.x, b.y);
-        context.stroke();
-      });
-
-      projected
-        .sort((a, b) => a.depth - b.depth)
-        .forEach((point) => {
-          context.fillStyle = `rgba(244, 240, 232, ${point.alpha})`;
-          context.beginPath();
-          context.arc(point.x, point.y, point.size, 0, Math.PI * 2);
-          context.fill();
-        });
-    }
-
-    function animate(time) {
-      if (!canvas.isConnected) {
-        cancelAnimationFrame(frame);
-        resizeObserver.disconnect();
-        visibilityObserver.disconnect();
-        window.removeEventListener("pointermove", updatePointer);
-        window.removeEventListener("scroll", updateScroll);
-        if (activeCanvas === canvas) activeCanvas = null;
-        return;
-      }
-      if (!visible || reduceMotion.matches) return;
-      frame = requestAnimationFrame(animate);
-      if (time - lastFrame < 32) return;
-      lastFrame = time;
-      draw(time);
-    }
-
-    const visibilityObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      cancelAnimationFrame(frame);
-      if (visible) {
-        if (reduceMotion.matches) draw(performance.now());
-        else frame = requestAnimationFrame(animate);
-      }
-    }, { rootMargin: "30% 0px" });
-
-    const resizeObserver = new ResizeObserver(() => {
-      resize();
-      draw(performance.now());
-    });
-
-    resizeObserver.observe(canvas);
-    visibilityObserver.observe(hero);
-    window.addEventListener("pointermove", updatePointer, { passive: true });
-    window.addEventListener("scroll", updateScroll, { passive: true });
-    reduceMotion.addEventListener?.("change", () => {
-      cancelAnimationFrame(frame);
-      if (reduceMotion.matches) draw(performance.now());
-      else frame = requestAnimationFrame(animate);
-    });
-    resize();
-    updateScroll();
-    draw(performance.now());
-    if (!reduceMotion.matches) frame = requestAnimationFrame(animate);
+    track.append(renderSet(false), renderSet(true));
+    strip.append(track);
+    hero.append(strip);
   }
 
   function start() {
     installProgress();
     const prepare = () => {
-      installOrb();
+      installHeroStrip();
       installNavigationState();
       installWorkStage();
     };
