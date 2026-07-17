@@ -15,7 +15,7 @@
   --jnt-radius-sm: 12px;
   --jnt-radius-md: 18px;
   --jnt-radius-lg: 24px;
-  --jnt-radius-pill: 999px;
+  --jnt-radius-pill: 2px;
   --jnt-radius: var(--jnt-radius-lg);
   --jnt-shadow-xs: 0 8px 20px rgba(0, 0, 0, 0.16);
   --jnt-shadow-sm: 0 12px 32px rgba(0, 0, 0, 0.2);
@@ -111,10 +111,10 @@ nav[code-path^="src/components/Navigation"] {
 }
 
 nav[code-path^="src/components/Navigation"] > div {
-  border: 1px solid var(--jnt-line) !important;
-  border-radius: var(--jnt-radius-pill) !important;
-  padding: 0.7rem 0.9rem !important;
-  background: rgba(12, 12, 9, 0.72) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.7rem 0 !important;
+  background: transparent !important;
   box-shadow: none;
 }
 
@@ -126,11 +126,11 @@ nav[code-path^="src/components/Navigation"] a:first-child {
 }
 
 nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
-  gap: 0.3rem !important;
-  padding: 0.18rem !important;
-  border: 1px solid var(--jnt-line) !important;
-  border-radius: var(--jnt-radius-pill) !important;
-  background: rgba(244, 240, 232, 0.035) !important;
+  gap: 0.5rem !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
 }
 
 nav[code-path^="src/components/Navigation"] .hidden.md\:flex a {
@@ -1147,7 +1147,7 @@ div[code-path="src/components/ProjectModal.tsx:185:13"] {
   bottom: 0.35rem;
   width: 1.15rem;
   height: 1.15rem;
-  border-radius: var(--jnt-radius-pill);
+  border-radius: 50%;
   background: rgba(244, 240, 232, 0.92);
   box-shadow: var(--jnt-shadow-xs);
 }

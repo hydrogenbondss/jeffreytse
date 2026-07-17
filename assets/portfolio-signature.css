@@ -94,7 +94,7 @@ body {
 
 .folio-boot-links .folio-boot-cv {
   padding: 0.7rem 0.9rem;
-  border-radius: 4px;
+  border-radius: 2px;
   background: var(--folio-ivory);
   color: var(--folio-black);
 }
@@ -154,7 +154,7 @@ body {
   box-sizing: border-box;
   padding: 0.75rem 1.5rem;
   border: 1px solid rgba(244, 240, 232, 0.3);
-  border-radius: 4px;
+  border-radius: 2px;
   color: var(--folio-ivory);
   font-size: 0.68rem;
   font-weight: 650;
@@ -647,4 +647,9 @@ section[id]:not(#work) {
   .project-card::after {
     transition: none !important;
   }
+}
+
+a[code-path^="src/components/FloatingCTA"] {
+  border-radius: 2px !important;
+  box-shadow: none !important;
 }
