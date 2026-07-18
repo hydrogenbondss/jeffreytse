@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Garden of Returning — Jeffrey N. Tse</title>
+<meta name="description" content="An endless walk through a world after people. Overgrown stations, silent malls, empty schools — nature returning.">
+<style>
+  html, body { margin:0; padding:0; height:100%; overflow:hidden; background:#0a0d0a; }
+  #scene { position:fixed; inset:0; display:block; }
+  .ui { font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace; -webkit-font-smoothing:antialiased; }
+
+  #gate {
+    position:fixed; inset:0; z-index:30; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:28px; text-align:center;
+    background:radial-gradient(ellipse at 50% 60%, rgba(10,14,10,0.25) 0%, rgba(6,8,6,0.88) 78%);
+    transition:opacity 1.6s ease; padding:0 6vw;
+  }
+  #gate.hidden { opacity:0; pointer-events:none; }
+  #gate h1 {
+    margin:0; font-family:Georgia, 'Times New Roman', serif; font-weight:400;
+    font-size:clamp(28px, 5vw, 54px); letter-spacing:0.04em; color:#dde6d8;
+    text-shadow:0 2px 40px rgba(0,0,0,0.8);
+  }
+  #gate h1 em { font-style:italic; color:#a8bb9a; }
+  #gate p.sub {
+    margin:0; font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#8d9c85;
+  }
+  #enter {
+    cursor:pointer; border:1px solid rgba(200,215,190,0.35); background:rgba(10,14,10,0.5);
+    color:#dde6d8; font:inherit; font-size:12px; letter-spacing:0.3em; text-transform:uppercase;
+    padding:16px 42px; border-radius:2px; transition:background .3s, border-color .3s;
+  }
+  #enter:hover { background:rgba(168,187,154,0.12); border-color:rgba(200,215,190,0.7); }
+  #gate .hint { font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#5d6b57; }
+
+  #hud {
+    position:fixed; left:0; right:0; bottom:0; z-index:20; display:flex;
+    justify-content:space-between; align-items:flex-end; padding:18px 22px;
+    pointer-events:none; opacity:0; transition:opacity 1.2s ease .6s;
+  }
+  #hud.on { opacity:1; }
+  #hud .k { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(214,224,205,0.6);
+            text-shadow:0 1px 8px rgba(0,0,0,0.9); }
+  #back {
+    position:fixed; top:16px; left:18px; z-index:20; pointer-events:auto; text-decoration:none;
+    font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(214,224,205,0.75);
+    text-shadow:0 1px 8px rgba(0,0,0,0.9); opacity:0; transition:opacity 1.2s ease .6s;
+  }
+  #back.on { opacity:1; }
+  #back:hover { color:#fff; }
+
+  #walkbtn {
+    position:fixed; right:18px; bottom:64px; z-index:22; display:none; pointer-events:auto;
+    width:74px; height:74px; border-radius:50%; border:1px solid rgba(200,215,190,0.4);
+    background:rgba(10,14,10,0.45); color:#dde6d8; font:inherit; font-size:9px;
+    letter-spacing:0.18em; text-transform:uppercase;
+  }
+  #walkbtn.walking { background:rgba(168,187,154,0.25); }
+
+  #vignette { position:fixed; inset:0; z-index:10; pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 52%, rgba(4,6,4,0.55) 100%); }
+  #grain { position:fixed; inset:0; z-index:11; pointer-events:none; opacity:0.05; }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="vignette"></div>
+<canvas id="grain"></canvas>
+
+<a id="back" class="ui" href="../">&larr; Back to Portfolio</a>
+
+<div id="gate" class="ui">
+  <p class="sub">A world after people</p>
+  <h1>Garden <em>of Returning</em></h1>
+  <button id="enter">Begin Walking</button>
+  <p class="hint" id="gatehint">Click to look &middot; W A S D / arrows to walk &middot; the world does not end</p>
+</div>
+
+<div id="hud" class="ui">
+  <span class="k" id="hint-left">Walk &mdash; it continues</span>
+  <span class="k" id="coords"></span>
+</div>
+<button id="walkbtn" class="ui">Walk</button>
+
+<script type="module" src="./garden.js"></script>
+</body>
+</html>

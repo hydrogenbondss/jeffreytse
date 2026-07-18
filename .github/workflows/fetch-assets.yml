@@ -1,0 +1,43 @@
+name: Fetch external assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: "JSON array of {url, path} objects to download into the repo"
+        required: true
+        type: string
+      branch:
+        description: "Branch to commit the downloaded files to"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Download files from manifest
+        env:
+          MANIFEST: ${{ inputs.manifest }}
+        run: |
+          echo "$MANIFEST" | jq -c '.[]' | while read -r item; do
+            url=$(echo "$item" | jq -r '.url')
+            path=$(echo "$item" | jq -r '.path')
+            mkdir -p "$(dirname "$path")"
+            curl -fSL --retry 3 -o "$path" "$url"
+            echo "fetched $path ($(du -h "$path" | cut -f1))"
+          done
+      - name: Commit
+        run: |
+          git config user.name "asset-fetch-bot"
+          git config user.email "actions@github.com"
+          git add -A
+          git diff --cached --quiet && echo "nothing new" && exit 0
+          git commit -m "Fetch generated assets"
+          git push origin "${{ inputs.branch }}"
