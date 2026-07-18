@@ -7,9 +7,9 @@ const CHUNK = 48;            // metres per chunk
 const RADIUS = 5;            // chunks kept loaded around the player
 const EYE = 1.7;
 const WALK_SPEED = 3.1;      // m/s
-const FOG_DENSITY = 0.0075;
-const SKY_HORIZON = 0x9aa78f;
-const SKY_ZENITH = 0x5d6f66;
+const FOG_DENSITY = 0.0088;
+const SKY_HORIZON = 0xb9bfb1;
+const SKY_ZENITH = 0x8a958a;
 const SUN_COLOR = 0xd8ceb4;
 const ROAD_EVERY = 3;        // every Nth chunk row/col is a road corridor
 const RAIL_BAND = 13;        // east-west rail corridor every N chunk-rows
@@ -159,7 +159,7 @@ function loadTex(name, { repeat = [1, 1], fallback } = {}) {
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.repeat.set(repeat[0], repeat[1]);
     t.colorSpace = THREE.SRGBColorSpace;
-    t.anisotropy = 8;
+    t.anisotropy = 16;
     return t;
   };
   const fb = apply(fallback());
@@ -179,7 +179,7 @@ function smartMaterial(name, opts = {}, matOpts = {}) {
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.repeat.set(...(opts.repeat || [1, 1]));
     t.colorSpace = THREE.SRGBColorSpace;
-    t.anisotropy = 8;
+    t.anisotropy = 16;
     mat.map = t; mat.needsUpdate = true;
   }, undefined, () => {});
   return mat;
@@ -187,8 +187,8 @@ function smartMaterial(name, opts = {}, matOpts = {}) {
 
 /* --------------------------------- materials --------------------------------- */
 const M = {
-  ground: smartMaterial("ground", { fallback: FALLBACK.ground, repeat: [6, 6] }),
-  asphalt: smartMaterial("asphalt", { fallback: FALLBACK.asphalt, repeat: [2, 6] }),
+  ground: smartMaterial("ground", { fallback: FALLBACK.ground, repeat: [4, 4] }),
+  asphalt: smartMaterial("asphalt", { fallback: FALLBACK.asphalt, repeat: [1.4, 5] }),
   facadeA: smartMaterial("facade-a", { fallback: FALLBACK.facade }),
   facadeB: smartMaterial("facade-b", { fallback: FALLBACK.facade }),
   facadeMall: smartMaterial("facade-mall", { fallback: FALLBACK.facade }),
@@ -196,24 +196,25 @@ const M = {
   concrete: smartMaterial("concrete", { fallback: FALLBACK.concrete, repeat: [2, 2] }),
   train: smartMaterial("train", { fallback: FALLBACK.train }),
   glass: smartMaterial("glass", { fallback: FALLBACK.glass, repeat: [3, 1] }, { roughness: 0.35, metalness: 0.4 }),
-  bark: smartMaterial("bark", { fallback: FALLBACK.bark, repeat: [1, 2] }),
+  bark: smartMaterial("bark", { fallback: FALLBACK.bark, repeat: [1, 2] }, { color: 0xb5a893 }),
   rust: new THREE.MeshStandardMaterial({ color: 0x5d5148, roughness: 0.9, metalness: 0.35 }),
   dark: new THREE.MeshStandardMaterial({ color: 0x14171a, roughness: 0.9 }),
 };
 function alphaMaterial(name, fallback, opts = {}) {
   const fb = fallback();
   fb.colorSpace = THREE.SRGBColorSpace;
-  const mat = new THREE.MeshStandardMaterial({
+  const mat = new THREE.MeshBasicMaterial({
     map: fb, transparent: false, alphaTest: 0.45, side: THREE.DoubleSide,
-    roughness: 0.9, ...opts,
+    color: 0xb8bdb0, ...opts,
   });
   texLoader.load(`./tex/${name}.png`, (t) => {
-    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 16;
     mat.map = t; mat.needsUpdate = true;
   }, undefined, () => {});
   return mat;
 }
 M.foliage = alphaMaterial("foliage", FALLBACK.foliage);
+M.foliage.color.set(0x8f9a86);
 M.grass = alphaMaterial("grass", FALLBACK.grassBlade);
 M.ivy = alphaMaterial("ivy", FALLBACK.ivy);
 
@@ -608,7 +609,7 @@ const _dummy = new THREE.Object3D();
 function addVegetation(rng, group, cx, cz, ctx) {
   const { roadX, roadZ, rail } = ctx;
   // grass
-  const count = rail ? 260 : (roadX || roadZ) ? 420 : 720;
+  const count = rail ? 200 : (roadX || roadZ) ? 330 : 560;
   const grass = new THREE.InstancedMesh(grassGeom, M.grass, count);
   grass.castShadow = false; grass.receiveShadow = false;
   let gi = 0;
@@ -617,7 +618,7 @@ function addVegetation(rng, group, cx, cz, ctx) {
     if (rail && Math.abs(z - CHUNK / 2) < 5.5) continue;
     if (roadX && Math.abs(z - CHUNK / 2) < 5 && rng() < 0.8) continue;
     if (roadZ && Math.abs(x - CHUNK / 2) < 5 && rng() < 0.8) continue;
-    const s = 0.7 + rng() * 1.4;
+    const s = 1.0 + rng() * 1.9;
     _dummy.position.set(x, 0, z);
     _dummy.rotation.set(0, rng() * Math.PI, 0);
     _dummy.scale.set(s, s * (0.8 + rng() * 0.7), s);
