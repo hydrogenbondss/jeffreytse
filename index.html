@@ -45,7 +45,7 @@
         window.addEventListener("hashchange", scheduleReset);
         window.addEventListener("load", scheduleReset);
 
-        if (["/cathedral", "/garden", "/feature-world"].some((route) => window.location.pathname.endsWith(route))) {
+        if (["/feature-world"].some((route) => window.location.pathname.endsWith(route))) {
           const base = window.location.pathname.startsWith("/jeffreytse/") ? "/jeffreytse/" : "/";
           history.replaceState(null, "", base);
           scheduleReset();
@@ -69,13 +69,13 @@
         }
       }
     </script>
-    <script defer src="./assets/portfolio-runtime.js?v=20260717-strip"></script>
-    <script defer src="./assets/portfolio-signature.js?v=20260717-strip"></script>
-    <script defer src="./assets/portfolio-loader.js?v=20260717-strip"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css?v=20260717-strip">
-    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css?v=20260717-strip">
-    <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css?v=20260717-strip">
-    <link rel="stylesheet" crossorigin href="./assets/portfolio-signature.css?v=20260717-strip">
+    <script defer src="./assets/portfolio-runtime.js?v=20260718-takedown"></script>
+    <script defer src="./assets/portfolio-signature.js?v=20260718-takedown"></script>
+    <script defer src="./assets/portfolio-loader.js?v=20260718-takedown"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css?v=20260718-takedown">
+    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css?v=20260718-takedown">
+    <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css?v=20260718-takedown">
+    <link rel="stylesheet" crossorigin href="./assets/portfolio-signature.css?v=20260718-takedown">
   </head>
   <body>
     <div id="root">

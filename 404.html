@@ -45,7 +45,7 @@
         window.addEventListener("hashchange", scheduleReset);
         window.addEventListener("load", scheduleReset);
 
-        if (["/cathedral", "/garden", "/feature-world"].some((route) => window.location.pathname.endsWith(route))) {
+        if (["/feature-world"].some((route) => window.location.pathname.endsWith(route))) {
           const base = window.location.pathname.startsWith("/jeffreytse/") ? "/jeffreytse/" : "/";
           history.replaceState(null, "", base);
           scheduleReset();
