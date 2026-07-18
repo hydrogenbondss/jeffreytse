@@ -168,11 +168,11 @@ nav[code-path^="src/components/Navigation"] a:first-child {
 
 nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
   gap: clamp(0.85rem, 1.4vw, 1.45rem) !important;
-  padding: 0.42rem 0.5rem 0.42rem 1.1rem !important;
-  border: 1px solid rgba(244, 240, 232, 0.1) !important;
-  border-radius: var(--qa-radius-pill) !important;
-  background: rgba(8, 8, 6, 0.34) !important;
-  box-shadow: var(--jnt-shadow-xs);
+  padding: 0.42rem 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none;
   backdrop-filter: none;
 }
 
