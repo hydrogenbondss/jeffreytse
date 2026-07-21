@@ -7,7 +7,7 @@
     if (loading) return loading;
 
     document.documentElement.dataset.portfolioLoading = "true";
-    loading = import("./index-Bl2O-kNd.js?v=20260717-strip")
+    loading = import("./index-Bl2O-kNd.js?v=20260721-refresh4")
       .then(() => {
         document.documentElement.dataset.portfolioReady = "true";
         delete document.documentElement.dataset.portfolioLoading;

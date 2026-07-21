@@ -195,16 +195,16 @@ body {
   will-change: transform;
 }
 
-section[code-path^="src/sections/Hero"] {
+section[data-sec^="h-"] {
   isolation: isolate;
   overflow: visible !important;
 }
 
-section[code-path^="src/sections/Hero"] > div.absolute.bottom-8 {
+section[data-sec^="h-"] > div.absolute.bottom-8 {
   display: none !important;
 }
 
-section[code-path^="src/sections/Hero"] a.folio-strip,
+section[data-sec^="h-"] a.folio-strip,
 .folio-strip,
 .folio-strip-cell,
 .folio-strip-cell img {
@@ -308,11 +308,11 @@ section[code-path^="src/sections/Hero"] a.folio-strip,
   }
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[aria-current="location"] {
+nav[data-sec^="n-"] .hidden.md\:flex a[aria-current="location"] {
   color: var(--folio-ivory) !important;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[aria-current="location"]::after {
+nav[data-sec^="n-"] .hidden.md\:flex a[aria-current="location"]::after {
   content: "";
   position: absolute;
   right: 0;
@@ -603,14 +603,14 @@ section[id]:not(#work) {
     right: 1rem;
   }
 
-  nav[code-path^="src/components/Navigation"] {
+  nav[data-sec^="n-"] {
     box-sizing: border-box;
     max-width: 100vw;
     padding-right: 1rem !important;
     padding-left: 1rem !important;
   }
 
-  nav[code-path^="src/components/Navigation"] > div {
+  nav[data-sec^="n-"] > div {
     box-sizing: border-box;
     width: 100% !important;
     max-width: none !important;
@@ -649,7 +649,7 @@ section[id]:not(#work) {
   }
 }
 
-a[code-path^="src/components/FloatingCTA"] {
+a[data-sec^="f-"] {
   border-radius: 2px !important;
   box-shadow: none !important;
 }

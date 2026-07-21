@@ -26,7 +26,7 @@
   }
 
   function installNavigationState() {
-    const navigation = document.querySelector('nav[code-path^="src/components/Navigation"]');
+    const navigation = document.querySelector('nav[data-sec^="n-"]');
     if (!navigation || navigation.dataset.folioPrepared === "true") return;
     const targets = sections.map((id) => document.getElementById(id)).filter(Boolean);
     if (!targets.length) return;
@@ -83,7 +83,7 @@
   ];
 
   function installHeroStrip() {
-    const hero = document.querySelector('section[code-path^="src/sections/Hero"]');
+    const hero = document.querySelector('section[data-sec^="h-"]');
     if (!hero || hero.querySelector(".folio-strip")) return;
 
     const strip = document.createElement("a");
