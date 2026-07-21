@@ -1,0 +1,86 @@
+/* Custom cursor + spotlight glow.
+   Activated only for fine pointers with motion allowed (see portfolio-cursor.js). */
+
+.folio-cursor-dot,
+.folio-cursor-ring,
+.folio-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate(var(--x, -100px), var(--y, -100px)) translate(-50%, -50%);
+}
+
+.folio-cursor-dot {
+  z-index: 10001;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent, #c8a46f);
+  transition: opacity 0.25s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.folio-cursor-ring {
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 240, 232, 0.55);
+  transition:
+    opacity 0.25s ease,
+    width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.28s ease,
+    background 0.28s ease;
+}
+
+.folio-spotlight {
+  z-index: 35;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 164, 111, 0.1), rgba(200, 164, 111, 0) 65%);
+  mix-blend-mode: screen;
+  transition: opacity 0.4s ease;
+}
+
+html.folio-cursor-hovering .folio-cursor-ring {
+  width: 62px;
+  height: 62px;
+  border-color: rgba(200, 164, 111, 0.9);
+  background: rgba(200, 164, 111, 0.1);
+}
+
+html.folio-cursor-hovering .folio-cursor-dot {
+  width: 4px;
+  height: 4px;
+  opacity: 0.55;
+}
+
+html.folio-cursor-down .folio-cursor-ring {
+  width: 26px;
+  height: 26px;
+}
+
+html.folio-cursor-hidden .folio-cursor-dot,
+html.folio-cursor-hidden .folio-cursor-ring,
+html.folio-cursor-hidden .folio-spotlight {
+  opacity: 0 !important;
+}
+
+@media (pointer: fine) {
+  html.folio-cursor-active,
+  html.folio-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* Never show the custom cursor when motion is reduced or on touch. */
+@media (prefers-reduced-motion: reduce) {
+  .folio-cursor-dot,
+  .folio-cursor-ring,
+  .folio-spotlight {
+    display: none !important;
+  }
+}
