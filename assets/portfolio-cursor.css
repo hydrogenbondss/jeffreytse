@@ -23,10 +23,10 @@
 
 .folio-cursor-ring {
   z-index: 10000;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(244, 240, 232, 0.55);
+  border: 1.5px solid rgba(244, 240, 232, 0.7);
   transition:
     opacity 0.25s ease,
     width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
@@ -40,7 +40,7 @@
   width: 520px;
   height: 520px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 164, 111, 0.1), rgba(200, 164, 111, 0) 65%);
+  background: radial-gradient(circle, rgba(200, 164, 111, 0.13), rgba(200, 164, 111, 0) 65%);
   mix-blend-mode: screen;
   transition: opacity 0.4s ease;
 }
