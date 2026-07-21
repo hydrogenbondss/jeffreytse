@@ -66,13 +66,13 @@
     dialog.setAttribute("aria-modal", "true");
 
     dialog
-      .querySelector('[code-path="src/components/ProjectModal.tsx:82:11"]')
+      .querySelector('[data-sec="pm-931155b3"]')
       ?.setAttribute("aria-label", "Close project");
     dialog
-      .querySelector('[code-path="src/components/ProjectModal.tsx:98:15"]')
+      .querySelector('[data-sec="pm-3faa88c2"]')
       ?.setAttribute("aria-label", "Previous media");
     dialog
-      .querySelector('[code-path="src/components/ProjectModal.tsx:108:15"]')
+      .querySelector('[data-sec="pm-5b4e6e34"]')
       ?.setAttribute("aria-label", "Next media");
   }
 
@@ -80,11 +80,11 @@
     if (root instanceof Element && root.matches(mediaSelector)) prepareMedia(root);
     root.querySelectorAll?.(mediaSelector).forEach(prepareMedia);
 
-    if (root instanceof Element && root.matches('[code-path="src/components/ProjectModal.tsx:59:7"]')) {
+    if (root instanceof Element && root.matches('[data-sec="pm-f5c1d377"]')) {
       prepareDialog(root);
     }
     root
-      .querySelectorAll?.('[code-path="src/components/ProjectModal.tsx:59:7"]')
+      .querySelectorAll?.('[data-sec="pm-f5c1d377"]')
       .forEach(prepareDialog);
   }
 

@@ -105,18 +105,18 @@ video {
   letter-spacing: 0.12em !important;
 }
 
-[code-path="src/components/ProjectModal.tsx:59:7"] {
+[data-sec="pm-f5c1d377"] {
   border-radius: var(--qa-radius-lg) !important;
   border: 1px solid var(--qa-border) !important;
 }
 
-[code-path^="src/components/ProjectModal"] img,
-[code-path^="src/components/ProjectModal"] video {
+[data-sec^="pm-"] img,
+[data-sec^="pm-"] video {
   border-radius: var(--qa-radius-sm) !important;
 }
 
-[code-path^="src/components/ProjectModal"] button,
-[code-path^="src/components/ProjectModal"] a {
+[data-sec^="pm-"] button,
+[data-sec^="pm-"] a {
   border-radius: var(--qa-radius-pill) !important;
 }
 
@@ -135,20 +135,20 @@ video {
     padding-right: 1rem !important;
   }
 
-  [code-path="src/components/ProjectModal.tsx:59:7"] {
+  [data-sec="pm-f5c1d377"] {
     border-radius: var(--qa-radius-md) !important;
   }
 }
 
 /* Final hero and navigation polish. */
-nav[code-path^="src/components/Navigation"] {
+nav[data-sec^="n-"] {
   padding: clamp(0.9rem, 1.6vw, 1.35rem) 0 !important;
   background: transparent !important;
   border-bottom: 0 !important;
   backdrop-filter: none !important;
 }
 
-nav[code-path^="src/components/Navigation"] > div {
+nav[data-sec^="n-"] > div {
   width: min(1480px, calc(100% - 6vw)) !important;
   border: 0 !important;
   border-radius: 0 !important;
@@ -157,7 +157,7 @@ nav[code-path^="src/components/Navigation"] > div {
   box-shadow: none !important;
 }
 
-nav[code-path^="src/components/Navigation"] a:first-child {
+nav[data-sec^="n-"] a:first-child {
   padding: 0 !important;
   font-family: "Playfair Display", Georgia, serif !important;
   font-size: clamp(1.45rem, 1.7vw, 1.95rem) !important;
@@ -166,7 +166,7 @@ nav[code-path^="src/components/Navigation"] a:first-child {
   color: #f4f0e8 !important;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
+nav[data-sec^="n-"] .hidden.md\:flex {
   gap: clamp(0.85rem, 1.4vw, 1.45rem) !important;
   padding: 0.42rem 0 !important;
   border: 0 !important;
@@ -176,7 +176,7 @@ nav[code-path^="src/components/Navigation"] .hidden.md\:flex {
   backdrop-filter: none;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a {
+nav[data-sec^="n-"] .hidden.md\:flex a {
   padding: 0.42rem 0 !important;
   border-radius: 0 !important;
   color: rgba(244, 240, 232, 0.62) !important;
@@ -186,17 +186,17 @@ nav[code-path^="src/components/Navigation"] .hidden.md\:flex a {
   text-transform: none !important;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a:hover {
+nav[data-sec^="n-"] .hidden.md\:flex a:hover {
   background: transparent !important;
   color: #f4f0e8 !important;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a span {
+nav[data-sec^="n-"] .hidden.md\:flex a span {
   bottom: -0.34rem !important;
   background: #c8a46f !important;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[href$=".pdf"] {
+nav[data-sec^="n-"] .hidden.md\:flex a[href$=".pdf"] {
   margin-left: 0.25rem !important;
   padding: 0.5rem 0.95rem !important;
   border: 1px solid rgba(244, 240, 232, 0.22) !important;
@@ -205,18 +205,18 @@ nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[href$=".pdf"] {
   color: #f4f0e8 !important;
 }
 
-nav[code-path^="src/components/Navigation"] .hidden.md\:flex a[href$=".pdf"]:hover {
+nav[data-sec^="n-"] .hidden.md\:flex a[href$=".pdf"]:hover {
   border-color: rgba(196, 168, 130, 0.54) !important;
   background: rgba(196, 168, 130, 0.14) !important;
   color: #f4f0e8 !important;
 }
 
-section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] {
+section[data-sec^="h-"] div[data-sec="h-e11a2a64"] {
   gap: 0.75rem !important;
   margin-top: clamp(1.9rem, 3.6vw, 2.7rem) !important;
 }
 
-section[code-path^="src/sections/Hero"] h1 {
+section[data-sec^="h-"] h1 {
   font-family: "Bodoni 72 Poster", "Bodoni 72", Didot, "Bodoni Moda", "Libre Bodoni", "Playfair Display", Georgia, serif !important;
   font-weight: 800 !important;
   letter-spacing: -0.06em !important;
@@ -224,14 +224,14 @@ section[code-path^="src/sections/Hero"] h1 {
   color: #f4f2ee !important;
 }
 
-section[code-path^="src/sections/Hero"] h1 span {
+section[data-sec^="h-"] h1 span {
   font-family: inherit !important;
   font-style: italic !important;
   font-weight: 500 !important;
   color: inherit !important;
 }
 
-section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] a {
+section[data-sec^="h-"] div[data-sec="h-e11a2a64"] a {
   min-width: clamp(9.25rem, 15vw, 13rem);
   padding: 1rem 1.45rem !important;
   border: 1px solid rgba(244, 240, 232, 0.18) !important;
@@ -245,42 +245,42 @@ section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:
   backdrop-filter: none;
 }
 
-section[code-path^="src/sections/Hero"] a[href^="mailto:"] {
+section[data-sec^="h-"] a[href^="mailto:"] {
   background: rgba(196, 168, 130, 0.94) !important;
   border-color: rgba(196, 168, 130, 0.72) !important;
   color: #090907 !important;
 }
 
-section[code-path^="src/sections/Hero"] a[href^="mailto:"]:hover {
+section[data-sec^="h-"] a[href^="mailto:"]:hover {
   background: #d7bd93 !important;
   border-color: #d7bd93 !important;
   box-shadow: none !important;
 }
 
-section[code-path^="src/sections/Hero"] a[href="#work"] {
+section[data-sec^="h-"] a[href="#work"] {
   background: rgba(8, 8, 6, 0.44) !important;
   border-color: rgba(200, 164, 111, 0.48) !important;
   color: #f4f0e8 !important;
   box-shadow: var(--jnt-inset-hairline) !important;
 }
 
-section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
+section[data-sec^="h-"] a[href="#work"]:hover {
   background: rgba(200, 164, 111, 0.12) !important;
   border-color: rgba(200, 164, 111, 0.7) !important;
   color: #f4f0e8 !important;
 }
 
 @media (max-width: 768px) {
-  nav[code-path^="src/components/Navigation"] {
+  nav[data-sec^="n-"] {
     background: rgba(8, 8, 6, 0.94) !important;
     border-bottom: 1px solid rgba(244, 240, 232, 0.09) !important;
   }
 
-  nav[code-path^="src/components/Navigation"] > div {
+  nav[data-sec^="n-"] > div {
     width: calc(100% - 2rem) !important;
   }
 
-  nav[code-path^="src/components/Navigation"] button {
+  nav[data-sec^="n-"] button {
     border: 1px solid rgba(244, 240, 232, 0.16) !important;
     padding: 0.62rem 1rem !important;
     background: rgba(8, 8, 6, 0.42) !important;
@@ -288,7 +288,7 @@ section[code-path^="src/sections/Hero"] a[href="#work"]:hover {
     backdrop-filter: none;
   }
 
-  section[code-path^="src/sections/Hero"] div[code-path="src/sections/Hero.tsx:44:9"] a {
+  section[data-sec^="h-"] div[data-sec="h-e11a2a64"] a {
     min-width: min(100%, 17rem);
   }
 }

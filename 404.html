@@ -3,92 +3,104 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jeffrey N. Tse</title>
-    <meta name="description" content="Portfolio of Jeffrey N. Tse, a Hong Kong-based product engineer and creative technologist working across AI systems, cultural research, brand direction, and interactive narrative." />
-    <meta name="theme-color" content="#080806" />
-    <link rel="canonical" href="https://hydrogenbondss.github.io/jeffreytse/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Jeffrey N. Tse — Portfolio" />
-    <meta property="og:description" content="Product engineering, creative technology, cultural research, brand direction, and interactive narrative." />
-    <meta property="og:url" content="https://hydrogenbondss.github.io/jeffreytse/" />
-    <meta property="og:image" content="https://hydrogenbondss.github.io/jeffreytse/assets/Jeffrey_Profile.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" href="./assets/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <title>Lost the thread — Jeffrey N. Tse</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0d0d0b" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='85' fill='%23000' font-family='Georgia,serif' font-weight='700'>JT</text></svg>" />
-    <script>
-      (() => {
-        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-
-        const resetScroll = () => {
-          window.scrollTo(0, 0);
-          document.body && (document.body.scrollTop = 0);
-          document.documentElement && (document.documentElement.scrollTop = 0);
-        };
-
-        const scheduleReset = () => {
-          resetScroll();
-          requestAnimationFrame(resetScroll);
-          setTimeout(resetScroll, 60);
-        };
-
-        ["pushState", "replaceState"].forEach((method) => {
-          const original = history[method];
-          history[method] = function patchedHistoryMethod(...args) {
-            const result = original.apply(this, args);
-            window.dispatchEvent(new Event("portfolio:navigation"));
-            scheduleReset();
-            return result;
-          };
-        });
-
-        window.addEventListener("popstate", scheduleReset);
-        window.addEventListener("hashchange", scheduleReset);
-        window.addEventListener("load", scheduleReset);
-
-        if (["/feature-world"].some((route) => window.location.pathname.endsWith(route))) {
-          const base = window.location.pathname.startsWith("/jeffreytse/") ? "/jeffreytse/" : "/";
-          history.replaceState(null, "", base);
-          scheduleReset();
-        }
-      })();
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Jeffrey N. Tse",
-        "url": "https://hydrogenbondss.github.io/jeffreytse/",
-        "sameAs": [
-          "https://github.com/hydrogenbondss",
-          "https://www.kaggle.com/jeffreyntse"
-        ],
-        "jobTitle": "Product Engineer and Creative Technologist",
-        "homeLocation": {
-          "@type": "Place",
-          "name": "Hong Kong"
-        }
+    <link rel="preload" href="./assets/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css?v=20260721-refresh4" />
+    <link rel="stylesheet" crossorigin href="./assets/portfolio-signature.css?v=20260721-refresh4" />
+    <link rel="stylesheet" crossorigin href="./assets/portfolio-cursor.css?v=20260721-refresh4" />
+    <style>
+      .folio-404 {
+        position: relative;
+        z-index: 1;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6vh 6vw;
+        gap: clamp(1rem, 2vw, 1.6rem);
       }
-    </script>
-    <script defer src="./assets/portfolio-runtime.js?v=20260714-signature"></script>
-    <script defer src="./assets/portfolio-signature.js?v=20260714-signature"></script>
-    <script defer src="./assets/portfolio-loader.js?v=20260714-signature"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Dbir11DU.css?v=20260714-signature">
-    <link rel="stylesheet" crossorigin href="./assets/jnt-redesign.css?v=20260714-signature">
-    <link rel="stylesheet" crossorigin href="./assets/portfolio-qa.css?v=20260714-premium3">
-    <link rel="stylesheet" crossorigin href="./assets/portfolio-signature.css?v=20260714-premium3">
+      .folio-404__label {
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--accent, #c8a46f);
+      }
+      .folio-404__code {
+        font-family: "Bodoni 72 Poster", "Bodoni 72", Didot, "Playfair Display", Georgia, serif;
+        font-weight: 800;
+        font-size: clamp(6rem, 22vw, 16rem);
+        line-height: 0.86;
+        letter-spacing: -0.04em;
+        color: var(--jnt-ink, #f4f0e8);
+        margin: 0;
+      }
+      .folio-404__title {
+        font-family: "Playfair Display", Georgia, serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.4rem, 3.4vw, 2.4rem);
+        color: var(--jnt-ink, #f4f0e8);
+        margin: 0;
+      }
+      .folio-404__body {
+        max-width: 42ch;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+        line-height: 1.7;
+        color: var(--jnt-muted, #a7a198);
+        margin: 0;
+      }
+      .folio-404__home {
+        margin-top: clamp(0.6rem, 1.5vw, 1.2rem);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.9rem 1.6rem;
+        border: 1px solid var(--accent, #c8a46f);
+        border-radius: 2px;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--jnt-ink, #f4f0e8);
+        text-decoration: none;
+        transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      }
+      .folio-404__home:hover {
+        background: var(--accent, #c8a46f);
+        color: #0d0d0b;
+        transform: translateY(-2px);
+      }
+      .folio-404__home:active {
+        transform: translateY(0) scale(0.98);
+      }
+    </style>
   </head>
   <body>
-    <div id="root">
-      <div class="folio-boot">
-        <main>
-          <section class="folio-boot-hero" code-path="src/sections/Hero.tsx:34:5">
-            <div class="folio-boot-copy">
-              <h1 class="folio-boot-title">Jeffrey<br><em>N.</em> Tse</h1>
-              <div class="folio-boot-actions"><a class="folio-boot-action" href="#work">Enter portfolio</a></div>
-            </div>
-          </section>
-        </main>
-      </div>
-    </div>
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <main class="folio-404">
+      <span class="folio-404__label">Error 404</span>
+      <h1 class="folio-404__code">404</h1>
+      <p class="folio-404__title">You&rsquo;ve lost the thread.</p>
+      <p class="folio-404__body">
+        This page drifted out of the archive &mdash; a page that moved, a link that aged, or a path
+        that never existed. Let&rsquo;s get you back to the work.
+      </p>
+      <a class="folio-404__home" href="/" id="folio-404-home">Return to portfolio</a>
+    </main>
+    <script defer src="./assets/portfolio-cursor.js?v=20260721-refresh4"></script>
+    <script>
+      (() => {
+        const base = window.location.pathname.startsWith("/jeffreytse/") ? "/jeffreytse/" : "/";
+        const home = document.getElementById("folio-404-home");
+        if (home) home.setAttribute("href", base);
+      })();
+    </script>
   </body>
 </html>
