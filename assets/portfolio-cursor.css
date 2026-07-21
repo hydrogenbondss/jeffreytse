@@ -69,11 +69,9 @@ html.folio-cursor-hidden .folio-spotlight {
   opacity: 0 !important;
 }
 
-@media (pointer: fine) {
-  html.folio-cursor-active,
-  html.folio-cursor-active * {
-    cursor: none !important;
-  }
+html.folio-cursor-active,
+html.folio-cursor-active * {
+  cursor: none !important;
 }
 
 /* Never show the custom cursor when motion is reduced or on touch. */

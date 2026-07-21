@@ -1,10 +1,10 @@
 (() => {
-  const finePointer = window.matchMedia("(pointer: fine)");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const coarsePointer = window.matchMedia("(pointer: coarse)");
 
-  // Only enhance precise pointers when motion is welcome. Touch/keyboard users
-  // and anyone who prefers reduced motion keep the native cursor untouched.
-  if (!finePointer.matches || reduceMotion.matches) return;
+  // Skip touch devices (coarse pointer) and anyone who prefers reduced motion;
+  // they keep the native cursor untouched.
+  if (reduceMotion.matches || coarsePointer.matches) return;
 
   const root = document.documentElement;
 
